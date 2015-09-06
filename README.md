@@ -10,6 +10,9 @@ Its a container view, so you can add any type of message such as TextView or any
 4. Adjustable arrow gravity (start, end, center)
 5. Chat view without arrow
 
+### Sample Screen
+![ChatMessageView](https://raw.githubusercontent.com/himanshu-soni/ChatMessageView/master/screenshot/screen1.png)
+
 ### Installation
 add gradle dependency to your dependency list:
 
