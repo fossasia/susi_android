@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChatMessageView">
+        <attr name="showArrow" format="boolean" />
+        <attr name="arrowPosition" format="enum">
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="top" value="2" />
+            <enum name="bottom" value="3" />
+        </attr>
+        <attr name="arrowGravity" format="enum">
+            <enum name="start" value="0" />
+            <enum name="center" value="1" />
+            <enum name="end" value="2" />
+        </attr>
+        <attr name="backgroundColor" format="color" />
+        <attr name="backgroundColorPressed" format="color" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="contentPadding" format="dimension" />
+        <attr name="arrowMargin" format="dimension" />
+
+    </declare-styleable>
+
+</resources>
