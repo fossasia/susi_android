@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="3dp">
 
-    <me.himanshusoni.chatmessageview.ChatMessageView
+    <me.himanshusoni.chatmessageview.ChatMessageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:arrowGravity="start"
         app:arrowPosition="right"
+        app:arrowMargin="3dp"
+        app:contentPadding="10dp"
         app:backgroundColor="#88BABABA"
         app:backgroundColorPressed="#FFBABABA"
         app:cornerRadius="3dp"
@@ -20,7 +21,7 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+            android:text="Hello" />
     </me.himanshusoni.chatmessageview.ChatMessageView>
 
 </LinearLayout>
