@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     private Button mButtonSend;
     private EditText mEditTextMessage;
+    private ImageView mImageView;
 
 
     private ChatMessageAdapter mAdapter;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.listView);
         mButtonSend = (Button) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
+        mImageView = (ImageView) findViewById(R.id.iv_image);
 
         mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
         mListView.setAdapter(mAdapter);
@@ -45,17 +48,38 @@ public class MainActivity extends AppCompatActivity {
                 mEditTextMessage.setText("");
             }
         });
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage();
+            }
+        });
+
+
     }
 
     private void sendMessage(String message) {
-        ChatMessage chatMessage = new ChatMessage(message, true);
+        ChatMessage chatMessage = new ChatMessage(message, true, false);
         mAdapter.add(chatMessage);
 
         mimicOtherMessage(message);
     }
 
     private void mimicOtherMessage(String message) {
-        ChatMessage chatMessage = new ChatMessage(message, false);
+        ChatMessage chatMessage = new ChatMessage(message, false, false);
+        mAdapter.add(chatMessage);
+    }
+
+    private void sendMessage() {
+        ChatMessage chatMessage = new ChatMessage(null, true, true);
+        mAdapter.add(chatMessage);
+
+        mimicOtherMessage();
+    }
+
+    private void mimicOtherMessage() {
+        ChatMessage chatMessage = new ChatMessage(null, false, true);
         mAdapter.add(chatMessage);
     }
 

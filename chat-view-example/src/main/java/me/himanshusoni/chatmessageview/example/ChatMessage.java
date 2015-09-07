@@ -7,9 +7,10 @@ public class ChatMessage {
     private boolean isImage, isMine;
     private String content;
 
-    public ChatMessage(String message, boolean mine) {
+    public ChatMessage(String message, boolean mine, boolean image) {
         content = message;
         isMine = mine;
+        isImage = image;
     }
 
     public String getContent() {
