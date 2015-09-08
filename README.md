@@ -18,7 +18,7 @@ add gradle dependency to your dependency list:
 
 ```
 dependencies {
-  compile 'me.himanshusoni.chatmessageview:ChatMessageView:1.0.0'
+  compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.1'
 }
 ```
 

@@ -9,8 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/chat-view-example" />
-            <option value="$PROJECT_DIR$/library" />
+            <option value="$PROJECT_DIR$/chat-message-view" />
+            <option value="$PROJECT_DIR$/example" />
           </set>
         </option>
       </GradleProjectSettings>

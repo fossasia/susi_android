@@ -1,1 +1,1 @@
-include ':chat-view-example', ':library'
+include ':example', ':chat-message-view'
