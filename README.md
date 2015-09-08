@@ -1,5 +1,5 @@
 # ChatMessageView
-ChatMessageView helps you to create chat message view quickly like a typical chatting application. 
+ChatMessageView helps you to create chat message view quickly like a typical chatting application.
 Its a container view, so you can add any type of message such as TextView or any customize TextView, ImageView, etc.
 
 
@@ -16,47 +16,48 @@ Its a container view, so you can add any type of message such as TextView or any
 ### Installation
 add gradle dependency to your dependency list:
 
-```
+``` groovy
 dependencies {
-  compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.1'
+	compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.1'
 }
 ```
 
 ### Use
 1. Include `ChatMessageView` in your xml of adapter view with content inside.
 
-```
-<me.himanshusoni.chatmessageview.ChatMessageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:backgroundColor="#88BABABA"
-        app:backgroundColorPressed="#FFBABABA"
-        app:cornerRadius="3dp" >
+``` xml
+<me.himanshusoni.chatmessageview.ChatMessageView
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:backgroundColor="#88BABABA"
+    app:backgroundColorPressed="#FFBABABA"
+    app:cornerRadius="3dp" >
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello" />
-            
-            ...
-            
-    </me.himanshusoni.chatmessageview.ChatMessageView>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello" />
+
+        <!-- ... -->
+
+</me.himanshusoni.chatmessageview.ChatMessageView>
 ```
 
 
 ### Customization
 Attributes:
 
-```
-  app:arrowGravity="start|end|center"
-  app:arrowPosition="right|left|top|bottom"
-  app:arrowMargin="3dp"
-  app:contentPadding="10dp"
-  app:backgroundColor="#88BABABA"
-  app:backgroundColorPressed="#FFBABABA"
-  app:cornerRadius="3dp"
-  app:showArrow="true"
+``` xml
+app:arrowGravity="start|end|center"
+app:arrowPosition="right|left|top|bottom"
+app:arrowMargin="3dp"
+app:contentPadding="10dp"
+app:backgroundColor="#88BABABA"
+app:backgroundColorPressed="#FFBABABA"
+app:cornerRadius="3dp"
+app:showArrow="true"
 ```
 
 Description:
@@ -66,15 +67,15 @@ Description:
 - `arrowPosition` controls poition of the arrow outside the box. possible values are `right`,`left`,`top` and `bottom`. default is `left`.
 - `arrowMargin` controls margin of arrow. If `arrowPosition` is `left` or `right` it controls top and bottom margin. else it controls left and right margin.
 - `contentPadding` adjusts padding of content within the box.
-- `backgroundColor` sets background color of `ChatMessageView` in normal mode including arrow. 
-- `backgroundColorPressed` sets background color of `ChatMessageView` in pressed mode including arrow. 
+- `backgroundColor` sets background color of `ChatMessageView` in normal mode including arrow.
+- `backgroundColorPressed` sets background color of `ChatMessageView` in pressed mode including arrow.
 - `cornerRadius` sets corner radius of the box.
 - `showArrow` shows / hides arrow from `ChatMessageView`.
 
 
 
 ==================
-developed to make programming easy. 
+developed to make programming easy.
 
 by Himanshu Soni (himanshusoni.me@gmail.com)
 
