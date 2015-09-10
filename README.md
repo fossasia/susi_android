@@ -1,3 +1,5 @@
+[![Android Gems](http://www.android-gems.com/badge/himanshu-soni/ChatMessageView.svg?branch=master)](http://www.android-gems.com/lib/himanshu-soni/ChatMessageView)
+
 # ChatMessageView
 ChatMessageView helps you to create chat message view quickly like a typical chatting application.
 Its a container view, so you can add any type of message such as TextView or any customize TextView, ImageView, etc.
