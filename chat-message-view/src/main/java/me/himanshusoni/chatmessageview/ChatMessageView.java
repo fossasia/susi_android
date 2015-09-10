@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import me.himanshusoni.chatmessageview.util.ViewUtil;
 
 /**
- * Created by himanshusoni on 06/09/15.
+ * Chat Message view to create chatting window view
  */
 public class ChatMessageView extends RelativeLayout {
     private ImageView arrowImage;
@@ -50,17 +50,17 @@ public class ChatMessageView extends RelativeLayout {
     private void initialize(AttributeSet attrs, int defStyleAttr) {
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ChatMessageView, defStyleAttr, 0);
 
-        showArrow = a.getBoolean(R.styleable.ChatMessageView_showArrow, true);
-        arrowMargin = a.getDimension(R.styleable.ChatMessageView_arrowMargin, dip2px(5));
-        cornerRadius = a.getDimension(R.styleable.ChatMessageView_cornerRadius, 0);
-        contentPadding = a.getDimension(R.styleable.ChatMessageView_contentPadding, dip2px(10));
-        backgroundColor = a.getColor(R.styleable.ChatMessageView_backgroundColor, 0);
-        backgroundColorPressed = a.getColor(R.styleable.ChatMessageView_backgroundColorPressed, 0);
+        showArrow = a.getBoolean(R.styleable.ChatMessageView_cmv_showArrow, true);
+        arrowMargin = a.getDimension(R.styleable.ChatMessageView_cmv_arrowMargin, dip2px(5));
+        cornerRadius = a.getDimension(R.styleable.ChatMessageView_cmv_cornerRadius, 0);
+        contentPadding = a.getDimension(R.styleable.ChatMessageView_cmv_contentPadding, dip2px(10));
+        backgroundColor = a.getColor(R.styleable.ChatMessageView_cmv_backgroundColor, 0);
+        backgroundColorPressed = a.getColor(R.styleable.ChatMessageView_cmv_backgroundColorPressed, 0);
 
-        int intPosition = a.getInt(R.styleable.ChatMessageView_arrowPosition, ArrowPosition.LEFT.getValue());
+        int intPosition = a.getInt(R.styleable.ChatMessageView_cmv_arrowPosition, ArrowPosition.LEFT.getValue());
         arrowPosition = ArrowPosition.getEnum(intPosition);
 
-        int intGravity = a.getInt(R.styleable.ChatMessageView_arrowGravity, ArrowGravity.START.getValue());
+        int intGravity = a.getInt(R.styleable.ChatMessageView_cmv_arrowGravity, ArrowGravity.START.getValue());
         arrowGravity = ArrowGravity.getEnum(intGravity);
 
         a.recycle();

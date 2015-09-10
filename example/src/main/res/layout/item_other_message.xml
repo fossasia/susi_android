@@ -9,13 +9,12 @@
     <me.himanshusoni.chatmessageview.ChatMessageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:arrowGravity="start"
-        app:arrowPosition="left"
-        app:backgroundColor="#8800bcd4"
-        app:backgroundColorPressed="#ff00bcd4"
-        app:cornerRadius="3dp"
-        app:showArrow="true"
-        >
+        app:cmv_arrowGravity="start"
+        app:cmv_arrowPosition="left"
+        app:cmv_backgroundColor="#8800bcd4"
+        app:cmv_backgroundColorPressed="#ff00bcd4"
+        app:cmv_cornerRadius="3dp"
+        app:cmv_showArrow="true">
 
         <TextView
             android:id="@+id/text"
