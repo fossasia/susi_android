@@ -115,7 +115,7 @@ public class ChatMessageView extends RelativeLayout {
                 arrowRotation = 180;
                 arrowParams.addRule(ALIGN_PARENT_LEFT);
                 arrowParams.setMargins(0, (int) arrowMargin, 0, (int) arrowMargin);
-                conRlParams.addRule(RelativeLayout.END_OF, arrowImage.getId());
+                conRlParams.addRule(RelativeLayout.RIGHT_OF, arrowImage.getId());
             }
             break;
             case TOP: {
@@ -134,7 +134,7 @@ public class ChatMessageView extends RelativeLayout {
                 arrowRotation = 0;
                 arrowParams.addRule(ALIGN_PARENT_RIGHT);
                 arrowParams.setMargins(0, (int) arrowMargin, 0, (int) arrowMargin);
-                conRlParams.addRule(RelativeLayout.START_OF, arrowImage.getId());
+                conRlParams.addRule(RelativeLayout.LEFT_OF, arrowImage.getId());
             }
         }
 
