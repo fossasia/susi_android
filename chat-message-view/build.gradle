@@ -15,7 +15,7 @@ ext {
     siteUrl = 'https://github.com/himanshu-soni/ChatMessageView'
     gitUrl = 'https://github.com/himanshu-soni/ChatMessageView.git'
 
-    libraryVersion = '1.0.2'
+    libraryVersion = '1.0.3'
 
     developerId = 'himanshu-soni'
     developerName = 'Himanshu Soni'
@@ -28,14 +28,14 @@ ext {
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 //    resourcePrefix "cmv_"
 
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
     }
     buildTypes {
         release {
