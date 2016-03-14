@@ -20,7 +20,8 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+            android:text="@string/hello_world"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </me.himanshusoni.chatmessageview.ChatMessageView>
 
 </LinearLayout>
