@@ -10,6 +10,9 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -76,9 +79,15 @@ public class ChatMessageView extends RelativeLayout {
         arrowGravity = gravity;
     }
 
-    public void setBackgroundColors(int bgColorRes, int bgPressedColorRes) {
-        backgroundColorPressed = getResources().getColor(bgPressedColorRes);
-        backgroundColor = getResources().getColor(bgColorRes);
+    public void setBackgroundColorRes(@ColorRes int bgColorRes, @ColorRes int bgPressedColorRes) {
+        backgroundColorPressed = ContextCompat.getColor(getContext(), bgPressedColorRes);
+        backgroundColor = ContextCompat.getColor(getContext(), bgColorRes);
+        updateColors();
+    }
+
+    public void setBackgroundColor(@ColorInt int bgColorRes, @ColorInt int bgPressedColorRes) {
+        backgroundColorPressed = bgPressedColorRes;
+        backgroundColor = bgColorRes;
         updateColors();
     }
 
