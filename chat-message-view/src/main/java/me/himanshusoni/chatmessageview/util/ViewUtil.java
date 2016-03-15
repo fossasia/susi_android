@@ -5,9 +5,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by himanshusoni on 06/09/15.
  */
-public class ViewUtil {
+public final class ViewUtil {
 
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
+
+    private ViewUtil() throws InstantiationException {
+        throw new InstantiationException("This class is not for instantiation");
+    }
 
     /**
      * Generate a value suitable for use in {@link android.view.View#setId(int)}.
