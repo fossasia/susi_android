@@ -8,7 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 
 public abstract class ChatMessageStateDrawable extends ColorDrawable {
 
-    private boolean mPressed = false;
+    private boolean mPressed;
 
     public ChatMessageStateDrawable(int color) {
         super(color);

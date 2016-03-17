@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by himanshusoni on 06/09/15.
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
     private static final int MY_MESSAGE = 0, OTHER_MESSAGE = 1, MY_IMAGE = 2, OTHER_IMAGE = 3;
 
-    public ChatMessageAdapter(Context context, ArrayList<ChatMessage> data) {
+    public ChatMessageAdapter(Context context, List<ChatMessage> data) {
         super(context, R.layout.item_mine_message, data);
     }
 
@@ -32,7 +32,7 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         if (item.isMine() && !item.isImage()) return MY_MESSAGE;
         else if (!item.isMine() && !item.isImage()) return OTHER_MESSAGE;
         else if (item.isMine() && item.isImage()) return MY_IMAGE;
-        else /*if(!item.isMine() && item.isImage())*/ return OTHER_IMAGE;
+        else return OTHER_IMAGE;
     }
 
     @Override
