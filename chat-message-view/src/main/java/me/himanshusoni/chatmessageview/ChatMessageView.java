@@ -169,6 +169,8 @@ public class ChatMessageView extends RelativeLayout {
                     arrowParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 }
                 break;
+            default:
+                break;
         }
 
         int arrowRes = R.drawable.cmv_arrow;

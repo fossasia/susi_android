@@ -18,7 +18,7 @@ public class ChatMessageDrawable extends Drawable {
     private final Rect mBoundsI;
     private float mRadius;
     private float mPadding;
-    private boolean mInsetForPadding = false;
+    private boolean mInsetForPadding;
     private boolean mInsetForRadius = true;
 
     public ChatMessageDrawable(int backgroundColor, float radius) {
