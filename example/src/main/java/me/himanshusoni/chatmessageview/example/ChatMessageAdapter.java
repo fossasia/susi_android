@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -54,6 +55,13 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
         } else {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_other_image, parent, false);
         }
+
+        convertView.findViewById(R.id.chatMessageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "onClick", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
         return convertView;

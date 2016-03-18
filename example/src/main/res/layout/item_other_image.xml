@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         app:cmv_arrowGravity="start"
         app:cmv_arrowPosition="left"
+        android:id="@+id/chatMessageView"
         app:cmv_backgroundColor="#8800bcd4"
         app:cmv_backgroundColorPressed="#ff00bcd4"
         app:cmv_contentPadding="3dp"

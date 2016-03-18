@@ -7,6 +7,7 @@
     android:padding="3dp">
 
     <me.himanshusoni.chatmessageview.ChatMessageView
+        android:id="@+id/chatMessageView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cmv_arrowGravity="start"

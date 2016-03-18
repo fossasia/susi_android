@@ -21,7 +21,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
 //    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
     compile project(':chat-message-view')
 }
