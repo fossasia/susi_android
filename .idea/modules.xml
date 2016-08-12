@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ChatMessageView.iml" filepath="$PROJECT_DIR$/ChatMessageView.iml" />
       <module fileurl="file://$PROJECT_DIR$/chat-message-view/chat-message-view.iml" filepath="$PROJECT_DIR$/chat-message-view/chat-message-view.iml" />
-      <module fileurl="file://$PROJECT_DIR$/example/example.iml" filepath="$PROJECT_DIR$/example/example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/susi_app/example.iml" filepath="$PROJECT_DIR$/susi_app/example.iml" />
     </modules>
   </component>
 </project>
