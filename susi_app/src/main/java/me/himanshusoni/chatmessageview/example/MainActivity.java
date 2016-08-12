@@ -1,5 +1,6 @@
 package me.himanshusoni.chatmessageview.example;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,7 +12,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.loklak.android.tools.JsonIO;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,26 +67,46 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void sendMessage(String message) {
-        ChatMessage chatMessage = new ChatMessage(message, true, false);
+    private void sendMessage(String query) {
+        ChatMessage chatMessage = new ChatMessage(query, true, false);
         mAdapter.add(chatMessage);
-
-        mimicOtherMessage(message);
+        computeOtherMessage(query);
     }
 
-    private void mimicOtherMessage(String message) {
-        ChatMessage chatMessage = new ChatMessage(message, false, false);
-        mAdapter.add(chatMessage);
+    private void computeOtherMessage(final String query) {
+        new Runnable() {
+            public void run() {
+                try {
+                    String response = new asksusi().execute(query).get();
+                    ChatMessage chatMessage = new ChatMessage(response, false, false);
+                    mAdapter.add(chatMessage);
+                    mListView.setSelection(mListView.getBottom());
+                } catch (ExecutionException | InterruptedException e) {}
+            }
+        }.run();
+    }
+
+    private class asksusi extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... query) {
+            String response = "";
+            try {
+                JSONObject json = JsonIO.loadJson("http://loklak.org/api/susi.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
+                response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
+            } catch (JSONException | UnsupportedEncodingException e) {
+                response = "error: " + e.getMessage();
+            }
+            return response;
+        }
     }
 
     private void sendMessage() {
         ChatMessage chatMessage = new ChatMessage(null, true, true);
         mAdapter.add(chatMessage);
-
-        mimicOtherMessage();
+        computeOtherMessage();
     }
 
-    private void mimicOtherMessage() {
+    private void computeOtherMessage() {
         ChatMessage chatMessage = new ChatMessage(null, false, true);
         mAdapter.add(chatMessage);
     }
