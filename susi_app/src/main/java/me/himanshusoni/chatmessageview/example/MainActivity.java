@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... query) {
             String response = "";
             try {
-                JSONObject json = JsonIO.loadJson("http://loklak.org/api/susi.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
+                JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
                 response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
             } catch (JSONException | UnsupportedEncodingException e) {
                 response = "error: " + e.getMessage();
