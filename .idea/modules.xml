@@ -5,8 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/chat-message-view/chat-message-view.iml" filepath="$PROJECT_DIR$/chat-message-view/chat-message-view.iml" />
       <module fileurl="file://$PROJECT_DIR$/susi_android.iml" filepath="$PROJECT_DIR$/susi_android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/susi_android.iml" filepath="$PROJECT_DIR$/susi_android.iml" />
-      <module fileurl="file://$PROJECT_DIR$/susi_app/susi_app.iml" filepath="$PROJECT_DIR$/susi_app/susi_app.iml" />
       <module fileurl="file://$PROJECT_DIR$/susi_app/susi_app.iml" filepath="$PROJECT_DIR$/susi_app/susi_app.iml" />
     </modules>
   </component>
