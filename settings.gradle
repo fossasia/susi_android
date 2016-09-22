@@ -1,1 +1,1 @@
-include ':susi_app', ':chat-message-view' , ':app'
+include ':chat-message-view' , ':app'
