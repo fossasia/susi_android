@@ -1,4 +1,4 @@
-package me.himanshusoni.chatmessageview.example;
+package org.fossasia.susi.ai;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
