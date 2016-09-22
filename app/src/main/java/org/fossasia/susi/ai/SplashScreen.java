@@ -1,4 +1,4 @@
-package me.himanshusoni.chatmessageview.example;
+package org.fossasia.susi.ai;
 
 import android.app.Activity;
 import android.content.Intent;

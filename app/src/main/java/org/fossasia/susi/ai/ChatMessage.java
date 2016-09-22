@@ -1,4 +1,4 @@
-package me.himanshusoni.chatmessageview.example;
+package org.fossasia.susi.ai;
 
 /**
  * Created by himanshusoni on 06/09/15.

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
 
     defaultConfig {
-        applicationId "me.himanshusoni.chatmessageview.example"
+        applicationId "org.fossasia.susi.ai"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
