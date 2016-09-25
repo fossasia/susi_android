@@ -6,14 +6,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-
-    <!--<ListView
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/send_message_layout"
-        android:divider="@null" />-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_chat_feed"
         android:layout_width="match_parent"

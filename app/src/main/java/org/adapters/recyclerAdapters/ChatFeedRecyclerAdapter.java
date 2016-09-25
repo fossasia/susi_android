@@ -88,17 +88,16 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
                 switch (getItemViewType(position)) {
                     case MY_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
+                        chatViewHolder.chatTextView.setTag(chatViewHolder);
                         break;
                     case OTHER_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
+                        chatViewHolder.chatTextView.setTag(chatViewHolder);
                         break;
                     case MY_IMAGE:
                     case OTHER_IMAGE:
                     default:
                 }
-                // chatViewHolder.moviePoster.setTag(chatViewHolder);
-                // chatViewHolder.tvName.setTag(chatViewHolder);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
