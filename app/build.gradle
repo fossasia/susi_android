@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -29,4 +30,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
 //    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
     compile project(':chat-message-view')
+    compile 'com.android.support:design:24.2.1'
 }

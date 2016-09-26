@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai;
 
 import android.os.AsyncTask;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,7 +25,7 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity {
 
     private ListView mListView;
-    private Button mButtonSend;
+    private FloatingActionButton mButtonSend;
     private EditText mEditTextMessage;
     private ImageView mImageView;
 
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mListView = (ListView) findViewById(R.id.listView);
-        mButtonSend = (Button) findViewById(R.id.btn_send);
+        mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
         mImageView = (ImageView) findViewById(R.id.iv_image);
 

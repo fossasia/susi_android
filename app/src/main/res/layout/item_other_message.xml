@@ -8,20 +8,22 @@
 
     <me.himanshusoni.chatmessageview.ChatMessageView
         android:id="@+id/chatMessageView"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        app:cmv_arrowGravity="start"
+        app:cmv_arrowGravity="center"
         app:cmv_arrowPosition="left"
-        app:cmv_backgroundColor="#8800bcd4"
-        app:cmv_backgroundColorPressed="#ff00bcd4"
-        app:cmv_cornerRadius="3dp"
-        app:cmv_showArrow="true">
+        app:cmv_backgroundColor="@color/md_teal_600"
+        app:cmv_backgroundColorPressed="@color/md_teal_800"
+        app:cmv_cornerRadius="15dp"
+        app:cmv_showArrow="false">
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hello_world"
+            android:textColor="@color/md_white_1000"
+            android:textSize="16sp"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     </me.himanshusoni.chatmessageview.ChatMessageView>
 
