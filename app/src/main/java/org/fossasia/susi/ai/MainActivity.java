@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
 				sendMessage();
 			}
 		});
-
+		
+		mEditTextMessage.requestFocus();
 
 	}
 
