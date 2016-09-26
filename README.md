@@ -30,7 +30,7 @@ We have the following branches
 	 PRs to gh-pages must pass a build check and a unit-test check on Travis
  * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
-`
+
 ## License
 
 This project is currently licensed under the Apache License Version 2.0. A copy of LICENSE.md should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
