@@ -1,0 +1,50 @@
+[
+    {
+        "outputFile": "/home/amit/susi_android/chat-message-view/build/intermediates/incremental/mergeReleaseResources/merged.dir/values/values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 842,
+                    "endColumn": 52,
+                    "endOffset": 890
+                },
+                "from": {
+                    "file": "/home/amit/susi_android/chat-message-view/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 16,
+                        "endColumn": 52,
+                        "endOffset": 64
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "outputFile": "/home/amit/susi_android/chat-message-view/build/intermediates/res/merged/release/values/values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 3,
+                    "startColumn": 4,
+                    "startOffset": 733,
+                    "endColumn": 52,
+                    "endOffset": 781
+                },
+                "from": {
+                    "file": "/home/amit/susi_android/chat-message-view/src/main/res/values/strings.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 16,
+                        "endColumn": 52,
+                        "endOffset": 64
+                    }
+                }
+            }
+        ]
+    }
+]

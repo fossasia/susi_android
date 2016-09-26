@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-24.2.1_780154fc2d9bea6d5a098f8f02fb53a03b7bd880/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-24.2.1_918e630bf03420424b10af001c8c352cfdc33066/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_0ca34f8b856e9eddbb8c8e1e76be444d30408a72/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-24.2.1_bae41df684679f4521d83c901f60d6fd5ef44cb8/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_9ac07e80fd3841e01dd1eef254ab02e04ae622c6/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-24.2.1_25b0b797840042b41d3dbcef2c908dbe84f76f96/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-24.2.1_526349fbc0ea22e0f024f6bfe45796ebc2c408e7/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="1b9d81062d31a51b57afbbfc9abc276b3a980da7">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_544db52cec3fa3c40de1439f3d310616c38317dd/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_80ff5169c0c01847f7d421c0b857288f56a5b9f9/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-24.2.1_f911bde050280d5c61cb7839b5ab32532737b686/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-24.2.1_21bed6b0e47e4c34251d506847d4eaff31559d6a/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_b7ff676b99fc50e3a7f346a9fe59f56cdd53be66/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="6d2c027f4fdaf343312175427516e540f853e064">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_fa3c39af38eb778789fdd10e6f9c224f12e9deea/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-24.2.1_da578fc4caee9baccfc958bca9f8c4a09daa0fdf/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-24.2.1_4d64e8bb0289d42601e134db093413a641714325/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-24.2.1_c8cd754bfe773cead8d16a43d8e66e5a9ca08f67/classes.dex" />
+    </item>
+    <item
+        jar="/home/amit/susi_android/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="true"
+        revision="24.0.2"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/home/amit/susi_android/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-24.2.1_48564f157ae3d12211e996fec9082a9d25ee4622/classes.dex" />
+    </item>
+
+</items>
