@@ -21,7 +21,6 @@ import org.loklak.android.tools.JsonIO;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,32 +88,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void computeOtherMessage(final String query) {
-        new Runnable() {
-            public void run() {
-                try {
-                    String response = new asksusi().execute(query).get();
-                    ChatMessage chatMessage = new ChatMessage(response, false, false);
-                    chatMessageList.add(chatMessage);
-                    recyclerAdapter.notifyDataSetChanged();
-                    rvChatFeed.scrollToPosition(chatMessageList.size() - 1);
-                } catch (ExecutionException | InterruptedException e) {
-                }
-            }
-        }.run();
-    }
-
-    private class asksusi extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... query) {
-            String response = "";
-            try {
-                JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
-                response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
-            } catch (JSONException | UnsupportedEncodingException e) {
-                response = "error: " + e.getMessage();
-            }
-            return response;
-        }
+        new asksusi().execute(query);
     }
 
     private void sendMessage() {
@@ -130,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerAdapter.notifyDataSetChanged();
         rvChatFeed.scrollToPosition(chatMessageList.size() - 1);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,5 +125,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class asksusi extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... query) {
+            String response = "";
+            try {
+                JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
+                response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
+            } catch (JSONException | UnsupportedEncodingException e) {
+                response = "error: " + e.getMessage();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            ChatMessage chatMessage = new ChatMessage(response, false, false);
+            chatMessageList.add(chatMessage);
+            recyclerAdapter.notifyDataSetChanged();
+            rvChatFeed.scrollToPosition(chatMessageList.size() - 1);
+        }
     }
 }
