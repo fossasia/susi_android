@@ -29,10 +29,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile "com.android.support:appcompat-v7:$support_lib_version"
     compile "com.android.support:recyclerview-v7:$support_lib_version"
-
-//    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
-
-
+    compile "com.android.support:design:$support_lib_version"
     compile project(':chat-message-view')
-    compile 'com.android.support:design:24.2.1'
+
 }
