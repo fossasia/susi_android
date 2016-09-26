@@ -10,7 +10,6 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/chat-message-view" />
-            <option value="$PROJECT_DIR$/susi_app" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

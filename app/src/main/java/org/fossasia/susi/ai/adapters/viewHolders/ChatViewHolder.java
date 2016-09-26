@@ -1,4 +1,4 @@
-package org.adapters.viewHolders;
+package org.fossasia.susi.ai.adapters.viewHolders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
 
-import static org.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_IMAGE;
-import static org.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_MESSAGE;
-import static org.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.OTHER_IMAGE;
-import static org.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.OTHER_MESSAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_IMAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_MESSAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.OTHER_IMAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.OTHER_MESSAGE;
 
 /**
  * Created by
