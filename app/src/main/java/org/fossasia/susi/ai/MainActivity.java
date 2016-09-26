@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 
-
+		mEditTextMessage.requestFocus();
 	}
 
 	private void setupAdapter() {
