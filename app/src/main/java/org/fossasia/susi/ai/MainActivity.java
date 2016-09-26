@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +25,7 @@ import org.loklak.android.tools.JsonIO;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 	private RecyclerView rvChatFeed;
 	private CoordinatorLayout coordinatorLayout;
 	private ChatFeedRecyclerAdapter recyclerAdapter;
-	private ArrayList<ChatMessage> chatMessageList = new ArrayList<>();
 
 
 	@Override
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
 		rvChatFeed.setLayoutManager(linearLayoutManager);
 		rvChatFeed.setHasFixedSize(true);
-
+		List<ChatMessage> chatMessageList = new ArrayList<>();
 		recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
 
 		rvChatFeed.setAdapter(recyclerAdapter);
@@ -87,8 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void sendMessage(String query) {
 		ChatMessage chatMessage = new ChatMessage(query, true, false);
-		chatMessageList.add(chatMessage);
-		recyclerAdapter.notifyDataSetChanged();
+		recyclerAdapter.addMessage(chatMessage, true);
 		computeOtherMessage(query);
 	}
 
@@ -98,16 +98,13 @@ public class MainActivity extends AppCompatActivity {
 
 	private void sendMessage() {
 		ChatMessage chatMessage = new ChatMessage(null, true, true);
-		chatMessageList.add(chatMessage);
-		recyclerAdapter.notifyDataSetChanged();
+		recyclerAdapter.addMessage(chatMessage, true);
 		computeOtherMessage();
 	}
 
 	private void computeOtherMessage() {
 		ChatMessage chatMessage = new ChatMessage(null, false, true);
-		chatMessageList.add(chatMessage);
-		recyclerAdapter.notifyDataSetChanged();
-		rvChatFeed.scrollToPosition(chatMessageList.size() - 1);
+		recyclerAdapter.addMessage(chatMessage, true);
 	}
 
 	@Override
@@ -156,9 +153,7 @@ public class MainActivity extends AppCompatActivity {
 				return;
 			}
 			ChatMessage chatMessage = new ChatMessage(response, false, false);
-			chatMessageList.add(chatMessage);
-			recyclerAdapter.notifyDataSetChanged();
-			rvChatFeed.scrollToPosition(chatMessageList.size() - 1);
+			recyclerAdapter.addMessage(chatMessage, true);
 		}
 
 		private boolean isNetworkConnected() {
