@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
 import org.fossasia.susi.ai.ChatMessage;
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by
@@ -29,15 +30,42 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
     public static final int OTHER_IMAGE = 3;
 
     private Context currContext;
-    private ArrayList<ChatMessage> itemList;
+    private List<ChatMessage> itemList;
     private Activity activity;
-    private String TAG;
+    private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
+    private RecyclerView recyclerView;
 
-    public ChatFeedRecyclerAdapter(Activity activity, Context curr_context, ArrayList<ChatMessage> itemList) {
+    public ChatFeedRecyclerAdapter(Activity activity, Context curr_context, List<ChatMessage> itemList) {
         this.itemList = itemList;
         this.currContext = curr_context;
         this.activity = activity;
-        this.TAG = TAG;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        this.recyclerView = null;
+    }
+
+    public void addMessage(ChatMessage chatMessage, boolean shouldScrollToBottom) {
+        if (itemList == null) {
+            itemList = new ArrayList<>();
+        }
+        itemList.add(chatMessage);
+        notifyItemInserted(itemList.size() - 1);
+        if (recyclerView != null && shouldScrollToBottom) {
+            recyclerView.smoothScrollToPosition(itemList.size() - 1);
+        }
+    }
+
+    public void addMessage(ChatMessage chatMessage) {
+        addMessage(chatMessage, false);
     }
 
     @Override
