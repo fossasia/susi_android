@@ -8,14 +8,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 
+import org.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.loklak.android.tools.JsonIO;
@@ -27,12 +30,13 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView mListView;
     private FloatingActionButton mButtonSend;
+    private CoordinatorLayout coordinatorLayout;
     private EditText mEditTextMessage;
     private ImageView mImageView;
-    private CoordinatorLayout coordinatorLayout;
-    private ChatMessageAdapter mAdapter;
+    private RecyclerView rvChatFeed;
+    private ChatFeedRecyclerAdapter recyclerAdapter;
+    private ArrayList<ChatMessage> chatMessageList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +44,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
-        mListView = (ListView) findViewById(R.id.listView);
         mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
+        rvChatFeed = (RecyclerView) findViewById(R.id.rv_chat_feed);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
         mImageView = (ImageView) findViewById(R.id.iv_image);
 
-        mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
-        mListView.setAdapter(mAdapter);
-
+        setupAdapter();
 
         mButtonSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +73,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void setupAdapter() {
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        rvChatFeed.setLayoutManager(linearLayoutManager);
+        rvChatFeed.setHasFixedSize(true);
+
+        recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
+
+        rvChatFeed.setAdapter(recyclerAdapter);
+
+    }
+
     private void sendMessage(String query) {
         ChatMessage chatMessage = new ChatMessage(query, true, false);
-        mAdapter.add(chatMessage);
+        chatMessageList.add(chatMessage);
+        recyclerAdapter.notifyDataSetChanged();
         computeOtherMessage(query);
     }
 
@@ -82,14 +98,12 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     String response = new asksusi().execute(query).get();
-
-                    if(response != null){
-                        ChatMessage chatMessage = new ChatMessage(response, false, false);
-                        mAdapter.add(chatMessage);
-                        mListView.setSelection(mListView.getBottom());
-                    }
-
-                } catch (ExecutionException | InterruptedException e) {}
+                    ChatMessage chatMessage = new ChatMessage(response, false, false);
+                    chatMessageList.add(chatMessage);
+                    recyclerAdapter.notifyDataSetChanged();
+                    rvChatFeed.scrollToPosition(chatMessageList.size() - 1);
+                } catch (ExecutionException | InterruptedException e) {
+                }
             }
         }.run();
     }
@@ -118,13 +132,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendMessage() {
         ChatMessage chatMessage = new ChatMessage(null, true, true);
-        mAdapter.add(chatMessage);
+        chatMessageList.add(chatMessage);
+        recyclerAdapter.notifyDataSetChanged();
         computeOtherMessage();
     }
 
     private void computeOtherMessage() {
         ChatMessage chatMessage = new ChatMessage(null, false, true);
-        mAdapter.add(chatMessage);
+        chatMessageList.add(chatMessage);
+        recyclerAdapter.notifyDataSetChanged();
+        rvChatFeed.scrollToPosition(chatMessageList.size() - 1);
     }
 
 	private boolean isNetworkConnected() {
