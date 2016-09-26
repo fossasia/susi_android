@@ -1,14 +1,17 @@
 package org.fossasia.susi.ai;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton mButtonSend;
     private EditText mEditTextMessage;
     private ImageView mImageView;
-
-
+    private CoordinatorLayout coordinatorLayout;
     private ChatMessageAdapter mAdapter;
 
     @Override
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
         mListView = (ListView) findViewById(R.id.listView);
         mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
         mEditTextMessage = (EditText) findViewById(R.id.et_message);
@@ -79,9 +82,13 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     String response = new asksusi().execute(query).get();
-                    ChatMessage chatMessage = new ChatMessage(response, false, false);
-                    mAdapter.add(chatMessage);
-                    mListView.setSelection(mListView.getBottom());
+
+                    if(response != null){
+                        ChatMessage chatMessage = new ChatMessage(response, false, false);
+                        mAdapter.add(chatMessage);
+                        mListView.setSelection(mListView.getBottom());
+                    }
+
                 } catch (ExecutionException | InterruptedException e) {}
             }
         }.run();
@@ -90,13 +97,21 @@ public class MainActivity extends AppCompatActivity {
     private class asksusi extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... query) {
-            String response = "";
-            try {
-                JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
-                response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
-            } catch (JSONException | UnsupportedEncodingException e) {
-                response = "error: " + e.getMessage();
-            }
+            String response = null;
+
+			if(isNetworkConnected()) {
+				try {
+					JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
+					response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
+				} catch (JSONException | UnsupportedEncodingException e) {
+					response = "error:" + e.getMessage();
+				}
+			}
+			else{
+				Snackbar snackbar = Snackbar
+					.make(coordinatorLayout, "Internet Connection Not Available!!", Snackbar.LENGTH_LONG);
+				snackbar.show();
+			}
             return response;
         }
     }
@@ -111,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
         ChatMessage chatMessage = new ChatMessage(null, false, true);
         mAdapter.add(chatMessage);
     }
+
+	private boolean isNetworkConnected() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		return cm.getActiveNetworkInfo() != null;
+	}
 
 
     @Override

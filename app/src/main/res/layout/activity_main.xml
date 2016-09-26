@@ -1,56 +1,64 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/coordinator_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-
-    <ListView
-        android:id="@+id/listView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/send_message_layout"
-        android:divider="@null" />
+        android:orientation="vertical"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/send_message_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/rounded_layout"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/send_message_layout"
+            android:divider="@null"/>
 
-        <ImageView
-            android:id="@+id/iv_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:srcCompat="@drawable/ic_avatar" />
-
-        <EditText
-            android:id="@+id/et_message"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/send_message_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1" />
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/rounded_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp">
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:layout_marginRight="5dp"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/ic_send_white"
-            android:id="@+id/btn_send"
-            />
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:srcCompat="@drawable/ic_avatar"/>
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/et_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="Say Something..."/>
 
-</RelativeLayout>
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:clickable="true"
+                app:backgroundTint="@color/md_blue_600"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_send_white"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
