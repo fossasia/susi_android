@@ -9,6 +9,10 @@ The main feature of the app is to provide a conversational interface to provide 
 
 First steps are to implement the basic chat functionalities of Susi.
 
+## Android App Development Set up
+
+Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/susi_android/tree/master/docs/Android_App_Setup.md).
+
 ## Communication
 
 Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/loklak
