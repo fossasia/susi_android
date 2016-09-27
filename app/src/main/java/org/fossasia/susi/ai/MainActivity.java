@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
@@ -27,138 +28,140 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
-	private FloatingActionButton mButtonSend;
-	private EditText mEditTextMessage;
-	private ImageView mImageView;
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.rv_chat_feed)
+    RecyclerView rvChatFeed;
+    @BindView(R.id.iv_image)
+    ImageView ivImage;
+    @BindView(R.id.et_message)
+    EditText etMessage;
+    @BindView(R.id.btn_send)
+    FloatingActionButton btnSend;
+    @BindView(R.id.send_message_layout)
+    LinearLayout sendMessageLayout;
 
-	private RecyclerView rvChatFeed;
-	private CoordinatorLayout coordinatorLayout;
-	private ChatFeedRecyclerAdapter recyclerAdapter;
-
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-
-		coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
-		rvChatFeed = (RecyclerView) findViewById(R.id.rv_chat_feed);
-		mButtonSend = (FloatingActionButton) findViewById(R.id.btn_send);
-		mEditTextMessage = (EditText) findViewById(R.id.et_message);
-		mImageView = (ImageView) findViewById(R.id.iv_image);
-
-		setupAdapter();
-
-		mButtonSend.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				String message = mEditTextMessage.getText().toString();
-				if (TextUtils.isEmpty(message)) {
-					return;
-				}
-				sendMessage(message);
-				mEditTextMessage.setText("");
-			}
-		});
-
-		mImageView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				sendMessage();
-			}
-		});
+    private ChatFeedRecyclerAdapter recyclerAdapter;
 
 
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-	private void setupAdapter() {
+        ButterKnife.bind(this);
 
-		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        setupAdapter();
+    }
 
-		rvChatFeed.setLayoutManager(linearLayoutManager);
-		rvChatFeed.setHasFixedSize(true);
-		List<ChatMessage> chatMessageList = new ArrayList<>();
-		recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
+    private void setupAdapter() {
 
-		rvChatFeed.setAdapter(recyclerAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
 
-	}
+        rvChatFeed.setLayoutManager(linearLayoutManager);
+        rvChatFeed.setHasFixedSize(true);
+        List<ChatMessage> chatMessageList = new ArrayList<>();
+        recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
 
-	private void sendMessage(String query) {
-		ChatMessage chatMessage = new ChatMessage(query, true, false);
-		recyclerAdapter.addMessage(chatMessage, true);
-		computeOtherMessage(query);
-	}
+        rvChatFeed.setAdapter(recyclerAdapter);
 
-	private void computeOtherMessage(final String query) {
-		new asksusi().execute(query);
-	}
+    }
 
-	private void sendMessage() {
-		ChatMessage chatMessage = new ChatMessage(null, true, true);
-		recyclerAdapter.addMessage(chatMessage, true);
-		computeOtherMessage();
-	}
+    private void sendMessage(String query) {
+        ChatMessage chatMessage = new ChatMessage(query, true, false);
+        recyclerAdapter.addMessage(chatMessage, true);
+        computeOtherMessage(query);
+    }
 
-	private void computeOtherMessage() {
-		ChatMessage chatMessage = new ChatMessage(null, false, true);
-		recyclerAdapter.addMessage(chatMessage, true);
-	}
+    private void computeOtherMessage(final String query) {
+        new asksusi().execute(query);
+    }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.menu_main, menu);
-		return true;
-	}
+    private void sendMessage() {
+        ChatMessage chatMessage = new ChatMessage(null, true, true);
+        recyclerAdapter.addMessage(chatMessage, true);
+        computeOtherMessage();
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
+    private void computeOtherMessage() {
+        ChatMessage chatMessage = new ChatMessage(null, false, true);
+        recyclerAdapter.addMessage(chatMessage, true);
+    }
 
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-		return super.onOptionsItemSelected(item);
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-	private class asksusi extends AsyncTask<String, Void, String> {
-		@Override
-		protected String doInBackground(String... query) {
-			String response = null;
-			if(isNetworkConnected()) {
-				try {
-					JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
-					response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
-				} catch (JSONException | UnsupportedEncodingException e) {
-					response = "error: " + e.getMessage();
-				}
-			}
-			return response;
-		}
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
 
-		@Override
-		protected void onPostExecute(String response) {
-			if(response == null){
-				Snackbar snackbar = Snackbar
-					.make(coordinatorLayout, "Internet Connection Not Available!!", Snackbar.LENGTH_LONG);
-				snackbar.show();
-				return;
-			}
-			ChatMessage chatMessage = new ChatMessage(response, false, false);
-			recyclerAdapter.addMessage(chatMessage, true);
-		}
+        return super.onOptionsItemSelected(item);
+    }
 
-		private boolean isNetworkConnected() {
-			ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-			return cm.getActiveNetworkInfo() != null;
-		}
-	}
+    @OnClick({R.id.iv_image, R.id.btn_send})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_image:
+                sendMessage();
+                break;
+            case R.id.btn_send:
+                String message = etMessage.getText().toString();
+                if (!TextUtils.isEmpty(message)) {
+                    sendMessage(message);
+                    etMessage.setText("");
+                }
+                break;
+        }
+    }
+
+    private class asksusi extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... query) {
+            String response = null;
+            if (isNetworkConnected()) {
+                try {
+                    JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
+                    response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
+                } catch (JSONException | UnsupportedEncodingException e) {
+                    response = "error: " + e.getMessage();
+                }
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            if (response == null) {
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Internet Connection Not Available!!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return;
+            }
+            ChatMessage chatMessage = new ChatMessage(response, false, false);
+            recyclerAdapter.addMessage(chatMessage, true);
+        }
+
+        private boolean isNetworkConnected() {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            return cm.getActiveNetworkInfo() != null;
+        }
+    }
 }

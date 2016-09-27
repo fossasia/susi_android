@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -31,5 +32,11 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$support_lib_version"
     compile "com.android.support:design:$support_lib_version"
     compile project(':chat-message-view')
+
+    /*
+    butterknife
+    */
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
 
 }

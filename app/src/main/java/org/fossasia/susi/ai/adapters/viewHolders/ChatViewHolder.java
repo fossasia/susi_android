@@ -6,6 +6,9 @@ import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_IMAGE;
 import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_MESSAGE;
 import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.OTHER_IMAGE;
@@ -20,17 +23,16 @@ import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAda
 
 public class ChatViewHolder extends RecyclerView.ViewHolder {
 
+    @BindView(R.id.text)
     public TextView chatTextView;
 
     public ChatViewHolder(View view, int myMessage) {
         super(view);
-
+        ButterKnife.bind(this, view);
         switch (myMessage) {
             case MY_MESSAGE:
-                chatTextView = (TextView) view.findViewById(R.id.text);
                 break;
             case OTHER_MESSAGE:
-                chatTextView = (TextView) view.findViewById(R.id.text);
                 break;
             case MY_IMAGE:
             case OTHER_IMAGE:
