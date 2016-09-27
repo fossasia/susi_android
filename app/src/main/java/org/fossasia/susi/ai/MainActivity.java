@@ -116,6 +116,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        etMessage.requestFocus();
+    }
+
     @OnClick({R.id.iv_image, R.id.btn_send})
     public void onClick(View view) {
         switch (view.getId()) {
