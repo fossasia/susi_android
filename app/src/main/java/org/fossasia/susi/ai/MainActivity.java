@@ -11,13 +11,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.vanniktech.emoji.EmojiEditText;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.emoji.Emoji;
+import com.vanniktech.emoji.listeners.OnEmojiBackspaceClickListener;
+import com.vanniktech.emoji.listeners.OnEmojiClickedListener;
+import com.vanniktech.emoji.listeners.OnEmojiPopupDismissListener;
+import com.vanniktech.emoji.listeners.OnEmojiPopupShownListener;
+import com.vanniktech.emoji.listeners.OnSoftKeyboardCloseListener;
+import com.vanniktech.emoji.listeners.OnSoftKeyboardOpenListener;
 
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
@@ -33,16 +45,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity {
+    private EmojiPopup emojiPopup;
+    EmojiEditText editText;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
     RecyclerView rvChatFeed;
     @BindView(R.id.iv_image)
     ImageView ivImage;
-    @BindView(R.id.et_message)
-    EditText etMessage;
+    @BindView(R.id.rl)
+    ViewGroup rootView;
+    //@BindView(R.id.et_message)
+ //   EditText etMessage;
     @BindView(R.id.btn_send)
     FloatingActionButton btnSend;
     @BindView(R.id.send_message_layout)
@@ -57,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+        editText = (EmojiEditText) findViewById(R.id.emojiEditText);
+        setUpEmojiPopup();
 
         setupAdapter();
     }
@@ -116,6 +134,15 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
+        if (emojiPopup != null && emojiPopup.isShowing()) {
+            emojiPopup.dismiss();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     protected void onResume() {
@@ -130,13 +157,14 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_image:
-                sendMessage();
+                emojiPopup.toggle();
+               // sendMessage();
                 break;
             case R.id.btn_send:
-                String message = etMessage.getText().toString();
+                String message = editText.getText().toString();
                 if (!TextUtils.isEmpty(message)) {
                     sendMessage(message);
-                    etMessage.setText("");
+                    editText.setText("");
                 }
                 break;
         }
@@ -174,4 +202,39 @@ public class MainActivity extends AppCompatActivity {
             return cm.getActiveNetworkInfo() != null;
         }
     }
+   // @SuppressFBWarnings(value = "SIC_INNER_SHOULD_BE_STATIC_ANON", justification = "Sample app we do not care")
+    private void setUpEmojiPopup() {
+        emojiPopup = EmojiPopup.Builder.fromRootView(rootView).setOnEmojiBackspaceClickListener(new OnEmojiBackspaceClickListener() {
+            @Override
+            public void onEmojiBackspaceClicked(final View v) {
+            //    Log.d("MainActivity", "Clicked on Backspace");
+            }
+        }).setOnEmojiClickedListener(new OnEmojiClickedListener() {
+            @Override
+            public void onEmojiClicked(final Emoji emoji) {
+               // Log.d("MainActivity", "Clicked on emoji");
+            }
+        }).setOnEmojiPopupShownListener(new OnEmojiPopupShownListener() {
+            @Override
+            public void onEmojiPopupShown() {
+                ivImage.setImageResource(R.drawable.ic_avatar);
+            }
+        }).setOnSoftKeyboardOpenListener(new OnSoftKeyboardOpenListener() {
+            @Override
+            public void onKeyboardOpen(final int keyBoardHeight) {
+                Log.d("MainActivity", "Opened soft keyboard");
+            }
+        }).setOnEmojiPopupDismissListener(new OnEmojiPopupDismissListener() {
+            @Override
+            public void onEmojiPopupDismiss() {
+                ivImage.setImageResource(R.drawable.emoji_people);
+            }
+        }).setOnSoftKeyboardCloseListener(new OnSoftKeyboardCloseListener() {
+            @Override
+            public void onKeyboardClose() {
+                emojiPopup.dismiss();
+            }
+        }).build(editText);
+    }
+
 }
