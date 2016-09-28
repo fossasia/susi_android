@@ -42,4 +42,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile "com.android.support:support-v4:$support_lib_version"
 
+    compile 'com.vanniktech:emoji:0.3.0'
+    compile 'com.vanniktech:emoji:0.4.0-SNAPSHOT'
+
 }
