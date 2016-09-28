@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
         }).setOnEmojiPopupDismissListener(new OnEmojiPopupDismissListener() {
             @Override
             public void onEmojiPopupDismiss() {
-                ivImage.setImageResource(R.drawable.emoji_people);
+                ivImage.setImageResource(R.drawable.ic_avatar);
             }
         }).setOnSoftKeyboardCloseListener(new OnSoftKeyboardCloseListener() {
             @Override
