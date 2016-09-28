@@ -71,6 +71,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
 
         rvChatFeed.setAdapter(recyclerAdapter);
+		
+		rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener(){
+			@Override
+			public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+				if (bottom < oldBottom) {
+					rvChatFeed.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							int scrollTo = rvChatFeed.getAdapter().getItemCount() - 1;
+							scrollTo = scrollTo>=0 ? scrollTo : 0;
+							rvChatFeed.scrollToPosition(scrollTo);
+						}
+					}, 10);
+				}
+			}
+		});
 
     }
 
