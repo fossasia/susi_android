@@ -47,16 +47,16 @@ import butterknife.OnClick;
 
 
 public class MainActivity extends AppCompatActivity {
-    private EmojiPopup emojiPopup;
-    EmojiEditText editText;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
     RecyclerView rvChatFeed;
     @BindView(R.id.iv_image)
     ImageView ivImage;
-    @BindView(R.id.rl)
-    ViewGroup rootView;
+    @BindView(R.id.et_message)
+    EditText etMessage;
+   // @BindView(R.id.rl)
+   // ViewGroup rootView;
     @BindView(R.id.btn_send)
     FloatingActionButton btnSend;
     @BindView(R.id.send_message_layout)
@@ -71,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        editText = (EmojiEditText) findViewById(R.id.emojiEditText);
-        setUpEmojiPopup();
+        //setUpEmojiPopup();
 
         setupAdapter();
     }
@@ -88,6 +87,21 @@ public class MainActivity extends AppCompatActivity {
 
         rvChatFeed.setAdapter(recyclerAdapter);
 
+        rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener(){
+            @Override
+            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    rvChatFeed.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int scrollTo = rvChatFeed.getAdapter().getItemCount() - 1;
+                            scrollTo = scrollTo>=0 ? scrollTo : 0;
+                            rvChatFeed.scrollToPosition(scrollTo);
+                        }
+                    }, 10);
+                }
+            }
+        });
     }
 
     private void sendMessage(String query) {
@@ -101,11 +115,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+//	private void sendMessage() {
+//		ChatMessage chatMessage = new ChatMessage(null, true, true);
+//		recyclerAdapter.addMessage(chatMessage, true);
+//		computeOtherMessage();
+//	}
 
-    private void computeOtherMessage() {
-        ChatMessage chatMessage = new ChatMessage(null, false, true);
-        recyclerAdapter.addMessage(chatMessage, true);
-    }
+//	private void computeOtherMessage() {
+//		ChatMessage chatMessage = new ChatMessage(null, false, true);
+//		recyclerAdapter.addMessage(chatMessage, true);
+//	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,14 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    public void onBackPressed() {
-        if (emojiPopup != null && emojiPopup.isShowing()) {
-            emojiPopup.dismiss();
-        } else {
-            super.onBackPressed();
-        }
-    }
 
 
     @Override
@@ -147,18 +158,19 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    @OnClick({R.id.iv_image, R.id.btn_send})
+//	TODO Removed OnClick for Image for now
+//	@OnClick({R.id.iv_image, R.id.btn_send})
+    @OnClick(R.id.btn_send)
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_image:
-                emojiPopup.toggle();
-               // sendMessage();
-                break;
+//			case R.id.iv_image:
+//				sendMessage();
+//				break;
             case R.id.btn_send:
-                String message = editText.getText().toString();
+                String message = etMessage.getText().toString();
                 if (!TextUtils.isEmpty(message)) {
                     sendMessage(message);
-                    editText.setText("");
+                    etMessage.setText("");
                 }
                 break;
         }
@@ -196,38 +208,4 @@ public class MainActivity extends AppCompatActivity {
             return cm.getActiveNetworkInfo() != null;
         }
     }
-    private void setUpEmojiPopup() {
-        emojiPopup = EmojiPopup.Builder.fromRootView(rootView).setOnEmojiBackspaceClickListener(new OnEmojiBackspaceClickListener() {
-            @Override
-            public void onEmojiBackspaceClicked(final View v) {
-            //    Log.d("MainActivity", "Clicked on Backspace");
-            }
-        }).setOnEmojiClickedListener(new OnEmojiClickedListener() {
-            @Override
-            public void onEmojiClicked(final Emoji emoji) {
-
-            }
-        }).setOnEmojiPopupShownListener(new OnEmojiPopupShownListener() {
-            @Override
-            public void onEmojiPopupShown() {
-                ivImage.setImageResource(R.drawable.ic_avatar);
-            }
-        }).setOnSoftKeyboardOpenListener(new OnSoftKeyboardOpenListener() {
-            @Override
-            public void onKeyboardOpen(final int keyBoardHeight) {
-
-            }
-        }).setOnEmojiPopupDismissListener(new OnEmojiPopupDismissListener() {
-            @Override
-            public void onEmojiPopupDismiss() {
-                ivImage.setImageResource(R.drawable.ic_avatar);
-            }
-        }).setOnSoftKeyboardCloseListener(new OnSoftKeyboardCloseListener() {
-            @Override
-            public void onKeyboardClose() {
-                emojiPopup.dismiss();
-            }
-        }).build(editText);
-    }
-
 }

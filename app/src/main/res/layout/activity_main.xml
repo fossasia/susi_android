@@ -37,15 +37,17 @@
                 android:layout_height="40dp"
                 app:srcCompat="@drawable/ic_avatar"/>
 
-            <com.vanniktech.emoji.EmojiEditText
-                android:id="@+id/emojiEditText"
-                android:layout_width="235dp"
+            <EditText
+                android:id="@+id/et_message"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:imeOptions="actionSend"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
                 android:inputType="textCapSentences|textMultiLine"
-                android:maxLines="3"
-                android:hint="say something..."
-                app:emojiSize="25sp"/>
+                android:maxLines="2"
+                android:background="@android:color/transparent"
+                android:hint="Say Something..."/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/btn_send"
