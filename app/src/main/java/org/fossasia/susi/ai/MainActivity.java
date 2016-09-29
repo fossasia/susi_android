@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +60,22 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupAdapter();
+
+        etMessage.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    String message = etMessage.getText().toString();
+                    if (!TextUtils.isEmpty(message)) {
+                        sendMessage(message);
+                        etMessage.setText("");
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void setupAdapter() {
