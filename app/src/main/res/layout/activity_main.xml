@@ -45,7 +45,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:inputType="textCapSentences|textMultiLine"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:background="@android:color/transparent"
                 android:hint="Say Something..."/>
 
