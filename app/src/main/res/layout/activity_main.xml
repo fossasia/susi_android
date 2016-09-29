@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/rl"
         tools:context=".MainActivity">
 
         <android.support.v7.widget.RecyclerView
@@ -43,6 +44,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLines="3"
                 android:background="@android:color/transparent"
                 android:hint="Say Something..."/>
 

@@ -11,13 +11,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.vanniktech.emoji.EmojiEditText;
+import com.vanniktech.emoji.EmojiPopup;
+import com.vanniktech.emoji.emoji.Emoji;
+import com.vanniktech.emoji.listeners.OnEmojiBackspaceClickListener;
+import com.vanniktech.emoji.listeners.OnEmojiClickedListener;
+import com.vanniktech.emoji.listeners.OnEmojiPopupDismissListener;
+import com.vanniktech.emoji.listeners.OnEmojiPopupShownListener;
+import com.vanniktech.emoji.listeners.OnSoftKeyboardCloseListener;
+import com.vanniktech.emoji.listeners.OnSoftKeyboardOpenListener;
 
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
@@ -33,8 +45,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
 
+public class MainActivity extends AppCompatActivity {
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
@@ -43,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView ivImage;
     @BindView(R.id.et_message)
     EditText etMessage;
+   // @BindView(R.id.rl)
+   // ViewGroup rootView;
     @BindView(R.id.btn_send)
     FloatingActionButton btnSend;
     @BindView(R.id.send_message_layout)
@@ -57,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+        //setUpEmojiPopup();
 
         setupAdapter();
     }
@@ -99,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         new asksusi().execute(query);
     }
 
+
 //	private void sendMessage() {
 //		ChatMessage chatMessage = new ChatMessage(null, true, true);
 //		recyclerAdapter.addMessage(chatMessage, true);
@@ -131,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     protected void onResume() {
