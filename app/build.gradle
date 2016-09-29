@@ -31,7 +31,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_lib_version"
     compile "com.android.support:recyclerview-v7:$support_lib_version"
     compile "com.android.support:design:$support_lib_version"
-    compile project(':chat-message-view')
+
+    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
 
     /*
     butterknife
