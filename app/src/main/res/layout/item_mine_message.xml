@@ -27,6 +27,7 @@
             android:text="Hello"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/md_white_1000"
+            android:autoLink="web"
             android:textSize="16sp"/>
     </me.himanshusoni.chatmessageview.ChatMessageView>
 
