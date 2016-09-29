@@ -151,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 //				break;
             case R.id.btn_send:
                 String message = etMessage.getText().toString();
+                message = message.trim();
                 if (!TextUtils.isEmpty(message)) {
                     sendMessage(message);
                     etMessage.setText("");
