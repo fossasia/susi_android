@@ -71,23 +71,22 @@ public class MainActivity extends AppCompatActivity {
         recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
 
         rvChatFeed.setAdapter(recyclerAdapter);
-		
-		rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener(){
-			@Override
-			public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-				if (bottom < oldBottom) {
-					rvChatFeed.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							int scrollTo = rvChatFeed.getAdapter().getItemCount() - 1;
-							scrollTo = scrollTo>=0 ? scrollTo : 0;
-							rvChatFeed.scrollToPosition(scrollTo);
-						}
-					}, 10);
-				}
-			}
-		});
 
+        rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener(){
+            @Override
+            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    rvChatFeed.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int scrollTo = rvChatFeed.getAdapter().getItemCount() - 1;
+                            scrollTo = scrollTo>=0 ? scrollTo : 0;
+                            rvChatFeed.scrollToPosition(scrollTo);
+                        }
+                    }, 10);
+                }
+            }
+        });
     }
 
     private void sendMessage(String query) {
@@ -100,16 +99,16 @@ public class MainActivity extends AppCompatActivity {
         new asksusi().execute(query);
     }
 
-    private void sendMessage() {
-        ChatMessage chatMessage = new ChatMessage(null, true, true);
-        recyclerAdapter.addMessage(chatMessage, true);
-        computeOtherMessage();
-    }
+//	private void sendMessage() {
+//		ChatMessage chatMessage = new ChatMessage(null, true, true);
+//		recyclerAdapter.addMessage(chatMessage, true);
+//		computeOtherMessage();
+//	}
 
-    private void computeOtherMessage() {
-        ChatMessage chatMessage = new ChatMessage(null, false, true);
-        recyclerAdapter.addMessage(chatMessage, true);
-    }
+//	private void computeOtherMessage() {
+//		ChatMessage chatMessage = new ChatMessage(null, false, true);
+//		recyclerAdapter.addMessage(chatMessage, true);
+//	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,12 +141,14 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-    @OnClick({R.id.iv_image, R.id.btn_send})
+//	TODO Removed OnClick for Image for now
+//	@OnClick({R.id.iv_image, R.id.btn_send})
+    @OnClick(R.id.btn_send)
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_image:
-                sendMessage();
-                break;
+//			case R.id.iv_image:
+//				sendMessage();
+//				break;
             case R.id.btn_send:
                 String message = etMessage.getText().toString();
                 if (!TextUtils.isEmpty(message)) {
