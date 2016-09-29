@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ChatMessageView"><attr format="boolean" name="cmv_showArrow"/><attr format="enum" name="cmv_arrowPosition"><enum name="left" value="0"/><enum name="right" value="1"/><enum name="top" value="2"/><enum name="bottom" value="3"/></attr><attr format="enum" name="cmv_arrowGravity"><enum name="start" value="0"/><enum name="center" value="1"/><enum name="end" value="2"/></attr><attr format="color" name="cmv_backgroundColor"/><attr format="color" name="cmv_backgroundColorPressed"/><attr format="dimension" name="cmv_cornerRadius"/><attr format="dimension" name="cmv_contentPadding"/><attr format="dimension" name="cmv_arrowMargin"/></declare-styleable>
+    <string name="app_name">chatmessageview</string>
+</resources>

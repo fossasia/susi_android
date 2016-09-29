@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/emojis_tab"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/emojis_tab_0_recent"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_recent"
+            android:src="@drawable/emoji_recent"/>
+
+        <ImageButton
+            android:id="@+id/emojis_tab_1_people"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_people"
+            android:src="@drawable/emoji_people"/>
+
+        <ImageButton
+            android:id="@+id/emojis_tab_2_nature"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_nature"
+            android:src="@drawable/emoji_nature"/>
+
+        <ImageButton
+            android:id="@+id/emojis_tab_3_food"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_food"
+            android:src="@drawable/emoji_food"/>
+
+        <ImageButton
+            android:id="@+id/emojis_tab_4_sport"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_sport"
+            android:src="@drawable/emoji_sport"/>
+
+        <ImageButton
+            android:id="@+id/emojis_tab_5_cars"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_cars"
+            android:src="@drawable/emoji_cars"/>
+
+        <ImageButton
+            android:id="@+id/emojis_tab_6_electronics"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_electronics"
+            android:src="@drawable/emoji_electronics"/>
+
+        <ImageButton
+            android:id="@+id/emojis_tab_7_symbols"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_symbols"
+            android:src="@drawable/emoji_symbols"/>
+
+        <ImageButton
+            android:id="@+id/emojis_backspace"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/emoji_backspace"
+            android:src="@drawable/emoji_backspace_back_normal"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#626e76"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/emojis_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</merge>

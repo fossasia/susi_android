@@ -20,17 +20,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import com.vanniktech.emoji.EmojiEditText;
-import com.vanniktech.emoji.EmojiPopup;
-import com.vanniktech.emoji.emoji.Emoji;
-import com.vanniktech.emoji.listeners.OnEmojiBackspaceClickListener;
-import com.vanniktech.emoji.listeners.OnEmojiClickedListener;
-import com.vanniktech.emoji.listeners.OnEmojiPopupDismissListener;
-import com.vanniktech.emoji.listeners.OnEmojiPopupShownListener;
-import com.vanniktech.emoji.listeners.OnSoftKeyboardCloseListener;
-import com.vanniktech.emoji.listeners.OnSoftKeyboardOpenListener;
-
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,8 +44,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView ivImage;
     @BindView(R.id.et_message)
     EditText etMessage;
-   // @BindView(R.id.rl)
-   // ViewGroup rootView;
     @BindView(R.id.btn_send)
     FloatingActionButton btnSend;
     @BindView(R.id.send_message_layout)
