@@ -44,7 +44,9 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="Say Something..."/>
+                android:hint="Say Something..."
+                android:inputType="text"
+                android:imeOptions="actionSend"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/btn_send"
