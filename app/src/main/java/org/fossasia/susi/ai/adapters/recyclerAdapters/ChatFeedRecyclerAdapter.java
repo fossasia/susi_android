@@ -8,12 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import org.fossasia.susi.ai.ChatMessage;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
+import org.fossasia.susi.ai.model.ChatMessage;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.realm.RealmChangeListener;
+import io.realm.RealmResults;
 
 /**
  * Created by
@@ -30,12 +30,12 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
     public static final int OTHER_IMAGE = 3;
 
     private Context currContext;
-    private List<ChatMessage> itemList;
+    private RealmResults<ChatMessage> itemList;
     private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
 
-    public ChatFeedRecyclerAdapter(Activity activity, Context curr_context, List<ChatMessage> itemList) {
+    public ChatFeedRecyclerAdapter(Activity activity, Context curr_context, RealmResults<ChatMessage> itemList) {
         this.itemList = itemList;
         this.currContext = curr_context;
         this.activity = activity;
@@ -53,15 +53,19 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
         this.recyclerView = null;
     }
 
-    public void addMessage(ChatMessage chatMessage, boolean shouldScrollToBottom) {
+    public void addMessage(final ChatMessage chatMessage, final boolean shouldScrollToBottom) {
         if (itemList == null) {
-            itemList = new ArrayList<>();
         }
-        itemList.add(chatMessage);
-        notifyItemInserted(itemList.size() - 1);
-        if (recyclerView != null && shouldScrollToBottom) {
-            recyclerView.smoothScrollToPosition(itemList.size() - 1);
-        }
+        itemList.addChangeListener(new RealmChangeListener<RealmResults<ChatMessage>>() {
+            @Override
+            public void onChange(RealmResults<ChatMessage> element) {
+                notifyItemInserted(itemList.size() - 1);
+                if (recyclerView != null && shouldScrollToBottom) {
+                    recyclerView.smoothScrollToPosition(itemList.size() - 1);
+                }
+            }
+        });
+
     }
 
     public void addMessage(ChatMessage chatMessage) {

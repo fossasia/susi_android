@@ -1,11 +1,17 @@
-package org.fossasia.susi.ai;
+package org.fossasia.susi.ai.model;
+
+import io.realm.RealmObject;
 
 /**
  * Created by himanshusoni on 06/09/15.
  */
-public class ChatMessage {
+public class ChatMessage extends RealmObject {
     private boolean isImage, isMine;
     private String content;
+
+    public ChatMessage() {
+
+    }
 
     public ChatMessage(String message, boolean mine, boolean image) {
         content = message;
