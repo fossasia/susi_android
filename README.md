@@ -17,7 +17,7 @@ Please find info about the set up of the Android app in your development environ
 
 Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/loklak
 
-Our chat channel is on gitter here: https://gitter.im/loklak/loklak
+Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
 
 ## Development
 
