@@ -11,13 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
@@ -59,6 +62,25 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupAdapter();
+            etMessage.setLines(3);
+            etMessage.setHorizontallyScrolling(false);
+            etMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEND) {
+                        String message = etMessage.getText().toString();
+                        message = message.trim();
+                        if (!TextUtils.isEmpty(message)) {
+                            sendMessage(message);
+                            etMessage.setText("");
+                        }
+                         return true;
+                    }
+                    return false;
+
+                }
+            });
+
     }
 
     private void setupAdapter() {

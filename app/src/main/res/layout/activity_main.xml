@@ -42,6 +42,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
+                android:inputType="text"
+                android:imeOptions="actionSend"
                 android:background="@android:color/transparent"
                 android:hint="Say Something..."/>
 
