@@ -1,28 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chatMessageView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="3dp">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp"
+    app:cmv_arrowGravity="start"
+    app:cmv_arrowMargin="3dp"
+    app:cmv_arrowPosition="right"
+    app:cmv_backgroundColor="@color/me_message_bg"
+    app:cmv_backgroundColorPressed="@color/me_message_bg_dark"
+    app:cmv_contentPadding="3dp"
+    app:cmv_cornerRadius="3dp"
+    app:cmv_showArrow="true">
 
-    <me.himanshusoni.chatmessageview.ChatMessageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cmv_arrowGravity="start"
-        app:cmv_arrowMargin="3dp"
-        android:id="@+id/chatMessageView"
-        app:cmv_arrowPosition="right"
-        app:cmv_backgroundColor="#88BABABA"
-        app:cmv_backgroundColorPressed="#FFBABABA"
-        app:cmv_contentPadding="3dp"
-        app:cmv_cornerRadius="3dp"
-        app:cmv_showArrow="true">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#aaffffff"
-            app:srcCompat="@drawable/ic_avatar" />
-    </me.himanshusoni.chatmessageview.ChatMessageView>
-
-</LinearLayout>
+        android:background="#aaffffff"
+        app:srcCompat="@drawable/ic_avatar" />
+</me.himanshusoni.chatmessageview.ChatMessageView>
