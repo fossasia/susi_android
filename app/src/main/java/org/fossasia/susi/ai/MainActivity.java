@@ -1,17 +1,31 @@
 package org.fossasia.susi.ai;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.loklak.android.tools.JsonIO;
@@ -19,98 +33,142 @@ import org.loklak.android.tools.JsonIO;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
+import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView mListView;
-    private Button mButtonSend;
-    private EditText mEditTextMessage;
-    private ImageView mImageView;
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.rv_chat_feed)
+    RecyclerView rvChatFeed;
+    @BindView(R.id.iv_image)
+    ImageView ivImage;
+    @BindView(R.id.et_message)
+    EditText etMessage;
+    @BindView(R.id.btn_send)
+    FloatingActionButton btnSend;
+    @BindView(R.id.send_message_layout)
+    LinearLayout sendMessageLayout;
+
+    private ChatFeedRecyclerAdapter recyclerAdapter;
+    private ImageButton btnSpeak;
+    private final int REQ_CODE_SPEECH_INPUT = 100;
 
 
-    private ChatMessageAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mListView = (ListView) findViewById(R.id.listView);
-        mButtonSend = (Button) findViewById(R.id.btn_send);
-        mEditTextMessage = (EditText) findViewById(R.id.et_message);
-        mImageView = (ImageView) findViewById(R.id.iv_image);
+        ButterKnife.bind(this);
+        btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
+        setupAdapter();
+        btnSpeak.setOnClickListener(new View.OnClickListener() {
 
-        mAdapter = new ChatMessageAdapter(this, new ArrayList<ChatMessage>());
-        mListView.setAdapter(mAdapter);
-
-
-        mButtonSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = mEditTextMessage.getText().toString();
-                if (TextUtils.isEmpty(message)) {
-                    return;
+                promptSpeechInput();
+            }
+        });
+
+    }
+
+    /**
+     * Showing google speech input dialog
+     * */
+    private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
+                getString(R.string.speech_prompt));
+        try {
+            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
+        } catch (ActivityNotFoundException a) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.speech_not_supported),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+
+                    ArrayList<String> result = data
+                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                     //txtSpeechInput.setText(result.get(0));
+                    sendMessage(result.get(0));
                 }
-                sendMessage(message);
-                mEditTextMessage.setText("");
+                break;
             }
-        });
 
-        mImageView.setOnClickListener(new View.OnClickListener() {
+        }
+    }
+
+    private void setupAdapter() {
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        rvChatFeed.setLayoutManager(linearLayoutManager);
+        rvChatFeed.setHasFixedSize(true);
+        List<ChatMessage> chatMessageList = new ArrayList<>();
+        recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
+
+        rvChatFeed.setAdapter(recyclerAdapter);
+
+        rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener(){
             @Override
-            public void onClick(View v) {
-                sendMessage();
+            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom) {
+                    rvChatFeed.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            int scrollTo = rvChatFeed.getAdapter().getItemCount() - 1;
+                            scrollTo = scrollTo>=0 ? scrollTo : 0;
+                            rvChatFeed.scrollToPosition(scrollTo);
+                        }
+                    }, 10);
+                }
             }
         });
-
-
     }
 
     private void sendMessage(String query) {
         ChatMessage chatMessage = new ChatMessage(query, true, false);
-        mAdapter.add(chatMessage);
+        recyclerAdapter.addMessage(chatMessage, true);
         computeOtherMessage(query);
     }
 
     private void computeOtherMessage(final String query) {
-        new Runnable() {
-            public void run() {
-                try {
-                    String response = new asksusi().execute(query).get();
-                    ChatMessage chatMessage = new ChatMessage(response, false, false);
-                    mAdapter.add(chatMessage);
-                    mListView.setSelection(mListView.getBottom());
-                } catch (ExecutionException | InterruptedException e) {}
-            }
-        }.run();
+        new asksusi().execute(query);
     }
 
-    private class asksusi extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... query) {
-            String response = "";
-            try {
-                JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
-                response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
-            } catch (JSONException | UnsupportedEncodingException e) {
-                response = "error: " + e.getMessage();
-            }
-            return response;
-        }
-    }
+//	private void sendMessage() {
+//		ChatMessage chatMessage = new ChatMessage(null, true, true);
+//		recyclerAdapter.addMessage(chatMessage, true);
+//		computeOtherMessage();
+//	}
 
-    private void sendMessage() {
-        ChatMessage chatMessage = new ChatMessage(null, true, true);
-        mAdapter.add(chatMessage);
-        computeOtherMessage();
-    }
-
-    private void computeOtherMessage() {
-        ChatMessage chatMessage = new ChatMessage(null, false, true);
-        mAdapter.add(chatMessage);
-    }
-
+//	private void computeOtherMessage() {
+//		ChatMessage chatMessage = new ChatMessage(null, false, true);
+//		recyclerAdapter.addMessage(chatMessage, true);
+//	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -132,5 +190,66 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //etMessage.requestFocus();
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
+    }
+
+//	TODO Removed OnClick for Image for now
+//	@OnClick({R.id.iv_image, R.id.btn_send})
+    @OnClick(R.id.btn_send)
+    public void onClick(View view) {
+        switch (view.getId()) {
+//			case R.id.iv_image:
+//				sendMessage();
+//				break;
+            case R.id.btn_send:
+                String message = etMessage.getText().toString();
+                message = message.trim();
+                if (!TextUtils.isEmpty(message)) {
+                    sendMessage(message);
+                    etMessage.setText("");
+                }
+                break;
+        }
+    }
+
+    private class asksusi extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... query) {
+            String response = null;
+            if (isNetworkConnected()) {
+                try {
+                    JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
+                    response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
+                } catch (JSONException | UnsupportedEncodingException e) {
+                    response = "error: " + e.getMessage();
+                }
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            if (response == null) {
+                Snackbar snackbar = Snackbar
+                        .make(coordinatorLayout, "Internet Connection Not Available!!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                return;
+            }
+            ChatMessage chatMessage = new ChatMessage(response, false, false);
+            recyclerAdapter.addMessage(chatMessage, true);
+        }
+
+        private boolean isNetworkConnected() {
+            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            return cm.getActiveNetworkInfo() != null;
+        }
     }
 }
