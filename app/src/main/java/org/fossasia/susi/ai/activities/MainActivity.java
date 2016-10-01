@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai;
+package org.fossasia.susi.ai.activities;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,19 +20,21 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.model.ChatMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.loklak.android.tools.JsonIO;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,30 +52,35 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout sendMessageLayout;
 
     private ChatFeedRecyclerAdapter recyclerAdapter;
+    private Realm realm;
 
+    public static String TAG = MainActivity.class.getName();
+    RealmResults<ChatMessage> chatMessageDatabaseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+    }
 
+    private void init() {
         ButterKnife.bind(this);
+        realm = Realm.getDefaultInstance();
 
         setupAdapter();
     }
 
     private void setupAdapter() {
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-
         rvChatFeed.setLayoutManager(linearLayoutManager);
         rvChatFeed.setHasFixedSize(true);
-        List<ChatMessage> chatMessageList = new ArrayList<>();
-        recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageList);
+
+        chatMessageDatabaseList = realm.where(ChatMessage.class).findAll();
+        recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageDatabaseList);
 
         rvChatFeed.setAdapter(recyclerAdapter);
-
-        rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener(){
+        rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if (bottom < oldBottom) {
@@ -80,24 +88,49 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             int scrollTo = rvChatFeed.getAdapter().getItemCount() - 1;
-                            scrollTo = scrollTo>=0 ? scrollTo : 0;
+                            scrollTo = scrollTo >= 0 ? scrollTo : 0;
                             rvChatFeed.scrollToPosition(scrollTo);
                         }
                     }, 10);
                 }
             }
         });
+
     }
 
     private void sendMessage(String query) {
         ChatMessage chatMessage = new ChatMessage(query, true, false);
+        updateDatabase(query, true, false);
         recyclerAdapter.addMessage(chatMessage, true);
         computeOtherMessage(query);
     }
 
     private void computeOtherMessage(final String query) {
-        new asksusi().execute(query);
+        new AskSusi().execute(query);
     }
+
+    private void updateDatabase(final String message, final boolean mine, final boolean image) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class);
+                chatMessage.setContent(message);
+                chatMessage.setIsMine(mine);
+                chatMessage.setIsImage(image);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                Log.v(TAG, "update successful!");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                Log.e(TAG, error.getMessage());
+            }
+        });
+    }
+
 
 //	private void sendMessage() {
 //		ChatMessage chatMessage = new ChatMessage(null, true, true);
@@ -141,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
-//	TODO Removed OnClick for Image for now
+    //	TODO Removed OnClick for Image for now
 //	@OnClick({R.id.iv_image, R.id.btn_send})
     @OnClick(R.id.btn_send)
     public void onClick(View view) {
@@ -160,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class asksusi extends AsyncTask<String, Void, String> {
+    private class AskSusi extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... query) {
             String response = null;
@@ -184,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             ChatMessage chatMessage = new ChatMessage(response, false, false);
+            updateDatabase(response, false, false);
             recyclerAdapter.addMessage(chatMessage, true);
         }
 
@@ -191,5 +225,11 @@ public class MainActivity extends AppCompatActivity {
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
             return cm.getActiveNetworkInfo() != null;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }

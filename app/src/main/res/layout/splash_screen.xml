@@ -5,5 +5,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".SplashScreen"
+    tools:context=".activities.SplashScreen"
     tools:src="@drawable/susi_image" />

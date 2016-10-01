@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import org.fossasia.susi.ai.MainActivity;
+import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.R;
 
 /**
