@@ -1,15 +1,19 @@
 package org.fossasia.susi.ai;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.fossasia.susi.ai.adapters.SettingsActivity;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +56,11 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
 
+    /**
+     *  Preference for using Enter Key as send
+     */
+    SharedPreferences Enter_pref;
+
     private ChatFeedRecyclerAdapter recyclerAdapter;
 
 
@@ -79,6 +89,19 @@ public class MainActivity extends AppCompatActivity {
                 return handled;
             }
         });
+    }
+
+    private void checkEnterKeyPref(){
+        Enter_pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean check = Enter_pref.getBoolean("Enter_send", false);
+        if (check){
+            etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+            etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
+        else{
+            etMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+            etMessage.setSingleLine(false);
+        }
     }
 
     private void setupAdapter() {
@@ -146,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
             return true;
         }
 
@@ -159,6 +184,8 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+
+        checkEnterKeyPref();
     }
 
 //	TODO Removed OnClick for Image for now
