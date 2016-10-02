@@ -1,0 +1,26 @@
+[
+    {
+        "outputFile": "F:\\PERSONAL\\Fossasia\\susi_android\\chat-message-view\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 12,
+                    "startColumn": 4,
+                    "startOffset": 842,
+                    "endColumn": 52,
+                    "endOffset": 890
+                },
+                "from": {
+                    "file": "F:\\PERSONAL\\Fossasia\\susi_android\\chat-message-view\\src\\main\\res\\values\\strings.xml",
+                    "position": {
+                        "startLine": 1,
+                        "startColumn": 4,
+                        "startOffset": 17,
+                        "endColumn": 52,
+                        "endOffset": 65
+                    }
+                }
+            }
+        ]
+    }
+]
