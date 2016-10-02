@@ -35,6 +35,14 @@ We have the following branches
  * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
 
+## Code practices
+
+Please help us follow the best practice to make it easy for the reviewer as well as the contributor. We want to focus on the code quality more than on managing pull request ethics. 
+
+ * Single commit per pull request
+ * Reference the issue numbers in the commit message. Follow the pattern ``` Fixes #<issue number> <commit message>```
+ * The pull request will not get merged until and unless the commits are squashed. In case there are multiple commits on the PR, the commit author needs to squash them and not the maintainers cherrypicking and merging squashes.
+
 ## License
 
 This project is currently licensed under the Apache License Version 2.0. A copy of LICENSE.md should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
