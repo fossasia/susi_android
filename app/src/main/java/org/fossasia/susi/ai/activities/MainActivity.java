@@ -1,22 +1,29 @@
 package org.fossasia.susi.ai.activities;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
@@ -50,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
 
+    /**
+     *  Preference for using Enter Key as send
+     */
+    SharedPreferences Enter_pref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +78,36 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.drawable.susi);
 
         setupAdapter();
+
+        etMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    String message = etMessage.getText().toString();
+                    message = message.trim();
+                    if (!TextUtils.isEmpty(message)) {
+                        sendMessage(message);
+                        etMessage.setText("");
+                    }
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+    }
+
+    private void checkEnterKeyPref(){
+        Enter_pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean check = Enter_pref.getBoolean("Enter_send", false);
+        if (check){
+            etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+            etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
+        }
+        else{
+            etMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+            etMessage.setSingleLine(false);
+        }
     }
 
     private void setupAdapter() {
@@ -168,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 //      TODO: Create Preference Pane and Enable Options Menu
-        return false;
+        return true;
     }
 
     @Override
@@ -176,6 +218,8 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, SettingsActivity.class);
+            startActivity(i);
             return true;
         }
 
@@ -188,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
+
+        checkEnterKeyPref();
     }
 
     @OnClick(R.id.btn_send)
