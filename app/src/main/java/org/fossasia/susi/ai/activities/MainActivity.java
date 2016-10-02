@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.activities;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,21 +22,21 @@ import android.widget.LinearLayout;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.model.ChatMessage;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.loklak.android.tools.JsonIO;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import org.fossasia.susi.ai.rest.ClientBuilder;
+import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String TAG = MainActivity.class.getName();
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
@@ -50,12 +49,9 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton btnSend;
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
-
+    RealmResults<ChatMessage> chatMessageDatabaseList;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-
-    public static String TAG = MainActivity.class.getName();
-    RealmResults<ChatMessage> chatMessageDatabaseList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +102,41 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void computeOtherMessage(final String query) {
-        new AskSusi().execute(query);
+        if (isNetworkConnected()) {
+            ClientBuilder.getSusiService().getSusiResponse(query).enqueue(new Callback<SusiResponse>() {
+                @Override
+                public void onResponse(Call<SusiResponse> call, Response<SusiResponse> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String answer;
+                        try {
+                            SusiResponse susiResponse = response.body();
+                            answer = susiResponse.getAnswers().get(0).getActions().get(0).getExpression();
+                        } catch (IndexOutOfBoundsException | NullPointerException e) {
+                            e.printStackTrace();
+                            answer = "An error occurred. please try again!";
+                        }
+                        addNewMessage(answer);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<SusiResponse> call, Throwable t) {
+                    t.printStackTrace();
+                    addNewMessage("An error occurred. please try again!");
+                }
+            });
+        } else {
+            Snackbar snackbar = Snackbar
+                    .make(coordinatorLayout, "Internet Connection Not Available!!", Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+    }
+
+    private void addNewMessage(String answer) {
+        ChatMessage chatMessage = new ChatMessage(answer, false, false);
+        updateDatabase(answer, false, false);
+        recyclerAdapter.addMessage(chatMessage, true);
     }
 
     private void updateDatabase(final String message, final boolean mine, final boolean image) {
@@ -193,43 +223,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private class AskSusi extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... query) {
-            String response = null;
-            if (isNetworkConnected()) {
-                try {
-                    JSONObject json = JsonIO.loadJson("http://api.asksusi.com/susi/chat.json?q=" + URLEncoder.encode(query[0], "UTF-8"));
-                    response = json.getJSONArray("answers").getJSONObject(0).getJSONArray("actions").getJSONObject(0).getString("expression");
-                } catch (JSONException | UnsupportedEncodingException e) {
-                    response = "error: " + e.getMessage();
-                }
-            }
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String response) {
-            if (response == null) {
-                Snackbar snackbar = Snackbar
-                        .make(coordinatorLayout, "Internet Connection Not Available!!", Snackbar.LENGTH_LONG);
-                snackbar.show();
-                return;
-            }
-            ChatMessage chatMessage = new ChatMessage(response, false, false);
-            updateDatabase(response, false, false);
-            recyclerAdapter.addMessage(chatMessage, true);
-        }
-
-        private boolean isNetworkConnected() {
-            ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            return cm.getActiveNetworkInfo() != null;
-        }
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 }
