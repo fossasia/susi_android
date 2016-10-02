@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
@@ -24,10 +23,10 @@ import io.realm.RealmResults;
 
 public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder> {
 
-    public static final int MY_MESSAGE = 0;
-    public static final int OTHER_MESSAGE = 1;
-    public static final int MY_IMAGE = 2;
-    public static final int OTHER_IMAGE = 3;
+    public static final int USER_MESSAGE = 0;
+    public static final int SUSI_MESSAGE = 1;
+    public static final int USER_IMAGE = 2;
+    public static final int SUSI_IMAGE = 3;
 
     private Context currContext;
     private RealmResults<ChatMessage> itemList;
@@ -78,21 +77,21 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view;
         switch (viewType) {
-            case MY_MESSAGE:
-                view = inflater.inflate(R.layout.item_mine_message, viewGroup, false);
-                return new ChatViewHolder(view, MY_MESSAGE);
-            case OTHER_MESSAGE:
-                view = inflater.inflate(R.layout.item_other_message, viewGroup, false);
-                return new ChatViewHolder(view, OTHER_MESSAGE);
-            case MY_IMAGE:
-                view = inflater.inflate(R.layout.item_mine_image, viewGroup, false);
-                return new ChatViewHolder(view, MY_IMAGE);
-            case OTHER_IMAGE:
-                view = inflater.inflate(R.layout.item_other_image, viewGroup, false);
-                return new ChatViewHolder(view, OTHER_IMAGE);
+            case USER_MESSAGE:
+                view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
+                return new ChatViewHolder(view, USER_MESSAGE);
+            case SUSI_MESSAGE:
+                view = inflater.inflate(R.layout.item_susi_message, viewGroup, false);
+                return new ChatViewHolder(view, SUSI_MESSAGE);
+            case USER_IMAGE:
+                view = inflater.inflate(R.layout.item_user_image, viewGroup, false);
+                return new ChatViewHolder(view, USER_IMAGE);
+            case SUSI_IMAGE:
+                view = inflater.inflate(R.layout.item_susi_image, viewGroup, false);
+                return new ChatViewHolder(view, SUSI_IMAGE);
             default:
-                view = inflater.inflate(R.layout.item_mine_message, viewGroup, false);
-                return new ChatViewHolder(view, MY_MESSAGE);
+                view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
+                return new ChatViewHolder(view, USER_MESSAGE);
         }
 
     }
@@ -101,10 +100,10 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
     public int getItemViewType(int position) {
         ChatMessage item = itemList.get(position);
 
-        if (item.isMine() && !item.isImage()) return MY_MESSAGE;
-        else if (!item.isMine() && !item.isImage()) return OTHER_MESSAGE;
-        else if (item.isMine() && item.isImage()) return MY_IMAGE;
-        else return OTHER_IMAGE;
+        if (item.isMine() && !item.isImage()) return USER_MESSAGE;
+        else if (!item.isMine() && !item.isImage()) return SUSI_MESSAGE;
+        else if (item.isMine() && item.isImage()) return USER_IMAGE;
+        else return SUSI_IMAGE;
     }
 
     @Override
@@ -118,16 +117,16 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
         if (model != null) {
             try {
                 switch (getItemViewType(position)) {
-                    case MY_MESSAGE:
+                    case USER_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         break;
-                    case OTHER_MESSAGE:
+                    case SUSI_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         break;
-                    case MY_IMAGE:
-                    case OTHER_IMAGE:
+                    case USER_IMAGE:
+                    case SUSI_IMAGE:
                     default:
                 }
             } catch (Exception e) {
@@ -139,27 +138,6 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
     @Override
     public int getItemCount() {
         return itemList.size();
-    }
-
-    class clickHandler implements View.OnClickListener {
-
-        int position;
-        ChatMessage ChatMessage;
-
-        public clickHandler(int position, ChatMessage ChatMessage) {
-            this.ChatMessage = ChatMessage;
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            switch (id) {
-                default:
-                    Toast.makeText(currContext, "onClick", Toast.LENGTH_LONG).show();
-                    break;
-            }
-        }
     }
 
 }

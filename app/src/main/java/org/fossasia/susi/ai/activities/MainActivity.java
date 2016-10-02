@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.fossasia.susi.ai.R;
@@ -41,8 +40,6 @@ public class MainActivity extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
     RecyclerView rvChatFeed;
-    @BindView(R.id.iv_image)
-    ImageView ivImage;
     @BindView(R.id.et_message)
     EditText etMessage;
     @BindView(R.id.btn_send)
@@ -63,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
+
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setIcon(R.drawable.susi);
 
         setupAdapter();
     }
@@ -163,32 +164,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//	private void sendMessage() {
-//		ChatMessage chatMessage = new ChatMessage(null, true, true);
-//		recyclerAdapter.addMessage(chatMessage, true);
-//		computeOtherMessage();
-//	}
-
-//	private void computeOtherMessage() {
-//		ChatMessage chatMessage = new ChatMessage(null, false, true);
-//		recyclerAdapter.addMessage(chatMessage, true);
-//	}
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+//      TODO: Create Preference Pane and Enable Options Menu
+        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -199,20 +185,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //etMessage.requestFocus();
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
     }
 
-    //	TODO Removed OnClick for Image for now
-//	@OnClick({R.id.iv_image, R.id.btn_send})
     @OnClick(R.id.btn_send)
     public void onClick(View view) {
         switch (view.getId()) {
-//			case R.id.iv_image:
-//				sendMessage();
-//				break;
             case R.id.btn_send:
                 String message = etMessage.getText().toString();
                 message = message.trim();
