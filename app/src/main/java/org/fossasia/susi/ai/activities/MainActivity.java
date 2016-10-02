@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setStackFromEnd(true);
         rvChatFeed.setLayoutManager(linearLayoutManager);
         rvChatFeed.setHasFixedSize(true);
 
