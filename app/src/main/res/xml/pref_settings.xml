@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_title">
+
+    <SwitchPreference
+        android:title="@string/settings_enterPreference_label"
+        android:summaryOff="@string/settings_enterPreference_summaryOff"
+        android:summaryOn="@string/settings_enterPreference_summaryOn"
+        android:id="@+id/enter_key_pref"
+        android:defaultValue="false"
+        android:key="@string/settings_enterPreference_key"/>
+</PreferenceScreen>
