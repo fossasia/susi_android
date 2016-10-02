@@ -9,10 +9,10 @@ import org.fossasia.susi.ai.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_IMAGE;
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.MY_MESSAGE;
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.OTHER_IMAGE;
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.OTHER_MESSAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.USER_IMAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.USER_MESSAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
+import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.SUSI_MESSAGE;
 
 /**
  * Created by
@@ -30,12 +30,12 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         super(view);
         ButterKnife.bind(this, view);
         switch (myMessage) {
-            case MY_MESSAGE:
+            case USER_MESSAGE:
                 break;
-            case OTHER_MESSAGE:
+            case SUSI_MESSAGE:
                 break;
-            case MY_IMAGE:
-            case OTHER_IMAGE:
+            case USER_IMAGE:
+            case SUSI_IMAGE:
             default:
         }
 
