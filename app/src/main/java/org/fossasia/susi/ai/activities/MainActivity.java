@@ -107,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         else{
             etMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
             etMessage.setSingleLine(false);
+            etMessage.setMaxLines(4);
+            etMessage.setVerticalScrollBarEnabled(true);
         }
     }
 
