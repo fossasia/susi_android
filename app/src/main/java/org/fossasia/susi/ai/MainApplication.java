@@ -17,8 +17,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // The Realm file will be located in Context.getFilesDir() with name "default.realm"
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().build();
+        RealmConfiguration config = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(config);
     }
 }
