@@ -10,7 +10,7 @@ if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_REPO_SLUG" != "fossasia/susi_
 fi
 
 git clone --quiet --branch=apk https://the-dagger:$GITHUB_API_KEY@github.com/fossasia/susi_android apk > /dev/null
-cp /home/travis/build/fossasia/susi_android/app/build/outputs/apk/android-debug.apk apk/susi.apk
+cp /home/travis/build/fossasia/susi_android/app/build/outputs/apk/app-debug.apk apk/susi.apk
 cd apk
 git add susi.apk
 git commit -m "[Travis CI] Update Susi Test Apk"
