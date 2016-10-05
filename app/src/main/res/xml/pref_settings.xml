@@ -3,11 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
 
-    <SwitchPreference
-        android:title="@string/settings_enterPreference_label"
-        android:summaryOff="@string/settings_enterPreference_summaryOff"
-        android:summaryOn="@string/settings_enterPreference_summaryOn"
+    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
         android:id="@+id/enter_key_pref"
         android:defaultValue="false"
-        android:key="@string/settings_enterPreference_key"/>
+        android:key="@string/settings_enterPreference_key"
+        android:summaryOff="@string/settings_enterPreference_summaryOff"
+        android:summaryOn="@string/settings_enterPreference_summaryOn"
+        android:title="@string/settings_enterPreference_label" />
 </PreferenceScreen>
