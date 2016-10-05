@@ -54,13 +54,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
-    private ChatFeedRecyclerAdapter recyclerAdapter;
-    private Realm realm;
-
     /**
      *  Preference for using Enter Key as send
      */
     SharedPreferences Enter_pref;
+    private ChatFeedRecyclerAdapter recyclerAdapter;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,9 +140,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
-        ChatMessage chatMessage = new ChatMessage(query, true, false);
         updateDatabase(query, true, false);
-        recyclerAdapter.addMessage(chatMessage, true);
         computeOtherMessage(query);
     }
 
@@ -180,9 +177,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNewMessage(String answer) {
-        ChatMessage chatMessage = new ChatMessage(answer, false, false);
         updateDatabase(answer, false, false);
-        recyclerAdapter.addMessage(chatMessage, true);
     }
 
     private void updateDatabase(final String message, final boolean mine, final boolean image) {
