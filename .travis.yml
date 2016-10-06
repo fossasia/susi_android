@@ -35,6 +35,7 @@ script:
   - android-wait-for-emulator
   - adb shell setprop dalvik.vm.dexopt-flags v=n,o=v
   - ./gradlew connectedCheck
+  - ./gradlew assembleRelease
 
 notifications:
   webhooks:
