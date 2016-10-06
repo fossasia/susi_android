@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
@@ -54,13 +55,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
-    private ChatFeedRecyclerAdapter recyclerAdapter;
-    private Realm realm;
-
     /**
-     *  Preference for using Enter Key as send
+     * Preference for using Enter Key as send
      */
     SharedPreferences Enter_pref;
+    private ChatFeedRecyclerAdapter recyclerAdapter;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,14 +97,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void checkEnterKeyPref(){
+    private void checkEnterKeyPref() {
         Enter_pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Boolean check = Enter_pref.getBoolean("Enter_send", false);
-        if (check){
+        if (check) {
             etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
             etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
-        }
-        else{
+        } else {
             etMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
             etMessage.setSingleLine(false);
             etMessage.setMaxLines(4);
@@ -141,9 +140,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
-        ChatMessage chatMessage = new ChatMessage(query, true, false);
-        updateDatabase(query, true, false);
-        recyclerAdapter.addMessage(chatMessage, true);
+        ChatMessage chatMessage = new ChatMessage(query, true, false, DateTimeHelper.getCurrentTime());
+        updateDatabase(query, true, false, DateTimeHelper.getCurrentTime());
         computeOtherMessage(query);
     }
 
@@ -180,12 +178,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNewMessage(String answer) {
-        ChatMessage chatMessage = new ChatMessage(answer, false, false);
-        updateDatabase(answer, false, false);
-        recyclerAdapter.addMessage(chatMessage, true);
+        ChatMessage chatMessage = new ChatMessage(answer, false, false, DateTimeHelper.getCurrentTime());
+        updateDatabase(answer, false, false, DateTimeHelper.getCurrentTime());
     }
 
-    private void updateDatabase(final String message, final boolean mine, final boolean image) {
+    private void updateDatabase(final String message, final boolean mine, final boolean image, final String timeStamp) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -193,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setContent(message);
                 chatMessage.setIsMine(mine);
                 chatMessage.setIsImage(image);
+                chatMessage.setTimeStamp(timeStamp);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
