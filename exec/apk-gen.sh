@@ -11,7 +11,7 @@ fi
 
 git clone --quiet --branch=apk https://the-dagger:$GITHUB_API_KEY@github.com/fossasia/susi_android apk > /dev/null
 cp /home/travis/build/fossasia/susi_android/app/build/outputs/apk/app-debug.apk apk/susi-debug.apk
-cp /home/travis/build/fossasia/susi_android/app/build/outputs/apk/app-release.apk apk/susi-release.apk
+cp /home/travis/build/fossasia/susi_android/app/build/outputs/apk/app-release-unsigned.apk apk/susi-release.apk
 cd apk
 git add .
 git commit -m "[Travis CI] Update Susi Apk"
