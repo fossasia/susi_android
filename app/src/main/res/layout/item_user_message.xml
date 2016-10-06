@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chatMessageView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,13 +19,34 @@
     app:cmv_cornerRadius="15dp"
     app:cmv_showArrow="false">
 
-    <TextView
-        android:id="@+id/text"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:text="Hello"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/md_white_1000"
-        android:textSize="16sp" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:autoLink="web"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/md_white_1000"
+            android:textSize="16sp"
+            tools:text="Hello!" />
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:gravity="bottom|end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/md_blue_grey_50"
+            android:textSize="12sp"
+            tools:text="05:32" />
+
+    </LinearLayout>
+
 </me.himanshusoni.chatmessageview.ChatMessageView>
