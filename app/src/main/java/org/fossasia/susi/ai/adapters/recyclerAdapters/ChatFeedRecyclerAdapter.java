@@ -110,11 +110,15 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
                 switch (getItemViewType(position)) {
                     case USER_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
+                        chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        chatViewHolder.timeStamp.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
+                        chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        chatViewHolder.timeStamp.setTag(chatViewHolder);
                         break;
                     case USER_IMAGE:
                     case SUSI_IMAGE:
