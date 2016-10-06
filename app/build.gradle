@@ -48,4 +48,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
+    //preference UI
+    compile 'com.takisoft.fix:preference-v7:24.2.1.0'
+
 }

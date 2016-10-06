@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.activities;
 
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.fossasia.susi.ai.R;
 
@@ -16,11 +16,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
-    public static class ChatSettingsFragment extends PreferenceFragment{
+    public static class ChatSettingsFragment extends PreferenceFragmentCompat {
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.pref_settings);
         }
     }
