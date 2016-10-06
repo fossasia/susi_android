@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
-        ChatMessage chatMessage = new ChatMessage(query, true, false, DateTimeHelper.getCurrentTime());
         updateDatabase(query, true, false, DateTimeHelper.getCurrentTime());
         computeOtherMessage(query);
     }
