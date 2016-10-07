@@ -8,17 +8,26 @@ import io.realm.RealmObject;
 public class ChatMessage extends RealmObject {
     private long id;
     private boolean isImage, isMine;
-    private String content;
+    private String content, timeStamp;
 
     public ChatMessage() {
 
     }
 
-    public ChatMessage(long id, String message, boolean mine, boolean image) {
+    public ChatMessage(long id, String content, boolean isMine, boolean isImage, String timeStamp) {
         this.id = id;
-        content = message;
-        isMine = mine;
-        isImage = image;
+        this.isImage = isImage;
+        this.isMine = isMine;
+        this.content = content;
+        this.timeStamp = timeStamp;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public String getContent() {

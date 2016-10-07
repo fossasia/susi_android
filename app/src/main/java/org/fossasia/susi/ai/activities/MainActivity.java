@@ -31,7 +31,7 @@ import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
-import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
+import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
@@ -60,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
-    private ChatFeedRecyclerAdapter recyclerAdapter;
-    private Realm realm;
+
     private SearchView searchView;
     private Menu menu;
     private int pointer;
@@ -72,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
      * Preference for using Enter Key as send
      */
     SharedPreferences Enter_pref;
+    private ChatFeedRecyclerAdapter recyclerAdapter;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,9 +159,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        ChatMessage chatMessage = new ChatMessage(id, query, true, false);
-        updateDatabase(id, query, true, false);
-        recyclerAdapter.addMessage(chatMessage, true);
+        updateDatabase(id, query, true, false, DateTimeHelper.getCurrentTime());
         computeOtherMessage(query);
     }
 
@@ -204,12 +203,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        ChatMessage chatMessage = new ChatMessage(id, answer, false, false);
         updateDatabase(id, answer, false, false);
-        recyclerAdapter.addMessage(chatMessage, true);
     }
 
-    private void updateDatabase(final long id, final String message, final boolean mine, final boolean image) {
+    private void updateDatabase(final long id, final String answer, final boolean mine, final boolean image) {
+        updateDatabase(id, answer, false, false, DateTimeHelper.getCurrentTime());
+    }
+
+    private void updateDatabase(final long id, final String message, final boolean mine, final boolean image, final String timeStamp) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setContent(message);
                 chatMessage.setIsMine(mine);
                 chatMessage.setIsImage(image);
+                chatMessage.setTimeStamp(timeStamp);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override

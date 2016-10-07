@@ -42,6 +42,15 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
         this.itemList = itemList;
         this.currContext = curr_context;
         this.activity = activity;
+        itemList.addChangeListener(new RealmChangeListener<RealmResults<ChatMessage>>() {
+            @Override
+            public void onChange(RealmResults<ChatMessage> element) {
+                notifyItemInserted(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
+                if (recyclerView != null) {
+                    recyclerView.smoothScrollToPosition(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
+                }
+            }
+        });
     }
 
     @Override
@@ -56,24 +65,6 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
         this.recyclerView = null;
     }
 
-    public void addMessage(final ChatMessage chatMessage, final boolean shouldScrollToBottom) {
-        if (itemList == null) {
-        }
-        itemList.addChangeListener(new RealmChangeListener<RealmResults<ChatMessage>>() {
-            @Override
-            public void onChange(RealmResults<ChatMessage> element) {
-                notifyItemInserted(itemList.size() - 1);
-                if (recyclerView != null && shouldScrollToBottom) {
-                    recyclerView.smoothScrollToPosition(itemList.size() - 1);
-                }
-            }
-        });
-
-    }
-
-    public void addMessage(ChatMessage chatMessage) {
-        addMessage(chatMessage, false);
-    }
 
     @Override
     public ChatViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -114,7 +105,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
     public void onBindViewHolder(ChatViewHolder holder, int position) {
         handleItemEvents(holder, position);
         if(highlightMessagePosition == position){
-            holder.itemView.setBackgroundColor(Color.BLACK);
+            holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
         }else{
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
@@ -128,11 +119,15 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
                 switch (getItemViewType(position)) {
                     case USER_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
+                        chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        chatViewHolder.timeStamp.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
+                        chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        chatViewHolder.timeStamp.setTag(chatViewHolder);
                         break;
                     case USER_IMAGE:
                     case SUSI_IMAGE:
