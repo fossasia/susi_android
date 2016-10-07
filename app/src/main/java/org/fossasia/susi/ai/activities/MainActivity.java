@@ -3,15 +3,18 @@ package org.fossasia.susi.ai.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -24,6 +27,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
@@ -35,6 +39,7 @@ import org.fossasia.susi.ai.rest.model.SusiResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit2.Call;
@@ -55,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
+
+    private SearchView searchView;
+    private Menu menu;
+    private int pointer;
+    private RealmResults<ChatMessage> results;
+    private int offset = 1;
+
     /**
      * Preference for using Enter Key as send
      */
@@ -140,7 +152,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
-        updateDatabase(query, true, false, DateTimeHelper.getCurrentTime());
+        Number temp = realm.where(ChatMessage.class).max("id");
+        long id;
+        if (temp == null) {
+            id = 0;
+        } else {
+            id = (long) temp + 1;
+        }
+        updateDatabase(id, query, true, false, DateTimeHelper.getCurrentTime());
         computeOtherMessage(query);
     }
 
@@ -177,14 +196,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addNewMessage(String answer) {
-        updateDatabase(answer, false, false, DateTimeHelper.getCurrentTime());
+        Number temp = realm.where(ChatMessage.class).max("id");
+        long id;
+        if (temp == null) {
+            id = 0;
+        } else {
+            id = (long) temp + 1;
+        }
+        updateDatabase(id, answer, false, false);
     }
 
-    private void updateDatabase(final String message, final boolean mine, final boolean image, final String timeStamp) {
+    private void updateDatabase(final long id, final String answer, final boolean mine, final boolean image) {
+        updateDatabase(id, answer, false, false, DateTimeHelper.getCurrentTime());
+    }
+
+    private void updateDatabase(final long id, final String message, final boolean mine, final boolean image, final String timeStamp) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
                 ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class);
+                chatMessage.setId(id);
                 chatMessage.setContent(message);
                 chatMessage.setIsMine(mine);
                 chatMessage.setIsImage(image);
@@ -205,20 +236,99 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
 //      TODO: Create Preference Pane and Enable Options Menu
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifyMenu(true);
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                modifyMenu(false);
+                return false;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //// Handle Search Query
+                results = realm.where(ChatMessage.class).contains("content", query, Case.INSENSITIVE).findAll();
+                offset = 1;
+                Log.d(TAG, String.valueOf(results.size()));
+                if (results.size() > 0) {
+                    pointer = (int) results.get(results.size() - offset).getId();
+                    searchMovement(pointer);
+                } else {
+                    Toast.makeText(MainActivity.this, "Not Found", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
+    }
+
+    private void searchMovement(int position) {
+        rvChatFeed.scrollToPosition(position);
+        recyclerAdapter.highlightMessagePosition = position;
+        recyclerAdapter.notifyDataSetChanged();
+    }
+
+    private void modifyMenu(boolean show) {
+        menu.findItem(R.id.up_angle).setVisible(show);
+        menu.findItem(R.id.down_angle).setVisible(show);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchView.isIconified()) {
+            modifyMenu(false);
+            recyclerAdapter.highlightMessagePosition = -1;
+            recyclerAdapter.notifyDataSetChanged();
+            searchView.onActionViewCollapsed();
+            offset = 1;
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(this, SettingsActivity.class);
-            startActivity(i);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
+                return true;
+            case R.id.up_angle:
+                offset++;
+                if (results.size() - offset > -1) {
+                    pointer = (int) results.get(results.size() - offset).getId();
+                    searchMovement(pointer);
+                } else {
+                    Toast.makeText(this, "Nothing Up that matches your Query", Toast.LENGTH_SHORT).show();
+                    offset--;
+                }
+                break;
+            case R.id.down_angle:
+                offset--;
+                if (results.size() - offset < results.size()) {
+                    pointer = (int) results.get(results.size() - offset).getId();
+                    searchMovement(pointer);
+                } else {
+                    Toast.makeText(this, "Nothing Down that matches your Query", Toast.LENGTH_SHORT).show();
+                    offset++;
+                }
+                break;
         }
 
         return super.onOptionsItemSelected(item);
