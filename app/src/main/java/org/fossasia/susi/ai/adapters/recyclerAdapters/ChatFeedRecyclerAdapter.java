@@ -2,10 +2,12 @@ package org.fossasia.susi.ai.adapters.recyclerAdapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
@@ -27,6 +29,8 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
     public static final int SUSI_MESSAGE = 1;
     public static final int USER_IMAGE = 2;
     public static final int SUSI_IMAGE = 3;
+
+    public int highlightMessagePosition = -1;
 
     private Context currContext;
     private RealmResults<ChatMessage> itemList;
@@ -100,6 +104,11 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<ChatViewHolder
     @Override
     public void onBindViewHolder(ChatViewHolder holder, int position) {
         handleItemEvents(holder, position);
+        if(highlightMessagePosition == position){
+            holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
+        }else{
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {

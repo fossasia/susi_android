@@ -6,6 +6,7 @@ import io.realm.RealmObject;
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
+    private long id;
     private boolean isImage, isMine;
     private String content, timeStamp;
 
@@ -13,7 +14,8 @@ public class ChatMessage extends RealmObject {
 
     }
 
-    public ChatMessage(String content, boolean isMine, boolean isImage, String timeStamp) {
+    public ChatMessage(long id, String content, boolean isMine, boolean isImage, String timeStamp) {
+        this.id = id;
         this.isImage = isImage;
         this.isMine = isMine;
         this.content = content;
@@ -34,6 +36,14 @@ public class ChatMessage extends RealmObject {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public boolean isMine() {
