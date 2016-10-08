@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,9 @@ import org.fossasia.susi.ai.adapters.viewHolders.MapViewHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -38,6 +45,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static final int MAP = 4;
 
     public int highlightMessagePosition = -1;
+    public String query = "";
 
     private Context currContext;
     private RealmResults<ChatMessage> itemList;
@@ -139,12 +147,42 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        if(highlightMessagePosition==position)
+                        {
+                            String text = chatViewHolder.chatTextView.getText().toString();
+                            SpannableString modify = new SpannableString(text);
+                            Pattern pattern = Pattern.compile(query,Pattern.CASE_INSENSITIVE);
+                            Matcher matcher = pattern.matcher(modify);
+                            while(matcher.find())
+                            {
+                                int startIndex = matcher.start();
+                                int endIndex = matcher.end();
+                                modify.setSpan(new ForegroundColorSpan(Color.BLACK),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+                            chatViewHolder.chatTextView.setText(modify);
+
+                        }
                         chatViewHolder.timeStamp.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        if(highlightMessagePosition==position)
+                        {
+                            String text = chatViewHolder.chatTextView.getText().toString();
+                            SpannableString modify = new SpannableString(text);
+                            Pattern pattern = Pattern.compile(query,Pattern.CASE_INSENSITIVE);
+                            Matcher matcher = pattern.matcher(modify);
+                            while(matcher.find())
+                            {
+                                int startIndex = matcher.start();
+                                int endIndex = matcher.end();
+                                modify.setSpan(new ForegroundColorSpan(Color.BLACK),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            }
+                            chatViewHolder.chatTextView.setText(modify);
+
+                        }
                         chatViewHolder.timeStamp.setTag(chatViewHolder);
                         break;
                     case USER_IMAGE:
