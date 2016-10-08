@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -55,6 +54,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static String TAG = MainActivity.class.getName();
+    private final int REQ_CODE_SPEECH_INPUT = 100;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
@@ -66,23 +66,19 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
-
+    /**
+     * Preference for using Enter Key as send
+     */
+    SharedPreferences Enter_pref;
     private SearchView searchView;
     private Menu menu;
     private int pointer;
     private RealmResults<ChatMessage> results;
     private int offset = 1;
-
-    /**
-     * Preference for using Enter Key as send
-     */
-    SharedPreferences Enter_pref;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-
     private TextView txtSpeechInput;
     private ImageButton btnSpeak;
-    private final int REQ_CODE_SPEECH_INPUT = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        updateDatabase(id, query, true, false, DateTimeHelper.getCurrentTime());
+        updateDatabase(id, query, true, false, false, DateTimeHelper.getCurrentTime());
         computeOtherMessage(query);
     }
 
@@ -229,14 +225,20 @@ public class MainActivity extends AppCompatActivity {
                 public void onResponse(Call<SusiResponse> call, Response<SusiResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         String answer;
+                        boolean ismap;
                         try {
                             SusiResponse susiResponse = response.body();
                             answer = susiResponse.getAnswers().get(0).getActions().get(0).getExpression();
+                            String place = susiResponse.getAnswers().get(0).getData().get(0).getPlace();
+                            ismap = place != null && !place.isEmpty();
                         } catch (IndexOutOfBoundsException | NullPointerException e) {
                             e.printStackTrace();
                             answer = "An error occurred. please try again!";
+                            ismap = false;
                         }
-                        addNewMessage(answer);
+                        addNewMessage(answer, ismap);
+                    } else {
+                        addNewMessage("An error occurred. please try again!", false);
                     }
 
                 }
@@ -244,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<SusiResponse> call, Throwable t) {
                     t.printStackTrace();
-                    addNewMessage("An error occurred. please try again!");
+                    addNewMessage("An error occurred. please try again!", false);
                 }
             });
         } else {
@@ -254,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewMessage(String answer) {
+    private void addNewMessage(String answer, boolean isMap) {
         Number temp = realm.where(ChatMessage.class).max("id");
         long id;
         if (temp == null) {
@@ -262,14 +264,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        updateDatabase(id, answer, false, false);
+        updateDatabase(id, answer, false, false, isMap, DateTimeHelper.getCurrentTime());
     }
 
-    private void updateDatabase(final long id, final String answer, final boolean mine, final boolean image) {
-        updateDatabase(id, answer, false, false, DateTimeHelper.getCurrentTime());
-    }
-
-    private void updateDatabase(final long id, final String message, final boolean mine, final boolean image, final String timeStamp) {
+    private void updateDatabase(final long id, final String message, final boolean mine, final boolean image, final boolean isMap, final String timeStamp) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -279,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setIsMine(mine);
                 chatMessage.setIsImage(image);
                 chatMessage.setTimeStamp(timeStamp);
+                chatMessage.setMap(isMap);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
