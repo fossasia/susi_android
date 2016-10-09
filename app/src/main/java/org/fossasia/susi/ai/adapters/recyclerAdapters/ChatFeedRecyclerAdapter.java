@@ -130,11 +130,11 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             handleItemEvents(mapViewHolder, position);
         }
-        if (highlightMessagePosition == position) {
+      /*  if (highlightMessagePosition == position) {
             holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-        }
+        }*/
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
