@@ -1,10 +1,15 @@
 package org.fossasia.susi.ai.adapters.viewHolders;
 
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.activities.MainActivity;
+import org.fossasia.susi.ai.model.ChatMessage;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +33,7 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.timestamp)
     public TextView timeStamp;
 
+
     public ChatViewHolder(View view, int myMessage) {
         super(view);
         ButterKnife.bind(this, view);
@@ -42,4 +48,5 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
         }
 
     }
+
 }
