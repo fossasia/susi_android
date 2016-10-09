@@ -317,10 +317,12 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 //// Handle Search Query
                 results = realm.where(ChatMessage.class).contains("content", query, Case.INSENSITIVE).findAll();
+                recyclerAdapter.query=query;
                 offset = 1;
                 Log.d(TAG, String.valueOf(results.size()));
                 if (results.size() > 0) {
                     pointer = (int) results.get(results.size() - offset).getId();
+                    Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
                     searchMovement(pointer);
                 } else {
                     Toast.makeText(MainActivity.this, "Not Found", Toast.LENGTH_SHORT).show();
@@ -371,6 +373,7 @@ public class MainActivity extends AppCompatActivity {
                 offset++;
                 if (results.size() - offset > -1) {
                     pointer = (int) results.get(results.size() - offset).getId();
+                    Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
                     searchMovement(pointer);
                 } else {
                     Toast.makeText(this, "Nothing Up that matches your Query", Toast.LENGTH_SHORT).show();
@@ -381,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 offset--;
                 if (results.size() - offset < results.size()) {
                     pointer = (int) results.get(results.size() - offset).getId();
+                    Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
                     searchMovement(pointer);
                 } else {
                     Toast.makeText(this, "Nothing Down that matches your Query", Toast.LENGTH_SHORT).show();
