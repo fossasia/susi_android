@@ -2,9 +2,16 @@ package org.fossasia.susi.ai.activities;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -12,12 +19,14 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -38,6 +47,7 @@ import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -55,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static String TAG = MainActivity.class.getName();
     private final int REQ_CODE_SPEECH_INPUT = 100;
+    private final int SELECT_PICTURE = 200;
+    private final int CROP_PICTURE = 400;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
@@ -79,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private Realm realm;
     private TextView txtSpeechInput;
     private ImageButton btnSpeak;
+    private SharedPreferences shre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +145,43 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             }
+            case CROP_PICTURE: {
+                if (resultCode == RESULT_OK && null != data) {
+                    try {
+                        Bundle extras = data.getExtras();
+                        Bitmap thePic = extras.getParcelable("data");
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        thePic.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] b = baos.toByteArray();
+                        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                        //SharePreference to store image
+                        shre = PreferenceManager.getDefaultSharedPreferences(this);
+                        SharedPreferences.Editor edit = shre.edit();
+                        edit.putString("image_data", encodedImage);
+                        edit.apply();
+                        //set gallery image
+                        setChatBackground();
+                    }catch(NullPointerException e)
+                    {
+                        System.out.print("NullPointerException caught");
+                    }
+                }
+                break;
+            }
+            case SELECT_PICTURE: {
+                if (resultCode == RESULT_OK && null != data) {
+                    Uri selectedImageUri = data.getData();
+                    try {
+                        cropCapturedImage(selectedImageUri);
+                    } catch (ActivityNotFoundException aNFE) {
+                        //display an error message if user device doesn't support
+                        String errorMessage = "Sorry - your device doesn't support the crop action!";
+                        Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    break;
+                }
+            }
 
         }
     }
@@ -162,6 +212,73 @@ public class MainActivity extends AppCompatActivity {
                 return handled;
             }
         });
+        setChatBackground();
+    }
+    protected void chatBackgroundActivity(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("Complete Action Using");
+        builder.setItems(new CharSequence[]
+                        {"1. Gallery", "2. No Wallpaper", "3. Default"},
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        shre = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+                        switch (which) {
+                            case 0:
+                                Intent bgintent = new Intent();
+                                bgintent.setType("image/*");
+                                bgintent.setAction(Intent.ACTION_GET_CONTENT);
+                                startActivityForResult(bgintent.createChooser(bgintent,"Select background"), SELECT_PICTURE);
+                                break;
+                            case 1:
+                                SharedPreferences.Editor edit=shre.edit();
+                                edit.putString("image_data","no_wall");
+                                edit.apply();
+                                setChatBackground();
+                                break;
+                            case 2:
+                                SharedPreferences.Editor editor=shre.edit();
+                                editor.putString("image_data","default");
+                                editor.apply();
+                                setChatBackground();
+                                break;
+                        }
+                    }
+                });
+        builder.create().show();
+    }
+    public void cropCapturedImage(Uri picUri){
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+        cropIntent.setDataAndType(picUri, "image/*");
+        cropIntent.putExtra("crop", "true");
+        cropIntent.putExtra("aspectX", 1);
+        cropIntent.putExtra("aspectY", 1);
+        cropIntent.putExtra("outputX", 256);
+        cropIntent.putExtra("outputY", 256);
+        cropIntent.putExtra("return-data", true);
+        startActivityForResult(cropIntent, CROP_PICTURE);
+    }
+    public void setChatBackground(){
+        shre = PreferenceManager.getDefaultSharedPreferences(this);
+        String previouslyChatImage = shre.getString("image_data", "");
+        Drawable bg;
+        if(previouslyChatImage.equalsIgnoreCase("default")){
+            //set default layout
+            getWindow().setBackgroundDrawableResource(R.drawable.swirl_pattern);
+        }else if(previouslyChatImage.equalsIgnoreCase("no_wall")){
+            //set no wall
+            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#EFF2F6"));
+        }
+        else if( !previouslyChatImage.equalsIgnoreCase("") ){
+            byte[] b = Base64.decode(previouslyChatImage, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
+            bg =new BitmapDrawable(getResources(),bitmap);
+            //set Drable bitmap which taking from gallery
+            getWindow().setBackgroundDrawable(bg);
+        }
+        else {
+            //set defult layout when app launch first time
+            getWindow().setBackgroundDrawableResource(R.drawable.swirl_pattern);
+        }
     }
 
     private void checkEnterKeyPref() {
@@ -368,6 +485,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivity(i);
+                return true;
+            case R.id.wall_settings:
+                chatBackgroundActivity();
                 return true;
             case R.id.up_angle:
                 offset++;
