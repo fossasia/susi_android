@@ -74,5 +74,4 @@ public class TestMainActivity {
         onView(withId(R.id.wall_settings)).check(doesNotExist());
 
     }
-
 }
