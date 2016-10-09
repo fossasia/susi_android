@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -130,11 +131,11 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             handleItemEvents(mapViewHolder, position);
         }
-        if (highlightMessagePosition == position) {
+       /* if (highlightMessagePosition == position) {
             holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-        }
+        }*/
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
@@ -157,7 +158,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                             {
                                 int startIndex = matcher.start();
                                 int endIndex = matcher.end();
-                                modify.setSpan(new ForegroundColorSpan(Color.BLACK),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                             chatViewHolder.chatTextView.setText(modify);
 
@@ -178,7 +179,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                             {
                                 int startIndex = matcher.start();
                                 int endIndex = matcher.end();
-                                modify.setSpan(new ForegroundColorSpan(Color.BLACK),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                modify.setSpan(new ForegroundColorSpan(Color.parseColor("#2b3c4e")),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                             chatViewHolder.chatTextView.setText(modify);
 
