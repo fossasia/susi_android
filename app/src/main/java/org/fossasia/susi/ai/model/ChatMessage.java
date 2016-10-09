@@ -6,20 +6,29 @@ import io.realm.RealmObject;
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
+    private boolean isImage, isMine, isMap;
     private long id;
-    private boolean isImage, isMine;
     private String content, timeStamp;
 
     public ChatMessage() {
 
     }
 
-    public ChatMessage(long id, String content, boolean isMine, boolean isImage, String timeStamp) {
+    public ChatMessage(long id, String content, boolean isMine, boolean isImage, boolean isMap, String timeStamp) {
         this.id = id;
         this.isImage = isImage;
         this.isMine = isMine;
         this.content = content;
         this.timeStamp = timeStamp;
+        this.isMap = isMap;
+    }
+
+    public boolean isMap() {
+        return isMap;
+    }
+
+    public void setMap(boolean map) {
+        isMap = map;
     }
 
     public String getTimeStamp() {
@@ -38,12 +47,12 @@ public class ChatMessage extends RealmObject {
         this.content = content;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public boolean isMine() {
