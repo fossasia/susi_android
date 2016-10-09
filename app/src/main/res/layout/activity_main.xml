@@ -17,7 +17,8 @@
             android:id="@+id/rv_chat_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/send_message_layout"/>
+            android:layout_above="@+id/send_message_layout"
+            android:scrollbars="vertical"/>
 
         <LinearLayout
             android:id="@+id/send_message_layout"
