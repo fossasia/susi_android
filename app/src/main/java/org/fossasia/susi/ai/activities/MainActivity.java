@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -16,8 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -61,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvChatFeed;
     @BindView(R.id.et_message)
     EditText etMessage;
-    @BindView(R.id.btn_send)
-    FloatingActionButton btnSend;
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
@@ -77,8 +78,10 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-    private TextView txtSpeechInput;
-    private ImageButton btnSpeak;
+    private ImageButton btn;
+    private EditText edittext;
+    private String s;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,18 +89,58 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
 
-        btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
+        btn = (ImageButton) findViewById(R.id.btn);
+        edittext = (EditText) findViewById(R.id.et_message);
+        edittext.addTextChangedListener(watch);
+}
 
+    TextWatcher watch = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        btnSpeak.setOnClickListener(new View.OnClickListener() {
+        }
 
-            @Override
-            public void onClick(View v) {
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+         if(i2>0)
+         {
+             btn.setImageResource(R.drawable.ic_send_fab);
+             btn.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View view) {
+                     switch (view.getId()) {
+                         case R.id.btn:
+                             String message = etMessage.getText().toString();
+                             message = message.trim();
+                             if (!TextUtils.isEmpty(message)) {
+                                 sendMessage(message);
+                                 etMessage.setText("");
+                             }
+                             break;
+                     }
+                 }
+             });
+         }
+            else
+         {
+             btn.setImageResource(R.drawable.ic_mic_white_24dp);
+             btn.setOnClickListener(new View.OnClickListener() {
 
-                promptSpeechInput();
-            }
-        });
-    }
+                 @Override
+                 public void onClick(View v) {
+
+                     promptSpeechInput();
+                 }
+             });
+         }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
 
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -144,8 +187,8 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setIcon(R.drawable.susi);
 
-        setupAdapter();
-
+        setupAdapter();}
+        public void msg(){
         etMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -365,12 +408,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivity(i);
                 return true;
-            case R.id.up_angle:
-                offset++;
+
+                case R.id.up_angle:
+                    offset++;
                 if (results.size() - offset > -1) {
                     pointer = (int) results.get(results.size() - offset).getId();
                     Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
@@ -380,6 +425,7 @@ public class MainActivity extends AppCompatActivity {
                     offset--;
                 }
                 break;
+
             case R.id.down_angle:
                 offset--;
                 if (results.size() - offset < results.size()) {
@@ -406,19 +452,6 @@ public class MainActivity extends AppCompatActivity {
         checkEnterKeyPref();
     }
 
-    @OnClick(R.id.btn_send)
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_send:
-                String message = etMessage.getText().toString();
-                message = message.trim();
-                if (!TextUtils.isEmpty(message)) {
-                    sendMessage(message);
-                    etMessage.setText("");
-                }
-                break;
-        }
-    }
 
     @Override
     protected void onDestroy() {
