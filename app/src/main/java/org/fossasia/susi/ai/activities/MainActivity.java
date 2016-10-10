@@ -24,8 +24,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -73,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvChatFeed;
     @BindView(R.id.et_message)
     EditText etMessage;
-    @BindView(R.id.btn_send)
-    FloatingActionButton btnSend;
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-    private TextView txtSpeechInput;
-    private ImageButton btnSpeak;
+    private TextView edittext;
+    private ImageButton btn;
     private SharedPreferences shre;
 
     @Override
@@ -98,19 +98,58 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-
-        btnSpeak = (ImageButton) findViewById(R.id.btnSpeak);
-
-
-        btnSpeak.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                promptSpeechInput();
-            }
-        });
+        btn = (ImageButton) findViewById(R.id.btnSpeak);
+        edittext = (EditText) findViewById(R.id.et_message);
+        edittext.addTextChangedListener(watch);
     }
+
+    TextWatcher watch = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            if(i2>0)
+            {
+                btn.setImageResource(R.drawable.ic_send_fab);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        switch (view.getId()) {
+                            case R.id.btnSpeak:
+                                String message = etMessage.getText().toString();
+                                message = message.trim();
+                                if (!TextUtils.isEmpty(message)) {
+                                    sendMessage(message);
+                                    etMessage.setText("");
+                                }
+                                break;
+                        }
+                    }
+                });
+            }
+            else
+            {
+                btn.setImageResource(R.drawable.ic_mic_white_24dp);
+                btn.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        promptSpeechInput();
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+        }
+    };
+
 
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -526,19 +565,6 @@ public class MainActivity extends AppCompatActivity {
         checkEnterKeyPref();
     }
 
-    @OnClick(R.id.btn_send)
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_send:
-                String message = etMessage.getText().toString();
-                message = message.trim();
-                if (!TextUtils.isEmpty(message)) {
-                    sendMessage(message);
-                    etMessage.setText("");
-                }
-                break;
-        }
-    }
 
     @Override
     protected void onDestroy() {
