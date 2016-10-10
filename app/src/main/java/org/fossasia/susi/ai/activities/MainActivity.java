@@ -455,16 +455,14 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 //      TODO: Create Preference Pane and Enable Options Menu
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                modifyMenu(true);
-            }
-        });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 modifyMenu(false);
+                recyclerAdapter.highlightMessagePosition = -1;
+                recyclerAdapter.notifyDataSetChanged();
+                searchView.onActionViewCollapsed();
+                offset = 1;
                 return false;
             }
         });
@@ -477,6 +475,7 @@ public class MainActivity extends AppCompatActivity {
                 offset = 1;
                 Log.d(TAG, String.valueOf(results.size()));
                 if (results.size() > 0) {
+                    modifyMenu(true);
                     pointer = (int) results.get(results.size() - offset).getId();
                     Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
                     searchMovement(pointer);
@@ -488,6 +487,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if(TextUtils.isEmpty(newText))
+                {
+                    modifyMenu(false);
+                }
                 return false;
             }
         });
