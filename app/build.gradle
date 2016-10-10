@@ -51,4 +51,7 @@ dependencies {
     //preference UI
     compile 'com.takisoft.fix:preference-v7:24.2.1.0'
 
+    //Dagger 2
+    compile 'com.google.dagger:dagger:2.7'
+    apt 'com.google.dagger:dagger-compiler:2.7'
 }

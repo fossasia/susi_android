@@ -2,6 +2,12 @@ package org.fossasia.susi.ai;
 
 import android.app.Application;
 
+import org.fossasia.susi.ai.components.DaggerSusiComponent;
+import org.fossasia.susi.ai.components.SusiComponent;
+import org.fossasia.susi.ai.modules.StorageModule;
+
+import javax.inject.Inject;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -13,6 +19,9 @@ import io.realm.RealmConfiguration;
  */
 
 public class MainApplication extends Application {
+    SusiComponent susiComponent;
+    @Inject
+    Realm realm;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -20,5 +29,19 @@ public class MainApplication extends Application {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
+        susiComponent = DaggerSusiComponent.builder()
+                .storageModule(new StorageModule(this))
+                .build();
+        susiComponent.inject(this);
+    }
+
+    public SusiComponent getSusiComponent() {
+        return susiComponent;
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        realm.close();
     }
 }
