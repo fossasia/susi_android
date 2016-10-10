@@ -1,6 +1,10 @@
 package org.fossasia.susi.ai.helper;
 
+import android.text.format.DateFormat;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by
@@ -12,8 +16,12 @@ import java.util.Calendar;
 public class DateTimeHelper {
 
     public static String getCurrentTime() {
-        Calendar calendar = Calendar.getInstance();
-        return String.format("%02d", calendar.get(Calendar.HOUR)) + ":" +
-                String.format("%02d", calendar.get(Calendar.MINUTE));
+        String delegate = "hh:mm aaa";
+        return (String) DateFormat.format(delegate,Calendar.getInstance().getTime());
+    }
+
+    public static String getdate(){
+        SimpleDateFormat sdf = new SimpleDateFormat(" MMM dd yyyy");
+        return sdf.format(new Date());
     }
 }

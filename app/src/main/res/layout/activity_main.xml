@@ -11,13 +11,25 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".activities.MainActivity">
+<TextView
+    android:id="@+id/date"
+    android:layout_width="100dp"
+    android:layout_height="30dp"
+    android:background="@drawable/rounded_layout"
+    android:backgroundTint="@color/md_yellow_400"
+    android:layout_centerHorizontal="true"
+    android:hint="oct 4 , 2016"
+    android:gravity="center"
+    android:layout_marginTop="5dp"
+    />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_chat_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/send_message_layout"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical"
+            android:layout_marginTop="35dp"/>
 
         <LinearLayout
             android:id="@+id/send_message_layout"
