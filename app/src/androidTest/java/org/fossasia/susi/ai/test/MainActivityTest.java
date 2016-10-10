@@ -21,7 +21,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     MainActivity testMainActivity;
     CoordinatorLayout coordinatorLayout;
     EditText etMessage;
-    FloatingActionButton btnSend;
     LinearLayout sendMessageLayout;
 
     public MainActivityTest() {
@@ -34,7 +33,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
         testMainActivity = getActivity();
         etMessage = (EditText) testMainActivity.findViewById(R.id.et_message);
-        btnSend = (FloatingActionButton) testMainActivity.findViewById(R.id.btn_send);
         sendMessageLayout = (LinearLayout) testMainActivity.findViewById(R.id.send_message_layout);
         coordinatorLayout = (CoordinatorLayout) testMainActivity.findViewById(R.id.coordinator_layout);
     }
@@ -50,7 +48,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testPreconditions() throws Exception {
         assertNotNull("testMainActivity is null", testMainActivity);
         assertNotNull("etMessage is null", etMessage);
-        assertNotNull("btnSend is null", btnSend);
         assertNotNull("sendMessageLayout is null", sendMessageLayout);
         assertNotNull("coordinatorLayout is null", coordinatorLayout);
     }

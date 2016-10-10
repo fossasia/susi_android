@@ -48,16 +48,6 @@
                 android:imeOptions="actionSend"
                 android:hint="@string/send_msg_hint"/>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:clickable="true"
-                app:elevation="0dp"
-                app:backgroundTint="@color/colorPrimary"
-                app:fabSize="mini"
-                app:srcCompat="@drawable/ic_send_fab" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/btnSpeak"
