@@ -179,7 +179,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                             {
                                 int startIndex = matcher.start();
                                 int endIndex = matcher.end();
-                                modify.setSpan(new ForegroundColorSpan(Color.parseColor("#2b3c4e")),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                             chatViewHolder.chatTextView.setText(modify);
 
