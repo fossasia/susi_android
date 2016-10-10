@@ -13,10 +13,8 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -42,20 +40,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.fossasia.susi.ai.MainApplication;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
-import org.fossasia.susi.ai.rest.ClientBuilder;
+import org.fossasia.susi.ai.rest.SusiService;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -78,31 +78,23 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     RealmResults<ChatMessage> chatMessageDatabaseList;
+    @Inject
+    Realm realm;
+    @Inject
+    SharedPreferences preferences;
+    @Inject
+    SusiService service;
     /**
      * Preference for using Enter Key as send
      */
-    SharedPreferences Enter_pref;
     private SearchView searchView;
     private Menu menu;
     private int pointer;
     private RealmResults<ChatMessage> results;
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
-    private Realm realm;
     private TextView edittext;
     private ImageButton btn;
-    private SharedPreferences shre;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        init();
-        btn = (ImageButton) findViewById(R.id.btnSpeak);
-        edittext = (EditText) findViewById(R.id.et_message);
-        edittext.addTextChangedListener(watch);
-    }
-
     TextWatcher watch = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -150,6 +142,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        init();
+        btn = (ImageButton) findViewById(R.id.btnSpeak);
+        edittext = (EditText) findViewById(R.id.et_message);
+        edittext.addTextChangedListener(watch);
+    }
 
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -194,8 +195,7 @@ public class MainActivity extends AppCompatActivity {
                         byte[] b = baos.toByteArray();
                         String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
                         //SharePreference to store image
-                        shre = PreferenceManager.getDefaultSharedPreferences(this);
-                        SharedPreferences.Editor edit = shre.edit();
+                        SharedPreferences.Editor edit = preferences.edit();
                         edit.putString("image_data", encodedImage);
                         edit.apply();
                         //set gallery image
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void init() {
         ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
+        ((MainApplication) getApplication()).getSusiComponent().inject(this);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("");
@@ -260,7 +260,6 @@ public class MainActivity extends AppCompatActivity {
                         {"1. Gallery", "2. No Wallpaper", "3. Default"},
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        shre = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                         switch (which) {
                             case 0:
                                 Intent bgintent = new Intent();
@@ -269,13 +268,13 @@ public class MainActivity extends AppCompatActivity {
                                 startActivityForResult(bgintent.createChooser(bgintent,"Select background"), SELECT_PICTURE);
                                 break;
                             case 1:
-                                SharedPreferences.Editor edit=shre.edit();
+                                SharedPreferences.Editor edit = preferences.edit();
                                 edit.putString("image_data","no_wall");
                                 edit.apply();
                                 setChatBackground();
                                 break;
                             case 2:
-                                SharedPreferences.Editor editor=shre.edit();
+                                SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString("image_data","default");
                                 editor.apply();
                                 setChatBackground();
@@ -297,8 +296,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(cropIntent, CROP_PICTURE);
     }
     public void setChatBackground(){
-        shre = PreferenceManager.getDefaultSharedPreferences(this);
-        String previouslyChatImage = shre.getString("image_data", "");
+        String previouslyChatImage = preferences.getString("image_data", "");
         Drawable bg;
         if(previouslyChatImage.equalsIgnoreCase("default")){
             //set default layout
@@ -321,8 +319,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkEnterKeyPref() {
-        Enter_pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Boolean check = Enter_pref.getBoolean("Enter_send", false);
+        Boolean check = preferences.getBoolean("Enter_send", false);
         if (check) {
             etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
             etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -376,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void computeOtherMessage(final String query) {
         if (isNetworkConnected()) {
-            ClientBuilder.getSusiService().getSusiResponse(query).enqueue(new Callback<SusiResponse>() {
+            service.getSusiResponse(query).enqueue(new Callback<SusiResponse>() {
                 @Override
                 public void onResponse(Call<SusiResponse> call, Response<SusiResponse> response) {
                     if (response.isSuccessful() && response.body() != null) {
@@ -569,11 +566,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
 
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
