@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -45,6 +43,7 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
+import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
@@ -89,10 +88,7 @@ public class MainActivity extends AppCompatActivity {
     TextView dates;
 
     RealmResults<ChatMessage> chatMessageDatabaseList;
-    /**
-     * Preference for using Enter Key as send
-     */
-    SharedPreferences Enter_pref;
+
     private SearchView searchView;
     private Menu menu;
     private int pointer;
@@ -100,8 +96,6 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-    private SharedPreferences shre;
-    private DateTimeHelper date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,10 +188,7 @@ public class MainActivity extends AppCompatActivity {
                         byte[] b = baos.toByteArray();
                         String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
                         //SharePreference to store image
-                        shre = PreferenceManager.getDefaultSharedPreferences(this);
-                        SharedPreferences.Editor edit = shre.edit();
-                        edit.putString(Constant.IMAGE_DATA, encodedImage);
-                        edit.apply();
+                        PrefManager.putString(Constant.IMAGE_DATA, encodedImage);
                         //set gallery image
                         setChatBackground();
                     } catch (NullPointerException e) {
@@ -260,7 +251,6 @@ public class MainActivity extends AppCompatActivity {
         builder.setItems(R.array.dialog_complete_action_items,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        shre = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
                         switch (which) {
                             case 0:
                                 Intent bgintent = new Intent();
@@ -270,17 +260,13 @@ public class MainActivity extends AppCompatActivity {
                                         getString(R.string.select_background)), SELECT_PICTURE);
                                 break;
                             case 1:
-                                SharedPreferences.Editor edit = shre.edit();
-                                edit.putString(Constant.IMAGE_DATA,
+                                PrefManager.putString(Constant.IMAGE_DATA,
                                         getString(R.string.background_no_wall));
-                                edit.apply();
                                 setChatBackground();
                                 break;
                             case 2:
-                                SharedPreferences.Editor editor = shre.edit();
-                                editor.putString(Constant.IMAGE_DATA,
+                                PrefManager.putString(Constant.IMAGE_DATA,
                                         getString(R.string.background_default));
-                                editor.apply();
                                 setChatBackground();
                                 break;
                         }
@@ -302,8 +288,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setChatBackground() {
-        shre = PreferenceManager.getDefaultSharedPreferences(this);
-        String previouslyChatImage = shre.getString(Constant.IMAGE_DATA, "");
+        String previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "");
         Drawable bg;
         if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_default))) {
             //set default layout
@@ -325,8 +310,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkEnterKeyPref() {
-        Enter_pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Boolean check = Enter_pref.getBoolean(Constant.ENTER_SEND, false);
+        Boolean check = PrefManager.getBoolean(Constant.ENTER_SEND, false);
         if (check) {
             etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
             etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -547,8 +531,7 @@ public class MainActivity extends AppCompatActivity {
                 offset++;
                 if (results.size() - offset > -1) {
                     pointer = (int) results.get(results.size() - offset).getId();
-                    Log.d(TAG,
-                            results.get(results.size() - offset).getContent() + "  " +
+                    Log.d(TAG, results.get(results.size() - offset).getContent() + "  " +
                                     results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
@@ -560,8 +543,7 @@ public class MainActivity extends AppCompatActivity {
                 offset--;
                 if (results.size() - offset < results.size()) {
                     pointer = (int) results.get(results.size() - offset).getId();
-                    Log.d(TAG,
-                            results.get(results.size() - offset).getContent() + "  " +
+                    Log.d(TAG, results.get(results.size() - offset).getContent() + "  " +
                                     results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
