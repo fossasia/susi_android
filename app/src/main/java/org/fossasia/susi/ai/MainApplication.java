@@ -13,9 +13,17 @@ import io.realm.RealmConfiguration;
  */
 
 public class MainApplication extends Application {
+
+    private static MainApplication instance;
+
+    public static MainApplication getInstance() {
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        instance = this;
         // The Realm file will be located in Context.getFilesDir() with name "default.realm"
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
