@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-
+    Boolean mici;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if (i2 > 0) {
+            if (i2 > 0 || !mici) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -310,6 +310,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkEnterKeyPref() {
+        mici=PrefManager.getBoolean(Constant.MIC_INPUT,true);
+        if(mici) {
+            btnSpeak.setImageResource(R.drawable.ic_mic_white_24dp);
+            btnSpeak.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    promptSpeechInput();
+                }
+            });
+        }
+        else {
+            btnSpeak.setImageResource(R.drawable.ic_send_fab);
+            btnSpeak.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.btnSpeak:
+                            String message = etMessage.getText().toString();
+                            message = message.trim();
+                            if (!TextUtils.isEmpty(message)) {
+                                sendMessage(message);
+                                etMessage.setText("");
+                            }
+                            break;
+                    }
+                }
+            });
+        }
         Boolean check = PrefManager.getBoolean(Constant.ENTER_SEND, false);
         if (check) {
             etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
