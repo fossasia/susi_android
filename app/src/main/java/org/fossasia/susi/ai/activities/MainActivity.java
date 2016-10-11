@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -16,8 +15,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +43,7 @@ import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.ClientBuilder;
@@ -55,7 +55,6 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -66,17 +65,29 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static String TAG = MainActivity.class.getName();
+
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
+
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
+
     @BindView(R.id.rv_chat_feed)
     RecyclerView rvChatFeed;
+
     @BindView(R.id.et_message)
     EditText etMessage;
+
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
+
+    @BindView(R.id.btnSpeak)
+    ImageButton btnSpeak;
+
+    @BindView(R.id.date)
+    TextView dates;
+
     RealmResults<ChatMessage> chatMessageDatabaseList;
     /**
      * Preference for using Enter Key as send
@@ -89,22 +100,14 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-    private TextView edittext;
-    private ImageButton btn;
     private SharedPreferences shre;
     private DateTimeHelper date;
-    private TextView dates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        btn = (ImageButton) findViewById(R.id.btnSpeak);
-        edittext = (EditText) findViewById(R.id.et_message);
-        edittext.addTextChangedListener(watch);
-        dates = (TextView)findViewById(R.id.date);
-        dates.setText(date.getdate());
     }
 
     TextWatcher watch = new TextWatcher() {
@@ -115,10 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if(i2>0)
-            {
-                btn.setImageResource(R.drawable.ic_send_fab);
-                btn.setOnClickListener(new View.OnClickListener() {
+            if (i2 > 0) {
+                btnSpeak.setImageResource(R.drawable.ic_send_fab);
+                btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         switch (view.getId()) {
@@ -133,15 +135,12 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-            }
-            else
-            {
-                btn.setImageResource(R.drawable.ic_mic_white_24dp);
-                btn.setOnClickListener(new View.OnClickListener() {
+            } else {
+                btnSpeak.setImageResource(R.drawable.ic_mic_white_24dp);
+                btnSpeak.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
-
                         promptSpeechInput();
                     }
                 });
@@ -160,20 +159,17 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                getString(R.string.speech_prompt));
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
         try {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.speech_not_supported),
-                    Toast.LENGTH_SHORT).show();
+            showToast(getString(R.string.speech_not_supported));
         }
     }
 
     /**
      * Receiving speech input
-     * */
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -200,13 +196,12 @@ public class MainActivity extends AppCompatActivity {
                         //SharePreference to store image
                         shre = PreferenceManager.getDefaultSharedPreferences(this);
                         SharedPreferences.Editor edit = shre.edit();
-                        edit.putString("image_data", encodedImage);
+                        edit.putString(Constant.IMAGE_DATA, encodedImage);
                         edit.apply();
                         //set gallery image
                         setChatBackground();
-                    }catch(NullPointerException e)
-                    {
-                        System.out.print("NullPointerException caught");
+                    } catch (NullPointerException e) {
+                        Log.d(TAG, e.getLocalizedMessage());
                     }
                 }
                 break;
@@ -218,9 +213,7 @@ public class MainActivity extends AppCompatActivity {
                         cropCapturedImage(selectedImageUri);
                     } catch (ActivityNotFoundException aNFE) {
                         //display an error message if user device doesn't support
-                        String errorMessage = "Sorry - your device doesn't support the crop action!";
-                        Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-                        toast.show();
+                        showToast(getString(R.string.error_crop_not_supported));
                     }
                     break;
                 }
@@ -238,6 +231,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.drawable.susi);
 
         setupAdapter();
+
+        etMessage.addTextChangedListener(watch);
+        dates.setText(DateTimeHelper.getDate());
 
         etMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -257,11 +253,11 @@ public class MainActivity extends AppCompatActivity {
         });
         setChatBackground();
     }
-    protected void chatBackgroundActivity(){
+
+    protected void chatBackgroundActivity() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle("Complete Action Using");
-        builder.setItems(new CharSequence[]
-                        {"1. Gallery", "2. No Wallpaper", "3. Default"},
+        builder.setTitle(R.string.dialog_action_complete);
+        builder.setItems(R.array.dialog_complete_action_items,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         shre = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -270,17 +266,20 @@ public class MainActivity extends AppCompatActivity {
                                 Intent bgintent = new Intent();
                                 bgintent.setType("image/*");
                                 bgintent.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(bgintent.createChooser(bgintent,"Select background"), SELECT_PICTURE);
+                                startActivityForResult(Intent.createChooser(bgintent,
+                                        getString(R.string.select_background)), SELECT_PICTURE);
                                 break;
                             case 1:
-                                SharedPreferences.Editor edit=shre.edit();
-                                edit.putString("image_data","no_wall");
+                                SharedPreferences.Editor edit = shre.edit();
+                                edit.putString(Constant.IMAGE_DATA,
+                                        getString(R.string.background_no_wall));
                                 edit.apply();
                                 setChatBackground();
                                 break;
                             case 2:
-                                SharedPreferences.Editor editor=shre.edit();
-                                editor.putString("image_data","default");
+                                SharedPreferences.Editor editor = shre.edit();
+                                editor.putString(Constant.IMAGE_DATA,
+                                        getString(R.string.background_default));
                                 editor.apply();
                                 setChatBackground();
                                 break;
@@ -289,7 +288,8 @@ public class MainActivity extends AppCompatActivity {
                 });
         builder.create().show();
     }
-    public void cropCapturedImage(Uri picUri){
+
+    public void cropCapturedImage(Uri picUri) {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(picUri, "image/*");
         cropIntent.putExtra("crop", "true");
@@ -300,25 +300,25 @@ public class MainActivity extends AppCompatActivity {
         cropIntent.putExtra("return-data", true);
         startActivityForResult(cropIntent, CROP_PICTURE);
     }
-    public void setChatBackground(){
+
+    public void setChatBackground() {
         shre = PreferenceManager.getDefaultSharedPreferences(this);
-        String previouslyChatImage = shre.getString("image_data", "");
+        String previouslyChatImage = shre.getString(Constant.IMAGE_DATA, "");
         Drawable bg;
-        if(previouslyChatImage.equalsIgnoreCase("default")){
+        if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_default))) {
             //set default layout
             getWindow().setBackgroundDrawableResource(R.drawable.swirl_pattern);
-        }else if(previouslyChatImage.equalsIgnoreCase("no_wall")){
+        } else if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_no_wall))) {
             //set no wall
-            getWindow().getDecorView().setBackgroundColor(Color.parseColor("#EFF2F6"));
-        }
-        else if( !previouslyChatImage.equalsIgnoreCase("") ){
+            getWindow().getDecorView()
+                    .setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+        } else if (!previouslyChatImage.equalsIgnoreCase("")) {
             byte[] b = Base64.decode(previouslyChatImage, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
-            bg =new BitmapDrawable(getResources(),bitmap);
+            bg = new BitmapDrawable(getResources(), bitmap);
             //set Drable bitmap which taking from gallery
             getWindow().setBackgroundDrawable(bg);
-        }
-        else {
+        } else {
             //set defult layout when app launch first time
             getWindow().setBackgroundDrawableResource(R.drawable.swirl_pattern);
         }
@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkEnterKeyPref() {
         Enter_pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Boolean check = Enter_pref.getBoolean("Enter_send", false);
+        Boolean check = Enter_pref.getBoolean(Constant.ENTER_SEND, false);
         if (check) {
             etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
             etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -350,7 +350,8 @@ public class MainActivity extends AppCompatActivity {
         rvChatFeed.setAdapter(recyclerAdapter);
         rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
-            public void onLayoutChange(View view, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            public void onLayoutChange(View view, int left, int top, int right, int bottom,
+                    int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if (bottom < oldBottom) {
                     rvChatFeed.postDelayed(new Runnable() {
                         @Override
@@ -367,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
-        Number temp = realm.where(ChatMessage.class).max("id");
+        Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
             id = 0;
@@ -380,44 +381,48 @@ public class MainActivity extends AppCompatActivity {
 
     private void computeOtherMessage(final String query) {
         if (isNetworkConnected()) {
-            ClientBuilder.getSusiService().getSusiResponse(query).enqueue(new Callback<SusiResponse>() {
-                @Override
-                public void onResponse(Call<SusiResponse> call, Response<SusiResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        String answer;
-                        boolean ismap;
-                        try {
-                            SusiResponse susiResponse = response.body();
-                            answer = susiResponse.getAnswers().get(0).getActions().get(0).getExpression();
-                            String place = susiResponse.getAnswers().get(0).getData().get(0).getPlace();
-                            ismap = place != null && !place.isEmpty();
-                        } catch (IndexOutOfBoundsException | NullPointerException e) {
-                            e.printStackTrace();
-                            answer = "An error occurred. please try again!";
-                            ismap = false;
+            ClientBuilder.getSusiService().getSusiResponse(query).enqueue(
+                    new Callback<SusiResponse>() {
+                        @Override
+                        public void onResponse(Call<SusiResponse> call,
+                                Response<SusiResponse> response) {
+                            if (response.isSuccessful() && response.body() != null) {
+                                String answer;
+                                boolean ismap;
+                                try {
+                                    SusiResponse susiResponse = response.body();
+                                    answer = susiResponse.getAnswers().get(0).getActions()
+                                            .get(0).getExpression();
+                                    String place = susiResponse.getAnswers().get(0).getData()
+                                            .get(0).getPlace();
+                                    ismap = place != null && !place.isEmpty();
+                                } catch (IndexOutOfBoundsException | NullPointerException e) {
+                                    Log.d(TAG, e.getLocalizedMessage());
+                                    answer = getString(R.string.error_occurred_try_again);
+                                    ismap = false;
+                                }
+                                addNewMessage(answer, ismap);
+                            } else {
+                                addNewMessage(getString(R.string.error_occurred_try_again), false);
+                            }
+
                         }
-                        addNewMessage(answer, ismap);
-                    } else {
-                        addNewMessage("An error occurred. please try again!", false);
-                    }
 
-                }
-
-                @Override
-                public void onFailure(Call<SusiResponse> call, Throwable t) {
-                    t.printStackTrace();
-                    addNewMessage("An error occurred. please try again!", false);
-                }
-            });
+                        @Override
+                        public void onFailure(Call<SusiResponse> call, Throwable t) {
+                            Log.d(TAG, t.getLocalizedMessage());
+                            addNewMessage(getString(R.string.error_occurred_try_again), false);
+                        }
+                    });
         } else {
-            Snackbar snackbar = Snackbar
-                    .make(coordinatorLayout, "Internet Connection Not Available!!", Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                    getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
             snackbar.show();
         }
     }
 
     private void addNewMessage(String answer, boolean isMap) {
-        Number temp = realm.where(ChatMessage.class).max("id");
+        Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
             id = 0;
@@ -427,7 +432,8 @@ public class MainActivity extends AppCompatActivity {
         updateDatabase(id, answer, false, false, isMap, DateTimeHelper.getCurrentTime());
     }
 
-    private void updateDatabase(final long id, final String message, final boolean mine, final boolean image, final boolean isMap, final String timeStamp) {
+    private void updateDatabase(final long id, final String message, final boolean mine,
+            final boolean image, final boolean isMap, final String timeStamp) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -442,7 +448,7 @@ public class MainActivity extends AppCompatActivity {
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                Log.v(TAG, "update successful!");
+                Log.v(TAG, getString(R.string.updated_successfully));
             }
         }, new Realm.Transaction.OnError() {
             @Override
@@ -474,25 +480,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //// Handle Search Query
-                results = realm.where(ChatMessage.class).contains("content", query, Case.INSENSITIVE).findAll();
-                recyclerAdapter.query=query;
+                results = realm.where(ChatMessage.class).contains(getString(R.string.content),
+                        query, Case.INSENSITIVE).findAll();
+                recyclerAdapter.query = query;
                 offset = 1;
                 Log.d(TAG, String.valueOf(results.size()));
                 if (results.size() > 0) {
                     modifyMenu(true);
                     pointer = (int) results.get(results.size() - offset).getId();
-                    Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
+                    Log.d(TAG,
+                            results.get(results.size() - offset).getContent() + "  " +
+                                    results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
-                    Toast.makeText(MainActivity.this, "Not Found", Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.not_found));
                 }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if(TextUtils.isEmpty(newText))
-                {
+                if (TextUtils.isEmpty(newText)) {
                     modifyMenu(false);
                 }
                 return false;
@@ -539,10 +547,12 @@ public class MainActivity extends AppCompatActivity {
                 offset++;
                 if (results.size() - offset > -1) {
                     pointer = (int) results.get(results.size() - offset).getId();
-                    Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
+                    Log.d(TAG,
+                            results.get(results.size() - offset).getContent() + "  " +
+                                    results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
-                    Toast.makeText(this, "Nothing Up that matches your Query", Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.nothing_up_matches_your_query));
                     offset--;
                 }
                 break;
@@ -550,10 +560,12 @@ public class MainActivity extends AppCompatActivity {
                 offset--;
                 if (results.size() - offset < results.size()) {
                     pointer = (int) results.get(results.size() - offset).getId();
-                    Log.d(TAG,results.get(results.size()-offset).getContent()+"  "+results.get(results.size()-offset).getId());
+                    Log.d(TAG,
+                            results.get(results.size() - offset).getContent() + "  " +
+                                    results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
-                    Toast.makeText(this, "Nothing Down that matches your Query", Toast.LENGTH_SHORT).show();
+                    showToast(getString(R.string.nothing_down_matches_your_query));
                     offset++;
                 }
                 break;
@@ -568,7 +580,6 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
-
         checkEnterKeyPref();
     }
 
@@ -580,7 +591,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(
+                Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

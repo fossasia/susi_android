@@ -20,7 +20,7 @@ public class DateTimeHelper {
         return (String) DateFormat.format(delegate,Calendar.getInstance().getTime());
     }
 
-    public static String getdate(){
+    public static String getDate(){
         SimpleDateFormat sdf = new SimpleDateFormat(" MMM dd yyyy");
         return sdf.format(new Date());
     }
