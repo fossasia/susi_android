@@ -92,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView edittext;
     private ImageButton btn;
     private SharedPreferences shre;
+    private DateTimeHelper date;
+    private TextView dates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +103,8 @@ public class MainActivity extends AppCompatActivity {
         btn = (ImageButton) findViewById(R.id.btnSpeak);
         edittext = (EditText) findViewById(R.id.et_message);
         edittext.addTextChangedListener(watch);
+        dates = (TextView)findViewById(R.id.date);
+        dates.setText(date.getdate());
     }
 
     TextWatcher watch = new TextWatcher() {
