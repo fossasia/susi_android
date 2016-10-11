@@ -10,4 +10,12 @@
         android:summaryOff="@string/settings_enterPreference_summaryOff"
         android:summaryOn="@string/settings_enterPreference_summaryOn"
         android:title="@string/settings_enterPreference_label" />
+
+    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        android:id="@+id/mic_input"
+        android:defaultValue="true"
+        android:key="@string/setting_mic_key"
+        android:summaryOff="@string/setting_mic_off"
+        android:summaryOn="@string/setting_mic_on"
+        android:title="@string/setting_mic_input"/>
 </PreferenceScreen>
