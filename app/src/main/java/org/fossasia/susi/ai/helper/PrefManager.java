@@ -3,7 +3,11 @@ package org.fossasia.susi.ai.helper;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+
 import org.fossasia.susi.ai.MainApplication;
+import org.fossasia.susi.ai.rest.BaseUrl;
+import org.fossasia.susi.ai.rest.model.SusiBaseUrls;
 
 import java.util.Set;
 
@@ -11,6 +15,11 @@ import java.util.Set;
  * @author Rajan Maurya
  */
 public class PrefManager {
+
+    private static final String SUSI_BASE_URLS = "preferences_base_urls";
+    private static final String SUSI_RUNNING_BASE_URL = "preferences_running_base_url";
+
+    private static Gson gson = new Gson();
 
     private static SharedPreferences getPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(MainApplication.getInstance()
@@ -68,6 +77,39 @@ public class PrefManager {
     public static Set<String> getStringSet(String preferencesKey) {
         return getPreferences().getStringSet(preferencesKey, null);
     }
+
+    /**
+     * This method will give current susi running base url.
+     * @param runningBaseUrl Running Base ur;
+     */
+    public static void setSusiRunningBaseUrl(String runningBaseUrl) {
+        getPreferences().edit().putString(SUSI_RUNNING_BASE_URL, runningBaseUrl).apply();
+    }
+
+    /**
+     * This method for retrieving current Susi base url from SharedPreferences
+     * @return String Running Susi Base Url
+     */
+    public static String getSusiRunningBaseUrl(){
+        return getString(SUSI_RUNNING_BASE_URL, BaseUrl.SUSI_DEFAULT_BASE_URL);
+    }
+
+    /**
+     * This Method will save the Susi base urls that will be fetched from server.
+     * @param susiBaseUrls Susi All base urls
+     */
+    public static void saveBaseUrls(SusiBaseUrls susiBaseUrls) {
+        putString(SUSI_BASE_URLS, gson.toJson(susiBaseUrls));
+    }
+
+    /**
+     * This Method for retrieving All Susi base url from SharedPreferences
+     * @return SusiBaseUrls
+     */
+    public static SusiBaseUrls getBaseUrls() {
+        return gson.fromJson(getString(SUSI_BASE_URLS, "null"), SusiBaseUrls.class);
+    }
+
 }
 
 
