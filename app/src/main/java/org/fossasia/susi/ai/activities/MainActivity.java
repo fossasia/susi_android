@@ -33,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -116,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             if (i2 > 0 || !micCheck) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
+                if (searchView.getQuery().length() > 0)
+                    searchView.onActionViewCollapsed();
+                etMessage.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -366,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
         rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View view, int left, int top, int right, int bottom,
-                    int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if (bottom < oldBottom) {
                     rvChatFeed.postDelayed(new Runnable() {
                         @Override
@@ -400,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
                     new Callback<SusiResponse>() {
                         @Override
                         public void onResponse(Call<SusiResponse> call,
-                                Response<SusiResponse> response) {
+                                               Response<SusiResponse> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 String answer;
                                 boolean ismap;
@@ -448,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDatabase(final long id, final String message, final boolean mine,
-            final boolean image, final boolean isMap, final String timeStamp) {
+                                final boolean image, final boolean isMap, final String timeStamp) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -563,7 +569,7 @@ public class MainActivity extends AppCompatActivity {
                 if (results.size() - offset > -1) {
                     pointer = (int) results.get(results.size() - offset).getId();
                     Log.d(TAG, results.get(results.size() - offset).getContent() + "  " +
-                                    results.get(results.size() - offset).getId());
+                            results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
                     showToast(getString(R.string.nothing_up_matches_your_query));
@@ -575,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
                 if (results.size() - offset < results.size()) {
                     pointer = (int) results.get(results.size() - offset).getId();
                     Log.d(TAG, results.get(results.size() - offset).getContent() + "  " +
-                                    results.get(results.size() - offset).getId());
+                            results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
                     showToast(getString(R.string.nothing_down_matches_your_query));
