@@ -16,7 +16,7 @@
     android:layout_width="100dp"
     android:layout_height="30dp"
     android:background="@drawable/rounded_layout"
-    android:backgroundTint="@color/md_yellow_400"
+    android:backgroundTint="@color/md_cyan_100"
     android:layout_centerHorizontal="true"
     android:hint="oct 4 , 2016"
     android:gravity="center"

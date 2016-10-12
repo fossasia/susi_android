@@ -8,6 +8,7 @@ import org.fossasia.susi.ai.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.himanshusoni.chatmessageview.ChatMessageView;
 
 import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
 import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.SUSI_MESSAGE;
@@ -27,6 +28,9 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
     public TextView chatTextView;
     @BindView(R.id.timestamp)
     public TextView timeStamp;
+    @BindView(R.id.chatMessageView)
+    public ChatMessageView chatMessage;
+
 
     public ChatViewHolder(View view, int myMessage) {
         super(view);

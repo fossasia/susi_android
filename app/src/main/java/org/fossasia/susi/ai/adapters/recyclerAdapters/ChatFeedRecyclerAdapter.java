@@ -2,9 +2,14 @@ package org.fossasia.susi.ai.adapters.recyclerAdapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -14,10 +19,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewHolders.MapViewHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
@@ -29,6 +36,7 @@ import java.util.regex.Pattern;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
+import me.himanshusoni.chatmessageview.ChatMessageView;
 
 /**
  * Created by
@@ -53,8 +61,9 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
+    public MainActivity str;
 
-    public ChatFeedRecyclerAdapter(Activity activity, Context curr_context, RealmResults<ChatMessage> itemList) {
+    public ChatFeedRecyclerAdapter(Activity activity, final Context curr_context, final RealmResults<ChatMessage> itemList) {
         this.itemList = itemList;
         this.currContext = curr_context;
         this.activity = activity;
@@ -67,6 +76,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 }
             }
         });
+
     }
 
     @Override
@@ -139,7 +149,6 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
-
         final ChatMessage model = itemList.get(position);
         if (model != null) {
             try {
@@ -148,6 +157,36 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(final View view) {
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
+                                builder.setTitle("Message");
+                                builder.setItems(new CharSequence[]
+                                                {"1. Copy Text", "2. Delete"},
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                switch (which) {
+                                                    case 0:
+                                                        String str = chatViewHolder.chatTextView.getText().toString();
+                                                        setClipboard(currContext,str);
+
+                                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
+
+                                                        break;
+                                                    case 1:
+                                                        chatViewHolder.chatMessage.removeAllViews();
+                                                        break;
+
+                                                }
+                                            }
+                                        });
+                                builder.create().show();
+
+                                return false;
+                            }
+                        });
                         if(highlightMessagePosition==position)
                         {
                             String text = chatViewHolder.chatTextView.getText().toString();
@@ -169,6 +208,35 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(final View view) {
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
+                                builder.setTitle("Message");
+                                builder.setItems(new CharSequence[]
+                                                {"1. Copy Text", "2. Delete"},
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                switch (which) {
+                                                    case 0:
+                                                        String str = chatViewHolder.chatTextView.getText().toString();
+                                                        setClipboard(currContext,str);
+
+                                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
+                                                        break;
+                                                    case 1:
+                                                        chatViewHolder.chatMessage.removeAllViews();
+                                                        break;
+
+                                                }
+                                            }
+                                        });
+                                builder.create().show();
+
+                                return false;
+                            }
+                        });
                         if(highlightMessagePosition==position)
                         {
                             String text = chatViewHolder.chatTextView.getText().toString();
@@ -199,6 +267,34 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
 
         final ChatMessage model = itemList.get(position);
+        mapViewHolder.chatMessages.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
+                builder.setTitle("Message");
+                builder.setItems(new CharSequence[]
+                                {"1. Copy Text", "2. Delete"},
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        String str = mapViewHolder.text.getText().toString();
+                                        setClipboard(currContext,str);
+                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
+                                        break;
+                                    case 1:
+                                        mapViewHolder.chatMessages.removeAllViews();
+                                        break;
+
+                                }
+                            }
+                        });
+                builder.create().show();
+
+                return false;
+            }
+        });
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(model.getContent());
@@ -233,4 +329,12 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         return itemList.size();
     }
 
+
+    private void setClipboard(Context context,String text) {
+
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager)currContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
+        clipboard.setPrimaryClip(clip);
+
+    }
 }
