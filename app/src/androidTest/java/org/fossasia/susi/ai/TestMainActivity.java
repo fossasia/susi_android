@@ -4,8 +4,10 @@ import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
+import android.view.WindowManager;
 
 import org.fossasia.susi.ai.activities.MainActivity;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,13 +32,25 @@ public class TestMainActivity {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
+    @Before
+    public void unlockScreen() {
+        final MainActivity activity = mActivityRule.getActivity();
+        Runnable wakeUpDevice = new Runnable() {
+            public void run() {
+                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            }
+        };
+        activity.runOnUiThread(wakeUpDevice);
+    }
+
     /**
      * Test activity_main items visibility on launch of app
      */
     @Test
     public void testUIViewsPresenceOnLoad() {
-        Log.d(TAG,"running testUIViewsPresenceOnLoad..");
-
+        Log.d(TAG, "running testUIViewsPresenceOnLoad..");
         // checks if recycler view is present
         onView(withId(R.id.rv_chat_feed)).check(matches(isDisplayed()));
 
@@ -59,7 +73,7 @@ public class TestMainActivity {
      */
     @Test
     public void testActionBarViewsPresenceOnLoad() {
-        Log.d(TAG,"running testActionBarViewsPresenceOnLoad..");
+        Log.d(TAG, "running testActionBarViewsPresenceOnLoad..");
 
         // checks if search button is present
         onView(withId(R.id.action_search)).check(matches(isDisplayed()));
