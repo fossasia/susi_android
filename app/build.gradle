@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId "org.fossasia.susi.ai"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 24
         versionCode 1
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -51,6 +51,10 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile "com.squareup.okhttp3:logging-interceptor:3.3.1"
 
+    //For Link Previews
+    compile 'org.jsoup:jsoup:1.8.3' // required
+    compile 'com.leocardz:link-preview:1.2.1@aar'
+
     //preference UI
     compile 'com.takisoft.fix:preference-v7:24.2.1.0'
 
@@ -59,5 +63,5 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
-
+    
 }

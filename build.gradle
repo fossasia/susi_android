@@ -21,5 +21,6 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven { url 'https://github.com/leonardocardoso/mvn-repo/raw/master/maven-deploy' }
     }
 }
