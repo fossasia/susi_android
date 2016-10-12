@@ -27,6 +27,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +51,10 @@ import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -390,7 +394,15 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        updateDatabase(id, query, true, false, false, DateTimeHelper.getCurrentTime());
+
+        boolean isHavingLink;
+        List<String> urlList = extractUrls(query);
+        Log.d(TAG, urlList.toString());
+
+        isHavingLink = urlList!=null;
+        if(urlList.size() == 0) isHavingLink = false;
+
+        updateDatabase(id, query, true, false, false, isHavingLink, DateTimeHelper.getCurrentTime());
         computeOtherMessage(query);
     }
 
@@ -404,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
                             if (response.isSuccessful() && response.body() != null) {
                                 String answer;
                                 boolean ismap;
+                                boolean isHavingLink;
                                 try {
                                     SusiResponse susiResponse = response.body();
                                     answer = susiResponse.getAnswers().get(0).getActions()
@@ -411,14 +424,21 @@ public class MainActivity extends AppCompatActivity {
                                     String place = susiResponse.getAnswers().get(0).getData()
                                             .get(0).getPlace();
                                     ismap = place != null && !place.isEmpty();
+                                    List<String> urlList = extractUrls(answer);
+                                    Log.d(TAG, urlList.toString());
+                                    isHavingLink = urlList != null;
+                                    if(urlList.size() == 0) isHavingLink = false;
+
+
                                 } catch (IndexOutOfBoundsException | NullPointerException e) {
                                     Log.d(TAG, e.getLocalizedMessage());
                                     answer = getString(R.string.error_occurred_try_again);
                                     ismap = false;
+                                    isHavingLink = false;
                                 }
-                                addNewMessage(answer, ismap);
+                                addNewMessage(answer, ismap , isHavingLink);
                             } else {
-                                addNewMessage(getString(R.string.error_occurred_try_again), false);
+                                addNewMessage(getString(R.string.error_occurred_try_again), false , false);
                             }
 
                         }
@@ -426,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<SusiResponse> call, Throwable t) {
                             Log.d(TAG, t.getLocalizedMessage());
-                            addNewMessage(getString(R.string.error_occurred_try_again), false);
+                            addNewMessage(getString(R.string.error_occurred_try_again), false , false);
                         }
                     });
         } else {
@@ -436,7 +456,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewMessage(String answer, boolean isMap) {
+    private void addNewMessage(String answer, boolean isMap , boolean isHavingLink) {
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -444,11 +464,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        updateDatabase(id, answer, false, false, isMap, DateTimeHelper.getCurrentTime());
+        updateDatabase(id, answer, false, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime());
     }
 
     private void updateDatabase(final long id, final String message, final boolean mine,
-            final boolean image, final boolean isMap, final String timeStamp) {
+            final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -459,6 +479,7 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setIsImage(image);
                 chatMessage.setTimeStamp(timeStamp);
                 chatMessage.setMap(isMap);
+                chatMessage.setHavingLink(isHavingLink);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
@@ -607,6 +628,18 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
+    }
+
+    public static List<String> extractUrls(String text) {
+        List<String> links = new ArrayList<String>();
+        Matcher m = Patterns.WEB_URL.matcher(text);
+        while (m.find()) {
+            String url = m.group();
+            Log.d(TAG, "URL extracted: " + url);
+            links.add(url);
+        }
+
+        return links;
     }
 
     private void showToast(String message) {

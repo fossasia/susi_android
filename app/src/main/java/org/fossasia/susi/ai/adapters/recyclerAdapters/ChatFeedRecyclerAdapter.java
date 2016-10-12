@@ -14,23 +14,29 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.leocardz.link.preview.library.LinkPreviewCallback;
+import com.leocardz.link.preview.library.SourceContent;
+import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
+import org.fossasia.susi.ai.adapters.viewHolders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewHolders.MapViewHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,6 +58,8 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static final int USER_IMAGE = 2;
     public static final int SUSI_IMAGE = 3;
     public static final int MAP = 4;
+    private static final int USER_WITHLINK = 5;
+    private static final int SUSI_WITHLINK = 6;
 
     public int highlightMessagePosition = -1;
     public String query = "";
@@ -113,6 +121,12 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             case MAP:
                 view = inflater.inflate(R.layout.item_susi_map, viewGroup, false);
                 return new MapViewHolder(view);
+            case USER_WITHLINK:
+                view = inflater.inflate(R.layout.item_user_link_preview, viewGroup, false);
+                return new LinkPreviewViewHolder(view);
+            case SUSI_WITHLINK:
+                view = inflater.inflate(R.layout.item_susi_link_preview, viewGroup, false);
+                return new LinkPreviewViewHolder(view);
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, USER_MESSAGE);
@@ -125,6 +139,8 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         ChatMessage item = itemList.get(position);
 
         if (item.isMap()) return MAP;
+        else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
+        else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isImage()) return USER_MESSAGE;
         else if (!item.isMine() && !item.isImage()) return SUSI_MESSAGE;
         else if (item.isMine() && item.isImage()) return USER_IMAGE;
@@ -140,6 +156,10 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             handleItemEvents(mapViewHolder, position);
+        }
+        if (holder instanceof LinkPreviewViewHolder) {
+            LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
+            handleItemEvents(linkPreviewViewHolder, position);
         }
        /* if (highlightMessagePosition == position) {
             holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
@@ -191,13 +211,12 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         {
                             String text = chatViewHolder.chatTextView.getText().toString();
                             SpannableString modify = new SpannableString(text);
-                            Pattern pattern = Pattern.compile(query,Pattern.CASE_INSENSITIVE);
+                            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
                             Matcher matcher = pattern.matcher(modify);
-                            while(matcher.find())
-                            {
+                            while (matcher.find()) {
                                 int startIndex = matcher.start();
                                 int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                             chatViewHolder.chatTextView.setText(modify);
 
@@ -241,13 +260,12 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         {
                             String text = chatViewHolder.chatTextView.getText().toString();
                             SpannableString modify = new SpannableString(text);
-                            Pattern pattern = Pattern.compile(query,Pattern.CASE_INSENSITIVE);
+                            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
                             Matcher matcher = pattern.matcher(modify);
-                            while(matcher.find())
-                            {
+                            while (matcher.find()) {
                                 int startIndex = matcher.start();
                                 int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")),startIndex,endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                             chatViewHolder.chatTextView.setText(modify);
 
@@ -299,6 +317,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             try {
                 final MapHelper mapHelper = new MapHelper(model.getContent());
                 mapViewHolder.text.setText(mapHelper.getDisplayText());
+                mapViewHolder.timestampTextView.setText(model.getTimeStamp());
                 Glide.with(currContext).load(mapHelper.getMapURL()).into(mapViewHolder.mapImage);
                 mapViewHolder.mapImage.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -323,6 +342,78 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
         }
     }
+
+    private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
+
+        final ChatMessage model = itemList.get(position);
+        linkPreviewViewHolder.text.setText(model.getContent());
+        linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
+        LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
+            @Override
+            public void onPre() {
+                linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
+                linkPreviewViewHolder.descriptionTextView.setVisibility(View.GONE);
+                linkPreviewViewHolder.titleTextView.setVisibility(View.GONE);
+                linkPreviewViewHolder.previewLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onPos(final SourceContent sourceContent, boolean b) {
+
+                linkPreviewViewHolder.previewLayout.setVisibility(View.VISIBLE);
+                linkPreviewViewHolder.previewImageView.setVisibility(View.VISIBLE);
+                linkPreviewViewHolder.descriptionTextView.setVisibility(View.VISIBLE);
+                linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
+
+                linkPreviewViewHolder.titleTextView.setText(sourceContent.getTitle());
+                linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
+
+                final List<String> imageList = sourceContent.getImages();
+                if (imageList == null || imageList.size() == 0) {
+                    linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
+                } else {
+                    Glide.with(activity)
+                            .load(imageList.get(0))
+                            .centerCrop()
+                            .into(linkPreviewViewHolder.previewImageView);
+                }
+
+                linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Uri webpage = Uri.parse(sourceContent.getFinalUrl());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                            currContext.startActivity(intent);
+                        }
+                    }
+                });
+
+            }
+        };
+
+        if (model != null) {
+
+            List<String> urlList = extractLinks(model.getContent());
+            String url = urlList.get(0);
+            if (!(url.startsWith("http://") || url.startsWith("https://"))) {
+                url = "http://" + url;
+            }
+            TextCrawler textCrawler = new TextCrawler();
+            textCrawler.makePreview(linkPreviewCallback, url);
+        }
+    }
+    public static List<String> extractLinks(String text) {
+        List<String> links = new ArrayList<String>();
+        Matcher m = Patterns.WEB_URL.matcher(text);
+        while (m.find()) {
+            String url = m.group();
+            links.add(url);
+        }
+
+        return links;
+    }
+
 
     @Override
     public int getItemCount() {

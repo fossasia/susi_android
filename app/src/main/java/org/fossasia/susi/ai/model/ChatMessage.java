@@ -6,21 +6,20 @@ import io.realm.RealmObject;
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
-    private boolean isImage, isMine, isMap;
+    private boolean isImage, isMine, isMap, isHavingLink;
     private long id;
     private String content, timeStamp;
 
-    public ChatMessage() {
+    public ChatMessage() {}
 
-    }
-
-    public ChatMessage(long id, String content, boolean isMine, boolean isImage, boolean isMap, String timeStamp) {
+    public ChatMessage(long id, String content, boolean isMine, boolean isImage, boolean isMap, String timeStamp,boolean isHavingLink) {
         this.id = id;
         this.isImage = isImage;
         this.isMine = isMine;
         this.content = content;
         this.timeStamp = timeStamp;
         this.isMap = isMap;
+        this.isHavingLink = isHavingLink;
     }
 
     public boolean isMap() {
@@ -70,4 +69,8 @@ public class ChatMessage extends RealmObject {
     public void setIsImage(boolean isImage) {
         this.isImage = isImage;
     }
+
+    public boolean isHavingLink() {return isHavingLink;}
+
+    public void setHavingLink(boolean havingLink) {isHavingLink = havingLink;}
 }

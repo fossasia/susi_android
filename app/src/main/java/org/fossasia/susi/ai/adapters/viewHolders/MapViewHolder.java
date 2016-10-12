@@ -18,6 +18,8 @@ import me.himanshusoni.chatmessageview.ChatMessageView;
 public class MapViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.text)
     public TextView text;
+    @BindView(R.id.timestamp)
+    public TextView timestampTextView;
     @BindView(R.id.map_image)
     public ImageView mapImage;
     @BindView(R.id.chatMessageView)
