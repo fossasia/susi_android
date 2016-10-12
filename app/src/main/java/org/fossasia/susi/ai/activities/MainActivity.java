@@ -96,11 +96,13 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
+    private ClientBuilder clientBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        clientBuilder = new ClientBuilder();
         init();
     }
 
@@ -365,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void computeOtherMessage(final String query) {
         if (isNetworkConnected()) {
-            ClientBuilder.getSusiService().getSusiResponse(query).enqueue(
+            clientBuilder.getSusiApi().getSusiResponse(query).enqueue(
                     new Callback<SusiResponse>() {
                         @Override
                         public void onResponse(Call<SusiResponse> call,
