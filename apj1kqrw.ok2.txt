@@ -1,0 +1,34 @@
+﻿pick 5ff82b0 Fixes Issue #112: Arrow Keys Bug
+pick 1af00e3 fixes issue #108 and #130 improving search UI
+pick 5363c57 fixes #93: updated app icon
+pick 98c3e3d Fixes #125: Date stamp updated
+pick e7f5686 specify a fixed size for the AVD
+pick 7ef125b code formatted in java code style and Hard Coded Strings managed in string.xml
+pick c8e2ae4 Fixes #144 :PrefManager added and code quality enhance
+pick 3f10048 Fixes #39 Added espresso test cases to check visibility of views 1. check main container views on app launch 2. check actionbar item  on app launch
+pick e4dc33d fixes #148 add codacy to the project
+pick e55b676 Create PULL_REQUEST_TEMPLATE
+pick adfb320 Create ISSUE_TEMPLATE
+pick f8e22d1 Update ISSUE_TEMPLATE
+pick ef385e6 Update PULL_REQUEST_TEMPLATE
+pick c89671f Fixes #136 Removed Splash screen
+
+# Rebase 11504ef..c89671f onto 11504ef (14 commands)
+#
+# Commands:
+# p, pick = use commit
+# r, reword = use commit, but edit the commit message
+# e, edit = use commit, but stop for amending
+# s, squash = use commit, but meld into previous commit
+# f, fixup = like "squash", but discard this commit's log message
+# x, exec = run command (the rest of the line) using shell
+# d, drop = remove commit
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+
