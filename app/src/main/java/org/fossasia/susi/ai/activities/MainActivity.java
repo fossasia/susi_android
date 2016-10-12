@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvChatFeed;
 
     @BindView(R.id.et_message)
-    EditText etMessage;
+    EditText ChatMessage;
 
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
     private ClientBuilder clientBuilder;
-
+    Boolean micCheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,18 +114,18 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if (i2 > 0) {
+            if (i2 > 0 || !micCheck) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         switch (view.getId()) {
                             case R.id.btnSpeak:
-                                String message = etMessage.getText().toString();
+                                String message = ChatMessage.getText().toString();
                                 message = message.trim();
                                 if (!TextUtils.isEmpty(message)) {
                                     sendMessage(message);
-                                    etMessage.setText("");
+                                    ChatMessage.setText("");
                                 }
                                 break;
                         }
@@ -225,19 +225,19 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        etMessage.addTextChangedListener(watch);
+        ChatMessage.addTextChangedListener(watch);
         dates.setText(DateTimeHelper.getDate());
 
-        etMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        ChatMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    String message = etMessage.getText().toString();
+                    String message = ChatMessage.getText().toString();
                     message = message.trim();
                     if (!TextUtils.isEmpty(message)) {
                         sendMessage(message);
-                        etMessage.setText("");
+                        ChatMessage.setText("");
                     }
                     handled = true;
                 }
@@ -312,15 +312,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkEnterKeyPref() {
+        micCheck=PrefManager.getBoolean(Constant.MIC_INPUT,true);
+        if(micCheck) {
+            btnSpeak.setImageResource(R.drawable.ic_mic_white_24dp);
+            btnSpeak.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    promptSpeechInput();
+                }
+            });
+        }
+        else {
+            btnSpeak.setImageResource(R.drawable.ic_send_fab);
+            btnSpeak.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.btnSpeak:
+                            String message = ChatMessage.getText().toString();
+                            message = message.trim();
+                            if (!TextUtils.isEmpty(message)) {
+                                sendMessage(message);
+                                ChatMessage.setText("");
+                            }
+                            break;
+                    }
+                }
+            });
+        }
         Boolean check = PrefManager.getBoolean(Constant.ENTER_SEND, false);
         if (check) {
-            etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
-            etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
+            ChatMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+            ChatMessage.setInputType(InputType.TYPE_CLASS_TEXT);
         } else {
-            etMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-            etMessage.setSingleLine(false);
-            etMessage.setMaxLines(4);
-            etMessage.setVerticalScrollBarEnabled(true);
+            ChatMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+            ChatMessage.setSingleLine(false);
+            ChatMessage.setMaxLines(4);
+            ChatMessage.setVerticalScrollBarEnabled(true);
         }
     }
 

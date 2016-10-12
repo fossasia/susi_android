@@ -19,8 +19,12 @@
 
     <!-- Strings for Using Enter as Send Preference-->
     <string name="settings_enterPreference_label">Enter As Send</string>
+    <string name="setting_mic_input">Use mic for input</string>
+    <string name="setting_mic_key" translatable="false">Mic_input</string>
     <string name="settings_enterPreference_key" translatable="false">Enter_send</string>
+    <string name="setting_mic_off">Disabled</string>
     <string name="settings_enterPreference_summaryOff">Disabled</string>
+    <string name="setting_mic_on">Enabled</string>
     <string name="settings_enterPreference_summaryOn">Enabled</string>
     <string name="hello_world">Hello world!</string>
     <string name="speech_prompt">Say something&#8230;</string>
