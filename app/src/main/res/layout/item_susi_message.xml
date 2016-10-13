@@ -20,7 +20,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/text"
@@ -36,15 +36,14 @@
 
         <TextView
             android:id="@+id/timestamp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="bottom|end"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/md_blue_grey_50"
-            android:textSize="12sp"
-            tools:text="05:32" />
+            android:textSize="9sp"
+            tools:text="05:32"
+            android:textAlignment="textEnd" />
 
     </LinearLayout>
 </me.himanshusoni.chatmessageview.ChatMessageView>
