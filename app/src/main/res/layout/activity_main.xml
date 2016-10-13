@@ -1,5 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator_layout"
@@ -11,42 +10,38 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".activities.MainActivity">
-<TextView
-    android:id="@+id/date"
-    android:layout_width="100dp"
-    android:layout_height="30dp"
-    android:background="@drawable/rounded_layout"
-    android:backgroundTint="@color/md_cyan_100"
-    android:layout_centerHorizontal="true"
-    android:hint="oct 4 , 2016"
-    android:gravity="center"
-    android:layout_marginTop="5dp"
-    />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_layout_cyan"
+            android:gravity="center"
+            android:hint="oct 4 , 2016" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_chat_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/send_message_layout"
-            android:scrollbars="vertical"
-            android:layout_marginTop="35dp"/>
+            android:layout_marginTop="35dp"
+            android:scrollbars="vertical" />
 
         <LinearLayout
             android:id="@+id/send_message_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_layout"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="5dp">
-
-            <!--<ImageView-->
-                <!--android:id="@+id/iv_image"-->
-                <!--android:layout_width="40dp"-->
-                <!--android:layout_height="40dp"-->
-                <!--app:srcCompat="@drawable/ic_user"/>-->
+            android:padding="5dp"
+            >
 
             <EditText
                 android:id="@+id/et_message"
@@ -56,9 +51,9 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:inputType="text"
+                android:hint="@string/send_msg_hint"
                 android:imeOptions="actionSend"
-                android:hint="@string/send_msg_hint"/>
+                android:inputType="text" />
 
 
             <android.support.design.widget.FloatingActionButton
@@ -67,10 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="3dp"
                 android:clickable="true"
-                app:elevation="0dp"
+                android:src="@drawable/ic_mic_white_24dp"
                 app:backgroundTint="@color/colorPrimary"
-                app:fabSize="mini"
-                android:src="@drawable/ic_mic_white_24dp" />
+                app:elevation="0dp"
+                app:fabSize="mini" />
 
         </LinearLayout>
 
