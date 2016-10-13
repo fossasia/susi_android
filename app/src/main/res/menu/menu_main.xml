@@ -32,4 +32,9 @@
         android:orderInCategory="100"
         android:title="Wallpaper"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="101"
+        android:title="Log out"
+        app:showAsAction="never" />
 </menu>
