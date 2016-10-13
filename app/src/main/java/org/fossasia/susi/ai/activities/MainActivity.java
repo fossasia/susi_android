@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            if (i2 > 0 || !micCheck) {
+            if (charSequence.toString().trim().length() > 0 || !micCheck) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
