@@ -54,7 +54,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     TextView dates;
 
     RealmResults<ChatMessage> chatMessageDatabaseList;
-
+    Boolean micCheck;
     private SearchView searchView;
     private Menu menu;
     private int pointer;
@@ -101,15 +100,6 @@ public class MainActivity extends AppCompatActivity {
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
     private ClientBuilder clientBuilder;
-    Boolean micCheck;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        clientBuilder = new ClientBuilder();
-        init();
-    }
-
     TextWatcher watch = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -153,6 +143,28 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public static List<String> extractUrls(String text) {
+        List<String> links = new ArrayList<String>();
+        Matcher m = Patterns.WEB_URL.matcher(text);
+        while (m.find()) {
+            String url = m.group();
+            Log.d(TAG, "URL extracted: " + url);
+            links.add(url);
+        }
+
+        return links;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null) {
+            throw new IllegalStateException("Not signed in, Cannot access resource!");
+        }
+        clientBuilder = new ClientBuilder();
+        init();
+    }
 
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -431,7 +443,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                                 } catch (IndexOutOfBoundsException | NullPointerException e) {
-                                    Log.d(TAG, e.getLocalizedMessage());
+                                    e.printStackTrace();
                                     answer = getString(R.string.error_occurred_try_again);
                                     ismap = false;
                                     isHavingLink = false;
@@ -493,7 +505,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -602,7 +613,22 @@ public class MainActivity extends AppCompatActivity {
                     showToast(getString(R.string.nothing_down_matches_your_query));
                     offset++;
                 }
-                break;
+                return true;
+            case R.id.action_logout:
+                //clear token
+                PrefManager.clearToken();
+                //clear all messages.
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.deleteAll();
+                    }
+                });
+                Intent intent = new Intent(this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -617,7 +643,6 @@ public class MainActivity extends AppCompatActivity {
         checkEnterKeyPref();
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -628,18 +653,6 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
-    }
-
-    public static List<String> extractUrls(String text) {
-        List<String> links = new ArrayList<String>();
-        Matcher m = Patterns.WEB_URL.matcher(text);
-        while (m.find()) {
-            String url = m.group();
-            Log.d(TAG, "URL extracted: " + url);
-            links.add(url);
-        }
-
-        return links;
     }
 
     private void showToast(String message) {

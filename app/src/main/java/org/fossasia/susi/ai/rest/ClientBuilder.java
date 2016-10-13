@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.rest;
 
 import org.fossasia.susi.ai.helper.PrefManager;
+import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -36,6 +37,8 @@ public class ClientBuilder {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        //Must maintain the order of interceptors here, logging needs to be last.
+        httpClient.addInterceptor(new TokenInterceptor());
         httpClient.addInterceptor(logging);
 
         retrofit = new Retrofit.Builder()

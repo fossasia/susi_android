@@ -34,13 +34,20 @@
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action!</string>
     <string name="error_occurred_try_again">An error occurred. please try again!</string>
-    
+
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="pass_validation_text">Enter a combination of at least six characters, containing lower- and uppercase letters and numbers</string>
+    <string name="log_in">Log in</string>
+    <string name="field_cannot_be_empty">This field cannot be empty</string>
     <string-array name="dialog_complete_action_items">
         <item>1. Gallery</item>
         <item>2. No Wallpaper</item>
         <item>3. Default</item>
     </string-array>
-    
+
 </resources>

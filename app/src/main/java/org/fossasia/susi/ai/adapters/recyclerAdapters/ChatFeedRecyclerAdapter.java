@@ -4,22 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
@@ -42,7 +38,6 @@ import java.util.regex.Pattern;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
-import me.himanshusoni.chatmessageview.ChatMessageView;
 
 /**
  * Created by
@@ -63,13 +58,12 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public int highlightMessagePosition = -1;
     public String query = "";
-
+    public MainActivity str;
     private Context currContext;
     private RealmResults<ChatMessage> itemList;
     private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
-    public MainActivity str;
 
     public ChatFeedRecyclerAdapter(Activity activity, final Context curr_context, final RealmResults<ChatMessage> itemList) {
         this.itemList = itemList;
@@ -78,13 +72,26 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         itemList.addChangeListener(new RealmChangeListener<RealmResults<ChatMessage>>() {
             @Override
             public void onChange(RealmResults<ChatMessage> element) {
-                notifyItemInserted(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
-                if (recyclerView != null) {
-                    recyclerView.smoothScrollToPosition(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
+                if (!itemList.isEmpty()) {
+                    notifyItemInserted(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
+                    if (recyclerView != null) {
+                        recyclerView.smoothScrollToPosition(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
+                    }
                 }
             }
         });
 
+    }
+
+    public static List<String> extractLinks(String text) {
+        List<String> links = new ArrayList<String>();
+        Matcher m = Patterns.WEB_URL.matcher(text);
+        while (m.find()) {
+            String url = m.group();
+            links.add(url);
+        }
+
+        return links;
     }
 
     @Override
@@ -98,7 +105,6 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         super.onDetachedFromRecyclerView(recyclerView);
         this.recyclerView = null;
     }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -403,17 +409,6 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             textCrawler.makePreview(linkPreviewCallback, url);
         }
     }
-    public static List<String> extractLinks(String text) {
-        List<String> links = new ArrayList<String>();
-        Matcher m = Patterns.WEB_URL.matcher(text);
-        while (m.find()) {
-            String url = m.group();
-            links.add(url);
-        }
-
-        return links;
-    }
-
 
     @Override
     public int getItemCount() {

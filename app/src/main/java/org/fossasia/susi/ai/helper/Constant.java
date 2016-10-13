@@ -11,4 +11,8 @@ public class Constant {
     public static final String ENTER_SEND = "Enter_send";
 
     public static final String MIC_INPUT="Mic_input";
+
+    public static final String ACCESS_TOKEN = "access_token";
+
+    public static final String TOKEN_VALIDITY = "token_validity";
 }

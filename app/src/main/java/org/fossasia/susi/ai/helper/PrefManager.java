@@ -79,19 +79,20 @@ public class PrefManager {
     }
 
     /**
-     * This method will give current susi running base url.
-     * @param runningBaseUrl Running Base ur;
-     */
-    public static void setSusiRunningBaseUrl(String runningBaseUrl) {
-        getPreferences().edit().putString(SUSI_RUNNING_BASE_URL, runningBaseUrl).apply();
-    }
-
-    /**
      * This method for retrieving current Susi base url from SharedPreferences
      * @return String Running Susi Base Url
      */
     public static String getSusiRunningBaseUrl(){
         return getString(SUSI_RUNNING_BASE_URL, BaseUrl.SUSI_DEFAULT_BASE_URL);
+    }
+
+    /**
+     * This method will give current susi running base url.
+     *
+     * @param runningBaseUrl Running Base ur;
+     */
+    public static void setSusiRunningBaseUrl(String runningBaseUrl) {
+        getPreferences().edit().putString(SUSI_RUNNING_BASE_URL, runningBaseUrl).apply();
     }
 
     /**
@@ -110,6 +111,22 @@ public class PrefManager {
         return gson.fromJson(getString(SUSI_BASE_URLS, "null"), SusiBaseUrls.class);
     }
 
+
+    public static boolean hasTokenExpired() {
+        long validTime = getLong(Constant.TOKEN_VALIDITY, 0);
+        return validTime < System.currentTimeMillis();
+    }
+
+    public static String getToken() {
+        return hasTokenExpired() ? null : getString(Constant.ACCESS_TOKEN, null);
+    }
+
+    public static void clearToken() {
+        SharedPreferences.Editor editor = getPreferences().edit();
+        editor.remove(Constant.ACCESS_TOKEN);
+        editor.remove(Constant.TOKEN_VALIDITY);
+        editor.apply();
+    }
 }
 
 
