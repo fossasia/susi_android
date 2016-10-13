@@ -20,7 +20,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     MainActivity testMainActivity;
     CoordinatorLayout coordinatorLayout;
-    EditText etMessage;
+    EditText ChatMessage;
     LinearLayout sendMessageLayout;
 
     public MainActivityTest() {
@@ -32,7 +32,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         super.setUp();
 
         testMainActivity = getActivity();
-        etMessage = (EditText) testMainActivity.findViewById(R.id.et_message);
+        ChatMessage = (EditText) testMainActivity.findViewById(R.id.et_message);
         sendMessageLayout = (LinearLayout) testMainActivity.findViewById(R.id.send_message_layout);
         coordinatorLayout = (CoordinatorLayout) testMainActivity.findViewById(R.id.coordinator_layout);
     }
@@ -47,13 +47,13 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 
     public void testPreconditions() throws Exception {
         assertNotNull("testMainActivity is null", testMainActivity);
-        assertNotNull("etMessage is null", etMessage);
+        assertNotNull("ChatMessage is null", ChatMessage);
         assertNotNull("sendMessageLayout is null", sendMessageLayout);
         assertNotNull("coordinatorLayout is null", coordinatorLayout);
     }
 
     public void testEmptyEditTextMessage() throws Exception {
-        boolean actualB = etMessage.getText().toString().trim().isEmpty();
-        assertNotSame("etMessage should not be empty", false, actualB);
+        boolean actualB = ChatMessage.getText().toString().trim().isEmpty();
+        assertNotSame("ChatMessage should not be empty", false, actualB);
     }
 }

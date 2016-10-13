@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView rvChatFeed;
 
     @BindView(R.id.et_message)
-    EditText etMessage;
+    EditText ChatMessage;
 
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
                 if (searchView.getQuery().length() > 0)
                     searchView.onActionViewCollapsed();
-                etMessage.requestFocus();
+                ChatMessage.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
@@ -127,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         switch (view.getId()) {
                             case R.id.btnSpeak:
-                                String message = etMessage.getText().toString();
+                                String message = ChatMessage.getText().toString();
                                 message = message.trim();
                                 if (!TextUtils.isEmpty(message)) {
                                     sendMessage(message);
-                                    etMessage.setText("");
+                                    ChatMessage.setText("");
                                 }
                                 break;
                         }
@@ -231,19 +231,19 @@ public class MainActivity extends AppCompatActivity {
 
         setupAdapter();
 
-        etMessage.addTextChangedListener(watch);
+        ChatMessage.addTextChangedListener(watch);
         dates.setText(DateTimeHelper.getDate());
 
-        etMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        ChatMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    String message = etMessage.getText().toString();
+                    String message = ChatMessage.getText().toString();
                     message = message.trim();
                     if (!TextUtils.isEmpty(message)) {
                         sendMessage(message);
-                        etMessage.setText("");
+                        ChatMessage.setText("");
                     }
                     handled = true;
                 }
@@ -320,13 +320,13 @@ public class MainActivity extends AppCompatActivity {
     private void checkEnterKeyPref() {
         Boolean check = PrefManager.getBoolean(Constant.ENTER_SEND, false);
         if (check) {
-            etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
-            etMessage.setInputType(InputType.TYPE_CLASS_TEXT);
+            ChatMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
+            ChatMessage.setInputType(InputType.TYPE_CLASS_TEXT);
         } else {
-            etMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
-            etMessage.setSingleLine(false);
-            etMessage.setMaxLines(4);
-            etMessage.setVerticalScrollBarEnabled(true);
+            ChatMessage.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
+            ChatMessage.setSingleLine(false);
+            ChatMessage.setMaxLines(4);
+            ChatMessage.setVerticalScrollBarEnabled(true);
         }
     }
 
