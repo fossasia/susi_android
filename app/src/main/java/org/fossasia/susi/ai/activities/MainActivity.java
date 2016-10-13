@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -110,6 +111,12 @@ public class MainActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             if (charSequence.toString().trim().length() > 0 || !micCheck) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
+                if (searchView.getQuery().length() > 0)
+                    searchView.onActionViewCollapsed();
+                ChatMessage.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
