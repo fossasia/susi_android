@@ -21,15 +21,22 @@ import com.bumptech.glide.Glide;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewHolders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewHolders.MapViewHolder;
+import org.fossasia.susi.ai.adapters.viewHolders.PieChartViewHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.rest.model.Datum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.realm.RealmChangeListener;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
@@ -55,6 +63,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public static final int MAP = 4;
     private static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
+    public static final int PIECHART = 7;
 
     public int highlightMessagePosition = -1;
     public String query = "";
@@ -72,11 +81,13 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         itemList.addChangeListener(new RealmChangeListener<RealmResults<ChatMessage>>() {
             @Override
             public void onChange(RealmResults<ChatMessage> element) {
-                if (!itemList.isEmpty()) {
-                    notifyItemInserted(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
-                    if (recyclerView != null) {
-                        recyclerView.smoothScrollToPosition(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
-                    }
+                if(itemList.size() == element.size())
+                {
+                    notifyDataSetChanged();
+                }
+                notifyItemInserted(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
+                if (recyclerView != null) {
+                    recyclerView.smoothScrollToPosition(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
                 }
             }
         });
@@ -115,7 +126,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             case USER_MESSAGE:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, USER_MESSAGE);
-            case SUSI_MESSAGE:
+           case SUSI_MESSAGE:
                 view = inflater.inflate(R.layout.item_susi_message, viewGroup, false);
                 return new ChatViewHolder(view, SUSI_MESSAGE);
             case USER_IMAGE:
@@ -133,6 +144,9 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             case SUSI_WITHLINK:
                 view = inflater.inflate(R.layout.item_susi_link_preview, viewGroup, false);
                 return new LinkPreviewViewHolder(view);
+            case PIECHART:
+                view = inflater.inflate(R.layout.item_susi_piechart, viewGroup, false);
+                return new PieChartViewHolder(view);
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, USER_MESSAGE);
@@ -145,6 +159,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         ChatMessage item = itemList.get(position);
 
         if (item.isMap()) return MAP;
+        else if(item.isPieChart()) return PIECHART;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isImage()) return USER_MESSAGE;
@@ -159,14 +174,19 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
             handleItemEvents(chatViewHolder, position);
         }
-        if (holder instanceof MapViewHolder) {
+        else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             handleItemEvents(mapViewHolder, position);
         }
-        if (holder instanceof LinkPreviewViewHolder) {
+        else if(holder instanceof PieChartViewHolder) {
+            PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
+            handleItemEvents(pieChartViewHolder,position);
+        }
+        else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             handleItemEvents(linkPreviewViewHolder, position);
         }
+
        /* if (highlightMessagePosition == position) {
             holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
         } else {
@@ -409,6 +429,61 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             textCrawler.makePreview(linkPreviewCallback, url);
         }
     }
+
+    private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
+
+        final ChatMessage model = itemList.get(position);
+        if (model != null) {
+            try {
+                pieChartViewHolder.chatTextView.setText(model.getContent());
+                pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
+                pieChartViewHolder.pieChart.setUsePercentValues(true);
+                pieChartViewHolder.pieChart.setDrawHoleEnabled(true);
+                pieChartViewHolder.pieChart.setHoleRadius(7);
+                pieChartViewHolder.pieChart.setTransparentCircleRadius(10);
+                pieChartViewHolder.pieChart.setRotationEnabled(true);
+                pieChartViewHolder.pieChart.setRotationAngle(0);
+                pieChartViewHolder.pieChart.setDragDecelerationFrictionCoef(0.001f);
+                pieChartViewHolder.pieChart.getLegend().setEnabled(false);
+                pieChartViewHolder.pieChart.setDescription("");
+                RealmList<Datum> datumList = model.getDatumRealmList();
+                final ArrayList<Entry> yVals = new ArrayList<>();
+                final ArrayList<String> xVals = new ArrayList<>();
+                for(int i = 0; i < datumList.size(); i++) {
+                    yVals.add(new Entry(datumList.get(i).getPercent(),i));
+                    xVals.add(datumList.get(i).getPresident());
+                }
+                pieChartViewHolder.pieChart.setClickable(false);
+                pieChartViewHolder.pieChart.setHighlightPerTapEnabled(false);
+                PieDataSet dataSet = new PieDataSet(yVals,"");
+                dataSet.setSliceSpace(3);
+                dataSet.setSelectionShift(5);
+                ArrayList<Integer> colors = new ArrayList<>();
+                for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.JOYFUL_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.COLORFUL_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.LIBERTY_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.PASTEL_COLORS)
+                    colors.add(c);
+                dataSet.setColors(colors);
+                PieData data = new PieData(xVals, dataSet);
+                data.setValueFormatter(new PercentFormatter());
+                data.setValueTextSize(11f);
+                data.setValueTextColor(Color.GRAY);
+                pieChartViewHolder.pieChart.setData(data);
+                pieChartViewHolder.pieChart.highlightValues(null);
+                pieChartViewHolder.pieChart.invalidate();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     @Override
     public int getItemCount() {

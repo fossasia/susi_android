@@ -7,12 +7,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.RealmList;
+
 
 public class Answer {
 
     @SerializedName("data")
     @Expose
-    List<Datum> data = new ArrayList<Datum>();
+    RealmList<Datum> data = new RealmList<>();
     @SerializedName("metadata")
     @Expose
     Metadata metadata;
@@ -20,7 +22,7 @@ public class Answer {
     @Expose
     List<Action> actions = new ArrayList<Action>();
 
-    public List<Datum> getData() {
+    public RealmList<Datum> getData() {
         return data;
     }
 

@@ -5,8 +5,10 @@ package org.fossasia.susi.ai.rest.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmObject;
 
-public class Datum {
+
+public class Datum extends RealmObject{
 
     @SerializedName("0")
     @Expose
@@ -32,6 +34,12 @@ public class Datum {
     @SerializedName("population")
     @Expose
     Integer population;
+    @SerializedName("percent")
+    @Expose
+    Float percent;
+    @SerializedName("president")
+    @Expose
+    String president;
 
     public String get_0() {
         return _0;
@@ -64,4 +72,8 @@ public class Datum {
     public Integer getPopulation() {
         return population;
     }
+
+    public Float getPercent(){ return percent; }
+
+    public String getPresident(){ return president; }
 }
