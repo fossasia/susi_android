@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
@@ -38,29 +37,24 @@ public class SplashScreen extends AppCompatActivity {
         clientBuilder = new ClientBuilder();
         ButterKnife.bind(this);
         Glide.with(this).load(R.drawable.susi_image).into(imageView);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                clientBuilder.getSusiApi().getSusiBaseUrls().enqueue(
-                        new Callback<SusiBaseUrls>() {
-                            @Override
-                            public void onResponse(Call<SusiBaseUrls> call,
-                                    Response<SusiBaseUrls> response) {
-                                SusiBaseUrls baseUrls = response.body();
-                                PrefManager.saveBaseUrls(baseUrls);
-                                PrefManager.setSusiRunningBaseUrl(BaseUrl.PROTOCOL_HTTP +
-                                        baseUrls.getSusiServices().get(0));
-                                ClientBuilder.createSusiService();
-                                startMainActivity();
-                            }
+        clientBuilder.getSusiApi().getSusiBaseUrls().enqueue(
+                new Callback<SusiBaseUrls>() {
+                    @Override
+                    public void onResponse(Call<SusiBaseUrls> call,
+                            Response<SusiBaseUrls> response) {
+                        SusiBaseUrls baseUrls = response.body();
+                        PrefManager.saveBaseUrls(baseUrls);
+                        PrefManager.setSusiRunningBaseUrl(BaseUrl.PROTOCOL_HTTP +
+                                baseUrls.getSusiServices().get(0));
+                        ClientBuilder.createSusiService();
+                        startMainActivity();
+                    }
 
-                            @Override
-                            public void onFailure(Call<SusiBaseUrls> call, Throwable t) {
-                                startMainActivity();
-                            }
-                        });
-            }
-        }, 1500);
+                    @Override
+                    public void onFailure(Call<SusiBaseUrls> call, Throwable t) {
+                        startMainActivity();
+                    }
+                });
     }
 
     private void startMainActivity() {
