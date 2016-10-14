@@ -30,11 +30,11 @@
     <item
         android:id="@+id/wall_settings"
         android:orderInCategory="100"
-        android:title="Wallpaper"
+        android:title="@string/action_wall_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"
         android:orderInCategory="101"
-        android:title="Log out"
+        android:title="@string/action_log_out"
         app:showAsAction="never" />
 </menu>
