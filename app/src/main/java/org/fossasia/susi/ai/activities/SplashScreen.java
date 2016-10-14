@@ -28,13 +28,11 @@ public class SplashScreen extends AppCompatActivity {
     @BindView(R.id.splash_image)
     ImageView imageView;
 
-    private ClientBuilder clientBuilder;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
-        clientBuilder = new ClientBuilder();
+        ClientBuilder clientBuilder = new ClientBuilder();
         ButterKnife.bind(this);
         Glide.with(this).load(R.drawable.susi_image).into(imageView);
         clientBuilder.getSusiApi().getSusiBaseUrls().enqueue(
