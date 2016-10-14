@@ -350,6 +350,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public static Boolean checkSpeechOutputPref()
+    {
+        Boolean check = PrefManager.getBoolean(Constant.SPEECH_OUTPUT,false);
+        return check;
+    }
+
     private void checkEnterKeyPref() {
         micCheck=PrefManager.getBoolean(Constant.MIC_INPUT,true);
         if(micCheck) {
@@ -769,7 +775,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
+        if (realm != null) {
+            realm.close();
+            realm = null;
+        }
     }
 
     private boolean isNetworkConnected() {
