@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
+    <dimen name="messagelayout_minwidth">50dp</dimen>
+    <dimen name="timestamp_size">9sp</dimen>
+    <dimen name="message_text_size">16sp</dimen>
 </resources>

@@ -29,30 +29,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/md_white_1000"
-                android:textSize="16sp"
-                tools:text="Hello!"
-                android:layout_weight="0.7"/>
+                android:textSize="@dimen/message_text_size"
+                tools:text="Hello!!"/>
 
             <TextView
                 android:id="@+id/timestamp"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginStart="@dimen/margin_medium"
                 android:gravity="bottom|end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/md_blue_grey_50"
-                android:textSize="12sp"
-                android:layout_weight="0.3"
+                android:textSize="@dimen/timestamp_size"
                 tools:text="05:32" />
 
         </LinearLayout>
