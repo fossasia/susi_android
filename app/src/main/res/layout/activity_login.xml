@@ -39,6 +39,15 @@
             android:inputType="textPassword" />
     </android.support.design.widget.TextInputLayout>
 
+    <CheckBox
+        android:id="@+id/keep_signed_in"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/keep_signed_in"
+        android:checked="false"
+        />
+
     <Button
         android:id="@+id/log_in"
         android:layout_width="match_parent"
