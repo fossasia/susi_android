@@ -31,7 +31,7 @@ public class ClientBuilder {
         return retrofit.create(clazz);
     }
 
-    private static void createSusiService() {
+    public static void createSusiService() {
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
