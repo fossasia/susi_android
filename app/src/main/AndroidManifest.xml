@@ -37,8 +37,11 @@
         </activity>
         <activity
             android:name=".activities.SignUpActivity"
-            android:label="@string/app_name"/>
-        <activity android:name=".activities.LoginActivity" />
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
     </application>
 
 </manifest>
