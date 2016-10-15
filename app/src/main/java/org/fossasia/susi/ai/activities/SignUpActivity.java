@@ -2,7 +2,9 @@ package org.fossasia.susi.ai.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -87,13 +89,18 @@ public class SignUpActivity extends AppCompatActivity {
                 signUp.setEnabled(true);
             }
         });
+
         signUpCall.enqueue(new Callback<SignUpResponse>() {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(SignUpActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 } else
-                    Toast.makeText(SignUpActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.activity_sign_up), response.message(), Snackbar.LENGTH_LONG).show();
                 signUp.setEnabled(true);
                 progressDialog.dismiss();
                 CredentialHelper.clearFields(email, password, confirmPassword);
@@ -102,7 +109,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<SignUpResponse> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(SignUpActivity.this, "Please check your internet.", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_sign_up), "Please check your internet.", Snackbar.LENGTH_LONG).show();
                 signUp.setEnabled(true);
                 progressDialog.dismiss();
             }
