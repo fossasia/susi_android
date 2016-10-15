@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -23,4 +24,5 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.pref_settings);
         }
     }
+
 }

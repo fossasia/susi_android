@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
@@ -50,6 +51,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
+import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
 import static java.sql.Types.NULL;
 
 /**
@@ -72,13 +74,12 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public int highlightMessagePosition = -1;
     public String query = "";
-    public MainActivity str;
     private Context currContext;
     private RealmResults<ChatMessage> itemList;
     private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
-    private TextToSpeech t1;
+    private TextToSpeech textToSpeech;
     public ChatFeedRecyclerAdapter(Activity activity, final Context curr_context, final RealmResults<ChatMessage> itemList) {
         this.itemList = itemList;
         this.currContext = curr_context;
@@ -259,13 +260,13 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if(MainActivity.checkSpeechOutputPref()){
-                        t1=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
+                        textToSpeech=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
                             @Override
                             public void onInit(int status) {
                                 if(status != TextToSpeech.ERROR) {
-                                    t1.setLanguage(Locale.UK);
+                                    textToSpeech.setLanguage(Locale.UK);
                                     if(position==getItemCount()-1)
-                                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                    textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
 
                                 }
                             }
@@ -334,17 +335,19 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         String[] parts = toSpeak.split(":");
         final String string1 = parts[0];
         if(MainActivity.checkSpeechOutputPref()){
-        t1=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                    if(position==getItemCount()-1)
-                        t1.speak(string1, TextToSpeech.QUEUE_FLUSH, null);
+                textToSpeech=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
+                        @Override
+                        public void onInit(int status) {
+                            if(status != TextToSpeech.ERROR) {
+                                textToSpeech.setLanguage(Locale.UK);
+                                if(position==getItemCount()-1)
+                                    textToSpeech.speak(string1, TextToSpeech.QUEUE_FLUSH, null);
+
+
 
                 }
-            }
-        });}
+                }
+            });}
 
         mapViewHolder.chatMessages.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
