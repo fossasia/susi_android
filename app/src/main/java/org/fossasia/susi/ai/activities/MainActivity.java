@@ -109,8 +109,6 @@ public class MainActivity extends AppCompatActivity {
     private Realm realm;
     private ClientBuilder clientBuilder;
     private Deque<Pair<String,Long>> nonDeliveredMessages = new LinkedList<>();
-    private BroadcastReceiver networkStateReceiver;
-
     TextWatcher watch = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -153,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+    private BroadcastReceiver networkStateReceiver;
 
     public static List<String> extractUrls(String text) {
         List<String> links = new ArrayList<String>();
@@ -164,6 +163,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return links;
+    }
+
+    public static Boolean checkSpeechOutputPref() {
+        Boolean check = PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
+        return check;
     }
 
     @Override
@@ -351,12 +355,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static Boolean checkSpeechOutputPref()
-    {
-        Boolean check = PrefManager.getBoolean(Constant.SPEECH_OUTPUT,false);
-        return check;
-    }
-
     private void checkEnterKeyPref() {
         micCheck=PrefManager.getBoolean(Constant.MIC_INPUT,true);
         if(micCheck) {
@@ -405,8 +403,8 @@ public class MainActivity extends AppCompatActivity {
         rvChatFeed.setLayoutManager(linearLayoutManager);
         rvChatFeed.setHasFixedSize(false);
 
-        chatMessageDatabaseList = realm.where(ChatMessage.class).findAll();
-        recyclerAdapter = new ChatFeedRecyclerAdapter(this, this, chatMessageDatabaseList);
+        chatMessageDatabaseList = realm.where(ChatMessage.class).findAllSorted("id");
+        recyclerAdapter = new ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true);
 
         rvChatFeed.setAdapter(recyclerAdapter);
         rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
