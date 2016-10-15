@@ -15,4 +15,6 @@ public class Constant {
     public static final String ACCESS_TOKEN = "access_token";
 
     public static final String TOKEN_VALIDITY = "token_validity";
+
+    public static final String KEEP_SIGNED_IN = "keep_signed_in";
 }

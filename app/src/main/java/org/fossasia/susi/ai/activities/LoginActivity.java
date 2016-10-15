@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
@@ -19,6 +21,7 @@ import org.fossasia.susi.ai.rest.model.LoginResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout password;
     @BindView(R.id.log_in)
     Button logIn;
+    @BindView(R.id.keep_signed_in)
+    CheckBox keepSignedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         logIn.setEnabled(false);
+        keepSignedIn.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
@@ -65,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onCancel(DialogInterface dialog) {
                 authResponseCall.cancel();
                 logIn.setEnabled(true);
+                keepSignedIn.setEnabled(true);
             }
         });
         authResponseCall.enqueue(new Callback<LoginResponse>() {
@@ -76,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                     PrefManager.putString(Constant.ACCESS_TOKEN, response.body().getAccessToken());
                     long validity = System.currentTimeMillis() + response.body().getValidSeconds() * 1000;
                     PrefManager.putLong(Constant.TOKEN_VALIDITY, validity);
+                    PrefManager.putBoolean(Constant.KEEP_SIGNED_IN,keepSignedIn.isChecked());
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -96,6 +104,12 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialog.dismiss();
             }
         });
+        keepSignedIn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                PrefManager.putBoolean(Constant.KEEP_SIGNED_IN,isChecked);
+            }
+        });
     }
 
     @OnClick(R.id.sign_up)
@@ -105,11 +119,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkIfTokenPresent() {
-        if (PrefManager.getToken() != null) {
+        if (PrefManager.getToken() != null && PrefManager.getBoolean(Constant.KEEP_SIGNED_IN,true)) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }
+        else {
+            PrefManager.clearToken();
+            Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.deleteAll();
+                }
+            });        }
     }
 }
