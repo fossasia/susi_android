@@ -2,13 +2,16 @@ package org.fossasia.susi.ai;
 
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.test.annotation.UiThreadTest;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
-import android.view.WindowManager;
+
+import com.robotium.solo.Solo;
 
 import org.fossasia.susi.ai.activities.LoginActivity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,21 +31,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @MediumTest
 public class TestLoginActivity {
     public static final String TAG = TestLoginActivity.class.getSimpleName();
-
     @Rule
     public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(LoginActivity.class);
+    private Solo solo;
 
+    @UiThreadTest
     @Before
-    public void unlockScreen() {
-        final LoginActivity activity = mActivityRule.getActivity();
-        Runnable wakeUpDevice = new Runnable() {
-            public void run() {
-                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            }
-        };
-        activity.runOnUiThread(wakeUpDevice);
+    public void SetUp() throws Throwable {
+        TestUtils.unlockScreen(mActivityRule);
+        solo = new Solo(getInstrumentation(), mActivityRule.getActivity());
+        solo.unlockScreen();
     }
 
     /**
@@ -91,5 +89,10 @@ public class TestLoginActivity {
         Thread.sleep(3000);
 
 
+    }
+
+    @After
+    public void tearDown() {
+        solo.finishOpenedActivities();
     }
 }
