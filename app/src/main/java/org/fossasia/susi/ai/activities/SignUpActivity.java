@@ -97,6 +97,7 @@ public class SignUpActivity extends AppCompatActivity {
                 signUp.setEnabled(true);
                 progressDialog.dismiss();
                 CredentialHelper.clearFields(email, password, confirmPassword);
+                finish();
             }
 
             @Override

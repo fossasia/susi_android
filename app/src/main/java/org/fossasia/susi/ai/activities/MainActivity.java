@@ -49,15 +49,16 @@ import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.rest.BaseUrl;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 
@@ -543,6 +544,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<SusiResponse> call, Throwable t) {
                                 Log.d(TAG, t.getLocalizedMessage());
+
                                 if(!isNetworkConnected()){
                                     nonDeliveredMessages.addFirst(new Pair(query,id));
                                     Snackbar snackbar = Snackbar.make(coordinatorLayout,
@@ -567,6 +569,8 @@ public class MainActivity extends AppCompatActivity {
                                     recyclerAdapter.notifyItemChanged((int)id);
                                     addNewMessage(getString(R.string.error_occurred_try_again), false, false, false, null);
                                 }
+                                BaseUrl.updateBaseUrl(t);
+                                computeOtherMessage();
                             }
                         });
             } else {

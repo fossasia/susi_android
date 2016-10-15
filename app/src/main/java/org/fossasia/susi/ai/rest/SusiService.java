@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.rest;
 
 import org.fossasia.susi.ai.rest.model.LoginResponse;
 import org.fossasia.susi.ai.rest.model.SignUpResponse;
+import org.fossasia.susi.ai.rest.model.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import retrofit2.Call;
@@ -14,6 +15,10 @@ import retrofit2.http.Query;
  */
 
 public interface SusiService {
+
+    @GET(BaseUrl.SUSI_SERVICES_URL + "/config_susi.json")
+    Call<SusiBaseUrls> getSusiBaseUrls();
+
     @GET("/susi/chat.json")
     Call<SusiResponse> getSusiResponse(@Query("q") String query);
 
