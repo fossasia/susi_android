@@ -1,6 +1,6 @@
 # Android App for Susi
 
-[![Build Status](https://travis-ci.org/fossasia/susi_android.svg?branch=master)](https://travis-ci.org/fossasia/susi_android)
+[![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg)](https://circleci.com/gh/fossasia/susi_android)
 [![Gitter](https://badges.gitter.im/fossasia/susi_android.svg)](https://gitter.im/fossasia/susi_android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ec0032213274fa0a07574919928c6a6)](https://www.codacy.com/app/harshithdwivedi/susi_android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/susi_android&amp;utm_campaign=Badge_Grade)
 
