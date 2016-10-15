@@ -2,11 +2,11 @@ package org.fossasia.susi.ai;
 
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.test.annotation.UiThreadTest;
 import android.support.test.filters.MediumTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
-import android.view.WindowManager;
 
 import org.fossasia.susi.ai.activities.LoginActivity;
 import org.junit.Before;
@@ -32,17 +32,10 @@ public class TestLoginActivity {
     @Rule
     public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(LoginActivity.class);
 
+    @UiThreadTest
     @Before
-    public void unlockScreen() {
-        final LoginActivity activity = mActivityRule.getActivity();
-        Runnable wakeUpDevice = new Runnable() {
-            public void run() {
-                activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                        WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-            }
-        };
-        activity.runOnUiThread(wakeUpDevice);
+    public void SetUp() throws Throwable {
+        TestUtils.unlockScreen(mActivityRule);
     }
 
     /**
