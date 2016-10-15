@@ -35,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkIfTokenPresent();
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
     }
@@ -102,14 +101,5 @@ public class LoginActivity extends AppCompatActivity {
     void openSignUp() {
         Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
-    }
-
-    private void checkIfTokenPresent() {
-        if (PrefManager.getToken() != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
-        }
     }
 }

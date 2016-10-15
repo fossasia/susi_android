@@ -19,12 +19,14 @@
     <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
 
-    <!-- Strings for Using Enter as Send Preference-->
+    <!-- Strings for Using Enter as Send Preference and Speech Output-->
+    <string name="settings_speechPreference_label">Speech Output</string>
     <string name="settings_enterPreference_label">Enter As Send</string>
     <string name="setting_mic_input">Use mic for input</string>
     <string name="setting_mic_key" translatable="false">Mic_input</string>
     <string name="settings_enterPreference_key" translatable="false">Enter_send</string>
     <string name="setting_mic_off">Disabled</string>
+    <string name="settings_speechPreference_key" translatable="false">Speech_output</string>
     <string name="settings_enterPreference_summaryOff">Disabled</string>
     <string name="setting_mic_on">Enabled</string>
     <string name="settings_enterPreference_summaryOn">Enabled</string>

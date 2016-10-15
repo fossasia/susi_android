@@ -30,7 +30,7 @@ public class ClientBuilder {
         return retrofit.create(clazz);
     }
 
-    private static void createSusiService() {
+    public static void createSusiService() {
 
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
