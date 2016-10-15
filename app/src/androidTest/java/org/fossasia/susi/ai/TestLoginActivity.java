@@ -8,7 +8,10 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import com.robotium.solo.Solo;
+
 import org.fossasia.susi.ai.activities.LoginActivity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,14 +31,16 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 @MediumTest
 public class TestLoginActivity {
     public static final String TAG = TestLoginActivity.class.getSimpleName();
-
     @Rule
     public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(LoginActivity.class);
+    private Solo solo;
 
     @UiThreadTest
     @Before
     public void SetUp() throws Throwable {
         TestUtils.unlockScreen(mActivityRule);
+        solo = new Solo(getInstrumentation(), mActivityRule.getActivity());
+        solo.unlockScreen();
     }
 
     /**
@@ -84,5 +89,10 @@ public class TestLoginActivity {
         Thread.sleep(3000);
 
 
+    }
+
+    @After
+    public void tearDown() {
+        solo.finishOpenedActivities();
     }
 }
