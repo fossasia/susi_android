@@ -122,12 +122,6 @@ public class MainActivity extends AppCompatActivity {
             if (charSequence.toString().trim().length() > 0 || !micCheck) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
 
-                if (searchView.getQuery().length() > 0)
-                    searchView.onActionViewCollapsed();
-                ChatMessage.requestFocus();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
