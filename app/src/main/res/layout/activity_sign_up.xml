@@ -11,20 +11,28 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/colorPrimary"
     tools:context="org.fossasia.susi.ai.activities.SignUpActivity">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        android:textColorHint="#FFFFFF"
+        android:shadowColor="@color/md_white_1000"
+        android:textColor="@color/md_white_1000">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColorHint="#FFFFFF"
+            android:shadowColor="@color/md_white_1000"
+            android:textColor="@color/md_white_1000"
+            android:backgroundTint="@color/md_white_1000"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -32,14 +40,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        android:textColorHint="#FFFFFF"
+        android:shadowColor="@color/md_white_1000"
+        android:textColor="@color/md_white_1000"
+        app:passwordToggleTint="@color/md_white_1000">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColorHint="#FFFFFF"
+            android:shadowColor="@color/md_white_1000"
+            android:textColor="@color/md_white_1000"
+            android:textColorLink="@color/md_white_1000"
+            android:backgroundTint="@color/md_white_1000"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -47,20 +65,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        app:errorEnabled="true">
+        app:errorEnabled="true"
+        android:textColorHint="#FFFFFF"
+        android:shadowColor="@color/md_white_1000"
+        android:textColor="@color/md_white_1000"
+        app:passwordToggleTint="@color/md_white_1000">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textColorHint="#FFFFFF"
+            android:shadowColor="@color/md_white_1000"
+            android:textColor="@color/md_white_1000"
+            android:backgroundTint="@color/md_white_1000"
+            />
     </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/sign_up"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/sign_up" />
+        android:text="@string/sign_up"
+        android:background="@drawable/rounded_layout"
+        android:textColor="@color/colorPrimary"
+        />
 </LinearLayout>
