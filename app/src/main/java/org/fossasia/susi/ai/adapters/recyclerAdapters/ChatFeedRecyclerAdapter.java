@@ -126,7 +126,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             case USER_MESSAGE:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, USER_MESSAGE);
-           case SUSI_MESSAGE:
+            case SUSI_MESSAGE:
                 view = inflater.inflate(R.layout.item_susi_message, viewGroup, false);
                 return new ChatViewHolder(view, SUSI_MESSAGE);
             case USER_IMAGE:
@@ -186,12 +186,6 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             handleItemEvents(linkPreviewViewHolder, position);
         }
-
-       /* if (highlightMessagePosition == position) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
-        } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-        }*/
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
@@ -203,36 +197,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
-                        chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(final View view) {
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                                builder.setTitle("Message");
-                                builder.setItems(new CharSequence[]
-                                                {"1. Copy Text", "2. Delete"},
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case 0:
-                                                        String str = chatViewHolder.chatTextView.getText().toString();
-                                                        setClipboard(currContext,str);
-
-                                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-
-                                                        break;
-                                                    case 1:
-                                                        chatViewHolder.chatMessage.removeAllViews();
-                                                        break;
-
-                                                }
-                                            }
-                                        });
-                                builder.create().show();
-
-                                return false;
-                            }
-                        });
                         if(highlightMessagePosition==position)
                         {
                             String text = chatViewHolder.chatTextView.getText().toString();
@@ -248,40 +213,13 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         }
                         chatViewHolder.timeStamp.setTag(chatViewHolder);
+                        chatViewHolder.chatMessage.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
-                        chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(final View view) {
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                                builder.setTitle("Message");
-                                builder.setItems(new CharSequence[]
-                                                {"1. Copy Text", "2. Delete"},
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case 0:
-                                                        String str = chatViewHolder.chatTextView.getText().toString();
-                                                        setClipboard(currContext,str);
-
-                                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-                                                        break;
-                                                    case 1:
-                                                        chatViewHolder.chatMessage.removeAllViews();
-                                                        break;
-
-                                                }
-                                            }
-                                        });
-                                builder.create().show();
-
-                                return false;
-                            }
-                        });
                         if(highlightMessagePosition==position)
                         {
                             String text = chatViewHolder.chatTextView.getText().toString();
@@ -297,6 +235,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                         }
                         chatViewHolder.timeStamp.setTag(chatViewHolder);
+                        chatViewHolder.chatMessage.setTag(chatViewHolder);
                         break;
                     case USER_IMAGE:
                     case SUSI_IMAGE:
@@ -311,39 +250,14 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
 
         final ChatMessage model = itemList.get(position);
-        mapViewHolder.chatMessages.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                builder.setTitle("Message");
-                builder.setItems(new CharSequence[]
-                                {"1. Copy Text", "2. Delete"},
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        String str = mapViewHolder.text.getText().toString();
-                                        setClipboard(currContext,str);
-                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-                                        break;
-                                    case 1:
-                                        mapViewHolder.chatMessages.removeAllViews();
-                                        break;
-
-                                }
-                            }
-                        });
-                builder.create().show();
-
-                return false;
-            }
-        });
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(model.getContent());
                 mapViewHolder.text.setText(mapHelper.getDisplayText());
+                mapViewHolder.text.setTag(mapViewHolder);
                 mapViewHolder.timestampTextView.setText(model.getTimeStamp());
+                mapViewHolder.timestampTextView.setTag(mapViewHolder);
                 Glide.with(currContext).load(mapHelper.getMapURL()).into(mapViewHolder.mapImage);
                 mapViewHolder.mapImage.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -367,6 +281,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 e.printStackTrace();
             }
         }
+        mapViewHolder.chatMessages.setTag(mapViewHolder);
     }
 
     private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
@@ -488,14 +403,5 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public int getItemCount() {
         return itemList.size();
-    }
-
-
-    private void setClipboard(Context context,String text) {
-
-        android.content.ClipboardManager clipboard = (android.content.ClipboardManager)currContext.getSystemService(Context.CLIPBOARD_SERVICE);
-        android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
-        clipboard.setPrimaryClip(clip);
-
     }
 }
