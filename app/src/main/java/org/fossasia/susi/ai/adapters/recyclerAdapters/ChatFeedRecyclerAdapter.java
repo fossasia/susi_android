@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -40,12 +42,15 @@ import org.fossasia.susi.ai.rest.model.Datum;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+
+import static java.sql.Types.NULL;
 
 /**
  * Created by
@@ -73,7 +78,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
-
+    private TextToSpeech t1;
     public ChatFeedRecyclerAdapter(Activity activity, final Context curr_context, final RealmResults<ChatMessage> itemList) {
         this.itemList = itemList;
         this.currContext = curr_context;
@@ -250,9 +255,25 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                         chatViewHolder.timeStamp.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
+                        final String toSpeak = model.getContent();
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        if(MainActivity.checkSpeechOutputPref()){
+                        t1=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
+                            @Override
+                            public void onInit(int status) {
+                                if(status != TextToSpeech.ERROR) {
+                                    t1.setLanguage(Locale.UK);
+                                    if(position==getItemCount()-1)
+                                    t1.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+
+                                }
+                            }
+                        });}
+
+
+
                         chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(final View view) {
@@ -311,6 +332,22 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
 
         final ChatMessage model = itemList.get(position);
+        final String toSpeak = model.getContent();
+        String[] parts = toSpeak.split(":");
+        final String string1 = parts[0];
+        if(MainActivity.checkSpeechOutputPref()){
+        t1=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                    if(position==getItemCount()-1)
+                        t1.speak(string1, TextToSpeech.QUEUE_FLUSH, null);
+
+                }
+            }
+        });}
+
         mapViewHolder.chatMessages.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
