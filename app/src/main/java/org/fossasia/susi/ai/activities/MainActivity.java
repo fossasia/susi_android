@@ -343,10 +343,10 @@ public class MainActivity extends AppCompatActivity {
             byte[] b = Base64.decode(previouslyChatImage, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
             bg = new BitmapDrawable(getResources(), bitmap);
-            //set Drable bitmap which taking from gallery
+            //set Drawable bitmap which taking from gallery
             getWindow().setBackgroundDrawable(bg);
         } else {
-            //set defult layout when app launch first time
+            //set default layout when app launch first time
             getWindow().setBackgroundDrawableResource(R.drawable.swirl_pattern);
         }
     }

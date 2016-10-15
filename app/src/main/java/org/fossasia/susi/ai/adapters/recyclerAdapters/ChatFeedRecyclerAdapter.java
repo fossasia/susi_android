@@ -213,9 +213,8 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                             public boolean onLongClick(final View view) {
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                                builder.setTitle("Message");
                                 builder.setItems(new CharSequence[]
-                                                {"1. Copy Text", "2. Delete"},
+                                                {" Copy Text", " Delete"},
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
@@ -279,9 +278,8 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                             public boolean onLongClick(final View view) {
 
                                 AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                                builder.setTitle("Message");
                                 builder.setItems(new CharSequence[]
-                                                {"1. Copy Text", "2. Delete"},
+                                                {" Copy Text", " Delete"},
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 switch (which) {
@@ -353,9 +351,8 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             public boolean onLongClick(final View view) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                builder.setTitle("Message");
                 builder.setItems(new CharSequence[]
-                                {"1. Copy Text", "2. Delete"},
+                                {" Copy Text", " Delete"},
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
