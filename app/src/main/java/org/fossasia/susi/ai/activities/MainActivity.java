@@ -779,10 +779,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (realm != null) {
             realm.close();
-            realm = null;
-        }
     }
 
     private boolean isNetworkConnected() {
