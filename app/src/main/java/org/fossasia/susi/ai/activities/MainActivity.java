@@ -37,6 +37,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
     private ClientBuilder clientBuilder;
-    private Deque<Pair<String,Long>> nonDeliveredMessages = new LinkedList<>();
+    private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
     private BroadcastReceiver networkStateReceiver;
 
     TextWatcher watch = new TextWatcher() {
@@ -121,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             if (charSequence.toString().trim().length() > 0 || !micCheck) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
+
+                if (searchView.getQuery().length() > 0)
+                    searchView.onActionViewCollapsed();
+
+                ChatMessage.requestFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -245,21 +254,21 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
-        registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         networkStateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 new computeThread().start();
             }
         };
-        Log.d(TAG,"init");
+        Log.d(TAG, "init");
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setIcon(R.drawable.susi);
         nonDeliveredMessages.clear();
-        RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered",false).findAll().sort("id");
-        for( ChatMessage each : nonDelivered) {
-            Log.d(TAG,each.getContent());
+        RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered", false).findAll().sort("id");
+        for (ChatMessage each : nonDelivered) {
+            Log.d(TAG, each.getContent());
             nonDeliveredMessages.add(new Pair(each.getContent(), each.getId()));
         }
 
@@ -351,15 +360,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public static Boolean checkSpeechOutputPref()
-    {
-        Boolean check = PrefManager.getBoolean(Constant.SPEECH_OUTPUT,false);
+    public static Boolean checkSpeechOutputPref() {
+        Boolean check = PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
         return check;
     }
 
     private void checkEnterKeyPref() {
-        micCheck=PrefManager.getBoolean(Constant.MIC_INPUT,true);
-        if(micCheck) {
+        micCheck = PrefManager.getBoolean(Constant.MIC_INPUT, true);
+        if (micCheck) {
             btnSpeak.setImageResource(R.drawable.ic_mic_white_24dp);
             btnSpeak.setOnClickListener(new View.OnClickListener() {
 
@@ -368,8 +376,7 @@ public class MainActivity extends AppCompatActivity {
                     promptSpeechInput();
                 }
             });
-        }
-        else {
+        } else {
             btnSpeak.setImageResource(R.drawable.ic_send_fab);
             btnSpeak.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -412,7 +419,7 @@ public class MainActivity extends AppCompatActivity {
         rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View view, int left, int top, int right, int bottom,
-                    int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                                       int oldLeft, int oldTop, int oldRight, int oldBottom) {
                 if (bottom < oldBottom) {
                     rvChatFeed.postDelayed(new Runnable() {
                         @Override
@@ -441,19 +448,18 @@ public class MainActivity extends AppCompatActivity {
         List<String> urlList = extractUrls(query);
         Log.d(TAG, urlList.toString());
 
-        isHavingLink = urlList!=null;
-        if(urlList.size() == 0) isHavingLink = false;
+        isHavingLink = urlList != null;
+        if (urlList.size() == 0) isHavingLink = false;
 
         updateDatabase(id, query, true, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
-        nonDeliveredMessages.add(new Pair(query,id));
+        nonDeliveredMessages.add(new Pair(query, id));
         new computeThread().start();
     }
 
     private synchronized void computeOtherMessage() {
         final String query;
         final long id;
-        if( null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty())
-        {
+        if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
@@ -478,7 +484,7 @@ public class MainActivity extends AppCompatActivity {
                                         List<String> urlList = extractUrls(answer);
                                         Log.d(TAG, urlList.toString());
                                         isHavingLink = urlList != null;
-                                        if(urlList.size() == 0) isHavingLink = false;
+                                        if (urlList.size() == 0) isHavingLink = false;
                                     } catch (IndexOutOfBoundsException | NullPointerException e) {
                                         Log.d(TAG, e.getLocalizedMessage());
                                         answer = getString(R.string.error_occurred_try_again);
@@ -500,44 +506,41 @@ public class MainActivity extends AppCompatActivity {
                                         public void execute(Realm bgRealm) {
                                             long prId = id;
                                             try {
-                                                ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id",prId).findFirst();
+                                                ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
                                                 chatMessage.setIsDelivered(true);
-                                            }catch (Exception e)
-                                            {
+                                            } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
                                         }
                                     });
                                     rvChatFeed.getRecycledViewPool().clear();
-                                    recyclerAdapter.notifyItemChanged((int)id);
+                                    recyclerAdapter.notifyItemChanged((int) id);
                                     addNewMessage(answer, ismap, isHavingLink, isPieChart, datumRealmList);
                                 } else {
-                                    if(!isNetworkConnected()) {
-                                        nonDeliveredMessages.addFirst(new Pair(query,id));
+                                    if (!isNetworkConnected()) {
+                                        nonDeliveredMessages.addFirst(new Pair(query, id));
                                         Snackbar snackbar = Snackbar.make(coordinatorLayout,
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                         snackbar.show();
-                                    }
-                                    else {
+                                    } else {
                                         realm.executeTransactionAsync(new Realm.Transaction() {
                                             @Override
                                             public void execute(Realm bgRealm) {
                                                 long prId = id;
                                                 try {
-                                                    ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id",prId).findFirst();
+                                                    ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
                                                     chatMessage.setIsDelivered(true);
-                                                }catch (Exception e)
-                                                {
+                                                } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
                                             }
                                         });
                                         rvChatFeed.getRecycledViewPool().clear();
-                                        recyclerAdapter.notifyItemChanged((int)id);
+                                        recyclerAdapter.notifyItemChanged((int) id);
                                         addNewMessage(getString(R.string.error_occurred_try_again), false, false, false, null);
                                     }
                                 }
-                                if(isNetworkConnected())
+                                if (isNetworkConnected())
                                     computeOtherMessage();
                             }
 
@@ -545,28 +548,26 @@ public class MainActivity extends AppCompatActivity {
                             public void onFailure(Call<SusiResponse> call, Throwable t) {
                                 Log.d(TAG, t.getLocalizedMessage());
 
-                                if(!isNetworkConnected()){
-                                    nonDeliveredMessages.addFirst(new Pair(query,id));
+                                if (!isNetworkConnected()) {
+                                    nonDeliveredMessages.addFirst(new Pair(query, id));
                                     Snackbar snackbar = Snackbar.make(coordinatorLayout,
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                     snackbar.show();
-                                }
-                                else {
+                                } else {
                                     realm.executeTransactionAsync(new Realm.Transaction() {
                                         @Override
                                         public void execute(Realm bgRealm) {
                                             long prId = id;
                                             try {
-                                                ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id",prId).findFirst();
+                                                ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
                                                 chatMessage.setIsDelivered(true);
-                                            }catch (Exception e)
-                                            {
+                                            } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
                                         }
                                     });
                                     rvChatFeed.getRecycledViewPool().clear();
-                                    recyclerAdapter.notifyItemChanged((int)id);
+                                    recyclerAdapter.notifyItemChanged((int) id);
                                     addNewMessage(getString(R.string.error_occurred_try_again), false, false, false, null);
                                 }
                                 BaseUrl.updateBaseUrl(t);
@@ -593,7 +594,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateDatabase(final long id, final String message, final boolean mine,
-            final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp,final boolean isPieChart, final RealmList<Datum> datumRealmList) {
+                                final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp, final boolean isPieChart, final RealmList<Datum> datumRealmList) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -606,12 +607,12 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setMap(isMap);
                 chatMessage.setHavingLink(isHavingLink);
                 chatMessage.setIsPieChart(isPieChart);
-                if(mine)
+                if (mine)
                     chatMessage.setIsDelivered(false);
                 else
                     chatMessage.setIsDelivered(true);
 
-                if(datumRealmList!=null) {
+                if (datumRealmList != null) {
                     chatMessage.setDatumRealmList(datumRealmList);
                 }
             }
@@ -717,7 +718,7 @@ public class MainActivity extends AppCompatActivity {
                 if (results.size() - offset > -1) {
                     pointer = (int) results.get(results.size() - offset).getId();
                     Log.d(TAG, results.get(results.size() - offset).getContent() + "  " +
-                                    results.get(results.size() - offset).getId());
+                            results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
                     showToast(getString(R.string.nothing_up_matches_your_query));
@@ -729,7 +730,7 @@ public class MainActivity extends AppCompatActivity {
                 if (results.size() - offset < results.size()) {
                     pointer = (int) results.get(results.size() - offset).getId();
                     Log.d(TAG, results.get(results.size() - offset).getContent() + "  " +
-                                    results.get(results.size() - offset).getId());
+                            results.get(results.size() - offset).getId());
                     searchMovement(pointer);
                 } else {
                     showToast(getString(R.string.nothing_down_matches_your_query));
@@ -760,10 +761,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         nonDeliveredMessages.clear();
-        RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered",false).findAll().sort("id");
-        for( ChatMessage each : nonDelivered)
-            nonDeliveredMessages.add(new Pair(each.getContent(),each.getId()));
-        registerReceiver(networkStateReceiver,new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered", false).findAll().sort("id");
+        for (ChatMessage each : nonDelivered)
+            nonDeliveredMessages.add(new Pair(each.getContent(), each.getId()));
+        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
@@ -779,7 +780,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-            realm.close();
+        realm.close();
     }
 
     private boolean isNetworkConnected() {
@@ -792,8 +793,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private class computeThread extends Thread{
-        public void run(){
+    private class computeThread extends Thread {
+        public void run() {
             computeOtherMessage();
         }
     }
