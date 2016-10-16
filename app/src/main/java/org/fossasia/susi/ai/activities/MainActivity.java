@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -13,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -55,6 +58,8 @@ import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -229,14 +234,36 @@ public class MainActivity extends AppCompatActivity {
             case SELECT_PICTURE: {
                 if (resultCode == RESULT_OK && null != data) {
                     Uri selectedImageUri = data.getData();
+                    InputStream imageStream;
+                    Bitmap selectedImage;
                     try {
                         cropCapturedImage(selectedImageUri);
                     } catch (ActivityNotFoundException aNFE) {
                         //display an error message if user device doesn't support
                         showToast(getString(R.string.error_crop_not_supported));
+                        try {
+                            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                            Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+                            cursor.moveToFirst();
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            String picturePath = cursor.getString(columnIndex);
+                            imageStream= getContentResolver().openInputStream(selectedImageUri);
+                            selectedImage= BitmapFactory.decodeStream(imageStream);
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                            byte[] b = baos.toByteArray();
+                            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                            //SharePreference to store image
+                            PrefManager.putString(Constant.IMAGE_DATA, encodedImage);
+                            cursor.close();
+                            //set gallery image
+                            setChatBackground();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
                     }
-                    break;
                 }
+                break;
             }
 
         }
@@ -295,11 +322,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                Intent bgintent = new Intent();
-                                bgintent.setType("image/*");
-                                bgintent.setAction(Intent.ACTION_GET_CONTENT);
-                                startActivityForResult(Intent.createChooser(bgintent,
-                                        getString(R.string.select_background)), SELECT_PICTURE);
+                                Intent i = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                startActivityForResult(i, SELECT_PICTURE);
                                 break;
                             case 1:
                                 PrefManager.putString(Constant.IMAGE_DATA,
