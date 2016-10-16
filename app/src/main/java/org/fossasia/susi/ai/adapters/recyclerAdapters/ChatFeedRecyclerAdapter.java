@@ -446,6 +446,21 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                         }
                     }
                 });
+
+                if(highlightMessagePosition==position)
+                {
+                    String text = mapViewHolder.text.getText().toString();
+                    SpannableString modify = new SpannableString(text);
+                    Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(modify);
+                    while (matcher.find()) {
+                        int startIndex = matcher.start();
+                        int endIndex = matcher.end();
+                        modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                    mapViewHolder.text.setText(modify);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -508,6 +523,20 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
 
             }
         };
+
+        if(highlightMessagePosition==position)
+        {
+            String text = linkPreviewViewHolder.text.getText().toString();
+            SpannableString modify = new SpannableString(text);
+            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(modify);
+            while (matcher.find()) {
+                int startIndex = matcher.start();
+                int endIndex = matcher.end();
+                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            linkPreviewViewHolder.text.setText(modify);
+        }
 
         if (model != null) {
 
