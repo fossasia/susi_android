@@ -1,14 +1,13 @@
 package org.fossasia.susi.ai.adapters.recyclerAdapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -21,14 +20,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.leocardz.link.preview.library.LinkPreviewCallback;
+import com.leocardz.link.preview.library.SourceContent;
+import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.activities.MainActivity;
@@ -47,12 +46,12 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
+import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
-
-import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
-import static java.sql.Types.NULL;
 
 /**
  * Created by
@@ -61,43 +60,46 @@ import static java.sql.Types.NULL;
  * --9:49 PM
  */
 
-public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder> {
 
     public static final int USER_MESSAGE = 0;
     public static final int SUSI_MESSAGE = 1;
     public static final int USER_IMAGE = 2;
     public static final int SUSI_IMAGE = 3;
     public static final int MAP = 4;
+    public static final int PIECHART = 7;
     private static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
-    public static final int PIECHART = 7;
-
     public int highlightMessagePosition = -1;
     public String query = "";
     private Context currContext;
-    private RealmResults<ChatMessage> itemList;
-    private Activity activity;
+    private Realm realm;
+    private int lastMsgCount;
+    //    private RealmResults<ChatMessage> itemList;
+//    private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
     private TextToSpeech textToSpeech;
-    public ChatFeedRecyclerAdapter(Activity activity, final Context curr_context, final RealmResults<ChatMessage> itemList) {
-        this.itemList = itemList;
-        this.currContext = curr_context;
-        this.activity = activity;
-        itemList.addChangeListener(new RealmChangeListener<RealmResults<ChatMessage>>() {
-            @Override
-            public void onChange(RealmResults<ChatMessage> element) {
-                if(itemList.size() == element.size())
-                {
-                    notifyDataSetChanged();
-                }
-                notifyItemInserted(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
-                if (recyclerView != null) {
-                    recyclerView.smoothScrollToPosition(ChatFeedRecyclerAdapter.this.itemList.size() - 1);
-                }
-            }
-        });
 
+    public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
+        super(context, data, autoUpdate);
+        currContext = context;
+        lastMsgCount = getItemCount();
+        RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
+            @Override
+            public void onChange(RealmResults elements) {
+                //only scroll if new is added.
+                if (lastMsgCount < getItemCount()) {
+                    scrollToBottom();
+                }
+                lastMsgCount = getItemCount();
+            }
+        };
+        if (data instanceof RealmResults) {
+            RealmResults realmResults = (RealmResults) data;
+            //noinspection unchecked
+            realmResults.addChangeListener(listener);
+        }
     }
 
     public static List<String> extractLinks(String text) {
@@ -111,16 +113,24 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         return links;
     }
 
+    public void scrollToBottom() {
+        if (getData() != null && !getData().isEmpty() && recyclerView != null) {
+            recyclerView.smoothScrollToPosition(getItemCount() - 1);
+        }
+    }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
     public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         this.recyclerView = null;
+        realm.close();
     }
 
     @Override
@@ -162,7 +172,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        ChatMessage item = itemList.get(position);
+        ChatMessage item = getData().get(position);
 
         if (item.isMap()) return MAP;
         else if(item.isPieChart()) return PIECHART;
@@ -201,7 +211,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
-        final ChatMessage model = itemList.get(position);
+        final ChatMessage model = getData().get(position);
         if (model != null) {
             try {
                 switch (getItemViewType(position)) {
@@ -227,7 +237,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
                                                         break;
                                                     case 1:
-                                                        chatViewHolder.chatMessage.removeAllViews();
+                                                        deleteMessage(position);
                                                         break;
 
                                                 }
@@ -291,7 +301,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                                                         Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
                                                         break;
                                                     case 1:
-                                                        chatViewHolder.chatMessage.removeAllViews();
+                                                        deleteMessage(position);
                                                         break;
 
                                                 }
@@ -330,7 +340,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
 
-        final ChatMessage model = itemList.get(position);
+        final ChatMessage model = getData().get(position);
         final String toSpeak = model.getContent();
         String[] parts = toSpeak.split(":");
         final String string1 = parts[0];
@@ -365,7 +375,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                                         Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
                                         break;
                                     case 1:
-                                        mapViewHolder.chatMessages.removeAllViews();
+                                        deleteMessage(position);
                                         break;
 
                                 }
@@ -406,9 +416,17 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
+    private void deleteMessage(final int position) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                getData().deleteFromRealm(position);
+            }
+        });
+    }
     private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
 
-        final ChatMessage model = itemList.get(position);
+        final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
         LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
@@ -435,7 +453,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
                 if (imageList == null || imageList.size() == 0) {
                     linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
                 } else {
-                    Glide.with(activity)
+                    Glide.with(currContext)
                             .load(imageList.get(0))
                             .centerCrop()
                             .into(linkPreviewViewHolder.previewImageView);
@@ -469,7 +487,7 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
 
-        final ChatMessage model = itemList.get(position);
+        final ChatMessage model = getData().get(position);
         if (model != null) {
             try {
                 pieChartViewHolder.chatTextView.setText(model.getContent());
@@ -522,10 +540,6 @@ public class ChatFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
 
-    @Override
-    public int getItemCount() {
-        return itemList.size();
-    }
 
 
     private void setClipboard(Context context,String text) {
