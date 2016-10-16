@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
@@ -53,6 +54,8 @@ import io.realm.RealmList;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 
+import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
+
 /**
  * Created by
  * --Vatsal Bajpai on
@@ -75,11 +78,12 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
-    //    private RealmResults<ChatMessage> itemList;
+    private RealmResults<ChatMessage> itemList;
 //    private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
     private TextToSpeech textToSpeech;
+    private AudioManager.OnAudioFocusChangeListener afChangeListener;
 
     public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -97,7 +101,6 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         };
         if (data instanceof RealmResults) {
             RealmResults realmResults = (RealmResults) data;
-            //noinspection unchecked
             realmResults.addChangeListener(listener);
         }
     }
@@ -142,7 +145,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             case USER_MESSAGE:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, USER_MESSAGE);
-           case SUSI_MESSAGE:
+            case SUSI_MESSAGE:
                 view = inflater.inflate(R.layout.item_susi_message, viewGroup, false);
                 return new ChatViewHolder(view, SUSI_MESSAGE);
             case USER_IMAGE:
@@ -270,18 +273,36 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if(MainActivity.checkSpeechOutputPref()){
-                        textToSpeech=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
-                            @Override
-                            public void onInit(int status) {
-                                if(status != TextToSpeech.ERROR) {
-                                    textToSpeech.setLanguage(Locale.UK);
-                                    if(position==getItemCount()-1)
-                                    textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                            if(MainActivity.checkSpeechOutputPref()){
+                                final AudioManager audiofocus = (AudioManager) currContext.getSystemService(Context.AUDIO_SERVICE);
+                                int result = audiofocus.requestAudioFocus(afChangeListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN);
+                                if(result== AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+                                {
+                                    textToSpeech=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
+                                        @Override
+                                        public void onInit(int status) {
+                                            if(status != TextToSpeech.ERROR) {
+                                                textToSpeech.setLanguage(Locale.UK);
+                                                if(position==getItemCount()-1)
+                                                    textToSpeech.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null);
+                                                audiofocus.abandonAudioFocus(afChangeListener);
 
-                                }
-                            }
-                        });}
+                                            }
+                                        }
+                                    });}
 
+                                AudioManager.OnAudioFocusChangeListener afChangeListener =
+                                        new AudioManager.OnAudioFocusChangeListener() {
+                                            public void onAudioFocusChange(int focusChange) {
+                                                if (focusChange == AUDIOFOCUS_LOSS_TRANSIENT) {
+                                                    textToSpeech.stop();
+                                                } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                                                    // Resume playback
+                                                } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                                                    textToSpeech.stop();
+                                                }
+                                            }
+                                        };}}
 
 
                         chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
@@ -345,20 +366,35 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         String[] parts = toSpeak.split(":");
         final String string1 = parts[0];
         if(MainActivity.checkSpeechOutputPref()){
+            final AudioManager audiofocus = (AudioManager) currContext.getSystemService(Context.AUDIO_SERVICE);
+            int result = audiofocus.requestAudioFocus(afChangeListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN);
+            if(result== AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+            {
                 textToSpeech=new TextToSpeech(currContext, new TextToSpeech.OnInitListener() {
-                        @Override
-                        public void onInit(int status) {
-                            if(status != TextToSpeech.ERROR) {
-                                textToSpeech.setLanguage(Locale.UK);
-                                if(position==getItemCount()-1)
-                                    textToSpeech.speak(string1, TextToSpeech.QUEUE_FLUSH, null);
+                    @Override
+                    public void onInit(int status) {
+                        if(status != TextToSpeech.ERROR) {
+                            textToSpeech.setLanguage(Locale.UK);
+                            if(position==getItemCount()-1)
+                                textToSpeech.speak(string1, TextToSpeech.QUEUE_FLUSH, null);
+                            audiofocus.abandonAudioFocus(afChangeListener);
 
+                        }
+                    }
+                });}
 
-
-                }
-                }
-            });}
-
+            AudioManager.OnAudioFocusChangeListener afChangeListener =
+                    new AudioManager.OnAudioFocusChangeListener() {
+                        public void onAudioFocusChange(int focusChange) {
+                            if (focusChange == AUDIOFOCUS_LOSS_TRANSIENT) {
+                                textToSpeech.stop();
+                            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                                
+                            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                                textToSpeech.stop();
+                            }
+                        }
+                    };
         mapViewHolder.chatMessages.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
@@ -414,7 +450,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 e.printStackTrace();
             }
         }
-    }
+    }}
 
     private void deleteMessage(final int position) {
         realm.executeTransaction(new Realm.Transaction() {
