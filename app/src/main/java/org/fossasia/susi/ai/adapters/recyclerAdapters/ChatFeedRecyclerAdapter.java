@@ -390,7 +390,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                             if (focusChange == AUDIOFOCUS_LOSS_TRANSIENT) {
                                 textToSpeech.stop();
                             } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-                                
+
                             } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
                                 textToSpeech.stop();
                             }
