@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activities.MainActivity">
+        tools:context=".activities.MainActivity"
+        app:layout_behavior=".helper.CustomBehavior">
 
         <TextView
             android:id="@+id/date"
