@@ -11,9 +11,9 @@
     app:cmv_arrowPosition="left"
     app:cmv_backgroundColor="@color/other_message_bg"
     app:cmv_backgroundColorPressed="@color/other_message_bg_dark"
-    app:cmv_contentPadding="3dp"
-    app:cmv_cornerRadius="3dp"
-    app:cmv_showArrow="true">
+    app:cmv_contentPadding="@dimen/cmv_padding"
+    app:cmv_cornerRadius="@dimen/cmv_corner_radius"
+    app:cmv_showArrow="false">
 
     <LinearLayout
         android:layout_width="250dp"
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/md_white_1000"
-            android:textSize="16sp"
+            android:textSize="@dimen/message_text_size"
             tools:text="Hello!" />
 
         <LinearLayout
@@ -39,7 +39,8 @@
                 android:id="@+id/piechart"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginTop="12dp" />
+                android:layout_marginTop="12dp"
+                />
         </LinearLayout>
 
         <TextView
@@ -51,7 +52,7 @@
             android:layout_gravity="bottom|end"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/md_blue_grey_50"
-            android:textSize="12sp"
+            android:textSize="@dimen/timestamp_size"
             tools:text="05:32" />
 
     </LinearLayout>

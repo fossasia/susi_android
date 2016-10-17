@@ -6,4 +6,6 @@
     <dimen name="messagelayout_minwidth">50dp</dimen>
     <dimen name="timestamp_size">9sp</dimen>
     <dimen name="message_text_size">16sp</dimen>
+    <dimen name="cmv_padding">10dp</dimen>
+    <dimen name="cmv_corner_radius">15dp</dimen>
 </resources>
