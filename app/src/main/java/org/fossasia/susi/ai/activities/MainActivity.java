@@ -28,6 +28,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
@@ -795,5 +796,4 @@ public class MainActivity extends AppCompatActivity {
             computeOtherMessage();
         }
     }
-
 }
