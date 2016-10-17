@@ -12,11 +12,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -78,6 +80,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
+
 public class MainActivity extends AppCompatActivity {
 
     public static String TAG = MainActivity.class.getName();
@@ -106,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
 
     RealmResults<ChatMessage> chatMessageDatabaseList;
     Boolean micCheck;
+    private TextToSpeech textToSpeech;
+    private AudioManager.OnAudioFocusChangeListener afChangeListener;
     private SearchView searchView;
     private Menu menu;
     private int pointer;
@@ -186,6 +192,40 @@ public class MainActivity extends AppCompatActivity {
         clientBuilder = new ClientBuilder();
         init();
     }
+
+    private void voicereply(final String reply){
+        if(checkSpeechOutputPref()) {
+            final   AudioManager audiofocus=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
+            int result = audiofocus.requestAudioFocus(afChangeListener,AudioManager.STREAM_MUSIC,AudioManager.AUDIOFOCUS_GAIN);
+            if(result== AudioManager.AUDIOFOCUS_REQUEST_GRANTED)
+            {
+                textToSpeech=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if(status != TextToSpeech.ERROR) {
+                            textToSpeech.setLanguage(Locale.UK);
+                            textToSpeech.speak(reply, TextToSpeech.QUEUE_FLUSH, null);
+                            audiofocus.abandonAudioFocus(afChangeListener);
+
+                        }
+                    }
+                });}
+
+            AudioManager.OnAudioFocusChangeListener afChangeListener =
+                    new AudioManager.OnAudioFocusChangeListener() {
+                        public void onAudioFocusChange(int focusChange) {
+                            if (focusChange == AUDIOFOCUS_LOSS_TRANSIENT) {
+                                textToSpeech.stop();
+                            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                                // Resume playback
+                            } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                                textToSpeech.stop();
+                            }
+                        }
+                    };}
+
+    }
+
 
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -500,6 +540,7 @@ public class MainActivity extends AppCompatActivity {
                                         ismap = place != null && !place.isEmpty();
                                         List<String> urlList = extractUrls(answer);
                                         Log.d(TAG, urlList.toString());
+                                        voicereply(answer);
                                         isHavingLink = urlList != null;
                                         if(urlList.size() == 0) isHavingLink = false;
                                     } catch (IndexOutOfBoundsException | NullPointerException e) {
