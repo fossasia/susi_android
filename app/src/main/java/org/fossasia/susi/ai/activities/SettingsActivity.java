@@ -25,4 +25,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.finish();
+    }
 }
