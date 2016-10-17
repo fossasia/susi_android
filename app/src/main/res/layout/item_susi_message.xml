@@ -43,7 +43,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/md_blue_grey_50"
             android:textSize="@dimen/timestamp_size"
-            tools:text="05:32"
+            tools:text="05:32 PM"
             android:textAlignment="textEnd" />
 
     </LinearLayout>

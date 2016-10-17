@@ -40,13 +40,11 @@
             android:id="@+id/timestamp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:gravity="bottom|end"
+            android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/md_blue_grey_50"
             android:textSize="@dimen/timestamp_size"
-            tools:text="05:32" />
+            tools:text="05:32 PM" />
 
     </LinearLayout>
 
