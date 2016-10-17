@@ -14,7 +14,8 @@
     app:cmv_arrowPosition="left"
     app:cmv_backgroundColor="@color/other_message_bg"
     app:cmv_backgroundColorPressed="@color/other_message_bg_dark"
-    app:cmv_cornerRadius="15dp"
+    app:cmv_arrowMargin="@dimen/cmv_padding"
+    app:cmv_cornerRadius="@dimen/cmv_corner_radius"
     app:cmv_showArrow="false">
 
     <LinearLayout
