@@ -323,6 +323,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                                                         break;
                                                     case 1:
                                                         deleteMessage(position);
+                                                        Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
                                                         break;
 
                                                 }
@@ -412,6 +413,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                                         break;
                                     case 1:
                                         deleteMessage(position);
+                                        Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
                                         break;
 
                                 }
@@ -480,6 +482,36 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
+        linkPreviewViewHolder.chatMessageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(final View view) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
+                builder.setItems(new CharSequence[]
+                                {" Copy Text", " Delete"},
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        String str = linkPreviewViewHolder.text.getText().toString();
+                                        setClipboard(currContext,str);
+
+                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
+
+                                        break;
+                                    case 1:
+                                        deleteMessage(position);
+                                        Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
+                                        break;
+
+                                }
+                            }
+                        });
+                builder.create().show();
+
+                return false;
+            }
+        });
         LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
             @Override
             public void onPre() {
@@ -555,6 +587,36 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         final ChatMessage model = getData().get(position);
         if (model != null) {
             try {
+                pieChartViewHolder.chatMessageView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(final View view) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
+                        builder.setItems(new CharSequence[]
+                                        {" Copy Text", " Delete"},
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        switch (which) {
+                                            case 0:
+                                                String str = pieChartViewHolder.chatTextView.getText().toString();
+                                                setClipboard(currContext,str);
+
+                                                Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
+
+                                                break;
+                                            case 1:
+                                                deleteMessage(position);
+                                                Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
+                                                break;
+
+                                        }
+                                    }
+                                });
+                        builder.create().show();
+
+                        return false;
+                    }
+                });
                 pieChartViewHolder.chatTextView.setText(model.getContent());
                 pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
                 pieChartViewHolder.pieChart.setUsePercentValues(true);

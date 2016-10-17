@@ -10,6 +10,7 @@ import org.fossasia.susi.ai.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.himanshusoni.chatmessageview.ChatMessageView;
 
 /**
  * Created by better_clever on 12/10/16.
@@ -19,6 +20,8 @@ public class LinkPreviewViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.text)
     public TextView text;
+    @BindView(R.id.chatMessageView)
+    public ChatMessageView chatMessageView;
     @BindView(R.id.link_preview_image)
     public ImageView previewImageView;
     @BindView(R.id.link_preview_title)
