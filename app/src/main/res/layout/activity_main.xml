@@ -1,4 +1,5 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator_layout"
@@ -9,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".activities.MainActivity">
+        tools:context=".activities.MainActivity"
+        app:layout_behavior="org.fossasia.susi.ai.SnackbarBehavior">
 
         <TextView
             android:id="@+id/date"
@@ -25,51 +27,52 @@
             android:id="@+id/rv_chat_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/send_message_layout"
+            android:layout_below="@id/date"
             android:layout_marginTop="35dp"
+            android:layout_marginBottom="65dp"
             android:scrollbars="vertical" />
 
-        <LinearLayout
-            android:id="@+id/send_message_layout"
-            android:layout_width="match_parent"
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/send_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/rounded_layout"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:padding="5dp"
+        app:layout_behavior="org.fossasia.susi.ai.SnackbarBehavior">
+
+        <EditText
+            android:id="@+id/et_message"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_layout"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            >
-
-            <EditText
-                android:id="@+id/et_message"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:hint="@string/send_msg_hint"
-                android:imeOptions="actionSend"
-                android:inputType="text"
-                android:background="@android:color/transparent"
-                android:theme="@style/sendMessageEditTextTheme"/>
+            android:layout_weight="1"
+            android:hint="@string/send_msg_hint"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:background="@android:color/transparent"
+            android:theme="@style/sendMessageEditTextTheme"/>
 
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btnSpeak"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_marginEnd="3dp"
-                android:clickable="true"
-                android:src="@drawable/ic_mic_white_24dp"
-                app:backgroundTint="@color/colorPrimary"
-                app:elevation="0dp"
-                app:fabSize="mini" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnSpeak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"
+            android:clickable="true"
+            android:src="@drawable/ic_mic_white_24dp"
+            app:backgroundTint="@color/colorPrimary"
+            app:elevation="0dp"
+            app:fabSize="mini" />
 
-        </LinearLayout>
-
-    </RelativeLayout>
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

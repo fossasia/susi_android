@@ -54,4 +54,8 @@
         <item>3. Default</item>
     </string-array>
 
+    <!-- Login Screen-->
+    <string name="activity_login_log_in">Login</string>
+    <string name="activity_login_sing_up">Sign Up</string>
+    <string name="activity_login_forgot_pass">Forgot Password?</string>
 </resources>
