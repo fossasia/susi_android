@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -82,9 +83,11 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
 //    private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
+    private final RequestManager glide;
 
-    public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
+    public ChatFeedRecyclerAdapter(RequestManager glide,@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
+        this.glide = glide;
         currContext = context;
         lastMsgCount = getItemCount();
         RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
@@ -467,8 +470,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 if (imageList == null || imageList.size() == 0) {
                     linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
                 } else {
-                    Glide.with(currContext)
-                            .load(imageList.get(0))
+                    glide.load(imageList.get(0))
                             .centerCrop()
                             .into(linkPreviewViewHolder.previewImageView);
                 }
