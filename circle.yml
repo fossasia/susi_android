@@ -20,3 +20,6 @@ test:
         - circle-android wait-for-boot
         # run tests  against the emulator.
         - ./gradlew connectedCheck
+        - cd exec
+        - chmod +x apk-gen.sh
+        - ./apk-gen.sh
