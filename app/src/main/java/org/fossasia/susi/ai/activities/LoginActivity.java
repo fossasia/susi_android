@@ -50,9 +50,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         email.setError(null);
-        if (!CredentialHelper.checkPasswordValid(password, this)) {
-            return;
-        }
+        
         logIn.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging in...");
