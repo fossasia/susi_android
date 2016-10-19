@@ -304,5 +304,6 @@
     <color name="me_message_bg_dark">#039BE5</color>
     <color name="other_message_bg">#86BB71</color>
     <color name="other_message_bg_dark">#53883E</color>
+    <color name="transluscent_blue">#4a5bb0bc</color>
 
 </resources>

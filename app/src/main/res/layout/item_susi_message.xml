@@ -6,15 +6,13 @@
     android:id="@+id/chatMessageView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginEnd="48dp"
-    android:layout_marginRight="48dp"
-    android:layout_marginTop="4dp"
+    android:layout_marginBottom="@dimen/message_layout_margin"
+    android:layout_marginTop="@dimen/message_layout_margin"
     app:cmv_arrowGravity="center"
     app:cmv_arrowPosition="left"
     app:cmv_backgroundColor="@color/other_message_bg"
     app:cmv_backgroundColorPressed="@color/other_message_bg_dark"
-    app:cmv_arrowMargin="@dimen/cmv_padding"
+    app:cmv_contentPadding="@dimen/cmv_padding"
     app:cmv_cornerRadius="@dimen/cmv_corner_radius"
     app:cmv_showArrow="false">
 
@@ -22,13 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="@dimen/messagelayout_minwidth"
+        android:maxWidth="@dimen/message_layout_max_width"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:maxWidth="@dimen/message_layout_max_width"
             android:autoLink="all"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/md_white_1000"
@@ -38,9 +37,10 @@
 
         <TextView
             android:id="@+id/timestamp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="bottom|end"
+            android:layout_gravity="right"
+            android:gravity="end"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@color/md_blue_grey_50"
             android:textSize="@dimen/timestamp_size"

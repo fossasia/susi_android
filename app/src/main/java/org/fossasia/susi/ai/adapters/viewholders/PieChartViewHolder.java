@@ -1,6 +1,5 @@
-package org.fossasia.susi.ai.adapters.viewHolders;
+package org.fossasia.susi.ai.adapters.viewholders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,7 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.himanshusoni.chatmessageview.ChatMessageView;
 
-public class PieChartViewHolder extends RecyclerView.ViewHolder {
+public class PieChartViewHolder extends MessageViewHolder {
 
     @BindView(R.id.chatMessageView)
     public ChatMessageView chatMessageView;
@@ -23,8 +22,8 @@ public class PieChartViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.timestamp)
     public TextView timeStamp;
 
-    public PieChartViewHolder(View view){
-        super(view);
+    public PieChartViewHolder(View view , ClickListener listener){
+        super(view , listener);
         ButterKnife.bind(this, itemView);
     }
 }

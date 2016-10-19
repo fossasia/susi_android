@@ -6,12 +6,8 @@
     android:id="@+id/chatMessageView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="100dp"
-    android:layout_marginStart="100dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginTop="4dp"
+    android:layout_margin="@dimen/message_layout_margin"
+    android:gravity="end"
     app:cmv_arrowGravity="start"
     app:cmv_backgroundColor="@color/me_message_bg"
     app:cmv_backgroundColorPressed="@color/me_message_bg_dark"
@@ -20,7 +16,7 @@
     app:cmv_showArrow="false">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -62,7 +58,7 @@
             <ImageView
                 android:id="@+id/link_preview_image"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="@dimen/preview_layout_height"
                 android:layout_marginTop="4dp"
                 android:layout_weight="0.2"
                 android:background="#aaffffff"
@@ -70,8 +66,8 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="80dp"
-                android:layout_marginTop="4dp"
+                android:layout_height="@dimen/preview_layout_height"
+                android:layout_marginTop="@dimen/message_layout_margin"
                 android:layout_weight="0.8"
                 android:background="@color/md_blue_300"
                 android:orientation="vertical">
@@ -82,9 +78,9 @@
                     android:layout_height="30dp"
                     android:background="@color/md_blue_200"
                     android:maxLines="1"
-                    android:padding="5dp"
+                    android:padding="@dimen/standard_content_padding"
                     android:textColor="@color/md_grey_200"
-                    tools:text="Website Sample Headline" />
+                    tools:text="@string/sample_website_headline" />
 
                 <TextView
                     android:id="@+id/link_preview_description"
@@ -93,8 +89,8 @@
                     android:layout_gravity="bottom"
                     android:gravity="center_vertical"
                     android:maxLines="2"
-                    android:padding="5dp"
-                    android:text="Sample Text Extracted from a website"
+                    android:padding="@dimen/standard_content_padding"
+                    tools:text="@string/sample_website_description"
                     android:textColor="@color/md_grey_200" />
 
 
