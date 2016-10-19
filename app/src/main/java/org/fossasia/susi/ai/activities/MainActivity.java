@@ -708,6 +708,7 @@ public class MainActivity extends AppCompatActivity {
                 recyclerAdapter.notifyDataSetChanged();
                 searchView.onActionViewCollapsed();
                 offset = 1;
+                ChatMessage.setEnabled(true);
                 return false;
             }
         });
@@ -737,6 +738,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
                     modifyMenu(false);
+                }else{
+                    ChatMessage.setEnabled(false);
                 }
                 return false;
             }
