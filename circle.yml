@@ -22,5 +22,5 @@ test:
         - ./gradlew connectedCheck
        # - cd exec
        # - ls
-       # - chmod +x apk-gen.sh
-       # - ./apk-gen.sh
+        - chmod +x exec/apk-gen.sh
+        - ./exec/apk-gen.sh
