@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.viewHolders;
+package org.fossasia.susi.ai.adapters.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 public class ZeroHeightHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.chatMessageView)
-    RelativeLayout chatMessage;
+    public RelativeLayout chatMessage;
 
     public ZeroHeightHolder(View itemView) {
         super(itemView);

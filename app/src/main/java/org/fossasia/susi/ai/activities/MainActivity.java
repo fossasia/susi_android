@@ -48,7 +48,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
