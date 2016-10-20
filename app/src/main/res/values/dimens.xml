@@ -5,7 +5,7 @@
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="messagelayout_minwidth">40dp</dimen>
     <dimen name="timestamp_size">9sp</dimen>
-    <dimen name="message_text_size">16sp</dimen>
+    <dimen name="message_text_size">14sp</dimen>
     <dimen name="cmv_padding">10dp</dimen>
-    <dimen name="cmv_corner_radius">15dp</dimen>
+    <dimen name="cmv_corner_radius">10dp</dimen>
 </resources>
