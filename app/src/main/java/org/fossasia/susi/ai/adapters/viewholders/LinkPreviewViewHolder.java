@@ -1,6 +1,5 @@
-package org.fossasia.susi.ai.adapters.viewHolders;
+package org.fossasia.susi.ai.adapters.viewholders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,7 +15,7 @@ import me.himanshusoni.chatmessageview.ChatMessageView;
  * Created by better_clever on 12/10/16.
  */
 
-public class LinkPreviewViewHolder extends RecyclerView.ViewHolder{
+public class LinkPreviewViewHolder extends MessageViewHolder{
 
     @BindView(R.id.text)
     public TextView text;
@@ -33,8 +32,8 @@ public class LinkPreviewViewHolder extends RecyclerView.ViewHolder{
     @BindView(R.id.preview_layout)
     public LinearLayout previewLayout;
 
-    public LinkPreviewViewHolder(View itemView) {
-        super(itemView);
+    public LinkPreviewViewHolder(View itemView , ClickListener listener) {
+        super(itemView, listener);
         ButterKnife.bind(this,itemView);
     }
 

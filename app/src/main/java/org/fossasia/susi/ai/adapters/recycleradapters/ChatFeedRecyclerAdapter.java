@@ -1,22 +1,26 @@
-package org.fossasia.susi.ai.adapters.recyclerAdapters;
+package org.fossasia.susi.ai.adapters.recycleradapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioManager;
 import android.net.Uri;
-import android.speech.tts.TextToSpeech;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
+import android.util.Log;
 import android.util.Patterns;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -32,11 +36,11 @@ import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.activities.MainActivity;
-import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.LinkPreviewViewHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.MapViewHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.PieChartViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
@@ -44,7 +48,6 @@ import org.fossasia.susi.ai.rest.model.Datum;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,10 +55,7 @@ import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
-import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
-
-import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
 
 /**
  * Created by
@@ -64,7 +64,7 @@ import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
  * --9:49 PM
  */
 
-public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder> {
+public class ChatFeedRecyclerAdapter extends SelectableAdapter implements MessageViewHolder.ClickListener {
 
     public static final int USER_MESSAGE = 0;
     public static final int SUSI_MESSAGE = 1;
@@ -74,22 +74,29 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     public static final int PIECHART = 7;
     private static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
+    private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
     private RealmResults<ChatMessage> itemList;
-//    private Activity activity;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
-    private final RequestManager glide;
+    private MessageViewHolder.ClickListener clickListener;
+    private ActionModeCallback actionModeCallback = new ActionModeCallback();
+    private ActionMode actionMode;
+    private SparseBooleanArray selectedItems;
+    private AppCompatActivity currActivity;
 
-    public ChatFeedRecyclerAdapter(RequestManager glide,@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
+    public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
         this.glide = glide;
+        this.clickListener = this;
         currContext = context;
+        currActivity = (AppCompatActivity) context;
         lastMsgCount = getItemCount();
+        selectedItems = new SparseBooleanArray();
         RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
             @Override
             public void onChange(RealmResults elements) {
@@ -106,7 +113,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         }
     }
 
-    public static List<String> extractLinks(String text) {
+    private static List<String> extractLinks(String text) {
         List<String> links = new ArrayList<String>();
         Matcher m = Patterns.WEB_URL.matcher(text);
         while (m.find()) {
@@ -115,12 +122,6 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         }
 
         return links;
-    }
-
-    public void scrollToBottom() {
-        if (getData() != null && !getData().isEmpty() && recyclerView != null) {
-            recyclerView.smoothScrollToPosition(getItemCount() - 1);
-        }
     }
 
     @Override
@@ -145,31 +146,31 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         switch (viewType) {
             case USER_MESSAGE:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
-                return new ChatViewHolder(view, USER_MESSAGE);
+                return new ChatViewHolder(view, clickListener, USER_MESSAGE);
             case SUSI_MESSAGE:
                 view = inflater.inflate(R.layout.item_susi_message, viewGroup, false);
-                return new ChatViewHolder(view, SUSI_MESSAGE);
+                return new ChatViewHolder(view, clickListener, SUSI_MESSAGE);
             case USER_IMAGE:
                 view = inflater.inflate(R.layout.item_user_image, viewGroup, false);
-                return new ChatViewHolder(view, USER_IMAGE);
+                return new ChatViewHolder(view, clickListener, USER_IMAGE);
             case SUSI_IMAGE:
                 view = inflater.inflate(R.layout.item_susi_image, viewGroup, false);
-                return new ChatViewHolder(view, SUSI_IMAGE);
+                return new ChatViewHolder(view, clickListener, SUSI_IMAGE);
             case MAP:
                 view = inflater.inflate(R.layout.item_susi_map, viewGroup, false);
-                return new MapViewHolder(view);
+                return new MapViewHolder(view, clickListener);
             case USER_WITHLINK:
                 view = inflater.inflate(R.layout.item_user_link_preview, viewGroup, false);
-                return new LinkPreviewViewHolder(view);
+                return new LinkPreviewViewHolder(view, clickListener);
             case SUSI_WITHLINK:
                 view = inflater.inflate(R.layout.item_susi_link_preview, viewGroup, false);
-                return new LinkPreviewViewHolder(view);
+                return new LinkPreviewViewHolder(view, clickListener);
             case PIECHART:
                 view = inflater.inflate(R.layout.item_susi_piechart, viewGroup, false);
-                return new PieChartViewHolder(view);
+                return new PieChartViewHolder(view, clickListener);
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
-                return new ChatViewHolder(view, USER_MESSAGE);
+                return new ChatViewHolder(view, clickListener, USER_MESSAGE);
         }
 
     }
@@ -179,7 +180,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         ChatMessage item = getData().get(position);
 
         if (item.isMap()) return MAP;
-        else if(item.isPieChart()) return PIECHART;
+        else if (item.isPieChart()) return PIECHART;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isImage()) return USER_MESSAGE;
@@ -193,16 +194,13 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
             handleItemEvents(chatViewHolder, position);
-        }
-        else if (holder instanceof MapViewHolder) {
+        } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             handleItemEvents(mapViewHolder, position);
-        }
-        else if(holder instanceof PieChartViewHolder) {
+        } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
-            handleItemEvents(pieChartViewHolder,position);
-        }
-        else if (holder instanceof LinkPreviewViewHolder) {
+            handleItemEvents(pieChartViewHolder, position);
+        } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             handleItemEvents(linkPreviewViewHolder, position);
         }
@@ -216,6 +214,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
+
+        chatViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
         if (model != null) {
             try {
                 switch (getItemViewType(position)) {
@@ -223,37 +223,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
-                        chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(final View view) {
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                                builder.setItems(new CharSequence[]
-                                                {" Copy Text", " Delete"},
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case 0:
-                                                        String str = chatViewHolder.chatTextView.getText().toString();
-                                                        setClipboard(currContext,str);
-
-                                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-
-                                                        break;
-                                                    case 1:
-                                                        deleteMessage(position);
-                                                        break;
-
-                                                }
-                                            }
-                                        });
-                                builder.create().show();
-
-                                return false;
-                            }
-                        });
-                        if(highlightMessagePosition==position)
-                        {
+                        if (highlightMessagePosition == position) {
                             String text = chatViewHolder.chatTextView.getText().toString();
                             SpannableString modify = new SpannableString(text);
                             Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
@@ -272,37 +242,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
-                        chatViewHolder.chatMessage.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(final View view) {
-
-                                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                                builder.setItems(new CharSequence[]
-                                                {" Copy Text", " Delete"},
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                switch (which) {
-                                                    case 0:
-                                                        String str = chatViewHolder.chatTextView.getText().toString();
-                                                        setClipboard(currContext,str);
-
-                                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-                                                        break;
-                                                    case 1:
-                                                        deleteMessage(position);
-                                                        Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
-                                                        break;
-
-                                                }
-                                            }
-                                        });
-                                builder.create().show();
-
-                                return false;
-                            }
-                        });
-                        if(highlightMessagePosition==position)
-                        {
+                        if (highlightMessagePosition == position) {
                             String text = chatViewHolder.chatTextView.getText().toString();
                             SpannableString modify = new SpannableString(text);
                             Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
@@ -325,39 +265,14 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 e.printStackTrace();
             }
         }
+
     }
 
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
 
         final ChatMessage model = getData().get(position);
-        mapViewHolder.chatMessages.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View view) {
+        mapViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                builder.setItems(new CharSequence[]
-                                {" Copy Text", " Delete"},
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        String str = mapViewHolder.text.getText().toString();
-                                        setClipboard(currContext,str);
-                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-                                        break;
-                                    case 1:
-                                        deleteMessage(position);
-                                        Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
-                                        break;
-
-                                }
-                            }
-                        });
-                builder.create().show();
-
-                return false;
-            }
-        });
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(model.getContent());
@@ -367,9 +282,10 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 mapViewHolder.mapImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        /**
-                         * Open in Google Maps if installed, otherwise open browser.
-                         */
+                        mapViewHolder.onClick(v);
+                        /*
+                          Open in Google Maps if installed, otherwise open browser.
+                        */
                         if (AndroidHelper.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
                             Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", mapHelper.getLattitude(), mapHelper.getLongitude(), mapHelper.getZoom()));
                             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
@@ -383,8 +299,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                     }
                 });
 
-                if(highlightMessagePosition==position)
-                {
+                if (highlightMessagePosition == position) {
                     String text = mapViewHolder.text.getText().toString();
                     SpannableString modify = new SpannableString(text);
                     Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
@@ -403,49 +318,13 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         }
     }
 
-    private void deleteMessage(final int position) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                getData().deleteFromRealm(position);
-            }
-        });
-    }
     private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
 
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
-        linkPreviewViewHolder.chatMessageView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View view) {
+        linkPreviewViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                builder.setItems(new CharSequence[]
-                                {" Copy Text", " Delete"},
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        String str = linkPreviewViewHolder.text.getText().toString();
-                                        setClipboard(currContext,str);
-
-                                        Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-
-                                        break;
-                                    case 1:
-                                        deleteMessage(position);
-                                        Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
-                                        break;
-
-                                }
-                            }
-                        });
-                builder.create().show();
-
-                return false;
-            }
-        });
         LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
             @Override
             public void onPre() {
@@ -462,7 +341,6 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 linkPreviewViewHolder.previewImageView.setVisibility(View.VISIBLE);
                 linkPreviewViewHolder.descriptionTextView.setVisibility(View.VISIBLE);
                 linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
-
                 linkPreviewViewHolder.titleTextView.setText(sourceContent.getTitle());
                 linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
 
@@ -478,6 +356,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        linkPreviewViewHolder.onClick(view);
                         Uri webpage = Uri.parse(sourceContent.getFinalUrl());
                         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
                         if (intent.resolveActivity(currContext.getPackageManager()) != null) {
@@ -489,8 +368,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             }
         };
 
-        if(highlightMessagePosition==position)
-        {
+        if (highlightMessagePosition == position) {
             String text = linkPreviewViewHolder.text.getText().toString();
             SpannableString modify = new SpannableString(text);
             Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
@@ -520,37 +398,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         final ChatMessage model = getData().get(position);
         if (model != null) {
             try {
-                pieChartViewHolder.chatMessageView.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(final View view) {
-
-                        AlertDialog.Builder builder = new AlertDialog.Builder(currContext);
-                        builder.setItems(new CharSequence[]
-                                        {" Copy Text", " Delete"},
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        switch (which) {
-                                            case 0:
-                                                String str = pieChartViewHolder.chatTextView.getText().toString();
-                                                setClipboard(currContext,str);
-
-                                                Snackbar.make(view, "Copied", Snackbar.LENGTH_LONG).show();
-
-                                                break;
-                                            case 1:
-                                                deleteMessage(position);
-                                                Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG).show();
-                                                break;
-
-                                        }
-                                    }
-                                });
-                        builder.create().show();
-
-                        return false;
-                    }
-                });
                 pieChartViewHolder.chatTextView.setText(model.getContent());
+                pieChartViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
                 pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
                 pieChartViewHolder.pieChart.setUsePercentValues(true);
                 pieChartViewHolder.pieChart.setDrawHoleEnabled(true);
@@ -564,13 +413,13 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 RealmList<Datum> datumList = model.getDatumRealmList();
                 final ArrayList<Entry> yVals = new ArrayList<>();
                 final ArrayList<String> xVals = new ArrayList<>();
-                for(int i = 0; i < datumList.size(); i++) {
-                    yVals.add(new Entry(datumList.get(i).getPercent(),i));
+                for (int i = 0; i < datumList.size(); i++) {
+                    yVals.add(new Entry(datumList.get(i).getPercent(), i));
                     xVals.add(datumList.get(i).getPresident());
                 }
                 pieChartViewHolder.pieChart.setClickable(false);
                 pieChartViewHolder.pieChart.setHighlightPerTapEnabled(false);
-                PieDataSet dataSet = new PieDataSet(yVals,"");
+                PieDataSet dataSet = new PieDataSet(yVals, "");
                 dataSet.setSliceSpace(3);
                 dataSet.setSelectionShift(5);
                 ArrayList<Integer> colors = new ArrayList<>();
@@ -599,14 +448,166 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         }
     }
 
+    private void setClipboard(String text) {
 
-
-
-    private void setClipboard(Context context,String text) {
-
-        android.content.ClipboardManager clipboard = (android.content.ClipboardManager)currContext.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) currContext.getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
 
+    }
+
+    private void deleteMessage(final int position) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                getData().deleteFromRealm(position);
+            }
+        });
+    }
+
+    private void scrollToBottom() {
+        if (getData() != null && !getData().isEmpty() && recyclerView != null) {
+            recyclerView.smoothScrollToPosition(getItemCount() - 1);
+        }
+    }
+
+    private void toggleSelectedItem(int position) {
+
+        toggleSelection(position);
+        int count = getSelectedItemCount();
+
+        Log.d(TAG, position + " " + isSelected(position));
+        selectedItems.put(position, isSelected(position));
+
+        if (count == 0) {
+            actionMode.finish();
+        } else {
+            actionMode.setTitle(String.valueOf(count));
+            actionMode.invalidate();
+        }
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        if (actionMode != null) {
+            toggleSelectedItem(position);
+        }
+    }
+
+    @Override
+    public boolean onItemLongClicked(int position) {
+        if (actionMode == null) {
+            actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+        }
+
+        toggleSelectedItem(position);
+
+        return true;
+    }
+
+    private class ActionModeCallback implements ActionMode.Callback {
+
+        @SuppressWarnings("unused")
+        private final String TAG = ChatFeedRecyclerAdapter.ActionModeCallback.class.getSimpleName();
+        private int statusBarColor;
+
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                statusBarColor = currActivity.getWindow().getStatusBarColor();
+                currActivity.getWindow().setStatusBarColor(ContextCompat.getColor(currContext, R.color.md_teal_500));
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            int nSelected;
+            switch (item.getItemId()) {
+                case R.id.menu_item_delete:
+
+                    for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
+                        deleteMessage(getSelectedItems().get(i));
+                    }
+                    Snackbar.make(recyclerView, "Deleted Messages Successfully!!", Snackbar.LENGTH_LONG).show();
+                    actionMode.finish();
+                    return true;
+
+                case R.id.menu_item_copy:
+                    nSelected = getSelectedItems().size();
+                    if (nSelected == 1) {
+                        int selected = getSelectedItems().get(0);
+                        setClipboard(getItem(selected).getContent());
+                    } else {
+                        String copyText = "";
+                        for (Integer i : getSelectedItems()) {
+                            ChatMessage message = getData().get(i);
+                            Log.d(TAG, message.toString());
+                            copyText += "[" + message.getTimeStamp() + "]";
+                            copyText += " ";
+                            copyText += message.isMine() ? "Me: " : "Susi: ";
+                            copyText += message.getContent();
+                            copyText += "\n";
+                            Log.d("copyText", " " + i + " " + copyText);
+                        }
+                        copyText = copyText.substring(0, copyText.length() - 1);
+                        setClipboard(copyText);
+                    }
+
+                    Snackbar.make(recyclerView, "Copied to Clipboard!!", Snackbar.LENGTH_LONG).show();
+                    actionMode.finish();
+                    return true;
+
+                case R.id.menu_item_share:
+                    nSelected = getSelectedItems().size();
+                    if (nSelected == 1) {
+                        int selected = getSelectedItems().get(0);
+                        shareMessage(getItem(selected).getContent());
+                    } else {
+                        String shareText = "";
+                        for (Integer i : getSelectedItems()) {
+                            ChatMessage message = getData().get(i);
+                            Log.d(TAG, message.toString());
+                            shareText += "[" + message.getTimeStamp() + "]";
+                            shareText += " ";
+                            shareText += message.isMine() ? "Me: " : "Susi: ";
+                            shareText += message.getContent();
+                            shareText += "\n";
+                        }
+                        shareText = shareText.substring(0, shareText.length() - 1);
+                        shareMessage(shareText);
+                    }
+
+                    actionMode.finish();
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            clearSelection();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                currActivity.getWindow().setStatusBarColor(statusBarColor);
+            }
+            actionMode = null;
+        }
+
+        public void shareMessage(String message) {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+            sendIntent.setType("text/plain");
+            currContext.startActivity(sendIntent);
+        }
     }
 }

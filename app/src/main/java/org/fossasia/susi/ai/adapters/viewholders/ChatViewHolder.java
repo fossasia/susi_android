@@ -1,6 +1,5 @@
-package org.fossasia.susi.ai.adapters.viewHolders;
+package org.fossasia.susi.ai.adapters.viewholders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,10 +9,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.himanshusoni.chatmessageview.ChatMessageView;
 
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.SUSI_MESSAGE;
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.USER_IMAGE;
-import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAdapter.USER_MESSAGE;
+import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
+import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_MESSAGE;
+import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_IMAGE;
+import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_MESSAGE;
 
 /**
  * Created by
@@ -22,18 +21,18 @@ import static org.fossasia.susi.ai.adapters.recyclerAdapters.ChatFeedRecyclerAda
  * --9:51 PM
  */
 
-public class ChatViewHolder extends RecyclerView.ViewHolder {
+public class ChatViewHolder extends MessageViewHolder{
 
     @BindView(R.id.text)
     public TextView chatTextView;
     @BindView(R.id.timestamp)
     public TextView timeStamp;
     @BindView(R.id.chatMessageView)
-    public ChatMessageView chatMessage;
+    public ChatMessageView chatMessageView;
 
 
-    public ChatViewHolder(View view, int myMessage) {
-        super(view);
+    public ChatViewHolder(View view, ClickListener clickListener ,int myMessage) {
+        super(view,clickListener);
         ButterKnife.bind(this, view);
         switch (myMessage) {
             case USER_MESSAGE:
@@ -44,6 +43,5 @@ public class ChatViewHolder extends RecyclerView.ViewHolder {
             case SUSI_IMAGE:
             default:
         }
-
     }
 }

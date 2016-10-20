@@ -6,12 +6,8 @@
     android:id="@+id/chatMessageView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginRight="100dp"
-    android:layout_marginEnd="100dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginStart="10dp"
+    android:layout_marginBottom="@dimen/message_layout_margin"
+    android:layout_marginTop="@dimen/message_layout_margin"
     app:cmv_arrowGravity="start"
     app:cmv_arrowPosition="left"
     app:cmv_backgroundColor="@color/other_message_bg"
@@ -21,7 +17,7 @@
     app:cmv_showArrow="false">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 

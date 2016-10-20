@@ -1,6 +1,5 @@
-package org.fossasia.susi.ai.adapters.viewHolders;
+package org.fossasia.susi.ai.adapters.viewholders;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,7 +14,7 @@ import me.himanshusoni.chatmessageview.ChatMessageView;
  * Created by saurabh on 7/10/16.
  */
 
-public class MapViewHolder extends RecyclerView.ViewHolder {
+public class MapViewHolder extends MessageViewHolder {
     @BindView(R.id.text)
     public TextView text;
     @BindView(R.id.timestamp)
@@ -23,11 +22,11 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.map_image)
     public ImageView mapImage;
     @BindView(R.id.chatMessageView)
-    public ChatMessageView chatMessages;
+    public ChatMessageView chatMessageView;
 
 
-    public MapViewHolder(View itemView) {
-        super(itemView);
+    public MapViewHolder(View itemView , ClickListener listener) {
+        super(itemView , listener);
         ButterKnife.bind(this, itemView);
     }
 }
