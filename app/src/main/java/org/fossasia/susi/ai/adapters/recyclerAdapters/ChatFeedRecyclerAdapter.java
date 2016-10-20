@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.recyclerAdapters;
+package org.fossasia.susi.ai.adapters.recycleradapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,12 +32,12 @@ import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.activities.MainActivity;
-import org.fossasia.susi.ai.adapters.viewHolders.ChatViewHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.LinkPreviewViewHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.MapViewHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.PieChartViewHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.TypingDotsHolder;
-import org.fossasia.susi.ai.adapters.viewHolders.ZeroHeightHolder;
+import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
+import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
