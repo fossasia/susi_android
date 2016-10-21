@@ -506,6 +506,7 @@ public class MainActivity extends AppCompatActivity {
 
         updateDatabase(id, query, true, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
+        recyclerAdapter.showDots();
         new computeThread().start();
     }
 
@@ -522,6 +523,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
                                                    Response<SusiResponse> response) {
+                                recyclerAdapter.hideDots();
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     String answer;
                                     boolean ismap, isPieChart = false;
@@ -601,6 +603,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<SusiResponse> call, Throwable t) {
                                 Log.d(TAG, t.getLocalizedMessage());
+                                recyclerAdapter.hideDots();
 
                                 if (!isNetworkConnected()) {
                                     nonDeliveredMessages.addFirst(new Pair(query, id));
