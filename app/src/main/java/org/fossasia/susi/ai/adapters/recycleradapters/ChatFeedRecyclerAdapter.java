@@ -41,6 +41,8 @@ import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
+import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
@@ -56,6 +58,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import pl.tajchert.sample.DotsTextView;
 
 /**
  * Created by
@@ -74,6 +77,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public static final int PIECHART = 7;
     private static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
+    private static final int DOTS = 8;
+    private static final int NULL_HOLDER = 9;
     private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
@@ -88,6 +93,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private ActionMode actionMode;
     private SparseBooleanArray selectedItems;
     private AppCompatActivity currActivity;
+    // For typing dots from Susi
+    private TypingDotsHolder dotsHolder;
+    private ZeroHeightHolder nullHolder;
+    private boolean isSusiTyping = false;
 
     public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -111,6 +120,20 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             RealmResults realmResults = (RealmResults) data;
             realmResults.addChangeListener(listener);
         }
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.item_waiting_dots, null);
+        dotsHolder = new TypingDotsHolder(view);
+        DotsTextView dots = dotsHolder.dotsTextView;
+        dots.start();
+        View view1 = inflater.inflate(R.layout.item_without_height, null);
+        nullHolder = new ZeroHeightHolder(view1);
+    }
+
+    public void showDots(){
+        isSusiTyping = true;
+    }
+    public void hideDots(){
+        isSusiTyping = false;
     }
 
     private static List<String> extractLinks(String text) {
@@ -168,6 +191,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             case PIECHART:
                 view = inflater.inflate(R.layout.item_susi_piechart, viewGroup, false);
                 return new PieChartViewHolder(view, clickListener);
+            case DOTS:
+                return dotsHolder;
+            case NULL_HOLDER:
+                return nullHolder;
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, clickListener, USER_MESSAGE);
@@ -177,9 +204,11 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
     @Override
     public int getItemViewType(int position) {
-        ChatMessage item = getData().get(position);
+        ChatMessage item = getItem(position);
 
-        if (item.isMap()) return MAP;
+        if(item.getId()==-404) return DOTS;
+        else if(item.getId()==-405) return NULL_HOLDER;
+        else if (item.isMap()) return MAP;
         else if (item.isPieChart()) return PIECHART;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
@@ -187,6 +216,31 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         else if (!item.isMine() && !item.isImage()) return SUSI_MESSAGE;
         else if (item.isMine() && item.isImage()) return USER_IMAGE;
         else return SUSI_IMAGE;
+    }
+
+    @Override
+    public int getItemCount() {
+        if(getData()!= null && getData().isValid()){
+            return getData().size() + 1;
+        }
+        return 0;
+    }
+
+    @Nullable
+    @Override
+    public ChatMessage getItem(int index) {
+        if(getData()!= null && getData().isValid()){
+            if(index == getData().size()){
+                if(isSusiTyping) {
+                    return new ChatMessage(-404, "", false, false, false, false, false,
+                            "", null);
+                }
+                return new ChatMessage(-405, "", false, false, false, false, false,
+                        "", null);
+            }
+            return getData().get(index);
+        }
+        return null;
     }
 
     @Override
