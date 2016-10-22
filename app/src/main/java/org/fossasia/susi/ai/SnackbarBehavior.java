@@ -26,12 +26,10 @@ public class SnackbarBehavior extends CoordinatorLayout.Behavior<ViewGroup>{
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, ViewGroup child, View dependency) {
-        child.setTranslationY(-dependency.getHeight());
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
+        params.bottomMargin = parent.getHeight()- (int) dependency.getY();
+        child.setLayoutParams(params);
         return true;
     }
 
-    @Override
-    public void onDependentViewRemoved(CoordinatorLayout parent, ViewGroup child, View dependency) {
-        child.animate().translationY(0.0f).start();
-    }
 }

@@ -5,70 +5,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="org.fossasia.susi.ai.SnackbarBehavior"
         tools:context=".activities.MainActivity">
 
+        <LinearLayout
+            android:id="@+id/send_message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/rounded_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true">
+
+            <EditText
+                android:id="@+id/et_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:hint="@string/send_msg_hint"
+                android:imeOptions="actionSend"
+                android:inputType="text"
+                android:theme="@style/sendMessageEditTextTheme" />
+
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btnSpeak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:layout_marginRight="3dp"
+                android:clickable="true"
+                android:src="@drawable/ic_mic_white_24dp"
+                app:backgroundTint="@color/colorPrimary"
+                app:elevation="0dp"
+                app:fabSize="mini" />
+
+        </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_chat_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="65dp"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/send_message_layout"
             android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:scrollbars="vertical" />
 
         <TextView
             android:id="@+id/date"
-            android:layout_gravity="center_horizontal"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:layout_marginTop="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/rounded_layout_cyan"
             android:gravity="center" />
 
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/send_message_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/rounded_layout"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        app:layout_behavior="org.fossasia.susi.ai.SnackbarBehavior">
-
-        <EditText
-            android:id="@+id/et_message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:hint="@string/send_msg_hint"
-            android:imeOptions="actionSend"
-            android:inputType="text"
-            android:theme="@style/sendMessageEditTextTheme" />
-
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnSpeak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="3dp"
-            android:layout_marginRight="3dp"
-            android:clickable="true"
-            android:src="@drawable/ic_mic_white_24dp"
-            app:backgroundTint="@color/colorPrimary"
-            app:elevation="0dp"
-            app:fabSize="mini" />
-
-    </LinearLayout>
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
