@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     tools:context="org.fossasia.susi.ai.activities.LoginActivity"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorAccent"
     android:weightSum="1">
 
 
@@ -26,9 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:errorEnabled="true"
-        android:textColorHint="#FFFFFF"
-        android:backgroundTint="@color/md_white_1000"
-        app:passwordToggleTint="@color/md_white_1000"
         >
 
         <android.support.design.widget.TextInputEditText
@@ -36,10 +33,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:textColorHint="#FFFFFF"
-            android:shadowColor="@color/md_white_1000"
-            android:textColor="@color/md_white_1000"
-            android:backgroundTint="@color/md_white_1000"/>
+            android:textColorHint="#FFFFFF" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -48,18 +42,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:errorEnabled="true"
-        android:textColorHint="#FFFFFF"
-        android:backgroundTint="@color/md_white_1000"
-        app:passwordToggleTint="@color/md_white_1000">
+       >
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:shadowColor="@color/md_white_1000"
-            android:textColor="@color/md_white_1000"
-            android:backgroundTint="@color/md_white_1000"/>
+           />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -68,23 +58,12 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="15dp"
             android:layout_gravity="center"
             android:padding="12dp"
             android:text="@string/activity_login_log_in"
-            android:background="@drawable/rounded_layout_green"
             android:textColor="@color/colorPrimary"/>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/sign_up"
-            android:layout_width="250dp"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
-            android:text="@string/activity_login_sing_up"
-            android:textColor="@color/colorPrimary"
-            android:background="@drawable/rounded_layout"/>
 
     <TextView
         android:id="@+id/forgot_password"
@@ -96,8 +75,20 @@
         android:textSize="15dp"
         android:gravity="center"
         android:textStyle="bold"
-        android:textColor="@color/md_red_200"
+        android:textColor="@color/md_grey_400"
         android:typeface="monospace" />
+
+    <TextView android:id="@+id/sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:text="Sign up for SUSI"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:textColor="@color/md_grey_400"
+        android:textStyle="bold"/>
+
 
 
     </LinearLayout>
