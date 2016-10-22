@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
         setChatBackground();
     }
 
-    private void voicereply(final String reply) {
+    private void voiceReply(final String reply, final boolean isMap) {
         if (checkSpeechOutputPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             int result = audiofocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
@@ -346,7 +346,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onInit(int status) {
                         if (status != TextToSpeech.ERROR) {
                             textToSpeech.setLanguage(Locale.UK);
-                            textToSpeech.speak(reply, TextToSpeech.QUEUE_FLUSH, null);
+                            String spokenReply = reply;
+                            if(isMap) {
+                                spokenReply = reply.substring(0, reply.indexOf("http"));
+                            }
+                            textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
                             audiofocus.abandonAudioFocus(afChangeListener);
 
                         }
@@ -538,7 +542,7 @@ public class MainActivity extends AppCompatActivity {
                                         ismap = place != null && !place.isEmpty();
                                         List<String> urlList = extractUrls(answer);
                                         Log.d(TAG, urlList.toString());
-                                        voicereply(answer);
+                                        voiceReply(answer, ismap);
                                         isHavingLink = urlList != null;
                                         if (urlList.size() == 0) isHavingLink = false;
                                     } catch (IndexOutOfBoundsException | NullPointerException e) {
