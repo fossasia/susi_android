@@ -1,0 +1,26 @@
+#Install android build tools, platforms
+#Supported versions here https://circleci.com/docs/android
+dependencies:
+    override:
+        - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-24.0.2,android-24,extra-google-m2repository,extra-google-google_play_services,extra-android-support
+        - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
+
+#Pull any submodules
+#-PdisablePreDex is a must else gradle just dies due to memory limit
+#Replace 
+test:
+    override:
+        - (./gradlew assemble -PdisablePreDex):
+            timeout: 360
+        - cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/ $CIRCLE_ARTIFACTS
+        - emulator -avd circleci-android22 -no-audio -no-window:
+            background: true
+            parallel: true
+        # wait for it to have booted
+        - circle-android wait-for-boot
+        # run tests  against the emulator.
+        - ./gradlew connectedCheck
+       # - cd exec
+       # - ls
+        - chmod +x exec/apk-gen.sh
+        - ./exec/apk-gen.sh

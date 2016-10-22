@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00897b</color>
-    <color name="colorPrimaryDark">#00695c</color>
-    <color name="colorAccent">#767676</color>
+    <color name="colorPrimary">#2B3E50</color>
+    <color name="colorAccent">#ffff</color>
 
-    <!-- google's material design colours from
-http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
+    <!-- google's material design colours from http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
 
     <!--reds-->
     <color name="md_red_50">#FFEBEE</color>
@@ -300,5 +298,12 @@ http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
     <color name="md_blue_grey_700">#455A64</color>
     <color name="md_blue_grey_800">#37474F</color>
     <color name="md_blue_grey_900">#263238</color>
+
+    <!--Chat bubble colors, as web client at asksusi.com-->
+    <color name="me_message_bg">#94C2ED</color>
+    <color name="me_message_bg_dark">#039BE5</color>
+    <color name="other_message_bg">#86BB71</color>
+    <color name="other_message_bg_dark">#53883E</color>
+    <color name="transluscent_blue">#4a5bb0bc</color>
 
 </resources>

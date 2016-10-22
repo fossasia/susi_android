@@ -1,40 +1,28 @@
-<android.support.design.widget.CoordinatorLayout
-    android:id="@+id/coordinator_layout"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context=".MainActivity">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_chat_feed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/send_message_layout"/>
+        app:layout_behavior="org.fossasia.susi.ai.SnackbarBehavior"
+        tools:context=".activities.MainActivity">
 
         <LinearLayout
             android:id="@+id/send_message_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/rounded_layout"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="5dp">
-
-            <ImageView
-                android:id="@+id/iv_image"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:srcCompat="@drawable/ic_avatar"/>
+            android:padding="5dp"
+            android:layout_alignParentBottom="true">
 
             <EditText
                 android:id="@+id/et_message"
@@ -44,20 +32,45 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
-                android:hint="Say Something..."/>
+                android:hint="@string/send_msg_hint"
+                android:imeOptions="actionSend"
+                android:inputType="text"
+                android:theme="@style/sendMessageEditTextTheme" />
+
 
             <android.support.design.widget.FloatingActionButton
-                android:id="@+id/btn_send"
+                android:id="@+id/btnSpeak"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="3dp"
+                android:layout_marginRight="3dp"
                 android:clickable="true"
-                app:backgroundTint="@color/md_blue_600"
-                app:fabSize="mini"
-                app:srcCompat="@drawable/ic_send_white"
-                />
+                android:src="@drawable/ic_mic_white_24dp"
+                app:backgroundTint="@color/colorPrimary"
+                app:elevation="0dp"
+                app:fabSize="mini" />
 
         </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_chat_feed"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_above="@id/send_message_layout"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:scrollbars="vertical" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/rounded_layout_cyan"
+            android:gravity="center" />
 
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

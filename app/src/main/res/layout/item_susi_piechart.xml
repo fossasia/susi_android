@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatMessageView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/message_layout_margin"
+    android:layout_marginTop="@dimen/message_layout_margin"
+    app:cmv_arrowGravity="start"
+    app:cmv_arrowPosition="left"
+    app:cmv_backgroundColor="@color/other_message_bg"
+    app:cmv_backgroundColorPressed="@color/other_message_bg_dark"
+    app:cmv_contentPadding="@dimen/cmv_padding"
+    app:cmv_cornerRadius="@dimen/cmv_corner_radius"
+    app:cmv_showArrow="false">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/message_text_size"
+            tools:text="Hello!" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/ll_pie"
+            android:paddingBottom="10dp"
+            android:orientation="vertical">
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="12dp"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_gravity="bottom|end"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@color/md_blue_grey_50"
+            android:textSize="@dimen/timestamp_size"
+            tools:text="05:32" />
+
+    </LinearLayout>
+</me.himanshusoni.chatmessageview.ChatMessageView>

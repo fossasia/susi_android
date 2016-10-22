@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_title">
+
+    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        android:id="@+id/enter_key_pref"
+        android:defaultValue="false"
+        android:key="@string/settings_enterPreference_key"
+        android:summaryOff="@string/settings_enterPreference_summaryOff"
+        android:summaryOn="@string/settings_enterPreference_summaryOn"
+        android:title="@string/settings_enterPreference_label" />
+
+    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        android:id="@+id/mic_input"
+        android:defaultValue="true"
+        android:key="@string/setting_mic_key"
+        android:summaryOff="@string/setting_mic_off"
+        android:summaryOn="@string/setting_mic_on"
+        android:title="@string/setting_mic_input"/>
+
+    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        android:id="@+id/speech_pref"
+        android:defaultValue="false"
+        android:key="@string/settings_speechPreference_key"
+        android:summaryOff="@string/settings_enterPreference_summaryOff"
+        android:summaryOn="@string/settings_enterPreference_summaryOn"
+        android:title="@string/settings_speechPreference_label" />
+</PreferenceScreen>
