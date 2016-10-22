@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
@@ -32,12 +34,20 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout password;
     @BindView(R.id.log_in)
     Button logIn;
-
+    TextView signup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        signup=(TextView)findViewById(R.id.sign_up);
+        signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @OnClick(R.id.log_in)
@@ -96,9 +106,4 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    @OnClick(R.id.sign_up)
-    void openSignUp() {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        startActivity(intent);
-    }
 }
