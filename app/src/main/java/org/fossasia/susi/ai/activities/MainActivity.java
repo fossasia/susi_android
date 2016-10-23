@@ -840,7 +840,6 @@ public class MainActivity extends AppCompatActivity {
                 nbutton.setTextColor(Color.BLACK);
                 Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                 pbutton.setTextColor(Color.BLACK);
-
                 return true;
         }
 
