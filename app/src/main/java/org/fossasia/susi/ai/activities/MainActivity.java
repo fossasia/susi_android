@@ -619,7 +619,11 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<SusiResponse> call, Throwable t) {
-                                Log.d(TAG, t.getLocalizedMessage());
+                                if (t.getLocalizedMessage() != null) {
+                                    Log.d(TAG, t.getLocalizedMessage());
+                                } else {
+                                    Log.d(TAG, "An error occurred", t);
+                                }
                                 recyclerAdapter.hideDots();
 
                                 if (!isNetworkConnected()) {
