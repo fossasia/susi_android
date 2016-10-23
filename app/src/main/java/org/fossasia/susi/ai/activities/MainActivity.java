@@ -312,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
             nonDeliveredMessages.add(new Pair(each.getContent(), each.getId()));
         }
 
+		checkEnterKeyPref();
         setupAdapter();
 
         ChatMessage.addTextChangedListener(watch);
