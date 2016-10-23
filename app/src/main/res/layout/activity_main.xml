@@ -11,6 +11,20 @@
         app:layout_behavior="org.fossasia.susi.ai.SnackbarBehavior"
         tools:context=".activities.MainActivity">
 
+		<android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_scroll_to_end_fab"
+            app:fabSize="mini"
+            android:onClick="scrollToEnd"
+            android:id="@+id/btnScrollToEnd"
+            android:alpha="0.85"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_above="@+id/send_message_layout"
+            android:layout_alignEnd="@+id/send_message_layout"
+            android:layout_alignRight="@+id/send_message_layout" />
+		
         <LinearLayout
             android:id="@+id/send_message_layout"
             android:layout_width="match_parent"
