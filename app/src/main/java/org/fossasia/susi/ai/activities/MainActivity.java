@@ -109,13 +109,12 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.date)
     TextView dates;
 	
-	@BindView(R.id.btnScrollToEnd)
-    FloatingActionButton fab_scrollToEnd;
+    private FloatingActionButton fab_scrollToEnd;
 
     RealmResults<ChatMessage> chatMessageDatabaseList;
-    Boolean micCheck;
+    private Boolean micCheck;
     private SearchView searchView;
-    public  Boolean check;
+    private Boolean check;
     private Menu menu;
     private int pointer;
     private RealmResults<ChatMessage> results;
@@ -308,6 +307,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
+	fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         networkStateReceiver = new BroadcastReceiver() {
             @Override
