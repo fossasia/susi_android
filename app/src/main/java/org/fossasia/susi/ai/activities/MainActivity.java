@@ -144,12 +144,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
             if (charSequence.toString().trim().length() > 0 || !micCheck) {
                 btnSpeak.setImageResource(R.drawable.ic_send_fab);
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        check = false;
                         switch (view.getId()) {
                             case R.id.btnSpeak:
                                 String message = ChatMessage.getText().toString();
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onClick(View v) {
+                        check = true;
                         promptSpeechInput();
                     }
                 });
@@ -193,9 +195,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static Boolean checkSpeechOutputPref() {
-        Boolean check = PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
-        return check;
+        Boolean checks = PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
+        return checks;
     }
+
+    public static Boolean checkSpeechAlwaysPref() {
+        Boolean checked = PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
+        return checked;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -360,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void voiceReply(final String reply, final boolean isMap) {
-        if (checkSpeechOutputPref()) {
+        if ((checkSpeechOutputPref()&&check)||checkSpeechAlwaysPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             int result = audiofocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
@@ -453,10 +462,12 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
+                    check = true;
                     promptSpeechInput();
                 }
             });
         } else {
+            check= false;
             btnSpeak.setImageResource(R.drawable.ic_send_fab);
             btnSpeak.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -474,8 +485,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-        Boolean check = PrefManager.getBoolean(Constant.ENTER_SEND, false);
-        if (check) {
+        Boolean isChecked = PrefManager.getBoolean(Constant.ENTER_SEND, false);
+        if (isChecked) {
             ChatMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
             ChatMessage.setInputType(InputType.TYPE_CLASS_TEXT);
         } else {
