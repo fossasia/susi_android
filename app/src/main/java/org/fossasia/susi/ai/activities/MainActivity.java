@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
@@ -109,11 +110,13 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.date)
     TextView dates;
+	
+    private FloatingActionButton fab_scrollToEnd;
 
     RealmResults<ChatMessage> chatMessageDatabaseList;
-    Boolean micCheck;
+    private Boolean micCheck;
     private SearchView searchView;
-    public  Boolean check;
+    private Boolean check;
     private Menu menu;
     private int pointer;
     private RealmResults<ChatMessage> results;
@@ -306,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
+	fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         networkStateReceiver = new BroadcastReceiver() {
             @Override
@@ -327,6 +331,23 @@ public class MainActivity extends AppCompatActivity {
 		checkEnterKeyPref();
         setupAdapter();
 
+		rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) rvChatFeed.getLayoutManager();
+                if(linearLayoutManager.findLastCompletelyVisibleItemPosition() < rvChatFeed.getAdapter().getItemCount()-5){
+                    fab_scrollToEnd.setEnabled(true);
+                    fab_scrollToEnd.setVisibility(View.VISIBLE);
+                }else{
+                    fab_scrollToEnd.setEnabled(false);
+                    fab_scrollToEnd.setVisibility(View.GONE);
+                }
+
+            }
+        });
+		
         ChatMessage.addTextChangedListener(watch);
         dates.setText(DateTimeHelper.getDate());
 
@@ -897,6 +918,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+	
+	public void scrollToEnd(View view) {
+        rvChatFeed.smoothScrollToPosition( rvChatFeed.getAdapter().getItemCount()-1 );
     }
 
     private class computeThread extends Thread {
