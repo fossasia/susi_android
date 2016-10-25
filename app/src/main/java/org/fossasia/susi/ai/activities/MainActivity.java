@@ -614,6 +614,7 @@ public class MainActivity extends AppCompatActivity {
                                     addNewMessage(answer, ismap, isHavingLink, isPieChart, datumRealmList);
                                 } else {
                                     if (!isNetworkConnected()) {
+                                        recyclerAdapter.hideDots();
                                         nonDeliveredMessages.addFirst(new Pair(query, id));
                                         Snackbar snackbar = Snackbar.make(coordinatorLayout,
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
@@ -650,6 +651,7 @@ public class MainActivity extends AppCompatActivity {
                                 recyclerAdapter.hideDots();
 
                                 if (!isNetworkConnected()) {
+                                    recyclerAdapter.hideDots();
                                     nonDeliveredMessages.addFirst(new Pair(query, id));
                                     Snackbar snackbar = Snackbar.make(coordinatorLayout,
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
@@ -676,6 +678,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
             } else {
+                recyclerAdapter.hideDots();
                 Snackbar snackbar = Snackbar.make(coordinatorLayout,
                         getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                 snackbar.show();
