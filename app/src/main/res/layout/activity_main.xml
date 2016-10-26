@@ -33,7 +33,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/rounded_layout"
-            android:gravity="center_vertical"
+
             android:orientation="horizontal"
             android:padding="5dp"
             android:layout_alignParentBottom="true">
@@ -49,7 +49,8 @@
                 android:hint="@string/send_msg_hint"
                 android:imeOptions="actionSend"
                 android:inputType="text"
-                android:theme="@style/sendMessageEditTextTheme" />
+                android:theme="@style/sendMessageEditTextTheme"
+                android:layout_gravity="center_vertical"/>
 
 
             <android.support.design.widget.FloatingActionButton
@@ -62,7 +63,8 @@
                 android:src="@drawable/ic_mic_white_24dp"
                 app:backgroundTint="@color/colorPrimary"
                 app:elevation="0dp"
-                app:fabSize="mini" />
+                app:fabSize="mini"
+                android:layout_gravity="bottom" />
 
         </LinearLayout>
 
