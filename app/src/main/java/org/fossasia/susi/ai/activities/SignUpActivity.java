@@ -91,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
         progressDialog.setMessage("Signing up...");
         progressDialog.show();
         final Call<SignUpResponse> signUpCall = new ClientBuilder().getSusiApi()
-                .signUp(email.getEditText().getText().toString(),
+                .signUp(email.getEditText().getText().toString().trim(),
                         password.getEditText().getText().toString());
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
