@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.adapters.viewholders;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
@@ -27,6 +28,8 @@ public class ChatViewHolder extends MessageViewHolder{
     public TextView chatTextView;
     @BindView(R.id.timestamp)
     public TextView timeStamp;
+    @BindView(R.id.img)
+    public ImageView image;
     @BindView(R.id.chatMessageView)
     public ChatMessageView chatMessageView;
 

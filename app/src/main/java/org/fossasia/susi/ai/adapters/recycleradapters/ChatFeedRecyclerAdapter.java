@@ -277,6 +277,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
+                        if(model.getIsDelivered())
+                            chatViewHolder.image.setImageResource(R.drawable.ic_done_all_white_18dp);
                         if (highlightMessagePosition == position) {
                             String text = chatViewHolder.chatTextView.getText().toString();
                             SpannableString modify = new SpannableString(text);
