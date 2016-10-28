@@ -88,7 +88,7 @@
     <!--blue-->
     <color name="md_blue_50">#E3F2FD</color>
     <color name="md_blue_100">#BBDEFB</color>
-    <color name="md_blue_200">#90CAF9</color>
+    <color name="md_blue_200">#223243</color>
     <color name="md_blue_300">#64B5F6</color>
     <color name="md_blue_400">#42A5F5</color>
     <color name="md_blue_500">#2196F3</color>
@@ -304,6 +304,6 @@
     <color name="me_message_bg_dark">#039BE5</color>
     <color name="other_message_bg">#86BB71</color>
     <color name="other_message_bg_dark">#53883E</color>
-    <color name="transluscent_blue">#4a5bb0bc</color>
+    <color name="transluscent_blue">#4a000708</color>
 
 </resources>
