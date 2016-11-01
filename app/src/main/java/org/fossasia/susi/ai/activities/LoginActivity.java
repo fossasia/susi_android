@@ -3,13 +3,12 @@ package org.fossasia.susi.ai.activities;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
@@ -54,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         if (!CredentialHelper.isEmailValid(email.getEditText().getText().toString())) {
-            email.setError("Invalid email");
+            InvalidAcess();
             return;
         }
         email.setError(null);
@@ -100,8 +99,23 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Please check your internet.", Toast.LENGTH_SHORT).show();
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
+            }});}
+
+            public void InvalidAcess(){
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setMessage("The password you entered is incorrect. Please try again.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                return;
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                pbutton.setTextColor(Color.BLUE);
             }
-        });
+
     }
 
-}
+
