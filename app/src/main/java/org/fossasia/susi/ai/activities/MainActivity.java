@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.activities;
 
+import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -611,7 +612,14 @@ public class MainActivity extends AppCompatActivity {
                                     });
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
-                                    addNewMessage(answer, ismap, isHavingLink, isPieChart, datumRealmList);
+                                    String setMessage=answer;
+                                    if(answer.equals(getString(R.string.unknown_answer))){
+                                        setMessage=answer.replace(answer,getString(R.string.message_search));
+                                    }
+                                    addNewMessage(setMessage, ismap, isHavingLink, isPieChart, datumRealmList);
+                                    if(answer.equals(getString(R.string.unknown_answer))){
+                                    startActivity(new Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY,query));
+                                    }
                                 } else {
                                     if (!isNetworkConnected()) {
                                         recyclerAdapter.hideDots();
