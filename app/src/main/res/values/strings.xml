@@ -65,4 +65,6 @@
     <string name="activity_login_log_in">Login</string>
     <string name="activity_login_sing_up">Sign Up</string>
     <string name="activity_login_forgot_pass">Forgot Password?</string>
+    <string name="unknown_answer">I don\'t know.</string>
+    <string name="message_search">Conducting a Search.....Launching Browser.</string>
 </resources>
