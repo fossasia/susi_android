@@ -642,7 +642,7 @@ public class MainActivity extends AppCompatActivity {
                                         });
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
-                                        addNewMessage(getString(R.string.error_occurred_try_again), false, false, false, null);
+                                        addNewMessage(getString(R.string.error_invalid_token), false, false, false, null);
                                     }
                                 }
                                 if (isNetworkConnected())
@@ -679,7 +679,7 @@ public class MainActivity extends AppCompatActivity {
                                     });
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
-                                    addNewMessage(getString(R.string.error_occurred_try_again), false, false, false, null);
+                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, null);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
