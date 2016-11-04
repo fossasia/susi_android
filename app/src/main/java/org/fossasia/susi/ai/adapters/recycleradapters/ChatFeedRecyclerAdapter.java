@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.adapters.recycleradapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
@@ -23,6 +25,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -586,13 +590,43 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             int nSelected;
             switch (item.getItemId()) {
                 case R.id.menu_item_delete:
+                    AlertDialog.Builder d = new AlertDialog.Builder(context);
+                    d.setMessage("Are you sure ?").
+                            setCancelable(false).
+                            setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                    for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
-                        deleteMessage(getSelectedItems().get(i));
-                    }
-                    Snackbar.make(recyclerView, "Deleted Messages Successfully!!", Snackbar.LENGTH_LONG).show();
-                    actionMode.finish();
+                                    for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
+                                        deleteMessage(getSelectedItems().get(i));
+                                    }
+                                    if(getSelectedItems().size()==1)
+                                    Snackbar.make(recyclerView, " Message Deleted !!", Snackbar.LENGTH_LONG).show();
+                                    else
+                                        Snackbar.make(recyclerView, getSelectedItems().size()+ " Messages Deleted !!", Snackbar.LENGTH_LONG).show();
+
+                                    actionMode.finish();
+
+                                }
+                            }).
+                            setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            });
+
+                    AlertDialog alert = d.create();
+                    alert.setTitle("Delete");
+                    alert.show();
+                    Button cancel = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                    cancel.setTextColor(Color.BLUE);
+                    Button delete = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    delete.setTextColor(Color.RED);
                     return true;
+
+
+
 
                 case R.id.menu_item_copy:
                     nSelected = getSelectedItems().size();
