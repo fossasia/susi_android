@@ -17,6 +17,8 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -237,69 +239,84 @@ public class MainActivity extends AppCompatActivity {
      * Receiving speech input
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Handler mHandler=new Handler(Looper.getMainLooper());
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
-
-                    ArrayList<String> result = data
-                            .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    sendMessage(result.get(0));
-                }
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ArrayList<String> result = data
+                                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                            sendMessage(result.get(0));
+                        }
+                    });
+                    }
                 break;
             }
             case CROP_PICTURE: {
                 if (resultCode == RESULT_OK && null != data) {
-                    try {
-                        Bundle extras = data.getExtras();
-                        Bitmap thePic = extras.getParcelable("data");
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        thePic.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                        byte[] b = baos.toByteArray();
-                        String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-                        //SharePreference to store image
-                        PrefManager.putString(Constant.IMAGE_DATA, encodedImage);
-                        //set gallery image
-                        setChatBackground();
-                    } catch (NullPointerException e) {
-                        Log.d(TAG, e.getLocalizedMessage());
-                    }
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Bundle extras = data.getExtras();
+                                Bitmap thePic = extras.getParcelable("data");
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                thePic.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                byte[] b = baos.toByteArray();
+                                String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                                //SharePreference to store image
+                                PrefManager.putString(Constant.IMAGE_DATA, encodedImage);
+                                //set gallery image
+                                setChatBackground();
+                            } catch (NullPointerException e) {
+                                Log.d(TAG, e.getLocalizedMessage());
+                            }
+                        }
+                    });
                 }
                 break;
             }
             case SELECT_PICTURE: {
                 if (resultCode == RESULT_OK && null != data) {
-                    Uri selectedImageUri = data.getData();
-                    InputStream imageStream;
-                    Bitmap selectedImage;
-                    try {
-                        cropCapturedImage(selectedImageUri);
-                    } catch (ActivityNotFoundException aNFE) {
-                        //display an error message if user device doesn't support
-                        showToast(getString(R.string.error_crop_not_supported));
-                        try {
-                            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                            Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
-                            cursor.moveToFirst();
-                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                            String picturePath = cursor.getString(columnIndex);
-                            imageStream = getContentResolver().openInputStream(selectedImageUri);
-                            selectedImage = BitmapFactory.decodeStream(imageStream);
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                            byte[] b = baos.toByteArray();
-                            String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
-                            //SharePreference to store image
-                            PrefManager.putString(Constant.IMAGE_DATA, encodedImage);
-                            cursor.close();
-                            //set gallery image
-                            setChatBackground();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            Uri selectedImageUri = data.getData();
+                            InputStream imageStream;
+                            Bitmap selectedImage;
+                            try {
+                                cropCapturedImage(selectedImageUri);
+                            } catch (ActivityNotFoundException aNFE) {
+                                //display an error message if user device doesn't support
+                                showToast(getString(R.string.error_crop_not_supported));
+                                try {
+                                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                                    Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+                                    cursor.moveToFirst();
+                                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                                    String picturePath = cursor.getString(columnIndex);
+                                    imageStream = getContentResolver().openInputStream(selectedImageUri);
+                                    selectedImage = BitmapFactory.decodeStream(imageStream);
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                    byte[] b = baos.toByteArray();
+                                    String encodedImage = Base64.encodeToString(b, Base64.DEFAULT);
+                                    //SharePreference to store image
+                                    PrefManager.putString(Constant.IMAGE_DATA, encodedImage);
+                                    cursor.close();
+                                    //set gallery image
+                                    setChatBackground();
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    }
+                    });
                 }
                 break;
             }
