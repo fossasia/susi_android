@@ -33,7 +33,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/rounded_layout"
-
             android:orientation="horizontal"
             android:padding="5dp"
             android:layout_alignParentBottom="true">
