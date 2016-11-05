@@ -69,4 +69,6 @@
     <string name="activity_login_forgot_pass">Forgot Password?</string>
     <string name="unknown_answer">I don\'t know.</string>
     <string name="message_search">Conducting a Search.....Launching Browser.</string>
+    <string name="settings_mic">Mic Settings</string>
+    <string name="settings_speech">Speech Settings</string>
 </resources>
