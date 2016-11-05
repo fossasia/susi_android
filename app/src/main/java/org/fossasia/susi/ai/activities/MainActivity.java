@@ -596,7 +596,11 @@ public class MainActivity extends AppCompatActivity {
                                         ismap = place != null && !place.isEmpty();
                                         List<String> urlList = extractUrls(answer);
                                         Log.d(TAG, urlList.toString());
-                                        voiceReply(answer, ismap);
+                                        String setMessage=answer;
+                                        if(answer.equals(getString(R.string.unknown_answer))){
+                                            setMessage=answer.replace(answer,getString(R.string.message_search));
+                                        }
+                                        voiceReply(setMessage, ismap);
                                         isHavingLink = urlList != null;
                                         if (urlList.size() == 0) isHavingLink = false;
                                     } catch (IndexOutOfBoundsException | NullPointerException e) {
