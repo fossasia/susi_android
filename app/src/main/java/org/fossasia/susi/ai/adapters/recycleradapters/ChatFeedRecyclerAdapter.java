@@ -626,13 +626,18 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     return true;
 
 
-
-
                 case R.id.menu_item_copy:
                     nSelected = getSelectedItems().size();
                     if (nSelected == 1) {
+                        String copyText;
                         int selected = getSelectedItems().get(0);
-                        setClipboard(getItem(selected).getContent());
+                        copyText = getItem(selected).getContent();
+                        if(getItem(selected).isMap())
+                        {
+                            copyText = copyText.substring(0, copyText.indexOf("http"));
+
+                        }
+                        setClipboard(copyText);
                     } else {
                         String copyText = "";
                         for (Integer i : getSelectedItems()) {
@@ -641,17 +646,26 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             copyText += "[" + message.getTimeStamp() + "]";
                             copyText += " ";
                             copyText += message.isMine() ? "Me: " : "Susi: ";
-                            copyText += message.getContent();
+                            if(message.isMap())
+                            {
+                                String CopiedText = getData().get(i).getContent();
+                                copyText += CopiedText.substring(0, CopiedText.indexOf("http"));
+                            }
+                            else
+                                copyText += message.getContent();
                             copyText += "\n";
                             Log.d("copyText", " " + i + " " + copyText);
                         }
                         copyText = copyText.substring(0, copyText.length() - 1);
+
                         setClipboard(copyText);
                     }
 
                     Snackbar.make(recyclerView, "Copied to Clipboard!!", Snackbar.LENGTH_LONG).show();
                     actionMode.finish();
                     return true;
+
+
 
                 case R.id.menu_item_share:
                     nSelected = getSelectedItems().size();
