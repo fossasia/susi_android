@@ -158,8 +158,11 @@ public class MainActivity extends AppCompatActivity {
                         check = false;
                         switch (view.getId()) {
                             case R.id.btnSpeak:
-                                String message = ChatMessage.getText().toString();
-                                message = message.trim();
+                                String chat_message = ChatMessage.getText().toString();
+                                chat_message = chat_message.trim();
+                                String splits[]=chat_message.split("\n");
+                                String message="";
+                                for (String split : splits) message = message.concat(split).concat(" ");
                                 if (!TextUtils.isEmpty(message)) {
                                     sendMessage(message);
                                     ChatMessage.setText("");
