@@ -6,8 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
 /**
  * Created by rajdeep1008 on 17/10/16.
@@ -32,4 +30,10 @@ public class SnackbarBehavior extends CoordinatorLayout.Behavior<ViewGroup>{
         return true;
     }
 
+    @Override
+    public void onDependentViewRemoved(CoordinatorLayout parent, ViewGroup child, View dependency) {
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
+        params.bottomMargin = 0;
+        child.setLayoutParams(params);
+    }
 }
