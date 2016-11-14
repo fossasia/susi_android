@@ -33,12 +33,18 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout password;
     @BindView(R.id.log_in)
     Button logIn;
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        if (savedInstanceState != null) {
+            email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
+            password.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[1].toString());
+
+        }
     }
     
     @OnClick(R.id.sign_up)
@@ -116,6 +122,14 @@ public class LoginActivity extends AppCompatActivity {
                 pbutton.setTextColor(Color.BLUE);
             }
 
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString() };
+        outState.putCharSequenceArray("savedStates", values);
+
     }
+}
 
 
