@@ -565,7 +565,7 @@ public class MainActivity extends AppCompatActivity {
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
 
-        updateDatabase(id, query, true, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+        updateDatabase(id, query, true, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
         recyclerAdapter.showDots();
         new computeThread().start();
@@ -589,7 +589,9 @@ public class MainActivity extends AppCompatActivity {
                                     String answer;
                                     boolean ismap, isPieChart = false;
                                     boolean isHavingLink;
-                                    RealmList<Datum> datumRealmList = new RealmList<>();
+                                    boolean isSearchResult;
+                                    RealmList<Datum> datumRealmList = null;
+                                    List<Datum> datumList = null;
                                     try {
                                         SusiResponse susiResponse = response.body();
                                         answer = susiResponse.getAnswers().get(0).getActions()
@@ -616,11 +618,17 @@ public class MainActivity extends AppCompatActivity {
                                         if (response.body().getAnswers().get(0).getActions().size() > 1) {
                                             String type = response.body().getAnswers().get(0).getActions().get(1).getType();
                                             isPieChart = type != null && type.equals("piechart");
-                                            datumRealmList = response.body().getAnswers().get(0).getData();
+                                            datumList = response.body().getAnswers().get(0).getData();
                                         }
                                     } catch (Exception e) {
                                         Log.d(TAG, e.getLocalizedMessage());
                                         isPieChart = false;
+                                    }
+                                    try {
+                                        isSearchResult = response.body().getAnswers().get(0).getActions().get(1).getType().equals("rss");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                    } catch (Exception e) {
+                                        isSearchResult = false;
                                     }
                                     realm.executeTransactionAsync(new Realm.Transaction() {
                                         @Override
@@ -640,7 +648,7 @@ public class MainActivity extends AppCompatActivity {
                                     if(answer.equals(getString(R.string.unknown_answer))){
                                         setMessage=answer.replace(answer,getString(R.string.message_search));
                                     }
-                                    addNewMessage(setMessage, ismap, isHavingLink, isPieChart, datumRealmList);
+                                    addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isSearchResult, datumList);
                                     if(answer.equals(getString(R.string.unknown_answer))){
                                     startActivity(new Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY,query));
                                     }
@@ -666,7 +674,7 @@ public class MainActivity extends AppCompatActivity {
                                         });
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
-                                        addNewMessage(getString(R.string.error_invalid_token), false, false, false, null);
+                                        addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, null);
                                     }
                                 }
                                 if (isNetworkConnected())
@@ -703,7 +711,7 @@ public class MainActivity extends AppCompatActivity {
                                     });
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
-                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, null);
+                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, null);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -718,7 +726,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, RealmList<Datum> datumRealmList) {
+    private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isSearchReult, List<Datum> datumList) {
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -726,11 +734,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        updateDatabase(id, answer, false, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumRealmList);
+        updateDatabase(id, answer, false, isSearchReult, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
     }
 
-    private void updateDatabase(final long id, final String message, final boolean mine,
-                                final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp, final boolean isPieChart, final RealmList<Datum> datumRealmList) {
+    private void updateDatabase(final long id, final String message, final boolean mine, final boolean isSearchResult,
+                                final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp, final boolean isPieChart, final List<Datum> datumList) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -743,12 +751,21 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setMap(isMap);
                 chatMessage.setHavingLink(isHavingLink);
                 chatMessage.setIsPieChart(isPieChart);
+                chatMessage.setSearchResult(isSearchResult);
                 if (mine)
                     chatMessage.setIsDelivered(false);
                 else
                     chatMessage.setIsDelivered(true);
 
-                if (datumRealmList != null) {
+                if (datumList != null) {
+                    RealmList<Datum> datumRealmList = new RealmList<>();
+                    for (Datum datum : datumList) {
+                        Datum realmDatum = bgRealm.createObject(Datum.class);
+                        realmDatum.setDescription(datum.getDescription());
+                        realmDatum.setLink(datum.getLink());
+                        realmDatum.setTitle(datum.getTitle());
+                        datumRealmList.add(realmDatum);
+                    }
                     chatMessage.setDatumRealmList(datumRealmList);
                 }
             }
@@ -760,7 +777,7 @@ public class MainActivity extends AppCompatActivity {
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                Log.e(TAG, error.getMessage());
+                error.printStackTrace();
             }
         });
     }
