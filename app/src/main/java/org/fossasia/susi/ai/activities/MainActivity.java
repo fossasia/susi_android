@@ -400,7 +400,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onInit(int status) {
                         if (status != TextToSpeech.ERROR) {
-                            textToSpeech.setLanguage(Locale.UK);
+                            Locale locale = textToSpeech.getLanguage();
+                            textToSpeech.setLanguage(locale);
                             String spokenReply = reply;
                             if(isMap) {
                                 spokenReply = reply.substring(0, reply.indexOf("http"));
