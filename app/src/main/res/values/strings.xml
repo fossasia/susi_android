@@ -73,4 +73,6 @@
     <string name="message_search">Conducting a Search.....Launching Browser.</string>
     <string name="settings_mic">Mic Settings</string>
     <string name="settings_speech">Speech Settings</string>
+    <string name="Language">Language</string>
+    <string name="action_select_language">Select a Language</string>
 </resources>
