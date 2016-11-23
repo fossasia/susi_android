@@ -9,7 +9,7 @@ import io.realm.RealmObject;
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
-    private boolean isImage, isMine, isMap, isPieChart, isDelivered, isHavingLink;
+    private boolean isImage, isMine, isMap, isPieChart, isDelivered, isHavingLink, isSearchResult;
     private long id;
     private String content, timeStamp;
     private RealmList<Datum> datumRealmList;
@@ -18,7 +18,7 @@ public class ChatMessage extends RealmObject {
         datumRealmList = new RealmList<>();
     }
 
-    public ChatMessage(long id, String content, boolean isMine, boolean isImage, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
+    public ChatMessage(long id, String content, boolean isMine, boolean isImage, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
         this.id = id;
         this.isImage = isImage;
         this.isMine = isMine;
@@ -28,6 +28,7 @@ public class ChatMessage extends RealmObject {
         this.isHavingLink = isHavingLink;
         this.datumRealmList = datumRealmList;
         this.isPieChart = isPieChart;
+        this.isSearchResult = isSearchResult;
     }
 
     public boolean isMap() {
@@ -82,9 +83,11 @@ public class ChatMessage extends RealmObject {
 
     public void setHavingLink(boolean havingLink) {isHavingLink = havingLink;}
 
-    public void setDatumRealmList(RealmList<Datum> datumRealmList){ this.datumRealmList = datumRealmList; }
-
     public RealmList<Datum> getDatumRealmList() { return datumRealmList; }
+
+    public void setDatumRealmList(RealmList<Datum> datumRealmList) {
+        this.datumRealmList = datumRealmList;
+    }
 
     public void setIsPieChart(boolean isPieChart){ this.isPieChart = isPieChart; }
 
@@ -94,4 +97,11 @@ public class ChatMessage extends RealmObject {
 
     public void setIsDelivered(boolean isDelivered) { this.isDelivered = isDelivered; }
 
+    public boolean isSearchResult() {
+        return isSearchResult;
+    }
+
+    public void setSearchResult(boolean searchResult) {
+        isSearchResult = searchResult;
+    }
 }

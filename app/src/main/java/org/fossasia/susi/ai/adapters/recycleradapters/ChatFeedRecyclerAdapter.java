@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -26,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -45,6 +45,7 @@ import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.SearchResultsHolder;
 import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
@@ -83,6 +84,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private static final int SUSI_WITHLINK = 6;
     private static final int DOTS = 8;
     private static final int NULL_HOLDER = 9;
+    private static final int SEARCH_RESULT = 10;
     private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
@@ -133,13 +135,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         nullHolder = new ZeroHeightHolder(view1);
     }
 
-    public void showDots(){
-        isSusiTyping = true;
-    }
-    public void hideDots(){
-        isSusiTyping = false;
-    }
-
     private static List<String> extractLinks(String text) {
         List<String> links = new ArrayList<String>();
         Matcher m = Patterns.WEB_URL.matcher(text);
@@ -149,6 +144,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
 
         return links;
+    }
+
+    public void showDots() {
+        isSusiTyping = true;
+    }
+
+    public void hideDots() {
+        isSusiTyping = false;
     }
 
     @Override
@@ -195,6 +198,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             case PIECHART:
                 view = inflater.inflate(R.layout.item_susi_piechart, viewGroup, false);
                 return new PieChartViewHolder(view, clickListener);
+            case SEARCH_RESULT:
+                view = inflater.inflate(R.layout.search_list, viewGroup, false);
+                return new SearchResultsHolder(view);
             case DOTS:
                 return dotsHolder;
             case NULL_HOLDER:
@@ -210,9 +216,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public int getItemViewType(int position) {
         ChatMessage item = getItem(position);
 
-        if(item.getId()==-404) return DOTS;
-        else if(item.getId()==-405) return NULL_HOLDER;
+        if (item.getId() == -404) return DOTS;
+        else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isMap()) return MAP;
+        else if (item.isSearchResult()) return SEARCH_RESULT;
         else if (item.isPieChart()) return PIECHART;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
@@ -224,7 +231,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
     @Override
     public int getItemCount() {
-        if(getData()!= null && getData().isValid()){
+        if (getData() != null && getData().isValid()) {
             return getData().size() + 1;
         }
         return 0;
@@ -233,13 +240,13 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     @Nullable
     @Override
     public ChatMessage getItem(int index) {
-        if(getData()!= null && getData().isValid()){
-            if(index == getData().size()){
-                if(isSusiTyping) {
-                    return new ChatMessage(-404, "", false, false, false, false, false,
+        if (getData() != null && getData().isValid()) {
+            if (index == getData().size()) {
+                if (isSusiTyping) {
+                    return new ChatMessage(-404, "", false, false, false, false, false, false,
                             "", null);
                 }
-                return new ChatMessage(-405, "", false, false, false, false, false,
+                return new ChatMessage(-405, "", false, false, false, false, false, false,
                         "", null);
             }
             return getData().get(index);
@@ -261,6 +268,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             handleItemEvents(linkPreviewViewHolder, position);
+        } else if (holder instanceof SearchResultsHolder) {
+            SearchResultsHolder searchResultsHolder = (SearchResultsHolder) holder;
+            handleItemEvents(searchResultsHolder, position);
         }
 
        /* if (highlightMessagePosition == position) {
@@ -268,6 +278,24 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }*/
+    }
+
+    private void handleItemEvents(SearchResultsHolder searchResultsHolder, int position) {
+        final ChatMessage model = getData().get(position);
+        if (model != null) {
+            searchResultsHolder.message.setText(model.getContent());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
+                    LinearLayoutManager.HORIZONTAL, false);
+            searchResultsHolder.recyclerView.setLayoutManager(layoutManager);
+            SearchResultsAdapter resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
+            searchResultsHolder.recyclerView.setAdapter(resultsAdapter);
+            searchResultsHolder.timeStamp.setText(model.getTimeStamp());
+        } else {
+            searchResultsHolder.recyclerView.setAdapter(null);
+            searchResultsHolder.recyclerView.setLayoutManager(null);
+            searchResultsHolder.message.setText(null);
+            searchResultsHolder.timeStamp.setText(null);
+        }
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
@@ -600,10 +628,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                     for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
                                         deleteMessage(getSelectedItems().get(i));
                                     }
-                                    if(getSelectedItems().size()==1)
-                                    Snackbar.make(recyclerView, " Message Deleted !!", Snackbar.LENGTH_LONG).show();
+                                    if (getSelectedItems().size() == 1)
+                                        Snackbar.make(recyclerView, " Message Deleted !!", Snackbar.LENGTH_LONG).show();
                                     else
-                                        Snackbar.make(recyclerView, getSelectedItems().size()+ " Messages Deleted !!", Snackbar.LENGTH_LONG).show();
+                                        Snackbar.make(recyclerView, getSelectedItems().size() + " Messages Deleted !!", Snackbar.LENGTH_LONG).show();
 
                                     actionMode.finish();
 
@@ -632,8 +660,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         String copyText;
                         int selected = getSelectedItems().get(0);
                         copyText = getItem(selected).getContent();
-                        if(getItem(selected).isMap())
-                        {
+                        if (getItem(selected).isMap()) {
                             copyText = copyText.substring(0, copyText.indexOf("http"));
 
                         }
@@ -646,12 +673,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             copyText += "[" + message.getTimeStamp() + "]";
                             copyText += " ";
                             copyText += message.isMine() ? "Me: " : "Susi: ";
-                            if(message.isMap())
-                            {
+                            if (message.isMap()) {
                                 String CopiedText = getData().get(i).getContent();
                                 copyText += CopiedText.substring(0, CopiedText.indexOf("http"));
-                            }
-                            else
+                            } else
                                 copyText += message.getContent();
                             copyText += "\n";
                             Log.d("copyText", " " + i + " " + copyText);
@@ -664,7 +689,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     Snackbar.make(recyclerView, "Copied to Clipboard!!", Snackbar.LENGTH_LONG).show();
                     actionMode.finish();
                     return true;
-
 
 
                 case R.id.menu_item_share:
