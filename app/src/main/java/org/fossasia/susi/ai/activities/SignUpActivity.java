@@ -39,6 +39,12 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
+        if(savedInstanceState!=null){
+            email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
+            password.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[1].toString());
+            confirmPassword.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[2].toString());
+        }
+
         setupPasswordWatcher();
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -123,5 +129,10 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString(), confirmPassword.getEditText().getText().toString() };
+        outState.putCharSequenceArray("savedStates", values);
+    }
 }
