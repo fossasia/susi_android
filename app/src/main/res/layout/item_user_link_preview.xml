@@ -9,8 +9,8 @@
     android:layout_margin="@dimen/message_layout_margin"
     android:gravity="end"
     app:cmv_arrowGravity="start"
-    app:cmv_backgroundColor="@color/me_message_bg"
-    app:cmv_backgroundColorPressed="@color/me_message_bg_dark"
+    app:cmv_backgroundColor="@color/user_message_bg"
+    app:cmv_backgroundColorPressed="@color/user_message_pressed_bg"
     app:cmv_contentPadding="@dimen/cmv_padding"
     app:cmv_cornerRadius="@dimen/cmv_corner_radius"
     app:cmv_showArrow="false">
@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/md_white_1000"
+                android:textColor="@color/md_black_1000"
                 android:textSize="@dimen/message_text_size"
                 tools:text="Hello!!"/>
 
@@ -42,7 +42,7 @@
                 android:layout_height="match_parent"
                 android:gravity="bottom|end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/md_blue_grey_50"
+                android:textColor="@color/md_grey_600"
                 android:textSize="@dimen/timestamp_size"
                 tools:text="05:32" />
 
@@ -69,17 +69,17 @@
                 android:layout_height="@dimen/preview_layout_height"
                 android:layout_marginTop="@dimen/message_layout_margin"
                 android:layout_weight="0.8"
-                android:background="@color/md_blue_300"
+                android:background="@color/user_message_link_preview_bg"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/link_preview_title"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@color/md_blue_200"
+                    android:background="@color/user_message_link_preview_bg"
                     android:maxLines="1"
                     android:padding="@dimen/standard_content_padding"
-                    android:textColor="@color/md_grey_200"
+                    android:textColor="@color/md_grey_800"
                     tools:text="@string/sample_website_headline" />
 
                 <TextView
@@ -91,7 +91,7 @@
                     android:maxLines="2"
                     android:padding="@dimen/standard_content_padding"
                     tools:text="@string/sample_website_description"
-                    android:textColor="@color/md_grey_200" />
+                    android:textColor="@color/md_grey_600" />
 
 
             </LinearLayout>

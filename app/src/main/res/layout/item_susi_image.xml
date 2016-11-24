@@ -9,8 +9,8 @@
     android:layout_marginTop="4dp"
     app:cmv_arrowGravity="start"
     app:cmv_arrowPosition="left"
-    app:cmv_backgroundColor="@color/other_message_bg"
-    app:cmv_backgroundColorPressed="@color/other_message_bg_dark"
+    app:cmv_backgroundColor="@color/susi_message_bg"
+    app:cmv_backgroundColorPressed="@color/susi_message_pressed_bg"
     app:cmv_contentPadding="3dp"
     app:cmv_cornerRadius="3dp"
     app:cmv_showArrow="true">

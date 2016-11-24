@@ -301,7 +301,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
 
-        chatViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
+        chatViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         if (model != null) {
             try {
                 switch (getItemViewType(position)) {
@@ -357,7 +357,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
 
         final ChatMessage model = getData().get(position);
-        mapViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
+        mapViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         if (model != null) {
             try {
@@ -409,7 +409,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
-        linkPreviewViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
+        linkPreviewViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
             @Override
@@ -485,7 +485,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (model != null) {
             try {
                 pieChartViewHolder.chatTextView.setText(model.getContent());
-                pieChartViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.transluscent_blue : android.R.color.transparent));
+                pieChartViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
                 pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
                 pieChartViewHolder.pieChart.setUsePercentValues(true);
                 pieChartViewHolder.pieChart.setDrawHoleEnabled(true);
