@@ -605,9 +605,6 @@ public class MainActivity extends AppCompatActivity {
                                         List<String> urlList = extractUrls(answer);
                                         Log.d(TAG, urlList.toString());
                                         String setMessage=answer;
-                                        if(answer.equals(getString(R.string.unknown_answer))){
-                                            setMessage=answer.replace(answer,getString(R.string.message_search));
-                                        }
                                         voiceReply(setMessage, ismap);
                                         isHavingLink = urlList != null;
                                         if (urlList.size() == 0) isHavingLink = false;
@@ -648,13 +645,7 @@ public class MainActivity extends AppCompatActivity {
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
                                     String setMessage=answer;
-                                    if(answer.equals(getString(R.string.unknown_answer))){
-                                        setMessage=answer.replace(answer,getString(R.string.message_search));
-                                    }
                                     addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isSearchResult, datumList);
-                                    if(answer.equals(getString(R.string.unknown_answer))){
-                                    startActivity(new Intent(Intent.ACTION_WEB_SEARCH).putExtra(SearchManager.QUERY,query));
-                                    }
                                 } else {
                                     if (!isNetworkConnected()) {
                                         recyclerAdapter.hideDots();
@@ -984,4 +975,5 @@ public class MainActivity extends AppCompatActivity {
             computeOtherMessage();
         }
     }
+
 }
