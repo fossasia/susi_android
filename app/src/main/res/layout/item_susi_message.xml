@@ -46,6 +46,11 @@
             android:textSize="@dimen/timestamp_size"
             tools:text="05:32 PM"
             android:textAlignment="textEnd" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:id="@+id/img"/>
 
     </LinearLayout>
 </me.himanshusoni.chatmessageview.ChatMessageView>

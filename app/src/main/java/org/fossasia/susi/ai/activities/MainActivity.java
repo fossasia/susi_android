@@ -692,6 +692,18 @@ public class MainActivity extends AppCompatActivity {
                                 recyclerAdapter.hideDots();
 
                                 if (!isNetworkConnected()) {
+                                    realm.executeTransactionAsync(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm bgRealm) {
+                                            long prId = id;
+                                            try {
+                                                ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
+                                                chatMessage.setIsDelivered(false);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
                                     recyclerAdapter.hideDots();
                                     nonDeliveredMessages.addFirst(new Pair(query, id));
                                     Snackbar snackbar = Snackbar.make(coordinatorLayout,
