@@ -12,8 +12,8 @@
     android:layout_marginTop="@dimen/message_layout_margin"
     app:cmv_arrowGravity="center"
     app:cmv_arrowPosition="left"
-    app:cmv_backgroundColor="@color/other_message_bg"
-    app:cmv_backgroundColorPressed="@color/other_message_bg_dark"
+    app:cmv_backgroundColor="@color/susi_message_bg"
+    app:cmv_backgroundColorPressed="@color/susi_message_pressed_bg"
     app:cmv_contentPadding="@dimen/cmv_padding"
     app:cmv_cornerRadius="@dimen/cmv_corner_radius"
     app:cmv_showArrow="false">
@@ -32,7 +32,7 @@
             android:autoLink="all"
             android:maxWidth="@dimen/message_layout_max_width"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/md_white_1000"
+            android:textColor="@color/md_black_1000"
             android:textColorLink="#3333FF"
             tools:text="Hello! d fs s fs fsd fsd fsd fds fds fds fs  df dsf  dfds ds fsdf d" />
 
@@ -46,7 +46,7 @@
             android:maxLines="2"
             android:maxWidth="@dimen/message_layout_max_width"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/md_white_1000"
+            android:textColor="@color/md_black_1000"
             android:textColorLink="#3333FF"
             tools:text="Hello!" />
 
@@ -70,18 +70,18 @@
                 android:layout_height="80dp"
                 android:layout_marginTop="4dp"
                 android:layout_weight="0.8"
-                android:background="@color/md_green_300"
+                android:background="@color/susi_message_link_preview_bg"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/link_preview_title"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@color/md_green_200"
+                    android:background="@color/susi_message_link_preview_bg"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:padding="5dp"
-                    android:textColor="@color/md_grey_200"
+                    android:textColor="@color/md_grey_800"
                     tools:text="Website Sample Headline" />
 
                 <TextView
@@ -94,7 +94,7 @@
                     android:maxLines="2"
                     android:padding="5dp"
                     android:text="Sample Text Extracted from a website"
-                    android:textColor="@color/md_grey_200" />
+                    android:textColor="@color/md_grey_600" />
 
             </LinearLayout>
 

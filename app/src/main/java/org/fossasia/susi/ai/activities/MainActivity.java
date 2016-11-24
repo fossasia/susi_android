@@ -461,11 +461,12 @@ public class MainActivity extends AppCompatActivity {
         Drawable bg;
         if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_default))) {
             //set default layout
-            getWindow().setBackgroundDrawableResource(R.drawable.swirl_pattern);
+            getWindow().getDecorView()
+                    .setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg));
         } else if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_no_wall))) {
             //set no wall
             getWindow().getDecorView()
-                    .setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent));
+                    .setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg));
         } else if (!previouslyChatImage.equalsIgnoreCase("")) {
             byte[] b = Base64.decode(previouslyChatImage, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(b, 0, b.length);
@@ -474,7 +475,8 @@ public class MainActivity extends AppCompatActivity {
             getWindow().setBackgroundDrawable(bg);
         } else {
             //set default layout when app launch first time
-            getWindow().setBackgroundDrawableResource(R.drawable.swirl_pattern);
+            getWindow().getDecorView()
+                    .setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg));
         }
     }
 

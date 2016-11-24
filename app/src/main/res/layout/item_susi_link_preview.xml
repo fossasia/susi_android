@@ -10,8 +10,8 @@
     android:layout_marginTop="@dimen/message_layout_margin"
     app:cmv_arrowGravity="start"
     app:cmv_arrowPosition="left"
-    app:cmv_backgroundColor="@color/other_message_bg"
-    app:cmv_backgroundColorPressed="@color/other_message_bg_dark"
+    app:cmv_backgroundColor="@color/susi_message_bg"
+    app:cmv_backgroundColorPressed="@color/susi_message_pressed_bg"
     app:cmv_contentPadding="@dimen/cmv_padding"
     app:cmv_cornerRadius="@dimen/cmv_corner_radius"
     app:cmv_showArrow="false">
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="web"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/md_white_1000"
+                android:textColor="@color/md_black_1000"
                 android:textSize="@dimen/message_text_size"
                 tools:text="Hello!!"/>
 
@@ -43,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:gravity="bottom|end"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/md_blue_grey_50"
+                android:textColor="@color/md_grey_600"
                 android:textSize="@dimen/timestamp_size"
                 tools:text="05:32" />
 
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/md_green_300"
+                android:background="@color/susi_message_link_preview_bg"
                 android:layout_weight="0.8"
                 android:orientation="vertical">
 
@@ -79,11 +79,11 @@
                     android:id="@+id/link_preview_title"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@color/md_green_200"
+                    android:background="@color/susi_message_link_preview_bg"
                     android:padding="5dp"
                     android:maxLines="1"
                     tools:text="Website Sample Headline"
-                    android:textColor="@color/md_grey_200"/>
+                    android:textColor="@color/md_grey_800"/>
                 
                 <TextView
                     android:id="@+id/link_preview_description"
@@ -93,7 +93,7 @@
                     android:padding="5dp"
                     android:gravity="center_vertical"
                     android:maxLines="2"
-                    android:textColor="@color/md_grey_200"
+                    android:textColor="@color/md_grey_600"
                     android:text="Sample Text Extracted from a website"/>
 
             </LinearLayout>
