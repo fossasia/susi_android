@@ -308,6 +308,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     case USER_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
+                        if(model.getIsDelivered())
+                            chatViewHolder.receivedTick.setImageResource(R.drawable.check);
+                        else
+                            chatViewHolder.receivedTick.setImageResource(R.drawable.clock);
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
                             String text = chatViewHolder.chatTextView.getText().toString();
@@ -323,6 +327,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                         }
                         chatViewHolder.timeStamp.setTag(chatViewHolder);
+                        chatViewHolder.receivedTick.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
@@ -409,6 +414,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
+        if(model.getIsDelivered())
+            linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.check);
+        else
+            linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.clock);
         linkPreviewViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
