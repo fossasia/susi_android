@@ -1,6 +1,8 @@
 package org.fossasia.susi.ai.adapters.viewholders;
 
+import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
@@ -29,7 +31,8 @@ public class ChatViewHolder extends MessageViewHolder{
     public TextView timeStamp;
     @BindView(R.id.chatMessageView)
     public ChatMessageView chatMessageView;
-
+    @Nullable @BindView(R.id.received_tick)
+    public ImageView receivedTick;
 
     public ChatViewHolder(View view, ClickListener clickListener ,int myMessage) {
         super(view,clickListener);

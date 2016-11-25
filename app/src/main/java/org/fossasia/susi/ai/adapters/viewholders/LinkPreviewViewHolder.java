@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.adapters.viewholders;
 
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -31,6 +32,8 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     public TextView timestampTextView;
     @BindView(R.id.preview_layout)
     public LinearLayout previewLayout;
+    @Nullable @BindView(R.id.received_tick)
+    public ImageView receivedTick;
 
     public LinkPreviewViewHolder(View itemView , ClickListener listener) {
         super(itemView, listener);
