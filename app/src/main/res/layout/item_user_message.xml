@@ -8,6 +8,9 @@
     android:layout_gravity="end"
     android:layout_marginBottom="@dimen/message_layout_margin"
     android:layout_marginTop="@dimen/message_layout_margin"
+    android:layout_marginLeft="80dp"
+    android:minWidth="@dimen/messagelayout_minwidth"
+    android:maxWidth="@dimen/message_layout_max_width"
     app:cmv_arrowGravity="center"
     app:cmv_arrowMargin="3dp"
     app:cmv_arrowPosition="right"
@@ -38,7 +41,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingRight="5dp">
+            android:layout_gravity="right"
+            android:gravity="end"
+            >
         <TextView
             android:id="@+id/timestamp"
             android:layout_width="wrap_content"
@@ -55,7 +60,8 @@
                 android:layout_width="11dp"
                 android:layout_height="11dp"
                 android:src="@drawable/clock"
-                android:layout_marginLeft="5dp" />
+                android:layout_marginLeft="4dp"
+                />
         </LinearLayout>
 
     </LinearLayout>
