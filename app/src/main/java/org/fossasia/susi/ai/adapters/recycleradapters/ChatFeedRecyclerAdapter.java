@@ -377,6 +377,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         /*
                           Open in Google Maps if installed, otherwise open browser.
                         */
+
                         if (AndroidHelper.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
                             Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", mapHelper.getLattitude(), mapHelper.getLongitude(), mapHelper.getZoom()));
                             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
