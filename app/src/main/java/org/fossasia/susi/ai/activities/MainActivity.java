@@ -163,9 +163,9 @@ public class MainActivity extends AppCompatActivity {
                                 String splits[]=chat_message.split("\n");
                                 String message="";
                                 for (String split : splits) message = message.concat(split).concat(" ");
-                                if (!TextUtils.isEmpty(message)) {
-                                    btnSpeak.setActivated(false);
-
+                                if (!TextUtils.isEmpty(chat_message)) {
+                                    sendMessage(message);
+                                    ChatMessage.setText("");
                                 }
                                 break;
                         }
