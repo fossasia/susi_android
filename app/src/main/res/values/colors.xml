@@ -315,6 +315,7 @@
     <!--Background color for date holder-->
     <color name="date_bg">#E3F6FE</color>
 
-
+    <!--Link color-->
+    <color name="link_text">#14a1b3</color>
 
 </resources>

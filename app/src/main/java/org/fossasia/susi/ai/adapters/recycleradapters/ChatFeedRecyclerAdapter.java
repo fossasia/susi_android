@@ -321,7 +321,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             while (matcher.find()) {
                                 int startIndex = matcher.start();
                                 int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                             chatViewHolder.chatTextView.setText(modify);
 
@@ -341,7 +341,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             while (matcher.find()) {
                                 int startIndex = matcher.start();
                                 int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             }
                             chatViewHolder.chatTextView.setText(modify);
 
@@ -399,7 +399,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     while (matcher.find()) {
                         int startIndex = matcher.start();
                         int endIndex = matcher.end();
-                        modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
                     mapViewHolder.text.setText(modify);
                 }
@@ -472,7 +472,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             while (matcher.find()) {
                 int startIndex = matcher.start();
                 int endIndex = matcher.end();
-                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#2b3c4e")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             linkPreviewViewHolder.text.setText(modify);
         }

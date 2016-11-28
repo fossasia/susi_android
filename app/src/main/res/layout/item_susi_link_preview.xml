@@ -34,6 +34,7 @@
                 android:autoLink="web"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/md_black_1000"
+                android:textColorLink="@color/link_text"
                 android:textSize="@dimen/message_text_size"
                 tools:text="Hello!!"/>
 
