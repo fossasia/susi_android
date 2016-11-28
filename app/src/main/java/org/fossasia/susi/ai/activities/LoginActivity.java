@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -21,6 +22,7 @@ import org.fossasia.susi.ai.rest.model.LoginResponse;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -122,6 +124,15 @@ public class LoginActivity extends AppCompatActivity {
                 pbutton.setTextColor(Color.BLUE);
             }
 
+    @OnEditorAction(R.id.password_input)
+    public boolean onEditorAction(int actionId) {
+        boolean handled = false;
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+            logIn();
+            handled = true;
+        }
+        return handled;
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

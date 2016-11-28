@@ -70,7 +70,8 @@
     <string name="activity_login_sign_up">Sign up for SUSI</string>
     <string name="activity_login_imageview_description">SUSI Logo</string>
     <string name="unknown_answer">I don\'t know.</string>
-    <string name="message_search">Conducting a Search.....Launching Browser.</string>
     <string name="settings_mic">Mic Settings</string>
     <string name="settings_speech">Speech Settings</string>
+    <string name="Language">Language</string>
+    <string name="action_select_language">Select a Language</string>
 </resources>

@@ -299,11 +299,23 @@
     <color name="md_blue_grey_800">#37474F</color>
     <color name="md_blue_grey_900">#263238</color>
 
-    <!--Chat bubble colors, as web client at asksusi.com-->
-    <color name="me_message_bg">#94C2ED</color>
-    <color name="me_message_bg_dark">#039BE5</color>
-    <color name="other_message_bg">#86BB71</color>
-    <color name="other_message_bg_dark">#53883E</color>
-    <color name="transluscent_blue">#4a5bb0bc</color>
+    <!--Chat bubble colors for android-->
+    <color name="user_message_bg">#DCF8C6</color>
+    <color name="susi_message_bg">#FFFFFF</color>
+    <color name="user_message_pressed_bg">#9DE1FE</color>
+    <color name="susi_message_pressed_bg">#9DE1FE</color>
+    <color name="translucent_blue">#4a5bb0bc</color>
+
+    <color name="user_message_link_preview_bg">#D1ECBC</color>
+    <color name="susi_message_link_preview_bg">#F5F5F5</color>
+
+    <!--Default chat background color-->
+    <color name="default_bg">#E5DDD5</color>
+
+    <!--Background color for date holder-->
+    <color name="date_bg">#E3F6FE</color>
+
+    <!--Link color-->
+    <color name="link_text">#14a1b3</color>
 
 </resources>

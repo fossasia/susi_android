@@ -1,4 +1,3 @@
-
 package org.fossasia.susi.ai.rest.model;
 
 
@@ -8,38 +7,47 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmObject;
 
 
-public class Datum extends RealmObject{
+public class Datum extends RealmObject {
 
     @SerializedName("0")
     @Expose
-    String _0;
+    private String _0;
     @SerializedName("1")
     @Expose
-    String _1;
+    private String _1;
     @SerializedName("answer")
     @Expose
-    String answer;
+    private String answer;
     @SerializedName("query")
     @Expose
-    String query;
+    private String query;
     @SerializedName("lon")
     @Expose
-    Double lon;
+    private Double lon;
     @SerializedName("place")
     @Expose
-    String place;
+    private String place;
     @SerializedName("lat")
     @Expose
-    Double lat;
+    private Double lat;
     @SerializedName("population")
     @Expose
-    Integer population;
+    private Integer population;
     @SerializedName("percent")
     @Expose
-    Float percent;
+    private Float percent;
     @SerializedName("president")
     @Expose
-    String president;
+    private String president;
+    @SerializedName("title")
+    @Expose
+    private String title;
+    @SerializedName("description")
+    @Expose
+    private String description;
+    @SerializedName("link")
+    @Expose
+    private String link;
 
     public String get_0() {
         return _0;
@@ -73,7 +81,35 @@ public class Datum extends RealmObject{
         return population;
     }
 
-    public Float getPercent(){ return percent; }
+    public Float getPercent() {
+        return percent;
+    }
 
-    public String getPresident(){ return president; }
+    public String getPresident() {
+        return president;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 }

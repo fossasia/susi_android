@@ -1,6 +1,6 @@
 package org.fossasia.susi.ai.adapters.viewholders;
 
-import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,13 +13,14 @@ import butterknife.ButterKnife;
 import me.himanshusoni.chatmessageview.ChatMessageView;
 
 /**
- * Created by better_clever on 12/10/16.
+ * Created by saurabh on 19/11/16.
  */
 
-public class LinkPreviewViewHolder extends MessageViewHolder{
-
-    @BindView(R.id.text)
-    public TextView text;
+public class SearchResultHolder extends RecyclerView.ViewHolder {
+    @BindView(R.id.title)
+    public TextView title;
+    @BindView(R.id.description)
+    public TextView description;
     @BindView(R.id.chatMessageView)
     public ChatMessageView chatMessageView;
     @BindView(R.id.link_preview_image)
@@ -28,16 +29,11 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     public TextView titleTextView;
     @BindView(R.id.link_preview_description)
     public TextView descriptionTextView;
-    @BindView(R.id.timestamp)
-    public TextView timestampTextView;
     @BindView(R.id.preview_layout)
     public LinearLayout previewLayout;
-    @Nullable @BindView(R.id.received_tick)
-    public ImageView receivedTick;
 
-    public LinkPreviewViewHolder(View itemView , ClickListener listener) {
-        super(itemView, listener);
-        ButterKnife.bind(this,itemView);
+    public SearchResultHolder(View itemView) {
+        super(itemView);
+        ButterKnife.bind(this, itemView);
     }
-
 }

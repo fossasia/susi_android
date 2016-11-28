@@ -43,4 +43,11 @@
         android:summaryOff="@string/settings_enterPreference_summaryOff"
         android:summaryOn="@string/settings_enterPreference_summaryOn"
         android:title="@string/settings_speechAlways_label" />
+
+    <PreferenceScreen
+        android:title="@string/Language"
+        android:key="Lang_Select"
+        android:summary="@string/action_select_language">
+    </PreferenceScreen>
+
 </PreferenceScreen>
