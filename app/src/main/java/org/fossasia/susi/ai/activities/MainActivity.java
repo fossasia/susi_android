@@ -441,11 +441,6 @@ public class MainActivity extends AppCompatActivity {
                                         getString(R.string.background_no_wall));
                                 setChatBackground();
                                 break;
-                            case 2:
-                                PrefManager.putString(Constant.IMAGE_DATA,
-                                        getString(R.string.background_default));
-                                setChatBackground();
-                                break;
                         }
                     }
                 });
@@ -467,11 +462,7 @@ public class MainActivity extends AppCompatActivity {
     public void setChatBackground() {
         String previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "");
         Drawable bg;
-        if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_default))) {
-            //set default layout
-            getWindow().getDecorView()
-                    .setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg));
-        } else if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_no_wall))) {
+        if (previouslyChatImage.equalsIgnoreCase(getString(R.string.background_no_wall))) {
             //set no wall
             getWindow().getDecorView()
                     .setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg));
