@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.activities;
 
-import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -394,25 +393,34 @@ public class MainActivity extends AppCompatActivity {
     private void voiceReply(final String reply, final boolean isMap) {
         if ((checkSpeechOutputPref()&&check)||checkSpeechAlwaysPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            int result = audiofocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
-            if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                    @Override
-                    public void onInit(int status) {
-                        if (status != TextToSpeech.ERROR) {
-                            Locale locale = textToSpeech.getLanguage();
-                            textToSpeech.setLanguage(locale);
-                            String spokenReply = reply;
-                            if(isMap) {
-                                spokenReply = reply.substring(0, reply.indexOf("http"));
-                            }
-                            textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
-                            audiofocus.abandonAudioFocus(afChangeListener);
+            Handler handler = new Handler();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
 
-                        }
+                    int result = audiofocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+                    if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                            @Override
+                            public void onInit(int status) {
+                                if (status != TextToSpeech.ERROR) {
+                                    Locale locale = textToSpeech.getLanguage();
+                                    textToSpeech.setLanguage(locale);
+                                    String spokenReply = reply;
+                                    if(isMap) {
+                                        spokenReply = reply.substring(0, reply.indexOf("http"));
+                                    }
+                                    textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
+                                    audiofocus.abandonAudioFocus(afChangeListener);
+
+                                }
+                            }
+                        });
                     }
-                });
-            }
+
+                }
+            });
+
         }
     }
 
