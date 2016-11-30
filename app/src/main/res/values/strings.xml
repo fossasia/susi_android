@@ -20,18 +20,18 @@
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
-    <string name="settings_speechPreference_label">At speech input enable speech output</string>
+    <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
+    <string name="settings_micPreference_summary">Enable mic to give voice input</string>
+    <string name="settings_speechPreference_summary">Enable speech output only for speech input</string>
+    <string name="settings_speechAlwaysPreference_summary">Enable speech output regardless of input type</string>
+    <string name="settings_speechPreference_label">Speech output</string>
     <string name="settings_speechAlways_label">Speech Output always ON</string>
     <string name="settings_enterPreference_label">Enter As Send</string>
-    <string name="setting_mic_input">Use mic for input</string>
+    <string name="setting_mic_input">Mic input</string>
     <string name="setting_mic_key" translatable="false">Mic_input</string>
     <string name="settings_enterPreference_key" translatable="false">Enter_send</string>
-    <string name="setting_mic_off">Disabled</string>
     <string name="settings_speechPreference_key" translatable="false">Speech_output</string>
     <string name="settings_speechAlways_key" translatable="false">Speech_always</string>
-    <string name="settings_enterPreference_summaryOff">Disabled</string>
-    <string name="setting_mic_on">Enabled</string>
-    <string name="settings_enterPreference_summaryOn">Enabled</string>
     <string name="hello_world">Hello world!</string>
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>

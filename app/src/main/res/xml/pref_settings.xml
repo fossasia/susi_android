@@ -9,8 +9,7 @@
         android:id="@+id/enter_key_pref"
         android:defaultValue="true"
         android:key="@string/settings_enterPreference_key"
-        android:summaryOff="@string/settings_enterPreference_summaryOff"
-        android:summaryOn="@string/settings_enterPreference_summaryOn"
+        android:summary="@string/settings_enterPreference_summary"
         android:title="@string/settings_enterPreference_label" />
     </PreferenceCategory>
 
@@ -20,8 +19,7 @@
         android:id="@+id/mic_input"
         android:defaultValue="true"
         android:key="@string/setting_mic_key"
-        android:summaryOff="@string/setting_mic_off"
-        android:summaryOn="@string/setting_mic_on"
+        android:summary="@string/settings_micPreference_summary"
         android:title="@string/setting_mic_input"/>
     </PreferenceCategory>
 
@@ -31,8 +29,7 @@
         android:id="@+id/speech_pref"
         android:defaultValue="true"
         android:key="@string/settings_speechPreference_key"
-        android:summaryOff="@string/settings_enterPreference_summaryOff"
-        android:summaryOn="@string/settings_enterPreference_summaryOn"
+        android:summary="@string/settings_speechPreference_summary"
         android:title="@string/settings_speechPreference_label" />
     </PreferenceCategory>
 
@@ -40,8 +37,7 @@
         android:id="@+id/speech_always"
         android:defaultValue="false"
         android:key="@string/settings_speechAlways_key"
-        android:summaryOff="@string/settings_enterPreference_summaryOff"
-        android:summaryOn="@string/settings_enterPreference_summaryOn"
+        android:summary="@string/settings_speechAlwaysPreference_summary"
         android:title="@string/settings_speechAlways_label" />
 
     <PreferenceScreen
