@@ -69,10 +69,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 
 import butterknife.BindView;
@@ -587,10 +589,13 @@ public class MainActivity extends AppCompatActivity {
         final long id;
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
+                TimeZone tz = TimeZone.getDefault();
+                Date now = new Date();
+                int timezoneOffset = -1 * (tz.getOffset(now.getTime()) / 60000);
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
                 nonDeliveredMessages.pop();
-                clientBuilder.getSusiApi().getSusiResponse(query).enqueue(
+                clientBuilder.getSusiApi().getSusiResponse(query, timezoneOffset).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
