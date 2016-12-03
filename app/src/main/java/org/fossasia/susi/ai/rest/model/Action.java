@@ -8,12 +8,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Action {
 
+    @SerializedName("delay")
+    @Expose
+    private long delay;
     @SerializedName("expression")
     @Expose
-    String expression;
+    private String expression;
     @SerializedName("type")
     @Expose
-    String type;
+    private String type;
 
     public String getExpression() {
         return expression;
@@ -21,5 +24,9 @@ public class Action {
 
     public String getType() {
         return type;
+    }
+
+    public long getDelay() {
+        return delay;
     }
 }
