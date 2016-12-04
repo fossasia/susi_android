@@ -20,7 +20,8 @@ public interface SusiService {
     Call<SusiBaseUrls> getSusiBaseUrls();
 
     @GET("/susi/chat.json")
-    Call<SusiResponse> getSusiResponse(@Query("q") String query);
+    Call<SusiResponse> getSusiResponse(@Query("q") String query,
+                                       @Query("timezoneOffset") int timezoneOffset);
 
     @POST("/aaa/signup.json")
     Call<SignUpResponse> signUp(@Query("signup") String email,
