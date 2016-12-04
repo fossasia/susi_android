@@ -114,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.date)
     TextView dates;
+	
+	@BindView(R.id.btnScrollToEnd)
+    FloatingActionButton fab_scrollToEnd;
 
 	private FloatingActionButton fab_scrollToEnd;
 //	 Global Variables used for the setMessage Method
@@ -989,6 +992,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+	
+	public void scrollToEnd(View view) {
+        rvChatFeed.smoothScrollToPosition( rvChatFeed.getAdapter().getItemCount()-1 );
     }
 
 	public void scrollToEnd(View view) {
