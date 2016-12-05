@@ -2,8 +2,10 @@ package org.fossasia.susi.ai.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,13 +112,30 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(SignUpActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
+                    alertDialog.setTitle(R.string.signup);
+                    alertDialog.setCancelable(false);
+                    alertDialog.setMessage(R.string.signup_msg);
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    });
+
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
+
+
+                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    ok.setTextColor(getResources().getColor(R.color.md_blue_500));
+
                 } else
                     Toast.makeText(SignUpActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                 signUp.setEnabled(true);
                 progressDialog.dismiss();
                 CredentialHelper.clearFields(email, password, confirmPassword);
-                finish();
+
             }
 
             @Override
@@ -136,3 +155,4 @@ public class SignUpActivity extends AppCompatActivity {
         outState.putCharSequenceArray("savedStates", values);
     }
 }
+
