@@ -42,6 +42,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        Intent intent;
+        if (!PrefManager.hasTokenExpired()) {
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
         if (savedInstanceState != null) {
             email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
             password.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[1].toString());
