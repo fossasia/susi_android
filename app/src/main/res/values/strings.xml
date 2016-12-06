@@ -27,6 +27,8 @@
 
     <string name="error_email">Email address already exists</string>
     <string name="error_msg">Please sign in with this email or use another email.</string>
+    <string name="emailinvalid">Incorrect Email</string>
+    <string name="passinvalid">Invalid Password</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>

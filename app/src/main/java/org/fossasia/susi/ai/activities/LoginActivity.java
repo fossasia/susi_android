@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle(R.string.passinvalid);
                     builder.setMessage(R.string.password_invalid)
                             .setCancelable(false)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -134,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
 
             public void InvalidAcess(){
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle(R.string.emailinvalid);
                 builder.setMessage(R.string.email_invalid)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
