@@ -21,6 +21,9 @@
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
         confirmation link to activate your account and sign in to susi.</string>
+    <string name="email_invalid">The email you entered doesn\'t appear to belong to an account.
+        Please check your email and try again.</string>
+    <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
 
     <string name="error_email">Email address already exists</string>
     <string name="error_msg">Please sign in with this email or use another email.</string>
