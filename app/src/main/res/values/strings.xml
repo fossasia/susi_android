@@ -18,6 +18,10 @@
     <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
 
+    <string name="signup">Thank you for Signing Up</string>
+    <string name="signup_msg">We have sent an email to the address you provided. Please use the
+        confirmation link to activate your account and sign in to susi.</string>
+
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
     <string name="settings_micPreference_summary">Enable mic to give voice input</string>
