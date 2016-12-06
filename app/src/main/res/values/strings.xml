@@ -22,6 +22,9 @@
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
         confirmation link to activate your account and sign in to susi.</string>
 
+    <string name="error_email">Email address already exists</string>
+    <string name="error_msg">Please sign in with this email or use another email.</string>
+
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
     <string name="settings_micPreference_summary">Enable mic to give voice input</string>
