@@ -1,11 +1,13 @@
 package org.fossasia.susi.ai.activities;
 
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +26,7 @@ import android.speech.tts.TextToSpeech;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
@@ -62,7 +65,11 @@ import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.BaseUrl;
 import org.fossasia.susi.ai.rest.ClientBuilder;
+import org.fossasia.susi.ai.rest.LocationClient;
+import org.fossasia.susi.ai.rest.LocationService;
 import org.fossasia.susi.ai.rest.model.Datum;
+import org.fossasia.susi.ai.rest.model.LocationHelper;
+import org.fossasia.susi.ai.rest.model.LocationResponse;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import java.io.ByteArrayOutputStream;
@@ -125,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean isSearchResult;
     private long delay = 0;
     private List<Datum> datumList = null;
-//
     private RealmResults<ChatMessage> chatMessageDatabaseList;
     private Boolean micCheck;
     private SearchView searchView;
@@ -231,7 +237,13 @@ public class MainActivity extends AppCompatActivity {
         if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null) {
             throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        getLocationFromLocationService();
         clientBuilder = new ClientBuilder();
+        getLocationFromIP();
         init();
     }
 
@@ -399,6 +411,65 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         setChatBackground();
+    }
+
+    public void getLocationFromIP() {
+        final LocationService locationService =
+                LocationClient.getClient().create(LocationService.class);
+
+        Call<LocationResponse> call = locationService.getLocationUsingIP();
+        call.enqueue(new Callback<LocationResponse>() {
+            @Override
+            public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
+                String loc = response.body().getLoc();
+                String s[] = loc.split(",");
+                Float f = new Float(0) ;
+                PrefManager.putFloat(Constant.LATITUDE, f.parseFloat(s[0]));
+                PrefManager.putFloat(Constant.LONGITUDE, f.parseFloat(s[1]));
+                PrefManager.putString(Constant.GEO_SOURCE, "ip");
+            }
+
+            @Override
+            public void onFailure(Call<LocationResponse> call, Throwable t) {
+                // Log error here since request failed
+                Log.e(TAG, t.toString());
+            }
+        });
+    }
+
+    public void getLocationFromLocationService(){
+        LocationHelper locationHelper = new LocationHelper(MainActivity.this);
+
+        if (locationHelper.canGetLocation()) {
+            float latitude = locationHelper.getLatitude();
+            float longitude = locationHelper.getLongitude();
+            String source = locationHelper.getSource();
+
+            PrefManager.putFloat(Constant.LATITUDE, latitude);
+            PrefManager.putFloat(Constant.LONGITUDE, longitude);
+            PrefManager.putString(Constant.GEO_SOURCE, source);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    LocationHelper locationHelper = new LocationHelper(MainActivity.this);
+
+                    if (locationHelper.canGetLocation()) {
+                        float latitude = locationHelper.getLatitude();
+                        float longitude = locationHelper.getLongitude();
+                        String source = locationHelper.getSource();
+                        PrefManager.putFloat(Constant.LATITUDE, latitude);
+                        PrefManager.putFloat(Constant.LONGITUDE, longitude);
+                        PrefManager.putString(Constant.GEO_SOURCE, source);
+                    }
+                }
+                break;
+            }
+        }
     }
 
     private void voiceReply(final String reply, final boolean isMap) {
@@ -580,6 +651,7 @@ public class MainActivity extends AppCompatActivity {
 
         updateDatabase(id, query, true, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
+        getLocationFromLocationService();
         recyclerAdapter.showDots();
         new computeThread().start();
     }
@@ -597,12 +669,18 @@ public class MainActivity extends AppCompatActivity {
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
                 nonDeliveredMessages.pop();
-                clientBuilder.getSusiApi().getSusiResponse(query, timezoneOffset).enqueue(
+                final float latitude = PrefManager.getFloat(Constant.LATITUDE,0);
+                final float longitude = PrefManager.getFloat(Constant.LONGITUDE,0);
+                final String geo_source = PrefManager.getString(Constant.GEO_SOURCE,"ip");
+                Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
+
+                clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
                                                    Response<SusiResponse> response) {
                                 recyclerAdapter.hideDots();
+
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     SusiResponse susiResponse = response.body();
                                     int responseActionSize = response.body().getAnswers().get(0).getActions().size();
