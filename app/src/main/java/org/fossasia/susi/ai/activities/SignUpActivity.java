@@ -129,8 +129,26 @@ public class SignUpActivity extends AppCompatActivity {
                     Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                     ok.setTextColor(getResources().getColor(R.color.md_blue_500));
 
-                } else
-                    Toast.makeText(SignUpActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
+                    alertDialog.setTitle(R.string.error_email);
+                    alertDialog.setCancelable(false);
+                    alertDialog.setMessage(R.string.error_msg);
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            alertDialog.setCancelable(true);
+                        }
+                    });
+
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
+
+
+                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    ok.setTextColor(getResources().getColor(R.color.md_blue_500));
+
+                }
                 signUp.setEnabled(true);
                 progressDialog.dismiss();
                 CredentialHelper.clearFields(email, password, confirmPassword);
