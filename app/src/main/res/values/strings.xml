@@ -26,9 +26,12 @@
     <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
 
     <string name="error_email">Email address already exists</string>
-    <string name="error_msg">Please sign in with this email or use another email.</string>
-    <string name="emailinvalid">Incorrect Email</string>
-    <string name="passinvalid">Invalid Password</string>
+    <string name="error_msg">Please use the forgot password option, if you do not remember your password</string>
+    <string name="email_invalid_title">Incorrect Email</string>
+    <string name="password_invalid_title">Invalid Password</string>
+
+    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
+
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
