@@ -29,7 +29,7 @@
     <string name="error_msg">Please use the forgot password option, if you do not remember your password</string>
     <string name="email_invalid_title">Incorrect Email</string>
     <string name="password_invalid_title">Invalid Password</string>
-
+    <string name="exit">Press again to exit</string>
     <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
 
 
