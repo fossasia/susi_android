@@ -615,10 +615,7 @@ public class MainActivity extends AppCompatActivity {
                                                     .get(counter).getExpression();
                                             delay = susiResponse.getAnswers().get(0).getActions()
                                                     .get(counter).getDelay();
-                                            String place = susiResponse.getAnswers().get(0).getData()
-                                                    .get(0).getPlace();
 
-                                            ismap = place != null && !place.isEmpty();
                                             List<String> urlList = extractUrls(answer);
                                             Log.d(TAG, urlList.toString());
                                             String setMessage = answer;
@@ -646,6 +643,12 @@ public class MainActivity extends AppCompatActivity {
                                             datumList = response.body().getAnswers().get(0).getData();
                                         } catch (Exception e) {
                                             isSearchResult = false;
+                                        }
+                                        try {
+                                            ismap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
+                                            datumList = response.body().getAnswers().get(0).getData();
+                                        } catch (Exception e) {
+                                            ismap = false;
                                         }
                                         try {
                                             isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
