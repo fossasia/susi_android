@@ -46,9 +46,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
     public void onBindViewHolder(final SearchResultHolder holder, int position) {
         Datum datum = datumList.get(position);
         if (datum != null) {
-            holder.title.setText(Html.fromHtml(datum.getTitle()));
-            holder.description.setText(Html.fromHtml(datum.getDescription()));
-            if (!TextUtils.isEmpty(datum.getLink())) {
+
                 LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
                     @Override
                     public void onPre() {
@@ -65,8 +63,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
                         holder.previewImageView.setVisibility(View.VISIBLE);
                         holder.descriptionTextView.setVisibility(View.VISIBLE);
                         holder.titleTextView.setVisibility(View.VISIBLE);
-                        holder.titleTextView.setText(sourceContent.getTitle());
-                        holder.descriptionTextView.setText(sourceContent.getDescription());
+                        holder.titleTextView.setText("cfcfgxfg");
+                        holder.descriptionTextView.setText("jhvgjkv");
 
                         final List<String> imageList = sourceContent.getImages();
                         if (imageList == null || imageList.size() == 0) {
@@ -92,10 +90,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
                 };
                 TextCrawler textCrawler = new TextCrawler();
                 textCrawler.makePreview(linkPreviewCallback, datum.getLink());
-            }
-        } else {
-            holder.title.setText(null);
-            holder.description.setText(null);
+
         }
     }
 
