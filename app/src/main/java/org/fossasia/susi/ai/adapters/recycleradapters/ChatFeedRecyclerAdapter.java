@@ -860,7 +860,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public class getWebSearch extends AsyncTask<Void, Void, Void> {
 
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
