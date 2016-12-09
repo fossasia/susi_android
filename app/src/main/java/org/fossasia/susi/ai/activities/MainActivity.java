@@ -123,8 +123,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean ismap, isPieChart = false;
     private boolean isHavingLink;
     private boolean isSearchResult;
+    private boolean isWebSearch;
     private long delay = 0;
     private List<Datum> datumList = null;
+    public static String webseach;
+
 //
     private RealmResults<ChatMessage> chatMessageDatabaseList;
     private Boolean micCheck;
@@ -563,6 +566,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
+        webseach = query;
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -578,7 +582,7 @@ public class MainActivity extends AppCompatActivity {
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
 
-        updateDatabase(id, query, true, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+        updateDatabase(id, query, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
         recyclerAdapter.showDots();
         new computeThread().start();
@@ -645,6 +649,12 @@ public class MainActivity extends AppCompatActivity {
                                         } catch (Exception e) {
                                             isSearchResult = false;
                                         }
+                                        try {
+                                            isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
+                                            datumList = response.body().getAnswers().get(0).getData();
+                                        } catch (Exception e) {
+                                            isWebSearch = false;
+                                        }
                                         realm.executeTransactionAsync(new Realm.Transaction() {
                                             @Override
                                             public void execute(Realm bgRealm) {
@@ -665,7 +675,7 @@ public class MainActivity extends AppCompatActivity {
                                         delayHandler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isSearchResult, datumList);
+                                                addNewMessage(setMessage, ismap, isHavingLink,  isWebSearch, isPieChart, isSearchResult, datumList);
                                             }
                                         }, delay);
 
@@ -693,7 +703,7 @@ public class MainActivity extends AppCompatActivity {
                                             });
                                             rvChatFeed.getRecycledViewPool().clear();
                                             recyclerAdapter.notifyItemChanged((int) id);
-                                            addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, null);
+                                            addNewMessage(getString(R.string.error_invalid_token),false, false, false, false, false, null);
                                         }
                                     }
                                     if (isNetworkConnected())
@@ -732,7 +742,7 @@ public class MainActivity extends AppCompatActivity {
                                     });
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
-                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, null);
+                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -747,7 +757,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isSearchReult, List<Datum> datumList) {
+    private void addNewMessage(String answer, boolean isMap,  boolean isHavingLink, boolean isWebSearch, boolean isPieChart, boolean isSearchReult, List<Datum> datumList) {
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -755,10 +765,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        updateDatabase(id, answer, false, isSearchReult, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+        updateDatabase(id, answer, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
     }
 
-    private void updateDatabase(final long id, final String message, final boolean mine, final boolean isSearchResult,
+    private void updateDatabase(final long id, final String message, final boolean mine, final boolean isSearchResult,final boolean isWebSearch,
                                 final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp, final boolean isPieChart, final List<Datum> datumList) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -766,6 +776,7 @@ public class MainActivity extends AppCompatActivity {
                 ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class);
                 chatMessage.setId(id);
                 chatMessage.setContent(message);
+                chatMessage.setWebSearch(isWebSearch);
                 chatMessage.setIsMine(mine);
                 chatMessage.setIsImage(image);
                 chatMessage.setTimeStamp(timeStamp);
