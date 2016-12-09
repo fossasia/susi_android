@@ -21,12 +21,14 @@ import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.SparseBooleanArray;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -695,8 +697,16 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                         setClipboard(copyText);
                     }
-
-                    Snackbar.make(recyclerView, "Copied to Clipboard!!", Snackbar.LENGTH_LONG).show();
+                    if (nSelected == 1){
+                        Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                    else {
+                        Toast toast = Toast.makeText(recyclerView.getContext(), nSelected + " " + "Messages copied" , Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
                     actionMode.finish();
                     return true;
 
