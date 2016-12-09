@@ -613,10 +613,13 @@ public class MainActivity extends AppCompatActivity {
                                                     .get(counter).getExpression();
                                             delay = susiResponse.getAnswers().get(0).getActions()
                                                     .get(counter).getDelay();
-                                            String place = susiResponse.getAnswers().get(0).getData()
-                                                    .get(0).getPlace();
 
-                                            ismap = place != null && !place.isEmpty();
+                                            try {
+                                                ismap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
+                                                datumList = response.body().getAnswers().get(0).getData();
+                                            } catch (Exception e) {
+                                                ismap = false;
+                                            }
                                             List<String> urlList = extractUrls(answer);
                                             Log.d(TAG, urlList.toString());
                                             String setMessage = answer;
@@ -626,7 +629,6 @@ public class MainActivity extends AppCompatActivity {
                                         } catch (IndexOutOfBoundsException | NullPointerException e) {
                                             Log.d(TAG, e.getLocalizedMessage());
                                             answer = getString(R.string.error_occurred_try_again);
-                                            ismap = false;
                                             isHavingLink = false;
                                         }
                                         try {
@@ -645,6 +647,7 @@ public class MainActivity extends AppCompatActivity {
                                         } catch (Exception e) {
                                             isSearchResult = false;
                                         }
+
                                         realm.executeTransactionAsync(new Realm.Transaction() {
                                             @Override
                                             public void execute(Realm bgRealm) {
