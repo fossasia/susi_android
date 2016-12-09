@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
+    private  boolean atHome = true;
+    private boolean backPressedOnce = false;
 
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
@@ -875,7 +877,25 @@ public class MainActivity extends AppCompatActivity {
             offset = 1;
             return;
         }
-        super.onBackPressed();
+        if(atHome){
+            if(backPressedOnce){
+                finish();
+            }
+            backPressedOnce=true;
+            Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    backPressedOnce= false;
+                }
+            }, 2000);
+        }
+        else if(!atHome){
+            atHome = true;
+        }
+
     }
 
     @Override
