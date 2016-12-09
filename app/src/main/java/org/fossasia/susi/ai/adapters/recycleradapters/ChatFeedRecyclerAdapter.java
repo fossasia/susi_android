@@ -426,11 +426,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
             @Override
             public void onPre() {
-                linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
-                linkPreviewViewHolder.descriptionTextView.setVisibility(View.GONE);
-                linkPreviewViewHolder.titleTextView.setVisibility(View.GONE);
-                linkPreviewViewHolder.previewLayout.setVisibility(View.GONE);
+
+                linkPreviewViewHolder.previewImageView.setVisibility(View.VISIBLE);
+                linkPreviewViewHolder.descriptionTextView.setVisibility(View.VISIBLE);
+                linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
+                linkPreviewViewHolder.previewLayout.setVisibility(View.VISIBLE);
+
             }
+
 
             @Override
             public void onPos(final SourceContent sourceContent, boolean b) {
@@ -465,6 +468,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             }
         };
+
+
+
 
         if (highlightMessagePosition == position) {
             String text = linkPreviewViewHolder.text.getText().toString();
