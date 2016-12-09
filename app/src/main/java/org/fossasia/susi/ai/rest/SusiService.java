@@ -1,6 +1,8 @@
 package org.fossasia.susi.ai.rest;
 
+import org.fossasia.susi.ai.rest.model.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.model.LoginResponse;
+import org.fossasia.susi.ai.rest.model.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.model.SignUpResponse;
 import org.fossasia.susi.ai.rest.model.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
@@ -30,4 +32,12 @@ public interface SusiService {
     @POST("/aaa/login.json?type=access-token")
     Call<LoginResponse> login(@Query("login") String email,
                               @Query("password") String password);
+
+    @POST("/aaa/recoverpassword.json")
+    Call<ForgotPasswordResponse> forgotPassword(@Query("forgotemail") String email);
+
+    @GET("/aaa/resetpassword.json")
+    Call<ResetPasswordResponse> resetPassword(@Query("token") String token,
+                                               @Query("newpass") String newpass);
+
 }

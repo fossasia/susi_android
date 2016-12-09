@@ -21,7 +21,18 @@
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
         confirmation link to activate your account and sign in to susi.</string>
+    <string name="email_invalid">The email you entered doesn\'t appear to belong to an account.
+        Please check your email and try again.</string>
+    <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
 
+    <string name="error_email">Email address already exists</string>
+    <string name="error_msg">Please use the forgot password option, if you do not remember your password</string>
+    <string name="email_invalid_title">Incorrect Email</string>
+    <string name="password_invalid_title">Invalid Password</string>
+    <string name="exit">Press again to exit</string>
+    <string name="message_copied">Message copied</string>
+    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
+    <string name="email_pass_not_exists">Email doesn\'t Exists. Please make sure you have entered your email correctly.</string>
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
     <string name="settings_micPreference_summary">Enable mic to give voice input</string>
@@ -44,7 +55,7 @@
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action!</string>
     <string name="error_occurred_try_again">An error occurred. please try again!</string>
     <string name="error_invalid_token">Invalid Access Token!</string>
-    <string name="error_internet_connectivity">Internet Connectivity Problem!</string>
+    <string name="error_internet_connectivity">Please check your internet connection.</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
@@ -76,4 +87,11 @@
     <string name="settings_speech">Speech Settings</string>
     <string name="Language">Language</string>
     <string name="action_select_language">Select a Language</string>
+
+    <string name="email_id_input">Enter your Email ID</string>
+    <string name="reset">Reset</string>
+    <string name="reset_pass_activity">Reset Password</string>
+    <string name="error_password_matching">Passwords do not match</string>
+    <string name="pass_change_dialog">Changing your Password. Please Wait</string>
+    <string name="forgot_pass_activity">Forgot Password?</string>
 </resources>

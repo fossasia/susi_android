@@ -30,11 +30,11 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.email)
-    TextInputLayout email;
+    private TextInputLayout email;
     @BindView(R.id.password)
-    TextInputLayout password;
+    private TextInputLayout password;
     @BindView(R.id.log_in)
-    Button logIn;
+    private Button logIn;
 
     
     @Override
@@ -56,13 +56,19 @@ public class LoginActivity extends AppCompatActivity {
     }
     
     @OnClick(R.id.sign_up)
-    void signUp() {
+    public void signUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
 
+    @OnClick(R.id.forgot_password)
+    public void forgotPassword(){
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.log_in)
-    void logIn() {
+    public void logIn() {
         if (CredentialHelper.checkIfEmpty(email, this) | CredentialHelper.checkIfEmpty(password, this)) {
             return;
         }
@@ -99,8 +105,26 @@ public class LoginActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
-                } else
-                    Toast.makeText(LoginActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle(R.string.password_invalid_title);
+                    builder.setMessage(R.string.password_invalid)
+                            .setCancelable(false)
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    pbutton.setTextColor(Color.BLUE);
+
+                }
+
+
+
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
 
@@ -117,7 +141,8 @@ public class LoginActivity extends AppCompatActivity {
 
             public void InvalidAcess(){
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setMessage("The password you entered is incorrect. Please try again.")
+                builder.setTitle(R.string.email_invalid_title);
+                builder.setMessage(R.string.email_invalid)
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {

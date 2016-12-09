@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.activities;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -39,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+        setTitle(getString(R.string.sign_up));
 
         if(savedInstanceState!=null){
             email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
@@ -129,18 +131,51 @@ public class SignUpActivity extends AppCompatActivity {
                     Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                     ok.setTextColor(getResources().getColor(R.color.md_blue_500));
 
-                } else
-                    Toast.makeText(SignUpActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                } else {
+                    final AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
+                    alertDialog.setTitle(R.string.error_email);
+                    alertDialog.setCancelable(false);
+                    alertDialog.setMessage(R.string.error_msg);
+                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class );
+                            startActivity(intent);
+                        }
+                    });
+
+                    alertDialog.setNeutralButton("Forgot Password", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+
+                    AlertDialog alert = alertDialog.create();
+                    alert.show();
+
+
+                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    Button forgotPass = alert.getButton(DialogInterface.BUTTON_NEUTRAL);
+                    forgotPass.setTextColor(getResources().getColor(android.R.color.holo_green_light));
+                    ok.setTextColor(getResources().getColor(R.color.md_blue_500));
+
+                    // After the implementation of "Forgot Password" option we could create a xml layout for the dialog.
+                    // Until then we need to add the buttons dynamically.
+
+                }
                 signUp.setEnabled(true);
                 progressDialog.dismiss();
                 CredentialHelper.clearFields(email, password, confirmPassword);
 
             }
 
+
             @Override
             public void onFailure(Call<SignUpResponse> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(SignUpActivity.this, "Please check your internet.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignUpActivity.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
                 signUp.setEnabled(true);
                 progressDialog.dismiss();
             }
@@ -153,5 +188,28 @@ public class SignUpActivity extends AppCompatActivity {
         CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString(), confirmPassword.getEditText().getText().toString() };
         outState.putCharSequenceArray("savedStates", values);
     }
-}
 
+    @Override
+    public void onBackPressed(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
+
+        alertDialog.setCancelable(false);
+        alertDialog.setMessage(R.string.error_cancelling_signUp_process_text);
+        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                SignUpActivity.super.onBackPressed();
+            }
+        });
+        alertDialog.setNegativeButton("No",null);
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
+
+
+        Button yes = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        Button no = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        yes.setTextColor(getResources().getColor(R.color.md_blue_500));
+        no.setTextColor(getResources().getColor(R.color.md_red_500));
+    }
+}
