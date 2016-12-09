@@ -40,8 +40,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+        setTitle(getString(R.string.sign_up));
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
             password.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[1].toString());
             confirmPassword.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[2].toString());
@@ -138,25 +139,26 @@ public class SignUpActivity extends AppCompatActivity {
                     alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class );
+                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                     });
-//                    TODO: To be uncommented after the implementation of Forgot Passoword.
 
-//                    alertDialog.setNeutralButton("Forgot Password", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    });
+                    alertDialog.setNeutralButton("Forgot Password", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
+                            startActivity(intent);
+                        }
+                    });
 
                     AlertDialog alert = alertDialog.create();
                     alert.show();
 
 
                     Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    Button forgotPass = alert.getButton(DialogInterface.BUTTON_NEUTRAL);
+                    forgotPass.setTextColor(getResources().getColor(android.R.color.holo_green_light));
                     ok.setTextColor(getResources().getColor(R.color.md_blue_500));
 
                     // After the implementation of "Forgot Password" option we could create a xml layout for the dialog.
@@ -183,12 +185,12 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString(), confirmPassword.getEditText().getText().toString() };
+        CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString(), confirmPassword.getEditText().getText().toString()};
         outState.putCharSequenceArray("savedStates", values);
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
 
         alertDialog.setCancelable(false);
@@ -199,7 +201,7 @@ public class SignUpActivity extends AppCompatActivity {
                 SignUpActivity.super.onBackPressed();
             }
         });
-        alertDialog.setNegativeButton("No",null);
+        alertDialog.setNegativeButton("No", null);
 
         AlertDialog alert = alertDialog.create();
         alert.show();

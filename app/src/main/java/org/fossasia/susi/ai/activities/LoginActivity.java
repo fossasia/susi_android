@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.log_in)
     Button logIn;
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,15 +54,21 @@ public class LoginActivity extends AppCompatActivity {
 
         }
     }
-    
+
     @OnClick(R.id.sign_up)
     void signUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
 
+    @OnClick(R.id.forgot_password)
+    void forgotPassword() {
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.log_in)
-    void logIn() {
+    public void logIn() {
         if (CredentialHelper.checkIfEmpty(email, this) | CredentialHelper.checkIfEmpty(password, this)) {
             return;
         }
@@ -71,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         email.setError(null);
-        
+
         logIn.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Logging in...");
@@ -118,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
 
-
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
 
@@ -131,23 +136,25 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Please check your internet.", Toast.LENGTH_SHORT).show();
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
-            }});}
-
-            public void InvalidAcess(){
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle(R.string.email_invalid_title);
-                builder.setMessage(R.string.email_invalid)
-                        .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                return;
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-                Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                pbutton.setTextColor(Color.BLUE);
             }
+        });
+    }
+
+    public void InvalidAcess() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle(R.string.email_invalid_title);
+        builder.setMessage(R.string.email_invalid)
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        return;
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(Color.BLUE);
+    }
 
     @OnEditorAction(R.id.password_input)
     public boolean onEditorAction(int actionId) {
@@ -162,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString() };
+        CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString()};
         outState.putCharSequenceArray("savedStates", values);
 
     }

@@ -19,6 +19,11 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.finish();
+    }
+
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
         private Preference textToSpeech;
 
@@ -32,16 +37,11 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     Intent intent = new Intent();
-                    intent.setComponent( new ComponentName("com.android.settings","com.android.settings.Settings$TextToSpeechSettingsActivity" ));
+                    intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$TextToSpeechSettingsActivity"));
                     startActivity(intent);
                     return true;
                 }
             });
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.finish();
     }
 }
