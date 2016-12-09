@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reset">Reset</string>
+    <string name="reset_pass_activity">Reset Password</string>
+    <string name="error_password_matching">Passwords do not match</string>
+</resources>
