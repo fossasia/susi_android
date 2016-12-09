@@ -88,4 +88,16 @@
     <string name="settings_speech">Speech Settings</string>
     <string name="Language">Language</string>
     <string name="action_select_language">Select a Language</string>
+
+
+    <string name="email_id_input">Enter your Email ID</string>
+    <string name="reset">Reset</string>
+    <string name="reset_pass_activity">Reset Password</string>
+    <string name="error_password_matching">Passwords do not match</string>
+    <string name="pass_change_dialog">Changing your Password. Please Wait</string>
+    <string name="forgot_pass_activity">Forgot Password?</string>
+    <string name="email_pass_not_exists">Email doesn\'t Exists. Please make sure you have entered your email correctly.</string>
+    <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
 </resources>
+
+

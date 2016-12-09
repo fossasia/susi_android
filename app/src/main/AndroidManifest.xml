@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.fossasia.susi.ai">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -23,11 +24,26 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            tools:replace = "android:theme"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.ForgotPasswordActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+        <activity
+            android:name=".activities.ChangePasswordActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
     </application>
 
 </manifest>
