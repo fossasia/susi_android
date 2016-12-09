@@ -61,6 +61,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @OnClick(R.id.forgot_password)
+    void forgotPassword(){
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.log_in)
     void logIn() {
         if (CredentialHelper.checkIfEmpty(email, this) | CredentialHelper.checkIfEmpty(password, this)) {
