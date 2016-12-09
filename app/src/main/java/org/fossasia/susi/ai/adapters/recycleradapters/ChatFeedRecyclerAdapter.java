@@ -3,8 +3,11 @@ package org.fossasia.susi.ai.adapters.recycleradapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +45,7 @@ import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
@@ -49,12 +53,21 @@ import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.SearchResultsHolder;
 import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
+import org.fossasia.susi.ai.adapters.viewholders.WebSearchHolder;
 import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
+import org.fossasia.susi.ai.helper.HttpHandler;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.model.Datum;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -66,6 +79,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import pl.tajchert.sample.DotsTextView;
+
 
 /**
  * Created by
@@ -87,9 +101,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private static final int DOTS = 8;
     private static final int NULL_HOLDER = 9;
     private static final int SEARCH_RESULT = 10;
+    private static final int WEB_SEARCH = 11;
     private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
+    public String webquery ;
+    public String web;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -105,6 +122,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
     private boolean isSusiTyping = false;
+    private String heading;
+    private String description;
+    private String urlimg;
+    private Bitmap bmp;
+    private String linkurl;
+
 
     public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -156,6 +179,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         isSusiTyping = false;
     }
 
+
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -203,6 +228,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             case SEARCH_RESULT:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 return new SearchResultsHolder(view);
+            case WEB_SEARCH:
+                view = inflater.inflate(R.layout.web_search, viewGroup, false);
+                return new WebSearchHolder(view, clickListener);
             case DOTS:
                 return dotsHolder;
             case NULL_HOLDER:
@@ -222,6 +250,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isMap()) return MAP;
         else if (item.isSearchResult()) return SEARCH_RESULT;
+        else if (item.isWebSearch()) return WEB_SEARCH;
         else if (item.isPieChart()) return PIECHART;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
@@ -245,10 +274,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", false, false, false, false, false, false,
+                    return new ChatMessage(-404, "", false, false, false, false, false, false, false,
                             "", null);
                 }
-                return new ChatMessage(-405, "", false, false, false, false, false, false,
+                return new ChatMessage(-405, "", false, false, false, false, false, false, false,
                         "", null);
             }
             return getData().get(index);
@@ -273,6 +302,13 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         } else if (holder instanceof SearchResultsHolder) {
             SearchResultsHolder searchResultsHolder = (SearchResultsHolder) holder;
             handleItemEvents(searchResultsHolder, position);
+        } else if (holder instanceof WebSearchHolder) {
+            WebSearchHolder websearchholder = (WebSearchHolder) holder;
+            try {
+                handleItemEvents(websearchholder, position);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
        /* if (highlightMessagePosition == position) {
@@ -300,6 +336,78 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
+
+    private void handleItemEvents(final WebSearchHolder websearchholder, final int position) throws IOException {
+
+        websearchholder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+
+        webquery = MainActivity.webseach;
+        if(webquery!= null)
+            web = webquery.trim().replace(" ", "+");
+
+
+        final ChatMessage model = getData().get(position);
+        websearchholder.webtext.setText(model.getContent());
+        websearchholder.timestampTextView.setText(model.getTimeStamp());
+
+
+        websearchholder.webdescriptionTextView.setVisibility(View.GONE);
+        websearchholder.webtitleTextView.setVisibility(View.GONE);
+        websearchholder.webpreviewImageView.setVisibility(View.GONE);
+
+
+        getWebSearch task = new getWebSearch();
+        task.execute();
+
+        if(urlimg!=null&&bmp!=null){
+
+            websearchholder.webpreviewImageView.setVisibility(View.VISIBLE);
+            websearchholder.webpreviewImageView.setImageBitmap(bmp);
+
+        }
+
+        if(description!=null) {
+            websearchholder.webdescriptionTextView.setVisibility(View.VISIBLE);
+            websearchholder.webdescriptionTextView.setText(description);
+        }
+
+        if(heading!=null) {
+            websearchholder.webtitleTextView.setVisibility(View.VISIBLE);
+            websearchholder.webtitleTextView.setText(heading);
+        }
+
+        if(linkurl!=null) {
+            websearchholder.webpreviewLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    websearchholder.onClick(view);
+                    Uri webpage = Uri.parse(linkurl);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                    if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                        currContext.startActivity(intent);
+                    }
+                }
+            });
+        }
+
+
+        if (highlightMessagePosition == position) {
+            String text = websearchholder.webdescriptionTextView.getText().toString();
+            SpannableString modify = new SpannableString(text);
+            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(modify);
+            while (matcher.find()) {
+                int startIndex = matcher.start();
+                int endIndex = matcher.end();
+                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            websearchholder.webdescriptionTextView.setText(modify);
+        }
+
+
+    }
+
+
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
 
@@ -310,7 +418,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     case USER_MESSAGE:
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
-                        if(model.getIsDelivered())
+                        if (model.getIsDelivered())
                             chatViewHolder.receivedTick.setImageResource(R.drawable.check);
                         else
                             chatViewHolder.receivedTick.setImageResource(R.drawable.clock);
@@ -417,7 +525,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
-        if(model.getIsDelivered())
+        if (model.getIsDelivered())
             linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.check);
         else
             linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.clock);
@@ -739,6 +847,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             }
         }
 
+
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             clearSelection();
@@ -756,4 +865,58 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             currContext.startActivity(sendIntent);
         }
     }
+
+
+    public class getWebSearch extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            HttpHandler sh = new HttpHandler();
+            // Making a request to url and getting response
+            String url = "http://api.duckduckgo.com/?q=" + web + "&format=json&pretty=1";
+            String jsonStr = sh.makeServiceCall(url);
+            Log.e(TAG, "Response from url: " + jsonStr);
+            if (jsonStr != null) {
+                try {
+                    JSONObject jsonObj = new JSONObject(jsonStr);
+                    JSONArray topics = jsonObj.getJSONArray("RelatedTopics");
+                    heading = jsonObj.getString("Heading");
+                    JSONObject des = topics.getJSONObject(0);
+                    description = des.getString("Text");
+                    linkurl = des.getString("FirstURL");
+                    JSONObject phone = des.getJSONObject("Icon");
+                    urlimg = phone.getString("URL");
+                    URL urlimage = new URL(urlimg);
+                    bmp = BitmapFactory.decodeStream(urlimage.openConnection().getInputStream());
+                    Log.e(TAG,"heading " + heading + "  " + description + "  " + urlimg);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            return null;
+        }
+
+    }
 }
+
