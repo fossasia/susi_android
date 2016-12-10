@@ -56,13 +56,19 @@ public class LoginActivity extends AppCompatActivity {
     }
     
     @OnClick(R.id.sign_up)
-    void signUp() {
+    public void signUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
 
+    @OnClick(R.id.forgot_password)
+    public void forgotPassword() {
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
+    }
+
     @OnClick(R.id.log_in)
-    void logIn() {
+    public void logIn() {
         if (CredentialHelper.checkIfEmpty(email, this) | CredentialHelper.checkIfEmpty(password, this)) {
             return;
         }
@@ -116,9 +122,6 @@ public class LoginActivity extends AppCompatActivity {
                     pbutton.setTextColor(Color.BLUE);
 
                 }
-
-
-
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
 
@@ -128,7 +131,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 t.printStackTrace();
-                Toast.makeText(LoginActivity.this, "Please check your internet.", Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                builder.setTitle(R.string.error_internet_connectivity);
+                builder.setMessage(R.string.no_internet_connection)
+                        .setCancelable(false)
+                        .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                return;
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                alert.show();
+                Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                ok.setTextColor(Color.RED);
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
             }});}
@@ -138,15 +153,11 @@ public class LoginActivity extends AppCompatActivity {
                 builder.setTitle(R.string.email_invalid_title);
                 builder.setMessage(R.string.email_invalid)
                         .setCancelable(false)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                return;
-                            }
-                        });
+                        .setPositiveButton("RETRY", null);
                 AlertDialog alert = builder.create();
                 alert.show();
-                Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                pbutton.setTextColor(Color.BLUE);
+                Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                ok.setTextColor(Color.RED);
             }
 
     @OnEditorAction(R.id.password_input)

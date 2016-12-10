@@ -74,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.sign_up)
-    void signUp() {
+    public void signUp() {
         if (CredentialHelper.checkIfEmpty(email, this) |
                 CredentialHelper.checkIfEmpty(password, this) |
                 CredentialHelper.checkIfEmpty(confirmPassword, this)) {
@@ -142,15 +142,14 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
-//                    TODO: To be uncommented after the implementation of Forgot Passoword.
 
-//                    alertDialog.setNeutralButton("Forgot Password", new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    });
+                    alertDialog.setNeutralButton("Forgot Password", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
+                            startActivity(intent);
+                        }
+                    });
 
                     AlertDialog alert = alertDialog.create();
                     alert.show();
