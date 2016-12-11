@@ -417,10 +417,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
-        if(model.getIsDelivered())
-            linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.check);
-        else
-            linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.clock);
+        if(getItemViewType(position) == USER_WITHLINK) {
+            if (model.getIsDelivered())
+                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.check);
+            else
+                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.clock);
+        }
         linkPreviewViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {

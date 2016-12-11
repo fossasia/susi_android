@@ -19,8 +19,11 @@ public interface SusiService {
     Call<SusiBaseUrls> getSusiBaseUrls();
 
     @GET("/susi/chat.json")
-    Call<SusiResponse> getSusiResponse(@Query("q") String query,
-                                       @Query("timezoneOffset") int timezoneOffset);
+    Call<SusiResponse> getSusiResponse(@Query("timezoneOffset") int timezoneOffset,
+                                       @Query("longitude") float longitude,
+                                       @Query("latitude") float latitude,
+                                       @Query("geosource") String geosource,
+                                       @Query("q") String query);
 
     @POST("/aaa/signup.json")
     Call<SignUpResponse> signUp(@Query("signup") String email,

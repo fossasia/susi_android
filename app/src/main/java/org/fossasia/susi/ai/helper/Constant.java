@@ -18,5 +18,7 @@ public class Constant {
     public static final String SPEECH_OUTPUT = "Speech_output";
     public static final String SPEECH_ALWAYS = "Speech_always";
 
-
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
+    public static final String GEO_SOURCE = "geo_source";
 }
