@@ -31,6 +31,7 @@
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
+    <string name="message_deleted">Message deleted</string>
     <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
 
 

@@ -101,6 +101,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private ActionMode actionMode;
     private SparseBooleanArray selectedItems;
     private AppCompatActivity currActivity;
+    private Toast toast;
     // For typing dots from Susi
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
@@ -633,33 +634,65 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             switch (item.getItemId()) {
                 case R.id.menu_item_delete:
                     AlertDialog.Builder d = new AlertDialog.Builder(context);
-                    d.setMessage("Are you sure ?").
-                            setCancelable(false).
-                            setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
 
-                                    for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
-                                        deleteMessage(getSelectedItems().get(i));
+                    if (getSelectedItems().size() == 1){
+
+                        d.setMessage("Delete message?").
+                                setCancelable(false).
+                                setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
+                                            deleteMessage(getSelectedItems().get(i));
+                                        }
+                                        toast = Toast.makeText(recyclerView.getContext() , R.string.message_deleted , Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                        toast.show();
+                                        actionMode.finish();
+
                                     }
-                                    if (getSelectedItems().size() == 1)
-                                        Snackbar.make(recyclerView, " Message Deleted !!", Snackbar.LENGTH_LONG).show();
-                                    else
-                                        Snackbar.make(recyclerView, getSelectedItems().size() + " Messages Deleted !!", Snackbar.LENGTH_LONG).show();
+                                })
 
-                                    actionMode.finish();
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
 
-                                }
-                            }).
-                            setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
+                    }
+
+                    else {
+
+                        d.setMessage("Delete " + getSelectedItems().size() + " messages?").
+                                setCancelable(false).
+                                setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
+                                            deleteMessage(getSelectedItems().get(i));
+                                        }
+                                        toast = Toast.makeText(recyclerView.getContext() ,getSelectedItems().size() + " Messages deleted", Toast.LENGTH_LONG);
+                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                        toast.show();
+                                        actionMode.finish();
+
+                                    }
+                                })
+
+                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                    }
+
 
                     AlertDialog alert = d.create();
-                    alert.setTitle("Delete");
                     alert.show();
                     Button cancel = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
                     cancel.setTextColor(Color.BLUE);
