@@ -9,18 +9,20 @@ import io.realm.RealmObject;
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
-    private boolean isImage, isMine, isMap, isPieChart, isDelivered, isHavingLink, isSearchResult;
+    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult;
     private long id;
-    private String content, timeStamp;
+    private String content, timeStamp, des;
     private RealmList<Datum> datumRealmList;
 
     public ChatMessage() {
         datumRealmList = new RealmList<>();
     }
 
-    public ChatMessage(long id, String content, boolean isMine, boolean isImage, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
+    public ChatMessage(long id, String content, String des ,boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
         this.id = id;
+        this.isWebSearch = isWebSearch;
         this.isImage = isImage;
+        this.des = des;
         this.isMine = isMine;
         this.content = content;
         this.timeStamp = timeStamp;
@@ -29,6 +31,23 @@ public class ChatMessage extends RealmObject {
         this.datumRealmList = datumRealmList;
         this.isPieChart = isPieChart;
         this.isSearchResult = isSearchResult;
+    }
+
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
+    public boolean isWebSearch() {
+        return isWebSearch;
+    }
+
+    public void setWebSearch(boolean webSearch) {
+        isWebSearch = webSearch;
     }
 
     public boolean isMap() {

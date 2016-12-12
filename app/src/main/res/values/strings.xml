@@ -25,6 +25,7 @@
         Please check your email and try again.</string>
     <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
 
+    <string name="websearchnull">NO Result Found</string>
     <string name="error_email">Email address already exists</string>
     <string name="error_msg">Please use the forgot password option, if you do not remember your password</string>
     <string name="email_invalid_title">Incorrect Email</string>

@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean ismap, isPieChart = false;
     private boolean isHavingLink;
     private boolean isSearchResult;
+    private boolean isWebSearch;
     private long delay = 0;
     private List<Datum> datumList = null;
     private RealmResults<ChatMessage> chatMessageDatabaseList;
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
+    public static String webseach;
     private TextToSpeech textToSpeech;
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -339,7 +341,6 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             }
-
         }
     }
 
@@ -381,7 +382,6 @@ public class MainActivity extends AppCompatActivity {
                     fab_scrollToEnd.setEnabled(false);
                     fab_scrollToEnd.setVisibility(View.GONE);
                 }
-
             }
         });
 
@@ -628,6 +628,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
+        webseach = query;
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -643,7 +644,7 @@ public class MainActivity extends AppCompatActivity {
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
 
-        updateDatabase(id, query, true, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+        updateDatabase(id, query, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
         getLocationFromLocationService();
         recyclerAdapter.showDots();
@@ -718,6 +719,12 @@ public class MainActivity extends AppCompatActivity {
                                         } catch (Exception e) {
                                             isSearchResult = false;
                                         }
+                                        try {
+                                            isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
+                                            datumList = response.body().getAnswers().get(0).getData();
+                                        } catch (Exception e) {
+                                            isWebSearch = false;
+                                        }
 
                                         realm.executeTransactionAsync(new Realm.Transaction() {
                                             @Override
@@ -746,9 +753,9 @@ public class MainActivity extends AppCompatActivity {
                                                 if ("anchor".equals(actionType)) {
                                                     String text = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorText();
                                                     String link = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorLink();
-                                                    addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, datumList);
+                                                    addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, false, datumList);
                                                 } else if ("answer".equals(actionType)) {
-                                                    addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isSearchResult, datumList);
+                                                    addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
 //                                                } else if ("websearch".equals(actionType)) {
                                                     //String query = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
                                                     //TODO: Implement web search result.
@@ -780,9 +787,14 @@ public class MainActivity extends AppCompatActivity {
                                         });
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
-                                        addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, null);
-                                    }
-                                }
+                                        addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null);
+                                            };
+                                            rvChatFeed.getRecycledViewPool().clear();
+                                            recyclerAdapter.notifyItemChanged((int) id);
+                                            addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null);
+                                        }
+
+
                                 if (isNetworkConnected())
                                     computeOtherMessage();
                             }
@@ -818,7 +830,7 @@ public class MainActivity extends AppCompatActivity {
                                     });
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
-                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, null);
+                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -833,7 +845,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isSearchReult, List<Datum> datumList) {
+    private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isWebSearch, boolean isSearchReult, List<Datum> datumList) {
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -841,16 +853,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        updateDatabase(id, answer, false, isSearchReult, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+        updateDatabase(id, answer, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
     }
 
-    private void updateDatabase(final long id, final String message, final boolean mine, final boolean isSearchResult,
+    private void updateDatabase(final long id, final String message, final boolean mine, final boolean isSearchResult,final boolean isWebSearch,
                                 final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp, final boolean isPieChart, final List<Datum> datumList) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
                 ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class);
                 chatMessage.setId(id);
+                chatMessage.setWebSearch(isWebSearch);
                 chatMessage.setContent(message);
                 chatMessage.setIsMine(mine);
                 chatMessage.setIsImage(image);
