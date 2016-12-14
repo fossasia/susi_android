@@ -498,6 +498,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         @Override
                                         public void run() {
                                             try {
+                                                if(bmp!=null)
                                                 bmp = BitmapFactory.decodeStream(urlimage.openConnection().getInputStream());
                                                 urlimage = null;
                                             } catch (IOException e) {
