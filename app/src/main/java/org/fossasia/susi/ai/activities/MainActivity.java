@@ -103,30 +103,24 @@ public class MainActivity extends AppCompatActivity {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
-    private  boolean atHome = true;
-    private boolean backPressedOnce = false;
-
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
-
     @BindView(R.id.rv_chat_feed)
     RecyclerView rvChatFeed;
-
     @BindView(R.id.et_message)
     EditText ChatMessage;
-
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
-
     @BindView(R.id.btnSpeak)
     ImageButton btnSpeak;
-
     @BindView(R.id.date)
     TextView dates;
-
-	private FloatingActionButton fab_scrollToEnd;
-//	 Global Variables used for the setMessage Method
+    private boolean atHome = true;
+    private boolean backPressedOnce = false;
+    private FloatingActionButton fab_scrollToEnd;
+    //	 Global Variables used for the setMessage Method
     private String answer;
+    private String actionType;
     private boolean ismap, isPieChart = false;
     private boolean isHavingLink;
     private boolean isSearchResult;
@@ -135,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     private RealmResults<ChatMessage> chatMessageDatabaseList;
     private Boolean micCheck;
     private SearchView searchView;
-    private  Boolean check;
+    private Boolean check;
     private Menu menu;
     private int pointer;
     private RealmResults<ChatMessage> results;
@@ -176,9 +170,10 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.btnSpeak:
                                 String chat_message = ChatMessage.getText().toString();
                                 chat_message = chat_message.trim();
-                                String splits[]=chat_message.split("\n");
-                                String message="";
-                                for (String split : splits) message = message.concat(split).concat(" ");
+                                String splits[] = chat_message.split("\n");
+                                String message = "";
+                                for (String split : splits)
+                                    message = message.concat(split).concat(" ");
                                 if (!TextUtils.isEmpty(chat_message)) {
                                     sendMessage(message);
                                     ChatMessage.setText("");
@@ -229,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Handler mHandler=new Handler(Looper.getMainLooper());
+        Handler mHandler = new Handler(Looper.getMainLooper());
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
                 if (resultCode == RESULT_OK && null != data) {
@@ -278,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
                             sendMessage(result.get(0));
                         }
                     });
-                    }
+                }
                 break;
             }
             case CROP_PICTURE: {
@@ -352,7 +346,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
-		fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
+        fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
         registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         networkStateReceiver = new BroadcastReceiver() {
             @Override
@@ -371,29 +365,29 @@ public class MainActivity extends AppCompatActivity {
             nonDeliveredMessages.add(new Pair(each.getContent(), each.getId()));
         }
 
-		checkEnterKeyPref();
+        checkEnterKeyPref();
         setupAdapter();
 
-		rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) rvChatFeed.getLayoutManager();
-                if(linearLayoutManager.findLastCompletelyVisibleItemPosition() < rvChatFeed.getAdapter().getItemCount()-5){
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rvChatFeed.getAdapter().getItemCount() - 5) {
                     fab_scrollToEnd.setEnabled(true);
                     fab_scrollToEnd.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     fab_scrollToEnd.setEnabled(false);
                     fab_scrollToEnd.setVisibility(View.GONE);
                 }
 
             }
         });
-		
+
         ChatMessage.addTextChangedListener(watch);
         dates.setText(DateTimeHelper.getDate());
-		
+
         ChatMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -423,7 +417,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
                 String loc = response.body().getLoc();
                 String s[] = loc.split(",");
-                Float f = new Float(0) ;
+                Float f = new Float(0);
                 PrefManager.putFloat(Constant.LATITUDE, f.parseFloat(s[0]));
                 PrefManager.putFloat(Constant.LONGITUDE, f.parseFloat(s[1]));
                 PrefManager.putString(Constant.GEO_SOURCE, "ip");
@@ -437,7 +431,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void getLocationFromLocationService(){
+    public void getLocationFromLocationService() {
         LocationHelper locationHelper = new LocationHelper(MainActivity.this);
 
         if (locationHelper.canGetLocation()) {
@@ -473,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void voiceReply(final String reply, final boolean isMap) {
-        if ((checkSpeechOutputPref()&&check)||checkSpeechAlwaysPref()) {
+        if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             Handler handler = new Handler();
             handler.post(new Runnable() {
@@ -489,7 +483,7 @@ public class MainActivity extends AppCompatActivity {
                                     Locale locale = textToSpeech.getLanguage();
                                     textToSpeech.setLanguage(locale);
                                     String spokenReply = reply;
-                                    if(isMap) {
+                                    if (isMap) {
                                         spokenReply = reply.substring(0, reply.indexOf("http"));
                                     }
                                     textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
@@ -574,7 +568,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-            check= false;
+            check = false;
             btnSpeak.setImageResource(R.drawable.ic_send_fab);
             btnSpeak.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -657,7 +651,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private synchronized void computeOtherMessage() {
         final String query;
         final long id;
@@ -669,9 +662,9 @@ public class MainActivity extends AppCompatActivity {
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
                 nonDeliveredMessages.pop();
-                final float latitude = PrefManager.getFloat(Constant.LATITUDE,0);
-                final float longitude = PrefManager.getFloat(Constant.LONGITUDE,0);
-                final String geo_source = PrefManager.getString(Constant.GEO_SOURCE,"ip");
+                final float latitude = PrefManager.getFloat(Constant.LATITUDE, 0);
+                final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
+                final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
                 Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
 
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
@@ -682,15 +675,16 @@ public class MainActivity extends AppCompatActivity {
                                 recyclerAdapter.hideDots();
 
                                 if (response != null && response.isSuccessful() && response.body() != null) {
-                                    SusiResponse susiResponse = response.body();
+                                    final SusiResponse susiResponse = response.body();
                                     int responseActionSize = response.body().getAnswers().get(0).getActions().size();
-                                    for (int counter = 0; counter< responseActionSize ; counter++) {
+                                    for (int counter = 0; counter < responseActionSize; counter++) {
 
                                         try {
                                             answer = susiResponse.getAnswers().get(0).getActions()
                                                     .get(counter).getExpression();
                                             delay = susiResponse.getAnswers().get(0).getActions()
                                                     .get(counter).getDelay();
+
 
                                             try {
                                                 ismap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
@@ -711,8 +705,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                         try {
                                             if (response.body().getAnswers().get(0).getActions().size() > 1) {
-                                                String type = response.body().getAnswers().get(0).getActions().get(1).getType();
-                                                isPieChart = type != null && type.equals("piechart");
+                                                isPieChart = actionType != null && actionType.equals("piechart");
                                                 datumList = response.body().getAnswers().get(0).getData();
                                             }
                                         } catch (Exception e) {
@@ -741,46 +734,58 @@ public class MainActivity extends AppCompatActivity {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
                                         final String setMessage = answer;
-
+                                        final int counterValue = counter;
+                                        actionType = response.body().getAnswers().get(0).getActions().get(counter).getType();
                                         final Handler delayHandler = new Handler();
                                         delayHandler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isSearchResult, datumList);
+                                                actionType = susiResponse.getAnswers().get(0).getActions().get(counterValue).getType();
+//                                                Log.e("Type:",actionType );
+
+                                                if ("anchor".equals(actionType)) {
+                                                    String text = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorText();
+                                                    String link = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorLink();
+                                                    addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, datumList);
+                                                } else if ("answer".equals(actionType)) {
+                                                    addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isSearchResult, datumList);
+//                                                } else if ("websearch".equals(actionType)) {
+                                                    //String query = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
+                                                    //TODO: Implement web search result.
+                                                }
                                             }
                                         }, delay);
 
                                     }
 
+                                } else {
+                                    if (!isNetworkConnected()) {
+                                        recyclerAdapter.hideDots();
+                                        nonDeliveredMessages.addFirst(new Pair(query, id));
+                                        Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                                                getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
+                                        snackbar.show();
                                     } else {
-                                        if (!isNetworkConnected()) {
-                                            recyclerAdapter.hideDots();
-                                            nonDeliveredMessages.addFirst(new Pair(query, id));
-                                            Snackbar snackbar = Snackbar.make(coordinatorLayout,
-                                                    getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
-                                            snackbar.show();
-                                        } else {
-                                            realm.executeTransactionAsync(new Realm.Transaction() {
-                                                @Override
-                                                public void execute(Realm bgRealm) {
-                                                    long prId = id;
-                                                    try {
-                                                        ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
-                                                        chatMessage.setIsDelivered(true);
-                                                    } catch (Exception e) {
-                                                        e.printStackTrace();
-                                                    }
+                                        realm.executeTransactionAsync(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm bgRealm) {
+                                                long prId = id;
+                                                try {
+                                                    ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
+                                                    chatMessage.setIsDelivered(true);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
                                                 }
-                                            });
-                                            rvChatFeed.getRecycledViewPool().clear();
-                                            recyclerAdapter.notifyItemChanged((int) id);
-                                            addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, null);
-                                        }
+                                            }
+                                        });
+                                        rvChatFeed.getRecycledViewPool().clear();
+                                        recyclerAdapter.notifyItemChanged((int) id);
+                                        addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, null);
                                     }
-                                    if (isNetworkConnected())
-                                        computeOtherMessage();
-                                    }
-
+                                }
+                                if (isNetworkConnected())
+                                    computeOtherMessage();
+                            }
 
 
                             @Override
@@ -928,7 +933,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
                     modifyMenu(false);
-                }else{
+                } else {
                     ChatMessage.setEnabled(false);
                 }
                 return false;
@@ -958,22 +963,19 @@ public class MainActivity extends AppCompatActivity {
             offset = 1;
             return;
         }
-        if(atHome){
-            if(backPressedOnce){
+        if (atHome) {
+            if (backPressedOnce) {
                 finish();
             }
-            backPressedOnce=true;
+            backPressedOnce = true;
             Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable()
-            {
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void run()
-                {
-                    backPressedOnce= false;
+                public void run() {
+                    backPressedOnce = false;
                 }
             }, 2000);
-        }
-        else if(!atHome){
+        } else if (!atHome) {
             atHome = true;
         }
 
@@ -1092,10 +1094,10 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-	public void scrollToEnd(View view) {
-        rvChatFeed.smoothScrollToPosition( rvChatFeed.getAdapter().getItemCount()-1 );
+    public void scrollToEnd(View view) {
+        rvChatFeed.smoothScrollToPosition(rvChatFeed.getAdapter().getItemCount() - 1);
     }
-	
+
     private class computeThread extends Thread {
         public void run() {
             computeOtherMessage();
