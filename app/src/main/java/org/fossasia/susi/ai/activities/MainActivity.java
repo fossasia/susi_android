@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
     private TextToSpeech textToSpeech;
+    private String anchorText;
+    private String anchorLink;
+    private String anchor;
+    private String isType;
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
                 public void onAudioFocusChange(int focusChange) {
@@ -693,7 +697,7 @@ public class MainActivity extends AppCompatActivity {
                                                     .get(counter).getDelay();
 
                                             try {
-                                                ismap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
+                                                ismap = response.body().getAnswers().get(0).getActions().get(counter).getType().equals("map");
                                                 datumList = response.body().getAnswers().get(0).getData();
                                             } catch (Exception e) {
                                                 ismap = false;
@@ -711,8 +715,8 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                         try {
                                             if (response.body().getAnswers().get(0).getActions().size() > 1) {
-                                                String type = response.body().getAnswers().get(0).getActions().get(1).getType();
-                                                isPieChart = type != null && type.equals("piechart");
+                                                isType = response.body().getAnswers().get(0).getActions().get(counter).getType();
+                                                isPieChart = isType != null && isType.equals("piechart");
                                                 datumList = response.body().getAnswers().get(0).getData();
                                             }
                                         } catch (Exception e) {
@@ -741,11 +745,29 @@ public class MainActivity extends AppCompatActivity {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
                                         final String setMessage = answer;
+                                        if (responseActionSize>1) {
+                                            anchorText = response.body().getAnswers().get(0).getActions().get(1).getAnchorText();
+                                            anchorLink = response.body().getAnswers().get(0).getActions().get(1).getAnchorLink();
+                                            anchor = anchorText.concat(": ").concat(anchorLink);
+                                            if ("anchor".equals(isType))
+                                                {
+                                                    counter = responseActionSize;
+                                                }
+                                        }
 
                                         final Handler delayHandler = new Handler();
                                         delayHandler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
+                                                try {
+                                                    if ("anchor".equals(isType)&& !ismap)
+                                                    {
+                                                        addNewMessage(anchor, false, false, false, isSearchResult, datumList);
+                                                    }
+                                                }
+                                                catch (Exception e){
+                                                    e.printStackTrace();
+                                                }
                                                 addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isSearchResult, datumList);
                                             }
                                         }, delay);
