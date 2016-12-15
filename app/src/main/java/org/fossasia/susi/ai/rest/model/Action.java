@@ -17,6 +17,15 @@ public class Action {
     @SerializedName("type")
     @Expose
     private String type;
+    @SerializedName("link")
+    @Expose
+    private String anchorLink;
+    @SerializedName("text")
+    @Expose
+    private String anchorText;
+    @SerializedName("query")
+    @Expose
+    private String query;
 
     public String getExpression() {
         return expression;
@@ -28,5 +37,17 @@ public class Action {
 
     public long getDelay() {
         return delay;
+    }
+
+    public String getAnchorLink() {
+        return anchorLink;
+    }
+
+    public String getAnchorText() {
+        return anchorText;
+    }
+
+    public String getQuery() {
+        return query;
     }
 }
