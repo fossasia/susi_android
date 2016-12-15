@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatMessageView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/message_layout_margin"
+    android:layout_marginTop="@dimen/message_layout_margin"
+    app:cmv_arrowGravity="start"
+    app:cmv_arrowPosition="left"
+    app:cmv_backgroundColor="@color/susi_message_bg"
+    app:cmv_backgroundColorPressed="@color/susi_message_pressed_bg"
+    app:cmv_contentPadding="@dimen/cmv_padding"
+    app:cmv_cornerRadius="@dimen/cmv_corner_radius"
+    app:cmv_showArrow="false">
+
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/web_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/md_black_1000"
+                android:textColorLink="@color/link_text"
+                android:textSize="@dimen/message_text_size"
+                tools:text="Hello!!"/>
+
+            <TextView
+                android:id="@+id/web_timestamp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="bottom|end"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="@color/md_grey_600"
+                android:textSize="@dimen/timestamp_size"
+                tools:text="05:32" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/web_preview_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/web_link_preview_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="4dp"
+                android:background="#aaffffff"
+                tools:src="@drawable/ic_susi"
+                android:layout_weight="0.2"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/susi_message_link_preview_bg"
+                android:layout_weight="0.8"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/web_link_preview_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/susi_message_link_preview_bg"
+                    android:padding="5dp"
+                    android:maxLines="1"
+                    tools:text="Website Sample Headline"
+                    android:textColor="@color/md_grey_800"/>
+
+                <TextView
+                    android:id="@+id/web_link_preview_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom"
+                    android:padding="5dp"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:textColor="@color/md_grey_600"
+                    android:text="Sample Text Extracted from a website"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</me.himanshusoni.chatmessageview.ChatMessageView>
