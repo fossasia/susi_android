@@ -788,7 +788,7 @@ public class MainActivity extends AppCompatActivity {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
                                         addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null);
-                                            };
+                                            }
                                             rvChatFeed.getRecycledViewPool().clear();
                                             recyclerAdapter.notifyItemChanged((int) id);
                                             addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null);
