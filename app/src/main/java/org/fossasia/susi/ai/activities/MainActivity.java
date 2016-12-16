@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     //	 Global Variables used for the setMessage Method
     private String answer;
     private String actionType;
-    private boolean ismap, isPieChart = false;
+    private boolean isMap, isPieChart = false;
     private boolean isHavingLink;
     private boolean isSearchResult;
     private boolean isWebSearch;
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-    public static String webseach;
+    public static String webSearch;
     private TextToSpeech textToSpeech;
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -628,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query) {
-        webseach = query;
+        webSearch = query;
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -688,15 +688,15 @@ public class MainActivity extends AppCompatActivity {
 
 
                                             try {
-                                                ismap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
+                                                isMap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
                                                 datumList = response.body().getAnswers().get(0).getData();
                                             } catch (Exception e) {
-                                                ismap = false;
+                                                isMap = false;
                                             }
                                             List<String> urlList = extractUrls(answer);
                                             Log.d(TAG, urlList.toString());
                                             String setMessage = answer;
-                                            voiceReply(setMessage, ismap);
+                                            voiceReply(setMessage, isMap);
                                             isHavingLink = urlList != null;
                                             if (urlList.size() == 0) isHavingLink = false;
                                         } catch (IndexOutOfBoundsException | NullPointerException e) {
@@ -755,7 +755,7 @@ public class MainActivity extends AppCompatActivity {
                                                     String link = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorLink();
                                                     addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, false, datumList);
                                                 } else if ("answer".equals(actionType)) {
-                                                    addNewMessage(setMessage, ismap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
+                                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
 //                                                } else if ("websearch".equals(actionType)) {
                                                     //String query = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
                                                     //TODO: Implement web search result.
