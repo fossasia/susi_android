@@ -8,7 +8,7 @@ dependencies:
 
 #Pull any submodules
 #-PdisablePreDex is a must else gradle just dies due to memory limit
-#Replace 
+#Replace
 test:
     override:
         - (./gradlew assemble -PdisablePreDex):
