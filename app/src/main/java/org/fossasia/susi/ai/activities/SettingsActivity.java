@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.activities;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
@@ -20,7 +21,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
-        private Preference textToSpeech;
+        private Preference textToSpeech,rate;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -34,6 +35,15 @@ public class SettingsActivity extends AppCompatActivity {
                     Intent intent = new Intent();
                     intent.setComponent( new ComponentName("com.android.settings","com.android.settings.Settings$TextToSpeechSettingsActivity" ));
                     startActivity(intent);
+                    return true;
+                }
+            });
+
+            rate=(Preference)getPreferenceManager().findPreference("rate");
+            rate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getContext().getPackageName())));
                     return true;
                 }
             });
