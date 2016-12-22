@@ -3,17 +3,13 @@ package org.fossasia.susi.ai.helper;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-/**
- * Created by saurabh on 7/10/16.
- */
-
 public class MapHelper {
     private static final String TAG = MapHelper.class.getSimpleName();
     private static final String BASE_URL = "http://staticmap.openstreetmap.de/staticmap.php?";
     private static final String URL_SCHEME = BASE_URL + "center=%s,%s&zoom=%s&size=%sx%s";
     private static final int size = 300;
     private String longitude;
-    private String lattitude;
+    private String latitude;
     private String zoom;
     private String mapUrl;
     private String displayText;
@@ -24,10 +20,10 @@ public class MapHelper {
         try {
             String arr[] = text.split("/");
             longitude = arr[arr.length - 1];
-            lattitude = arr[arr.length - 2];
+            latitude = arr[arr.length - 2];
             String zoomText[] = arr[arr.length - 3].split("=");
             zoom = zoomText[zoomText.length - 1];
-            mapUrl = String.format(URL_SCHEME, lattitude, longitude, zoom, size, size);
+            mapUrl = String.format(URL_SCHEME, latitude, longitude, zoom, size, size);
             isParseSuccessful = true;
         } catch (Exception e) {
             Log.d(TAG, text);
@@ -68,8 +64,8 @@ public class MapHelper {
         return longitude;
     }
 
-    public String getLattitude() {
-        return lattitude;
+    public String getLatitude() {
+        return latitude;
     }
 
     public String getZoom() {

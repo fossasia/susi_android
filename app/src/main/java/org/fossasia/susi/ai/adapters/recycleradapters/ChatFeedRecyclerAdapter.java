@@ -413,7 +413,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         */
 
                         if (AndroidHelper.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
-                            Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", mapHelper.getLattitude(), mapHelper.getLongitude(), mapHelper.getZoom()));
+                            Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", mapHelper.getLatitude(), mapHelper.getLongitude(), mapHelper.getZoom()));
                             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                             mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
                             currContext.startActivity(mapIntent);
@@ -449,7 +449,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
         websearchholder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
-        webquery = MainActivity.webseach;
+        webquery = MainActivity.webSearch;
         if(webquery!= null)
             web = webquery.trim().replace(" ", "+");
 
