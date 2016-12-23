@@ -485,7 +485,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                                 if(url!=null){
 
-                                    urlimage = null;
                                     try {
                                         urlimage = new URL(url);
                                     } catch (MalformedURLException e) {
@@ -498,7 +497,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         @Override
                                         public void run() {
                                             try {
-                                                if(bmp!=null)
+                                                if(urlimage!=null)
                                                 bmp = BitmapFactory.decodeStream(urlimage.openConnection().getInputStream());
                                                 urlimage = null;
                                             } catch (IOException e) {
