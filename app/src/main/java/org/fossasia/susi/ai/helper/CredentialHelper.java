@@ -9,6 +9,7 @@ import org.fossasia.susi.ai.R;
 
 import java.util.regex.Pattern;
 
+
 /**
  * Created by saurabh on 11/10/16.
  */
@@ -61,4 +62,6 @@ public class CredentialHelper {
             return false;
         }
     }
+
+
 }
