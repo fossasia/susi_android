@@ -22,6 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
         private Preference textToSpeech;
 
+
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.pref_settings);

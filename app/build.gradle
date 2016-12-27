@@ -34,6 +34,8 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_lib_version"
     compile "com.android.support:recyclerview-v7:$support_lib_version"
     compile "com.android.support:design:$support_lib_version"
+    compile 'com.android.support:customtabs:24.2.1'
+
 
     compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
