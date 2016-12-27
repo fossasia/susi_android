@@ -114,8 +114,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout sendMessageLayout;
     @BindView(R.id.btnSpeak)
     ImageButton btnSpeak;
-    @BindView(R.id.date)
-    TextView dates;
+
     private boolean atHome = true;
     private boolean backPressedOnce = false;
     private FloatingActionButton fab_scrollToEnd;
@@ -397,7 +396,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ChatMessage.addTextChangedListener(watch);
-        dates.setText(DateTimeHelper.getDate());
 
         ChatMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -655,8 +653,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     private void sendMessage(String query) {
         webSearch = query;
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
@@ -674,7 +670,18 @@ public class MainActivity extends AppCompatActivity {
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
 
-        updateDatabase(id, query, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+        if(id==0) {
+            updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
+            id++;
+        } else {
+            String s = realm.where(ChatMessage.class).equalTo("id",id-1).findFirst().getDate();
+            if(!DateTimeHelper.getDate().equals(s)) {
+                updateDatabase(id, "", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
+                id++;
+            }
+        }
+
+        updateDatabase(id, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
         getLocationFromLocationService();
         recyclerAdapter.showDots();
@@ -941,14 +948,13 @@ public class MainActivity extends AppCompatActivity {
 
             googlesearch_query = "";
         }
-        updateDatabase(id, answer, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+        updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
     }
 
-
-
-
-    private void updateDatabase(final long id, final String message, final boolean mine, final boolean isSearchResult,final boolean isWebSearch,
-                                final boolean image, final boolean isMap, final boolean isHavingLink, final String timeStamp, final boolean isPieChart, final List<Datum> datumList) {
+    private void updateDatabase(final long id, final String message, final String date, final boolean isDate,
+                                final boolean mine, final boolean isSearchResult,final boolean isWebSearch,
+                                final boolean image, final boolean isMap, final boolean isHavingLink,
+                                final String timeStamp, final boolean isPieChart, final List<Datum> datumList) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -956,6 +962,8 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setId(id);
                 chatMessage.setWebSearch(isWebSearch);
                 chatMessage.setContent(message);
+                chatMessage.setDate(date);
+                chatMessage.setIsDate(isDate);
                 chatMessage.setIsMine(mine);
                 chatMessage.setIsImage(image);
                 chatMessage.setTimeStamp(timeStamp);
