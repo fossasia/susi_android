@@ -46,6 +46,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
@@ -102,6 +103,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private static final int NULL_HOLDER = 9;
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
+    private static final int DATE_VIEW = 12;
     private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
@@ -230,6 +232,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             case WEB_SEARCH:
                 view = inflater.inflate(R.layout.activity_websearch, viewGroup, false);
                 return new WebSearchHolder(view, clickListener);
+            case DATE_VIEW:
+                view = inflater.inflate(R.layout.date_view,viewGroup, false);
+                return new DateViewHolder(view);
             case DOTS:
                 return dotsHolder;
             case NULL_HOLDER:
@@ -237,8 +242,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, clickListener, USER_MESSAGE);
-
-
         }
 
     }
@@ -249,6 +252,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
+        else if (item.isDate()) return DATE_VIEW;
         else if (item.isMap()) return MAP;
         else if (item.isWebSearch()) return WEB_SEARCH;
         else if (item.isSearchResult()) return SEARCH_RESULT;
@@ -275,10 +279,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", "" , false, false, false, false, false, false, false,
+                    return new ChatMessage(-404, "", "", "", false, false, false, false, false, false, false, false,
                             "", null);
                 }
-                return new ChatMessage(-405, "", "", false, false, false, false, false, false, false,
+                return new ChatMessage(-405, "", "", "", false, false, false, false, false, false, false, false,
                         "", null);
             }
             return getData().get(index);
@@ -306,6 +310,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         } else if (holder instanceof WebSearchHolder){
             WebSearchHolder websearchholder = (WebSearchHolder) holder;
             handleItemEvents(websearchholder, position);
+        } else if (holder instanceof DateViewHolder) {
+            DateViewHolder dateViewHolder = (DateViewHolder) holder;
+            handleItemEvents(dateViewHolder, position);
         }
 
        /* if (highlightMessagePosition == position) {
@@ -313,6 +320,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }*/
+    }
+
+    private void handleItemEvents(DateViewHolder dateViewHolder, int position){
+        dateViewHolder.textDate.setText(getData().get(position).getDate());
     }
 
     private void handleItemEvents(SearchResultsHolder searchResultsHolder, int position) {
@@ -464,72 +475,72 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
         final WebSearchClient apiService =  WebSearchApi.getClient().create(WebSearchClient.class);
 
-                Call<WebSearch> call = apiService.getresult(web);
+        Call<WebSearch> call = apiService.getresult(web);
 
-                call.enqueue(new Callback<WebSearch>() {
-                    @Override
-                    public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
-                        Log.e(TAG, response.toString());
+        call.enqueue(new Callback<WebSearch>() {
+            @Override
+            public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
+                Log.e(TAG, response.toString());
 
-                            if (response.body()!=null&&response.body().getRelatedTopics().size() != 0) {
-                                des = response.body().getRelatedTopics().get(0).getText();
-                                title = response.body().getHeading();
-                                url = response.body().getRelatedTopics().get(0).getIcon().getUrl();
-                                linkurl = response.body().getRelatedTopics().get(0).getDes();
+                if (response.body()!=null&&response.body().getRelatedTopics().size() != 0) {
+                    des = response.body().getRelatedTopics().get(0).getText();
+                    title = response.body().getHeading();
+                    url = response.body().getRelatedTopics().get(0).getIcon().getUrl();
+                    linkurl = response.body().getRelatedTopics().get(0).getDes();
 
 
-                                websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
-                                websearchholder.titleTextView.setVisibility(View.VISIBLE);
+                    websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
+                    websearchholder.titleTextView.setVisibility(View.VISIBLE);
 
-                                websearchholder.descriptionTextView.setText(des);
-                                websearchholder.titleTextView.setText(title);
+                    websearchholder.descriptionTextView.setText(des);
+                    websearchholder.titleTextView.setText(title);
 
-                                if(url!=null){
+                    if(url!=null){
 
+                        try {
+                            urlimage = new URL(url);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+
+                        if(urlimage!=null)
+                            new Thread(new Runnable() {
+
+                                @Override
+                                public void run() {
                                     try {
-                                        urlimage = new URL(url);
-                                    } catch (MalformedURLException e) {
+                                        if(urlimage!=null)
+                                            bmp = BitmapFactory.decodeStream(urlimage.openConnection().getInputStream());
+                                        urlimage = null;
+                                    } catch (IOException e) {
                                         e.printStackTrace();
                                     }
-
-                                    if(urlimage!=null)
-                                    new Thread(new Runnable() {
-
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                if(urlimage!=null)
-                                                bmp = BitmapFactory.decodeStream(urlimage.openConnection().getInputStream());
-                                                urlimage = null;
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    }).start();
-
-                                    if(bmp!=null) {
-                                        websearchholder.previewImageView.setVisibility(View.VISIBLE);
-                                        websearchholder.previewImageView.setImageBitmap(bmp);
-                                    }
                                 }
+                            }).start();
 
-                            }
-
-                        else {
-                            websearchholder.previewImageView.setVisibility(View.GONE);
-                            websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
-                            websearchholder.titleTextView.setVisibility(View.VISIBLE);
-                            websearchholder.descriptionTextView.setText(R.string.websearchnull);
-                            websearchholder.titleTextView.setText(R.string.websearchnull);
+                        if(bmp!=null) {
+                            websearchholder.previewImageView.setVisibility(View.VISIBLE);
+                            websearchholder.previewImageView.setImageBitmap(bmp);
                         }
                     }
 
-                    @Override
-                    public void onFailure(Call<WebSearch> call, Throwable t) {
-                        Log.e(TAG,"error" + t.toString());
-                    }
+                }
 
-                });
+                else {
+                    websearchholder.previewImageView.setVisibility(View.GONE);
+                    websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
+                    websearchholder.titleTextView.setVisibility(View.VISIBLE);
+                    websearchholder.descriptionTextView.setText(R.string.websearchnull);
+                    websearchholder.titleTextView.setText(R.string.websearchnull);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WebSearch> call, Throwable t) {
+                Log.e(TAG,"error" + t.toString());
+            }
+
+        });
 
 
 
@@ -720,6 +731,33 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         });
     }
 
+    private void removeDates(){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                RealmResults<ChatMessage> AllDates = realm.where(ChatMessage.class).equalTo("isDate",true).findAll().sort("id");
+
+                int dateIndexFirst = getData().indexOf(AllDates.get(0));
+
+                for(int i = 1 ; i < AllDates.size() ; i++ ){
+                    int dateIndexSecond = getData().indexOf(AllDates.get(i));
+                    if(dateIndexSecond == dateIndexFirst + 1) {
+                        getData().deleteFromRealm(dateIndexFirst);
+                        dateIndexSecond--;
+                    }
+                    dateIndexFirst = dateIndexSecond;
+                }
+
+                if(dateIndexFirst == getData().size() - 1){
+                    getData().deleteFromRealm(dateIndexFirst);
+                }
+
+            }
+        });
+
+    }
+
     private void scrollToBottom() {
         if (getData() != null && !getData().isEmpty() && recyclerView != null) {
             recyclerView.smoothScrollToPosition(getItemCount() - 1);
@@ -800,6 +838,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
                                             deleteMessage(getSelectedItems().get(i));
                                         }
+                                        removeDates();
                                         toast = Toast.makeText(recyclerView.getContext() , R.string.message_deleted , Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, 0, 0);
                                         toast.show();
@@ -828,6 +867,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
                                             deleteMessage(getSelectedItems().get(i));
                                         }
+                                        removeDates();
                                         toast = Toast.makeText(recyclerView.getContext() ,getSelectedItems().size() + " Messages deleted", Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, 0, 0);
                                         toast.show();
