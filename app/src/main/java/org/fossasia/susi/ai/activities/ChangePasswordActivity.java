@@ -124,13 +124,12 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     Button logIn = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                     logIn.setTextColor(getResources().getColor(R.color.md_blue_500));
 
-                }
-                else{
+                } else {
                     AlertDialog.Builder alertDialog = new AlertDialog.Builder(ChangePasswordActivity.this);
                     alertDialog.setCancelable(false);
                     alertDialog.setTitle(getString(R.string.error_invalid_token));
                     alertDialog.setMessage(getString(R.string.email_token_string_message));
-                    alertDialog.setPositiveButton("Retry",null);
+                    alertDialog.setPositiveButton("Retry", null);
                     AlertDialog alert = alertDialog.create();
                     alert.show();
                     Button retry = alert.getButton(DialogInterface.BUTTON_POSITIVE);
