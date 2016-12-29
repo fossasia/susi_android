@@ -688,6 +688,7 @@ public class MainActivity extends AppCompatActivity {
     private synchronized void computeOtherMessage() {
         final String query;
         final long id;
+        String answer_call=null;
         String google_search = null;
 
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
@@ -700,6 +701,10 @@ public class MainActivity extends AppCompatActivity {
                 nonDeliveredMessages.pop();
 
                 String section[]=query.split(" ");
+
+                if(section.length==2 && section[0].equalsIgnoreCase("call")){
+                    answer_call="Calling "+section[1];
+                }
                 if(section[0].equalsIgnoreCase("@google")){
                     int size = section.length;
                     for( int i = 1 ; i<size ; i++)
@@ -714,6 +719,7 @@ public class MainActivity extends AppCompatActivity {
                 final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
                 Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
 
+                final String finalAnswer_call = answer_call;
                 final String finalgoogle_search = google_search;
 
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
@@ -789,6 +795,11 @@ public class MainActivity extends AppCompatActivity {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
 
+                                        if(finalAnswer_call!=null && finalAnswer_call.contains("Calling"))
+                                        {
+                                            answer = finalAnswer_call;
+                                            isWebSearch = false;
+                                        }
                                         if(finalgoogle_search!=null&&finalgoogle_search.contains("google"))
                                         {
                                             answer = finalgoogle_search;
@@ -943,6 +954,12 @@ public class MainActivity extends AppCompatActivity {
 
             googlesearch_query = "";
         }
+
+        if(answer.contains("Calling")){
+            String splits[]=answer.split(" ");
+            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", splits[1], null)));
+        }
+
         updateDatabase(id, answer, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
     }
 
