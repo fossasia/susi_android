@@ -46,4 +46,9 @@
         android:summary="@string/action_select_language">
     </PreferenceScreen>
 
+    <PreferenceScreen
+        android:title="@string/pref_rate_title"
+        android:key="rate"
+        android:summary="@string/pref_rate_summary" />
+
 </PreferenceScreen>

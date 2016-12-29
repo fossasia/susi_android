@@ -99,6 +99,8 @@
     <string name="forgot_pass_activity">Forgot Password?</string>
     <string name="email_pass_not_exists">Email doesn\'t Exists. Please make sure you have entered your email correctly.</string>
     <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
+    <string name="pref_rate_title">Rate Susi</string>
+    <string name="pref_rate_summary">Rate Our App on Play Store</string>
 </resources>
 
 
