@@ -36,6 +36,27 @@ We have the following branches
  * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
 
+
+##For Developers: Adding Fabric API KEY
+1. Go to AndroidFest.xml
+Replace the fabric_api_key with the Real Fabric API Key
+Add: <meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" /> 
+
+2. Open the app/fabric.properties:
+Replace the fabric_api_key with your actual Fabric API Secret.
+
+3. Open MainApplication.java, 
+	a) After adding the API KEYS and API Secret
+	Uncomment the line: Fabric.with(this, new Crashlytics()) 
+
+	b) Add imports :
+		import com.crashlytics.android.Crashlytics;
+		import io.fabric.sdk.android.Fabric;
+
+4. Uncomment the line in the app/gradle
+	Line: apply plugin: 'io.fabric'
+    
+
 ## Code practices
 
 Please help us follow the best practice to make it easy for the reviewer as well as the contributor. We want to focus on the code quality more than on managing pull request ethics. 
