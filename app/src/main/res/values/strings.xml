@@ -32,6 +32,7 @@
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
+    <string name="message_deleted">Message deleted</string>
     <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
 
 
@@ -99,6 +100,8 @@
     <string name="forgot_pass_activity">Forgot Password?</string>
     <string name="email_pass_not_exists">Email doesn\'t Exists. Please make sure you have entered your email correctly.</string>
     <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
+    <string name="pref_rate_title">Rate Susi</string>
+    <string name="pref_rate_summary">Rate Our App on Play Store</string>
 </resources>
 
 
