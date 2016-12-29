@@ -77,15 +77,5 @@
             android:layout_marginBottom="2dp"
             android:scrollbars="vertical" />
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="5dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/rounded_layout_cyan"
-            android:gravity="center" />
-
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
