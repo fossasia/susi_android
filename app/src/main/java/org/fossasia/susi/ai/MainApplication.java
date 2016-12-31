@@ -23,6 +23,9 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+//        For Developers: Uncomment the below line after adding the API KEYS
+//        for Instructions check the README.md
+//        Fabric.with(this, new Crashlytics());
         instance = this;
         // The Realm file will be located in Context.getFilesDir() with name "default.realm"
         Realm.init(this);

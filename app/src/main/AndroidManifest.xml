@@ -46,6 +46,15 @@
             android:name=".activities.ChangePasswordActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+        <!--
+        For Developers:
+        Replay the fabric_api_key to your actual API KEY
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="fabric_api_key" />
+        -->
+
     </application>
 
 </manifest>
+
