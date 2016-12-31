@@ -14,6 +14,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -814,19 +816,44 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 actionType = susiResponse.getAnswers().get(0).getActions().get(counterValue).getType();
-//                                                Log.e("Type:",actionType );
-
-                                                if ("anchor".equals(actionType)) {
+                                                if ("answer".equals(actionType)) {
+                                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
+                                                }
+                                                else if ("anchor".equals(actionType)) {
                                                     String text = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorText();
                                                     String link = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorLink();
-                                                    addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, false, datumList);
-                                                } else if ("answer".equals(actionType)) {
-                                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
-//                                                } else if ("websearch".equals(actionType)) {
-                                                    //String query = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
-                                                    //TODO: Implement web search result.
-//
+                                                    if (link != null) {
+                                                        addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, false, datumList);
+                                                    }
+                                                    else {
+                                                        String mapDisplayName;
+                                                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                                                        try {
+                                                            float lat = PrefManager.getFloat(Constant.LATITUDE,0);
+                                                            float lon = PrefManager.getFloat(Constant.LONGITUDE,0);
+                                                            List<Address> addresses = geocoder.getFromLocation(lat,lon,1);
+                                                            StringBuilder locationAddressBuilder = new StringBuilder();
+                                                            int addressLineSize = addresses.get(0).getMaxAddressLineIndex();
+                                                            for (int addressLineCount = 0; addressLineCount < addressLineSize - 1;addressLineCount++)
+                                                            {
+                                                                locationAddressBuilder.append(addresses.get(0).getAddressLine(addressLineCount)).append(", ");
+                                                            }
+                                                            locationAddressBuilder.append(addresses.get(0).getAddressLine(addressLineSize-1));
+                                                            mapDisplayName =  "Address: ".concat(locationAddressBuilder.toString());
+                                                            addNewMessage(mapDisplayName, false, false, false, false, false, datumList);
+                                                        }
+                                                        catch (Exception e){
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
                                                 }
+//                                                else if ("map".equals(actionType)) {
+//
+//                                               }
+//                                                else if ("websearch".equals(actionType)) {
+                                                //String query = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
+                                                //TODO: Implement web search result.
+//                                                }
                                             }
                                         }, delay);
 
