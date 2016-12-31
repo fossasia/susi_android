@@ -9,22 +9,24 @@ import io.realm.RealmObject;
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
-    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult;
+    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate;
     private long id;
-    private String content, timeStamp, des;
+    private String content, timeStamp, des, date;
     private RealmList<Datum> datumRealmList;
 
     public ChatMessage() {
         datumRealmList = new RealmList<>();
     }
 
-    public ChatMessage(long id, String content, String des ,boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
+    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
         this.id = id;
         this.isWebSearch = isWebSearch;
         this.isImage = isImage;
         this.des = des;
         this.isMine = isMine;
         this.content = content;
+        this.date = date;
+        this.isDate = isDate;
         this.timeStamp = timeStamp;
         this.isMap = isMap;
         this.isHavingLink = isHavingLink;
@@ -72,6 +74,22 @@ public class ChatMessage extends RealmObject {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public boolean isDate() {
+        return isDate;
+    }
+
+    public void setIsDate(boolean date) {
+        isDate = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public long getId() {
