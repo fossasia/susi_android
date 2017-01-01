@@ -57,9 +57,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
@@ -74,7 +72,6 @@ import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.LocationHelper;
 import org.fossasia.susi.ai.rest.model.LocationResponse;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
-
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -86,7 +83,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Case;
@@ -100,13 +96,11 @@ import retrofit2.Response;
 import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
 
 public class MainActivity extends AppCompatActivity {
-
     public static String TAG = MainActivity.class.getName();
-
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
-
+    private boolean isEnabled = true;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
@@ -117,7 +111,6 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout sendMessageLayout;
     @BindView(R.id.btnSpeak)
     ImageButton btnSpeak;
-
     private boolean atHome = true;
     private boolean backPressedOnce = false;
     private FloatingActionButton fab_scrollToEnd;
@@ -144,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
     private String googlesearch_query = "";
     private TextToSpeech textToSpeech;
 
-
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
                 public void onAudioFocusChange(int focusChange) {
@@ -158,15 +150,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
-
     private ClientBuilder clientBuilder;
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
     TextWatcher watch = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
         }
-
 
         @Override
         public void onTextChanged(final CharSequence charSequence, int i, int i1, int i2) {
@@ -205,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
         @Override
         public void afterTextChanged(Editable editable) {
 
@@ -220,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
             String url = m.group();
             links.add(url);
         }
-
         return links;
     }
 
@@ -233,8 +220,6 @@ public class MainActivity extends AppCompatActivity {
         Boolean checked = PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
         return checked;
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -265,8 +250,6 @@ public class MainActivity extends AppCompatActivity {
             showToast(getString(R.string.speech_not_supported));
         }
     }
-
-
 
     /**
      * Receiving speech input
@@ -356,7 +339,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     private void init() {
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
@@ -378,10 +360,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, each.getContent());
             nonDeliveredMessages.add(new Pair(each.getContent(), each.getId()));
         }
-
         checkEnterKeyPref();
         setupAdapter();
-
         rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -397,9 +377,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         ChatMessage.addTextChangedListener(watch);
-
         ChatMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -419,12 +397,9 @@ public class MainActivity extends AppCompatActivity {
         setChatBackground();
     }
 
-
-
     public void getLocationFromIP() {
         final LocationService locationService =
                 LocationClient.getClient().create(LocationService.class);
-
         Call<LocationResponse> call = locationService.getLocationUsingIP();
         call.enqueue(new Callback<LocationResponse>() {
             @Override
@@ -445,11 +420,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     public void getLocationFromLocationService() {
         LocationHelper locationHelper = new LocationHelper(MainActivity.this);
-
         if (locationHelper.canGetLocation()) {
             float latitude = locationHelper.getLatitude();
             float longitude = locationHelper.getLongitude();
@@ -460,8 +432,6 @@ public class MainActivity extends AppCompatActivity {
             PrefManager.putString(Constant.GEO_SOURCE, source);
         }
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -484,8 +454,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void voiceReply(final String reply, final boolean isMap) {
         if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -493,7 +461,6 @@ public class MainActivity extends AppCompatActivity {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-
                     int result = audiofocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
                     if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
@@ -508,19 +475,14 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                     textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
                                     audiofocus.abandonAudioFocus(afChangeListener);
-
                                 }
                             }
                         });
                     }
-
                 }
             });
-
         }
     }
-
-
 
     protected void chatBackgroundActivity() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -544,8 +506,6 @@ public class MainActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-
-
     public void cropCapturedImage(Uri picUri) {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(picUri, "image/*");
@@ -557,8 +517,6 @@ public class MainActivity extends AppCompatActivity {
         cropIntent.putExtra("return-data", true);
         startActivityForResult(cropIntent, CROP_PICTURE);
     }
-
-
 
     public void setChatBackground() {
         String previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "");
@@ -579,8 +537,6 @@ public class MainActivity extends AppCompatActivity {
                     .setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg));
         }
     }
-
-
 
     private void checkEnterKeyPref() {
         micCheck = PrefManager.getBoolean(Constant.MIC_INPUT, true);
@@ -625,17 +581,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void setupAdapter() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         rvChatFeed.setLayoutManager(linearLayoutManager);
         rvChatFeed.setHasFixedSize(false);
-
         chatMessageDatabaseList = realm.where(ChatMessage.class).findAllSorted("id");
         recyclerAdapter = new ChatFeedRecyclerAdapter(Glide.with(this), this, chatMessageDatabaseList, true);
-
         rvChatFeed.setAdapter(recyclerAdapter);
         rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -653,7 +605,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void sendMessage(String query) {
@@ -665,14 +616,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-
         boolean isHavingLink;
         List<String> urlList = extractUrls(query);
         Log.d(TAG, urlList.toString());
-
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
-
         if(id==0) {
             updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
             id++;
@@ -691,14 +639,11 @@ public class MainActivity extends AppCompatActivity {
         new computeThread().start();
     }
 
-
-
     private synchronized void computeOtherMessage() {
         final String query;
         final long id;
         String answer_call=null;
         String google_search = null;
-
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
                 TimeZone tz = TimeZone.getDefault();
@@ -707,36 +652,29 @@ public class MainActivity extends AppCompatActivity {
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
                 nonDeliveredMessages.pop();
-
                 String section[]=query.split(" ");
-
                 if(section.length==2 && section[0].equalsIgnoreCase("call")){
                     answer_call="Calling "+section[1];
                 }
                 if(section[0].equalsIgnoreCase("@google")){
                     int size = section.length;
-                    for( int i = 1 ; i<size ; i++)
-                    {
+                    for (int i = 1; i < size; i++) {
                         googlesearch_query = googlesearch_query + " " + section[i];
                     }
                     google_search = "Searching the query from google";
                 }
-
                 final float latitude = PrefManager.getFloat(Constant.LATITUDE, 0);
                 final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
                 final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
                 Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
-
                 final String finalAnswer_call = answer_call;
                 final String finalgoogle_search = google_search;
-
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
                                                    Response<SusiResponse> response) {
                                 recyclerAdapter.hideDots();
-
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
                                     int responseActionSize = response.body().getAnswers().get(0).getActions().size();
@@ -899,7 +837,6 @@ public class MainActivity extends AppCompatActivity {
                                     computeOtherMessage();
                             }
 
-
                             @Override
                             public void onFailure(Call<SusiResponse> call, Throwable t) {
                                 if (t.getLocalizedMessage() != null) {
@@ -945,8 +882,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isWebSearch, boolean isSearchReult, List<Datum> datumList) {
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
@@ -955,19 +890,12 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        if(answer.contains("google"))
-        {
-
-            googlesearch_query = googlesearch_query.replace(" " , "+");
-
+        if (answer.contains("google")) {
+            googlesearch_query = googlesearch_query.replace(" ", "+");
             String url = "https://www.google.co.in/search?q=" + googlesearch_query;
-
-
             Uri uri = Uri.parse(url);
-
             // create an intent builder
             CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-
             // Begin customizing
             // set toolbar colors
             intentBuilder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
@@ -977,14 +905,10 @@ public class MainActivity extends AppCompatActivity {
             //intentBuilder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
             intentBuilder.setExitAnimations(getApplicationContext(), android.R.anim.slide_in_left,
                     android.R.anim.slide_out_right);
-
             // build custom tabs intent
             CustomTabsIntent customTabsIntent = intentBuilder.build();
-
             // launch the url
             customTabsIntent.launchUrl(MainActivity.this, uri);
-
-
             googlesearch_query = "";
         }
 
@@ -995,9 +919,6 @@ public class MainActivity extends AppCompatActivity {
 
         updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
     }
-
-
-
 
     private void updateDatabase(final long id, final String message, final String date,
                                 final boolean isDate, final boolean mine, final boolean isSearchResult,
@@ -1024,7 +945,6 @@ public class MainActivity extends AppCompatActivity {
                     chatMessage.setIsDelivered(false);
                 else
                     chatMessage.setIsDelivered(true);
-
                 if (datumList != null) {
                     RealmList<Datum> datumRealmList = new RealmList<>();
                     for (Datum datum : datumList) {
@@ -1050,14 +970,21 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
 //      TODO: Create Preference Pane and Enable Options Menu
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChatMessage.setVisibility(View.GONE);
+                btnSpeak.setVisibility(View.GONE);
+                sendMessageLayout.setVisibility(View.GONE);
+                isEnabled = false;
+            }
+        });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -1066,14 +993,21 @@ public class MainActivity extends AppCompatActivity {
                 recyclerAdapter.notifyDataSetChanged();
                 searchView.onActionViewCollapsed();
                 offset = 1;
-                ChatMessage.setEnabled(true);
+                ChatMessage.setVisibility(View.VISIBLE);
+                btnSpeak.setVisibility(View.VISIBLE);
+                sendMessageLayout.setVisibility(View.VISIBLE);
                 return false;
             }
+
         });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //// Handle Search Query
+                ChatMessage.setVisibility(View.GONE);
+                btnSpeak.setVisibility(View.GONE);
+                sendMessageLayout.setVisibility(View.GONE);
                 results = realm.where(ChatMessage.class).contains(getString(R.string.content),
                         query, Case.INSENSITIVE).findAll();
                 recyclerAdapter.query = query;
@@ -1097,7 +1031,9 @@ public class MainActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(newText)) {
                     modifyMenu(false);
                 } else {
-                    ChatMessage.setEnabled(false);
+                    ChatMessage.setVisibility(View.GONE);
+                    btnSpeak.setVisibility(View.GONE);
+                    sendMessageLayout.setVisibility(View.GONE);
                 }
                 return false;
             }
@@ -1116,11 +1052,15 @@ public class MainActivity extends AppCompatActivity {
         menu.findItem(R.id.down_angle).setVisible(show);
     }
 
-
-
     @Override
     public void onBackPressed() {
         if (!searchView.isIconified()) {
+
+            if (!isEnabled) {
+                ChatMessage.setVisibility(View.VISIBLE);
+                btnSpeak.setVisibility(View.VISIBLE);
+                sendMessageLayout.setVisibility(View.VISIBLE);
+            }
             modifyMenu(false);
             recyclerAdapter.highlightMessagePosition = -1;
             recyclerAdapter.notifyDataSetChanged();
@@ -1143,10 +1083,7 @@ public class MainActivity extends AppCompatActivity {
         } else if (!atHome) {
             atHome = true;
         }
-
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -1225,8 +1162,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -1241,13 +1176,11 @@ public class MainActivity extends AppCompatActivity {
         checkEnterKeyPref();
     }
 
-
     @Override
     protected void onPause() {
         unregisterReceiver(networkStateReceiver);
         super.onPause();
     }
-
 
     @Override
     protected void onDestroy() {
@@ -1255,28 +1188,23 @@ public class MainActivity extends AppCompatActivity {
         realm.close();
     }
 
-
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
 
-
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-
     public void scrollToEnd(View view) {
         rvChatFeed.smoothScrollToPosition(rvChatFeed.getAdapter().getItemCount() - 1);
     }
-
 
     private class computeThread extends Thread {
         public void run() {
             computeOtherMessage();
         }
     }
-
 }
