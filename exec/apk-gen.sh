@@ -9,6 +9,13 @@ ls
 cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/app-debug.apk apk/susi-debug.apk
 cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/app-release-unsigned.apk apk/susi-release.apk
 cd apk
-git add .
-git commit -m "[Circle CI] Update Susi Apk"
-git push origin apk --quiet > /dev/null
+
+git checkout --orphan workaround
+git add -A
+
+git commit -am "[Circle CI] Update Susi Apk"
+
+git branch -D apk
+git branch -m apk
+
+git push origin apk --force --quiet > /dev/null
