@@ -50,12 +50,32 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/map_image"
+
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_marginTop="4dp"
-            android:background="#aaffffff"
-            tools:src="@drawable/ic_susi" />
+            android:layout_height="250dp">
+
+
+
+            <ImageView
+                android:id="@+id/map_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dp"
+                android:background="#aaffffff"
+                tools:src="@drawable/ic_susi" />
+
+
+            <ImageView
+                android:id="@+id/location_pointer"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_location_pointer"/>
+
+
+        </FrameLayout>
+
     </LinearLayout>
 </me.himanshusoni.chatmessageview.ChatMessageView>
