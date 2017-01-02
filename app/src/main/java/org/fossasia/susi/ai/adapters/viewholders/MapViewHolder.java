@@ -23,6 +23,8 @@ public class MapViewHolder extends MessageViewHolder {
     public ImageView mapImage;
     @BindView(R.id.chatMessageView)
     public ChatMessageView chatMessageView;
+    @BindView(R.id.location_pointer)
+    public  ImageView pointer;
 
 
     public MapViewHolder(View itemView , ClickListener listener) {

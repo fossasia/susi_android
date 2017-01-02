@@ -34,6 +34,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -415,7 +418,29 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 final MapHelper mapHelper = new MapHelper(model.getContent());
                 mapViewHolder.text.setText(mapHelper.getDisplayText());
                 mapViewHolder.timestampTextView.setText(model.getTimeStamp());
-                Glide.with(currContext).load(mapHelper.getMapURL()).into(mapViewHolder.mapImage);
+
+                mapViewHolder.pointer.setVisibility(View.GONE);
+
+                Log.v(TAG, mapHelper.getMapURL());
+
+                Glide.with(currContext).load(mapHelper.getMapURL()).listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model,
+                                                   Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource)
+                    {
+                        mapViewHolder.pointer.setVisibility(View.VISIBLE);
+
+                        return false;
+                    }
+                }).into(mapViewHolder.mapImage);
+
+
+
                 mapViewHolder.mapImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
