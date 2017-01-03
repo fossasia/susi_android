@@ -92,3 +92,7 @@ dependencies {
         transitive = true;
     }
 }
+
+ant.importBuild 'assets.xml'
+preBuild.dependsOn(list, checksum)
+clean.dependsOn(clean_assets)
