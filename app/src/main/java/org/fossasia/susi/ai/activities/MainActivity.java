@@ -19,6 +19,7 @@ import android.location.Geocoder;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -76,7 +77,9 @@ import org.fossasia.susi.ai.rest.model.LocationResponse;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
@@ -89,6 +92,11 @@ import java.util.regex.Matcher;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import edu.cmu.pocketsphinx.Assets;
+import edu.cmu.pocketsphinx.Hypothesis;
+import edu.cmu.pocketsphinx.RecognitionListener;
+import edu.cmu.pocketsphinx.SpeechRecognizer;
+import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -98,10 +106,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
+import static android.widget.Toast.LENGTH_SHORT;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
     public static String TAG = MainActivity.class.getName();
+    private SpeechRecognizer recognize;
+    private static final String KWS_SEARCH = "wakeup";
+    private static final String KEYPHRASE = "hi susi";
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
@@ -251,9 +264,17 @@ public class MainActivity extends AppCompatActivity {
         clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
+        int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+            return;
+        }
+        new hotwordRecognizer().run();
     }
 
     private void promptSpeechInput() {
+        if(recognize!=null)
+            recognize.stop();
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -761,6 +782,7 @@ public class MainActivity extends AppCompatActivity {
                                             voiceReply(setMessage, isMap);
                                             isHavingLink = urlList != null;
                                             if (urlList.size() == 0) isHavingLink = false;
+                                            new hotwordRecognizer().switchSearch(KWS_SEARCH);
                                         } catch (IndexOutOfBoundsException | NullPointerException e) {
                                             Log.d(TAG, e.getLocalizedMessage());
                                             answer = getString(R.string.error_occurred_try_again);
@@ -1133,7 +1155,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
             backPressedOnce = true;
-            Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.exit, LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -1264,7 +1286,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, LENGTH_SHORT).show();
     }
 
 
@@ -1276,6 +1298,92 @@ public class MainActivity extends AppCompatActivity {
     private class computeThread extends Thread {
         public void run() {
             computeOtherMessage();
+        }
+    }
+    private class hotwordRecognizer implements Runnable,RecognitionListener {
+
+        @Override
+        public void run() {
+            new AsyncTask<Void, Void, Exception>() {
+                @Override
+                protected Exception doInBackground(Void... params) {
+                    try {
+                        Assets assets = new Assets(MainActivity.this);
+                        File assetDir = assets.syncAssets();
+                        setupRecognizer(assetDir);
+                    } catch (IOException e) {
+                        return e;
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Exception result) {
+                    if (result != null) {
+                        Toast.makeText(getApplicationContext(), "failed", LENGTH_SHORT).show();
+                    } else {
+                        switchSearch(KWS_SEARCH);
+                    }
+                }
+            }.execute();
+        }
+
+        @Override
+        public void onPartialResult(Hypothesis hypothesis) {
+            if (hypothesis == null)
+                return;
+            String text = hypothesis.getHypstr();
+            if (text.equals(KEYPHRASE))
+                recognize.stop();
+        }
+
+        @Override
+        public void onResult(Hypothesis hypothesis) {
+            promptSpeechInput();
+        }
+
+        @Override
+        public void onError(Exception e) {
+            Log.v(TAG, "Error Occurred");
+        }
+
+        @Override
+        public void onTimeout() {
+            switchSearch(KWS_SEARCH);
+
+        }
+
+        @Override
+        public void onBeginningOfSpeech() {
+            Log.d(TAG,"Waiting for Partial Result");
+        }
+
+        @Override
+        public void onEndOfSpeech() {
+            if(recognize!=null && !recognize.getSearchName().equals(KWS_SEARCH))
+                switchSearch(KWS_SEARCH);
+        }
+
+
+        private void switchSearch(String searchName) {
+            recognize.stop();
+
+            // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
+            if (searchName.equals(KWS_SEARCH))
+                recognize.startListening(searchName);
+            else
+                recognize.startListening(searchName, 10000);
+        }
+
+        private void setupRecognizer(File assetsDir) throws IOException {
+
+            recognize = SpeechRecognizerSetup.defaultSetup()
+                    .setAcousticModel(new File(assetsDir, "en-us-ptm"))
+                    .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
+                    .getRecognizer();
+            recognize.addListener(this);
+            // Create keyword-activation search.
+            recognize.addKeyphraseSearch(KWS_SEARCH, KEYPHRASE);
         }
     }
 
