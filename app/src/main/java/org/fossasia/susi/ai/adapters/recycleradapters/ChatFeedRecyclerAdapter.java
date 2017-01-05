@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +60,7 @@ import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.model.WebLink;
 import org.fossasia.susi.ai.rest.WebSearchApi;
 import org.fossasia.susi.ai.rest.WebSearchClient;
 import org.fossasia.susi.ai.rest.model.Datum;
@@ -616,48 +616,92 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
         linkPreviewViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
-        LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
-            @Override
-            public void onPre() {
-                linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
-                linkPreviewViewHolder.descriptionTextView.setVisibility(View.GONE);
-                linkPreviewViewHolder.titleTextView.setVisibility(View.GONE);
-                linkPreviewViewHolder.previewLayout.setVisibility(View.GONE);
-            }
+        if(model.getWebLinkData() == null) {
 
-            @Override
-            public void onPos(final SourceContent sourceContent, boolean b) {
-
-                linkPreviewViewHolder.previewLayout.setVisibility(View.VISIBLE);
-                linkPreviewViewHolder.previewImageView.setVisibility(View.VISIBLE);
-                linkPreviewViewHolder.descriptionTextView.setVisibility(View.VISIBLE);
-                linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
-                linkPreviewViewHolder.titleTextView.setText(sourceContent.getTitle());
-                linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
-
-                final List<String> imageList = sourceContent.getImages();
-                if (imageList == null || imageList.size() == 0) {
+            LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
+                @Override
+                public void onPre() {
                     linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
-                } else {
-                    glide.load(imageList.get(0))
-                            .centerCrop()
-                            .into(linkPreviewViewHolder.previewImageView);
+                    linkPreviewViewHolder.descriptionTextView.setVisibility(View.GONE);
+                    linkPreviewViewHolder.titleTextView.setVisibility(View.GONE);
+                    linkPreviewViewHolder.previewLayout.setVisibility(View.GONE);
                 }
 
-                linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        linkPreviewViewHolder.onClick(view);
-                        Uri webpage = Uri.parse(sourceContent.getFinalUrl());
-                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                        if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                            currContext.startActivity(intent);
-                        }
-                    }
-                });
+                @Override
+                public void onPos(final SourceContent sourceContent, boolean b) {
 
+                    realm.beginTransaction();
+                    Realm realm = Realm.getDefaultInstance();
+                    WebLink link = realm.createObject(WebLink.class);
+
+                    linkPreviewViewHolder.previewLayout.setVisibility(View.VISIBLE);
+                    linkPreviewViewHolder.previewImageView.setVisibility(View.VISIBLE);
+                    linkPreviewViewHolder.descriptionTextView.setVisibility(View.VISIBLE);
+                    linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
+                    linkPreviewViewHolder.titleTextView.setText(sourceContent.getTitle());
+                    linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
+
+
+                    link.setBody(sourceContent.getDescription()) ;
+                    link.setHeadline(sourceContent.getTitle());
+                    link.setUrl(sourceContent.getUrl());
+
+                    final List<String> imageList = sourceContent.getImages();
+                    if (imageList == null || imageList.size() == 0) {
+                        linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
+                        link.setImageURL("");
+                    } else {
+                        glide.load(imageList.get(0))
+                                .centerCrop()
+                                .into(linkPreviewViewHolder.previewImageView);
+                        link.setImageURL(imageList.get(0));
+                    }
+
+                    linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            linkPreviewViewHolder.onClick(view);
+                            Uri webpage = Uri.parse(sourceContent.getFinalUrl());
+                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                            if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                                currContext.startActivity(intent);
+                            }
+                        }
+                    });
+
+                    model.setWebLinkData(link);
+                    realm.copyToRealmOrUpdate(model);
+                    realm.commitTransaction();
+                }
+
+            };
+
+            if (model != null) {
+
+                List<String> urlList = extractLinks(model.getContent());
+                String url = urlList.get(0);
+                if (!(url.startsWith("http://") || url.startsWith("https://"))) {
+                    url = "http://" + url;
+                }
+                TextCrawler textCrawler = new TextCrawler();
+                textCrawler.makePreview(linkPreviewCallback, url);
             }
-        };
+        }
+
+        else {
+
+            linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
+            linkPreviewViewHolder.descriptionTextView.setText(model.getWebLinkData().getBody());
+            Log.i(TAG,model.getWebLinkData().getImageURL());
+            if(!model.getWebLinkData().getImageURL().equals("")) {
+                glide.load(model.getWebLinkData().getImageURL())
+                        .centerCrop()
+                        .into(linkPreviewViewHolder.previewImageView);
+            }
+            else {
+                linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
+            }
+        }
 
         if (highlightMessagePosition == position) {
             String text = linkPreviewViewHolder.text.getText().toString();
@@ -672,16 +716,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             linkPreviewViewHolder.text.setText(modify);
         }
 
-        if (model != null) {
 
-            List<String> urlList = extractLinks(model.getContent());
-            String url = urlList.get(0);
-            if (!(url.startsWith("http://") || url.startsWith("https://"))) {
-                url = "http://" + url;
-            }
-            TextCrawler textCrawler = new TextCrawler();
-            textCrawler.makePreview(linkPreviewCallback, url);
-        }
     }
 
     private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {

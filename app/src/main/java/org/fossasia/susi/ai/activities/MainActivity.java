@@ -928,8 +928,7 @@ public class MainActivity extends AppCompatActivity {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class);
-                chatMessage.setId(id);
+                ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class,id);
                 chatMessage.setWebSearch(isWebSearch);
                 chatMessage.setContent(message);
                 chatMessage.setDate(date);
@@ -974,6 +973,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
 //      TODO: Create Preference Pane and Enable Options Menu
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setOnSearchClickListener(new View.OnClickListener() {
