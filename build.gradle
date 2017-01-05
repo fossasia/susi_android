@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.support_lib_version = '24.2.1'
+    ext.support_lib_version = '25.0.1'
     repositories {
         jcenter()
         mavenCentral()

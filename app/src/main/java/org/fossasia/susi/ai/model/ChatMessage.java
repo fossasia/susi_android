@@ -4,15 +4,20 @@ import org.fossasia.susi.ai.rest.model.Datum;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
-    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate;
+
+    @PrimaryKey
     private long id;
     private String content, timeStamp, des, date;
     private RealmList<Datum> datumRealmList;
+    private WebLink webLinkData;
+
+    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate;
 
     public ChatMessage() {
         datumRealmList = new RealmList<>();
@@ -33,8 +38,16 @@ public class ChatMessage extends RealmObject {
         this.datumRealmList = datumRealmList;
         this.isPieChart = isPieChart;
         this.isSearchResult = isSearchResult;
+        this.webLinkData = null;
     }
 
+    public WebLink getWebLinkData() {
+        return webLinkData;
+    }
+
+    public void setWebLinkData(WebLink webLinkData) {
+        this.webLinkData = webLinkData;
+    }
 
     public String getDes() {
         return des;
