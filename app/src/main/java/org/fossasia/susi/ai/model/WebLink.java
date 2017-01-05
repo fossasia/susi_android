@@ -12,7 +12,8 @@ public class WebLink extends RealmObject {
     private String body;
     private String imageURL;
 
-    public WebLink(){}
+    public WebLink() {
+    }
 
     public WebLink(String url, String headline, String body, String imageUrl) {
         this.url = url;

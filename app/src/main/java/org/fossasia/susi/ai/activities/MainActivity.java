@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
+    private static final String GOOGLE_SEARCH = "https://www.google.co.in/search?q=";
     private boolean isEnabled = true;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
@@ -661,7 +662,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 1; i < size; i++) {
                         googlesearch_query = googlesearch_query + " " + section[i];
                     }
-                    google_search = "Searching the query from google";
+                    google_search = getString(R.string.google_search);
                 }
                 final float latitude = PrefManager.getFloat(Constant.LATITUDE, 0);
                 final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
@@ -890,9 +891,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             id = (long) temp + 1;
         }
-        if (answer.contains("google")) {
+
+
+        if (answer.equals(getString(R.string.google_search))) {
             googlesearch_query = googlesearch_query.replace(" ", "+");
-            String url = "https://www.google.co.in/search?q=" + googlesearch_query;
+            String url = GOOGLE_SEARCH + googlesearch_query;
             Uri uri = Uri.parse(url);
             // create an intent builder
             CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
