@@ -16,6 +16,7 @@ public class ChatMessage extends RealmObject {
     private String content, timeStamp, des, date;
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
+    private WebSearchModel webSearch;
 
     private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate;
 
@@ -39,6 +40,15 @@ public class ChatMessage extends RealmObject {
         this.isPieChart = isPieChart;
         this.isSearchResult = isSearchResult;
         this.webLinkData = null;
+        this.webSearch = null;
+    }
+
+    public WebSearchModel getWebSearch() {
+        return webSearch;
+    }
+
+    public void setWebSearch(WebSearchModel webSearch) {
+        this.webSearch = webSearch;
     }
 
     public WebLink getWebLinkData() {
