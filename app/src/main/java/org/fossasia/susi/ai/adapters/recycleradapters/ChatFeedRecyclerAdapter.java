@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -61,13 +60,13 @@ import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.model.WebLink;
+import org.fossasia.susi.ai.model.WebSearchModel;
 import org.fossasia.susi.ai.rest.WebSearchApi;
 import org.fossasia.susi.ai.rest.WebSearchClient;
 import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.WebSearch;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -494,94 +493,175 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         final ChatMessage model = getData().get(position);
         websearchholder.text.setText(model.getContent());
         websearchholder.timestampTextView.setText(model.getTimeStamp());
-        websearchholder.descriptionTextView.setVisibility(View.GONE);
-        websearchholder.titleTextView.setVisibility(View.GONE);
-        websearchholder.previewImageView.setVisibility(View.GONE);
-
-        final WebSearchClient apiService =  WebSearchApi.getClient().create(WebSearchClient.class);
-
-        Call<WebSearch> call = apiService.getresult(web);
-
-        call.enqueue(new Callback<WebSearch>() {
-            @Override
-            public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
-                Log.e(TAG, response.toString());
-
-                if (response.body()!=null&&response.body().getRelatedTopics().size() != 0) {
-                    des = response.body().getRelatedTopics().get(0).getText();
-                    title = response.body().getHeading();
-                    url = response.body().getRelatedTopics().get(0).getIcon().getUrl();
-                    linkurl = response.body().getRelatedTopics().get(0).getDes();
-
-
-                    websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
-                    websearchholder.titleTextView.setVisibility(View.VISIBLE);
-
-                    websearchholder.descriptionTextView.setText(des);
-                    websearchholder.titleTextView.setText(title);
-
-                    if(url!=null){
-
-                        try {
-                            urlimage = new URL(url);
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-
-                        if(urlimage!=null)
-                            new Thread(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    try {
-                                        if(urlimage!=null)
-                                            bmp = BitmapFactory.decodeStream(urlimage.openConnection().getInputStream());
-                                        urlimage = null;
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }).start();
-
-                        if(bmp!=null) {
-                            websearchholder.previewImageView.setVisibility(View.VISIBLE);
-                            websearchholder.previewImageView.setImageBitmap(bmp);
-                        }
-                    }
-
-                }
-
-                else {
-                    websearchholder.previewImageView.setVisibility(View.GONE);
-                    websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
-                    websearchholder.titleTextView.setVisibility(View.VISIBLE);
-                    websearchholder.descriptionTextView.setText(R.string.websearchnull);
-                    websearchholder.titleTextView.setText(R.string.websearchnull);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<WebSearch> call, Throwable t) {
-                Log.e(TAG,"error" + t.toString());
-            }
-
-        });
 
 
 
-        if(linkurl!=null) {
-            websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    websearchholder.onClick(view);
-                    Uri webpage = Uri.parse(linkurl);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                    if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                        currContext.startActivity(intent);
-                    }
-                }
-            });
-        }
+       if(model.getWebSearch()==null) {
+
+
+           websearchholder.descriptionTextView.setVisibility(View.GONE);
+           websearchholder.titleTextView.setVisibility(View.GONE);
+           websearchholder.previewImageView.setVisibility(View.GONE);
+
+           final WebSearchClient apiService = WebSearchApi.getClient().create(WebSearchClient.class);
+
+
+           Call<WebSearch> call = apiService.getresult(web);
+
+
+           call.enqueue(new Callback<WebSearch>() {
+               @Override
+               public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
+                   Log.e(TAG, response.toString());
+
+
+
+                   if (response.body() != null && response.body().getRelatedTopics().size() != 0) {
+
+                       Log.v(TAG , response.body().toString());
+
+                       des = response.body().getRelatedTopics().get(0).getText();
+                       title = response.body().getHeading();
+                       url = response.body().getRelatedTopics().get(0).getIcon().getUrl();
+                       linkurl = response.body().getRelatedTopics().get(0).getDes();
+
+
+                       websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
+                       websearchholder.titleTextView.setVisibility(View.VISIBLE);
+
+                       websearchholder.descriptionTextView.setText(des);
+                       websearchholder.titleTextView.setText(title);
+
+                       realm.beginTransaction();
+                       Realm realm = Realm.getDefaultInstance();
+                       final WebSearchModel webSearch = realm.createObject(WebSearchModel.class);
+
+                       webSearch.setHeadline(title);
+                       webSearch.setBody(des);
+                       webSearch.setUrl(linkurl);
+
+                       if(url!=null)
+                       {
+                           Log.v(TAG , url);
+                           webSearch.setImageURL(url);
+                       }
+
+
+                       if (url != null) {
+
+                           websearchholder.previewImageView.setVisibility(View.VISIBLE);
+                           Log.v(TAG , url);
+
+                           glide.load(url)
+                                   .crossFade()
+                                   .into(websearchholder.previewImageView);
+
+                       }else {
+                           websearchholder.previewImageView.setVisibility(View.GONE);
+
+                       }
+
+
+                       websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View view) {
+
+                               if (linkurl != null) {
+                                   websearchholder.onClick(view);
+                                   Uri webpage = Uri.parse(linkurl);
+
+                                   Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                                   if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                                       currContext.startActivity(intent);
+                                   }
+                               }
+                           }
+                       });
+
+                       model.setWebSearch(webSearch);
+                       realm.copyToRealmOrUpdate(model);
+                       realm.commitTransaction();
+
+
+
+                   } else {
+
+                       websearchholder.previewImageView.setVisibility(View.GONE);
+                       websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
+                       websearchholder.titleTextView.setVisibility(View.VISIBLE);
+
+                       websearchholder.descriptionTextView.setText(R.string.websearchnull);
+                       websearchholder.titleTextView.setText(R.string.websearchnull);
+
+                       realm.beginTransaction();
+                       Realm realm = Realm.getDefaultInstance();
+                       final WebSearchModel webSearchnull = realm.createObject(WebSearchModel.class);
+
+
+                       webSearchnull.setHeadline(context.getString(R.string.websearchnull));
+                       webSearchnull.setBody(context.getString(R.string.websearchnull));
+                       webSearchnull.setUrl(null);
+
+                       model.setWebSearch(webSearchnull);
+                       realm.copyToRealmOrUpdate(model);
+                       realm.commitTransaction();
+
+
+                   }
+
+
+               }
+
+               @Override
+               public void onFailure(Call<WebSearch> call, Throwable t) {
+                   Log.e(TAG, "error" + t.toString());
+               }
+
+           });
+
+
+
+
+       }else {
+
+           websearchholder.descriptionTextView.setText(model.getWebSearch().getBody());
+           websearchholder.titleTextView.setText(model.getWebSearch().getHeadline());
+
+           if (model.getWebSearch().getImageURL() != null) {
+
+               websearchholder.previewImageView.setVisibility(View.VISIBLE);
+
+               Log.v(TAG , model.getWebSearch().getImageURL());
+
+               glide.load(model.getWebSearch().getImageURL())
+                       .crossFade()
+                       .into(websearchholder.previewImageView);
+
+           }else {
+
+               websearchholder.previewImageView.setVisibility(View.GONE);
+           }
+
+
+           websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+
+                   if (model.getWebSearch() != null && model.getWebSearch().getUrl() != null) {
+                       websearchholder.onClick(view);
+                       Uri webpage = Uri.parse(model.getWebSearch().getUrl());
+
+                       Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                       if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                           currContext.startActivity(intent);
+                       }
+                   }
+               }
+           });
+
+
+       }
+
 
 
         if (highlightMessagePosition == position) {
