@@ -19,9 +19,11 @@ import android.location.Geocoder;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.AlarmClock;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -76,6 +78,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -83,6 +86,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Case;
@@ -137,6 +142,8 @@ public class MainActivity extends AppCompatActivity {
     public static String webSearch;
     private String googlesearch_query = "";
     private TextToSpeech textToSpeech;
+    private String[] array;
+    private String timenow;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -645,6 +652,7 @@ public class MainActivity extends AppCompatActivity {
         final long id;
         String answer_call=null;
         String google_search = null;
+        String setAlarm = null;
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
                 TimeZone tz = TimeZone.getDefault();
@@ -656,6 +664,29 @@ public class MainActivity extends AppCompatActivity {
                 String section[]=query.split(" ");
                 if(section.length==2 && section[0].equalsIgnoreCase("call")){
                     answer_call="Calling "+section[1];
+                }
+                if(query.toLowerCase().contains("set alarm")){
+
+                    LinkedList<String> list = new LinkedList<>();
+                    Matcher matcher = Pattern.compile("\\d+").matcher(query);
+                    while (matcher.find()) {
+                        list.add(matcher.group());
+                    }
+                    array = list.toArray(new String[list.size()]);
+                    System.out.println(Arrays.toString(array));
+
+                    Log.v(TAG, "computeOtherMessage: " + Arrays.toString(array));
+
+                    setAlarm = getString(R.string.set_alarm);
+
+                    if(query.toLowerCase().contains("am"))
+                        timenow = "AM";
+                    else if(query.toLowerCase().contains("pm"))
+                        timenow = "PM";
+                    else
+                        timenow = null;
+
+
                 }
                 if(section[0].equalsIgnoreCase("@google")){
                     int size = section.length;
@@ -670,6 +701,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
                 final String finalAnswer_call = answer_call;
                 final String finalgoogle_search = google_search;
+                final String finalSetAlarm = setAlarm;
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
@@ -750,6 +782,10 @@ public class MainActivity extends AppCompatActivity {
                                         if(finalgoogle_search!=null&&finalgoogle_search.contains("google"))
                                         {
                                             answer = finalgoogle_search;
+                                            isWebSearch = false;
+                                        }
+                                        if(finalSetAlarm !=null && finalSetAlarm.contains("Alarm")){
+                                            answer = finalSetAlarm;
                                             isWebSearch = false;
                                         }
 
@@ -918,6 +954,58 @@ public class MainActivity extends AppCompatActivity {
         if(answer.contains("Calling")){
             String splits[]=answer.split(" ");
             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", splits[1], null)));
+        }
+
+        if(answer.equals(getString(R.string.set_alarm))){
+
+            Log.d(TAG, "addNewMessage: " + Arrays.toString(array));
+            Log.d(TAG, "addNewMessage: " + array.length);
+            Log.d(TAG, "addNewMessage: " + timenow);
+
+
+            if(array.length == 0){
+
+                Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+                i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
+                startActivity(i);
+
+            }
+            else if(array.length == 1){
+
+
+                Log.d(TAG, "addNewMessage: " + array[0]);
+
+                int hour = Integer.parseInt(array[0]);
+
+                Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+                i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
+                i.putExtra(AlarmClock.EXTRA_HOUR, hour);
+                i.putExtra(AlarmClock.EXTRA_MINUTES, 0);
+                if (timenow!=null&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    i.putExtra(AlarmClock.EXTRA_IS_PM,timenow.equalsIgnoreCase("PM"));
+                }
+                startActivity(i);
+            }
+
+            else {
+
+                Log.d(TAG, "addNewMessage: " + array[0] + array[1]);
+
+                int hour = Integer.parseInt(array[0]);
+                int min = Integer.parseInt(array[1]);
+
+                Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+                i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
+                i.putExtra(AlarmClock.EXTRA_HOUR, hour);
+                i.putExtra(AlarmClock.EXTRA_MINUTES, min);
+                if (timenow!=null&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    i.putExtra(AlarmClock.EXTRA_IS_PM,timenow.equalsIgnoreCase("PM"));
+                }
+                startActivity(i);
+
+            }
+
+
         }
 
         updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
@@ -1190,6 +1278,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         realm.close();
     }
+
 
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(
