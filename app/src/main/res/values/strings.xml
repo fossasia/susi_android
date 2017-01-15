@@ -19,6 +19,7 @@
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
 
     <string name="google_search">Searching the query from google</string>
+    <string name="set_alarm">Setting the Alarm</string>
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
