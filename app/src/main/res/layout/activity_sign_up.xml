@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
@@ -54,6 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
