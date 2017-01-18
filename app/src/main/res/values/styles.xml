@@ -12,10 +12,21 @@
         
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="SignUp_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorAccent">@color/md_grey_500</item>
+    </style>
+
+    <style name="Login_Theme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorAccent">@color/md_grey_500</item>
+
+        <item name="android:textColorHint">@color/edit_text_login_screen</item>
+        <item name="colorControlNormal">@color/edit_text_login_screen</item>
+        <item name="colorControlActivated">@color/edit_text_login_screen</item>
+        <item name="colorControlHighlight">@color/edit_text_login_screen</item>
     </style>
 
     <style name="sendMessageEditTextTheme">

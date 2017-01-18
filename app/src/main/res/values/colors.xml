@@ -318,4 +318,5 @@
     <!--Link color-->
     <color name="link_text">#14a1b3</color>
 
+    <color name="edit_text_login_screen">#D6D7D7</color>
 </resources>
