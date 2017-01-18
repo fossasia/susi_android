@@ -30,11 +30,11 @@
         </activity>
         <activity
             android:name=".activities.SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />

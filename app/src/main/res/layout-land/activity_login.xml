@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:adjustViewBounds="true"
+        android:background="@color/colorPrimary"
+        android:contentDescription="@string/activity_login_imageview_description"
+        android:src="@drawable/susi" />
 
     <LinearLayout
         android:id="@+id/activity_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight=".5"
+        android:background="@color/colorPrimary"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:weightSum="1"
         tools:context="org.fossasia.susi.ai.activities.LoginActivity">
 
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="24dp"
-            android:layout_weight="0.38"
-            android:contentDescription="@string/activity_login_imageview_description"
-            android:src="@drawable/susi" />
-
         <android.support.design.widget.TextInputLayout
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                android:textColor="@color/edit_text_login_screen"
                 android:inputType="textEmailAddress"
+                android:textColor="@color/edit_text_login_screen"
                 android:textColorHint="@color/edit_text_login_screen" />
         </android.support.design.widget.TextInputLayout>
 
@@ -45,7 +47,6 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 
@@ -54,10 +55,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                android:textColor="@color/edit_text_login_screen"
-                android:textColorHint="@color/edit_text_login_screen"
                 android:imeOptions="actionGo"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/edit_text_login_screen"
+                android:textColorHint="@color/edit_text_login_screen" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -66,8 +67,6 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="24dp"
             android:padding="12dp"
             android:text="@string/activity_login_log_in"
             android:textColor="@color/colorPrimary" />
@@ -78,7 +77,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:background="?selectableItemBackground"
             android:text="@string/activity_login_forgot_pass"
             android:textColor="@color/md_grey_400"
@@ -91,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="20sp"
             android:background="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/activity_login_sign_up"
@@ -100,4 +99,4 @@
             android:textStyle="bold" />
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
