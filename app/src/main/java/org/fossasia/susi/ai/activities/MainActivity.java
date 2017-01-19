@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -59,7 +60,9 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
+
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
@@ -74,11 +77,13 @@ import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.LocationHelper;
 import org.fossasia.susi.ai.rest.model.LocationResponse;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -144,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private String[] array;
     private String timenow;
+    private int remcount1 ;
+    private String remquery;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -629,12 +636,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, urlList.toString());
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
-        if(id==0) {
+        if (id == 0) {
             updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
             id++;
         } else {
-            String s = realm.where(ChatMessage.class).equalTo("id",id-1).findFirst().getDate();
-            if(!DateTimeHelper.getDate().equals(s)) {
+            String s = realm.where(ChatMessage.class).equalTo("id", id - 1).findFirst().getDate();
+            if (!DateTimeHelper.getDate().equals(s)) {
                 updateDatabase(id, "", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
                 id++;
             }
@@ -650,9 +657,11 @@ public class MainActivity extends AppCompatActivity {
     private synchronized void computeOtherMessage() {
         final String query;
         final long id;
-        String answer_call=null;
+        String answer_call = null;
         String google_search = null;
+        String reminder = null;
         String setAlarm = null;
+        final String[] reminddate = {null};
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
                 TimeZone tz = TimeZone.getDefault();
@@ -661,11 +670,11 @@ public class MainActivity extends AppCompatActivity {
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
                 nonDeliveredMessages.pop();
-                String section[]=query.split(" ");
-                if(section.length==2 && section[0].equalsIgnoreCase("call")){
-                    answer_call="Calling "+section[1];
+                String section[] = query.split(" ");
+                if (section.length == 2 && section[0].equalsIgnoreCase("call")) {
+                    answer_call = "Calling " + section[1];
                 }
-                if(query.toLowerCase().contains("set alarm")){
+                if (query.toLowerCase().contains("set alarm")) {
 
                     LinkedList<String> list = new LinkedList<>();
                     Matcher matcher = Pattern.compile("\\d+").matcher(query);
@@ -679,12 +688,21 @@ public class MainActivity extends AppCompatActivity {
 
                     setAlarm = getString(R.string.set_alarm);
 
-                    if(query.toLowerCase().contains("am"))
+                    if (query.toLowerCase().contains("am"))
                         timenow = "AM";
-                    else if(query.toLowerCase().contains("pm"))
+                    else if (query.toLowerCase().contains("pm"))
                         timenow = "PM";
                     else
                         timenow = null;
+
+
+                }
+                if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
+
+                    remcount1 = 0;
+                    Log.d(TAG , "remcount " + remcount1);
+
+                    reminder = getString(R.string.reminderDes);
 
 
                 }
@@ -702,6 +720,8 @@ public class MainActivity extends AppCompatActivity {
                 final String finalAnswer_call = answer_call;
                 final String finalgoogle_search = google_search;
                 final String finalSetAlarm = setAlarm;
+                final String finalReminder = reminder;
+
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
@@ -788,6 +808,41 @@ public class MainActivity extends AppCompatActivity {
                                             answer = finalSetAlarm;
                                             isWebSearch = false;
                                         }
+                                        if(finalReminder != null && finalReminder.equals(getString(R.string.reminderDes))){
+                                            Log.d(TAG , "reminder Counter  " + remcount1);
+                                            answer = finalReminder;
+                                            remcount1=0;
+                                            isWebSearch = false;
+
+
+                                        }
+                                        else {
+                                            switch(remcount1){
+                                                case 0:{
+                                                    remquery = query;
+                                                    reminddate[0] = getString(R.string.reminderDate);
+                                                    answer = reminddate[0];
+                                                    isWebSearch = false;
+                                                    Log.d(TAG, "onResponse: " + remquery);
+                                                    remcount1=1;
+                                                    break;
+                                                    }
+                                                case 1:{
+                                                    answer = getString(R.string.setReminder);
+                                                    isWebSearch = false;
+                                                    remcount1 = 0;
+                                                    String date = query;
+                                                    setReminder(remquery, date);
+                                                    Log.d(TAG, "onResponse: query" + date);
+                                                    break;
+                                                }
+                                                default:
+                                                    Log.d(TAG, "onResponse: Not valid");
+                                                    break;
+                                            }
+
+                                        }
+
 
                                         final String setMessage = answer;
                                         final int counterValue = counter;
@@ -1267,6 +1322,50 @@ public class MainActivity extends AppCompatActivity {
         checkEnterKeyPref();
     }
 
+
+    public void setReminder(String des , String time){
+
+        LinkedList<String> list = new LinkedList<>();
+        Matcher matcher = Pattern.compile("\\d+").matcher(time);
+        while (matcher.find()) {
+            list.add(matcher.group());
+        }
+
+        String[] timearray;
+
+        timearray = list.toArray(new String[list.size()]);
+        System.out.println(Arrays.toString(timearray));
+
+        Log.v(TAG, "computeOtherMessage: " + Arrays.toString(timearray));
+
+        Log.d(TAG ,System.currentTimeMillis() + "Current Time");
+
+        Calendar endTime = Calendar.getInstance(TimeZone.getDefault());
+
+        Log.d(TAG, "setReminder: " + timearray[0] + "  " + timearray[1]);
+
+        if(timearray.length!=0) {
+            endTime.set(endTime.get(Calendar.YEAR),
+                    endTime.get(Calendar.MONTH),
+                    endTime.get(Calendar.DATE),
+                    Integer.parseInt(timearray[0]),
+                    Integer.parseInt(timearray[1]));
+        }
+
+        Toast.makeText(this, "Setting the Reminder", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(Intent.ACTION_INSERT)
+                    .setData(CalendarContract.Events.CONTENT_URI)
+                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, System.currentTimeMillis())
+                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                    .putExtra(CalendarContract.Events.TITLE, des)
+                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+            startActivity(intent);
+
+
+
+    }
+
     @Override
     protected void onPause() {
         unregisterReceiver(networkStateReceiver);
@@ -1278,7 +1377,6 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         realm.close();
     }
-
 
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(
