@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private String[] array;
     private String timenow;
-    private int reminder_query ;
+    private int reminderQuery;
     private String reminder;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
@@ -699,8 +699,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
 
-                    reminder_query = 0;
-                    Log.d(TAG , "query  " + reminder_query);
+                    reminderQuery = 0;
+                    Log.d(TAG , "query  " + reminderQuery);
                     reminder = getString(R.string.reminder_description);
                 }
 
@@ -807,28 +807,28 @@ public class MainActivity extends AppCompatActivity {
                                             isWebSearch = false;
                                         }
                                         if(finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))){
-                                            Log.d(TAG , "reminder Counter  " + reminder_query);
+                                            Log.d(TAG , "reminder Counter  " + reminderQuery);
                                             answer = finalReminder;
-                                            reminder_query=0;
+                                            reminderQuery =0;
                                             isWebSearch = false;
 
 
                                         }
                                         else {
-                                            switch(reminder_query){
+                                            switch(reminderQuery){
                                                 case 0:{
                                                     MainActivity.this.reminder = query;
                                                     reminder_date[0] = getString(R.string.reminder_date);
                                                     answer = reminder_date[0];
                                                     isWebSearch = false;
                                                     Log.d(TAG, "onResponse: " + MainActivity.this.reminder);
-                                                    reminder_query=1;
+                                                    reminderQuery =1;
                                                     break;
                                                     }
                                                 case 1:{
                                                     answer = getString(R.string.set_Reminder);
                                                     isWebSearch = false;
-                                                    reminder_query = 0;
+                                                    reminderQuery = 0;
                                                     String date = query;
                                                     setReminder(MainActivity.this.reminder, date);
                                                     Log.d(TAG, "onResponse: query" + date);
