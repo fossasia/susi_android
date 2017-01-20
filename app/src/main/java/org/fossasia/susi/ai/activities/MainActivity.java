@@ -149,8 +149,8 @@ public class MainActivity extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private String[] array;
     private String timenow;
-    private int remcount1 ;
-    private String remquery;
+    private int reminder_query ;
+    private String reminder;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -661,7 +661,7 @@ public class MainActivity extends AppCompatActivity {
         String google_search = null;
         String reminder = null;
         String setAlarm = null;
-        final String[] reminddate = {null};
+        final String[] reminder_date = {null};
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
                 TimeZone tz = TimeZone.getDefault();
@@ -699,13 +699,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
 
-                    remcount1 = 0;
-                    Log.d(TAG , "remcount " + remcount1);
-
-                    reminder = getString(R.string.reminderDes);
-
-
+                    reminder_query = 0;
+                    Log.d(TAG , "query  " + reminder_query);
+                    reminder = getString(R.string.reminder_description);
                 }
+
                 if(section[0].equalsIgnoreCase("@google")){
                     int size = section.length;
                     for (int i = 1; i < size; i++) {
@@ -808,31 +806,31 @@ public class MainActivity extends AppCompatActivity {
                                             answer = finalSetAlarm;
                                             isWebSearch = false;
                                         }
-                                        if(finalReminder != null && finalReminder.equals(getString(R.string.reminderDes))){
-                                            Log.d(TAG , "reminder Counter  " + remcount1);
+                                        if(finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))){
+                                            Log.d(TAG , "reminder Counter  " + reminder_query);
                                             answer = finalReminder;
-                                            remcount1=0;
+                                            reminder_query=0;
                                             isWebSearch = false;
 
 
                                         }
                                         else {
-                                            switch(remcount1){
+                                            switch(reminder_query){
                                                 case 0:{
-                                                    remquery = query;
-                                                    reminddate[0] = getString(R.string.reminderDate);
-                                                    answer = reminddate[0];
+                                                    MainActivity.this.reminder = query;
+                                                    reminder_date[0] = getString(R.string.reminder_date);
+                                                    answer = reminder_date[0];
                                                     isWebSearch = false;
-                                                    Log.d(TAG, "onResponse: " + remquery);
-                                                    remcount1=1;
+                                                    Log.d(TAG, "onResponse: " + MainActivity.this.reminder);
+                                                    reminder_query=1;
                                                     break;
                                                     }
                                                 case 1:{
-                                                    answer = getString(R.string.setReminder);
+                                                    answer = getString(R.string.set_Reminder);
                                                     isWebSearch = false;
-                                                    remcount1 = 0;
+                                                    reminder_query = 0;
                                                     String date = query;
-                                                    setReminder(remquery, date);
+                                                    setReminder(MainActivity.this.reminder, date);
                                                     Log.d(TAG, "onResponse: query" + date);
                                                     break;
                                                 }
@@ -1334,7 +1332,6 @@ public class MainActivity extends AppCompatActivity {
         String[] timearray;
 
         timearray = list.toArray(new String[list.size()]);
-        System.out.println(Arrays.toString(timearray));
 
         Log.v(TAG, "computeOtherMessage: " + Arrays.toString(timearray));
 
