@@ -4,6 +4,7 @@
     <string name="send_msg_hint">Ask Susi Something..</string>
     <string name="action_settings">Settings</string>
     <string name="action_wall_settings">Wallpaper</string>
+    <string name="action_share">Share</string>
     <string name="action_log_out">Log out</string>
     <string name="settings_title">Chat Settings</string>
     <string name="search">Search</string>
@@ -105,6 +106,11 @@
     <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
     <string name="pref_rate_title">Rate Susi</string>
     <string name="pref_rate_summary">Rate Our App on Play Store</string>
+
+    <!--Share App strings-->
+    <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
+    <string name="error_msg_retry">Please Retry Again</string>
+    <string name="app_share_url">https://play.google.com/store/apps/details?id=%s</string>
 </resources>
 
 

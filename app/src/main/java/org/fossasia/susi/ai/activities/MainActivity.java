@@ -1186,6 +1186,20 @@ public class MainActivity extends AppCompatActivity {
             case R.id.wall_settings:
                 chatBackgroundActivity();
                 return true;
+            case R.id.action_share:
+                try {
+                    Intent shareIntent = new Intent();
+                    shareIntent.setAction(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT,
+                            String.format(getString(R.string.promo_msg_template),
+                                    String.format(getString(R.string.app_share_url),getPackageName())));
+                    startActivity(shareIntent);
+                }
+                catch (Exception e) {
+                    showToast(getString(R.string.error_msg_retry));
+                }
+                return true;
             case R.id.up_angle:
                 offset++;
                 if (results.size() - offset > -1) {
