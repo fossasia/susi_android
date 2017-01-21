@@ -451,7 +451,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case 1: {
+            case 1:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     LocationHelper locationHelper = new LocationHelper(MainActivity.this);
 
@@ -467,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-    }
+
 
     private void voiceReply(final String reply, final boolean isMap) {
         if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
@@ -657,7 +657,7 @@ public class MainActivity extends AppCompatActivity {
     private synchronized void computeOtherMessage() {
         final String query;
         final long id;
-        String answer_call = null;
+        String answerCall = null;
         String google_search = null;
         String reminder = null;
         String setAlarm = null;
@@ -672,7 +672,7 @@ public class MainActivity extends AppCompatActivity {
                 nonDeliveredMessages.pop();
                 String section[] = query.split(" ");
                 if (section.length == 2 && section[0].equalsIgnoreCase("call")) {
-                    answer_call = "Calling " + section[1];
+                    answerCall = "Calling " + section[1];
                 }
                 if (query.toLowerCase().contains("set alarm")) {
 
@@ -715,7 +715,7 @@ public class MainActivity extends AppCompatActivity {
                 final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
                 final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
                 Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
-                final String finalAnswer_call = answer_call;
+                final String finalAnswer_call = answerCall;
                 final String finalgoogle_search = google_search;
                 final String finalSetAlarm = setAlarm;
                 final String finalReminder = reminder;
@@ -1329,24 +1329,24 @@ public class MainActivity extends AppCompatActivity {
             list.add(matcher.group());
         }
 
-        String[] timearray;
+        String[] timeArray;
 
-        timearray = list.toArray(new String[list.size()]);
+        timeArray = list.toArray(new String[list.size()]);
 
-        Log.v(TAG, "computeOtherMessage: " + Arrays.toString(timearray));
+        Log.v(TAG, "computeOtherMessage: " + Arrays.toString(timeArray));
 
         Log.d(TAG ,System.currentTimeMillis() + "Current Time");
 
         Calendar endTime = Calendar.getInstance(TimeZone.getDefault());
 
-        Log.d(TAG, "setReminder: " + timearray[0] + "  " + timearray[1]);
+        Log.d(TAG, "setReminder: " + timeArray[0] + "  " + timeArray[1]);
 
-        if(timearray.length!=0) {
+        if(timeArray.length!=0) {
             endTime.set(endTime.get(Calendar.YEAR),
                     endTime.get(Calendar.MONTH),
                     endTime.get(Calendar.DATE),
-                    Integer.parseInt(timearray[0]),
-                    Integer.parseInt(timearray[1]));
+                    Integer.parseInt(timeArray[0]),
+                    Integer.parseInt(timeArray[1]));
         }
 
         Toast.makeText(this, "Setting the Reminder", Toast.LENGTH_SHORT).show();
@@ -1358,8 +1358,6 @@ public class MainActivity extends AppCompatActivity {
                     .putExtra(CalendarContract.Events.TITLE, des)
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
             startActivity(intent);
-
-
 
     }
 
