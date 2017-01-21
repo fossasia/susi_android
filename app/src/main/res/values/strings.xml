@@ -21,6 +21,9 @@
 
     <string name="google_search">Searching the query from google</string>
     <string name="set_alarm">Setting the Alarm</string>
+    <string name="reminder_description">Write the description for the Reminder</string>
+    <string name="reminder_date">When you want to be reminded</string>
+    <string name="set_reminder">Setting the Reminder</string>
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
