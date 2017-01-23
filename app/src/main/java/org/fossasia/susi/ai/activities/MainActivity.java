@@ -643,7 +643,6 @@ public class MainActivity extends AppCompatActivity {
         updateDatabase(id, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
         getLocationFromLocationService();
-        recyclerAdapter.showDots();
         new computeThread().start();
     }
 
@@ -707,7 +706,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
                                                    Response<SusiResponse> response) {
-                                recyclerAdapter.hideDots();
+                                int code = response.code();
+                                if(code >= 200 && code < 300) {
+                                    recyclerAdapter.showDots();
+                                }
+
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
                                     int responseActionSize = response.body().getAnswers().get(0).getActions().size();
@@ -772,6 +775,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         });
                                         rvChatFeed.getRecycledViewPool().clear();
+                                        recyclerAdapter.hideDots();
                                         recyclerAdapter.notifyItemChanged((int) id);
 
                                         if(finalAnswer_call!=null && finalAnswer_call.contains("Calling"))
