@@ -64,7 +64,7 @@
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/log_in"
-            android:layout_width="250dp"
+            android:layout_width="@dimen/button_width"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="12dp"

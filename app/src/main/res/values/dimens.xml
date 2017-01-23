@@ -12,4 +12,8 @@
     <dimen name="message_layout_margin">4dp</dimen>
     <dimen name="standard_content_padding">5dp</dimen>
     <dimen name="preview_layout_height">80dp</dimen>
+    <dimen name="activity_landscape_width">300dp</dimen>
+    <dimen name="button_width">250dp</dimen>
+
+
 </resources>
