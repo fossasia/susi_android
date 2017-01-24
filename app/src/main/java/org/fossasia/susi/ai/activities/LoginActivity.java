@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
         final Call<LoginResponse> authResponseCall = new ClientBuilder().getSusiApi()
-                .login(email.getEditText().getText().toString().trim(),
+                .login(email.getEditText().getText().toString().trim().toLowerCase(),
                         password.getEditText().getText().toString());
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
