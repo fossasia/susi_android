@@ -20,10 +20,10 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/email"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
-            android:textColor="@color/edit_text_login_screen"
-            android:textColorHint="@color/edit_text_login_screen"
+            android:textColorHighlight="@color/md_white_1000"
+            android:textColorHint="@color/md_white_1000"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
@@ -31,19 +31,19 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/edit_text_login_screen"
                 app:theme="@style/Login_Theme"
-                android:textColorHint="@color/edit_text_login_screen"
+                android:textColorHighlight="@color/md_white_1000"
+                android:textColorHint="@color/md_white_1000"
+                android:textColor="@color/md_white_1000"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/password"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="@color/edit_text_login_screen"
-            android:textColorHint="@color/edit_text_login_screen"
+            android:layout_marginTop="4dp" android:textColorHighlight="@color/md_white_1000"
+            android:textColorHint="@color/md_white_1000"
             app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 
@@ -51,10 +51,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
-                app:theme="@style/Login_Theme"
+                android:textColorHighlight="@color/md_white_1000"
+                android:textColorHint="@color/md_white_1000"
+                android:textColor="@color/md_white_1000"
                 android:inputType="textPassword"
-                android:textColor="@color/edit_text_login_screen"
-                android:textColorHint="@color/edit_text_login_screen"
+                app:theme="@style/Login_Theme"
+
                 android:maxLines="1"
 
                 />
@@ -62,34 +64,37 @@
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/confirm_password"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:textColorHighlight="@color/md_white_1000"
+            android:textColorHint="@color/md_white_1000"
             app:passwordToggleEnabled="true"
-            android:textColor="@color/edit_text_login_screen"
-            android:textColorHint="@color/edit_text_login_screen"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/confirm_password"
-                app:theme="@style/Login_Theme"
                 android:inputType="textPassword"
-                android:textColor="@color/edit_text_login_screen"
-                android:textColorHint="@color/edit_text_login_screen"
+                app:theme="@style/Login_Theme"
+                android:textColorHighlight="@color/md_white_1000"
+                android:textColorHint="@color/md_white_1000"
+                android:textColor="@color/md_white_1000"
                 android:maxLines="1"
 
                 />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/sign_up"
-            android:layout_width="250dp"
+            android:layout_width="@dimen/button_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:background="@color/md_grey_300"
             android:text="@string/sign_up"
+            android:textColorHighlight="@color/md_white_1000"
+            android:textColorHint="@color/md_white_1000"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
 </ScrollView>
