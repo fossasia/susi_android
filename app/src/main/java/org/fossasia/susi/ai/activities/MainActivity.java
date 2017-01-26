@@ -696,7 +696,6 @@ public class MainActivity extends AppCompatActivity {
                     else
                         timenow = null;
 
-
                 }
                 if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
 
