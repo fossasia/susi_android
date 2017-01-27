@@ -815,23 +815,23 @@ public class MainActivity extends AppCompatActivity {
                                         if(finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))){
                                             Log.d(TAG , "reminder Counter  " + reminderQuery);
                                             answer = finalReminder;
-                                            reminderQuery =0;
+                                            reminderQuery = 1;
                                             isWebSearch = false;
 
 
                                         }
                                         else {
                                             switch(reminderQuery){
-                                                case 0:
+                                                case 1:
                                                     MainActivity.this.reminder = query;
                                                     reminderDate[0] = getString(R.string.reminder_date);
                                                     answer = reminderDate[0];
                                                     isWebSearch = false;
                                                     Log.d(TAG, "onResponse: " + MainActivity.this.reminder);
-                                                    reminderQuery =1;
+                                                    reminderQuery = 2;
                                                     break;
 
-                                                case 1:
+                                                case 2:
                                                     answer = getString(R.string.set_reminder);
                                                     isWebSearch = false;
                                                     reminderQuery = 0;
@@ -1359,9 +1359,11 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar endTime = Calendar.getInstance(TimeZone.getDefault());
 
-        Log.d(TAG, "setReminder: " + timeArray[0] + "  " + timeArray[1]);
 
-        if(timeArray.length!=0) {
+        if(timeArray.length >= 2) {
+
+            Log.d(TAG, "setReminder: " + timeArray[0] + "  " + timeArray[1]);
+
             endTime.set(endTime.get(Calendar.YEAR),
                     endTime.get(Calendar.MONTH),
                     endTime.get(Calendar.DATE),
