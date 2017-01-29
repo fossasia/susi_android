@@ -634,10 +634,15 @@ public class MainActivity extends AppCompatActivity {
             id = (long) temp + 1;
         }
         boolean isHavingLink;
-        List<String> urlList = extractUrls(query);
-        Log.d(TAG, urlList.toString());
-        isHavingLink = urlList != null;
-        if (urlList.size() == 0) isHavingLink = false;
+        if(query.toLowerCase().contains("send mail")||query.toLowerCase().contains("send a mail")||query.toLowerCase().contains("send the mail")){
+            isHavingLink = false ;
+        }
+        else {
+            List<String> urlList = extractUrls(query);
+            Log.d(TAG, urlList.toString());
+            isHavingLink = urlList != null;
+            if (urlList.size() == 0) isHavingLink = false;
+        }
         if (id == 0) {
             updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
             id++;
@@ -661,6 +666,7 @@ public class MainActivity extends AppCompatActivity {
         String answerCall = null;
         String google_search = null;
         String reminder = null;
+        String sendMail = null;
         String setAlarm = null;
         final String[] reminderDate = {null};
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
@@ -705,6 +711,11 @@ public class MainActivity extends AppCompatActivity {
                     reminder = getString(R.string.reminder_description);
                 }
 
+                if(query.toLowerCase().contains("send mail")||query.toLowerCase().contains("send a mail")||query.toLowerCase().contains("send the mail")){
+                    sendMail = getString(R.string.send_mail);
+                    isHavingLink = false;
+                }
+
                 if(section[0].equalsIgnoreCase("@google")){
                     int size = section.length;
                     for (int i = 1; i < size; i++) {
@@ -720,6 +731,7 @@ public class MainActivity extends AppCompatActivity {
                 final String finalgoogle_search = google_search;
                 final String finalSetAlarm = setAlarm;
                 final String finalReminder = reminder;
+                final String finalSendMail = sendMail;
 
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
                         new Callback<SusiResponse>() {
@@ -812,6 +824,24 @@ public class MainActivity extends AppCompatActivity {
                                             answer = finalSetAlarm;
                                             isWebSearch = false;
                                         }
+
+                                        if(finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))){
+
+                                            if(query.contains("to")) {
+                                                String[] sendTo = {query.substring(query.indexOf("to") + 3, query.length())};
+                                                Log.d(TAG, "onResponse: " + sendTo);
+                                                composeEmail(sendTo);
+                                                sendTo = null;
+                                            }
+                                            else{
+                                                composeEmail();
+                                            }
+
+                                            answer = finalSendMail;
+                                            isWebSearch = false;
+
+                                        }
+
                                         if(finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))){
                                             Log.d(TAG , "reminder Counter  " + reminderQuery);
                                             answer = finalReminder;
@@ -1380,6 +1410,24 @@ public class MainActivity extends AppCompatActivity {
                     .putExtra(CalendarContract.Events.TITLE, des)
                     .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
             startActivity(intent);
+
+    }
+
+    public void composeEmail(String[] adresses){
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL , adresses);
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    public void composeEmail(){
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
 
     }
 
