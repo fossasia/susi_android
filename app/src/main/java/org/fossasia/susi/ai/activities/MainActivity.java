@@ -67,16 +67,20 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
+import org.fossasia.susi.ai.helper.GetVideos;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.BaseUrl;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.LocationClient;
 import org.fossasia.susi.ai.rest.LocationService;
+import org.fossasia.susi.ai.rest.VideoSeachClient;
+import org.fossasia.susi.ai.rest.VideoSearchApi;
 import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.LocationHelper;
 import org.fossasia.susi.ai.rest.model.LocationResponse;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
+import org.fossasia.susi.ai.rest.model.VideoSearch;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -146,11 +150,14 @@ public class MainActivity extends AppCompatActivity {
     private Realm realm;
     public static String webSearch;
     private String googlesearch_query = "";
+    private String video_query = "";
     private TextToSpeech textToSpeech;
     private String[] array;
     private String timenow;
     private int reminderQuery;
     private String reminder;
+    private int count = 0;
+    private static final String[] id = new String[1];
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -664,7 +671,8 @@ public class MainActivity extends AppCompatActivity {
         final String query;
         final long id;
         String answerCall = null;
-        String google_search = null;
+        String googleSearch = null;
+        String playVideo = null;
         String reminder = null;
         String sendMail = null;
         String setAlarm = null;
@@ -711,6 +719,23 @@ public class MainActivity extends AppCompatActivity {
                     reminder = getString(R.string.reminder_description);
                 }
 
+                if(section[0].equalsIgnoreCase("play")){
+                    count = 0;
+
+                    playVideo = getString(R.string.play_video);
+                    int size = section.length;
+                    video_query = "";
+
+                    for (int i = 1; i < size; i++) {
+                        video_query = video_query + " " + section[i];
+                    }
+                    video_query = video_query.replace(" ", "+");
+
+                    String vid = getvideos(video_query);
+                    Log.d(TAG, "computeOtherMessage: " + vid);
+
+                }
+
                 if(query.toLowerCase().contains("send mail")||query.toLowerCase().contains("send a mail")||query.toLowerCase().contains("send the mail")){
                     sendMail = getString(R.string.send_mail);
                     isHavingLink = false;
@@ -718,21 +743,30 @@ public class MainActivity extends AppCompatActivity {
 
                 if(section[0].equalsIgnoreCase("@google")){
                     int size = section.length;
+                    googlesearch_query = "";
                     for (int i = 1; i < size; i++) {
                         googlesearch_query = googlesearch_query + " " + section[i];
                     }
-                    google_search = getString(R.string.google_search);
+                    googleSearch = getString(R.string.google_search);
                 }
                 final float latitude = PrefManager.getFloat(Constant.LATITUDE, 0);
                 final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
                 final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
                 Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
                 final String finalAnswer_call = answerCall;
-                final String finalgoogle_search = google_search;
+                final String finalgoogle_search = googleSearch;
                 final String finalSetAlarm = setAlarm;
                 final String finalReminder = reminder;
                 final String finalSendMail = sendMail;
 
+                if(playVideo !=null && playVideo.equals(getString(R.string.play_video))){
+                    answer = playVideo;
+                    isWebSearch = false;
+                    count ++;
+
+                }
+
+                final String finalPlayVideo = playVideo;
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
@@ -824,7 +858,11 @@ public class MainActivity extends AppCompatActivity {
                                             answer = finalSetAlarm;
                                             isWebSearch = false;
                                         }
+                                        if(finalPlayVideo !=null && finalPlayVideo.equals(getString(R.string.play_video))){
+                                            answer = finalPlayVideo;
+                                            isWebSearch = false;
 
+                                        }
                                         if(finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))){
 
                                             if(query.contains("to")) {
@@ -949,9 +987,16 @@ public class MainActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                        rvChatFeed.getRecycledViewPool().clear();
-                                        recyclerAdapter.notifyItemChanged((int) id);
-                                        addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null);
+                                        if(count == 1) {
+                                            rvChatFeed.getRecycledViewPool().clear();
+                                            recyclerAdapter.notifyItemChanged((int) id);
+                                            addNewMessage(getString(R.string.play_video), false, false, false, false, false, null);
+                                        }
+                                        else{
+                                            rvChatFeed.getRecycledViewPool().clear();
+                                            recyclerAdapter.notifyItemChanged((int) id);
+                                            addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
+                                        }
                                     }
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
@@ -991,9 +1036,16 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
-                                    rvChatFeed.getRecycledViewPool().clear();
-                                    recyclerAdapter.notifyItemChanged((int) id);
-                                    addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
+                                    if(count == 1) {
+                                        rvChatFeed.getRecycledViewPool().clear();
+                                        recyclerAdapter.notifyItemChanged((int) id);
+                                        addNewMessage(getString(R.string.play_video), false, false, false, false, false, null);
+                                    }
+                                    else {
+                                        rvChatFeed.getRecycledViewPool().clear();
+                                        recyclerAdapter.notifyItemChanged((int) id);
+                                        addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
+                                    }
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -1038,6 +1090,21 @@ public class MainActivity extends AppCompatActivity {
             // launch the url
             customTabsIntent.launchUrl(MainActivity.this, uri);
             googlesearch_query = "";
+        }
+
+        if(answer.equals(getString(R.string.play_video))){
+            video_query = video_query.replace(" ", "+");
+            Log.d(TAG, "addNewMessage: " + video_query);
+
+            ///String videoId = GetVideos.getvideos(video_query);
+
+            //Log.d(TAG, "addNewMessage: " + videoId);
+
+            //Intent i = new Intent(MainActivity.this , GetVideos.class);
+            //startActivity(i);
+
+            video_query = "";
+
         }
 
         if(answer.contains("Calling")){
@@ -1430,6 +1497,38 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
+
+    public String getvideos(String query) {
+
+        id[0] = null;
+        final VideoSeachClient apiService = VideoSearchApi.getClient().create(VideoSeachClient.class);
+
+        Call<VideoSearch> call = apiService.getVideo(query);
+
+        call.enqueue(new Callback<VideoSearch>() {
+            @Override
+            public void onResponse(Call<VideoSearch> call, Response<VideoSearch> response) {
+                id[0] = response.body().getItems().get(0).getId().getVideoId();
+                Log.d(TAG, "onResponse: " + id[0]);
+
+                    Intent i = new Intent(MainActivity.this, GetVideos.class);
+                    i.putExtra("youtubeId", id[0]);
+                    startActivity(i);
+
+            }
+
+            @Override
+            public void onFailure(Call<VideoSearch> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.toString());
+            }
+        });
+
+        return id[0];
+
+    }
+
 
     @Override
     protected void onPause() {

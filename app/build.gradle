@@ -85,6 +85,9 @@ dependencies {
     //realm adapter
     compile 'io.realm:android-adapters:1.3.0'
 
+    //Youtube Api
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
+
     //waiting dots
     compile 'com.github.tajchert:WaitingDots:0.3.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
