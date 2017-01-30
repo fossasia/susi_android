@@ -18,6 +18,8 @@
     <string name="not_found">Not Found</string>
     <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
+    <string name="player_error">Error initializing YouTube player: %s</string>
+
 
     <string name="google_search">Searching the query from google</string>
     <string name="set_alarm">Setting the Alarm</string>
@@ -25,6 +27,7 @@
     <string name="reminder_date">When you want to be reminded</string>
     <string name="set_reminder">Setting the Reminder</string>
     <string name="send_mail">Sending the mail</string>
+    <string name="play_video">Playing the video</string>
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the

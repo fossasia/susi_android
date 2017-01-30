@@ -49,6 +49,8 @@
             android:name=".activities.ChangePasswordActivity"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
+        <activity android:name=".helper.GetVideos"
+            android:theme="@style/Theme.AppCompat.Dialog"/>
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
