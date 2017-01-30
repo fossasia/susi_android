@@ -848,20 +848,24 @@ public class MainActivity extends AppCompatActivity {
                                         {
                                             answer = finalAnswer_call;
                                             isWebSearch = false;
+                                            voiceReply(answer , false);
                                         }
                                         if(finalgoogle_search!=null&&finalgoogle_search.contains("google"))
                                         {
                                             answer = finalgoogle_search;
                                             isWebSearch = false;
+                                            voiceReply(answer , false);
                                         }
                                         if(finalSetAlarm !=null && finalSetAlarm.contains("Alarm")){
                                             answer = finalSetAlarm;
                                             isWebSearch = false;
+                                            voiceReply(answer , false);
+
                                         }
                                         if(finalPlayVideo !=null && finalPlayVideo.equals(getString(R.string.play_video))){
                                             answer = finalPlayVideo;
                                             isWebSearch = false;
-
+                                            voiceReply(answer , false);
                                         }
                                         if(finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))){
 
@@ -877,6 +881,7 @@ public class MainActivity extends AppCompatActivity {
 
                                             answer = finalSendMail;
                                             isWebSearch = false;
+                                            voiceReply(answer , false);
 
                                         }
 
@@ -885,7 +890,7 @@ public class MainActivity extends AppCompatActivity {
                                             answer = finalReminder;
                                             reminderQuery = 1;
                                             isWebSearch = false;
-
+                                            voiceReply(answer , false);
 
                                         }
                                         else {
@@ -897,6 +902,7 @@ public class MainActivity extends AppCompatActivity {
                                                     isWebSearch = false;
                                                     Log.d(TAG, "onResponse: " + MainActivity.this.reminder);
                                                     reminderQuery = 2;
+                                                    voiceReply(answer , false);
                                                     break;
 
                                                 case 2:
@@ -905,6 +911,7 @@ public class MainActivity extends AppCompatActivity {
                                                     reminderQuery = 0;
                                                     String date = query;
                                                     setReminder(MainActivity.this.reminder, date);
+                                                    voiceReply(answer , false);
                                                     Log.d(TAG, "onResponse: query" + date);
                                                     break;
 
