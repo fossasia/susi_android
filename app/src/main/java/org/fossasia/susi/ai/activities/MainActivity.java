@@ -710,7 +710,6 @@ public class MainActivity extends AppCompatActivity {
                     else
                         timenow = null;
 
-
                 }
                 if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
 
@@ -885,7 +884,6 @@ public class MainActivity extends AppCompatActivity {
                                             answer = finalReminder;
                                             reminderQuery = 1;
                                             isWebSearch = false;
-
 
                                         }
                                         else {
