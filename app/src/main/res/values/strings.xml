@@ -19,6 +19,7 @@
     <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
     <string name="player_error">Error initializing YouTube player: %s</string>
+    <string name="send_message">Sending the message</string>
 
 
     <string name="google_search">Searching the query from google</string>
