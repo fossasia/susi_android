@@ -84,6 +84,7 @@ import org.fossasia.susi.ai.rest.model.VideoSearch;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -328,16 +329,14 @@ public class MainActivity extends AppCompatActivity {
                             InputStream imageStream;
                             Bitmap selectedImage;
                             try {
-                                cropCapturedImage(selectedImageUri);
+                                cropCapturedImage(getImageUrl(getApplicationContext(), selectedImageUri));
                             } catch (ActivityNotFoundException aNFE) {
                                 //display an error message if user device doesn't support
                                 showToast(getString(R.string.error_crop_not_supported));
                                 try {
                                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                                    Cursor cursor = getContentResolver().query(selectedImageUri, filePathColumn, null, null, null);
+                                    Cursor cursor = getContentResolver().query(getImageUrl(getApplicationContext(), selectedImageUri), filePathColumn, null, null, null);
                                     cursor.moveToFirst();
-                                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                                    String picturePath = cursor.getString(columnIndex);
                                     imageStream = getContentResolver().openInputStream(selectedImageUri);
                                     selectedImage = BitmapFactory.decodeStream(imageStream);
                                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -359,6 +358,31 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
+    }
+
+    public static Uri writeToTempImage(Context inContext, Bitmap inImage) {
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public static Uri getImageUrl(Context context, Uri uri) {
+        InputStream is = null;
+        if (uri.getAuthority() != null) {
+            try {
+                is = context.getContentResolver().openInputStream(uri);
+                Bitmap bmp = BitmapFactory.decodeStream(is);
+                return writeToTempImage(context, bmp);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
     private void init() {
@@ -1348,6 +1372,11 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.wall_settings:
                 chatBackgroundActivity();
+                int permissionCheck = ActivityCompat.checkSelfPermission(MainActivity.this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }
                 return true;
             case R.id.action_share:
                 try {
