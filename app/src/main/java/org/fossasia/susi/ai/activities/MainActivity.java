@@ -697,6 +697,7 @@ public class MainActivity extends AppCompatActivity {
         String answerCall = null;
         String googleSearch = null;
         String playVideo = null;
+        String sendMessage = null;
         String reminder = null;
         String sendMail = null;
         String setAlarm = null;
@@ -760,6 +761,34 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+                if(query.toLowerCase().contains("send message")||query.toLowerCase().contains("send a message")||query.toLowerCase().contains("send the message"))
+                {
+                    String sendTo = null;
+                    String number = null;
+
+                    sendMessage = getString(R.string.send_message);
+                    if(query.contains("to")) {
+                        sendTo = query.substring(query.indexOf("to") + 3, query.length());
+                        Log.d(TAG, "computeOtherMessage: " + sendTo);
+                    }
+
+                    if(sendTo!=null)
+                        number = sendTo;
+
+                    if(number != null) {
+                        Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
+                        startActivity(sendIntent);
+                    }
+                    else {
+                        Intent sendIntent = new Intent(Intent.ACTION_VIEW);
+                        sendIntent.setData(Uri.parse("sms:"));
+                        startActivity(sendIntent);
+                    }
+
+                    isHavingLink = false;
+
+                }
+
                 if(query.toLowerCase().contains("send mail")||query.toLowerCase().contains("send a mail")||query.toLowerCase().contains("send the mail")){
                     sendMail = getString(R.string.send_mail);
                     isHavingLink = false;
@@ -791,6 +820,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 final String finalPlayVideo = playVideo;
+                final String finalSendMessage = sendMessage;
                 clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
@@ -897,7 +927,7 @@ public class MainActivity extends AppCompatActivity {
                                                 String[] sendTo = {query.substring(query.indexOf("to") + 3, query.length())};
                                                 Log.d(TAG, "onResponse: " + sendTo);
                                                 composeEmail(sendTo);
-                                                sendTo = null;
+
                                             }
                                             else{
                                                 composeEmail();
@@ -907,6 +937,13 @@ public class MainActivity extends AppCompatActivity {
                                             isWebSearch = false;
                                             voiceReply(answer , false);
 
+                                        }
+
+                                        if(finalSendMessage != null && finalSendMessage.equals(getString(R.string.send_message))){
+                                            answer = finalSendMessage;
+                                            isHavingLink = false;
+                                            isWebSearch = false;
+                                            voiceReply(answer , false);
                                         }
 
                                         if(finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))){
