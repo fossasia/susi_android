@@ -1349,6 +1349,7 @@ public class MainActivity extends AppCompatActivity {
         if (atHome) {
             if (backPressedOnce) {
                 finish();
+                return;
             }
             backPressedOnce = true;
             Toast.makeText(this, R.string.exit, Toast.LENGTH_SHORT).show();
