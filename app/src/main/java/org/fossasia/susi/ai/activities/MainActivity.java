@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -91,6 +92,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Deque;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -700,6 +702,8 @@ public class MainActivity extends AppCompatActivity {
         String reminder = null;
         String sendMail = null;
         String setAlarm = null;
+        String packageName=null;
+        String openPackage=null;
         final String[] reminderDate = {null};
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
@@ -765,6 +769,16 @@ public class MainActivity extends AppCompatActivity {
                     isHavingLink = false;
                 }
 
+                if (section.length>=2 && section[0].equalsIgnoreCase("open")){
+                    isHavingLink=false;
+                    String mainAppName=section[1].toLowerCase();
+                    LinkedHashMap<String,String>appSearchList=getAllApps();
+                    packageName=appSearchList.get(mainAppName);
+                    if (packageName!=null){
+                        openPackage="Ok trying to launch "+mainAppName;
+                    }
+                }
+
                 if(section[0].equalsIgnoreCase("@google")){
                     int size = section.length;
                     googlesearch_query = "";
@@ -782,6 +796,8 @@ public class MainActivity extends AppCompatActivity {
                 final String finalSetAlarm = setAlarm;
                 final String finalReminder = reminder;
                 final String finalSendMail = sendMail;
+                final String finalOpenPackage=openPackage;
+                final String finalPackageName=packageName;
 
                 if(playVideo !=null && playVideo.equals(getString(R.string.play_video))){
                     answer = playVideo;
@@ -907,6 +923,14 @@ public class MainActivity extends AppCompatActivity {
                                             isWebSearch = false;
                                             voiceReply(answer , false);
 
+                                        }
+
+                                        if (finalOpenPackage!=null){
+                                            final PackageManager pm = getPackageManager();
+                                            Intent packageIntent=pm.getLaunchIntentForPackage(finalPackageName);
+                                            answer=finalOpenPackage;
+                                            isWebSearch=false;
+                                            startActivity(packageIntent);
                                         }
 
                                         if(finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))){
@@ -1564,7 +1588,17 @@ public class MainActivity extends AppCompatActivity {
         return id[0];
 
     }
-
+    public LinkedHashMap<String, String> getAllApps(){
+        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
+        LinkedHashMap<String,String> appNameList=new LinkedHashMap<String, String>();
+        for (int i=0;i<packList.size();i++){
+            PackageInfo packInfo= packList.get(i);
+            String packName=packInfo.applicationInfo.packageName;
+            String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString().toLowerCase();
+            appNameList.put(appName,packName);
+        }
+        return appNameList;
+    }
 
     @Override
     protected void onPause() {
