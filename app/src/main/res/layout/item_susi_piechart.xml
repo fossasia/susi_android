@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/ll_pie"
-            android:paddingBottom="10dp"
+            android:paddingBottom="@dimen/cmv_padding"
             android:orientation="vertical">
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"

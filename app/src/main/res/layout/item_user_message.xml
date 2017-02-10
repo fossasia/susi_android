@@ -61,7 +61,7 @@
                 android:layout_width="11dp"
                 android:layout_height="11dp"
                 android:src="@drawable/clock"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="@dimen/message_layout_margin"
                 />
         </LinearLayout>
 
