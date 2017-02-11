@@ -58,5 +58,5 @@
         android:id="@+id/recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="@dimen/message_layout_margin" />
 </LinearLayout>

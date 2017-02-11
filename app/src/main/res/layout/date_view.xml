@@ -11,7 +11,7 @@
         android:id="@+id/date"
         android:layout_width="100dp"
         android:layout_height="30dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/message_layout_margin"
         android:background="@drawable/rounded_layout_cyan"
         android:gravity="center" />
 </LinearLayout>

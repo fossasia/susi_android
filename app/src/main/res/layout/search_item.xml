@@ -7,8 +7,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/message_layout_margin"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginLeft="@dimen/margin_medium"
+    android:layout_marginRight="@dimen/margin_medium"
     android:layout_marginTop="@dimen/message_layout_margin"
     app:cmv_arrowGravity="center"
     app:cmv_arrowPosition="left"
@@ -40,7 +40,7 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/margin_medium"
             android:autoLink="all"
             android:ellipsize="end"
             android:maxLines="2"
@@ -68,7 +68,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/message_layout_margin"
                 android:layout_weight="0.8"
                 android:background="@color/susi_message_link_preview_bg"
                 android:orientation="vertical">
@@ -80,7 +80,7 @@
                     android:background="@color/susi_message_link_preview_bg"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:padding="5dp"
+                    android:padding="@dimen/standard_content_padding"
                     android:textColor="@color/md_grey_800"
                     tools:text="Website Sample Headline" />
 
@@ -92,7 +92,7 @@
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="2"
-                    android:padding="5dp"
+                    android:padding="@dimen/standard_content_padding"
                     android:text="Sample Text Extracted from a website"
                     android:textColor="@color/md_grey_600" />
 

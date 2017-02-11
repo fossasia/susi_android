@@ -45,7 +45,7 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/message_layout_margin"
             app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 
@@ -66,9 +66,9 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="24dp"
-            android:padding="12dp"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:padding="@dimen/cmv_padding"
             android:text="@string/activity_login_log_in"
             android:textColor="@color/colorPrimary" />
 
@@ -82,7 +82,7 @@
             android:background="?selectableItemBackground"
             android:text="@string/activity_login_forgot_pass"
             android:textColor="@color/md_grey_400"
-            android:textSize="16sp"
+            android:textSize="@dimen/message_text_size"
             android:textStyle="bold"
             android:typeface="monospace" />
 
@@ -96,7 +96,7 @@
             android:gravity="center"
             android:text="@string/activity_login_sign_up"
             android:textColor="@color/md_grey_400"
-            android:textSize="18sp"
+            android:textSize="@dimen/message_text_size"
             android:textStyle="bold" />
 
     </LinearLayout>

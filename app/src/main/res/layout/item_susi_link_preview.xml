@@ -71,7 +71,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/message_layout_margin"
                 android:background="@color/susi_message_link_preview_bg"
                 android:layout_weight="0.8"
                 android:orientation="vertical">
@@ -81,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@color/susi_message_link_preview_bg"
-                    android:padding="5dp"
+                    android:padding="@dimen/standard_content_padding"
                     android:maxLines="1"
                     tools:text="Website Sample Headline"
                     android:textColor="@color/md_grey_800"/>
@@ -91,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_gravity="bottom"
-                    android:padding="5dp"
+                    android:padding="@dimen/standard_content_padding"
                     android:gravity="center_vertical"
                     android:maxLines="2"
                     android:textColor="@color/md_grey_600"
