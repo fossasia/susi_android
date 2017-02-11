@@ -1,6 +1,6 @@
 <resources>
     <!--General Strings-->
-    <string name="app_name">Susi</string>
+    <string name="app_name" translatable="false">Susi</string>
     <string name="send_msg_hint">Ask Susi Something..</string>
     <string name="action_settings">Settings</string>
     <string name="action_wall_settings">Wallpaper</string>
@@ -10,11 +10,11 @@
     <string name="search">Search</string>
     <string name="select_background">Select background</string>
     <string name="background_no_wall">no_wall</string>
-    <string name="enter_send">Enter_send</string>
+    <string name="enter_send" translatable="false">Enter_send</string>
     <string name="id">id</string>
     <string name="no_internet_connection">Internet Connection Not Available!!</string>
     <string name="updated_successfully">updated successfully!</string>
-    <string name="content">content</string>
+    <string name="content" translatable="false">content</string>
     <string name="not_found">Not Found</string>
     <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
@@ -96,7 +96,7 @@
     <string name="activity_login_sing_up">Sign Up</string>
     <string name="activity_login_forgot_pass">Forgot Password?</string>
     <string name="activity_login_sign_up">Sign up for SUSI</string>
-    <string name="activity_login_imageview_description">SUSI Logo</string>
+    <string name="activity_login_imageview_description" translatable="false">SUSI Logo</string>
     <string name="unknown_answer">I don\'t know.</string>
     <string name="settings_mic">Mic Settings</string>
     <string name="settings_speech">Speech Settings</string>
@@ -118,7 +118,7 @@
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
     <string name="error_msg_retry">Please Retry Again</string>
-    <string name="app_share_url">https://play.google.com/store/apps/details?id=%s</string>
+    <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
 </resources>
 
 
