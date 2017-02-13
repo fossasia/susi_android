@@ -31,19 +31,18 @@
             android:layout_marginBottom="@dimen/margin_medium"
             android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginRight="@dimen/margin_medium"
-            android:background="@drawable/rounded_layout"
             android:orientation="horizontal"
-            android:padding="@dimen/standard_content_padding"
             android:layout_alignParentBottom="true">
 
             <EditText
                 android:id="@+id/et_message"
+                android:padding="10dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:background="@drawable/rounded_layout"
                 android:hint="@string/send_msg_hint"
                 android:imeOptions="actionSend"
                 android:inputType="text"
