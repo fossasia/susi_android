@@ -232,7 +232,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 return new SearchResultsHolder(view);
             case WEB_SEARCH:
-                view = inflater.inflate(R.layout.activity_websearch, viewGroup, false);
+                view = inflater.inflate(R.layout.item_websearch, viewGroup, false);
                 return new WebSearchHolder(view, clickListener);
             case DATE_VIEW:
                 view = inflater.inflate(R.layout.date_view,viewGroup, false);
@@ -349,7 +349,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
 
-        chatViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+        chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         if (model != null) {
             try {
                 switch (getItemViewType(position)) {
@@ -360,6 +360,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             chatViewHolder.receivedTick.setImageResource(R.drawable.check);
                         else
                             chatViewHolder.receivedTick.setImageResource(R.drawable.clock);
+
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
                             String text = chatViewHolder.chatTextView.getText().toString();
@@ -410,7 +411,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
 
         final ChatMessage model = getData().get(position);
-        mapViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+        mapViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         if (model != null) {
             try {
@@ -483,7 +484,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
     private void handleItemEvents(final WebSearchHolder websearchholder, final int position)  {
 
-        websearchholder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+        websearchholder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         webquery = MainActivity.webSearch;
         if(webquery!= null)
@@ -688,15 +689,15 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
-        if(getItemViewType(position) == USER_WITHLINK) {
+        if (getItemViewType(position) == USER_WITHLINK) {
             if (model.getIsDelivered())
                 linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.check);
             else
                 linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.clock);
         }
-        linkPreviewViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+        linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
-        if(model.getWebLinkData() == null) {
+        if (model.getWebLinkData() == null) {
 
             LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
                 @Override
@@ -722,7 +723,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
 
 
-                    link.setBody(sourceContent.getDescription()) ;
+                    link.setBody(sourceContent.getDescription());
                     link.setHeadline(sourceContent.getTitle());
                     link.setUrl(sourceContent.getUrl());
 
@@ -766,19 +767,16 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 TextCrawler textCrawler = new TextCrawler();
                 textCrawler.makePreview(linkPreviewCallback, url);
             }
-        }
-
-        else {
+        } else {
 
             linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
             linkPreviewViewHolder.descriptionTextView.setText(model.getWebLinkData().getBody());
-            Log.i(TAG,model.getWebLinkData().getImageURL());
-            if(!model.getWebLinkData().getImageURL().equals("")) {
+            Log.i(TAG, model.getWebLinkData().getImageURL());
+            if (!model.getWebLinkData().getImageURL().equals("")) {
                 glide.load(model.getWebLinkData().getImageURL())
                         .centerCrop()
                         .into(linkPreviewViewHolder.previewImageView);
-            }
-            else {
+            } else {
                 linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
             }
         }
@@ -795,8 +793,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             }
             linkPreviewViewHolder.text.setText(modify);
         }
-
-
     }
 
     private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
@@ -805,7 +801,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (model != null) {
             try {
                 pieChartViewHolder.chatTextView.setText(model.getContent());
-                pieChartViewHolder.chatMessageView.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+                pieChartViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
                 pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
                 pieChartViewHolder.pieChart.setUsePercentValues(true);
                 pieChartViewHolder.pieChart.setDrawHoleEnabled(true);

@@ -1,115 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chatMessageView"
+    android:id="@+id/background_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/message_layout_margin"
-    android:gravity="end"
-    app:cmv_arrowGravity="start"
-    app:cmv_backgroundColor="@color/user_message_bg"
-    app:cmv_backgroundColorPressed="@color/user_message_pressed_bg"
-    app:cmv_contentPadding="@dimen/cmv_padding"
-    app:cmv_cornerRadius="@dimen/cmv_corner_radius"
-    app:cmv_showArrow="false">
+    android:gravity="right">
 
-    <LinearLayout
-        android:layout_width="250dp"
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="@dimen/message_card_margin_small"
+        android:layout_marginRight="@dimen/message_card_margin_medium"
+        android:layout_marginTop="@dimen/message_card_margin_small"
+        app:cardBackgroundColor="@color/user_message_bg"
+        app:contentPadding="@dimen/standard_content_padding">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/message_layout_max_width"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text"
+            <org.fossasia.susi.ai.ChatBubbleLayout
+                android:id="@+id/chat_bubble_item_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/md_black_1000"
-                android:textColorLink="@color/link_text"
-                android:textSize="@dimen/message_text_size"
-                tools:text="Hello!!"/>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_gravity="right"
-                android:gravity="end">
+                android:layout_weight="1">
+
                 <TextView
-                    android:id="@+id/timestamp"
+                    android:id="@+id/text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:gravity="end"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textColor="@color/md_grey_600"
-                    android:textSize="@dimen/timestamp_size"
-                    tools:text="05:32 PM" />
+                    android:layout_gravity="start|left"
+                    android:autoLink="all"
+                    android:maxWidth="@dimen/message_layout_max_width"
+                    android:paddingBottom="@dimen/message_textview_bottom_padding"
+                    android:text="@string/sample_website_description"
+                    android:textColor="@color/message_text_color"
+                    android:textColorLink="@color/md_blue_700"
+                    android:textSize="@dimen/message_text_size" />
 
-                <ImageView
-                    android:id="@+id/received_tick"
-                    android:layout_width="11dp"
-                    android:layout_height="11dp"
-                    android:src="@drawable/clock"
-                    android:layout_marginLeft="4dp" />
-            </LinearLayout>
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="end|right|bottom"
+                    android:gravity="bottom"
+                    android:paddingLeft="@dimen/timestamp_layout_padding">
 
 
-        <LinearLayout
-            android:id="@+id/preview_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="9:00 AM"
+                        android:textColor="@color/timestamp_color"
+                        android:textSize="@dimen/timestamp_size" />
 
-            <ImageView
-                android:id="@+id/link_preview_image"
-                android:layout_width="80dp"
-                android:layout_height="@dimen/preview_layout_height"
-                android:layout_marginTop="4dp"
-                android:layout_weight="0.2"
-                android:background="#aaffffff"
-                tools:src="@drawable/ic_user" />
+                    <ImageView
+                        android:id="@+id/received_tick"
+                        android:layout_width="@dimen/timestamp_size"
+                        android:layout_height="@dimen/timestamp_size"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:src="@drawable/clock" />
+
+                </LinearLayout>
+            </org.fossasia.susi.ai.ChatBubbleLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/preview_layout_height"
-                android:layout_marginTop="@dimen/message_layout_margin"
-                android:layout_weight="0.8"
-                android:background="@color/user_message_link_preview_bg"
-                android:orientation="vertical">
+                android:id="@+id/preview_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/link_preview_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                <ImageView
+                    android:id="@+id/link_preview_image"
+                    android:layout_width="@dimen/webpreview_layout_height"
+                    android:layout_height="@dimen/preview_layout_height"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="0.2"
+                    android:background="#aaffffff"
+                    app:srcCompat="@drawable/ic_user" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/preview_layout_height"
+                    android:layout_marginTop="@dimen/message_layout_margin"
+                    android:layout_weight="0.8"
                     android:background="@color/user_message_link_preview_bg"
-                    android:maxLines="1"
-                    android:padding="@dimen/standard_content_padding"
-                    android:textColor="@color/md_grey_800"
-                    tools:text="@string/sample_website_headline" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/link_preview_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="bottom"
-                    android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:padding="@dimen/standard_content_padding"
-                    tools:text="@string/sample_website_description"
-                    android:textColor="@color/md_grey_600" />
+                    <TextView
+                        android:id="@+id/link_preview_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/webpreview_headline_height"
+                        android:background="@color/user_message_link_preview_bg"
+                        android:maxLines="1"
+                        android:padding="@dimen/standard_content_padding"
+                        android:textColor="@color/md_grey_800"
+                        tools:text="@string/sample_website_headline" />
+
+                    <TextView
+                        android:id="@+id/link_preview_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/webpreview_content_height"
+                        android:layout_gravity="bottom"
+                        android:gravity="center_vertical"
+                        android:maxLines="2"
+                        android:padding="@dimen/standard_content_padding"
+                        android:textColor="@color/md_grey_600"
+                        tools:text="@string/sample_website_description" />
 
 
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</me.himanshusoni.chatmessageview.ChatMessageView>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+
+

@@ -10,7 +10,6 @@ import org.fossasia.susi.ai.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.himanshusoni.chatmessageview.ChatMessageView;
 
 /**
  * Created by mayank on 11-12-2016.
@@ -18,17 +17,17 @@ import me.himanshusoni.chatmessageview.ChatMessageView;
 
 public class WebSearchHolder extends MessageViewHolder{
 
-    @BindView(R.id.web_text)
+    @BindView(R.id.text)
     public TextView text;
-    @BindView(R.id.chatMessageView)
-    public ChatMessageView chatMessageView;
+    @BindView(R.id.background_layout)
+    public LinearLayout backgroundLayout;
     @BindView(R.id.web_link_preview_image)
     public ImageView previewImageView;
     @BindView(R.id.web_link_preview_title)
     public TextView titleTextView;
     @BindView(R.id.web_link_preview_description)
     public TextView descriptionTextView;
-    @BindView(R.id.web_timestamp)
+    @BindView(R.id.timestamp)
     public TextView timestampTextView;
     @BindView(R.id.web_preview_layout)
     public LinearLayout previewLayout;

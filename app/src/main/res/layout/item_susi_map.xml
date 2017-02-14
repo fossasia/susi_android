@@ -1,81 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chatMessageView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/message_layout_margin"
-    android:layout_marginTop="@dimen/message_layout_margin"
-    app:cmv_arrowGravity="start"
-    app:cmv_arrowPosition="left"
-    app:cmv_backgroundColor="@color/susi_message_bg"
-    app:cmv_backgroundColorPressed="@color/susi_message_pressed_bg"
-    app:cmv_contentPadding="@dimen/cmv_padding"
-    app:cmv_cornerRadius="@dimen/cmv_corner_radius"
-    app:cmv_showArrow="false">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/background_layout"
+              android:layout_width="@dimen/message_layout_max_width"
+              android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="250dp"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
+        android:layout_marginBottom="@dimen/message_card_margin_small"
+        android:layout_marginLeft="@dimen/message_card_margin_medium"
+        android:layout_marginTop="@dimen/message_card_margin_small"
+        app:cardBackgroundColor="@color/susi_message_bg"
+        app:contentPadding="@dimen/standard_content_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text"
+            <org.fossasia.susi.ai.ChatBubbleLayout
+                android:id="@+id/chat_bubble_item_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/md_black_1000"
-                android:textSize="@dimen/message_text_size"
-                tools:text="Hello!!"/>
+                android:layout_gravity="right"
+                android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/timestamp"
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|left"
+                    android:autoLink="all"
+                    android:maxWidth="@dimen/message_layout_max_width"
+                    android:paddingBottom="@dimen/message_textview_bottom_padding"
+                    android:text="@string/hello_world"
+                    android:textColor="@color/message_text_color"
+                    android:textSize="@dimen/message_text_size" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|right|bottom"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/timestamp_layout_padding">
+
+                    <TextView
+                        android:id="@+id/timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="9:00 AM"
+                        android:textColor="@color/timestamp_color"
+                        android:textSize="@dimen/timestamp_size" />
+
+                </LinearLayout>
+            </org.fossasia.susi.ai.ChatBubbleLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="bottom|end"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="@color/md_grey_600"
-                android:textSize="@dimen/timestamp_size"
-                tools:text="05:32" />
+                android:layout_height="250dp">
 
+                <ImageView
+                    android:id="@+id/map_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="4dp"
+                    android:background="#aaffffff"
+                    tools:src="@drawable/ic_susi" />
+
+                <ImageView
+                    android:id="@+id/location_pointer"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ic_location_pointer" />
+
+            </FrameLayout>
         </LinearLayout>
 
+    </android.support.v7.widget.CardView>
 
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="250dp">
-
-
-
-            <ImageView
-                android:id="@+id/map_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/message_layout_margin"
-                android:background="#aaffffff"
-                tools:src="@drawable/ic_susi" />
-
-
-            <ImageView
-                android:id="@+id/location_pointer"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_location_pointer"/>
-
-
-        </FrameLayout>
-
-    </LinearLayout>
-</me.himanshusoni.chatmessageview.ChatMessageView>
+</LinearLayout>

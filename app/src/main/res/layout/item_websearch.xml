@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/background_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
@@ -35,7 +35,6 @@
                     android:autoLink="all"
                     android:maxWidth="@dimen/message_layout_max_width"
                     android:paddingBottom="@dimen/message_textview_bottom_padding"
-                    android:textColorLink="@color/link_text"
                     android:text="@string/hello_world"
                     android:textColor="@color/message_text_color"
                     android:textSize="@dimen/message_text_size" />
@@ -54,7 +53,6 @@
                         android:layout_height="wrap_content"
                         android:gravity="bottom"
                         android:text="9:00 AM"
-                        android:textColor="@color/timestamp_color"
                         android:textSize="@dimen/timestamp_size" />
 
 
@@ -62,13 +60,13 @@
             </org.fossasia.susi.ai.ChatBubbleLayout>
 
             <LinearLayout
-                android:id="@+id/preview_layout"
+                android:id="@+id/web_preview_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/link_preview_image"
+                    android:id="@+id/web_link_preview_image"
                     android:layout_width="@dimen/webpreview_layout_height"
                     android:layout_height="@dimen/webpreview_layout_height"
                     android:layout_marginTop="@dimen/margin_small"
@@ -85,7 +83,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/link_preview_title"
+                        android:id="@+id/web_link_preview_title"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/webpreview_headline_height"
                         android:background="@color/susi_message_link_preview_bg"
@@ -95,7 +93,7 @@
                         tools:text="@string/sample_website_headline" />
 
                     <TextView
-                        android:id="@+id/link_preview_description"
+                        android:id="@+id/web_link_preview_description"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/webpreview_content_height"
                         android:layout_gravity="bottom"
@@ -112,4 +110,5 @@
     </android.support.v7.widget.CardView>
 
 </LinearLayout>
+
 

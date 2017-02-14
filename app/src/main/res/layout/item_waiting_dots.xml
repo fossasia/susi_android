@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chatMessageView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/message_layout_margin"
-    android:layout_marginEnd="@dimen/messagelayout_minwidth"
-    android:layout_marginRight="@dimen/messagelayout_minwidth"
-    android:layout_marginTop="@dimen/message_layout_margin"
-    app:cmv_arrowGravity="center"
-    app:cmv_arrowPosition="left"
-    app:cmv_backgroundColor="@color/susi_message_bg"
-    app:cmv_backgroundColorPressed="@color/susi_message_pressed_bg"
-    app:cmv_arrowMargin="@dimen/cmv_padding"
-    app:cmv_cornerRadius="@dimen/cmv_corner_radius"
-    app:cmv_showArrow="false">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/background_layout"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
 
-    <pl.tajchert.sample.DotsTextView
-        android:layout_width="@dimen/messagelayout_minwidth"
+    <android.support.v7.widget.CardView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/dots"
-        android:textSize="@dimen/message_text_size"
-        android:textColor="@color/md_black_1000"
-        app:autoplay="false"
-        app:period="1200"
-        android:textStyle="normal|bold"
-        android:layout_gravity="center_horizontal"
-        android:textAlignment="center"/>
-</me.himanshusoni.chatmessageview.ChatMessageView>
+        android:layout_marginBottom="@dimen/message_card_margin_small"
+        android:layout_marginLeft="@dimen/message_card_margin_medium"
+        android:layout_marginTop="@dimen/message_card_margin_small"
+        app:cardBackgroundColor="@color/susi_message_bg"
+        app:contentPadding="@dimen/standard_content_padding">
+
+        <pl.tajchert.sample.DotsTextView
+            android:id="@+id/dots"
+            android:layout_width="@dimen/messagelayout_minwidth"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="@color/md_black_1000"
+            android:textSize="@dimen/message_text_size"
+            android:textStyle="normal|bold"
+            app:autoplay="false"
+            app:period="1200" />
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
+
