@@ -47,7 +47,7 @@
                 android:imeOptions="actionSend"
                 android:inputType="text"
                 android:theme="@style/sendMessageEditTextTheme"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="top|left"/>
 
 
             <android.support.design.widget.FloatingActionButton
