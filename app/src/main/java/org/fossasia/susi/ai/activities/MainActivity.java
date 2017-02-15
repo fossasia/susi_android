@@ -259,6 +259,24 @@ public class MainActivity extends AppCompatActivity {
         clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
+        compensateTTSDelay();
+    }
+
+    private void compensateTTSDelay() {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+                    @Override
+                    public void onInit(int status) {
+                        if (status != TextToSpeech.ERROR) {
+                            Locale locale = textToSpeech.getLanguage();
+                            textToSpeech.setLanguage(locale);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     private void promptSpeechInput() {
@@ -374,7 +392,7 @@ public class MainActivity extends AppCompatActivity {
                 return writeToTempImage(context, bmp);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-            }finally {
+            } finally {
                 try {
                     is.close();
                 } catch (IOException e) {
@@ -665,10 +683,9 @@ public class MainActivity extends AppCompatActivity {
             id = (long) temp + 1;
         }
         boolean isHavingLink;
-        if(query.toLowerCase().contains("send mail")||query.toLowerCase().contains("send a mail")||query.toLowerCase().contains("send the mail")){
-            isHavingLink = false ;
-        }
-        else {
+        if (query.toLowerCase().contains("send mail") || query.toLowerCase().contains("send a mail") || query.toLowerCase().contains("send the mail")) {
+            isHavingLink = false;
+        } else {
             List<String> urlList = extractUrls(query);
             Log.d(TAG, urlList.toString());
             isHavingLink = urlList != null;
@@ -740,11 +757,11 @@ public class MainActivity extends AppCompatActivity {
                 if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
 
                     reminderQuery = 0;
-                    Log.d(TAG , "query  " + reminderQuery);
+                    Log.d(TAG, "query  " + reminderQuery);
                     reminder = getString(R.string.reminder_description);
                 }
 
-                if(section[0].equalsIgnoreCase("play")){
+                if (section[0].equalsIgnoreCase("play")) {
                     count = 0;
 
                     playVideo = getString(R.string.play_video);
@@ -761,25 +778,23 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                if(query.toLowerCase().contains("send message")||query.toLowerCase().contains("send a message")||query.toLowerCase().contains("send the message"))
-                {
+                if (query.toLowerCase().contains("send message") || query.toLowerCase().contains("send a message") || query.toLowerCase().contains("send the message")) {
                     String sendTo = null;
                     String number = null;
 
                     sendMessage = getString(R.string.send_message);
-                    if(query.contains("to")) {
+                    if (query.contains("to")) {
                         sendTo = query.substring(query.indexOf("to") + 3, query.length());
                         Log.d(TAG, "computeOtherMessage: " + sendTo);
                     }
 
-                    if(sendTo!=null)
+                    if (sendTo != null)
                         number = sendTo;
 
-                    if(number != null) {
+                    if (number != null) {
                         Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", number, null));
                         startActivity(sendIntent);
-                    }
-                    else {
+                    } else {
                         Intent sendIntent = new Intent(Intent.ACTION_VIEW);
                         sendIntent.setData(Uri.parse("sms:"));
                         startActivity(sendIntent);
@@ -789,12 +804,12 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                if(query.toLowerCase().contains("send mail")||query.toLowerCase().contains("send a mail")||query.toLowerCase().contains("send the mail")){
+                if (query.toLowerCase().contains("send mail") || query.toLowerCase().contains("send a mail") || query.toLowerCase().contains("send the mail")) {
                     sendMail = getString(R.string.send_mail);
                     isHavingLink = false;
                 }
 
-                if(section[0].equalsIgnoreCase("@google")){
+                if (section[0].equalsIgnoreCase("@google")) {
                     int size = section.length;
                     googlesearch_query = "";
                     for (int i = 1; i < size; i++) {
@@ -812,10 +827,10 @@ public class MainActivity extends AppCompatActivity {
                 final String finalReminder = reminder;
                 final String finalSendMail = sendMail;
 
-                if(playVideo !=null && playVideo.equals(getString(R.string.play_video))){
+                if (playVideo != null && playVideo.equals(getString(R.string.play_video))) {
                     answer = playVideo;
                     isWebSearch = false;
-                    count ++;
+                    count++;
 
                 }
 
@@ -827,7 +842,7 @@ public class MainActivity extends AppCompatActivity {
                             public void onResponse(Call<SusiResponse> call,
                                                    Response<SusiResponse> response) {
                                 int code = response.code();
-                                if(code >= 200 && code < 300) {
+                                if (code >= 200 && code < 300) {
                                     recyclerAdapter.showDots();
                                 }
 
@@ -898,64 +913,60 @@ public class MainActivity extends AppCompatActivity {
                                         recyclerAdapter.hideDots();
                                         recyclerAdapter.notifyItemChanged((int) id);
 
-                                        if(finalAnswer_call!=null && finalAnswer_call.contains("Calling"))
-                                        {
+                                        if (finalAnswer_call != null && finalAnswer_call.contains("Calling")) {
                                             answer = finalAnswer_call;
                                             isWebSearch = false;
-                                            voiceReply(answer , false);
+                                            voiceReply(answer, false);
                                         }
-                                        if(finalgoogle_search!=null&&finalgoogle_search.contains("google"))
-                                        {
+                                        if (finalgoogle_search != null && finalgoogle_search.contains("google")) {
                                             answer = finalgoogle_search;
                                             isWebSearch = false;
-                                            voiceReply(answer , false);
+                                            voiceReply(answer, false);
                                         }
-                                        if(finalSetAlarm !=null && finalSetAlarm.contains("Alarm")){
+                                        if (finalSetAlarm != null && finalSetAlarm.contains("Alarm")) {
                                             answer = finalSetAlarm;
                                             isWebSearch = false;
-                                            voiceReply(answer , false);
+                                            voiceReply(answer, false);
 
                                         }
-                                        if(finalPlayVideo !=null && finalPlayVideo.equals(getString(R.string.play_video))){
+                                        if (finalPlayVideo != null && finalPlayVideo.equals(getString(R.string.play_video))) {
                                             answer = finalPlayVideo;
                                             isWebSearch = false;
-                                            voiceReply(answer , false);
+                                            voiceReply(answer, false);
                                         }
-                                        if(finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))){
+                                        if (finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))) {
 
-                                            if(query.contains("to")) {
+                                            if (query.contains("to")) {
                                                 String[] sendTo = {query.substring(query.indexOf("to") + 3, query.length())};
                                                 Log.d(TAG, "onResponse: " + sendTo);
                                                 composeEmail(sendTo);
 
-                                            }
-                                            else{
+                                            } else {
                                                 composeEmail();
                                             }
 
                                             answer = finalSendMail;
                                             isWebSearch = false;
-                                            voiceReply(answer , false);
+                                            voiceReply(answer, false);
 
                                         }
 
-                                        if(finalSendMessage != null && finalSendMessage.equals(getString(R.string.send_message))){
+                                        if (finalSendMessage != null && finalSendMessage.equals(getString(R.string.send_message))) {
                                             answer = finalSendMessage;
                                             isHavingLink = false;
                                             isWebSearch = false;
-                                            voiceReply(answer , false);
+                                            voiceReply(answer, false);
                                         }
 
-                                        if(finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))){
-                                            Log.d(TAG , "reminder Counter  " + reminderQuery);
+                                        if (finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))) {
+                                            Log.d(TAG, "reminder Counter  " + reminderQuery);
                                             answer = finalReminder;
                                             reminderQuery = 1;
                                             isWebSearch = false;
-                                            voiceReply(answer , false);
+                                            voiceReply(answer, false);
 
-                                        }
-                                        else {
-                                            switch(reminderQuery){
+                                        } else {
+                                            switch (reminderQuery) {
                                                 case 1:
                                                     MainActivity.this.reminder = query;
                                                     reminderDate[0] = getString(R.string.reminder_date);
@@ -963,7 +974,7 @@ public class MainActivity extends AppCompatActivity {
                                                     isWebSearch = false;
                                                     Log.d(TAG, "onResponse: " + MainActivity.this.reminder);
                                                     reminderQuery = 2;
-                                                    voiceReply(answer , false);
+                                                    voiceReply(answer, false);
                                                     break;
 
                                                 case 2:
@@ -972,7 +983,7 @@ public class MainActivity extends AppCompatActivity {
                                                     reminderQuery = 0;
                                                     String date = query;
                                                     setReminder(MainActivity.this.reminder, date);
-                                                    voiceReply(answer , false);
+                                                    voiceReply(answer, false);
                                                     Log.d(TAG, "onResponse: query" + date);
                                                     break;
 
@@ -994,31 +1005,27 @@ public class MainActivity extends AppCompatActivity {
                                                 actionType = susiResponse.getAnswers().get(0).getActions().get(counterValue).getType();
                                                 if ("answer".equals(actionType)) {
                                                     addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
-                                                }
-                                                else if ("anchor".equals(actionType)) {
+                                                } else if ("anchor".equals(actionType)) {
                                                     String text = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorText();
                                                     String link = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorLink();
                                                     if (link != null) {
                                                         addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, false, datumList);
-                                                    }
-                                                    else {
+                                                    } else {
                                                         String mapDisplayName;
                                                         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
                                                         try {
-                                                            float lat = PrefManager.getFloat(Constant.LATITUDE,0);
-                                                            float lon = PrefManager.getFloat(Constant.LONGITUDE,0);
-                                                            List<Address> addresses = geocoder.getFromLocation(lat,lon,1);
+                                                            float lat = PrefManager.getFloat(Constant.LATITUDE, 0);
+                                                            float lon = PrefManager.getFloat(Constant.LONGITUDE, 0);
+                                                            List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
                                                             StringBuilder locationAddressBuilder = new StringBuilder();
                                                             int addressLineSize = addresses.get(0).getMaxAddressLineIndex();
-                                                            for (int addressLineCount = 0; addressLineCount < addressLineSize - 1;addressLineCount++)
-                                                            {
+                                                            for (int addressLineCount = 0; addressLineCount < addressLineSize - 1; addressLineCount++) {
                                                                 locationAddressBuilder.append(addresses.get(0).getAddressLine(addressLineCount)).append(", ");
                                                             }
-                                                            locationAddressBuilder.append(addresses.get(0).getAddressLine(addressLineSize-1));
-                                                            mapDisplayName =  "Address: ".concat(locationAddressBuilder.toString());
+                                                            locationAddressBuilder.append(addresses.get(0).getAddressLine(addressLineSize - 1));
+                                                            mapDisplayName = "Address: ".concat(locationAddressBuilder.toString());
                                                             addNewMessage(mapDisplayName, false, false, false, false, false, datumList);
-                                                        }
-                                                        catch (Exception e){
+                                                        } catch (Exception e) {
                                                             e.printStackTrace();
                                                         }
                                                     }
@@ -1055,12 +1062,11 @@ public class MainActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                        if(count == 1) {
+                                        if (count == 1) {
                                             rvChatFeed.getRecycledViewPool().clear();
                                             recyclerAdapter.notifyItemChanged((int) id);
                                             addNewMessage(getString(R.string.play_video), false, false, false, false, false, null);
-                                        }
-                                        else{
+                                        } else {
                                             rvChatFeed.getRecycledViewPool().clear();
                                             recyclerAdapter.notifyItemChanged((int) id);
                                             addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
@@ -1104,12 +1110,11 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
-                                    if(count == 1) {
+                                    if (count == 1) {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
                                         addNewMessage(getString(R.string.play_video), false, false, false, false, false, null);
-                                    }
-                                    else {
+                                    } else {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
                                         addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
@@ -1160,7 +1165,7 @@ public class MainActivity extends AppCompatActivity {
             googlesearch_query = "";
         }
 
-        if(answer.equals(getString(R.string.play_video))){
+        if (answer.equals(getString(R.string.play_video))) {
             video_query = video_query.replace(" ", "+");
             Log.d(TAG, "addNewMessage: " + video_query);
 
@@ -1175,26 +1180,25 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        if(answer.contains("Calling")){
-            String splits[]=answer.split(" ");
+        if (answer.contains("Calling")) {
+            String splits[] = answer.split(" ");
             startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", splits[1], null)));
         }
 
-        if(answer.equals(getString(R.string.set_alarm))){
+        if (answer.equals(getString(R.string.set_alarm))) {
 
             Log.d(TAG, "addNewMessage: " + Arrays.toString(array));
             Log.d(TAG, "addNewMessage: " + array.length);
             Log.d(TAG, "addNewMessage: " + timenow);
 
 
-            if(array.length == 0){
+            if (array.length == 0) {
 
                 Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
                 i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
                 startActivity(i);
 
-            }
-            else if(array.length == 1){
+            } else if (array.length == 1) {
 
 
                 Log.d(TAG, "addNewMessage: " + array[0]);
@@ -1205,13 +1209,11 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
                 i.putExtra(AlarmClock.EXTRA_HOUR, hour);
                 i.putExtra(AlarmClock.EXTRA_MINUTES, 0);
-                if (timenow!=null&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    i.putExtra(AlarmClock.EXTRA_IS_PM,timenow.equalsIgnoreCase("PM"));
+                if (timenow != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    i.putExtra(AlarmClock.EXTRA_IS_PM, timenow.equalsIgnoreCase("PM"));
                 }
                 startActivity(i);
-            }
-
-            else {
+            } else {
 
                 Log.d(TAG, "addNewMessage: " + array[0] + array[1]);
 
@@ -1222,8 +1224,8 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
                 i.putExtra(AlarmClock.EXTRA_HOUR, hour);
                 i.putExtra(AlarmClock.EXTRA_MINUTES, min);
-                if (timenow!=null&&Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    i.putExtra(AlarmClock.EXTRA_IS_PM,timenow.equalsIgnoreCase("PM"));
+                if (timenow != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    i.putExtra(AlarmClock.EXTRA_IS_PM, timenow.equalsIgnoreCase("PM"));
                 }
                 startActivity(i);
 
@@ -1243,7 +1245,7 @@ public class MainActivity extends AppCompatActivity {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class,id);
+                ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class, id);
                 chatMessage.setWebSearch(isWebSearch);
                 chatMessage.setContent(message);
                 chatMessage.setDate(date);
@@ -1412,7 +1414,7 @@ public class MainActivity extends AppCompatActivity {
                 chatBackgroundActivity();
                 int permissionCheck = ActivityCompat.checkSelfPermission(MainActivity.this,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+                if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 }
                 return true;
@@ -1423,10 +1425,9 @@ public class MainActivity extends AppCompatActivity {
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_TEXT,
                             String.format(getString(R.string.promo_msg_template),
-                                    String.format(getString(R.string.app_share_url),getPackageName())));
+                                    String.format(getString(R.string.app_share_url), getPackageName())));
                     startActivity(shareIntent);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     showToast(getString(R.string.error_msg_retry));
                 }
                 return true;
@@ -1512,7 +1513,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void setReminder(String des , String time){
+    public void setReminder(String des, String time) {
 
         LinkedList<String> list = new LinkedList<>();
         Matcher matcher = Pattern.compile("\\d+").matcher(time);
@@ -1526,12 +1527,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.v(TAG, "computeOtherMessage: " + Arrays.toString(timeArray));
 
-        Log.d(TAG ,System.currentTimeMillis() + "Current Time");
+        Log.d(TAG, System.currentTimeMillis() + "Current Time");
 
         Calendar endTime = Calendar.getInstance(TimeZone.getDefault());
 
 
-        if(timeArray.length >= 2) {
+        if (timeArray.length >= 2) {
 
             Log.d(TAG, "setReminder: " + timeArray[0] + "  " + timeArray[1]);
 
@@ -1544,34 +1545,33 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Setting the Reminder", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(Intent.ACTION_INSERT)
-                    .setData(CalendarContract.Events.CONTENT_URI)
-                    .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, System.currentTimeMillis())
-                    .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
-                    .putExtra(CalendarContract.Events.TITLE, des)
-                    .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-            startActivity(intent);
+        Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, System.currentTimeMillis())
+                .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
+                .putExtra(CalendarContract.Events.TITLE, des)
+                .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+        startActivity(intent);
 
     }
 
-    public void composeEmail(String[] adresses){
+    public void composeEmail(String[] adresses) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL , adresses);
-        if(intent.resolveActivity(getPackageManager()) != null) {
+        intent.putExtra(Intent.EXTRA_EMAIL, adresses);
+        if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
     }
 
-    public void composeEmail(){
+    public void composeEmail() {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));
-        if(intent.resolveActivity(getPackageManager()) != null) {
+        if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         }
 
     }
-
 
 
     public String getvideos(String query) {
@@ -1587,9 +1587,9 @@ public class MainActivity extends AppCompatActivity {
                 id[0] = response.body().getItems().get(0).getId().getVideoId();
                 Log.d(TAG, "onResponse: " + id[0]);
 
-                    Intent i = new Intent(MainActivity.this, GetVideos.class);
-                    i.putExtra("youtubeId", id[0]);
-                    startActivity(i);
+                Intent i = new Intent(MainActivity.this, GetVideos.class);
+                i.putExtra("youtubeId", id[0]);
+                startActivity(i);
 
             }
 
