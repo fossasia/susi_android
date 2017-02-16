@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         
         logIn.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
         final Call<LoginResponse> authResponseCall = new ClientBuilder().getSusiApi()
