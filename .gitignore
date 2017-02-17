@@ -5,3 +5,7 @@
 /captures
 **/.idea/**
 **/*.iml
+local.properties
+gradlew
+gradlew.bat
+gradle/
