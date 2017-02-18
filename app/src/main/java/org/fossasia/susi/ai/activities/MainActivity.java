@@ -190,14 +190,14 @@ public class MainActivity extends AppCompatActivity {
                         check = false;
                         switch (view.getId()) {
                             case R.id.btnSpeak:
-                                String chat_message = ChatMessage.getText().toString();
-                                chat_message = chat_message.trim();
+                                String chat = ChatMessage.getText().toString();
+                                String chat_message = chat.trim();
                                 String splits[] = chat_message.split("\n");
                                 String message = "";
                                 for (String split : splits)
                                     message = message.concat(split).concat(" ");
                                 if (!TextUtils.isEmpty(chat_message)) {
-                                    sendMessage(message);
+                                    sendMessage(message, chat);
                                     ChatMessage.setText("");
                                 }
                                 break;
@@ -289,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             ArrayList<String> result = data
                                     .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                            sendMessage(result.get(0));
+                            sendMessage(result.get(0), result.get(0));
                         }
                     });
                 }
@@ -429,10 +429,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    String message = ChatMessage.getText().toString();
-                    message = message.trim();
+                    String chat = ChatMessage.getText().toString();
+                    String message = chat.trim();
                     if (!TextUtils.isEmpty(message)) {
-                        sendMessage(message);
+                        sendMessage(message, chat);
                         ChatMessage.setText("");
                     }
                     handled = true;
@@ -606,10 +606,10 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     switch (v.getId()) {
                         case R.id.btnSpeak:
-                            String message = ChatMessage.getText().toString();
-                            message = message.trim();
+                            String chat = ChatMessage.getText().toString();
+                            String message = chat.trim();
                             if (!TextUtils.isEmpty(message)) {
-                                sendMessage(message);
+                                sendMessage(message, chat);
                                 ChatMessage.setText("");
                             }
                             break;
@@ -655,7 +655,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage(String query) {
+    private void sendMessage(String query, String actual) {
         webSearch = query;
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
@@ -685,7 +685,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        updateDatabase(id, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+        updateDatabase(id, actual, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
         nonDeliveredMessages.add(new Pair(query, id));
         getLocationFromLocationService();
         new computeThread().start();
