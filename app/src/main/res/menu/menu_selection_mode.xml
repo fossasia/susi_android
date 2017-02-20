@@ -17,5 +17,9 @@
         android:icon="@drawable/ic_share_white_24dp"
         android:title="@string/share_items" />
 
+    <item android:id="@+id/menu_item_important"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_star_white_24dp"
+        android:title="@string/action_important" />
 
 </menu>

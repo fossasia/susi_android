@@ -6,12 +6,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MainApplication"
@@ -30,8 +30,8 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:theme="@style/SignUp_Theme"
-            tools:replace = "android:theme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            tools:replace="android:theme" />
         <activity
             android:name=".activities.LoginActivity"
             android:theme="@style/Login_Theme"
@@ -44,14 +44,15 @@
         </activity>
         <activity
             android:name=".activities.ForgotPasswordActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activities.ChangePasswordActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"/>
-        <activity android:name=".helper.GetVideos"
-            android:theme="@style/Theme.AppCompat.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".helper.GetVideos"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
@@ -60,7 +61,7 @@
             android:value="fabric_api_key" />
         -->
 
+        <activity android:name=".activities.ImportantMessages"></activity>
     </application>
 
 </manifest>
-
