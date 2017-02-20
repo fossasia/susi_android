@@ -84,6 +84,7 @@
     <string name="delete_items">Delete</string>
     <string name="copy_items">Copy</string>
     <string name="share_items">Share</string>
+    <string name="important_items">Important</string>
     <string name="sample_website_description">Sample Text Extracted from a website</string>
     <string name="sample_website_headline">Website Sample Headline</string>
     <string-array name="dialog_complete_action_items">
@@ -119,6 +120,7 @@
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
+    <string name="important_messages">important messages</string>
 </resources>
 
 
