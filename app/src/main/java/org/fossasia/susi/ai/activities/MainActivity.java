@@ -26,6 +26,7 @@ import android.os.Looper;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.support.customtabs.CustomTabsIntent;
@@ -49,6 +50,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,6 +64,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
@@ -100,6 +107,10 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.branch.indexing.BranchUniversalObject;
+import io.branch.referral.Branch;
+import io.branch.referral.BranchError;
+import io.branch.referral.util.LinkProperties;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -159,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
     private String reminder;
     private int count = 0;
     private static final String[] id = new String[1];
+    private CallbackManager callbackManager;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -256,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         getLocationFromLocationService();
+        callbackManager = CallbackManager.Factory.create();
         clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
@@ -280,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         Handler mHandler = new Handler(Looper.getMainLooper());
         switch (requestCode) {
             case REQ_CODE_SPEECH_INPUT: {
@@ -1417,18 +1431,77 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.action_share:
-                try {
-                    Intent shareIntent = new Intent();
-                    shareIntent.setAction(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT,
-                            String.format(getString(R.string.promo_msg_template),
-                                    String.format(getString(R.string.app_share_url),getPackageName())));
-                    startActivity(shareIntent);
-                }
-                catch (Exception e) {
-                    showToast(getString(R.string.error_msg_retry));
-                }
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+                LayoutInflater inflater = this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.dialog_share, null);
+                Button shareApp = (Button)dialogView.findViewById(R.id.share_app);
+                Button facebookInvite = (Button)dialogView.findViewById(R.id.facebook_invite);
+                dialogBuilder.setView(dialogView);
+                final AlertDialog alertDialog = dialogBuilder.create();
+                shareApp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent shareIntent = new Intent();
+                            shareIntent.setAction(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT,
+                                    String.format(getString(R.string.promo_msg_template),
+                                            String.format(getString(R.string.app_share_url),getPackageName())));
+                            startActivity(shareIntent);
+                        }
+                        catch (Exception e) {
+                            Snackbar.make(coordinatorLayout, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                facebookInvite.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        BranchUniversalObject branchUniversalObject = new BranchUniversalObject()
+                                .setCanonicalIdentifier("user/" + Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))
+                                .setTitle(getString(R.string.invite_title))
+                                .setContentDescription(getString(R.string.invite_content_description))
+                                .setContentImageUrl(getString(R.string.share_fb_preview_url))
+                                .addContentMetadata("userId", Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))
+                                .addContentMetadata("packageName", getPackageName());
+
+                        LinkProperties linkProperties = new LinkProperties()
+                                .setChannel(getString(R.string.facebook))
+                                .setFeature(getString(R.string.invite_via_facebook));
+
+                        branchUniversalObject.generateShortUrl(MainActivity.this, linkProperties, new Branch.BranchLinkCreateListener() {
+                            @Override
+                            public void onLinkCreate(String url, BranchError error) {
+                                if (error == null && AppInviteDialog.canShow()) {
+                                    AppInviteContent content = new AppInviteContent.Builder()
+                                            .setApplinkUrl(url)
+                                            .setPreviewImageUrl(getString(R.string.share_fb_preview_url))
+                                            .build();
+                                    AppInviteDialog appInviteDialog = new AppInviteDialog(MainActivity.this);
+                                    appInviteDialog.registerCallback(callbackManager, new FacebookCallback<AppInviteDialog.Result>() {
+                                        @Override
+                                        public void onSuccess(AppInviteDialog.Result result) {
+                                            alertDialog.cancel();
+                                        }
+
+                                        @Override
+                                        public void onCancel() {
+
+                                        }
+
+                                        @Override
+                                        public void onError(FacebookException e) {
+                                            Snackbar.make(coordinatorLayout, getString(R.string.error_msg_retry), Snackbar.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                    AppInviteDialog.show(MainActivity.this, content);
+                                }
+                            }
+                        });
+                    }
+                });
+                alertDialog.show();
                 return true;
             case R.id.up_angle:
                 offset++;

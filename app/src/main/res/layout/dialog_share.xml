@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/share_app"
+        android:layout_width="245dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_radius_whatsapp"
+        android:layout_marginTop="30dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:paddingTop="10dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/share_app"
+        android:textAllCaps="true"
+        android:textSize="18sp"
+        android:textColor="@color/cardview_light_background"
+        />
+
+    <Button
+        android:id="@+id/facebook_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/border_radius_facebook"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/invite_via_facebook"
+        android:textAllCaps="true"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        />
+</LinearLayout>

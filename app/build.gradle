@@ -96,4 +96,12 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
+
+    //Branch integration for deep linking
+    compile ('io.branch.sdk.android:library:2.+') {
+        exclude module: 'answers-shim'
+    }
+
+    //Facebook SDK
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
 }

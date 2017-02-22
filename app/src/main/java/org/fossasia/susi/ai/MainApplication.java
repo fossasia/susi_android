@@ -2,6 +2,9 @@ package org.fossasia.susi.ai;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
+
+import io.branch.referral.Branch;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -31,5 +34,8 @@ public class MainApplication extends Application {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(config);
+
+        Branch.getAutoInstance(this);
+        FacebookSdk.sdkInitialize(this);
     }
 }
