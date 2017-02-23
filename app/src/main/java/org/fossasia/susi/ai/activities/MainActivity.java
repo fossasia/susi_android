@@ -1,6 +1,8 @@
 package org.fossasia.susi.ai.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,6 +27,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
@@ -33,7 +36,10 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -110,7 +116,7 @@ import retrofit2.Response;
 
 import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     public static String TAG = MainActivity.class.getName();
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
@@ -159,6 +165,37 @@ public class MainActivity extends AppCompatActivity {
     private String reminder;
     private int count = 0;
     private static final String[] id = new String[1];
+
+
+    // The string to be searched for
+    private String mSearchString ;
+    private Cursor mCursor;
+
+    @SuppressLint("InlinedApi")
+    private  static final String[] PROJECTION =
+            {
+                    ContactsContract.Contacts._ID,
+                    ContactsContract.Contacts.LOOKUP_KEY,
+                    Build.VERSION.SDK_INT
+                            >= Build.VERSION_CODES.HONEYCOMB ?
+                            ContactsContract.Contacts.DISPLAY_NAME_PRIMARY:
+                            ContactsContract.Contacts.DISPLAY_NAME,
+            };
+
+
+    // The column index for the _ID column
+    private static final int CONTACT_ID_INDEX = 0;
+    // The column index for the LOOKUP_KEY column
+    private static final int LOOKUP_KEY_INDEX = 1;
+    private static final int DISPLAY_NAME_INDEX = 2;
+
+    // Selection Criteria
+    @SuppressLint("InlinedApi")
+    private static final String SELECTION =
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
+                    ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " LIKE ?" :
+                    ContactsContract.Contacts.DISPLAY_NAME + " LIKE ?";
+
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -855,8 +892,7 @@ public class MainActivity extends AppCompatActivity {
                                             voiceReply(setMessage, isMap);
                                             isHavingLink = urlList != null;
                                             if (urlList.size() == 0) isHavingLink = false;
-                                        } catch (IndexOutOfBoundsException | NullPointerException e) {
-                                            Log.d(TAG, e.getLocalizedMessage());
+                                        } catch (IndexOutOfBoundsException  | NullPointerException e) {
                                             answer = getString(R.string.error_occurred_try_again);
                                             isHavingLink = false;
                                         }
@@ -1128,6 +1164,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isWebSearch, boolean isSearchReult, List<Datum> datumList) {
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
@@ -1177,7 +1215,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(answer.contains("Calling")){
             String splits[]=answer.split(" ");
-            startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", splits[1], null)));
+            mSearchString = splits[1];
+
+            getSupportLoaderManager().initLoader(0, null, this);
         }
 
         if(answer.equals(getString(R.string.set_alarm))){
@@ -1233,6 +1273,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+        getSupportLoaderManager().restartLoader(0, null, this);
     }
 
     private void updateDatabase(final long id, final String message, final String date,
@@ -1629,6 +1670,78 @@ public class MainActivity extends AppCompatActivity {
     public void scrollToEnd(View view) {
         rvChatFeed.smoothScrollToPosition(rvChatFeed.getAdapter().getItemCount() - 1);
     }
+
+
+
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        /*
+         * Makes search string into pattern and
+         * stores it in the selection array
+         */
+
+        String[] mSelectionArgs = { mSearchString};
+        mSelectionArgs[0] = "%" + mSearchString + "%";
+        // Starts the query
+        return new CursorLoader(
+                this,
+                ContactsContract.Contacts.CONTENT_URI,
+                PROJECTION,
+                SELECTION,
+                mSelectionArgs,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        ArrayList<String> myList = new ArrayList<>();
+        mCursor = data;
+        data.moveToFirst();
+        for (;!data.isAfterLast();data.moveToNext()){
+            myList.add(data.getString(DISPLAY_NAME_INDEX));
+        }
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+       final AlertDialog dialog =  builder.setTitle(R.string.title_dialog_contacts)
+        .setItems( myList.toArray(new CharSequence[myList.size()]), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mCursor.moveToPosition(which);
+                long contactId = mCursor.getLong(CONTACT_ID_INDEX);
+                String contactKey = mCursor.getString(LOOKUP_KEY_INDEX);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(ContactsContract.Contacts.getLookupUri(contactId, contactKey));
+                startActivity(intent);
+
+
+            }
+        }).create();
+        dialog.show();
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    finish();
+                    dialog.dismiss();
+                }
+                return true;
+            }
+        });
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+        mCursor = null;
+    }
+
 
     private class computeThread extends Thread {
         public void run() {
