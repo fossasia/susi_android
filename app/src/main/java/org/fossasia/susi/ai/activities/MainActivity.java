@@ -166,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private int count = 0;
     private static final String[] id = new String[1];
 
+
     // The string to be searched for
     private String mSearchString ;
     private Cursor mCursor;
@@ -194,7 +195,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                     ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " LIKE ?" :
                     ContactsContract.Contacts.DISPLAY_NAME + " LIKE ?";
-
 
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
@@ -1670,6 +1670,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void scrollToEnd(View view) {
         rvChatFeed.smoothScrollToPosition(rvChatFeed.getAdapter().getItemCount() - 1);
     }
+
 
 
 
