@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -65,7 +66,6 @@ import org.fossasia.susi.ai.rest.WebSearchApi;
 import org.fossasia.susi.ai.rest.WebSearchClient;
 import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.WebSearch;
-
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -569,12 +569,17 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                                if (linkurl != null) {
                                    websearchholder.onClick(view);
-                                   Uri webpage = Uri.parse(linkurl);
 
-                                   Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                                   if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                                       currContext.startActivity(intent);
-                                   }
+                                   CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                                   intentBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                                   intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.colorAccent));
+
+                                   intentBuilder.setExitAnimations(context, android.R.anim.slide_in_left,
+                                           android.R.anim.slide_out_right);
+                                   CustomTabsIntent customTabsIntent = intentBuilder.build();
+                                   customTabsIntent.launchUrl(context,  Uri.parse(linkurl));
+//
                                }
                            }
                        });
@@ -652,10 +657,15 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                        websearchholder.onClick(view);
                        Uri webpage = Uri.parse(model.getWebSearch().getUrl());
 
-                       Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                       if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                           currContext.startActivity(intent);
-                       }
+                       CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                       intentBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                       intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.colorAccent));
+
+                       intentBuilder.setExitAnimations(context, android.R.anim.slide_in_left,
+                               android.R.anim.slide_out_right);
+                       CustomTabsIntent customTabsIntent = intentBuilder.build();
+                       customTabsIntent.launchUrl(context,  Uri.parse(model.getWebSearch().getUrl()));
                    }
                }
            });
@@ -743,10 +753,19 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         public void onClick(View view) {
                             linkPreviewViewHolder.onClick(view);
                             Uri webpage = Uri.parse(sourceContent.getFinalUrl());
-                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                            if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                                currContext.startActivity(intent);
-                            }
+
+
+                            CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                            intentBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                            intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.colorAccent));
+
+                            intentBuilder.setExitAnimations(context, android.R.anim.slide_in_left,
+                                    android.R.anim.slide_out_right);
+                            CustomTabsIntent customTabsIntent = intentBuilder.build();
+                            customTabsIntent.launchUrl(context, webpage);
+
+
                         }
                     });
 
