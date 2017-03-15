@@ -24,22 +24,26 @@
 
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="@string/action_settings"
         app:showAsAction="never" />
     <item
-        android:id="@+id/wall_settings"
+        android:title="@string/important_messages"
         android:orderInCategory="100"
+        android:id="@+id/action_important" />
+    <item
+        android:id="@+id/wall_settings"
+        android:orderInCategory="101"
         android:title="@string/action_wall_settings"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_share"
-        android:orderInCategory="101"
+        android:orderInCategory="102"
         android:title="@string/action_share"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_logout"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="@string/action_log_out"
         app:showAsAction="never" />
 </menu>

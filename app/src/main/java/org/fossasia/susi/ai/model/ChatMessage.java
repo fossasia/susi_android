@@ -18,7 +18,7 @@ public class ChatMessage extends RealmObject {
     private WebLink webLinkData;
     private WebSearchModel webSearch;
 
-    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate;
+    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate, isImportant;
 
     public ChatMessage() {
         datumRealmList = new RealmList<>();
@@ -38,6 +38,26 @@ public class ChatMessage extends RealmObject {
         this.isHavingLink = isHavingLink;
         this.datumRealmList = datumRealmList;
         this.isPieChart = isPieChart;
+        this.isSearchResult = isSearchResult;
+        this.webLinkData = null;
+        this.webSearch = null;
+    }
+
+    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isImportant, String timeStamp, RealmList<Datum> datumRealmList) {
+        this.id = id;
+        this.isWebSearch = isWebSearch;
+        this.isImage = isImage;
+        this.des = des;
+        this.isMine = isMine;
+        this.content = content;
+        this.date = date;
+        this.isDate = isDate;
+        this.timeStamp = timeStamp;
+        this.isMap = isMap;
+        this.isHavingLink = isHavingLink;
+        this.datumRealmList = datumRealmList;
+        this.isPieChart = isPieChart;
+        this.isImportant=isImportant;
         this.isSearchResult = isSearchResult;
         this.webLinkData = null;
         this.webSearch = null;
@@ -152,6 +172,16 @@ public class ChatMessage extends RealmObject {
     public void setIsPieChart(boolean isPieChart){ this.isPieChart = isPieChart; }
 
     public boolean isPieChart() { return isPieChart; }
+
+    public void setIsMarkedImportant(boolean isImportant)
+    {
+        this.isImportant=isImportant;
+    }
+
+    public boolean getIsImportant()
+    {
+        return isImportant;
+    }
 
     public boolean getIsDelivered() { return isDelivered; }
 

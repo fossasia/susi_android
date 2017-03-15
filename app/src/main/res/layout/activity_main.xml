@@ -66,8 +66,7 @@
                     android:hint="@string/send_msg_hint"
                     android:imeOptions="actionSend"
                     android:inputType="text"
-                    android:theme="@style/sendMessageEditTextTheme"
-                    android:scrollbars="vertical"/>
+                    android:theme="@style/sendMessageEditTextTheme"/>
             </android.support.v7.widget.CardView>
 
             <android.support.design.widget.FloatingActionButton
