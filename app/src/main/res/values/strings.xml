@@ -119,6 +119,17 @@
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
+    <string name="share_app">Share App</string>
+    <string name="invite_via_facebook">Invite Via Facebook</string>
+    <string name="facebook_app_id">1593478930666981</string>
+    <string name="share_fb_preview_url">https://lh3.googleusercontent.com/pgRDUR4Iisdal6NF9mN3LbKTfL-FD59EjwkcZeA8eLPuc-8U7ZDVNcwBghfk98_BLQ=w300-rw</string>
+    <string name="facebook">Facebook</string>
+    <string name="invite_title">FOSSASIA AskSusi</string>
+    <string name="invite_content_description">Susi is your personal assistant using open data as a basis. It is fully customizable and developed by a community of developers.</string>
+
+    <!--Branch integration strings-->
+    <string name="branch_key_live">key_live_natycmLsT5pvLMlEs2zrOhmeqFi1rUrl</string>
+    <string name="branch_key_debug">key_test_bcrApbQzM2iqKKfxE4rVOigoxDhWxQsB</string>
 </resources>
 
 
