@@ -7,6 +7,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.RadioButton;
 
 import org.fossasia.susi.ai.activities.LoginActivity;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -61,8 +63,12 @@ public class TestLoginActivity {
         // checks if login button is present
         onView(withId(R.id.log_in)).check(matches(isDisplayed()));
 
+        // checks if radio buttons are present
+        onView(withId(R.id.susi_default)).check(matches(isDisplayed()));
+        onView(withId(R.id.personal_server)).check(matches(isDisplayed()));
 
         // checks if sign up button is present
+        onView(withId(R.id.sign_up)).perform(scrollTo());
         onView(withId(R.id.sign_up)).check(matches(isDisplayed()));
 
     }
@@ -83,6 +89,13 @@ public class TestLoginActivity {
         getInstrumentation().runOnMainSync(new Runnable() {
             public void run() {
                 passInput.setText("qwertY12");
+            }
+        });
+
+        final RadioButton susiServer = (RadioButton) ((RadioButton) mActivityRule.getActivity().findViewById(R.id.susi_default));
+        getInstrumentation().runOnMainSync(new Runnable() {
+            public void run() {
+                susiServer.setChecked(true);
             }
         });
 

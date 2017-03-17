@@ -7,6 +7,9 @@
     <string name="action_share">Share</string>
     <string name="action_log_out">Log out</string>
     <string name="settings_title">Chat Settings</string>
+    <string name="server_settings_title">Server Settings</string>
+    <string name="server_pref">Select Server</string>
+    <string name="server_select_summary">Select backend server for the app.</string>
     <string name="search">Search</string>
     <string name="select_background">Select background</string>
     <string name="background_no_wall">no_wall</string>

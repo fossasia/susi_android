@@ -15,88 +15,128 @@
         android:contentDescription="@string/activity_login_imageview_description"
         android:src="@drawable/susi" />
 
-    <LinearLayout
-        android:id="@+id/activity_login"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".5"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:weightSum="1"
-        tools:context="org.fossasia.susi.ai.activities.LoginActivity">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/email"
+        <LinearLayout
+            android:id="@+id/activity_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:errorEnabled="true">
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:weightSum="1"
+            tools:context="org.fossasia.susi.ai.activities.LoginActivity">
 
-            <android.support.design.widget.TextInputEditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/edit_text_login_screen"
-                android:textColorHint="@color/edit_text_login_screen" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="8dp"
+                app:errorEnabled="true">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:errorEnabled="true">
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/edit_text_login_screen"
+                    android:textColorHint="@color/edit_text_login_screen" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/password_input"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:imeOptions="actionGo"
-                android:inputType="textPassword"
-                android:textColor="@color/edit_text_login_screen"
-                android:textColorHint="@color/edit_text_login_screen" />
-        </android.support.design.widget.TextInputLayout>
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:imeOptions="actionGo"
+                    android:inputType="textPassword"
+                    android:textColor="@color/edit_text_login_screen"
+                    android:textColorHint="@color/edit_text_login_screen" />
+            </android.support.design.widget.TextInputLayout>
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/susi_default"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:checked="true"
+                    android:text="Susi AI Standard Server" />
+
+                <RadioButton
+                    android:id="@+id/personal_server"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Personal Server" />
+            </RadioGroup>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:errorEnabled="true">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter URL"
+                    android:inputType="textUri"
+                    android:textColor="@color/edit_text_login_screen"
+                    android:textColorHint="@color/edit_text_login_screen" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/log_in"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="12dp"
+                android:text="@string/activity_login_log_in"
+                android:textColor="@color/colorPrimary" />
 
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/log_in"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="12dp"
-            android:text="@string/activity_login_log_in"
-            android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="?selectableItemBackground"
+                android:text="@string/activity_login_forgot_pass"
+                android:textColor="@color/md_grey_400"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:typeface="monospace" />
 
+            <TextView
+                android:id="@+id/sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20sp"
+                android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/activity_login_sign_up"
+                android:textColor="@color/md_grey_400"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/activity_login_forgot_pass"
-            android:textColor="@color/md_grey_400"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20sp"
-            android:background="?selectableItemBackground"
-            android:gravity="center"
-            android:text="@string/activity_login_sign_up"
-            android:textColor="@color/md_grey_400"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

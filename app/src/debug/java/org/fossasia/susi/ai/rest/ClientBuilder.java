@@ -41,12 +41,16 @@ public class ClientBuilder {
         httpClient.addInterceptor(new TokenInterceptor());
         httpClient.addInterceptor(logging);
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(PrefManager.getSusiRunningBaseUrl())
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-                .build();
-        init();
+        try {
+            retrofit = new Retrofit.Builder()
+                    .baseUrl(PrefManager.getSusiRunningBaseUrl())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(httpClient.build())
+                    .build();
+            init();
+        } catch (IllegalArgumentException e ){
+            e.printStackTrace();
+        }
     }
 
     public SusiService getSusiApi() {
