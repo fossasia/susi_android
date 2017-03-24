@@ -18,7 +18,7 @@ public class ChatMessage extends RealmObject {
     private WebLink webLinkData;
     private WebSearchModel webSearch;
 
-    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate;
+    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate, isImportant;
 
     public ChatMessage() {
         datumRealmList = new RealmList<>();
@@ -163,5 +163,15 @@ public class ChatMessage extends RealmObject {
 
     public void setSearchResult(boolean searchResult) {
         isSearchResult = searchResult;
+    }
+
+    public void setIsImportant(boolean isImportant)
+    {
+        this.isImportant = isImportant;
+    }
+
+    public boolean isImportant()
+    {
+        return isImportant;
     }
 }
