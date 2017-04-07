@@ -73,6 +73,8 @@ public class ImportantMessages extends AppCompatActivity {
         TextView tv_msg = (TextView) findViewById(R.id.tv_empty_list);
         if(importantMessages.size()!=0)
             tv_msg.setVisibility(View.INVISIBLE);
+        else
+            tv_msg.setVisibility(View.VISIBLE);
         ChatFeedRecyclerAdapter recyclerAdapter = new ChatFeedRecyclerAdapter(Glide.with(this), this, importantMessages, true);
         rvChatImportant.setAdapter(recyclerAdapter);
         rvChatImportant.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {

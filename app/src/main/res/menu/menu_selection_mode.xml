@@ -22,4 +22,9 @@
         android:icon="@drawable/ic_star_white_24dp"
         android:title="@string/action_important" />
 
+    <item android:id="@+id/menu_item_unimportant"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_star_off_white_24dp"
+        android:title="@string/action_unimportant" />
+
 </menu>

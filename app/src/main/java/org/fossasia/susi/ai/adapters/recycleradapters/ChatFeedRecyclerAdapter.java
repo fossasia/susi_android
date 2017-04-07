@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -45,6 +46,7 @@ import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.activities.ImportantMessages;
 import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
@@ -880,6 +882,17 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         });
     }
 
+    private void markUnimportant(final int position) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                ChatMessage chatMessage = getItem(position);
+                chatMessage.setIsImportant(false);
+                realm.copyToRealmOrUpdate(chatMessage);
+            }
+        });
+    }
+
     private void removeDates(){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -956,6 +969,17 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
+
+            MenuItem important = menu.findItem(R.id.menu_item_important);
+            MenuItem unimportant = menu.findItem(R.id.menu_item_unimportant);
+
+            if(currContext instanceof ImportantMessages){
+                important.setVisible(false);
+                unimportant.setVisible(true);
+            } else {
+                important.setVisible(true);
+                unimportant.setVisible(false);
+            }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 statusBarColor = currActivity.getWindow().getStatusBarColor();
@@ -1120,7 +1144,11 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         for (int i = nSelected - 1; i >= 0; i--) {
                             markImportant(getSelectedItems().get(i));
                         }
-                        Toast.makeText(context,nSelected+" messages marked important",Toast.LENGTH_SHORT).show();
+                        if(nSelected == 1) {
+                            Toast.makeText(context,nSelected+" message marked important",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, nSelected + " messages marked important", Toast.LENGTH_SHORT).show();
+                        }
                         important = realm.where(ChatMessage.class).equalTo("isImportant", true).findAll().sort("id");
                         for(int i=0;i<important.size();++i)
                             Log.i("message ",""+important.get(i).getContent());
@@ -1129,6 +1157,25 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     }
                     return true;
 
+                case R.id.menu_item_unimportant:
+                    nSelected = getSelectedItems().size();
+                    if (nSelected >0) {
+                        for (int i = nSelected - 1; i >= 0; i--) {
+                            markUnimportant(getSelectedItems().get(i));
+                        }
+                        if(nSelected == 1){
+                            Toast.makeText(context,nSelected+" message marked unimportant",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, nSelected + " messages marked unimportant", Toast.LENGTH_SHORT).show();
+                        }
+                        important = realm.where(ChatMessage.class).equalTo("isImportant", true).findAll().sort("id");
+                        if(important.size() == 0) {
+                            TextView emptyList = (TextView) currActivity.findViewById(R.id.tv_empty_list);
+                            emptyList.setVisibility(View.VISIBLE);
+                        }
+                        actionMode.finish();
+                    }
+                    return true;
 
                 default:
                     return false;
