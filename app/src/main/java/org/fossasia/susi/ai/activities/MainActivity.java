@@ -1347,10 +1347,26 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 if (TextUtils.isEmpty(newText)) {
                     modifyMenu(false);
+                    recyclerAdapter.highlightMessagePosition = -1;
+                    recyclerAdapter.notifyDataSetChanged();
                 } else {
                     ChatMessage.setVisibility(View.GONE);
                     btnSpeak.setVisibility(View.GONE);
                     sendMessageLayout.setVisibility(View.GONE);
+                    results = realm.where(ChatMessage.class).contains(getString(R.string.content),
+                            newText, Case.INSENSITIVE).findAll();
+                    if(results.size() == 0){
+                        return false;
+                    }
+                    recyclerAdapter.query = newText;
+                    offset = 1;
+                    Log.d(TAG, String.valueOf(results.size()));
+                    modifyMenu(true);
+                    pointer = (int) results.get(results.size() - offset).getId();
+                    Log.d(TAG,
+                            results.get(results.size() - offset).getContent() + "  " +
+                                    results.get(results.size() - offset).getId());
+                    searchMovement(pointer);
                 }
                 return false;
             }
