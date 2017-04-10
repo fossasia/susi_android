@@ -12,7 +12,7 @@ First steps are to implement the basic chat functionalities of Susi.
 
 ## Android App Development Set up
 
-Please find info about the set up of the Android app in your development environment [here](https://github.com/fossasia/susi_android/tree/master/docs/Android_App_Setup.md).
+Please find info about the set up of the Android app in your development environment [here](docs/Android_App_Setup.md).
 
 ## Communication
 
@@ -37,7 +37,7 @@ We have the following branches
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
 
 
-##For Developers: Adding Fabric API KEY
+## For Developers: Adding Fabric API KEY
 1. Go to AndroidFest.xml
 Replace the fabric_api_key with the Real Fabric API Key
 Add: <meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" /> 
@@ -69,4 +69,4 @@ Please help us follow the best practice to make it easy for the reviewer as well
 
 ## License
 
-This project is currently licensed under the Apache License Version 2.0. A copy of [LICENSE.md] (https://github.com/fossasia/susi_android/blob/master/LICENSE) should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
+This project is currently licensed under the Apache License Version 2.0. A copy of [LICENSE.md](https://github.com/fossasia/susi_android/blob/master/LICENSE) should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
