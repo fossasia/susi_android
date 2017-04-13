@@ -23,6 +23,7 @@ public interface SusiService {
                                        @Query("longitude") float longitude,
                                        @Query("latitude") float latitude,
                                        @Query("geosource") String geosource,
+                                       @Query("language") String language,
                                        @Query("q") String query);
 
     @POST("/aaa/signup.json")
@@ -36,8 +37,5 @@ public interface SusiService {
     @POST("/aaa/recoverpassword.json")
     Call<ForgotPasswordResponse> forgotPassword(@Query("forgotemail") String email);
 
-    @GET("/aaa/resetpassword.json")
-    Call<ResetPasswordResponse> resetPassword(@Query("token") String token,
-                                              @Query("newpass") String newpass);
 
 }
