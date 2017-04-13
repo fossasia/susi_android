@@ -820,7 +820,7 @@ public class MainActivity extends AppCompatActivity {
                 final float latitude = PrefManager.getFloat(Constant.LATITUDE, 0);
                 final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
                 final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
-                Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).request().url().toString());
+                Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, Locale.getDefault().getLanguage(), query).request().url().toString());
                 final String finalAnswer_call = answerCall;
                 final String finalgoogle_search = googleSearch;
                 final String finalSetAlarm = setAlarm;
@@ -836,7 +836,7 @@ public class MainActivity extends AppCompatActivity {
 
                 final String finalPlayVideo = playVideo;
                 final String finalSendMessage = sendMessage;
-                clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, query).enqueue(
+                clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, Locale.getDefault().getLanguage(), query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
