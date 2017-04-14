@@ -33,6 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|left"
                     android:autoLink="all"
+                    android:textColorLink="@color/link_text"
                     android:maxWidth="@dimen/message_layout_max_width"
                     android:paddingBottom="@dimen/message_textview_bottom_padding"
                     android:text="@string/hello_world"
