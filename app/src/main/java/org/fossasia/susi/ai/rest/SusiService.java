@@ -23,6 +23,7 @@ public interface SusiService {
                                        @Query("longitude") float longitude,
                                        @Query("latitude") float latitude,
                                        @Query("geosource") String geosource,
+                                       @Query("language") String language,
                                        @Query("q") String query);
 
     @POST("/aaa/signup.json")
