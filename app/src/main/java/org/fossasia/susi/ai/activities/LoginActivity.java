@@ -9,6 +9,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -18,6 +20,11 @@ import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.LoginResponse;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout password;
     @BindView(R.id.log_in)
     Button logIn;
+    private Set<String> savedEmails;
 
     
     @Override
@@ -42,7 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        AutoCompleteTextView autocompleteEmail = (AutoCompleteTextView)findViewById(R.id.email_input);
         Intent intent;
+        savedEmails = new HashSet<>();
+        if(PrefManager.getStringSet(Constant.SAVED_EMAILS)!=null) {
+            savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAILS));
+            List<String> listOfEmails = new ArrayList<>(savedEmails);
+            autocompleteEmail.setAdapter(new ArrayAdapter<>(this,
+                    android.R.layout.simple_list_item_1, listOfEmails));
+        }
         if (!PrefManager.hasTokenExpired()) {
             intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -98,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    //Save email for easy login.
+                    savedEmails.add(email.getEditText().getText().toString());
+                    PrefManager.putStringSet(Constant.SAVED_EMAILS, savedEmails);
                     //Save token and expiry date.
                     PrefManager.putString(Constant.ACCESS_TOKEN, response.body().getAccessToken());
                     long validity = System.currentTimeMillis() + response.body().getValidSeconds() * 1000;
