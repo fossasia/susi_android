@@ -911,7 +911,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     dateIndexFirst = dateIndexSecond;
                 }
 
-                if(dateIndexFirst == getData().size() - 1){
+                if(dateIndexFirst == getData().size() - 1 && getData().size()>0 ){
                     getData().deleteFromRealm(dateIndexFirst);
                 }
 
