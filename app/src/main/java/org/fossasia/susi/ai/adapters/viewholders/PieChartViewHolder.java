@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.adapters.viewholders;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ public class PieChartViewHolder extends MessageViewHolder {
     public PieChart pieChart;
     @BindView(R.id.timestamp)
     public TextView timeStamp;
+    @BindView(R.id.message_star)
+    public ImageView messageStar;
 
     public PieChartViewHolder(View view , ClickListener listener){
         super(view , listener);

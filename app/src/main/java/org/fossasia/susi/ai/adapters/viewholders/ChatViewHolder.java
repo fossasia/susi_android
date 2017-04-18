@@ -33,6 +33,8 @@ public class ChatViewHolder extends MessageViewHolder{
     public LinearLayout backgroundLayout;
     @Nullable @BindView(R.id.received_tick)
     public ImageView receivedTick;
+    @BindView(R.id.message_star)
+    public ImageView messageStar;
 
     public ChatViewHolder(View view, ClickListener clickListener ,int myMessage) {
         super(view,clickListener);
