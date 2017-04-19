@@ -249,7 +249,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, clickListener, USER_MESSAGE);
         }
-
     }
 
     @Override
@@ -452,21 +451,36 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 mapViewHolder.mapImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mapViewHolder.onClick(v);
                         /*
                           Open in Google Maps if installed, otherwise open browser.
                         */
-
-                        if (AndroidHelper.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
-                            Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", mapHelper.getLatitude(), mapHelper.getLongitude(), mapHelper.getZoom()));
-                            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                            mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
+                        if(selectedItems.size() == 0) {
+                            Intent mapIntent;
+                            if (AndroidHelper.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
+                                Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", mapHelper.getLatitude(), mapHelper.getLongitude(), mapHelper.getZoom()));
+                                mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
+                            } else {
+                                mapIntent = new Intent(Intent.ACTION_VIEW);
+                                mapIntent.setData(Uri.parse(mapHelper.getWebLink()));
+                            }
                             currContext.startActivity(mapIntent);
                         } else {
-                            Intent mapIntent = new Intent(Intent.ACTION_VIEW);
-                            mapIntent.setData(Uri.parse(mapHelper.getWebLink()));
-                            currContext.startActivity(mapIntent);
+                            toggleSelectedItem(position);
                         }
+                    }
+                });
+
+                mapViewHolder.mapImage.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        if (actionMode == null) {
+                            actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                        }
+
+                        toggleSelectedItem(position);
+
+                        return true;
                     }
                 });
 
@@ -489,7 +503,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
-
     private void handleItemEvents(final WebSearchHolder websearchholder, final int position)  {
 
         websearchholder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
@@ -498,33 +511,24 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if(webquery!= null)
             web = webquery.trim().replace(" ", "+");
 
-
         final ChatMessage model = getData().get(position);
         websearchholder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
         websearchholder.text.setText(model.getContent());
         websearchholder.timestampTextView.setText(model.getTimeStamp());
 
-
-
         if(model.getWebSearch()==null) {
-
-
             websearchholder.descriptionTextView.setVisibility(View.GONE);
             websearchholder.titleTextView.setVisibility(View.GONE);
             websearchholder.previewImageView.setVisibility(View.GONE);
 
             final WebSearchClient apiService = WebSearchApi.getClient().create(WebSearchClient.class);
 
-
             Call<WebSearch> call = apiService.getresult(web);
-
 
             call.enqueue(new Callback<WebSearch>() {
                 @Override
                 public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
                     Log.e(TAG, response.toString());
-
-
 
                     if (response.body() != null && response.body().getRelatedTopics().size() != 0) {
 
@@ -534,7 +538,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         title = response.body().getHeading();
                         url = response.body().getRelatedTopics().get(0).getIcon().getUrl();
                         linkurl = response.body().getRelatedTopics().get(0).getDes();
-
 
                         websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
                         websearchholder.titleTextView.setVisibility(View.VISIBLE);
@@ -556,7 +559,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             webSearch.setImageURL(url);
                         }
 
-
                         if (url != null) {
 
                             websearchholder.previewImageView.setVisibility(View.VISIBLE);
@@ -571,20 +573,35 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                         }
 
-
                         websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                if(selectedItems.size() == 0) {
+                                    if (linkurl != null) {
+                                        websearchholder.onClick(view);
+                                        Uri webpage = Uri.parse(linkurl);
 
-                                if (linkurl != null) {
-                                    websearchholder.onClick(view);
-                                    Uri webpage = Uri.parse(linkurl);
-
-                                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                                    if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                                        currContext.startActivity(intent);
+                                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                                        if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                                            currContext.startActivity(intent);
+                                        }
                                     }
+                                } else {
+                                    toggleSelectedItem(position);
                                 }
+                            }
+                        });
+
+                        websearchholder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                if (actionMode == null) {
+                                    actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                                }
+
+                                toggleSelectedItem(position);
+
+                                return true;
                             }
                         });
 
@@ -592,10 +609,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         realm.copyToRealmOrUpdate(model);
                         realm.commitTransaction();
 
-
-
                     } else {
-
                         websearchholder.previewImageView.setVisibility(View.GONE);
                         websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
                         websearchholder.titleTextView.setVisibility(View.VISIBLE);
@@ -607,19 +621,21 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         Realm realm = Realm.getDefaultInstance();
                         final WebSearchModel webSearchnull = realm.createObject(WebSearchModel.class);
 
-
                         webSearchnull.setHeadline(context.getString(R.string.websearchnull));
                         webSearchnull.setBody(context.getString(R.string.websearchnull));
                         webSearchnull.setUrl(null);
 
+                        websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                toggleSelectedItem(position);
+                            }
+                        });
+
                         model.setWebSearch(webSearchnull);
                         realm.copyToRealmOrUpdate(model);
                         realm.commitTransaction();
-
-
                     }
-
-
                 }
 
                 @Override
@@ -629,11 +645,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             });
 
-
-
-
         }else {
-
             websearchholder.descriptionTextView.setText(model.getWebSearch().getBody());
             websearchholder.titleTextView.setText(model.getWebSearch().getHeadline());
 
@@ -652,27 +664,37 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 websearchholder.previewImageView.setVisibility(View.GONE);
             }
 
-
             websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (selectedItems.size() == 0) {
+                        if (model.getWebSearch() != null && model.getWebSearch().getUrl() != null) {
+                            Uri webpage = Uri.parse(model.getWebSearch().getUrl());
 
-                    if (model.getWebSearch() != null && model.getWebSearch().getUrl() != null) {
-                        websearchholder.onClick(view);
-                        Uri webpage = Uri.parse(model.getWebSearch().getUrl());
-
-                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                        if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                            currContext.startActivity(intent);
+                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                            if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                                currContext.startActivity(intent);
+                            }
                         }
+                    } else {
+                        toggleSelectedItem(position);
                     }
                 }
             });
 
+            websearchholder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (actionMode == null) {
+                        actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                    }
 
+                    toggleSelectedItem(position);
+
+                    return true;
+                }
+            });
         }
-
-
 
         if (highlightMessagePosition == position) {
             String text = websearchholder.descriptionTextView.getText().toString();
@@ -686,15 +708,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             }
             websearchholder.descriptionTextView.setText(modify);
         }
-
-
     }
 
-
-
-
     private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
-
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
         linkPreviewViewHolder.text.setText(model.getContent());
@@ -702,7 +718,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         if (model.getWebLinkData() == null) {
-
             LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
                 @Override
                 public void onPre() {
@@ -714,7 +729,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                 @Override
                 public void onPos(final SourceContent sourceContent, boolean b) {
-
                     realm.beginTransaction();
                     Realm realm = Realm.getDefaultInstance();
                     WebLink link = realm.createObject(WebLink.class);
@@ -725,7 +739,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
                     linkPreviewViewHolder.titleTextView.setText(sourceContent.getTitle());
                     linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
-
 
                     link.setBody(sourceContent.getDescription());
                     link.setHeadline(sourceContent.getTitle());
@@ -745,20 +758,57 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            linkPreviewViewHolder.onClick(view);
-                            Uri webpage = Uri.parse(sourceContent.getFinalUrl());
-                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                            if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                                currContext.startActivity(intent);
+                            if(selectedItems.size() == 0) {
+                                Uri webpage = Uri.parse(sourceContent.getFinalUrl());
+                                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                                if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                                    currContext.startActivity(intent);
+                                }
+                            } else {
+                                toggleSelectedItem(position);
                             }
                         }
                     });
+
+                    linkPreviewViewHolder.text.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if(selectedItems.size() != 0)
+                                toggleSelectedItem(position);
+                        }
+                    });
+
+                    linkPreviewViewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            if (actionMode == null) {
+                                actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                            }
+
+                            toggleSelectedItem(position);
+
+                            return true;
+                        }
+                    });
+
+                    linkPreviewViewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
+                        @Override
+                        public boolean onLongClick(View view) {
+                            if (actionMode == null) {
+                                actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                            }
+
+                            toggleSelectedItem(position);
+
+                            return true;
+                        }
+                    });
+
 
                     model.setWebLinkData(link);
                     realm.copyToRealmOrUpdate(model);
                     realm.commitTransaction();
                 }
-
             };
 
             if (model != null) {
@@ -772,7 +822,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 textCrawler.makePreview(linkPreviewCallback, url);
             }
         } else {
-
             linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
             linkPreviewViewHolder.descriptionTextView.setText(model.getWebLinkData().getBody());
             Log.i(TAG, model.getWebLinkData().getImageURL());
@@ -783,6 +832,57 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             } else {
                 linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
             }
+
+            linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(selectedItems.size() == 0) {
+                        Uri webpage = Uri.parse(model.getWebLinkData().getUrl());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                            currContext.startActivity(intent);
+                        }
+                    } else {
+                        toggleSelectedItem(position);
+                    }
+                }
+            });
+
+            linkPreviewViewHolder.text.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(selectedItems.size() != 0)
+                        toggleSelectedItem(position);
+                }
+            });
+
+            linkPreviewViewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (actionMode == null) {
+                        actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                    }
+
+                    toggleSelectedItem(position);
+
+                    return true;
+                }
+            });
+
+            linkPreviewViewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (actionMode == null) {
+                        actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                    }
+
+                    toggleSelectedItem(position);
+
+                    return true;
+                }
+            });
+
         }
 
         if (highlightMessagePosition == position) {
@@ -921,10 +1021,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 if(dateIndexFirst == getData().size() - 1 && getData().size()>0 ){
                     getData().deleteFromRealm(dateIndexFirst);
                 }
-
             }
         });
-
     }
 
     private void scrollToBottom() {
@@ -939,7 +1037,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         int count = getSelectedItemCount();
 
         Log.d(TAG, position + " " + isSelected(position));
-        selectedItems.put(position, isSelected(position));
+        if(isSelected(position))
+            selectedItems.put(position, isSelected(position));
+        else
+            selectedItems.delete(position);
 
         if (count == 0) {
             actionMode.finish();
@@ -1034,10 +1135,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                     }
                                 });
 
-                    }
-
-                    else {
-
+                    } else {
                         d.setMessage("Delete " + getSelectedItems().size() + " messages?").
                                 setCancelable(false).
                                 setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -1065,7 +1163,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                     }
 
-
                     AlertDialog alert = d.create();
                     alert.show();
                     Button cancel = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
@@ -1073,7 +1170,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     Button delete = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                     delete.setTextColor(Color.RED);
                     return true;
-
 
                 case R.id.menu_item_copy:
                     nSelected = getSelectedItems().size();
@@ -1119,7 +1215,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     actionMode.finish();
                     return true;
 
-
                 case R.id.menu_item_share:
                     nSelected = getSelectedItems().size();
                     if (nSelected == 1) {
@@ -1142,7 +1237,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                     actionMode.finish();
                     return true;
-
 
                 case R.id.menu_item_important:
                     nSelected = getSelectedItems().size();
@@ -1192,6 +1286,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         @Override
         public void onDestroyActionMode(ActionMode mode) {
             clearSelection();
+            selectedItems.clear();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 currActivity.getWindow().setStatusBarColor(statusBarColor);
             }

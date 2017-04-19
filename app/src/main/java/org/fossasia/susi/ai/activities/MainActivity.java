@@ -1398,6 +1398,7 @@ public class MainActivity extends AppCompatActivity {
             recyclerAdapter.highlightMessagePosition = -1;
             recyclerAdapter.notifyDataSetChanged();
             searchView.onActionViewCollapsed();
+            recyclerAdapter.clearSelection();
             offset = 1;
             return;
         }
