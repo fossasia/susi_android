@@ -25,6 +25,8 @@ public class MapViewHolder extends MessageViewHolder {
     public  ImageView pointer;
     @BindView(R.id.background_layout)
     public LinearLayout backgroundLayout;
+    @BindView(R.id.message_star)
+    public ImageView messageStar;
 
     public MapViewHolder(View itemView , ClickListener listener) {
         super(itemView , listener);

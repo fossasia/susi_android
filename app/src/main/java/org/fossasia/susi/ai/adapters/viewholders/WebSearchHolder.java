@@ -34,6 +34,8 @@ public class WebSearchHolder extends MessageViewHolder{
     @Nullable
     @BindView(R.id.received_tick)
     public ImageView receivedTick;
+    @BindView(R.id.message_star)
+    public ImageView messageStar;
 
     public WebSearchHolder(View itemView , MessageViewHolder.ClickListener listener) {
         super(itemView, listener);

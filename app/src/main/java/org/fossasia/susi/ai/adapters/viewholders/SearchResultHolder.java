@@ -30,6 +30,8 @@ public class SearchResultHolder extends RecyclerView.ViewHolder {
     public TextView descriptionTextView;
     @BindView(R.id.preview_layout)
     public LinearLayout previewLayout;
+    @BindView(R.id.message_star)
+    public ImageView messageStar;
 
     public SearchResultHolder(View itemView) {
         super(itemView);

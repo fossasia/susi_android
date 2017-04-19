@@ -335,6 +335,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(SearchResultsHolder searchResultsHolder, int position) {
         final ChatMessage model = getData().get(position);
         if (model != null) {
+            searchResultsHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
             searchResultsHolder.message.setText(model.getContent());
             LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
                     LinearLayoutManager.HORIZONTAL, false);
@@ -358,6 +359,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             try {
                 switch (getItemViewType(position)) {
                     case USER_MESSAGE:
+                        chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         if(model.getIsDelivered())
@@ -383,6 +385,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         chatViewHolder.receivedTick.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
+                        chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
@@ -420,6 +423,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(model.getContent());
+                mapViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                 mapViewHolder.text.setText(mapHelper.getDisplayText());
                 mapViewHolder.timestampTextView.setText(model.getTimeStamp());
 
@@ -496,6 +500,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
 
         final ChatMessage model = getData().get(position);
+        websearchholder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
         websearchholder.text.setText(model.getContent());
         websearchholder.timestampTextView.setText(model.getTimeStamp());
 
@@ -691,6 +696,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
 
         final ChatMessage model = getData().get(position);
+        linkPreviewViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
         linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
@@ -805,6 +811,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (model != null) {
             try {
                 pieChartViewHolder.chatTextView.setText(model.getContent());
+                pieChartViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                 pieChartViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
                 pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
                 pieChartViewHolder.pieChart.setUsePercentValues(true);
