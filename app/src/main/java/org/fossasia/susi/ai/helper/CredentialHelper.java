@@ -7,6 +7,7 @@ import android.util.Patterns;
 
 import org.fossasia.susi.ai.R;
 
+import java.net.URL;
 import java.util.regex.Pattern;
 
 
@@ -48,6 +49,33 @@ public class CredentialHelper {
         } else {
             password.setError(null);
             return true;
+        }
+    }
+
+    public static boolean isURLValid(TextInputLayout url, Context context) {
+        if (url.getEditText() == null)
+            throw new IllegalArgumentException("No Edittext hosted!");
+        if (!Patterns.WEB_URL.matcher(url.getEditText().getText().toString()).matches()) {
+            url.setError("Invalid URL");
+            return false;
+        } else {
+            url.setError(null);
+            return true;
+        }
+    }
+
+    public static String getValidURL(TextInputLayout url, Context context) {
+        try {
+            if (url.getEditText().getText().toString().trim().substring(0, 7).equals("http://") || url.getEditText().getText().toString().trim().substring(0, 8).equals("https://")) {
+                URL susiURL = new URL(url.getEditText().getText().toString().trim());
+                return susiURL.getProtocol() + "://" + susiURL.getHost();
+            } else {
+                URL susiURL = new URL("http://" + url.getEditText().getText().toString().trim());
+                return susiURL.getProtocol() + "://" + susiURL.getHost();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

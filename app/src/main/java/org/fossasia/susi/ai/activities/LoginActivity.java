@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
@@ -18,6 +20,8 @@ import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.LoginResponse;
+
+import java.net.UnknownHostException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,8 +39,14 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout password;
     @BindView(R.id.log_in)
     Button logIn;
+    @BindView(R.id.susi_default)
+    protected RadioButton susiServer;
+    @BindView(R.id.personal_server)
+    protected RadioButton personalServer;
+    @BindView(R.id.input_url)
+    protected TextInputLayout url;
 
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +61,24 @@ public class LoginActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
             password.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[1].toString());
-
+            if(savedInstanceState.getBoolean("server")) {
+                url.setVisibility(View.VISIBLE);
+            } else {
+                url.setVisibility(View.GONE);
+            }
         }
     }
-    
+
+    @OnClick(R.id.personal_server)
+    public void showURL() {
+        url.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.susi_default)
+    public void hideURL() {
+        url.setVisibility(View.GONE);
+    }
+
     @OnClick(R.id.sign_up)
     public void signUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
@@ -75,6 +99,21 @@ public class LoginActivity extends AppCompatActivity {
         if (!CredentialHelper.isEmailValid(email.getEditText().getText().toString())) {
             InvalidAcess();
             return;
+        }
+        if(personalServer.isChecked()) {
+            if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
+                if (CredentialHelper.getValidURL(url,this) != null) {
+                    PrefManager.putBoolean("is_susi_server_selected", false);
+                    PrefManager.putString("custom_server", CredentialHelper.getValidURL(url, this));
+                } else {
+                    url.setError("Invalid URL");
+                    return;
+                }
+            } else {
+                return;
+            }
+        } else{
+            PrefManager.putBoolean("is_susi_server_selected", true);
         }
         email.setError(null);
         
@@ -106,47 +145,68 @@ public class LoginActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
+                } else if(response.code() == 422) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setTitle(R.string.password_invalid_title);
+                        builder.setMessage(R.string.password_invalid)
+                                .setCancelable(false)
+                                .setPositiveButton("OK", null);
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                        pbutton.setTextColor(Color.BLUE);
                 } else {
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                    builder.setTitle(R.string.password_invalid_title);
-                    builder.setMessage(R.string.password_invalid)
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    return;
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    pbutton.setTextColor(Color.BLUE);
-
+                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                        builder.setTitle(response.code() + " Error");
+                        builder.setMessage(response.message())
+                                .setCancelable(false)
+                                .setPositiveButton("OK", null);
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                        pbutton.setTextColor(Color.BLUE);
                 }
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
-
 
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 t.printStackTrace();
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle(R.string.error_internet_connectivity);
-                builder.setMessage(R.string.no_internet_connection)
-                        .setCancelable(false)
-                        .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                return;
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                alert.show();
-                Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                ok.setTextColor(Color.RED);
-                logIn.setEnabled(true);
-                progressDialog.dismiss();
+                if( t instanceof UnknownHostException) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle("Unknown Host Exception");
+                    builder.setMessage(t.getMessage())
+                            .setCancelable(false)
+                            .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    ok.setTextColor(Color.RED);
+                    logIn.setEnabled(true);
+                    progressDialog.dismiss();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                    builder.setTitle(R.string.error_internet_connectivity);
+                    builder.setMessage(R.string.no_internet_connection)
+                            .setCancelable(false)
+                            .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    ok.setTextColor(Color.RED);
+                    logIn.setEnabled(true);
+                    progressDialog.dismiss();
+                }
             }});}
 
             public void InvalidAcess(){
@@ -176,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString() };
         outState.putCharSequenceArray("savedStates", values);
-
+        outState.putBoolean("server",personalServer.isChecked());
     }
 }
 
