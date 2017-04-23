@@ -121,6 +121,7 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Logging in...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
         final Call<LoginResponse> authResponseCall = new ClientBuilder().getSusiApi()
                 .login(email.getEditText().getText().toString().trim().toLowerCase(),
