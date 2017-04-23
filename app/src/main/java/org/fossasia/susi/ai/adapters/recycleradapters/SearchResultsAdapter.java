@@ -1,8 +1,9 @@
 package org.fossasia.susi.ai.adapters.recycleradapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -81,10 +82,15 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
                             @Override
                             public void onClick(View view) {
                                 Uri webpage = Uri.parse(sourceContent.getFinalUrl());
-                                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                                if (intent.resolveActivity(context.getPackageManager()) != null) {
-                                    context.startActivity(intent);
-                                }
+                                CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+
+                                intentBuilder.setToolbarColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                                intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.colorAccent));
+
+                                intentBuilder.setExitAnimations(context, android.R.anim.slide_in_left,
+                                        android.R.anim.slide_out_right);
+                                CustomTabsIntent customTabsIntent = intentBuilder.build();
+                                customTabsIntent.launchUrl(context, webpage); 
                             }
                         });
 
