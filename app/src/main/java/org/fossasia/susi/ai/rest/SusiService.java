@@ -37,8 +37,5 @@ public interface SusiService {
     @POST("/aaa/recoverpassword.json")
     Call<ForgotPasswordResponse> forgotPassword(@Query("forgotemail") String email);
 
-    @GET("/aaa/resetpassword.json")
-    Call<ResetPasswordResponse> resetPassword(@Query("token") String token,
-                                              @Query("newpass") String newpass);
 
 }
