@@ -4,6 +4,15 @@
     android:title="@string/settings_title">
 
     <PreferenceCategory
+        android:title="@string/server_settings_title">
+        <PreferenceScreen
+            android:title="@string/server_pref"
+            android:key="Server_Select"
+            android:summary="@string/server_select_summary">
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_title">
     <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
         android:id="@+id/enter_key_pref"

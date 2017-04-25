@@ -9,12 +9,17 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.CredentialHelper;
+import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.ForgotPasswordResponse;
+
+import java.net.UnknownHostException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +34,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected TextInputLayout email;
     @BindView(R.id.reset_button)
     protected Button resetButton;
+    @BindView(R.id.susi_default)
+    protected RadioButton susiServer;
+    @BindView(R.id.personal_server)
+    protected RadioButton personalServer;
+    @BindView(R.id.input_url)
+    protected TextInputLayout url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +50,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
+            if(savedInstanceState.getBoolean("server")) {
+                url.setVisibility(View.VISIBLE);
+            } else {
+                url.setVisibility(View.GONE);
+            }
         }
 
         if (getSupportActionBar() != null) {
@@ -55,6 +71,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @OnClick(R.id.personal_server)
+    public void showURL() {
+        url.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.susi_default)
+    public void hideURL() {
+        url.setVisibility(View.GONE);
+    }
+
     @OnClick(R.id.reset_button)
     public void signUp() {
         if (CredentialHelper.checkIfEmpty(email, this)) {
@@ -64,9 +90,25 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             email.setError(getString(R.string.email_invalid_title));
             return;
         }
+        if(personalServer.isChecked()) {
+            if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
+                if (CredentialHelper.getValidURL(url,this) != null) {
+                    PrefManager.putBoolean("is_susi_server_selected", false);
+                    PrefManager.putString("custom_server", CredentialHelper.getValidURL(url, this));
+                } else {
+                    url.setError("Invalid URL");
+                    return;
+                }
+            } else {
+                return;
+            }
+        } else{
+            PrefManager.putBoolean("is_susi_server_selected", true);
+        }
         email.setError(null);
         resetButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         final Call<ForgotPasswordResponse> forgotPasswordResponseCall = new ClientBuilder().getSusiApi()
@@ -96,7 +138,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     Button continueButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                     continueButton.setTextColor(Color.BLUE);
 
-                } else {
+                } else if(response.code() == 422) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
                     builder.setTitle(R.string.email_invalid_title);
                     builder.setMessage(R.string.email_invalid)
@@ -107,6 +149,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                     pbutton.setTextColor(Color.RED);
 
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
+                    builder.setTitle(response.code() + " Error");
+                    builder.setMessage(response.message())
+                            .setCancelable(false)
+                            .setPositiveButton("OK", null);
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    pbutton.setTextColor(Color.BLUE);
                 }
                 resetButton.setEnabled(true);
                 progressDialog.dismiss();
@@ -116,19 +168,31 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
                 t.printStackTrace();
-                AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
-                builder.setTitle(R.string.no_internet_connection);
-                builder.setMessage(R.string.error_internet_connectivity)
-                        .setCancelable(false)
-                        .setPositiveButton("Retry", null);
-
-                AlertDialog alert = builder.create();
-                alert.show();
-                Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                pbutton.setTextColor(Color.RED);
-
-                resetButton.setEnabled(true);
-                progressDialog.dismiss();
+                if( t instanceof UnknownHostException) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
+                    builder.setTitle("Unknown Host Exception");
+                    builder.setMessage(t.getMessage())
+                            .setCancelable(false)
+                            .setPositiveButton("RETRY", null);
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    ok.setTextColor(Color.RED);
+                    resetButton.setEnabled(true);
+                    progressDialog.dismiss();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
+                    builder.setTitle(R.string.error_internet_connectivity);
+                    builder.setMessage(R.string.no_internet_connection)
+                            .setCancelable(false)
+                            .setPositiveButton("RETRY", null);
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    ok.setTextColor(Color.RED);
+                    resetButton.setEnabled(true);
+                    progressDialog.dismiss();
+                }
             }
         });
     }
@@ -138,6 +202,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         CharSequence values[] = {email.getEditText().getText().toString()};
         outState.putCharSequenceArray("savedStates", values);
+        outState.putBoolean("server",personalServer.isChecked());
     }
 }
 
