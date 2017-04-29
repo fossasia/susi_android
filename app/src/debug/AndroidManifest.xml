@@ -23,7 +23,7 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/settings_title"
-            android:theme="@style/PreferenceFixTheme">
+            android:theme="@style/PreferencesTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.activities.MainActivity" />
