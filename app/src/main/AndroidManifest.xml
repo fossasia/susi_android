@@ -61,7 +61,8 @@
             android:value="fabric_api_key" />
         -->
 
-        <activity android:name=".activities.ImportantMessages"></activity>
+        <activity android:name=".activities.ImportantMessages" />
+
     </application>
 
 </manifest>

@@ -1,6 +1,9 @@
 package org.fossasia.susi.ai.activities;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,11 +31,13 @@ import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.RequiresApi;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
@@ -159,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
     private String reminder;
     private int count = 0;
     private static final String[] id = new String[1];
+    private NotificationManager notificationManager;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -840,7 +846,7 @@ public class MainActivity extends AppCompatActivity {
                         new Callback<SusiResponse>() {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
-                                                   Response<SusiResponse> response) {
+                                                   final Response<SusiResponse> response) {
                                 int code = response.code();
                                 if (code >= 200 && code < 300) {
                                     recyclerAdapter.showDots();
@@ -848,7 +854,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
-                                    int responseActionSize = response.body().getAnswers().get(0).getActions().size();
+                                    final int responseActionSize = response.body().getAnswers().get(0).getActions().size();
                                     for (int counter = 0; counter < responseActionSize; counter++) {
 
                                         try {
@@ -898,12 +904,28 @@ public class MainActivity extends AppCompatActivity {
                                         }
 
                                         realm.executeTransactionAsync(new Realm.Transaction() {
+                                            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
                                             @Override
                                             public void execute(Realm bgRealm) {
                                                 long prId = id;
                                                 try {
                                                     ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
                                                     chatMessage.setIsDelivered(true);
+                                                    //todo:generate the notification
+                                                    Notification.Builder builder = new Notification.Builder(getApplicationContext());
+                                                    builder.setContentTitle("SUSI");
+                                                    builder.setContentText("new messages!");
+                                                    builder.setSmallIcon(R.mipmap.ic_launcher);
+                                                    Intent notifyIntent = new Intent(MainActivity.this, MainActivity.class);
+                                                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 2, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                                                    builder.setContentIntent(pendingIntent);
+                                                    Notification notificationCompat = builder.build();
+                                                    NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
+                                                    managerCompat.notify(3, notificationCompat);
+                                                    /*if(responseActionSize>1)
+                                                    {
+
+                                                    }*/
                                                 } catch (Exception e) {
                                                     e.printStackTrace();
                                                 }
