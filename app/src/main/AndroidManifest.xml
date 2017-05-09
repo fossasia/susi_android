@@ -47,10 +47,6 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".activities.ChangePasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
             android:name=".helper.GetVideos"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <!--
