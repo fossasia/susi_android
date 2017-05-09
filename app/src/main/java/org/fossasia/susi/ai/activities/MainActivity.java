@@ -998,6 +998,7 @@ public class MainActivity extends AppCompatActivity {
                                         final String setMessage = answer;
                                         final int counterValue = counter;
                                         actionType = response.body().getAnswers().get(0).getActions().get(counter).getType();
+
                                         final Handler delayHandler = new Handler();
                                         delayHandler.postDelayed(new Runnable() {
                                             @Override
@@ -1029,14 +1030,10 @@ public class MainActivity extends AppCompatActivity {
                                                             e.printStackTrace();
                                                         }
                                                     }
-                                                }
-//                                                else if ("map".equals(actionType)) {
-//
-//                                               }
-//                                                else if ("websearch".equals(actionType)) {
-                                                //String query = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
-                                                //TODO: Implement web search result.
-//                                                }
+                                                } else if ("websearch".equals(actionType)) {
+                                                webSearch = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
+                                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
+                                               }
                                             }
                                         }, delay);
 

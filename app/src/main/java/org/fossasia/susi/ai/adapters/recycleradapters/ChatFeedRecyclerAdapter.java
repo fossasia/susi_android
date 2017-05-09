@@ -508,8 +508,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         websearchholder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         webquery = MainActivity.webSearch;
-        if(webquery!= null)
-            web = webquery.trim().replace(" ", "+");
 
         final ChatMessage model = getData().get(position);
         websearchholder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
@@ -523,7 +521,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             final WebSearchClient apiService = WebSearchApi.getClient().create(WebSearchClient.class);
 
-            Call<WebSearch> call = apiService.getresult(web);
+            Call<WebSearch> call = apiService.getresult(webquery);
 
             call.enqueue(new Callback<WebSearch>() {
                 @Override
