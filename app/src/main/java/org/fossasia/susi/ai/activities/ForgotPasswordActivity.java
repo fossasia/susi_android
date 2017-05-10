@@ -131,6 +131,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int id) {
                                     Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                     AlertDialog alert = builder.create();
