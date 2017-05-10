@@ -75,12 +75,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:checked="true"
+                    android:textColor="@color/edit_text_login_screen"
                     android:text="Susi AI Standard Server" />
 
                 <RadioButton
                     android:id="@+id/personal_server"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/edit_text_login_screen"
                     android:text="Personal Server" />
             </RadioGroup>
 
