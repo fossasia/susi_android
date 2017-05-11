@@ -853,7 +853,6 @@ public class MainActivity extends AppCompatActivity {
                                                  .get(0).getExpression();
                                         List<String> urlList = extractUrls(answer);
                                         Log.d(TAG, urlList.toString());
-                                        String setMessage = answer;
                                         isHavingLink = urlList != null;
                                         if (urlList.size() == 0) isHavingLink = false;
                                     } catch (Exception e ) {
@@ -894,6 +893,28 @@ public class MainActivity extends AppCompatActivity {
                                         webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
                                     } catch (Exception e) {
                                         isWebSearch = false;
+                                    }
+
+                                    //Check for table
+                                    try {
+                                        if( response.body().getAnswers().get(0).getActions().get(1).getType().equals("table") ) {
+                                            datumList = response.body().getAnswers().get(0).getData();
+                                            int count = 1;
+                                            answer += ":\n";
+                                            for( int i=0; i<datumList.size(); i++ ) {
+                                                try {
+                                                    String title = datumList.get(i).getTitle();
+                                                    if( title != null || !title.equals("")) {
+                                                        answer += count + ". " + title + "\n";
+                                                        count++;
+                                                    }
+                                                } catch (Exception e) {
+                                                    Log.d(TAG, e.getLocalizedMessage());;
+                                                }
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        Log.d(TAG, e.getLocalizedMessage());;
                                     }
 
                                     realm.executeTransactionAsync(new Realm.Transaction() {
