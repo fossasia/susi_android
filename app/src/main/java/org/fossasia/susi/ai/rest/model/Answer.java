@@ -1,4 +1,3 @@
-
 package org.fossasia.susi.ai.rest.model;
 
 import com.google.gson.annotations.Expose;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.RealmList;
-
 
 public class Answer {
 

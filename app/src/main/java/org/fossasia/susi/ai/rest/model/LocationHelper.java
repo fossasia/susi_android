@@ -82,7 +82,6 @@ public class LocationHelper extends Service implements LocationListener {
         if (location != null) {
             latitude = (float) location.getLatitude();
         }
-
         return latitude;
     }
 
@@ -127,5 +126,4 @@ public class LocationHelper extends Service implements LocationListener {
         // This method is intentionally empty
         return null;
     }
-
 }

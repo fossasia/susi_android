@@ -26,7 +26,6 @@ public class CredentialHelper {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
-
     public static boolean isPasswordValid(String password) {
         return PASSWORD_PATTERN.matcher(password).matches();
     }
@@ -90,6 +89,4 @@ public class CredentialHelper {
             return false;
         }
     }
-
-
 }

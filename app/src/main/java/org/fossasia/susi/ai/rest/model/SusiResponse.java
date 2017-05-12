@@ -1,4 +1,3 @@
-
 package org.fossasia.susi.ai.rest.model;
 
 import com.google.gson.annotations.Expose;

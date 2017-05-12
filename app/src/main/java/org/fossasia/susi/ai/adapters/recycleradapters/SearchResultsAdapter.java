@@ -60,7 +60,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
 
                     @Override
                     public void onPos(final SourceContent sourceContent, boolean b) {
-
                         holder.previewLayout.setVisibility(View.VISIBLE);
                         holder.previewImageView.setVisibility(View.VISIBLE);
                         holder.descriptionTextView.setVisibility(View.VISIBLE);
