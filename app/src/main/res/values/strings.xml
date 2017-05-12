@@ -124,6 +124,7 @@
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="action_important">Important Messages</string>
     <string name="action_unimportant">Unimportant Messages</string>
+    <string name="kws_caption">To start demonstration say \"oh mighty computer\".</string>
 </resources>
 
 
