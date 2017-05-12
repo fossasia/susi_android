@@ -25,7 +25,6 @@ public class SusiBaseUrls implements Parcelable {
         this.susiServices = susiServices;
     }
 
-
     @Override
     public int describeContents() {
         return 0;

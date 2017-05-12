@@ -16,7 +16,6 @@ public class YoutubeId {
     @Expose
     private String videoId;
 
-
     public String getKind() {
         return kind;
     }

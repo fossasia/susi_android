@@ -102,7 +102,5 @@ public class TestLoginActivity {
         onView(withId(R.id.log_in)).perform(click());
 
         Thread.sleep(3000);
-
-
     }
 }

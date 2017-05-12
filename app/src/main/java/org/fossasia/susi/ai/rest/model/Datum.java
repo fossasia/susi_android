@@ -1,11 +1,9 @@
 package org.fossasia.susi.ai.rest.model;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmObject;
-
 
 public class Datum extends RealmObject {
 

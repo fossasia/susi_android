@@ -47,8 +47,8 @@ public class ImportantMessages extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         getSupportActionBar().setIcon(R.drawable.susi);
         setupAdapter();
-
     }
+
     public void setChatBackground() {
         String previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "");
         Drawable bg;
@@ -77,10 +77,12 @@ public class ImportantMessages extends AppCompatActivity {
         rvChatImportant.setHasFixedSize(false);
         RealmResults<ChatMessage> importantMessages = realm.where(ChatMessage.class).equalTo("isImportant",true).findAll().sort("id");
         TextView tv_msg = (TextView) findViewById(R.id.tv_empty_list);
+
         if(importantMessages.size()!=0)
             tv_msg.setVisibility(View.INVISIBLE);
         else
             tv_msg.setVisibility(View.VISIBLE);
+
         ChatFeedRecyclerAdapter recyclerAdapter = new ChatFeedRecyclerAdapter(Glide.with(this), this, importantMessages, true);
         rvChatImportant.setAdapter(recyclerAdapter);
         rvChatImportant.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
@@ -100,6 +102,7 @@ public class ImportantMessages extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem)
     {
