@@ -171,9 +171,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private static final String[] id = new String[1];
     private SpeechRecognizer recognizer;
     /* Keyword we are looking for to activate menu */
-    private static final String KEYPHRASE = "hello susi";
+    private static final String KEYPHRASE = "hi susi";
     /* Named searches allow to quickly reconfigure the decoder */
-    private static final String KWS_SEARCH = "hello susi";
+    private static final String KWS_SEARCH = "hi susi";
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
