@@ -1729,9 +1729,10 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public void onResult(Hypothesis hypothesis) {
 
         if (hypothesis != null) {
-            //makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-            btnSpeak.performClick();
-            recognizer.stop();
+            //makeText(getApplicationContext(), "partial", Toast.LENGTH_SHORT).show();
+            //btnSpeak.performClick();
+            //recognizer.stop();
+
         }
     }
 
