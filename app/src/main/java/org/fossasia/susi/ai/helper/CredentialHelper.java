@@ -17,9 +17,9 @@ import java.util.regex.Pattern;
 
 public class CredentialHelper {
     /**
-     * combination of at least six characters, containing lower- and uppercase letters and numbers
+     * combination of at least six characters for the moment to get more users instead of strong passwords
      */
-    private static Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,64}$");
+    private static Pattern PASSWORD_PATTERN = Pattern.compile("^.{6,64}$");
 
     public static boolean isEmailValid(String email) {
         email = email.trim();
