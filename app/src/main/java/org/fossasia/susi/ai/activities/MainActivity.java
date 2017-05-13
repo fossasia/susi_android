@@ -173,11 +173,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     /* Keyword we are looking for to activate menu */
     private static final String KEYPHRASE = "hello susi";
     /* Named searches allow to quickly reconfigure the decoder */
-    private static final String KWS_SEARCH = "wakeup";
-    private static final String FORECAST_SEARCH = "forecast";
-    private static final String DIGITS_SEARCH = "digits";
-    private static final String PHONE_SEARCH = "phones";
-    private static final String MENU_SEARCH = "menu";
+    private static final String KWS_SEARCH = "hello susi";
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -1783,25 +1779,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         // Create keyword-activation search.
         recognizer.addKeyphraseSearch(KWS_SEARCH, KEYPHRASE);
 
-        /** In your application you might not need to add all those searches.
-         * They are added here for demonstration. You can leave just one.
-         */
 
-        // Create grammar-based search for selection between demos
-        //File menuGrammar = new File(assetsDir, "menu.gram");
-        //recognizer.addGrammarSearch(MENU_SEARCH, menuGrammar);
-
-        // Create grammar-based search for digit recognition
-        //File digitsGrammar = new File(assetsDir, "digits.gram");
-        //recognizer.addGrammarSearch(DIGITS_SEARCH, digitsGrammar);
-
-        // Create language model search
-        //File languageModel = new File(assetsDir, "weather.dmp");
-        //recognizer.addNgramSearch(FORECAST_SEARCH, languageModel);
-
-        // Phonetic search
-        //File phoneticModel = new File(assetsDir, "en-phone.dmp");
-        //recognizer.addAllphoneSearch(PHONE_SEARCH, phoneticModel);
     }
 
     @Override
