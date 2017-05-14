@@ -890,6 +890,28 @@ public class MainActivity extends AppCompatActivity {
                                         isWebSearch = false;
                                     }
 
+                                    //Check for table
+                                    try {
+                                        if( response.body().getAnswers().get(0).getActions().get(1).getType().equals("table") ) {
+                                            datumList = response.body().getAnswers().get(0).getData();
+                                            int count = 1;
+                                            answer += ":\n";
+                                            for( int i=0; i<datumList.size(); i++ ) {
+                                                try {
+                                                    String title = datumList.get(i).getTitle();
+                                                    if( title != null || !title.equals("")) {
+                                                        answer += count + ". " + title + "\n";
+                                                        count++;
+                                                    }
+                                                } catch (Exception e) {
+                                                    Log.d(TAG, e.getLocalizedMessage());;
+                                                }
+                                            }
+                                        }
+                                    } catch (Exception e) {
+                                        Log.d(TAG, e.getLocalizedMessage());;
+                                    }
+
                                     realm.executeTransactionAsync(new Realm.Transaction() {
                                         @Override
                                         public void execute(Realm bgRealm) {
