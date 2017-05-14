@@ -1196,7 +1196,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
             //Intent i = new Intent(MainActivity.this , GetVideos.class);
             //startActivity(i);
-
+            /////
             video_query = "";
 
         }
