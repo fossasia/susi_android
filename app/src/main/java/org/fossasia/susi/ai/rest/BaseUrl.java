@@ -26,16 +26,15 @@ public class BaseUrl {
     public static void updateBaseUrl(Throwable t) {
         SusiBaseUrls baseUrls = PrefManager.getBaseUrls();
         if(baseUrls!=null){
-        int indexOfUrl = baseUrls.getSusiServices().indexOf(PrefManager.getSusiRunningBaseUrl());
-        if (indexOfUrl != baseUrls.getSusiServices().size()) {
-            PrefManager.setSusiRunningBaseUrl(BaseUrl.PROTOCOL_HTTP + baseUrls.getSusiServices().get(indexOfUrl + 1));
-        } else {
-            PrefManager.setSusiRunningBaseUrl(BaseUrl.PROTOCOL_HTTP + baseUrls.getSusiServices().get(0));
-        }
-        if (t instanceof SocketTimeoutException || t instanceof ConnectException) {
-            ClientBuilder.createSusiService();
+            int indexOfUrl = baseUrls.getSusiServices().indexOf(PrefManager.getSusiRunningBaseUrl());
+            if (indexOfUrl != baseUrls.getSusiServices().size()) {
+                PrefManager.setSusiRunningBaseUrl(BaseUrl.PROTOCOL_HTTP + baseUrls.getSusiServices().get(indexOfUrl + 1));
+            } else {
+                PrefManager.setSusiRunningBaseUrl(BaseUrl.PROTOCOL_HTTP + baseUrls.getSusiServices().get(0));
+            }
+            if (t instanceof SocketTimeoutException || t instanceof ConnectException) {
+                ClientBuilder.createSusiService();
+            }
         }
     }
-
-}
 }

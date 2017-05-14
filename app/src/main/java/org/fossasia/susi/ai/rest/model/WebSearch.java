@@ -11,7 +11,6 @@ import java.util.List;
 
 public class WebSearch{
 
-
     @SerializedName("Heading")
     @Expose
     private String heading;
@@ -19,7 +18,6 @@ public class WebSearch{
     @SerializedName("RelatedTopics")
     @Expose
     private List<RelatedTopics> relatedTopics;
-
 
     public WebSearch(String heading, List<RelatedTopics> relatedTopics) {
         this.heading = heading;

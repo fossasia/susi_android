@@ -14,8 +14,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -142,14 +140,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private FloatingActionButton fab_scrollToEnd;
     //	 Global Variables used for the setMessage Method
     private String answer;
-    private String actionType;
     private boolean isMap, isPieChart = false;
     private boolean isHavingLink;
     private boolean isSearchResult;
     private boolean isWebSearch;
-    private long delay = 0;
     private List<Datum> datumList = null;
-    private RealmResults<ChatMessage> chatMessageDatabaseList;
     private Boolean micCheck;
     private SearchView searchView;
     private Boolean check;
@@ -169,11 +164,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private String reminder;
     private int count = 0;
     private static final String[] id = new String[1];
+
     private SpeechRecognizer recognizer;
     /* Keyword we are looking for to activate menu */
     private static final String KEYPHRASE = "hi susi";
     /* Named searches allow to quickly reconfigure the decoder */
     private static final String KWS_SEARCH = "hi susi";
+    private BroadcastReceiver networkStateReceiver;
+    private ClientBuilder clientBuilder;
+    private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
+
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -188,11 +188,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 }
             };
 
-    private ClientBuilder clientBuilder;
-    private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
     TextWatcher watch = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         }
 
         @Override
@@ -237,10 +235,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         }
     };
-    private BroadcastReceiver networkStateReceiver;
 
     public static List<String> extractUrls(String text) {
-        List<String> links = new ArrayList<String>();
+        List<String> links = new ArrayList<>();
         Matcher m = Patterns.WEB_URL.matcher(text);
         while (m.find()) {
             String url = m.group();
@@ -250,13 +247,11 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     public static Boolean checkSpeechOutputPref() {
-        Boolean checks = PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
-        return checks;
+        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
     }
 
     public static Boolean checkSpeechAlwaysPref() {
-        Boolean checked = PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
-        return checked;
+        return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
     }
 
     @Override
@@ -433,18 +428,22 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 new computeThread().start();
             }
         };
-        Log.d(TAG, "init");
+
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("");
         getSupportActionBar().setIcon(R.drawable.susi);
         nonDeliveredMessages.clear();
+
         RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered", false).findAll().sort("id");
+
         for (ChatMessage each : nonDelivered) {
             Log.d(TAG, each.getContent());
             nonDeliveredMessages.add(new Pair(each.getContent(), each.getId()));
         }
+
         checkEnterKeyPref();
         setupAdapter();
+
         rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -460,6 +459,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 }
             }
         });
+
         ChatMessage.addTextChangedListener(watch);
         ChatMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -497,7 +497,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
-                // Log error here since request failed
                 Log.e(TAG, t.toString());
             }
         });
@@ -516,7 +515,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -524,7 +522,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     LocationHelper locationHelper = new LocationHelper(MainActivity.this);
-
                     if (locationHelper.canGetLocation()) {
                         float latitude = locationHelper.getLatitude();
                         float longitude = locationHelper.getLongitude();
@@ -539,7 +536,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }
         }
     }
-
 
     private void voiceReply(final String reply, final boolean isMap) {
         if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
@@ -656,6 +652,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 }
             });
         }
+
         Boolean isChecked = PrefManager.getBoolean(Constant.ENTER_SEND, false);
         if (isChecked) {
             ChatMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -669,6 +666,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     private void setupAdapter() {
+        RealmResults<ChatMessage> chatMessageDatabaseList;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         rvChatFeed.setLayoutManager(linearLayoutManager);
@@ -704,6 +702,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             id = (long) temp + 1;
         }
         boolean isHavingLink;
+
         if (query.toLowerCase().contains("send mail") || query.toLowerCase().contains("send a mail") || query.toLowerCase().contains("send the mail")) {
             isHavingLink = false;
         } else {
@@ -712,6 +711,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             isHavingLink = urlList != null;
             if (urlList.size() == 0) isHavingLink = false;
         }
+
         if (id == 0) {
             updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
             id++;
@@ -742,28 +742,28 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         final String[] reminderDate = {null};
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
             if (isNetworkConnected()) {
+                recyclerAdapter.showDots();
                 TimeZone tz = TimeZone.getDefault();
                 Date now = new Date();
                 int timezoneOffset = -1 * (tz.getOffset(now.getTime()) / 60000);
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
                 nonDeliveredMessages.pop();
+
+                //Calling
                 String section[] = query.split(" ");
                 if (section.length == 2 && section[0].equalsIgnoreCase("call")) {
                     answerCall = "Calling " + section[1];
                 }
-                if (query.toLowerCase().contains("set alarm")) {
 
+                //Setting Alarm
+                if (query.toLowerCase().contains("set alarm")) {
                     LinkedList<String> list = new LinkedList<>();
                     Matcher matcher = Pattern.compile("\\d+").matcher(query);
                     while (matcher.find()) {
                         list.add(matcher.group());
                     }
                     array = list.toArray(new String[list.size()]);
-                    System.out.println(Arrays.toString(array));
-
-                    Log.v(TAG, "computeOtherMessage: " + Arrays.toString(array));
-
                     setAlarm = getString(R.string.set_alarm);
 
                     if (query.toLowerCase().contains("am"))
@@ -772,16 +772,15 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         timenow = "PM";
                     else
                         timenow = null;
-
-
                 }
-                if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
 
+                //Setting Reminder
+                if (query.toLowerCase().contains("set reminder") || query.toLowerCase().contains("set the reminder")) {
                     reminderQuery = 0;
-                    Log.d(TAG, "query  " + reminderQuery);
                     reminder = getString(R.string.reminder_description);
                 }
 
+                //Playing a video
                 if (section[0].equalsIgnoreCase("play")) {
                     count = 0;
 
@@ -796,9 +795,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
                     String vid = getvideos(video_query);
                     Log.d(TAG, "computeOtherMessage: " + vid);
-
                 }
 
+                //Sending a message
                 if (query.toLowerCase().contains("send message") || query.toLowerCase().contains("send a message") || query.toLowerCase().contains("send the message")) {
                     String sendTo = null;
                     String number = null;
@@ -820,16 +819,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         sendIntent.setData(Uri.parse("sms:"));
                         startActivity(sendIntent);
                     }
-
                     isHavingLink = false;
-
                 }
 
+                //Send a mail
                 if (query.toLowerCase().contains("send mail") || query.toLowerCase().contains("send a mail") || query.toLowerCase().contains("send the mail")) {
                     sendMail = getString(R.string.send_mail);
                     isHavingLink = false;
                 }
 
+                //Search on google
                 if (section[0].equalsIgnoreCase("@google")) {
                     int size = section.length;
                     googlesearch_query = "";
@@ -838,6 +837,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     }
                     googleSearch = getString(R.string.google_search);
                 }
+
                 final float latitude = PrefManager.getFloat(Constant.LATITUDE, 0);
                 final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
                 final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
@@ -852,7 +852,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     answer = playVideo;
                     isWebSearch = false;
                     count++;
-
                 }
 
                 final String finalPlayVideo = playVideo;
@@ -862,206 +861,140 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                             @Override
                             public void onResponse(Call<SusiResponse> call,
                                                    Response<SusiResponse> response) {
-                                int code = response.code();
-                                if (code >= 200 && code < 300) {
-                                    recyclerAdapter.showDots();
-                                }
 
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
-                                    int responseActionSize = response.body().getAnswers().get(0).getActions().size();
-                                    for (int counter = 0; counter < responseActionSize; counter++) {
 
-                                        try {
-                                            answer = susiResponse.getAnswers().get(0).getActions()
-                                                    .get(counter).getExpression();
-                                            delay = susiResponse.getAnswers().get(0).getActions()
-                                                    .get(counter).getDelay();
-
-
-                                            try {
-                                                isMap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
-                                                datumList = response.body().getAnswers().get(0).getData();
-                                            } catch (Exception e) {
-                                                isMap = false;
-                                            }
-                                            List<String> urlList = extractUrls(answer);
-                                            Log.d(TAG, urlList.toString());
-                                            String setMessage = answer;
-                                            voiceReply(setMessage, isMap);
-                                            isHavingLink = urlList != null;
-                                            if (urlList.size() == 0) isHavingLink = false;
-                                        } catch (IndexOutOfBoundsException | NullPointerException e) {
+                                    //Check for text and links
+                                    try {
+                                        answer = susiResponse.getAnswers().get(0).getActions()
+                                                 .get(0).getExpression();
+                                        List<String> urlList = extractUrls(answer);
+                                        Log.d(TAG, urlList.toString());
+                                        isHavingLink = urlList != null;
+                                        if (urlList.size() == 0) isHavingLink = false;
+                                    } catch (Exception e ) {
                                             Log.d(TAG, e.getLocalizedMessage());
                                             answer = getString(R.string.error_occurred_try_again);
                                             isHavingLink = false;
                                         }
-                                        try {
-                                            if (response.body().getAnswers().get(0).getActions().size() > 1) {
-                                                isPieChart = actionType != null && actionType.equals("piechart");
-                                                datumList = response.body().getAnswers().get(0).getData();
-                                            }
-                                        } catch (Exception e) {
-                                            Log.d(TAG, e.getLocalizedMessage());
-                                            isPieChart = false;
-                                        }
-                                        try {
-                                            isSearchResult = response.body().getAnswers().get(0).getActions().get(1).getType().equals("rss");
-                                            datumList = response.body().getAnswers().get(0).getData();
-                                        } catch (Exception e) {
-                                            isSearchResult = false;
-                                        }
-                                        try {
-                                            isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
-                                            datumList = response.body().getAnswers().get(0).getData();
-                                        } catch (Exception e) {
-                                            isWebSearch = false;
-                                        }
 
-                                        realm.executeTransactionAsync(new Realm.Transaction() {
-                                            @Override
-                                            public void execute(Realm bgRealm) {
-                                                long prId = id;
-                                                try {
-                                                    ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
-                                                    chatMessage.setIsDelivered(true);
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
-                                        rvChatFeed.getRecycledViewPool().clear();
-                                        recyclerAdapter.hideDots();
-                                        recyclerAdapter.notifyItemChanged((int) id);
-
-                                        if (finalAnswer_call != null && finalAnswer_call.contains("Calling")) {
-                                            answer = finalAnswer_call;
-                                            isWebSearch = false;
-                                            voiceReply(answer, false);
-                                        }
-                                        if (finalgoogle_search != null && finalgoogle_search.contains("google")) {
-                                            answer = finalgoogle_search;
-                                            isWebSearch = false;
-                                            voiceReply(answer, false);
-                                        }
-                                        if (finalSetAlarm != null && finalSetAlarm.contains("Alarm")) {
-                                            answer = finalSetAlarm;
-                                            isWebSearch = false;
-                                            voiceReply(answer, false);
-
-                                        }
-                                        if (finalPlayVideo != null && finalPlayVideo.equals(getString(R.string.play_video))) {
-                                            answer = finalPlayVideo;
-                                            isWebSearch = false;
-                                            voiceReply(answer, false);
-                                        }
-                                        if (finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))) {
-
-                                            if (query.contains("to")) {
-                                                String[] sendTo = {query.substring(query.indexOf("to") + 3, query.length())};
-                                                Log.d(TAG, "onResponse: " + sendTo);
-                                                composeEmail(sendTo);
-
-                                            } else {
-                                                composeEmail();
-                                            }
-
-                                            answer = finalSendMail;
-                                            isWebSearch = false;
-                                            voiceReply(answer, false);
-
-                                        }
-
-                                        if (finalSendMessage != null && finalSendMessage.equals(getString(R.string.send_message))) {
-                                            answer = finalSendMessage;
-                                            isHavingLink = false;
-                                            isWebSearch = false;
-                                            voiceReply(answer, false);
-                                        }
-
-                                        if (finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))) {
-                                            Log.d(TAG, "reminder Counter  " + reminderQuery);
-                                            answer = finalReminder;
-                                            reminderQuery = 1;
-                                            isWebSearch = false;
-                                            voiceReply(answer, false);
-
-                                        } else {
-                                            switch (reminderQuery) {
-                                                case 1:
-                                                    MainActivity.this.reminder = query;
-                                                    reminderDate[0] = getString(R.string.reminder_date);
-                                                    answer = reminderDate[0];
-                                                    isWebSearch = false;
-                                                    Log.d(TAG, "onResponse: " + MainActivity.this.reminder);
-                                                    reminderQuery = 2;
-                                                    voiceReply(answer, false);
-                                                    break;
-
-                                                case 2:
-                                                    answer = getString(R.string.set_reminder);
-                                                    isWebSearch = false;
-                                                    reminderQuery = 0;
-                                                    String date = query;
-                                                    setReminder(MainActivity.this.reminder, date);
-                                                    voiceReply(answer, false);
-                                                    Log.d(TAG, "onResponse: query" + date);
-                                                    break;
-
-                                                default:
-                                                    Log.d(TAG, "onResponse: Not valid");
-                                                    break;
-                                            }
-
-                                        }
-
-
-                                        final String setMessage = answer;
-                                        final int counterValue = counter;
-                                        actionType = response.body().getAnswers().get(0).getActions().get(counter).getType();
-                                        final Handler delayHandler = new Handler();
-                                        delayHandler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                actionType = susiResponse.getAnswers().get(0).getActions().get(counterValue).getType();
-                                                if ("answer".equals(actionType)) {
-                                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
-                                                } else if ("anchor".equals(actionType)) {
-                                                    String text = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorText();
-                                                    String link = susiResponse.getAnswers().get(0).getActions().get(counterValue).getAnchorLink();
-                                                    if (link != null) {
-                                                        addNewMessage(text.concat(": ".concat(link)), false, isHavingLink, false, false, false, datumList);
-                                                    } else {
-                                                        String mapDisplayName;
-                                                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                                                        try {
-                                                            float lat = PrefManager.getFloat(Constant.LATITUDE, 0);
-                                                            float lon = PrefManager.getFloat(Constant.LONGITUDE, 0);
-                                                            List<Address> addresses = geocoder.getFromLocation(lat, lon, 1);
-                                                            StringBuilder locationAddressBuilder = new StringBuilder();
-                                                            int addressLineSize = addresses.get(0).getMaxAddressLineIndex();
-                                                            for (int addressLineCount = 0; addressLineCount < addressLineSize - 1; addressLineCount++) {
-                                                                locationAddressBuilder.append(addresses.get(0).getAddressLine(addressLineCount)).append(", ");
-                                                            }
-                                                            locationAddressBuilder.append(addresses.get(0).getAddressLine(addressLineSize - 1));
-                                                            mapDisplayName = "Address: ".concat(locationAddressBuilder.toString());
-                                                            addNewMessage(mapDisplayName, false, false, false, false, false, datumList);
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                }
-//                                                else if ("map".equals(actionType)) {
-//
-//                                               }
-//                                                else if ("websearch".equals(actionType)) {
-                                                //String query = susiResponse.getAnswers().get(0).getActions().get(counterValue).getQuery();
-                                                //TODO: Implement web search result.
-//                                                }
-                                            }
-                                        }, delay);
-
+                                    //Check for map
+                                    try {
+                                        isMap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                    } catch (Exception e) {
+                                        isMap = false;
                                     }
+
+                                    //Check for piechart
+                                    try {
+                                        isPieChart = response.body().getAnswers().get(0).getActions().get(2).getType().equals("piechart");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                    } catch (Exception e) {
+                                        Log.d(TAG, e.getLocalizedMessage());
+                                        isPieChart = false;
+                                    }
+
+                                    //Check for rss
+                                    try {
+                                        isSearchResult = response.body().getAnswers().get(0).getActions().get(1).getType().equals("rss");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                    } catch (Exception e) {
+                                        isSearchResult = false;
+                                    }
+
+                                    //Check for websearch
+                                    try {
+                                        isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                        webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
+                                    } catch (Exception e) {
+                                        isWebSearch = false;
+                                    }
+
+                                    realm.executeTransactionAsync(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm bgRealm) {
+                                            try {
+                                                ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", id).findFirst();
+                                                chatMessage.setIsDelivered(true);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+
+                                    rvChatFeed.getRecycledViewPool().clear();
+                                    recyclerAdapter.notifyItemChanged((int) id);
+
+                                    if (finalAnswer_call != null && finalAnswer_call.contains("Calling")) {
+                                        answer = finalAnswer_call;
+                                        isWebSearch = false;
+                                    }
+                                    if (finalgoogle_search != null && finalgoogle_search.contains("google")) {
+                                        answer = finalgoogle_search;
+                                        isWebSearch = false;
+                                    }
+                                    if (finalSetAlarm != null && finalSetAlarm.contains("Alarm")) {
+                                        answer = finalSetAlarm;
+                                        isWebSearch = false;
+                                    }
+                                    if (finalPlayVideo != null && finalPlayVideo.equals(getString(R.string.play_video))) {
+                                        answer = finalPlayVideo;
+                                        isWebSearch = false;
+                                    }
+                                    if (finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))) {
+                                        if (query.contains("to")) {
+                                            String[] sendTo = {query.substring(query.indexOf("to") + 3, query.length())};
+                                            Log.d(TAG, "onResponse: " + sendTo);
+                                            composeEmail(sendTo);
+                                        } else {
+                                            composeEmail();
+                                        }
+                                        answer = finalSendMail;
+                                        isWebSearch = false;
+                                    }
+
+                                    if (finalSendMessage != null && finalSendMessage.equals(getString(R.string.send_message))) {
+                                        answer = finalSendMessage;
+                                        isHavingLink = false;
+                                        isWebSearch = false;
+                                    }
+
+                                    if (finalReminder != null && finalReminder.equals(getString(R.string.reminder_description))) {
+                                        Log.d(TAG, "reminder Counter  " + reminderQuery);
+                                        answer = finalReminder;
+                                        reminderQuery = 1;
+                                        isWebSearch = false;
+                                    } else {
+                                        switch (reminderQuery) {
+                                            case 1:
+                                                MainActivity.this.reminder = query;
+                                                reminderDate[0] = getString(R.string.reminder_date);
+                                                answer = reminderDate[0];
+                                                isWebSearch = false;
+                                                Log.d(TAG, "onResponse: " + MainActivity.this.reminder);
+                                                reminderQuery = 2;
+                                                break;
+                                            case 2:
+                                                answer = getString(R.string.set_reminder);
+                                                isWebSearch = false;
+                                                reminderQuery = 0;
+                                                String date = query;
+                                                setReminder(MainActivity.this.reminder, date);
+                                                Log.d(TAG, "onResponse: query" + date);
+                                                break;
+                                            default:
+                                                Log.d(TAG, "onResponse: Not valid");
+                                                break;
+                                        }
+                                    }
+
+                                    final String setMessage = answer;
+                                    voiceReply(setMessage, isMap);
+                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
+                                    recyclerAdapter.hideDots();
 
                                 } else {
                                     if (!isNetworkConnected()) {
@@ -1097,7 +1030,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                                     recyclerAdapter.notifyItemChanged((int) id);
                                     addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null);
                                 }
-
 
                                 if (isNetworkConnected())
                                     computeOtherMessage();
@@ -1163,42 +1095,25 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             id = (long) temp + 1;
         }
 
-
         if (answer.equals(getString(R.string.google_search))) {
             googlesearch_query = googlesearch_query.replace(" ", "+");
             String url = GOOGLE_SEARCH + googlesearch_query;
             Uri uri = Uri.parse(url);
-            // create an intent builder
             CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
-            // Begin customizing
-            // set toolbar colors
             intentBuilder.setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
             intentBuilder.setSecondaryToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-
-            // set start and exit animations
-            //intentBuilder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
             intentBuilder.setExitAnimations(getApplicationContext(), android.R.anim.slide_in_left,
                     android.R.anim.slide_out_right);
-            // build custom tabs intent
+
             CustomTabsIntent customTabsIntent = intentBuilder.build();
-            // launch the url
             customTabsIntent.launchUrl(MainActivity.this, uri);
             googlesearch_query = "";
         }
 
         if (answer.equals(getString(R.string.play_video))) {
             video_query = video_query.replace(" ", "+");
-            Log.d(TAG, "addNewMessage: " + video_query);
 
-            ///String videoId = GetVideos.getvideos(video_query);
-
-            //Log.d(TAG, "addNewMessage: " + videoId);
-
-            //Intent i = new Intent(MainActivity.this , GetVideos.class);
-            //startActivity(i);
-            /////
             video_query = "";
-
         }
 
         if (answer.contains("Calling")) {
@@ -1207,25 +1122,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
 
         if (answer.equals(getString(R.string.set_alarm))) {
-
-            Log.d(TAG, "addNewMessage: " + Arrays.toString(array));
-            Log.d(TAG, "addNewMessage: " + array.length);
-            Log.d(TAG, "addNewMessage: " + timenow);
-
-
             if (array.length == 0) {
-
                 Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
                 i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
                 startActivity(i);
-
             } else if (array.length == 1) {
-
-
-                Log.d(TAG, "addNewMessage: " + array[0]);
-
                 int hour = Integer.parseInt(array[0]);
-
                 Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
                 i.putExtra(AlarmClock.EXTRA_MESSAGE, "New Alarm");
                 i.putExtra(AlarmClock.EXTRA_HOUR, hour);
@@ -1235,9 +1137,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 }
                 startActivity(i);
             } else {
-
-                Log.d(TAG, "addNewMessage: " + array[0] + array[1]);
-
                 int hour = Integer.parseInt(array[0]);
                 int min = Integer.parseInt(array[1]);
 
@@ -1249,12 +1148,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     i.putExtra(AlarmClock.EXTRA_IS_PM, timenow.equalsIgnoreCase("PM"));
                 }
                 startActivity(i);
-
             }
-
-
         }
-
         updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
     }
 
@@ -1500,7 +1395,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                         setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
                                 //clear token
                                 PrefManager.clearToken();
                                 //clear all messages.
@@ -1536,7 +1430,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 startActivity(intent);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -1554,30 +1447,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         checkEnterKeyPref();
     }
 
-
     public void setReminder(String des, String time) {
-
         LinkedList<String> list = new LinkedList<>();
         Matcher matcher = Pattern.compile("\\d+").matcher(time);
         while (matcher.find()) {
             list.add(matcher.group());
         }
-
         String[] timeArray;
-
         timeArray = list.toArray(new String[list.size()]);
-
-        Log.v(TAG, "computeOtherMessage: " + Arrays.toString(timeArray));
-
-        Log.d(TAG, System.currentTimeMillis() + "Current Time");
-
         Calendar endTime = Calendar.getInstance(TimeZone.getDefault());
-
-
         if (timeArray.length >= 2) {
-
-            Log.d(TAG, "setReminder: " + timeArray[0] + "  " + timeArray[1]);
-
             endTime.set(endTime.get(Calendar.YEAR),
                     endTime.get(Calendar.MONTH),
                     endTime.get(Calendar.DATE),
@@ -1594,7 +1473,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 .putExtra(CalendarContract.Events.TITLE, des)
                 .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
         startActivity(intent);
-
     }
 
     public void composeEmail(String[] adresses) {
@@ -1615,9 +1493,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     }
 
-
     public String getvideos(String query) {
-
         id[0] = null;
         final VideoSeachClient apiService = VideoSearchApi.getClient().create(VideoSeachClient.class);
 
@@ -1632,7 +1508,6 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 Intent i = new Intent(MainActivity.this, GetVideos.class);
                 i.putExtra("youtubeId", id[0]);
                 startActivity(i);
-
             }
 
             @Override
@@ -1642,9 +1517,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         });
 
         return id[0];
-
     }
-
 
     @Override
     protected void onPause() {
