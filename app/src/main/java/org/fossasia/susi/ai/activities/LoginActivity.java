@@ -122,6 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Logging in...");
         progressDialog.show();
+
         final Call<LoginResponse> authResponseCall = new ClientBuilder().getSusiApi()
                 .login(email.getEditText().getText().toString().trim().toLowerCase(),
                         password.getEditText().getText().toString());
@@ -132,6 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                 logIn.setEnabled(true);
             }
         });
+
         authResponseCall.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -168,58 +170,43 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
-
             }
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 t.printStackTrace();
-                if( t instanceof UnknownHostException) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                    builder.setTitle("Unknown Host Exception");
-                    builder.setMessage(t.getMessage())
-                            .setCancelable(false)
-                            .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    return;
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    ok.setTextColor(Color.RED);
-                    logIn.setEnabled(true);
-                    progressDialog.dismiss();
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                    builder.setTitle(R.string.error_internet_connectivity);
-                    builder.setMessage(R.string.no_internet_connection)
-                            .setCancelable(false)
-                            .setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    return;
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    ok.setTextColor(Color.RED);
-                    logIn.setEnabled(true);
-                    progressDialog.dismiss();
-                }
-            }});}
 
-            public void InvalidAcess(){
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                builder.setTitle(R.string.email_invalid_title);
-                builder.setMessage(R.string.email_invalid)
-                        .setCancelable(false)
+                if( t instanceof UnknownHostException) {
+                    builder.setTitle("Unknown Host Exception");
+                    builder.setMessage(t.getMessage());
+                } else {
+                    builder.setTitle(R.string.error_internet_connectivity);
+                    builder.setMessage(R.string.no_internet_connection);
+                }
+                builder.setCancelable(false)
                         .setPositiveButton("RETRY", null);
                 AlertDialog alert = builder.create();
                 alert.show();
                 Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                 ok.setTextColor(Color.RED);
+                logIn.setEnabled(true);
+                progressDialog.dismiss();
             }
+        });
+    }
+
+    public void InvalidAcess(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setTitle(R.string.email_invalid_title);
+        builder.setMessage(R.string.email_invalid)
+                .setCancelable(false)
+                .setPositiveButton("RETRY", null);
+        AlertDialog alert = builder.create();
+        alert.show();
+        Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        ok.setTextColor(Color.RED);
+    }
 
     @OnEditorAction(R.id.password_input)
     public boolean onEditorAction(int actionId) {
@@ -239,5 +226,3 @@ public class LoginActivity extends AppCompatActivity {
         outState.putBoolean("server",personalServer.isChecked());
     }
 }
-
-

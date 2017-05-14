@@ -118,7 +118,6 @@
                         android:textColor="@color/md_grey_600"
                         tools:text="@string/sample_website_description" />
 
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

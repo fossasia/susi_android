@@ -86,10 +86,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if (CredentialHelper.checkIfEmpty(email, this)) {
             return;
         }
+
         if (!CredentialHelper.isEmailValid(email.getEditText().getText().toString())) {
             email.setError(getString(R.string.email_invalid_title));
             return;
         }
+
         if(personalServer.isChecked()) {
             if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
                 if (CredentialHelper.getValidURL(url,this) != null) {
@@ -105,12 +107,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         } else{
             PrefManager.putBoolean("is_susi_server_selected", true);
         }
+
         email.setError(null);
         resetButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
+
         final Call<ForgotPasswordResponse> forgotPasswordResponseCall = new ClientBuilder().getSusiApi()
                 .forgotPassword(email.getEditText().getText().toString().trim());
         progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -120,6 +124,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 resetButton.setEnabled(true);
             }
         });
+
         forgotPasswordResponseCall.enqueue(new Callback<ForgotPasswordResponse>() {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
@@ -162,37 +167,28 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }
                 resetButton.setEnabled(true);
                 progressDialog.dismiss();
-
             }
 
             @Override
             public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
                 t.printStackTrace();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
                 if( t instanceof UnknownHostException) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
                     builder.setTitle("Unknown Host Exception");
-                    builder.setMessage(t.getMessage())
-                            .setCancelable(false)
-                            .setPositiveButton("RETRY", null);
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    ok.setTextColor(Color.RED);
-                    resetButton.setEnabled(true);
-                    progressDialog.dismiss();
+                    builder.setMessage(t.getMessage());
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
                     builder.setTitle(R.string.error_internet_connectivity);
-                    builder.setMessage(R.string.no_internet_connection)
-                            .setCancelable(false)
-                            .setPositiveButton("RETRY", null);
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    ok.setTextColor(Color.RED);
-                    resetButton.setEnabled(true);
-                    progressDialog.dismiss();
+                    builder.setMessage(R.string.no_internet_connection);
                 }
+                builder.setCancelable(false)
+                        .setPositiveButton("RETRY", null);
+                AlertDialog alert = builder.create();
+                alert.show();
+                Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                ok.setTextColor(Color.RED);
+                resetButton.setEnabled(true);
+                progressDialog.dismiss();
             }
         });
     }
@@ -205,4 +201,3 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         outState.putBoolean("server",personalServer.isChecked());
     }
 }
-

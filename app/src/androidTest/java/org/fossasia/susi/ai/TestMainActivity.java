@@ -29,7 +29,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-
 /**
  * Created by abhinavtyagi on 09/10/16.
  */
@@ -59,7 +58,6 @@ public class TestMainActivity {
         activity.runOnUiThread(wakeUpDevice);
     }
 
-
     /**
      * Test activity_main items visibility on launch of app
      */
@@ -76,12 +74,8 @@ public class TestMainActivity {
         // checks if message box is present
         onView(withId(R.id.et_message)).check(matches(isDisplayed()));
 
-        // checks if send button is present ... removed in revision of UI
-//        onView(withId(R.id.btn_send)).check(matches(isDisplayed()));
-
         // checks if microphone button is present
         onView(withId(R.id.btnSpeak)).check(matches(isDisplayed()));
-
     }
 
     /**
@@ -108,7 +102,6 @@ public class TestMainActivity {
 
         // checks if log out setting menu item is not present
         onView(withId(R.id.action_logout)).check(doesNotExist());
-
     }
 
     /**
@@ -129,7 +122,6 @@ public class TestMainActivity {
 
         // checks if log out setting menu item is present
         onView(withText(R.string.action_log_out)).check(matches(isDisplayed()));
-
     }
 
     /**
@@ -168,7 +160,5 @@ public class TestMainActivity {
 
         // checks if log out setting menu item is not present
         onView(withId(R.id.action_logout)).check(doesNotExist());
-
     }
-
 }
