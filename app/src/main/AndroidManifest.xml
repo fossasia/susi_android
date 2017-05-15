@@ -47,10 +47,6 @@
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".activities.ChangePasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
             android:name=".helper.GetVideos"
             android:theme="@style/Theme.AppCompat.Dialog" />
         <!--
@@ -61,7 +57,11 @@
             android:value="fabric_api_key" />
         -->
 
-        <activity android:name=".activities.ImportantMessages"></activity>
+        <activity android:name=".activities.ImportantMessages">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>

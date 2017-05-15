@@ -12,7 +12,6 @@ import retrofit2.http.Query;
 
 public interface WebSearchClient {
 
-    @GET("/?&format=json&pretty=1")
+    @GET("/?format=json&pretty=1")
     Call<WebSearch> getresult(@Query("q") String query);
-
 }

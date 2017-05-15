@@ -58,12 +58,12 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onPreferenceClick(Preference preference) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Change Server");
-                    builder.setMessage("Please login again to change susi server.")
+                    builder.setMessage(R.string.server_change_prompt)
                             .setCancelable(false)
                             .setNegativeButton("Cancel",null)
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    PrefManager.putBoolean("is_susi_server_selected", true);
+                                    PrefManager.putBoolean(String.valueOf(R.string.action_select_server), true);
                                     PrefManager.clearToken();
                                     //clear all messages
                                     Realm realm = Realm.getDefaultInstance();

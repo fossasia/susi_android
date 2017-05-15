@@ -62,7 +62,6 @@
                         android:text="9:00 AM"
                         android:textSize="@dimen/timestamp_size" />
 
-
                 </LinearLayout>
             </org.fossasia.susi.ai.ChatBubbleLayout>
 
@@ -109,7 +108,6 @@
                         android:padding="@dimen/standard_content_padding"
                         android:textColor="@color/md_grey_600"
                         tools:text="@string/sample_website_description" />
-
 
                 </LinearLayout>
             </LinearLayout>

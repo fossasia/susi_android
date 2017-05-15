@@ -90,12 +90,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/susi_default"
                 android:checked="true"
+                android:textColor="@color/edit_text_login_screen"
                 android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:text="Personal Server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/edit_text_login_screen"
                 android:id="@+id/personal_server" />
         </RadioGroup>
 

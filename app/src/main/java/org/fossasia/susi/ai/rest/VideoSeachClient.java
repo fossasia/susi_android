@@ -15,5 +15,4 @@ public interface VideoSeachClient {
 
     @GET("/youtube/v3/search?part=snippet&maxResults=1&order=relevance&key="+ Config.YOUTUBE_API_KEY)
     Call<VideoSearch> getVideo(@Query("q") String query);
-
 }

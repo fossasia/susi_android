@@ -1,8 +1,10 @@
 # Android App for Susi
 
-[![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg)](https://circleci.com/gh/fossasia/susi_android)
+[![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)
 [![Gitter](https://badges.gitter.im/fossasia/susi_android.svg)](https://gitter.im/fossasia/susi_android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ec0032213274fa0a07574919928c6a6)](https://www.codacy.com/app/harshithdwivedi/susi_android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/susi_android&amp;utm_campaign=Badge_Grade)
+[![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0)
+[![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:fossasia@googlegroups.com)
 
 The main feature of the app is to provide a conversational interface to provide intelligent answers using the loklak/AskSusi infrastructure. The app also offers login functionalities to connect to other services and stored personal data. Additionally the application uses data provided by the user's phone to improve Susi answers. Geolocation information for example helps to offer better answers related to questions about "things nearby".
 
@@ -16,7 +18,7 @@ Please find info about the set up of the Android app in your development environ
 
 ## Communication
 
-Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/loklak
+Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/susiai
 
 Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
 
@@ -24,9 +26,29 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
 
 A native Android app.
 
-## Branch Policy
+## Screenshots
 
-Note: For the initialization period all commits go directly to the master branch. In the next stages we follow the branch policy as below:
+  <table>
+    <tr>
+     <td><img src="docs/images/login.png"></td>
+     <td><img src="docs/images/signup.png"></td>
+     <td><img src="docs/images/main.png"></td>
+     <td><img src="docs/images/search.png"></td>
+     <td><img src="docs/images/voice_input.png"></td>
+     <td><img src="docs/images/settings.png"></td>
+    </tr>
+  </table>
+  
+### Libraries used and their documentation
+
+- Realm [Docs](https://realm.io/docs/java/latest/)
+- Retrofit [Docs](http://square.github.io/retrofit/2.x/retrofit/)
+- ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
+- Espresso [Docs](https://google.github.io/android-testing-support-library/docs/espresso/)
+- Tajchert Waiting Dots [Docs](https://github.com/tajchert/WaitingDots)
+- Bumptech Glide [Docs](https://github.com/bumptech/glide)
+
+## Branch Policy
 
 We have the following branches
  * **development**
@@ -35,7 +57,8 @@ We have the following branches
 	 PRs to gh-pages must pass a build check and a unit-test check on Travis
  * **master**
    This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
-
+ * **apk**
+   This branch contains two apk's, that are automatically generated on merged pull request a) debug apk and b) release apk.
 
 ## For Developers: Adding Fabric API KEY
 1. Go to AndroidFest.xml

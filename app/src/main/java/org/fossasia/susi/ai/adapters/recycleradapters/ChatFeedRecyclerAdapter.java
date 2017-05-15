@@ -3,7 +3,6 @@ package org.fossasia.susi.ai.adapters.recycleradapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
@@ -68,8 +67,6 @@ import org.fossasia.susi.ai.rest.WebSearchClient;
 import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.WebSearch;
 
-
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -85,7 +82,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 /**
  * Created by
  * --Vatsal Bajpai on
@@ -94,13 +90,12 @@ import retrofit2.Response;
  */
 
 public class ChatFeedRecyclerAdapter extends SelectableAdapter implements MessageViewHolder.ClickListener {
-
     public static final int USER_MESSAGE = 0;
     public static final int SUSI_MESSAGE = 1;
     public static final int USER_IMAGE = 2;
     public static final int SUSI_IMAGE = 3;
-    public static final int MAP = 4;
-    public static final int PIECHART = 7;
+    private static final int MAP = 4;
+    private static final int PIECHART = 7;
     private static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
     private static final int DOTS = 8;
@@ -111,12 +106,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
-    public String webquery ;
-    public String web;
+    private String webquery ;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
-    private RealmResults<ChatMessage> itemList;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
     private MessageViewHolder.ClickListener clickListener;
@@ -133,9 +126,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private  String title;
     private String url;
     private String linkurl;
-    private Bitmap bmp;
-    private URL urlimage;
-    private RealmResults<ChatMessage> important;
 
     public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -175,7 +165,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             String url = m.group();
             links.add(url);
         }
-
         return links;
     }
 
@@ -192,7 +181,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
         realm = Realm.getDefaultInstance();
-
     }
 
     @Override
@@ -319,12 +307,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
             handleItemEvents(dateViewHolder, position);
         }
-
-       /* if (highlightMessagePosition == position) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#3e6182"));
-        } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-        }*/
     }
 
     private void handleItemEvents(DateViewHolder dateViewHolder, int position){
@@ -411,11 +393,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 e.printStackTrace();
             }
         }
-
     }
 
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
-
         final ChatMessage model = getData().get(position);
         mapViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
@@ -445,8 +425,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         return false;
                     }
                 }).into(mapViewHolder.mapImage);
-
-
 
                 mapViewHolder.mapImage.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -496,7 +474,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     }
                     mapViewHolder.text.setText(modify);
                 }
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -504,12 +481,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     }
 
     private void handleItemEvents(final WebSearchHolder websearchholder, final int position)  {
-
         websearchholder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
         webquery = MainActivity.webSearch;
-        if(webquery!= null)
-            web = webquery.trim().replace(" ", "+");
 
         final ChatMessage model = getData().get(position);
         websearchholder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
@@ -523,7 +497,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             final WebSearchClient apiService = WebSearchApi.getClient().create(WebSearchClient.class);
 
-            Call<WebSearch> call = apiService.getresult(web);
+            Call<WebSearch> call = apiService.getresult(webquery);
 
             call.enqueue(new Callback<WebSearch>() {
                 @Override
@@ -608,7 +582,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         model.setWebSearch(webSearch);
                         realm.copyToRealmOrUpdate(model);
                         realm.commitTransaction();
-
                     } else {
                         websearchholder.previewImageView.setVisibility(View.GONE);
                         websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
@@ -644,7 +617,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 }
 
             });
-
         }else {
             websearchholder.descriptionTextView.setText(model.getWebSearch().getBody());
             websearchholder.titleTextView.setText(model.getWebSearch().getHeadline());
@@ -658,9 +630,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 glide.load(model.getWebSearch().getImageURL())
                         .crossFade()
                         .into(websearchholder.previewImageView);
-
             }else {
-
                 websearchholder.previewImageView.setVisibility(View.GONE);
             }
 
@@ -804,7 +774,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         }
                     });
 
-
                     model.setWebLinkData(link);
                     realm.copyToRealmOrUpdate(model);
                     realm.commitTransaction();
@@ -812,7 +781,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             };
 
             if (model != null) {
-
                 List<String> urlList = extractLinks(model.getContent());
                 String url = urlList.get(0);
                 if (!(url.startsWith("http://") || url.startsWith("https://"))) {
@@ -836,7 +804,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     if(selectedItems.size() == 0) {
                         Uri webpage = Uri.parse(model.getWebLinkData().getUrl());
                         Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
@@ -882,7 +849,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     return true;
                 }
             });
-
         }
 
         if (highlightMessagePosition == position) {
@@ -906,7 +872,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     }
 
     private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
-
         final ChatMessage model = getData().get(position);
         if (model != null) {
             try {
@@ -954,7 +919,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 pieChartViewHolder.pieChart.setData(data);
                 pieChartViewHolder.pieChart.highlightValues(null);
                 pieChartViewHolder.pieChart.invalidate();
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -962,11 +926,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     }
 
     private void setClipboard(String text) {
-
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) currContext.getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
-
     }
 
     private void deleteMessage(final int position) {
@@ -978,7 +940,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         });
     }
 
-    public void markImportant(final int position) {
+    private void markImportant(final int position) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -1004,7 +966,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-
                 RealmResults<ChatMessage> AllDates = realm.where(ChatMessage.class).equalTo("isDate",true).findAll().sort("id");
 
                 int dateIndexFirst = getData().indexOf(AllDates.get(0));
@@ -1032,7 +993,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     }
 
     private void  toggleSelectedItem(int position) {
-
         toggleSelection(position);
         int count = getSelectedItemCount();
 
@@ -1062,14 +1022,11 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (actionMode == null) {
             actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
         }
-
         toggleSelectedItem(position);
-
         return true;
     }
 
     private class ActionModeCallback implements ActionMode.Callback {
-
         @SuppressWarnings("unused")
         private final String TAG = ChatFeedRecyclerAdapter.ActionModeCallback.class.getSimpleName();
         private int statusBarColor;
@@ -1104,12 +1061,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             int nSelected;
+            RealmResults<ChatMessage> important;
+
             switch (item.getItemId()) {
                 case R.id.menu_item_delete:
                     AlertDialog.Builder d = new AlertDialog.Builder(context);
-
                     if (getSelectedItems().size() == 1){
-
                         d.setMessage("Delete message?").
                                 setCancelable(false).
                                 setPositiveButton("Delete", new DialogInterface.OnClickListener() {
@@ -1124,17 +1081,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         toast.setGravity(Gravity.CENTER, 0, 0);
                                         toast.show();
                                         actionMode.finish();
-
                                     }
                                 })
-
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
                                     }
                                 });
-
                     } else {
                         d.setMessage("Delete " + getSelectedItems().size() + " messages?").
                                 setCancelable(false).
@@ -1150,17 +1104,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         toast.setGravity(Gravity.CENTER, 0, 0);
                                         toast.show();
                                         actionMode.finish();
-
                                     }
                                 })
-
                                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         dialog.cancel();
                                     }
                                 });
-
                     }
 
                     AlertDialog alert = d.create();
@@ -1179,7 +1130,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         copyText = getItem(selected).getContent();
                         if (getItem(selected).isMap()) {
                             copyText = copyText.substring(0, copyText.indexOf("http"));
-
                         }
                         setClipboard(copyText);
                     } else {
@@ -1199,7 +1149,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             Log.d("copyText", " " + i + " " + copyText);
                         }
                         copyText = copyText.substring(0, copyText.length() - 1);
-
                         setClipboard(copyText);
                     }
                     if (nSelected == 1){
@@ -1293,13 +1242,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             actionMode = null;
         }
 
-        public void shareMessage(String message) {
+        private void shareMessage(String message) {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
             sendIntent.putExtra(Intent.EXTRA_TEXT, message);
             sendIntent.setType("text/plain");
             currContext.startActivity(sendIntent);
         }
-
     }
 }

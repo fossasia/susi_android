@@ -81,7 +81,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="sign_up">Sign Up</string>
-    <string name="pass_validation_text">Enter a combination of at least six characters, containing lower- and uppercase letters and numbers</string>
+    <string name="pass_validation_text">Enter a combination of at least six characters</string>
     <string name="log_in">Log in</string>
     <string name="field_cannot_be_empty">This field cannot be empty</string>
     <string name="delete_items">Delete</string>
@@ -105,6 +105,17 @@
     <string name="settings_speech">Speech Settings</string>
     <string name="Language">Language</string>
     <string name="action_select_language">Select a Language</string>
+
+    <!-- Logout Screen-->
+    <string name="logout_alert">Are you sure ?</string>
+
+    <!-- Login Activity-->
+    <string name="action_select_server">is_susi_server_selected</string>
+    <string name="unknown_host_exception">Unknown Host Exception</string>
+    <string name="internet_connection_prompt">Please check your internet connection</string>
+
+    <!-- Settings Activity-->
+    <string name="server_change_prompt">Please login again to change susi server</string>
 
 
     <string name="email_id_input">Enter your Email ID</string>

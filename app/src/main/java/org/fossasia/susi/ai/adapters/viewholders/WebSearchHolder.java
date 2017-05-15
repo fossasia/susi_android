@@ -41,5 +41,4 @@ public class WebSearchHolder extends MessageViewHolder{
         super(itemView, listener);
         ButterKnife.bind(this,itemView);
     }
-
 }
