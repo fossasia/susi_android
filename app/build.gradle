@@ -52,7 +52,6 @@ dependencies {
     compile "com.android.support:customtabs:$support_lib_version"
     compile "com.android.support:cardview-v7:$support_lib_version"
 
-    compile 'me.himanshusoni.chatmessageview:chat-message-view:1.0.3'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
 
     /*
