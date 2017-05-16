@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static Boolean checkSpeechOutputPref() {
-        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
+        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
     }
 
     public static Boolean checkSpeechAlwaysPref() {
@@ -344,6 +344,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void retrieveOldMessages() {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setCancelable(false);
@@ -358,32 +359,15 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-    private void addOldMessages() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.dialog_retrieve_messages_title);
-        builder.setMessage(R.string.dialog_retrieve_messages_text)
-                .setCancelable(false)
-                .setNegativeButton("NO",null)
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        retrieveOldMessages();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        pbutton.setTextColor(Color.BLUE);
-        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-        nbutton.setTextColor(Color.RED);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
+        clientBuilder = new ClientBuilder();
         if(firstRun && isNetworkConnected()) {
-            addOldMessages();
+            retrieveOldMessages();
         }
         if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null) {
             throw new IllegalStateException("Not signed in, Cannot access resource!");
@@ -393,7 +377,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         getLocationFromLocationService();
-        clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
         compensateTTSDelay();
