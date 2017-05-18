@@ -21,7 +21,7 @@ import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.model.LoginResponse;
+import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;

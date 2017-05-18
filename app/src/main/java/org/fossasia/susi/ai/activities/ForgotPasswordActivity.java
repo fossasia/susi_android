@@ -17,7 +17,7 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.model.ForgotPasswordResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 
 import java.net.UnknownHostException;
 

@@ -69,25 +69,24 @@ import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.GetVideos;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
-import org.fossasia.susi.ai.rest.BaseUrl;
+import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.LocationClient;
-import org.fossasia.susi.ai.rest.LocationService;
-import org.fossasia.susi.ai.rest.VideoSeachClient;
-import org.fossasia.susi.ai.rest.VideoSearchApi;
-import org.fossasia.susi.ai.rest.model.Datum;
-import org.fossasia.susi.ai.rest.model.LocationHelper;
-import org.fossasia.susi.ai.rest.model.LocationResponse;
-import org.fossasia.susi.ai.rest.model.MemoryResponse;
-import org.fossasia.susi.ai.rest.model.SusiResponse;
-import org.fossasia.susi.ai.rest.model.VideoSearch;
+import org.fossasia.susi.ai.rest.clients.LocationClient;
+import org.fossasia.susi.ai.rest.services.LocationService;
+import org.fossasia.susi.ai.rest.services.VideoSearchService;
+import org.fossasia.susi.ai.rest.clients.VideoSearchClient;
+import org.fossasia.susi.ai.rest.responses.susi.Datum;
+import org.fossasia.susi.ai.helper.LocationHelper;
+import org.fossasia.susi.ai.rest.responses.others.LocationResponse;
+import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
+import org.fossasia.susi.ai.rest.responses.others.VideoSearch;
+import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Deque;
@@ -1584,7 +1583,7 @@ public class MainActivity extends AppCompatActivity {
 
     public String getvideos(String query) {
         id[0] = null;
-        final VideoSeachClient apiService = VideoSearchApi.getClient().create(VideoSeachClient.class);
+        final VideoSearchService apiService = VideoSearchClient.getClient().create(VideoSearchService.class);
 
         Call<VideoSearch> call = apiService.getVideo(query);
 
