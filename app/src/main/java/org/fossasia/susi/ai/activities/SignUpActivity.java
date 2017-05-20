@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -33,6 +34,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     @BindView(R.id.email)
     TextInputLayout email;
+    @BindView(R.id.autoemail)
+    AutoCompleteTextView autoemail;
     @BindView(R.id.password)
     TextInputLayout password;
     @BindView(R.id.confirm_password)
@@ -73,6 +76,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             url.setVisibility(View.GONE);
         }
+        CredentialHelper.addAdapterToViews(autoemail, this);
     }
 
     @Override

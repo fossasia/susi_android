@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.email)
     TextInputLayout email;
+    @BindView(R.id.autoemail)
+    AutoCompleteTextView autoemail;
     @BindView(R.id.password)
     TextInputLayout password;
     @BindView(R.id.log_in)
@@ -67,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 url.setVisibility(View.GONE);
             }
         }
+        CredentialHelper.addAdapterToViews(autoemail, this);
     }
 
     @OnClick(R.id.personal_server)
