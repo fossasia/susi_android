@@ -10,6 +10,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -22,6 +24,9 @@ import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.model.LoginResponse;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @BindView(R.id.email)
     TextInputLayout email;
+    @BindView(R.id.email_input)
+    AutoCompleteTextView autoCompleteEmail;
     @BindView(R.id.password)
     TextInputLayout password;
     @BindView(R.id.log_in)
@@ -45,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
     protected RadioButton personalServer;
     @BindView(R.id.input_url)
     protected TextInputLayout url;
+
+    private Set<String> savedEmails;
 
 
     @Override
@@ -66,6 +75,11 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 url.setVisibility(View.GONE);
             }
+        }
+        savedEmails = new HashSet<>();
+        if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null) {
+            savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL));
+            autoCompleteEmail.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>(savedEmails)));
         }
     }
 
@@ -139,6 +153,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    // Save email for autocompletion
+                    savedEmails.add(email.getEditText().getText().toString());
+                    PrefManager.putStringSet(Constant.SAVED_EMAIL,savedEmails);
                     //Save token and expiry date.
                     PrefManager.putString(Constant.ACCESS_TOKEN, response.body().getAccessToken());
                     long validity = System.currentTimeMillis() + response.body().getValidSeconds() * 1000;
