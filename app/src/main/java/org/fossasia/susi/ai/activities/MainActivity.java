@@ -846,6 +846,7 @@ public class MainActivity extends AppCompatActivity {
                                     try {
                                         answer = susiResponse.getAnswers().get(0).getActions()
                                                  .get(0).getExpression();
+                                        Log.d(TAG, "onResponse: " + answer);
                                         List<String> urlList = extractUrls(answer);
                                         Log.d(TAG, urlList.toString());
                                         isHavingLink = urlList != null;
@@ -920,6 +921,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (finalPlayVideo != null && finalPlayVideo.equals(getString(R.string.play_video))) {
                                         answer = finalPlayVideo;
                                         isWebSearch = false;
+                                        isHavingLink = false;
                                     }
                                     if (finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))) {
                                         if (query.contains("to")) {
