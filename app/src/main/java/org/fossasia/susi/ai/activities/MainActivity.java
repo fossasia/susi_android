@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -77,6 +78,7 @@ import org.fossasia.susi.ai.rest.VideoSearchApi;
 import org.fossasia.susi.ai.rest.model.Datum;
 import org.fossasia.susi.ai.rest.model.LocationHelper;
 import org.fossasia.susi.ai.rest.model.LocationResponse;
+import org.fossasia.susi.ai.rest.model.MemoryResponse;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
 import org.fossasia.susi.ai.rest.model.VideoSearch;
 
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
+    private ProgressDialog progressDialog;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -237,10 +240,151 @@ public class MainActivity extends AppCompatActivity {
         return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
     }
 
+    private void parseSusiResponse(SusiResponse susiResponse) {
+        //Check for text and links
+        try {
+            answer = susiResponse.getAnswers().get(0).getActions()
+                    .get(0).getExpression();
+            List<String> urlList = extractUrls(answer);
+            Log.d(TAG, urlList.toString());
+            isHavingLink = urlList != null;
+            if (urlList.size() == 0) isHavingLink = false;
+        } catch (Exception e ) {
+            Log.d(TAG, e.getLocalizedMessage());
+            answer = getString(R.string.error_occurred_try_again);
+            isHavingLink = false;
+        }
+
+        //Check for map
+        try {
+            isMap = susiResponse.getAnswers().get(0).getActions().get(2).getType().equals("map");
+            datumList = susiResponse.getAnswers().get(0).getData();
+        } catch (Exception e) {
+            isMap = false;
+        }
+
+        //Check for piechart
+        try {
+            isPieChart = susiResponse.getAnswers().get(0).getActions().get(2).getType().equals("piechart");
+            datumList = susiResponse.getAnswers().get(0).getData();
+        } catch (Exception e) {
+            Log.d(TAG, e.getLocalizedMessage());
+            isPieChart = false;
+        }
+
+        //Check for rss
+        try {
+            isSearchResult = susiResponse.getAnswers().get(0).getActions().get(1).getType().equals("rss");
+            datumList = susiResponse.getAnswers().get(0).getData();
+        } catch (Exception e) {
+            isSearchResult = false;
+        }
+
+        //Check for websearch
+        try {
+            isWebSearch = susiResponse.getAnswers().get(0).getActions().get(1).getType().equals("websearch");
+            datumList = susiResponse.getAnswers().get(0).getData();
+            webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
+        } catch (Exception e) {
+            isWebSearch = false;
+        }
+    }
+
+    private void getOldMessages() {
+        if (isNetworkConnected()) {
+            Call<MemoryResponse> call = clientBuilder.getSusiApi().getChatHistory();
+            call.enqueue(new Callback<MemoryResponse>() {
+                @Override
+                public void onResponse(Call<MemoryResponse> call, Response<MemoryResponse> response) {
+                    if (response != null && response.isSuccessful() && response.body() != null) {
+                        List<SusiResponse> allMessages = response.body().getCognitionsList();
+                        if(allMessages.size() == 0) {
+                            showToast("No messages found");
+                        } else {
+                            updateDatabase(0, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
+                            long c = 1;
+                            for (int i = allMessages.size() - 1; i >= 0; i--) {
+                                String query = allMessages.get(i).getQuery();
+                                boolean isHavingLink;
+                                List<String> urlList = extractUrls(query);
+                                Log.d(TAG, urlList.toString());
+                                isHavingLink = urlList != null;
+                                if (urlList.size() == 0) isHavingLink = false;
+
+                                updateDatabase(c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+                                parseSusiResponse(allMessages.get(i));
+                                rvChatFeed.getRecycledViewPool().clear();
+                                recyclerAdapter.notifyItemChanged((int) c);
+                                updateDatabase(c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+                                c += 2;
+                            }
+                        }
+                        progressDialog.dismiss();
+                    } else {
+                        if (!isNetworkConnected()) {
+                            Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                                    getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                        progressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MemoryResponse> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                    progressDialog.dismiss();
+                }
+            });
+        } else {
+            Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                    getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            progressDialog.dismiss();
+        }
+    }
+
+    private void retrieveOldMessages() {
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.dialog_retrieve_messages_title));
+        progressDialog.show();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                getOldMessages();
+            }
+        };
+        thread.start();
+    }
+
+    private void addOldMessages() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle(R.string.dialog_retrieve_messages_title);
+        builder.setMessage(R.string.dialog_retrieve_messages_text)
+                .setCancelable(false)
+                .setNegativeButton("NO",null)
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        retrieveOldMessages();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        pbutton.setTextColor(Color.BLUE);
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        nbutton.setTextColor(Color.RED);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
+        if(firstRun && isNetworkConnected()) {
+            addOldMessages();
+        }
         if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null) {
             throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
@@ -842,53 +986,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
 
-                                    //Check for text and links
-                                    try {
-                                        answer = susiResponse.getAnswers().get(0).getActions()
-                                                 .get(0).getExpression();
-                                        List<String> urlList = extractUrls(answer);
-                                        Log.d(TAG, urlList.toString());
-                                        isHavingLink = urlList != null;
-                                        if (urlList.size() == 0) isHavingLink = false;
-                                    } catch (Exception e ) {
-                                            Log.d(TAG, e.getLocalizedMessage());
-                                            answer = getString(R.string.error_occurred_try_again);
-                                            isHavingLink = false;
-                                        }
-
-                                    //Check for map
-                                    try {
-                                        isMap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                    } catch (Exception e) {
-                                        isMap = false;
-                                    }
-
-                                    //Check for piechart
-                                    try {
-                                        isPieChart = response.body().getAnswers().get(0).getActions().get(2).getType().equals("piechart");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                    } catch (Exception e) {
-                                        Log.d(TAG, e.getLocalizedMessage());
-                                        isPieChart = false;
-                                    }
-
-                                    //Check for rss
-                                    try {
-                                        isSearchResult = response.body().getAnswers().get(0).getActions().get(1).getType().equals("rss");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                    } catch (Exception e) {
-                                        isSearchResult = false;
-                                    }
-
-                                    //Check for websearch
-                                    try {
-                                        isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                        webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
-                                    } catch (Exception e) {
-                                        isWebSearch = false;
-                                    }
+                                    parseSusiResponse(susiResponse);
 
                                     realm.executeTransactionAsync(new Realm.Transaction() {
                                         @Override
@@ -1169,6 +1267,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess() {
                 Log.v(TAG, getString(R.string.updated_successfully));
+                if(!mine) {
+                    final long prId = id-1;
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm bgRealm) {
+                            try {
+                                ChatMessage previouschatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
+                                previouschatMessage.setIsDelivered(true);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    recyclerAdapter.notifyDataSetChanged();
+                }
             }
         }, new Realm.Transaction.OnError() {
             @Override

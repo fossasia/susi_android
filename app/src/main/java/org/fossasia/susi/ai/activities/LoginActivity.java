@@ -55,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent;
         if (!PrefManager.hasTokenExpired()) {
             intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("FIRST_TIME", false);
             startActivity(intent);
             finish();
         }
@@ -145,6 +146,7 @@ public class LoginActivity extends AppCompatActivity {
                     PrefManager.putLong(Constant.TOKEN_VALIDITY, validity);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("FIRST_TIME", true);
                     startActivity(intent);
                     finish();
                 } else if(response.code() == 422) {
