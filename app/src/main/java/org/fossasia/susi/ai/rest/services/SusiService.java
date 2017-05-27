@@ -21,8 +21,8 @@ public interface SusiService {
 
     @GET("/susi/chat.json")
     Call<SusiResponse> getSusiResponse(@Query("timezoneOffset") int timezoneOffset,
-                                       @Query("longitude") float longitude,
-                                       @Query("latitude") float latitude,
+                                       @Query("longitude") double longitude,
+                                       @Query("latitude") double latitude,
                                        @Query("geosource") String geosource,
                                        @Query("language") String language,
                                        @Query("q") String query);

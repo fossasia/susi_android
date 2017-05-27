@@ -153,9 +153,13 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
+    private LocationHelper locationHelper;
     private SpeechRecognizer recognizer;
     private ProgressDialog progressDialog;
     public long newMessageIndex = 0;
+    private double latitude = 0;
+    private double longitude = 0;
+    private String source = "ip";
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -447,10 +451,17 @@ public class MainActivity extends AppCompatActivity {
             PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
         }
 
-        getLocationFromLocationService();
         getLocationFromIP();
         init();
         compensateTTSDelay();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        locationHelper = new LocationHelper(MainActivity.this);
+        locationHelper.getLocation();
+        getLocationFromLocationService();
     }
 
     private void compensateTTSDelay() {
@@ -717,39 +728,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
                 if (response != null && response.isSuccessful() && response.body() != null) {
-                    String loc = response.body().getLoc();
-                    String s[] = loc.split(",");
-                    Float f = new Float(0);
-                    PrefManager.putFloat(Constant.LATITUDE, f.parseFloat(s[0]));
-                    PrefManager.putFloat(Constant.LONGITUDE, f.parseFloat(s[1]));
-                    PrefManager.putString(Constant.GEO_SOURCE, "ip");
-                } else {
-                    PrefManager.putFloat(Constant.LATITUDE, 0);
-                    PrefManager.putFloat(Constant.LONGITUDE, 0);
-                    PrefManager.putString(Constant.GEO_SOURCE, "ip");
+                    try {
+                        String loc = response.body().getLoc();
+                        String s[] = loc.split(",");
+                        latitude = Double.parseDouble(s[0]);
+                        longitude = Double.parseDouble(s[1]);
+                        source = "ip";
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
                 Log.e(TAG, t.toString());
-                PrefManager.putFloat(Constant.LATITUDE, 0);
-                PrefManager.putFloat(Constant.LONGITUDE, 0);
-                PrefManager.putString(Constant.GEO_SOURCE, "ip");
             }
         });
     }
 
     public void getLocationFromLocationService() {
-        LocationHelper locationHelper = new LocationHelper(MainActivity.this);
         if (locationHelper.canGetLocation()) {
-            float latitude = locationHelper.getLatitude();
-            float longitude = locationHelper.getLongitude();
-            String source = locationHelper.getSource();
-
-            PrefManager.putFloat(Constant.LATITUDE, latitude);
-            PrefManager.putFloat(Constant.LONGITUDE, longitude);
-            PrefManager.putString(Constant.GEO_SOURCE, source);
+            latitude = locationHelper.getLatitude();
+            longitude = locationHelper.getLongitude();
+            source = locationHelper.getSource();
         }
     }
 
@@ -757,16 +759,9 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
-                    LocationHelper locationHelper = new LocationHelper(MainActivity.this);
-                    if (locationHelper.canGetLocation()) {
-                        float latitude = locationHelper.getLatitude();
-                        float longitude = locationHelper.getLongitude();
-                        String source = locationHelper.getSource();
-                        PrefManager.putFloat(Constant.LATITUDE, latitude);
-                        PrefManager.putFloat(Constant.LONGITUDE, longitude);
-                        PrefManager.putString(Constant.GEO_SOURCE, source);
-                    }
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getLocationFromLocationService();
+                    locationHelper.getLocation();
                 }
                 if (grantResults.length == 0 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
                     micCheck = false;
@@ -779,15 +774,8 @@ public class MainActivity extends AppCompatActivity {
 
             case 2: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    LocationHelper locationHelper = new LocationHelper(MainActivity.this);
-                    if (locationHelper.canGetLocation()) {
-                        float latitude = locationHelper.getLatitude();
-                        float longitude = locationHelper.getLongitude();
-                        String source = locationHelper.getSource();
-                        PrefManager.putFloat(Constant.LATITUDE, latitude);
-                        PrefManager.putFloat(Constant.LONGITUDE, longitude);
-                        PrefManager.putString(Constant.GEO_SOURCE, source);
-                    }
+                    getLocationFromLocationService();
+                    locationHelper.getLocation();
                 }
                 break;
             }
@@ -1013,12 +1001,9 @@ public class MainActivity extends AppCompatActivity {
                 query = nonDeliveredMessages.getFirst().first;
                 id = nonDeliveredMessages.getFirst().second;
                 nonDeliveredMessages.pop();
-                final float latitude = PrefManager.getFloat(Constant.LATITUDE, 0);
-                final float longitude = PrefManager.getFloat(Constant.LONGITUDE, 0);
-                final String geo_source = PrefManager.getString(Constant.GEO_SOURCE, "ip");
-                Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, Locale.getDefault().getLanguage(), query).request().url().toString());
+                Log.d(TAG, clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, source, Locale.getDefault().getLanguage(), query).request().url().toString());
 
-                clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, geo_source, Locale.getDefault().getLanguage(), query).enqueue(
+                clientBuilder.getSusiApi().getSusiResponse(timezoneOffset, longitude, latitude, source, Locale.getDefault().getLanguage(), query).enqueue(
                         new Callback<SusiResponse>() {
                             @Override
                             public void onResponse(Call<SusiResponse> call,
@@ -1417,6 +1402,15 @@ public class MainActivity extends AppCompatActivity {
             recognizer=null;
         }
         hideVoiceInput();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(locationHelper != null) {
+            locationHelper.removeListener();
+            locationHelper = null;
+        }
     }
 
     @Override
