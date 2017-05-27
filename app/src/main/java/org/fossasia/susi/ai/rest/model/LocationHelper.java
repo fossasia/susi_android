@@ -10,7 +10,11 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Created by chiragw15 on 10/12/16.
@@ -31,7 +35,6 @@ public class LocationHelper extends Service implements LocationListener {
 
     public LocationHelper(Context context) {
         this.mContext = context;
-        getLocation();
     }
 
     public Location getLocation() {
@@ -99,6 +102,15 @@ public class LocationHelper extends Service implements LocationListener {
 
     public boolean canGetLocation() {
         return this.canGetLocation;
+    }
+
+    public void removeListener() {
+        if (locationManager != null) {
+            if (ActivityCompat.checkSelfPermission(mContext,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(mContext,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.removeUpdates(this);
+            }
+        }
     }
 
     @Override
