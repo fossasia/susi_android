@@ -1,13 +1,20 @@
 package org.fossasia.susi.ai.helper;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import org.fossasia.susi.ai.R;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 
@@ -88,5 +95,17 @@ public class CredentialHelper {
             inputLayout.setError(null);
             return false;
         }
+    }
+    public static void addAdapterToViews(AutoCompleteTextView autoemail,Context context) {
+
+        Account[] accounts = AccountManager.get(context).getAccounts();
+        Set<String> emailSet = new HashSet<String>();
+        for (Account account : accounts) {
+            if (Patterns.EMAIL_ADDRESS.matcher(account.name).matches()) {
+                emailSet.add(account.name);
+            }
+        }
+        autoemail.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, new ArrayList<String>(emailSet)));
+
     }
 }

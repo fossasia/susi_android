@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.RadioButton;
 
@@ -32,6 +33,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.forgot_email)
     protected TextInputLayout email;
+    @BindView(R.id.autoemail)
+    protected AutoCompleteTextView autoemail;
     @BindView(R.id.reset_button)
     protected Button resetButton;
     @BindView(R.id.susi_default)
@@ -60,6 +63,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        CredentialHelper.addAdapterToViews(autoemail, this);
     }
 
     @Override
