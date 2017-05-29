@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public static Boolean checkSpeechOutputPref() {
-        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
+        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
     }
 
     public static Boolean checkSpeechAlwaysPref() {
