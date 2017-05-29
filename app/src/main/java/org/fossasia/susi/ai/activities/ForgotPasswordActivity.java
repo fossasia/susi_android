@@ -135,7 +135,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                     AlertDialog alert = builder.create();
