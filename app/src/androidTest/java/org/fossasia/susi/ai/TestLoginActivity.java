@@ -7,6 +7,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.RadioButton;
 
 import org.fossasia.susi.ai.activities.LoginActivity;
@@ -79,7 +80,7 @@ public class TestLoginActivity {
     @Test
     public void testSignIn() throws InterruptedException {
         Log.d(TAG, "running Sign in test");
-        final TextInputEditText emailInput = (TextInputEditText) ((TextInputLayout) mActivityRule.getActivity().findViewById(R.id.email)).getEditText();
+        final AutoCompleteTextView emailInput = (AutoCompleteTextView) ((TextInputLayout) mActivityRule.getActivity().findViewById(R.id.email)).getEditText();
         getInstrumentation().runOnMainSync(new Runnable() {
             public void run() {
                 emailInput.setText("singhalsaurabh95@gmail.com");
