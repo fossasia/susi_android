@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.rest;
 
 import org.fossasia.susi.ai.rest.model.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.model.LoginResponse;
+import org.fossasia.susi.ai.rest.model.MemoryResponse;
 import org.fossasia.susi.ai.rest.model.SignUpResponse;
 import org.fossasia.susi.ai.rest.model.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.model.SusiResponse;
@@ -24,6 +25,9 @@ public interface SusiService {
                                        @Query("geosource") String geosource,
                                        @Query("language") String language,
                                        @Query("q") String query);
+
+    @GET("/susi/memory.json")
+    Call<MemoryResponse> getChatHistory();
 
     @POST("/aaa/signup.json")
     Call<SignUpResponse> signUp(@Query("signup") String email,
