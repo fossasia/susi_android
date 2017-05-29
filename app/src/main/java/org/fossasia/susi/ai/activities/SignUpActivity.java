@@ -190,7 +190,9 @@ public class SignUpActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
+                                finish();
                             }
                         });
 
@@ -199,6 +201,7 @@ public class SignUpActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
                         });
 
