@@ -986,6 +986,54 @@ public class MainActivity extends AppCompatActivity {
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
 
+                                    //Check for text and links
+                                    try {
+                                        answer = susiResponse.getAnswers().get(0).getActions()
+                                                 .get(0).getExpression();
+                                        Log.d(TAG, "onResponse: " + answer);
+                                        List<String> urlList = extractUrls(answer);
+                                        Log.d(TAG, urlList.toString());
+                                        isHavingLink = urlList != null;
+                                        if (urlList.size() == 0) isHavingLink = false;
+                                    } catch (Exception e ) {
+                                            Log.d(TAG, e.getLocalizedMessage());
+                                            answer = getString(R.string.error_occurred_try_again);
+                                            isHavingLink = false;
+                                        }
+
+                                    //Check for map
+                                    try {
+                                        isMap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                    } catch (Exception e) {
+                                        isMap = false;
+                                    }
+
+                                    //Check for piechart
+                                    try {
+                                        isPieChart = response.body().getAnswers().get(0).getActions().get(2).getType().equals("piechart");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                    } catch (Exception e) {
+                                        Log.d(TAG, e.getLocalizedMessage());
+                                        isPieChart = false;
+                                    }
+
+                                    //Check for rss
+                                    try {
+                                        isSearchResult = response.body().getAnswers().get(0).getActions().get(1).getType().equals("rss");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                    } catch (Exception e) {
+                                        isSearchResult = false;
+                                    }
+
+                                    //Check for websearch
+                                    try {
+                                        isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
+                                        datumList = response.body().getAnswers().get(0).getData();
+                                        webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
+                                    } catch (Exception e) {
+                                        isWebSearch = false;
+                                    }
                                     parseSusiResponse(susiResponse);
 
                                     realm.executeTransactionAsync(new Realm.Transaction() {
@@ -1018,6 +1066,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (finalPlayVideo != null && finalPlayVideo.equals(getString(R.string.play_video))) {
                                         answer = finalPlayVideo;
                                         isWebSearch = false;
+                                        isHavingLink = false;
                                     }
                                     if (finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))) {
                                         if (query.contains("to")) {
