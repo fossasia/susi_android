@@ -11,7 +11,7 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        app:cardBackgroundColor="@color/user_message_bg"
+        app:cardBackgroundColor="@color/susi_message_bg"
         app:contentPadding="@dimen/standard_content_padding">
 
         <LinearLayout
