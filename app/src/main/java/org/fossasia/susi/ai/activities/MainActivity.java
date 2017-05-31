@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     protected DotsTextView voiceDots;
     @BindView(R.id.cancel)
     protected ImageView cancelInput;
-    
+
     private boolean atHome = true;
     private boolean backPressedOnce = false;
     private FloatingActionButton fab_scrollToEnd;
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
+    private LocationHelper locationHelper;
     private SpeechRecognizer recognizer;
     private ProgressDialog progressDialog;
 
@@ -443,11 +444,17 @@ public class MainActivity extends AppCompatActivity {
             PrefManager.putBoolean(Constant.MIC_INPUT, true);
         }
 
-        getLocationFromLocationService();
         clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
         compensateTTSDelay();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        locationHelper = new LocationHelper(MainActivity.this);
+        getLocationFromLocationService();
     }
 
     private void compensateTTSDelay() {
@@ -728,7 +735,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getLocationFromLocationService() {
-        LocationHelper locationHelper = new LocationHelper(MainActivity.this);
+        locationHelper.getLocation();
         if (locationHelper.canGetLocation()) {
             float latitude = locationHelper.getLatitude();
             float longitude = locationHelper.getLongitude();
@@ -744,8 +751,8 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
-                    LocationHelper locationHelper = new LocationHelper(MainActivity.this);
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationHelper.getLocation();
                     if (locationHelper.canGetLocation()) {
                         float latitude = locationHelper.getLatitude();
                         float longitude = locationHelper.getLongitude();
@@ -1750,6 +1757,15 @@ public class MainActivity extends AppCompatActivity {
         if(recognizer != null)
             recognizer.destroy();
         hideVoiceInput();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(locationHelper != null) {
+            locationHelper.removeListener();
+            locationHelper = null;
+        }
     }
 
     @Override
