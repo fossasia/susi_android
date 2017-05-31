@@ -292,8 +292,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getOldMessages() {
         if (isNetworkConnected()) {
-            ClientBuilder clientBuilder1 = new ClientBuilder();
-            Call<MemoryResponse> call = clientBuilder1.getSusiApi().getChatHistory();
+            Call<MemoryResponse> call = clientBuilder.getSusiApi().getChatHistory();
             call.enqueue(new Callback<MemoryResponse>() {
                 @Override
                 public void onResponse(Call<MemoryResponse> call, Response<MemoryResponse> response) {
@@ -366,6 +365,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
+        clientBuilder = new ClientBuilder();
         if(firstRun && isNetworkConnected()) {
             retrieveOldMessages();
         }
@@ -377,7 +377,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         getLocationFromLocationService();
-        clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
         compensateTTSDelay();
