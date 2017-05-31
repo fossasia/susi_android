@@ -483,18 +483,17 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final WebSearchHolder websearchholder, final int position)  {
         websearchholder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
 
-        webquery = MainActivity.webSearch;
-
         final ChatMessage model = getData().get(position);
+        int checkIndex = model.getContent().lastIndexOf("#");
         websearchholder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-        websearchholder.text.setText(model.getContent());
+        websearchholder.text.setText(model.getContent().substring(0,checkIndex));
         websearchholder.timestampTextView.setText(model.getTimeStamp());
 
         if(model.getWebSearch()==null) {
             websearchholder.descriptionTextView.setVisibility(View.GONE);
             websearchholder.titleTextView.setVisibility(View.GONE);
             websearchholder.previewImageView.setVisibility(View.GONE);
-
+            webquery = model.getContent().substring(checkIndex+1);
             final WebSearchClient apiService = WebSearchApi.getClient().create(WebSearchClient.class);
 
             Call<WebSearch> call = apiService.getresult(webquery);

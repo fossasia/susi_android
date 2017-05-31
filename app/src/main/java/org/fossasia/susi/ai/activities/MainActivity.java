@@ -321,6 +321,7 @@ public class MainActivity extends AppCompatActivity {
             isWebSearch = susiResponse.getAnswers().get(0).getActions().get(1).getType().equals("websearch");
             datumList = susiResponse.getAnswers().get(0).getData();
             webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
+            answer = answer+"#"+webSearch;
         } catch (Exception e) {
             isWebSearch = false;
         }
