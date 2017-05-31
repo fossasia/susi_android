@@ -25,7 +25,9 @@ import android.os.Looper;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.MediaStore;
+import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
@@ -55,7 +57,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,7 +89,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Deque;
@@ -100,10 +101,12 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import pl.tajchert.sample.DotsTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -112,7 +115,6 @@ import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
 
 public class MainActivity extends AppCompatActivity {
     public static String TAG = MainActivity.class.getName();
-    private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
     private static final String GOOGLE_SEARCH = "https://www.google.co.in/search?q=";
@@ -126,7 +128,14 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     @BindView(R.id.btnSpeak)
-    ImageButton btnSpeak;
+    protected ImageView btnSpeak;
+    @BindView(R.id.voice_input_text)
+    protected TextView voiceInputText;
+    @BindView(R.id.dots)
+    protected DotsTextView voiceDots;
+    @BindView(R.id.cancel)
+    protected ImageView cancelInput;
+    
     private boolean atHome = true;
     private boolean backPressedOnce = false;
     private FloatingActionButton fab_scrollToEnd;
@@ -159,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
+    private SpeechRecognizer recognizer;
     private ProgressDialog progressDialog;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
@@ -210,6 +220,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         check = true;
+                        displayVoiceInput();
                         promptSpeechInput();
                     }
                 });
@@ -221,6 +232,31 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    private void hideVoiceInput() {
+        voiceInputText.setText("");
+        voiceInputText.setVisibility(View.GONE);
+        cancelInput.setVisibility(View.GONE);
+        voiceDots.hideAndStop();
+        voiceDots.setVisibility(View.GONE);
+        ChatMessage.setVisibility(View.VISIBLE);
+        btnSpeak.setVisibility(View.VISIBLE);
+    }
+
+    private void displayVoiceInput() {
+        voiceDots.setVisibility(View.VISIBLE);
+        voiceInputText.setVisibility(View.VISIBLE);
+        cancelInput.setVisibility(View.VISIBLE);
+        ChatMessage.setVisibility(View.GONE);
+        btnSpeak.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.cancel)
+    public void cancelSpeechInput() {
+        recognizer.cancel();
+        recognizer.destroy();
+        hideVoiceInput();
+    }
 
     public static List<String> extractUrls(String text) {
         List<String> links = new ArrayList<>();
@@ -389,9 +425,24 @@ public class MainActivity extends AppCompatActivity {
             throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
         if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO}, 1);
+        } else if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+        } else if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 3);
         }
+
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            micCheck = true;
+            PrefManager.putBoolean(Constant.MIC_INPUT, true);
+        }
+
         getLocationFromLocationService();
         clientBuilder = new ClientBuilder();
         getLocationFromIP();
@@ -420,36 +471,87 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
-        try {
-            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-        } catch (ActivityNotFoundException a) {
-            showToast(getString(R.string.speech_not_supported));
-        }
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                "com.domain.app");
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
+
+        recognizer = SpeechRecognizer
+                .createSpeechRecognizer(this.getApplicationContext());
+        RecognitionListener listener = new RecognitionListener() {
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> voiceResults = results
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (voiceResults == null) {
+                    Log.e(TAG, "No voice results");
+                } else {
+                    Log.d(TAG, "Printing matches: ");
+                    for (String match : voiceResults) {
+                        Log.d(TAG, match);
+                    }
+                }
+                sendMessage(voiceResults.get(0),voiceResults.get(0));
+                recognizer.destroy();
+                hideVoiceInput();
+            }
+
+            @Override
+            public void onReadyForSpeech(Bundle params) {
+                Log.d(TAG, "Ready for speech");
+                voiceDots.show();
+            }
+
+            @Override
+            public void onError(int error) {
+                Log.d(TAG,
+                        "Error listening for speech: " + error);
+                Toast.makeText(getApplicationContext(),"Could not recognize speech, try again.",Toast.LENGTH_SHORT).show();
+                recognizer.destroy();
+                hideVoiceInput();
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+                Log.d(TAG, "Speech starting");
+                voiceDots.start();
+            }
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {
+                // This method is intentionally empty
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+                // This method is intentionally empty
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {
+                // This method is intentionally empty
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+                ArrayList<String> partial = partialResults
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                voiceInputText.setText(partial.get(0));
+            }
+
+            @Override
+            public void onRmsChanged(float rmsdB) {
+                // This method is intentionally empty
+            }
+        };
+        recognizer.setRecognitionListener(listener);
+        recognizer.startListening(intent);
     }
 
-    /**
-     * Receiving speech input
-     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Handler mHandler = new Handler(Looper.getMainLooper());
         switch (requestCode) {
-            case REQ_CODE_SPEECH_INPUT: {
-                if (resultCode == RESULT_OK && null != data) {
-                    mHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            ArrayList<String> result = data
-                                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                            sendMessage(result.get(0), result.get(0));
-                        }
-                    });
-                }
-                break;
-            }
             case CROP_PICTURE: {
                 if (resultCode == RESULT_OK && null != data) {
                     mHandler.post(new Runnable() {
@@ -566,7 +668,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkEnterKeyPref();
         setupAdapter();
-
+        hideVoiceInput();
         rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -642,6 +744,28 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+                    LocationHelper locationHelper = new LocationHelper(MainActivity.this);
+                    if (locationHelper.canGetLocation()) {
+                        float latitude = locationHelper.getLatitude();
+                        float longitude = locationHelper.getLongitude();
+                        String source = locationHelper.getSource();
+                        PrefManager.putFloat(Constant.LATITUDE, latitude);
+                        PrefManager.putFloat(Constant.LONGITUDE, longitude);
+                        PrefManager.putString(Constant.GEO_SOURCE, source);
+                    }
+                }
+                if (grantResults.length == 0 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    micCheck = false;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, false);
+                } else {
+                    micCheck = true;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, true);
+                }
+                break;
+            }
+
+            case 2: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     LocationHelper locationHelper = new LocationHelper(MainActivity.this);
                     if (locationHelper.canGetLocation()) {
@@ -654,6 +778,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
+            }
+
+            case 3: {
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    micCheck = false;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, false);
+                } else {
+                    micCheck = true;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, true);
+                }
             }
         }
     }
@@ -751,6 +885,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     check = true;
+                    displayVoiceInput();
                     promptSpeechInput();
                 }
             });
@@ -1612,6 +1747,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         unregisterReceiver(networkStateReceiver);
         super.onPause();
+        if(recognizer != null)
+            recognizer.destroy();
+        hideVoiceInput();
     }
 
     @Override
