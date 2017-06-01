@@ -1135,6 +1135,7 @@ public class MainActivity extends AppCompatActivity {
                                     if (finalPlayVideo != null && finalPlayVideo.equals(getString(R.string.play_video))) {
                                         answer = finalPlayVideo;
                                         isWebSearch = false;
+                                        isHavingLink = false;
                                     }
                                     if (finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))) {
                                         if (query.contains("to")) {
