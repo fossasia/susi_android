@@ -17,7 +17,7 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.model.ForgotPasswordResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 
 import java.net.UnknownHostException;
 
@@ -135,7 +135,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
+                                    finish();
                                 }
                             });
                     AlertDialog alert = builder.create();
