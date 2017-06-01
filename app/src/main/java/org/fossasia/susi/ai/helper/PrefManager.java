@@ -6,8 +6,8 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 
 import org.fossasia.susi.ai.MainApplication;
-import org.fossasia.susi.ai.rest.BaseUrl;
-import org.fossasia.susi.ai.rest.model.SusiBaseUrls;
+import org.fossasia.susi.ai.rest.clients.BaseUrl;
+import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 
 import java.util.Set;
 

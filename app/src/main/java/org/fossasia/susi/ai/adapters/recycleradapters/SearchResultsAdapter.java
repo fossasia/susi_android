@@ -17,7 +17,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.SearchResultHolder;
-import org.fossasia.susi.ai.rest.model.Datum;
+import org.fossasia.susi.ai.rest.responses.susi.Datum;
 
 import java.util.List;
 

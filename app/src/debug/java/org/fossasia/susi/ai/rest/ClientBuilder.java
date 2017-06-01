@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.rest;
 
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor;
+import org.fossasia.susi.ai.rest.services.SusiService;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

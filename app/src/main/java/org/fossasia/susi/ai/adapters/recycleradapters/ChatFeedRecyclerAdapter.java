@@ -62,10 +62,10 @@ import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.model.WebLink;
 import org.fossasia.susi.ai.model.WebSearchModel;
-import org.fossasia.susi.ai.rest.WebSearchApi;
-import org.fossasia.susi.ai.rest.WebSearchClient;
-import org.fossasia.susi.ai.rest.model.Datum;
-import org.fossasia.susi.ai.rest.model.WebSearch;
+import org.fossasia.susi.ai.rest.clients.WebSearchClient;
+import org.fossasia.susi.ai.rest.services.WebSearchService;
+import org.fossasia.susi.ai.rest.responses.susi.Datum;
+import org.fossasia.susi.ai.rest.responses.others.WebSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -495,7 +495,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             websearchholder.titleTextView.setVisibility(View.GONE);
             websearchholder.previewImageView.setVisibility(View.GONE);
 
-            final WebSearchClient apiService = WebSearchApi.getClient().create(WebSearchClient.class);
+            final WebSearchService apiService = WebSearchClient.getClient().create(WebSearchService.class);
 
             Call<WebSearch> call = apiService.getresult(webquery);
 

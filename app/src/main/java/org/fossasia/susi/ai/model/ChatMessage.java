@@ -1,6 +1,6 @@
 package org.fossasia.susi.ai.model;
 
-import org.fossasia.susi.ai.rest.model.Datum;
+import org.fossasia.susi.ai.rest.responses.susi.Datum;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
