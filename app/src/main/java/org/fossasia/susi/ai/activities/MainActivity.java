@@ -394,32 +394,15 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
     }
 
-    private void addOldMessages() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setTitle(R.string.dialog_retrieve_messages_title);
-        builder.setMessage(R.string.dialog_retrieve_messages_text)
-                .setCancelable(false)
-                .setNegativeButton("NO",null)
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        retrieveOldMessages();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        pbutton.setTextColor(Color.BLUE);
-        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-        nbutton.setTextColor(Color.RED);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        clientBuilder = new ClientBuilder();
         Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
         if(firstRun && isNetworkConnected()) {
-            addOldMessages();
+            retrieveOldMessages();
         }
         if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null) {
             throw new IllegalStateException("Not signed in, Cannot access resource!");
@@ -444,7 +427,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         getLocationFromLocationService();
-        clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
         compensateTTSDelay();
