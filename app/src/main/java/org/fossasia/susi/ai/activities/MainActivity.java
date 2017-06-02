@@ -18,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
+import java.io.File;
+import java.io.IOException;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -61,6 +64,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.bumptech.glide.Glide;
 
@@ -110,10 +114,16 @@ import pl.tajchert.sample.DotsTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import edu.cmu.pocketsphinx.Assets;
+import edu.cmu.pocketsphinx.Hypothesis;
+import edu.cmu.pocketsphinx.RecognitionListener;
+import edu.cmu.pocketsphinx.SpeechRecognizer;
+import edu.cmu.pocketsphinx.SpeechRecognizerSetup;
 
 import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
+import static android.widget.Toast.makeText;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecognitionListener{
     public static String TAG = MainActivity.class.getName();
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
@@ -165,11 +175,18 @@ public class MainActivity extends AppCompatActivity {
     private String reminder;
     private int count = 0;
     private static final String[] id = new String[1];
+
+    private SpeechRecognizer recognizer;
+    /* Keyword we are looking for to activate menu */
+    private static final String KEYPHRASE = "hi susi";
+    /* Named searches allow to quickly reconfigure the decoder */
+    private static final String KWS_SEARCH = "hi susi";
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
     private SpeechRecognizer recognizer;
     private ProgressDialog progressDialog;
+
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -399,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         clientBuilder = new ClientBuilder();
         Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
         if(firstRun && isNetworkConnected()) {
@@ -430,6 +448,7 @@ public class MainActivity extends AppCompatActivity {
         getLocationFromIP();
         init();
         compensateTTSDelay();
+        runRecognizerSetup();
     }
 
     private void compensateTTSDelay() {
@@ -534,6 +553,21 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Handler mHandler = new Handler(Looper.getMainLooper());
         switch (requestCode) {
+            case REQ_CODE_SPEECH_INPUT: {
+                if (resultCode == RESULT_OK && null != data) {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ArrayList<String> result = data
+                                    .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                            sendMessage(result.get(0), result.get(0));
+                            runRecognizerSetup();
+                        }
+                    });
+                }
+                break;
+            }
+
             case CROP_PICTURE: {
                 if (resultCode == RESULT_OK && null != data) {
                     mHandler.post(new Runnable() {
@@ -758,6 +792,7 @@ public class MainActivity extends AppCompatActivity {
                         PrefManager.putFloat(Constant.LONGITUDE, longitude);
                         PrefManager.putString(Constant.GEO_SOURCE, source);
                     }
+                    Toast.makeText(MainActivity.this,"Susi Voice enabled",Toast.LENGTH_SHORT).show();
                 }
                 break;
             }
@@ -1305,6 +1340,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (answer.equals(getString(R.string.play_video))) {
             video_query = video_query.replace(" ", "+");
+
             video_query = "";
         }
 
@@ -1739,6 +1775,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
+
+        if (recognizer != null) {
+            recognizer.cancel();
+            recognizer.shutdown();
+        }
     }
 
     private boolean isNetworkConnected() {
@@ -1754,10 +1795,127 @@ public class MainActivity extends AppCompatActivity {
     public void scrollToEnd(View view) {
         rvChatFeed.smoothScrollToPosition(rvChatFeed.getAdapter().getItemCount() - 1);
     }
+    //code added
+
+    private void runRecognizerSetup() {
+        // Recognizer initialization is a time-consuming and it involves IO,
+        // so we execute it in async task
+        new AsyncTask<Void, Void, Exception>() {
+            @Override
+            protected Exception doInBackground(Void... params) {
+                try {
+                    Assets assets = new Assets(MainActivity.this);
+                    File assetDir = assets.syncAssets();
+                    setupRecognizer(assetDir);
+                } catch (IOException e) {
+                    return e;
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Exception result) {
+                if (result != null) {
+                    Toast.makeText(MainActivity.this,"Failed to init recognizer",Toast.LENGTH_SHORT).show();
+                } else {
+                    switchSearch(KWS_SEARCH);
+                }
+            }
+        }.execute();
+    }
+
+    /**
+     * In partial result we get quick updates about current hypothesis. In
+     * keyword spotting mode we can react here, in other modes we need to wait
+     * for final result in onResult.
+     */
+    @Override
+    public void onPartialResult(Hypothesis hypothesis) {
+        if (hypothesis == null)
+            return;
+
+        String text = hypothesis.getHypstr();
+        if (text.equals(KEYPHRASE)){
+            btnSpeak.performClick();
+            recognizer.stop();
+        }
+    }
+
+    /**
+     * This callback is called when we stop the recognizer.
+     */
+    @Override
+    public void onResult(Hypothesis hypothesis) {
+
+        if (hypothesis != null) {
+            //makeText(getApplicationContext(), "partial", Toast.LENGTH_SHORT).show();
+            //btnSpeak.performClick();
+            //recognizer.stop();
+
+        }
+    }
+
+    @Override
+    public void onBeginningOfSpeech() {
+
+    }
+
+    /**
+     * We stop recognizer here to get a final result
+     */
+    @Override
+    public void onEndOfSpeech() {
+        if (!recognizer.getSearchName().equals(KWS_SEARCH))
+            switchSearch(KWS_SEARCH);
+    }
+
+    private void switchSearch(String searchName) {
+        recognizer.stop();
+
+        // If we are not spotting, start listening with timeout (10000 ms or 10 seconds).
+        if (searchName.equals(KWS_SEARCH))
+            recognizer.startListening(searchName);
+        else
+            recognizer.startListening(searchName,5000);
+    }
+
+    private void setupRecognizer(File assetsDir) throws IOException {
+        // The recognizer can be configured to perform multiple searches
+        // of different kind and switch between them
+
+        recognizer = SpeechRecognizerSetup.defaultSetup()
+                .setAcousticModel(new File(assetsDir, "en-us-ptm"))
+                .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
+
+                .setRawLogDir(assetsDir) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
+
+                .getRecognizer();
+        recognizer.addListener(this);
+
+        /** In your application you might not need to add all those searches.
+         * They are added here for demonstration. You can leave just one.
+         */
+
+        // Create keyword-activation search.
+        recognizer.addKeyphraseSearch(KWS_SEARCH, KEYPHRASE);
+
+
+    }
+
+    @Override
+    public void onError(Exception error) {
+        Toast.makeText(MainActivity.this,"Error occurred",Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onTimeout() {
+        switchSearch(KWS_SEARCH);
+    }
 
     private class computeThread extends Thread {
         public void run() {
             computeOtherMessage();
         }
     }
+
 }
