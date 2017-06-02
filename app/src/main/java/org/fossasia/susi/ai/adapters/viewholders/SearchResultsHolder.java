@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 
 public class SearchResultsHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.message)
+    @BindView(R.id.text)
     public TextView message;
     @BindView(R.id.timestamp)
     public TextView timeStamp;

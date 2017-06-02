@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.activities;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,7 +26,9 @@ import android.os.Looper;
 import android.provider.AlarmClock;
 import android.provider.CalendarContract;
 import android.provider.MediaStore;
+import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.CoordinatorLayout;
@@ -57,7 +60,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,24 +75,24 @@ import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.GetVideos;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
-import org.fossasia.susi.ai.rest.BaseUrl;
+import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.LocationClient;
-import org.fossasia.susi.ai.rest.LocationService;
-import org.fossasia.susi.ai.rest.VideoSeachClient;
-import org.fossasia.susi.ai.rest.VideoSearchApi;
-import org.fossasia.susi.ai.rest.model.Datum;
-import org.fossasia.susi.ai.rest.model.LocationHelper;
-import org.fossasia.susi.ai.rest.model.LocationResponse;
-import org.fossasia.susi.ai.rest.model.SusiResponse;
-import org.fossasia.susi.ai.rest.model.VideoSearch;
+import org.fossasia.susi.ai.rest.clients.LocationClient;
+import org.fossasia.susi.ai.rest.services.LocationService;
+import org.fossasia.susi.ai.rest.services.VideoSearchService;
+import org.fossasia.susi.ai.rest.clients.VideoSearchClient;
+import org.fossasia.susi.ai.rest.responses.susi.Datum;
+import org.fossasia.susi.ai.helper.LocationHelper;
+import org.fossasia.susi.ai.rest.responses.others.LocationResponse;
+import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
+import org.fossasia.susi.ai.rest.responses.others.VideoSearch;
+import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Deque;
@@ -102,10 +105,12 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import pl.tajchert.sample.DotsTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -120,7 +125,6 @@ import static android.widget.Toast.makeText;
 
 public class MainActivity extends AppCompatActivity implements RecognitionListener{
     public static String TAG = MainActivity.class.getName();
-    private final int REQ_CODE_SPEECH_INPUT = 100;
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
     private static final String GOOGLE_SEARCH = "https://www.google.co.in/search?q=";
@@ -134,7 +138,14 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     @BindView(R.id.send_message_layout)
     LinearLayout sendMessageLayout;
     @BindView(R.id.btnSpeak)
-    ImageButton btnSpeak;
+    protected ImageView btnSpeak;
+    @BindView(R.id.voice_input_text)
+    protected TextView voiceInputText;
+    @BindView(R.id.dots)
+    protected DotsTextView voiceDots;
+    @BindView(R.id.cancel)
+    protected ImageView cancelInput;
+    
     private boolean atHome = true;
     private boolean backPressedOnce = false;
     private FloatingActionButton fab_scrollToEnd;
@@ -173,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
+    private SpeechRecognizer recognizer;
+    private ProgressDialog progressDialog;
 
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
@@ -224,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     @Override
                     public void onClick(View v) {
                         check = true;
+                        displayVoiceInput();
                         promptSpeechInput();
                     }
                 });
@@ -236,6 +250,31 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         }
     };
 
+    private void hideVoiceInput() {
+        voiceInputText.setText("");
+        voiceInputText.setVisibility(View.GONE);
+        cancelInput.setVisibility(View.GONE);
+        voiceDots.hideAndStop();
+        voiceDots.setVisibility(View.GONE);
+        ChatMessage.setVisibility(View.VISIBLE);
+        btnSpeak.setVisibility(View.VISIBLE);
+    }
+
+    private void displayVoiceInput() {
+        voiceDots.setVisibility(View.VISIBLE);
+        voiceInputText.setVisibility(View.VISIBLE);
+        cancelInput.setVisibility(View.VISIBLE);
+        ChatMessage.setVisibility(View.GONE);
+        btnSpeak.setVisibility(View.GONE);
+    }
+
+    @OnClick(R.id.cancel)
+    public void cancelSpeechInput() {
+        recognizer.cancel();
+        recognizer.destroy();
+        hideVoiceInput();
+    }
+
     public static List<String> extractUrls(String text) {
         List<String> links = new ArrayList<>();
         Matcher m = Patterns.WEB_URL.matcher(text);
@@ -247,28 +286,165 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     public static Boolean checkSpeechOutputPref() {
-        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false);
+        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
     }
 
     public static Boolean checkSpeechAlwaysPref() {
         return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
     }
 
+    private void parseSusiResponse(SusiResponse susiResponse) {
+        //Check for text and links
+        try {
+            answer = susiResponse.getAnswers().get(0).getActions()
+                    .get(0).getExpression();
+            List<String> urlList = extractUrls(answer);
+            Log.d(TAG, urlList.toString());
+            isHavingLink = urlList != null;
+            if (urlList.size() == 0) isHavingLink = false;
+        } catch (Exception e ) {
+            Log.d(TAG, e.getLocalizedMessage());
+            answer = getString(R.string.error_occurred_try_again);
+            isHavingLink = false;
+        }
+
+        //Check for map
+        try {
+            isMap = susiResponse.getAnswers().get(0).getActions().get(2).getType().equals("map");
+            datumList = susiResponse.getAnswers().get(0).getData();
+        } catch (Exception e) {
+            isMap = false;
+        }
+
+        //Check for piechart
+        try {
+            isPieChart = susiResponse.getAnswers().get(0).getActions().get(2).getType().equals("piechart");
+            datumList = susiResponse.getAnswers().get(0).getData();
+        } catch (Exception e) {
+            Log.d(TAG, e.getLocalizedMessage());
+            isPieChart = false;
+        }
+
+        //Check for rss
+        try {
+            isSearchResult = susiResponse.getAnswers().get(0).getActions().get(1).getType().equals("rss");
+            datumList = susiResponse.getAnswers().get(0).getData();
+        } catch (Exception e) {
+            isSearchResult = false;
+        }
+
+        //Check for websearch
+        try {
+            isWebSearch = susiResponse.getAnswers().get(0).getActions().get(1).getType().equals("websearch");
+            datumList = susiResponse.getAnswers().get(0).getData();
+            webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
+        } catch (Exception e) {
+            isWebSearch = false;
+        }
+    }
+
+    private void getOldMessages() {
+        if (isNetworkConnected()) {
+            Call<MemoryResponse> call = clientBuilder.getSusiApi().getChatHistory();
+            call.enqueue(new Callback<MemoryResponse>() {
+                @Override
+                public void onResponse(Call<MemoryResponse> call, Response<MemoryResponse> response) {
+                    if (response != null && response.isSuccessful() && response.body() != null) {
+                        List<SusiResponse> allMessages = response.body().getCognitionsList();
+                        if(allMessages.size() == 0) {
+                            showToast("No messages found");
+                        } else {
+                            updateDatabase(0, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
+                            long c = 1;
+                            for (int i = allMessages.size() - 1; i >= 0; i--) {
+                                String query = allMessages.get(i).getQuery();
+                                boolean isHavingLink;
+                                List<String> urlList = extractUrls(query);
+                                Log.d(TAG, urlList.toString());
+                                isHavingLink = urlList != null;
+                                if (urlList.size() == 0) isHavingLink = false;
+
+                                updateDatabase(c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+                                parseSusiResponse(allMessages.get(i));
+                                rvChatFeed.getRecycledViewPool().clear();
+                                recyclerAdapter.notifyItemChanged((int) c);
+                                updateDatabase(c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+                                c += 2;
+                            }
+                        }
+                        progressDialog.dismiss();
+                    } else {
+                        if (!isNetworkConnected()) {
+                            Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                                    getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
+                            snackbar.show();
+                        }
+                        progressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MemoryResponse> call, Throwable t) {
+                    Log.e(TAG, t.toString());
+                    progressDialog.dismiss();
+                }
+            });
+        } else {
+            Snackbar snackbar = Snackbar.make(coordinatorLayout,
+                    getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
+            snackbar.show();
+            progressDialog.dismiss();
+        }
+    }
+
+    private void retrieveOldMessages() {
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getString(R.string.dialog_retrieve_messages_title));
+        progressDialog.show();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                getOldMessages();
+            }
+        };
+        thread.start();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        clientBuilder = new ClientBuilder();
+        Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
+        if(firstRun && isNetworkConnected()) {
+            retrieveOldMessages();
+        }
         if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null) {
             throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
         if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION + Manifest.permission.RECORD_AUDIO ) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.RECORD_AUDIO}, 1);
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO}, 1);
+        } else if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
+        } else if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 3);
+        }
+
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            micCheck = true;
+            PrefManager.putBoolean(Constant.MIC_INPUT, true);
         }
 
         getLocationFromLocationService();
-        clientBuilder = new ClientBuilder();
         getLocationFromIP();
         init();
         compensateTTSDelay();
@@ -296,18 +472,82 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, getString(R.string.speech_prompt));
-        try {
-            startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
-        } catch (ActivityNotFoundException a) {
-            showToast(getString(R.string.speech_not_supported));
-        }
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                "com.domain.app");
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS,true);
+
+        recognizer = SpeechRecognizer
+                .createSpeechRecognizer(this.getApplicationContext());
+        RecognitionListener listener = new RecognitionListener() {
+            @Override
+            public void onResults(Bundle results) {
+                ArrayList<String> voiceResults = results
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                if (voiceResults == null) {
+                    Log.e(TAG, "No voice results");
+                } else {
+                    Log.d(TAG, "Printing matches: ");
+                    for (String match : voiceResults) {
+                        Log.d(TAG, match);
+                    }
+                }
+                sendMessage(voiceResults.get(0),voiceResults.get(0));
+                recognizer.destroy();
+                hideVoiceInput();
+            }
+
+            @Override
+            public void onReadyForSpeech(Bundle params) {
+                Log.d(TAG, "Ready for speech");
+                voiceDots.show();
+            }
+
+            @Override
+            public void onError(int error) {
+                Log.d(TAG,
+                        "Error listening for speech: " + error);
+                Toast.makeText(getApplicationContext(),"Could not recognize speech, try again.",Toast.LENGTH_SHORT).show();
+                recognizer.destroy();
+                hideVoiceInput();
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+                Log.d(TAG, "Speech starting");
+                voiceDots.start();
+            }
+
+            @Override
+            public void onBufferReceived(byte[] buffer) {
+                // This method is intentionally empty
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+                // This method is intentionally empty
+            }
+
+            @Override
+            public void onEvent(int eventType, Bundle params) {
+                // This method is intentionally empty
+            }
+
+            @Override
+            public void onPartialResults(Bundle partialResults) {
+                ArrayList<String> partial = partialResults
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                voiceInputText.setText(partial.get(0));
+            }
+
+            @Override
+            public void onRmsChanged(float rmsdB) {
+                // This method is intentionally empty
+            }
+        };
+        recognizer.setRecognitionListener(listener);
+        recognizer.startListening(intent);
     }
 
-    /**
-     * Receiving speech input
-     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -327,6 +567,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 }
                 break;
             }
+
             case CROP_PICTURE: {
                 if (resultCode == RESULT_OK && null != data) {
                     mHandler.post(new Runnable() {
@@ -443,7 +684,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
         checkEnterKeyPref();
         setupAdapter();
-
+        hideVoiceInput();
         rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -519,8 +760,29 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+                    LocationHelper locationHelper = new LocationHelper(MainActivity.this);
+                    if (locationHelper.canGetLocation()) {
+                        float latitude = locationHelper.getLatitude();
+                        float longitude = locationHelper.getLongitude();
+                        String source = locationHelper.getSource();
+                        PrefManager.putFloat(Constant.LATITUDE, latitude);
+                        PrefManager.putFloat(Constant.LONGITUDE, longitude);
+                        PrefManager.putString(Constant.GEO_SOURCE, source);
+                    }
+                }
+                if (grantResults.length == 0 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    micCheck = false;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, false);
+                } else {
+                    micCheck = true;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, true);
+                }
+                break;
+            }
+
+            case 2: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     LocationHelper locationHelper = new LocationHelper(MainActivity.this);
                     if (locationHelper.canGetLocation()) {
                         float latitude = locationHelper.getLatitude();
@@ -533,6 +795,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                     Toast.makeText(MainActivity.this,"Susi Voice enabled",Toast.LENGTH_SHORT).show();
                 }
                 break;
+            }
+
+            case 3: {
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    micCheck = false;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, false);
+                } else {
+                    micCheck = true;
+                    PrefManager.putBoolean(Constant.MIC_INPUT, true);
+                }
             }
         }
     }
@@ -630,6 +902,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                 @Override
                 public void onClick(View v) {
                     check = true;
+                    displayVoiceInput();
                     promptSpeechInput();
                 }
             });
@@ -865,53 +1138,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
 
-                                    //Check for text and links
-                                    try {
-                                        answer = susiResponse.getAnswers().get(0).getActions()
-                                                 .get(0).getExpression();
-                                        List<String> urlList = extractUrls(answer);
-                                        Log.d(TAG, urlList.toString());
-                                        isHavingLink = urlList != null;
-                                        if (urlList.size() == 0) isHavingLink = false;
-                                    } catch (Exception e ) {
-                                            Log.d(TAG, e.getLocalizedMessage());
-                                            answer = getString(R.string.error_occurred_try_again);
-                                            isHavingLink = false;
-                                        }
-
-                                    //Check for map
-                                    try {
-                                        isMap = response.body().getAnswers().get(0).getActions().get(2).getType().equals("map");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                    } catch (Exception e) {
-                                        isMap = false;
-                                    }
-
-                                    //Check for piechart
-                                    try {
-                                        isPieChart = response.body().getAnswers().get(0).getActions().get(2).getType().equals("piechart");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                    } catch (Exception e) {
-                                        Log.d(TAG, e.getLocalizedMessage());
-                                        isPieChart = false;
-                                    }
-
-                                    //Check for rss
-                                    try {
-                                        isSearchResult = response.body().getAnswers().get(0).getActions().get(1).getType().equals("rss");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                    } catch (Exception e) {
-                                        isSearchResult = false;
-                                    }
-
-                                    //Check for websearch
-                                    try {
-                                        isWebSearch = response.body().getAnswers().get(0).getActions().get(1).getType().equals("websearch");
-                                        datumList = response.body().getAnswers().get(0).getData();
-                                        webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
-                                    } catch (Exception e) {
-                                        isWebSearch = false;
-                                    }
+                                    parseSusiResponse(susiResponse);
 
                                     realm.executeTransactionAsync(new Realm.Transaction() {
                                         @Override
@@ -943,6 +1170,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
                                     if (finalPlayVideo != null && finalPlayVideo.equals(getString(R.string.play_video))) {
                                         answer = finalPlayVideo;
                                         isWebSearch = false;
+                                        isHavingLink = false;
                                     }
                                     if (finalSendMail != null && finalSendMail.equals(getString(R.string.send_mail))) {
                                         if (query.contains("to")) {
@@ -1193,6 +1421,21 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             @Override
             public void onSuccess() {
                 Log.v(TAG, getString(R.string.updated_successfully));
+                if(!mine) {
+                    final long prId = id-1;
+                    realm.executeTransactionAsync(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm bgRealm) {
+                            try {
+                                ChatMessage previouschatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
+                                previouschatMessage.setIsDelivered(true);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    recyclerAdapter.notifyDataSetChanged();
+                }
             }
         }, new Realm.Transaction.OnError() {
             @Override
@@ -1495,7 +1738,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
 
     public String getvideos(String query) {
         id[0] = null;
-        final VideoSeachClient apiService = VideoSearchApi.getClient().create(VideoSeachClient.class);
+        final VideoSearchService apiService = VideoSearchClient.getClient().create(VideoSearchService.class);
 
         Call<VideoSearch> call = apiService.getVideo(query);
 
@@ -1523,6 +1766,9 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     protected void onPause() {
         unregisterReceiver(networkStateReceiver);
         super.onPause();
+        if(recognizer != null)
+            recognizer.destroy();
+        hideVoiceInput();
     }
 
     @Override
