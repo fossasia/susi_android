@@ -10,10 +10,10 @@ import com.google.gson.annotations.SerializedName;
 public class SignUpResponse {
     @SerializedName("message")
     @Expose
-    String message;
+    private String message;
     @SerializedName("session")
     @Expose
-    Session session;
+    private Session session;
 
     public String getMessage() {
         return message;

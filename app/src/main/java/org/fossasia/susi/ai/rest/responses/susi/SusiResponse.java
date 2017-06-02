@@ -9,28 +9,28 @@ import java.util.List;
 public class SusiResponse {
     @SerializedName("client_id")
     @Expose
-    String clientId;
+    private String clientId;
     @SerializedName("query")
     @Expose
-    String query;
+    private String query;
     @SerializedName("query_date")
     @Expose
-    String queryDate;
+    private String queryDate;
     @SerializedName("answer_date")
     @Expose
-    String answerDate;
+    private String answerDate;
     @SerializedName("answer_time")
     @Expose
-    Integer answerTime;
+    private Integer answerTime;
     @SerializedName("count")
     @Expose
-    Integer count;
+    private Integer count;
     @SerializedName("answers")
     @Expose
-    List<Answer> answers = new ArrayList<Answer>();
+    private List<Answer> answers = new ArrayList<>();
     @SerializedName("session")
     @Expose
-    Session session;
+    private Session session;
 
     public String getClientId() {
         return clientId;

@@ -7,13 +7,13 @@ public class Identity {
 
     @SerializedName("name")
     @Expose
-    public String name;
+    private String name;
     @SerializedName("type")
     @Expose
-    String type;
+    private String type;
     @SerializedName("anonymous")
     @Expose
-    Boolean anonymous;
+    private Boolean anonymous;
 
     public String getType() {
         return type;

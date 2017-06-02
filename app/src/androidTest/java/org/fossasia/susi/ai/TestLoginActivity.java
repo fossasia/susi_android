@@ -93,7 +93,7 @@ public class TestLoginActivity {
             }
         });
 
-        final RadioButton susiServer = (RadioButton) ((RadioButton) mActivityRule.getActivity().findViewById(R.id.susi_default));
+        final RadioButton susiServer = (RadioButton) (mActivityRule.getActivity().findViewById(R.id.susi_default));
         getInstrumentation().runOnMainSync(new Runnable() {
             public void run() {
                 susiServer.setChecked(true);

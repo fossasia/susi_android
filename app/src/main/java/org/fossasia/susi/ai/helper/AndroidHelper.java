@@ -14,7 +14,7 @@ public class AndroidHelper {
         return isAppInstalled(context, GOOGLE_MAPS_PKG);
     }
 
-    public static boolean isAppInstalled(Context context, String packageName) {
+    private static boolean isAppInstalled(Context context, String packageName) {
         try {
             context.getPackageManager().getApplicationInfo(packageName, 0);
             return true;
