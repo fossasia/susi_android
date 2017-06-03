@@ -42,7 +42,7 @@ public abstract class SelectableAdapter extends RealmRecyclerViewAdapter<ChatMes
     public void clearSelection() {
         List<Integer> selection = getSelectedItems();
         selectedItems.clear();
-        for (Integer i : selection) {
+        for (int i : selection) {
             notifyItemChanged(i);
         }
     }

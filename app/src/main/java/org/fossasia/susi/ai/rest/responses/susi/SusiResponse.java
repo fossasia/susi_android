@@ -21,10 +21,10 @@ public class SusiResponse {
     private String answerDate;
     @SerializedName("answer_time")
     @Expose
-    private Integer answerTime;
+    private int answerTime;
     @SerializedName("count")
     @Expose
-    private Integer count;
+    private int count;
     @SerializedName("answers")
     @Expose
     private List<Answer> answers = new ArrayList<>();
@@ -48,11 +48,11 @@ public class SusiResponse {
         return answerDate;
     }
 
-    public Integer getAnswerTime() {
+    public int getAnswerTime() {
         return answerTime;
     }
 
-    public Integer getCount() {
+    public int getCount() {
         return count;
     }
 

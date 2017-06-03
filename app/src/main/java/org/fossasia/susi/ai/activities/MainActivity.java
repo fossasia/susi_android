@@ -147,9 +147,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isSearchResult;
     private boolean isWebSearch;
     private List<Datum> datumList = null;
-    private Boolean micCheck;
+    private boolean micCheck;
     private SearchView searchView;
-    private Boolean check;
+    private boolean check;
     private Menu menu;
     private int pointer;
     private RealmResults<ChatMessage> results;
@@ -269,11 +269,11 @@ public class MainActivity extends AppCompatActivity {
         return links;
     }
 
-    public static Boolean checkSpeechOutputPref() {
+    public static boolean checkSpeechOutputPref() {
         return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
     }
 
-    public static Boolean checkSpeechAlwaysPref() {
+    public static boolean checkSpeechAlwaysPref() {
         return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
     }
 
@@ -402,7 +402,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         clientBuilder = new ClientBuilder();
-        Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
+        boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
         if(firstRun && isNetworkConnected()) {
             retrieveOldMessages();
         }
@@ -895,7 +895,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        Boolean isChecked = PrefManager.getBoolean(Constant.ENTER_SEND, false);
+        boolean isChecked = PrefManager.getBoolean(Constant.ENTER_SEND, false);
         if (isChecked) {
             ChatMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
             ChatMessage.setInputType(InputType.TYPE_CLASS_TEXT);

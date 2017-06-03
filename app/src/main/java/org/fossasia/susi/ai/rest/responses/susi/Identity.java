@@ -13,7 +13,7 @@ public class Identity {
     private String type;
     @SerializedName("anonymous")
     @Expose
-    private Boolean anonymous;
+    private boolean anonymous;
 
     public String getType() {
         return type;
@@ -23,7 +23,7 @@ public class Identity {
         return name;
     }
 
-    public Boolean getAnonymous() {
+    public boolean getAnonymous() {
         return anonymous;
     }
 }
