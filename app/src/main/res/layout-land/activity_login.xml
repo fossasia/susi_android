@@ -38,10 +38,11 @@
                 android:layout_marginTop="8dp"
                 app:errorEnabled="true">
 
-                <android.support.design.widget.TextInputEditText
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
+                    android:id="@+id/email_input"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/edit_text_login_screen"
                     android:textColorHint="@color/edit_text_login_screen" />

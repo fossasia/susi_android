@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="actionModeBackground">@color/md_teal_300</item>
+        <item name="colorControlActivated">@color/edit_text_login_screen</item>
+        <item name="colorControlHighlight">@color/edit_text_login_screen</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         
     </style>

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <org.fossasia.susi.ai.ChatBubbleLayout
+            <org.fossasia.susi.ai.helper.ChatBubbleLayout
                 android:id="@+id/chat_bubble_item_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                         android:textSize="@dimen/timestamp_size" />
 
                 </LinearLayout>
-            </org.fossasia.susi.ai.ChatBubbleLayout>
+            </org.fossasia.susi.ai.helper.ChatBubbleLayout>
 
             <LinearLayout
                 android:id="@+id/ll_pie"
