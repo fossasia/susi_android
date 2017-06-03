@@ -15,7 +15,7 @@ android:orientation="vertical">
     app:cardBackgroundColor="@color/susi_message_bg"
     app:contentPadding="@dimen/padding_small">
 
-    <org.fossasia.susi.ai.ChatBubbleLayout
+    <org.fossasia.susi.ai.helper.ChatBubbleLayout
         android:id="@+id/chat_bubble_item_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,13 +57,12 @@ android:orientation="vertical">
                 android:textSize="@dimen/timestamp_size" />
 
         </LinearLayout>
-    </org.fossasia.susi.ai.ChatBubbleLayout>
+    </org.fossasia.susi.ai.helper.ChatBubbleLayout>
 </android.support.v7.widget.CardView>
 
 <android.support.v7.widget.RecyclerView
     android:id="@+id/recycler_view"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/message_layout_margin" />
+    android:layout_height="wrap_content" />
     
 </LinearLayout>

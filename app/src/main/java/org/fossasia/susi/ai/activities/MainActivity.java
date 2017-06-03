@@ -323,6 +323,7 @@ public class MainActivity extends AppCompatActivity {
             webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
         } catch (Exception e) {
             isWebSearch = false;
+            webSearch = "";
         }
     }
 
@@ -337,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
                         if(allMessages.size() == 0) {
                             showToast("No messages found");
                         } else {
-                            updateDatabase(0, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
+                            updateDatabase(0, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
                             long c = 1;
                             for (int i = allMessages.size() - 1; i >= 0; i--) {
                                 String query = allMessages.get(i).getQuery();
@@ -347,11 +348,11 @@ public class MainActivity extends AppCompatActivity {
                                 isHavingLink = urlList != null;
                                 if (urlList.size() == 0) isHavingLink = false;
 
-                                updateDatabase(c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+                                updateDatabase(c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "");
                                 parseSusiResponse(allMessages.get(i));
                                 rvChatFeed.getRecycledViewPool().clear();
                                 recyclerAdapter.notifyItemChanged((int) c);
-                                updateDatabase(c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+                                updateDatabase(c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webSearch);
                                 c += 2;
                             }
                         }
@@ -951,17 +952,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (id == 0) {
-            updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
+            updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
             id++;
         } else {
             String s = realm.where(ChatMessage.class).equalTo("id", id - 1).findFirst().getDate();
             if (!DateTimeHelper.getDate().equals(s)) {
-                updateDatabase(id, "", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null);
+                updateDatabase(id, "", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
                 id++;
             }
         }
 
-        updateDatabase(id, actual, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null);
+        updateDatabase(id, actual, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "");
         nonDeliveredMessages.add(new Pair(query, id));
         getLocationFromLocationService();
         new computeThread().start();
@@ -1186,7 +1187,7 @@ public class MainActivity extends AppCompatActivity {
 
                                     final String setMessage = answer;
                                     voiceReply(setMessage, isMap);
-                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList);
+                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList, webSearch);
                                     recyclerAdapter.hideDots();
 
                                 } else {
@@ -1212,16 +1213,16 @@ public class MainActivity extends AppCompatActivity {
                                         if (count == 1) {
                                             rvChatFeed.getRecycledViewPool().clear();
                                             recyclerAdapter.notifyItemChanged((int) id);
-                                            addNewMessage(getString(R.string.play_video), false, false, false, false, false, null);
+                                            addNewMessage(getString(R.string.play_video), false, false, false, false, false, null, "");
                                         } else {
                                             rvChatFeed.getRecycledViewPool().clear();
                                             recyclerAdapter.notifyItemChanged((int) id);
-                                            addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
+                                            addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null, "");
                                         }
                                     }
                                     rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
-                                    addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null);
+                                    addNewMessage(getString(R.string.error_invalid_token), false, false, false, false, false, null, "");
                                 }
 
                                 if (isNetworkConnected())
@@ -1259,11 +1260,11 @@ public class MainActivity extends AppCompatActivity {
                                     if (count == 1) {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
-                                        addNewMessage(getString(R.string.play_video), false, false, false, false, false, null);
+                                        addNewMessage(getString(R.string.play_video), false, false, false, false, false, null, "");
                                     } else {
                                         rvChatFeed.getRecycledViewPool().clear();
                                         recyclerAdapter.notifyItemChanged((int) id);
-                                        addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null);
+                                        addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null, "");
                                     }
                                 }
                                 BaseUrl.updateBaseUrl(t);
@@ -1279,7 +1280,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isWebSearch, boolean isSearchReult, List<Datum> datumList) {
+    private void addNewMessage(String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isWebSearch, boolean isSearchReult, List<Datum> datumList, String webquery) {
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         long id;
         if (temp == null) {
@@ -1342,14 +1343,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         }
-        updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList);
+        updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webquery);
     }
 
     private void updateDatabase(final long id, final String message, final String date,
                                 final boolean isDate, final boolean mine, final boolean isSearchResult,
                                 final boolean isWebSearch, final boolean image, final boolean isMap,
                                 final boolean isHavingLink, final String timeStamp,
-                                final boolean isPieChart, final List<Datum> datumList) {
+                                final boolean isPieChart, final List<Datum> datumList, final String webquery) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -1365,6 +1366,7 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setHavingLink(isHavingLink);
                 chatMessage.setIsPieChart(isPieChart);
                 chatMessage.setSearchResult(isSearchResult);
+                chatMessage.setWebquery(webquery);
                 if (mine)
                     chatMessage.setIsDelivered(false);
                 else

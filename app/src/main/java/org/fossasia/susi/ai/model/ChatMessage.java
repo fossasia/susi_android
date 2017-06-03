@@ -13,10 +13,10 @@ public class ChatMessage extends RealmObject {
 
     @PrimaryKey
     private long id;
-    private String content, timeStamp, des, date;
+    private String content, timeStamp, des, date, webquery;
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
-    private WebSearchModel webSearch;
+    private RealmList<WebSearchModel> webSearchList;
 
     private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate, isImportant;
 
@@ -24,7 +24,7 @@ public class ChatMessage extends RealmObject {
         datumRealmList = new RealmList<>();
     }
 
-    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
+    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList, String webquery) {
         this.id = id;
         this.isWebSearch = isWebSearch;
         this.isImage = isImage;
@@ -39,16 +39,17 @@ public class ChatMessage extends RealmObject {
         this.datumRealmList = datumRealmList;
         this.isPieChart = isPieChart;
         this.isSearchResult = isSearchResult;
+        this.webquery = webquery;
         this.webLinkData = null;
-        this.webSearch = null;
+        this.webSearchList = null;
     }
 
-    public WebSearchModel getWebSearch() {
-        return webSearch;
+    public RealmList<WebSearchModel> getWebSearchList() {
+        return webSearchList;
     }
 
-    public void setWebSearch(WebSearchModel webSearch) {
-        this.webSearch = webSearch;
+    public void setWebSearchList(RealmList<WebSearchModel> webSearchList) {
+        this.webSearchList = webSearchList;
     }
 
     public WebLink getWebLinkData() {
@@ -173,5 +174,13 @@ public class ChatMessage extends RealmObject {
     public boolean isImportant()
     {
         return isImportant;
+    }
+
+    public String getWebquery() {
+        return webquery;
+    }
+
+    public void setWebquery(String webquery) {
+        this.webquery = webquery;
     }
 }
