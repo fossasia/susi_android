@@ -43,6 +43,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -1286,6 +1287,13 @@ public class MainActivity extends AppCompatActivity {
             id = 0;
         } else {
             id = (long) temp + 1;
+        }
+
+        // Remove HTML escape sequences from answer, before showing any results
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            answer = Html.fromHtml(answer,Html.FROM_HTML_MODE_COMPACT).toString();
+        } else{
+            answer = Html.fromHtml(answer).toString();
         }
 
         if (answer.equals(getString(R.string.google_search))) {
