@@ -668,6 +668,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        ChatMessage.setMaxLines(4);
+        ChatMessage.setHorizontallyScrolling(false);
         ChatMessage.addTextChangedListener(watch);
         ChatMessage.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
