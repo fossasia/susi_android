@@ -482,8 +482,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
     private void handleItemEvents(final WebSearchHolder websearchholder, final int position)  {
         websearchholder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-
-        webquery = MainActivity.webSearch;
         
         final ChatMessage model = getData().get(position);
         int checkIndex = model.getContent().lastIndexOf("#");
