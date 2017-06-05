@@ -13,7 +13,7 @@ public class ChatMessage extends RealmObject {
 
     @PrimaryKey
     private long id;
-    private String content, timeStamp, des, date;
+    private String content, timeStamp, des, date, latitude, longitude, zoom;
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private WebSearchModel webSearch;
@@ -24,7 +24,7 @@ public class ChatMessage extends RealmObject {
         datumRealmList = new RealmList<>();
     }
 
-    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList) {
+    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList, String latitude, String longitude, String zoom) {
         this.id = id;
         this.isWebSearch = isWebSearch;
         this.isImage = isImage;
@@ -41,6 +41,9 @@ public class ChatMessage extends RealmObject {
         this.isSearchResult = isSearchResult;
         this.webLinkData = null;
         this.webSearch = null;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.zoom = zoom;
     }
 
     public WebSearchModel getWebSearch() {
@@ -173,5 +176,29 @@ public class ChatMessage extends RealmObject {
     public boolean isImportant()
     {
         return isImportant;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(String zoom) {
+        this.zoom = zoom;
     }
 }

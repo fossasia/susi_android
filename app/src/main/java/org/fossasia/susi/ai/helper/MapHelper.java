@@ -16,13 +16,11 @@ public class MapHelper {
     private boolean isParseSuccessful;
     private String webLink;
 
-    public MapHelper(String text) {
+    public MapHelper(String text, String latitude, String longitude, String zoom) {
         try {
-            String arr[] = text.split("/");
-            longitude = arr[arr.length - 1];
-            latitude = arr[arr.length - 2];
-            String zoomText[] = arr[arr.length - 3].split("=");
-            zoom = zoomText[zoomText.length - 1];
+            this.longitude = longitude;
+            this.latitude = latitude;
+            this.zoom = zoom;
             mapUrl = String.format(URL_SCHEME, latitude, longitude, zoom, size, size);
             isParseSuccessful = true;
         } catch (Exception e) {

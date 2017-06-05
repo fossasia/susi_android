@@ -273,10 +273,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             if (index == getData().size()) {
                 if (isSusiTyping) {
                     return new ChatMessage(-404, "", "", "", false, false, false, false, false, false, false, false,
-                            "", null);
+                            "", null, "", "", "");
                 }
                 return new ChatMessage(-405, "", "", "", false, false, false, false, false, false, false, false,
-                        "", null);
+                        "", null, "", "", "");
             }
             return getData().get(index);
         }
@@ -401,7 +401,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
         if (model != null) {
             try {
-                final MapHelper mapHelper = new MapHelper(model.getContent());
+                final MapHelper mapHelper = new MapHelper(model.getContent(), model.getLatitude(), model.getLongitude(), model.getZoom());
                 mapViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                 mapViewHolder.text.setText(mapHelper.getDisplayText());
                 mapViewHolder.timestampTextView.setText(model.getTimeStamp());
