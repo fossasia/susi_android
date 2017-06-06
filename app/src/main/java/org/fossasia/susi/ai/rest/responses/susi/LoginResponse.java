@@ -10,13 +10,13 @@ import com.google.gson.annotations.SerializedName;
 public class LoginResponse {
     @SerializedName("message")
     @Expose
-    String message;
+    private String message;
     @SerializedName("session")
     @Expose
-    Session session;
+    private Session session;
     @SerializedName("valid_seconds")
     @Expose
-    Long validSeconds;
+    private Long validSeconds;
     @SerializedName("access_token")
     @Expose
     String accessToken;

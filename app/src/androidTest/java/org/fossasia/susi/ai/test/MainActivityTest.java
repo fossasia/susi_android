@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.test;
 
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.LinearLayout;

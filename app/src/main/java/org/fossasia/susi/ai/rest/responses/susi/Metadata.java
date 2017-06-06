@@ -7,7 +7,7 @@ public class Metadata {
 
     @SerializedName("count")
     @Expose
-    Integer count;
+    private Integer count;
 
     public Integer getCount() {
         return count;

@@ -28,10 +28,7 @@ public abstract class MessageViewHolder extends RecyclerView.ViewHolder implemen
 
     @Override
     public boolean onLongClick(View view) {
-        if (listener != null) {
-            return listener.onItemLongClicked(getAdapterPosition());
-        }
-        return false;
+        return listener != null && listener.onItemLongClicked(getAdapterPosition());
     }
 
     public interface ClickListener {

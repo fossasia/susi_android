@@ -108,7 +108,7 @@
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_very_small"
-                app:elevation="2dp">
+                android:elevation="2dp">
 
                     <ImageView
                         android:id="@+id/btnSpeak"

@@ -153,7 +153,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     }
 
     private static List<String> extractLinks(String text) {
-        List<String> links = new ArrayList<String>();
+        List<String> links = new ArrayList<>();
         Matcher m = Patterns.WEB_URL.matcher(text);
         while (m.find()) {
             String url = m.group();
