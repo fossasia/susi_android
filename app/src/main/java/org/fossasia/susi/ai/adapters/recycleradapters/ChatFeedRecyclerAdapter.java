@@ -1032,7 +1032,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         setClipboard(copyText);
                     } else {
                         String copyText = "";
-                        for (Integer i : getSelectedItems()) {
+                        for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             Log.d(TAG, message.toString());
                             copyText += "[" + message.getTimeStamp() + "]";
@@ -1069,7 +1069,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         shareMessage(getItem(selected).getContent());
                     } else {
                         String shareText = "";
-                        for (Integer i : getSelectedItems()) {
+                        for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             Log.d(TAG, message.toString());
                             shareText += "[" + message.getTimeStamp() + "]";
