@@ -46,16 +46,14 @@ import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.activities.ImportantMessages;
-import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
-import org.fossasia.susi.ai.adapters.viewholders.SearchResultsHolder;
+import org.fossasia.susi.ai.adapters.viewholders.SearchResultsListHolder;
 import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
-import org.fossasia.susi.ai.adapters.viewholders.WebSearchHolder;
 import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
@@ -122,10 +120,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
     private boolean isSusiTyping = false;
-    private String des;
-    private  String title;
-    private String url;
-    private String linkurl;
 
     public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -222,10 +216,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 return new PieChartViewHolder(view, clickListener);
             case SEARCH_RESULT:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
-                return new SearchResultsHolder(view);
+                return new SearchResultsListHolder(view,clickListener);
             case WEB_SEARCH:
-                view = inflater.inflate(R.layout.item_websearch, viewGroup, false);
-                return new WebSearchHolder(view, clickListener);
+                view = inflater.inflate(R.layout.search_list, viewGroup, false);
+                return new SearchResultsListHolder(view,clickListener);
             case DATE_VIEW:
                 view = inflater.inflate(R.layout.date_view,viewGroup, false);
                 return new DateViewHolder(view);
@@ -273,10 +267,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             if (index == getData().size()) {
                 if (isSusiTyping) {
                     return new ChatMessage(-404, "", "", "", false, false, false, false, false, false, false, false,
-                            "", null);
+                            "", null, "");
                 }
                 return new ChatMessage(-405, "", "", "", false, false, false, false, false, false, false, false,
-                        "", null);
+                        "", null, "");
             }
             return getData().get(index);
         }
@@ -297,12 +291,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             handleItemEvents(linkPreviewViewHolder, position);
-        } else if (holder instanceof SearchResultsHolder) {
-            SearchResultsHolder searchResultsHolder = (SearchResultsHolder) holder;
-            handleItemEvents(searchResultsHolder, position);
-        } else if (holder instanceof WebSearchHolder){
-            WebSearchHolder websearchholder = (WebSearchHolder) holder;
-            handleItemEvents(websearchholder, position);
+        } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
+            SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
+            handleItemEvents(searchResultsListHolder, position,false);
+        } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH){
+            SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
+            handleItemEvents(searchResultsListHolder, position, true);
         } else if (holder instanceof DateViewHolder) {
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
             handleItemEvents(dateViewHolder, position);
@@ -313,22 +307,126 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         dateViewHolder.textDate.setText(getData().get(position).getDate());
     }
 
-    private void handleItemEvents(SearchResultsHolder searchResultsHolder, int position) {
+    private void handleItemEvents(final SearchResultsListHolder searchResultsListHolder,final int position, boolean isClientSearch) {
+        searchResultsListHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         final ChatMessage model = getData().get(position);
-        if (model != null) {
-            searchResultsHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-            searchResultsHolder.message.setText(model.getContent());
-            LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
-                    LinearLayoutManager.HORIZONTAL, false);
-            searchResultsHolder.recyclerView.setLayoutManager(layoutManager);
-            SearchResultsAdapter resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
-            searchResultsHolder.recyclerView.setAdapter(resultsAdapter);
-            searchResultsHolder.timeStamp.setText(model.getTimeStamp());
+        if(isClientSearch) {
+            if(model!=null) {
+                webquery = model.getWebquery();
+                searchResultsListHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
+                searchResultsListHolder.message.setText(model.getContent());
+                searchResultsListHolder.timeStamp.setText(model.getTimeStamp());
+                searchResultsListHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
+
+                if(model.getWebSearchList()==null || model.getWebSearchList().size()==0) {
+                    final WebSearchService apiService = WebSearchClient.getClient().create(WebSearchService.class);
+
+                    Call<WebSearch> call = apiService.getresult(webquery);
+
+                    call.enqueue(new Callback<WebSearch>() {
+                        @Override
+                        public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
+                            Log.e(TAG, response.toString());
+                            if (response.body() != null ) {
+                                realm.beginTransaction();
+                                RealmList<WebSearchModel> searchResults = new RealmList<>();
+
+                                for(int i=0 ; i<response.body().getRelatedTopics().size() ; i++) {
+                                    try {
+                                        String url = response.body().getRelatedTopics().get(i).getUrl();
+                                        String text = response.body().getRelatedTopics().get(i).getText();
+                                        String iconUrl = response.body().getRelatedTopics().get(i).getIcon().getUrl();
+                                        String htmlText = response.body().getRelatedTopics().get(i).getResult();
+                                        Realm realm = Realm.getDefaultInstance();
+                                        final WebSearchModel webSearch = realm.createObject(WebSearchModel.class);
+                                        try {
+                                            String[] tempStr = htmlText.split("\">");
+                                            String[] tempStr2 = tempStr[tempStr.length-1].split("</a>");
+                                            webSearch.setHeadline(tempStr2[0]);
+                                            webSearch.setBody(tempStr2[tempStr2.length-1]);
+                                        } catch (Exception e ) {
+                                            webSearch.setBody(text);
+                                            webSearch.setHeadline(webquery);
+                                        }
+                                        webSearch.setImageURL(iconUrl);
+                                        webSearch.setUrl(url);
+                                        searchResults.add(webSearch);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                if(searchResults.size()==0) {
+                                    Realm realm = Realm.getDefaultInstance();
+                                    final WebSearchModel webSearch = realm.createObject(WebSearchModel.class);
+                                    webSearch.setBody(null);
+                                    webSearch.setHeadline("No Results Found");
+                                    webSearch.setImageURL(null);
+                                    webSearch.setUrl(null);
+                                    searchResults.add(webSearch);
+                                }
+                                LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
+                                        LinearLayoutManager.HORIZONTAL, false);
+                                searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
+                                WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, searchResults);
+                                searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
+                                model.setWebSearchList(searchResults);
+                                realm.copyToRealmOrUpdate(model);
+                                realm.commitTransaction();
+                            } else {
+                                searchResultsListHolder.recyclerView.setAdapter(null);
+                                searchResultsListHolder.recyclerView.setLayoutManager(null);
+                                searchResultsListHolder.message.setText(null);
+                                searchResultsListHolder.timeStamp.setText(null);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<WebSearch> call, Throwable t) {
+                            Log.e(TAG, "error" + t.toString());
+                        }
+                    });
+                } else {
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
+                            LinearLayoutManager.HORIZONTAL, false);
+                    searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
+                    WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, model.getWebSearchList());
+                    searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
+                }
+
+                if (highlightMessagePosition == position) {
+                    String text = searchResultsListHolder.message.getText().toString();
+                    SpannableString modify = new SpannableString(text);
+                    Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(modify);
+                    while (matcher.find()) {
+                        int startIndex = matcher.start();
+                        int endIndex = matcher.end();
+                        modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                    searchResultsListHolder.message.setText(modify);
+                }
+            } else{
+                searchResultsListHolder.recyclerView.setAdapter(null);
+                searchResultsListHolder.recyclerView.setLayoutManager(null);
+                searchResultsListHolder.message.setText(null);
+                searchResultsListHolder.timeStamp.setText(null);
+            }
         } else {
-            searchResultsHolder.recyclerView.setAdapter(null);
-            searchResultsHolder.recyclerView.setLayoutManager(null);
-            searchResultsHolder.message.setText(null);
-            searchResultsHolder.timeStamp.setText(null);
+            if (model != null) {
+                searchResultsListHolder.messageStar.setVisibility((model.isImportant()) ? View.VISIBLE : View.GONE);
+                searchResultsListHolder.message.setText(model.getContent());
+                LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
+                        LinearLayoutManager.HORIZONTAL, false);
+                searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
+                SearchResultsAdapter resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
+                searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
+                searchResultsListHolder.timeStamp.setText(model.getTimeStamp());
+            } else {
+                searchResultsListHolder.recyclerView.setAdapter(null);
+                searchResultsListHolder.recyclerView.setLayoutManager(null);
+                searchResultsListHolder.message.setText(null);
+                searchResultsListHolder.timeStamp.setText(null);
+            }
         }
     }
 
@@ -477,206 +575,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void handleItemEvents(final WebSearchHolder websearchholder, final int position)  {
-        websearchholder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-
-        webquery = MainActivity.webSearch;
-
-        final ChatMessage model = getData().get(position);
-        websearchholder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-        websearchholder.text.setText(model.getContent());
-        websearchholder.timestampTextView.setText(model.getTimeStamp());
-
-        if(model.getWebSearch()==null) {
-            websearchholder.descriptionTextView.setVisibility(View.GONE);
-            websearchholder.titleTextView.setVisibility(View.GONE);
-            websearchholder.previewImageView.setVisibility(View.GONE);
-
-            final WebSearchService apiService = WebSearchClient.getClient().create(WebSearchService.class);
-
-            Call<WebSearch> call = apiService.getresult(webquery);
-
-            call.enqueue(new Callback<WebSearch>() {
-                @Override
-                public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
-                    Log.e(TAG, response.toString());
-
-                    if (response.body() != null && response.body().getRelatedTopics().size() != 0) {
-
-                        Log.v(TAG , response.body().toString());
-
-                        des = response.body().getRelatedTopics().get(0).getText();
-                        title = response.body().getHeading();
-                        url = response.body().getRelatedTopics().get(0).getIcon().getUrl();
-                        linkurl = response.body().getRelatedTopics().get(0).getDes();
-
-                        websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
-                        websearchholder.titleTextView.setVisibility(View.VISIBLE);
-
-                        websearchholder.descriptionTextView.setText(des);
-                        websearchholder.titleTextView.setText(title);
-
-                        realm.beginTransaction();
-                        Realm realm = Realm.getDefaultInstance();
-                        final WebSearchModel webSearch = realm.createObject(WebSearchModel.class);
-
-                        webSearch.setHeadline(title);
-                        webSearch.setBody(des);
-                        webSearch.setUrl(linkurl);
-
-                        if(url!=null)
-                        {
-                            Log.v(TAG , url);
-                            webSearch.setImageURL(url);
-                        }
-
-                        if (url != null) {
-
-                            websearchholder.previewImageView.setVisibility(View.VISIBLE);
-                            Log.v(TAG , url);
-
-                            glide.load(url)
-                                    .crossFade()
-                                    .into(websearchholder.previewImageView);
-
-                        }else {
-                            websearchholder.previewImageView.setVisibility(View.GONE);
-
-                        }
-
-                        websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                if(selectedItems.size() == 0) {
-                                    if (linkurl != null) {
-                                        websearchholder.onClick(view);
-                                        Uri webpage = Uri.parse(linkurl);
-
-                                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                                        if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                                            currContext.startActivity(intent);
-                                        }
-                                    }
-                                } else {
-                                    toggleSelectedItem(position);
-                                }
-                            }
-                        });
-
-                        websearchholder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                            @Override
-                            public boolean onLongClick(View view) {
-                                if (actionMode == null) {
-                                    actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
-                                }
-
-                                toggleSelectedItem(position);
-
-                                return true;
-                            }
-                        });
-
-                        model.setWebSearch(webSearch);
-                        realm.copyToRealmOrUpdate(model);
-                        realm.commitTransaction();
-                    } else {
-                        websearchholder.previewImageView.setVisibility(View.GONE);
-                        websearchholder.descriptionTextView.setVisibility(View.VISIBLE);
-                        websearchholder.titleTextView.setVisibility(View.VISIBLE);
-
-                        websearchholder.descriptionTextView.setText(R.string.websearchnull);
-                        websearchholder.titleTextView.setText(R.string.websearchnull);
-
-                        realm.beginTransaction();
-                        Realm realm = Realm.getDefaultInstance();
-                        final WebSearchModel webSearchnull = realm.createObject(WebSearchModel.class);
-
-                        webSearchnull.setHeadline(context.getString(R.string.websearchnull));
-                        webSearchnull.setBody(context.getString(R.string.websearchnull));
-                        webSearchnull.setUrl(null);
-
-                        websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                toggleSelectedItem(position);
-                            }
-                        });
-
-                        model.setWebSearch(webSearchnull);
-                        realm.copyToRealmOrUpdate(model);
-                        realm.commitTransaction();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<WebSearch> call, Throwable t) {
-                    Log.e(TAG, "error" + t.toString());
-                }
-
-            });
-        }else {
-            websearchholder.descriptionTextView.setText(model.getWebSearch().getBody());
-            websearchholder.titleTextView.setText(model.getWebSearch().getHeadline());
-
-            if (model.getWebSearch().getImageURL() != null) {
-
-                websearchholder.previewImageView.setVisibility(View.VISIBLE);
-
-                Log.v(TAG , model.getWebSearch().getImageURL());
-
-                glide.load(model.getWebSearch().getImageURL())
-                        .crossFade()
-                        .into(websearchholder.previewImageView);
-            }else {
-                websearchholder.previewImageView.setVisibility(View.GONE);
-            }
-
-            websearchholder.previewLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (selectedItems.size() == 0) {
-                        if (model.getWebSearch() != null && model.getWebSearch().getUrl() != null) {
-                            Uri webpage = Uri.parse(model.getWebSearch().getUrl());
-
-                            Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                            if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                                currContext.startActivity(intent);
-                            }
-                        }
-                    } else {
-                        toggleSelectedItem(position);
-                    }
-                }
-            });
-
-            websearchholder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (actionMode == null) {
-                        actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
-                    }
-
-                    toggleSelectedItem(position);
-
-                    return true;
-                }
-            });
-        }
-
-        if (highlightMessagePosition == position) {
-            String text = websearchholder.descriptionTextView.getText().toString();
-            SpannableString modify = new SpannableString(text);
-            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(modify);
-            while (matcher.find()) {
-                int startIndex = matcher.start();
-                int endIndex = matcher.end();
-                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            websearchholder.descriptionTextView.setText(modify);
         }
     }
 

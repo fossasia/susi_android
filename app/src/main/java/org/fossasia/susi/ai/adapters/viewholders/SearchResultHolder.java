@@ -16,12 +16,6 @@ import butterknife.ButterKnife;
  */
 
 public class SearchResultHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.title)
-    public TextView title;
-    @BindView(R.id.description)
-    public TextView description;
-    @BindView(R.id.background_layout)
-    public LinearLayout backgroundLayout;
     @BindView(R.id.link_preview_image)
     public ImageView previewImageView;
     @BindView(R.id.link_preview_title)
@@ -30,8 +24,8 @@ public class SearchResultHolder extends RecyclerView.ViewHolder {
     public TextView descriptionTextView;
     @BindView(R.id.preview_layout)
     public LinearLayout previewLayout;
-    @BindView(R.id.message_star)
-    public ImageView messageStar;
+    @BindView(R.id.link_preview_text_layout)
+    public LinearLayout previewTextLayout;
 
     public SearchResultHolder(View itemView) {
         super(itemView);
