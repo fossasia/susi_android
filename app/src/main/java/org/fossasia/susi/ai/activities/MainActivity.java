@@ -382,6 +382,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void retrieveOldMessages() {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setCancelable(false);
@@ -403,6 +404,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         clientBuilder = new ClientBuilder();
         Boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
+        clientBuilder = new ClientBuilder();
         if(firstRun && isNetworkConnected()) {
             retrieveOldMessages();
         }
