@@ -66,6 +66,7 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
+import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
@@ -236,8 +237,11 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.cancel)
     public void cancelSpeechInput() {
-        recognizer.cancel();
-        recognizer.destroy();
+        if(recognizer != null) {
+            recognizer.cancel();
+            recognizer.destroy();
+            recognizer=null;
+        }
         hideVoiceInput();
     }
 
@@ -257,6 +261,10 @@ public class MainActivity extends AppCompatActivity {
 
     public static boolean checkSpeechAlwaysPref() {
         return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
+    }
+
+    public boolean checkMicInput() {
+        return micCheck = MediaUtil.isAvailableForVoiceInput(MainActivity.this);
     }
 
     private void parseSusiResponse(SusiResponse susiResponse) {
@@ -405,8 +413,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            micCheck = true;
-            PrefManager.putBoolean(Constant.MIC_INPUT, true);
+            PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
         }
 
         getLocationFromLocationService();
@@ -726,8 +733,7 @@ public class MainActivity extends AppCompatActivity {
                     micCheck = false;
                     PrefManager.putBoolean(Constant.MIC_INPUT, false);
                 } else {
-                    micCheck = true;
-                    PrefManager.putBoolean(Constant.MIC_INPUT, true);
+                    PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
                 }
                 break;
             }
@@ -752,8 +758,7 @@ public class MainActivity extends AppCompatActivity {
                     micCheck = false;
                     PrefManager.putBoolean(Constant.MIC_INPUT, false);
                 } else {
-                    micCheck = true;
-                    PrefManager.putBoolean(Constant.MIC_INPUT, true);
+                    PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
                 }
             }
         }
@@ -1405,8 +1410,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         unregisterReceiver(networkStateReceiver);
         super.onPause();
-        if(recognizer != null)
+        if(recognizer != null) {
+            recognizer.cancel();
             recognizer.destroy();
+            recognizer=null;
+        }
         hideVoiceInput();
     }
 
