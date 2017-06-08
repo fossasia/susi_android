@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
         if(personalServer.isChecked()) {
             if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
                 if (CredentialHelper.getValidURL(url,this) != null) {
-                    PrefManager.putBoolean("is_susi_server_selected", false);
+                    PrefManager.putBoolean(String.valueOf(R.string.action_select_server), false);
                     PrefManager.putString("custom_server", CredentialHelper.getValidURL(url, this));
                 } else {
                     url.setError("Invalid URL");
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
         } else{
-            PrefManager.putBoolean("is_susi_server_selected", true);
+            PrefManager.putBoolean(String.valueOf(R.string.action_select_server), true);
         }
         email.setError(null);
         

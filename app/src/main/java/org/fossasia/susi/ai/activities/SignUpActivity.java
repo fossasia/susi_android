@@ -122,13 +122,13 @@ public class SignUpActivity extends AppCompatActivity {
         }
         if (!password.getEditText().getText().toString()
                 .equals(confirmPassword.getEditText().getText().toString())) {
-            confirmPassword.setError("Passwords do not match");
+            confirmPassword.setError(String.valueOf(R.string.error_password_matching));
             return;
         }
         if(personalServer.isChecked()) {
             if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
                 if (CredentialHelper.getValidURL(url,this) != null) {
-                    PrefManager.putBoolean("is_susi_server_selected", false);
+                    PrefManager.putBoolean(String.valueOf(R.string.action_select_server), false);
                     PrefManager.putString("custom_server", CredentialHelper.getValidURL(url, this));
                 } else {
                     url.setError("Invalid URL");
@@ -138,7 +138,7 @@ public class SignUpActivity extends AppCompatActivity {
                 return;
             }
         } else{
-            PrefManager.putBoolean("is_susi_server_selected", true);
+            PrefManager.putBoolean(String.valueOf(R.string.action_select_server), true);
         }
 
         confirmPassword.setError(null);
@@ -233,7 +233,7 @@ public class SignUpActivity extends AppCompatActivity {
                 t.printStackTrace();
                 if( t instanceof UnknownHostException) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                    builder.setTitle("Unknown Host Exception");
+                    builder.setTitle(R.string.unknown_host_exception);
                     builder.setMessage(t.getMessage())
                             .setCancelable(false)
                             .setPositiveButton("RETRY", null);
@@ -244,7 +244,7 @@ public class SignUpActivity extends AppCompatActivity {
                     signUp.setEnabled(true);
                     progressDialog.dismiss();
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, R.string.internet_connection_prompt, Toast.LENGTH_SHORT).show();
                     signUp.setEnabled(true);
                     progressDialog.dismiss();
                 }

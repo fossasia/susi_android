@@ -1348,8 +1348,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 return true;
             case R.id.action_logout:
-                AlertDialog.Builder d = new AlertDialog.Builder(this);
-                d.setMessage("Are you sure ?").
+                AlertDialog.Builder d = new AlertDialog.Builder(MainActivity.this);
+                d.setTitle(R.string.action_log_out).
+                setMessage(R.string.logout_alert).
                         setCancelable(false).
                         setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
@@ -1375,9 +1376,7 @@ public class MainActivity extends AppCompatActivity {
                                 dialog.cancel();
                             }
                         });
-
                 AlertDialog alert = d.create();
-                alert.setTitle("Logout");
                 alert.show();
                 Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
                 nbutton.setTextColor(Color.BLACK);
