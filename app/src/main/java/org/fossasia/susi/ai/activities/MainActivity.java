@@ -267,11 +267,11 @@ public class MainActivity extends AppCompatActivity {
         return micCheck = MediaUtil.isAvailableForVoiceInput(MainActivity.this);
     }
 
-    private void parseSusiResponse(SusiResponse susiResponse) {
+    private void parseSusiResponse(SusiResponse susiResponse, int i) {
         //Check for text and links
         try {
             answer = susiResponse.getAnswers().get(0).getActions()
-                    .get(0).getExpression();
+                    .get(i).getExpression();
             List<String> urlList = extractUrls(answer);
             Log.d(TAG, urlList.toString());
             isHavingLink = urlList != null;
@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Check for map
         try {
-            isMap = susiResponse.getAnswers().get(0).getActions().get(2).getType().equals("map");
+            isMap = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("map");
             datumList = susiResponse.getAnswers().get(0).getData();
         } catch (Exception e) {
             isMap = false;
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Check for piechart
         try {
-            isPieChart = susiResponse.getAnswers().get(0).getActions().get(2).getType().equals("piechart");
+            isPieChart = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("piechart");
             datumList = susiResponse.getAnswers().get(0).getData();
         } catch (Exception e) {
             Log.d(TAG, e.getLocalizedMessage());
@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Check for rss
         try {
-            isSearchResult = susiResponse.getAnswers().get(0).getActions().get(1).getType().equals("rss");
+            isSearchResult = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("rss");
             datumList = susiResponse.getAnswers().get(0).getData();
         } catch (Exception e) {
             isSearchResult = false;
@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Check for websearch
         try {
-            isWebSearch = susiResponse.getAnswers().get(0).getActions().get(1).getType().equals("websearch");
+            isWebSearch = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("websearch");
             datumList = susiResponse.getAnswers().get(0).getData();
             webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
         } catch (Exception e) {
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (urlList.size() == 0) isHavingLink = false;
 
                                 updateDatabase(c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "");
-                                parseSusiResponse(allMessages.get(i));
+                                parseSusiResponse(allMessages.get(i),0);
                                 rvChatFeed.getRecycledViewPool().clear();
                                 recyclerAdapter.notifyItemChanged((int) c);
                                 updateDatabase(c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webSearch);
@@ -981,26 +981,22 @@ public class MainActivity extends AppCompatActivity {
                                 if (response != null && response.isSuccessful() && response.body() != null) {
                                     final SusiResponse susiResponse = response.body();
 
-                                    parseSusiResponse(susiResponse);
+                                    int actionSize = response.body().getAnswers().get(0).getActions().size();
 
-                                    realm.executeTransactionAsync(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm bgRealm) {
-                                            try {
-                                                ChatMessage chatMessage = bgRealm.where(ChatMessage.class).equalTo("id", id).findFirst();
-                                                chatMessage.setIsDelivered(true);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
+                                    for(int i=0 ; i<actionSize ; i++) {
+                                        long delay = response.body().getAnswers().get(0).getActions().get(i).getDelay();;
+                                        final int actionNo = i;
+                                        final Handler handler = new Handler();
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                parseSusiResponse(susiResponse,actionNo);
+                                                final String setMessage = answer;
+                                                voiceReply(setMessage, isMap);
+                                                addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList, webSearch);
                                             }
-                                        }
-                                    });
-
-                                    rvChatFeed.getRecycledViewPool().clear();
-                                    recyclerAdapter.notifyItemChanged((int) id);
-
-                                    final String setMessage = answer;
-                                    voiceReply(setMessage, isMap);
-                                    addNewMessage(setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList, webSearch);
+                                        }, delay);
+                                    }
                                     recyclerAdapter.hideDots();
                                 } else {
                                     if (!isNetworkConnected()) {
