@@ -11,6 +11,7 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.PrefManager;
 
 import io.realm.Realm;
@@ -30,7 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.pref_settings);
 
-            textToSpeech = getPreferenceManager().findPreference("Lang_Select");
+            textToSpeech = (Preference) getPreferenceManager().findPreference(Constant.LANG_SELECT);
             textToSpeech.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
@@ -42,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            rate = getPreferenceManager().findPreference("rate");
+            rate=(Preference)getPreferenceManager().findPreference(Constant.RATE);
             rate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -51,19 +52,19 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            server = getPreferenceManager().findPreference("Server_Select");
+            server=(Preference)getPreferenceManager().findPreference(Constant.SELECT_SERVER);
             server.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setTitle("Change Server");
-                    builder.setMessage("Please login again to change susi server.")
+                    builder.setTitle(Constant.CHANGE_SERVER);
+                    builder.setMessage(Constant.SERVER_CHANGE_PROMPT)
                             .setCancelable(false)
-                            .setNegativeButton("Cancel",null)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(Constant.CANCEL,null)
+                            .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    PrefManager.putBoolean("is_susi_server_selected", true);
+                                    PrefManager.putBoolean(Constant.SUSI_SERVER, true);
                                     PrefManager.clearToken();
                                     //clear all messages
                                     Realm realm = Realm.getDefaultInstance();

@@ -64,14 +64,14 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent;
         if (!PrefManager.hasTokenExpired()) {
             intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("FIRST_TIME", false);
+            intent.putExtra(getApplicationContext().getString(R.string.first_time), false);
             startActivity(intent);
             finish();
         }
         if (savedInstanceState != null) {
-            email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
-            password.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[1].toString());
-            if(savedInstanceState.getBoolean("server")) {
+            email.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString());
+            password.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString());
+            if(savedInstanceState.getBoolean(Constant.SERVER)) {
                 url.setVisibility(View.VISIBLE);
             } else {
                 url.setVisibility(View.GONE);
@@ -118,24 +118,24 @@ public class LoginActivity extends AppCompatActivity {
         if(personalServer.isChecked()) {
             if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
                 if (CredentialHelper.getValidURL(url,this) != null) {
-                    PrefManager.putBoolean("is_susi_server_selected", false);
-                    PrefManager.putString("custom_server", CredentialHelper.getValidURL(url, this));
+                    PrefManager.putBoolean(Constant.SUSI_SERVER, false);
+                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url, this));
                 } else {
-                    url.setError("Invalid URL");
+                    url.setError(getApplicationContext().getString(R.string.invalid_url));
                     return;
                 }
             } else {
                 return;
             }
         } else{
-            PrefManager.putBoolean("is_susi_server_selected", true);
+            PrefManager.putBoolean(Constant.SUSI_SERVER, true);
         }
         email.setError(null);
         
         logIn.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Logging in...");
+        progressDialog.setMessage(getApplicationContext().getString(R.string.login));
         progressDialog.show();
 
         final Call<LoginResponse> authResponseCall = new ClientBuilder().getSusiApi()
@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
                     PrefManager.putLong(Constant.TOKEN_VALIDITY, validity);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra("FIRST_TIME", true);
+                    intent.putExtra(getApplicationContext().getString(R.string.first_time), true);
                     startActivity(intent);
                     finish();
                 } else if(response.code() == 422) {
@@ -171,17 +171,17 @@ public class LoginActivity extends AppCompatActivity {
                         builder.setTitle(R.string.password_invalid_title);
                         builder.setMessage(R.string.password_invalid)
                                 .setCancelable(false)
-                                .setPositiveButton("OK", null);
+                                .setPositiveButton(getApplicationContext().getString(R.string.ok), null);
                         AlertDialog alert = builder.create();
                         alert.show();
                         Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                         pbutton.setTextColor(Color.BLUE);
                 } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle(response.code() + " Error");
+                        builder.setTitle(response.code() + getApplicationContext().getString(R.string.error));
                         builder.setMessage(response.message())
                                 .setCancelable(false)
-                                .setPositiveButton("OK", null);
+                                .setPositiveButton(getApplicationContext().getString(R.string.ok), null);
                         AlertDialog alert = builder.create();
                         alert.show();
                         Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -197,14 +197,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 if( t instanceof UnknownHostException) {
-                    builder.setTitle("Unknown Host Exception");
+                    builder.setTitle(getApplicationContext().getString(R.string.unknown_host_exception));
                     builder.setMessage(t.getMessage());
                 } else {
                     builder.setTitle(R.string.error_internet_connectivity);
                     builder.setMessage(R.string.no_internet_connection);
                 }
                 builder.setCancelable(false)
-                        .setPositiveButton("RETRY", null);
+                        .setPositiveButton(getApplicationContext().getString(R.string.retry), null);
                 AlertDialog alert = builder.create();
                 alert.show();
                 Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -220,7 +220,7 @@ public class LoginActivity extends AppCompatActivity {
         builder.setTitle(R.string.email_invalid_title);
         builder.setMessage(R.string.email_invalid)
                 .setCancelable(false)
-                .setPositiveButton("RETRY", null);
+                .setPositiveButton(getApplicationContext().getString(R.string.retry), null);
         AlertDialog alert = builder.create();
         alert.show();
         Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -241,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString() };
-        outState.putCharSequenceArray("savedStates", values);
-        outState.putBoolean("server",personalServer.isChecked());
+        outState.putCharSequenceArray(Constant.SAVED_STATES, values);
+        outState.putBoolean(Constant.SERVER,personalServer.isChecked());
     }
 }
