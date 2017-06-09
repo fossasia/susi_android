@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.helper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.widget.Button;
+//import android.widget.Button;
 
 /**
  * Created by mayanktripathi on 09/06/17.
