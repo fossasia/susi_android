@@ -23,4 +23,11 @@ public class Constant {
     public static final String GEO_SOURCE = "geo_source";
 
     public static final String SAVED_EMAIL="saved_email";
+
+    public static final String ANSWER = "answer";
+    public static final String MAP = "map";
+    public static final String ANCHOR = "anchor";
+    public static final String WEBSEARCH = "websearch";
+    public static final String RSS = "rss";
+    public static final String PIECHART = "piechart";
 }

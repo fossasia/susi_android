@@ -58,8 +58,10 @@ import org.fossasia.susi.ai.adapters.viewholders.SearchResultsListHolder;
 import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
+import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.model.MapData;
 import org.fossasia.susi.ai.model.WebLink;
 import org.fossasia.susi.ai.model.WebSearchModel;
 import org.fossasia.susi.ai.rest.clients.WebSearchClient;
@@ -242,16 +244,26 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isDate()) return DATE_VIEW;
-        else if (item.isMap()) return MAP;
-        else if (item.isWebSearch()) return WEB_SEARCH;
-        else if (item.isSearchResult()) return SEARCH_RESULT;
-        else if (item.isPieChart()) return PIECHART;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
-        else if (item.isMine() && !item.isImage()) return USER_MESSAGE;
-        else if (!item.isMine() && !item.isImage()) return SUSI_MESSAGE;
-        else if (item.isMine() && item.isImage()) return USER_IMAGE;
-        else return SUSI_IMAGE;
+        else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
+
+        switch(item.getActionType()) {
+            case Constant.ANCHOR :
+                return SUSI_MESSAGE;
+            case Constant.ANSWER :
+                return SUSI_MESSAGE;
+            case Constant.MAP :
+                return MAP;
+            case  Constant.WEBSEARCH :
+                return WEB_SEARCH;
+            case Constant.RSS :
+                return SEARCH_RESULT;
+            case  Constant.PIECHART :
+                return PIECHART;
+            default:
+                return SUSI_MESSAGE;
+        }
     }
 
     @Override
@@ -268,11 +280,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", "", "", false, false, false, false, false, false, false, false,
-                            "", null, "");
+                    return new ChatMessage(-404, "", "", false, false, false, "", null, "");
                 }
-                return new ChatMessage(-405, "", "", "", false, false, false, false, false, false, false, false,
-                        "", null, "");
+                return new ChatMessage(-405, "", "", false, false, false, "", null, "");
             }
             return getData().get(index);
         }
@@ -448,6 +458,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         } else{
                             chatViewHolder.chatTextView.setText(Html.fromHtml(model.getContent()));
                         }
+                        chatViewHolder.chatTextView.setMovementMethod(LinkMovementMethod.getInstance());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
@@ -481,7 +492,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
         if (model != null) {
             try {
-                final MapHelper mapHelper = new MapHelper(model.getContent());
+                final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(),model.getLongitude(),model.getZoom()));
                 mapViewHolder.pointer.setVisibility(View.GONE);
                 Log.v(TAG, mapHelper.getMapURL());
                 Glide.with(currContext).load(mapHelper.getMapURL()).listener(new RequestListener<String, GlideDrawable>() {
@@ -509,7 +520,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         if(selectedItems.size() == 0) {
                             Intent mapIntent;
                             if (AndroidHelper.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
-                                Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", mapHelper.getLatitude(), mapHelper.getLongitude(), mapHelper.getZoom()));
+                                Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", model.getLatitude(), model.getLongitude(), model.getZoom()));
                                 mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                                 mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
                             } else {
@@ -990,9 +1001,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         String copyText;
                         int selected = getSelectedItems().get(0);
                         copyText = getItem(selected).getContent();
-                        if (getItem(selected).isMap()) {
-                            copyText = copyText.substring(0, copyText.indexOf("http"));
-                        }
+                        //if (getItem(selected).isMap()) {
+                        //    copyText = copyText.substring(0, copyText.indexOf("http"));
+                        //}
                         setClipboard(copyText);
                     } else {
                         String copyText = "";
@@ -1002,10 +1013,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             copyText += "[" + message.getTimeStamp() + "]";
                             copyText += " ";
                             copyText += message.isMine() ? "Me: " : "Susi: ";
-                            if (message.isMap()) {
-                                String CopiedText = getData().get(i).getContent();
-                                copyText += CopiedText.substring(0, CopiedText.indexOf("http"));
-                            } else
+                            //if (message.isMap()) {
+                             //   String CopiedText = getData().get(i).getContent();
+                             //   copyText += CopiedText.substring(0, CopiedText.indexOf("http"));
+                            //} else
                                 copyText += message.getContent();
                             copyText += "\n";
                             Log.d("copyText", " " + i + " " + copyText);
