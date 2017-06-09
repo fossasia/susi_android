@@ -359,13 +359,15 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, urlList.toString());
                                 isHavingLink = urlList != null;
                                 if (urlList.size() == 0) isHavingLink = false;
-
+                                c = newMessageIndex;
                                 updateDatabase(newMessageIndex,query, false, true, null, null, isHavingLink, null);
-                                parseSusiResponse(allMessages.get(i),0);
-                                rvChatFeed.getRecycledViewPool().clear();
-                                recyclerAdapter.notifyItemChanged((int) c);
-                                updateDatabase(newMessageIndex, answer, false, false, Constant.ANSWER, null, isHavingLink,null);
-                                c += 2;
+
+                                int actionSize = allMessages.get(i).getAnswers().get(0).getActions().size();
+
+                                for(int j=0 ; j<actionSize ; j++) {
+                                    parseSusiResponse(allMessages.get(i),j);
+                                    updateDatabase(c, answer, false, false, actionType, mapData, isHavingLink, datumList);
+                                }
                             }
                         }
                         progressDialog.dismiss();
@@ -1087,12 +1089,14 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setIsMine(mine);
                 chatMessage.setTimeStamp(timeStamp);
                 chatMessage.setHavingLink(isHavingLink);
-
+                if(actionType == null)
+                    Log.v("chirag",id + " null");
+                else
+                    Log.v("chirag",id + " " + actionType);
                 if (mine)
                     chatMessage.setIsDelivered(false);
                 else {
                     chatMessage.setActionType(actionType);
-                    Log.v("chirag",id + " " + actionType);
                     chatMessage.setWebquery(webSearch);
                     chatMessage.setIsDelivered(true);
                     if(mapData != null) {
