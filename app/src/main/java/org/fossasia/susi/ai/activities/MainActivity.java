@@ -18,7 +18,6 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -40,7 +39,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -69,6 +67,7 @@ import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.model.MapData;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.clients.LocationClient;
@@ -133,10 +132,9 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab_scrollToEnd;
     //	 Global Variables used for the setMessage Method
     private String answer;
-    private boolean isMap, isPieChart = false;
-    private boolean isHavingLink;
-    private boolean isSearchResult;
-    private boolean isWebSearch;
+    private boolean isHavingLink = false;
+    private String actionType;
+    private MapData mapData = null;
     private List<Datum> datumList = null;
     private boolean micCheck;
     private SearchView searchView;
@@ -269,62 +267,75 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void parseSusiResponse(SusiResponse susiResponse, int i) {
-        //Check for text and links
-        try {
-            answer = susiResponse.getAnswers().get(0).getActions()
-                    .get(i).getExpression();
-            List<String> urlList = extractUrls(answer);
-            Log.d(TAG, urlList.toString());
-            isHavingLink = urlList != null;
-            if (urlList.size() == 0) isHavingLink = false;
-        } catch (Exception e ) {
-            Log.d(TAG, e.getLocalizedMessage());
-            answer = getString(R.string.error_occurred_try_again);
-            isHavingLink = false;
-        }
 
-        //Check for map
-        try {
-            isMap = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("map");
-            datumList = susiResponse.getAnswers().get(0).getData();
-        } catch (Exception e) {
-            isMap = false;
-        }
+        actionType = susiResponse.getAnswers().get(0).getActions().get(i).getType();
+        datumList = null;
+        mapData = null;
+        webSearch = "";
+        isHavingLink = false;
 
-        //Check for piechart
-        try {
-            isPieChart = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("piechart");
-            datumList = susiResponse.getAnswers().get(0).getData();
-        } catch (Exception e) {
-            Log.d(TAG, e.getLocalizedMessage());
-            isPieChart = false;
-        }
+        switch(actionType) {
+            case Constant.ANCHOR :
+                try {
+                    boolean isAnchor = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("anchor");
+                    if(isAnchor)
+                        answer = "<a href=\"" +susiResponse.getAnswers().get(0).getActions().get(i).getAnchorLink() + "\">" + susiResponse.getAnswers().get(0).getActions().get(1).getAnchorText() + "</a>";
+                } catch (Exception e) {
+                    answer = getString(R.string.error_occurred_try_again);
+                }
+                break;
 
-        //Check for rss
-        try {
-            isSearchResult = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("rss");
-            datumList = susiResponse.getAnswers().get(0).getData();
-        } catch (Exception e) {
-            isSearchResult = false;
-        }
+            case Constant.ANSWER :
+                try {
+                    answer = susiResponse.getAnswers().get(0).getActions()
+                            .get(i).getExpression();
+                    List<String> urlList = extractUrls(answer);
+                    Log.d(TAG, urlList.toString());
+                    isHavingLink = urlList != null;
+                    if (urlList.size() == 0) isHavingLink = false;
+                } catch (Exception e ) {
+                    answer = getString(R.string.error_occurred_try_again);
+                    isHavingLink = false;
+                }
+                break;
 
-        //Check for websearch
-        try {
-            isWebSearch = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("websearch");
-            datumList = susiResponse.getAnswers().get(0).getData();
-            webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
-        } catch (Exception e) {
-            isWebSearch = false;
-            webSearch = "";
-        }
+            case Constant.MAP :
+                try {
+                    final double latitude = susiResponse.getAnswers().get(0).getActions().get(i).getLatitude();
+                    final double longitude = susiResponse.getAnswers().get(0).getActions().get(i).getLongitude();
+                    final double zoom = susiResponse.getAnswers().get(0).getActions().get(i).getZoom();
+                    mapData = new MapData(latitude,longitude,zoom);
+                } catch (Exception e) {
+                    mapData = null;
+                }
+                break;
 
-        //check for anchor
-        try {
-            boolean isAnchor = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("anchor");
-            if(isAnchor)
-                answer = "<a href=\"" +susiResponse.getAnswers().get(0).getActions().get(i).getAnchorLink() + "\">" + susiResponse.getAnswers().get(0).getActions().get(1).getAnchorText() + "</a>";
-        } catch (Exception e) {
-            Log.d(TAG, e.getLocalizedMessage());
+            case Constant.PIECHART :
+                try {
+                    datumList = susiResponse.getAnswers().get(0).getData();
+                } catch (Exception e) {
+                    datumList = null;
+                }
+                break;
+
+            case Constant.RSS :
+                try {
+                    datumList = susiResponse.getAnswers().get(0).getData();
+                } catch (Exception e) {
+                    datumList = null;
+                }
+                break;
+
+            case Constant.WEBSEARCH :
+                try {
+                    webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
+                } catch (Exception e) {
+                    webSearch = "";
+                }
+                break;
+
+            default:
+                answer = getString(R.string.error_occurred_try_again);
         }
     }
 
@@ -339,21 +350,21 @@ public class MainActivity extends AppCompatActivity {
                         if(allMessages.size() == 0) {
                             showToast("No messages found");
                         } else {
-                            updateDatabase(0, 0, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
+                            updateDatabase(0, "", true, false, null, null, false, null);
                             long c = 1;
                             for (int i = allMessages.size() - 1; i >= 0; i--) {
                                 String query = allMessages.get(i).getQuery();
-                                boolean isHavingLink;
+
                                 List<String> urlList = extractUrls(query);
                                 Log.d(TAG, urlList.toString());
                                 isHavingLink = urlList != null;
                                 if (urlList.size() == 0) isHavingLink = false;
 
-                                updateDatabase(c, c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "");
+                                updateDatabase(newMessageIndex,query, false, true, null, null, isHavingLink, null);
                                 parseSusiResponse(allMessages.get(i),0);
                                 rvChatFeed.getRecycledViewPool().clear();
                                 recyclerAdapter.notifyItemChanged((int) c);
-                                updateDatabase(c, c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webSearch);
+                                updateDatabase(newMessageIndex, answer, false, false, Constant.ANSWER, null, isHavingLink,null);
                                 c += 2;
                             }
                         }
@@ -704,17 +715,26 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<LocationResponse>() {
             @Override
             public void onResponse(Call<LocationResponse> call, Response<LocationResponse> response) {
-                String loc = response.body().getLoc();
-                String s[] = loc.split(",");
-                Float f = new Float(0);
-                PrefManager.putFloat(Constant.LATITUDE, f.parseFloat(s[0]));
-                PrefManager.putFloat(Constant.LONGITUDE, f.parseFloat(s[1]));
-                PrefManager.putString(Constant.GEO_SOURCE, "ip");
+                if (response != null && response.isSuccessful() && response.body() != null) {
+                    String loc = response.body().getLoc();
+                    String s[] = loc.split(",");
+                    Float f = new Float(0);
+                    PrefManager.putFloat(Constant.LATITUDE, f.parseFloat(s[0]));
+                    PrefManager.putFloat(Constant.LONGITUDE, f.parseFloat(s[1]));
+                    PrefManager.putString(Constant.GEO_SOURCE, "ip");
+                } else {
+                    PrefManager.putFloat(Constant.LATITUDE, 0);
+                    PrefManager.putFloat(Constant.LONGITUDE, 0);
+                    PrefManager.putString(Constant.GEO_SOURCE, "ip");
+                }
             }
 
             @Override
             public void onFailure(Call<LocationResponse> call, Throwable t) {
                 Log.e(TAG, t.toString());
+                PrefManager.putFloat(Constant.LATITUDE, 0);
+                PrefManager.putFloat(Constant.LONGITUDE, 0);
+                PrefManager.putString(Constant.GEO_SOURCE, "ip");
             }
         });
     }
@@ -782,8 +802,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void voiceReply(final String reply, final boolean isMap) {
-        if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
+    private void voiceReply(final String reply, final boolean isHavingLink , final String actionType) {
+        if ( ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) && actionType.equals(Constant.ANSWER)) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             Handler handler = new Handler();
             handler.post(new Runnable() {
@@ -798,7 +818,7 @@ public class MainActivity extends AppCompatActivity {
                                     Locale locale = textToSpeech.getLanguage();
                                     textToSpeech.setLanguage(locale);
                                     String spokenReply = reply;
-                                    if (isMap) {
+                                    if (isHavingLink) {
                                         spokenReply = reply.substring(0, reply.indexOf("http"));
                                     }
                                     textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
@@ -939,25 +959,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendMessage(String query, String actual) {
-        webSearch = query;
 
         boolean isHavingLink;
-
         List<String> urlList = extractUrls(query);
         Log.d(TAG, urlList.toString());
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
 
         if (newMessageIndex == 0) {
-            updateDatabase(newMessageIndex, newMessageIndex, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
+            updateDatabase(newMessageIndex, "", true, false, null, null, false, null);
         } else {
             String s = realm.where(ChatMessage.class).equalTo("id", newMessageIndex - 1).findFirst().getDate();
             if (!DateTimeHelper.getDate().equals(s)) {
-                updateDatabase(newMessageIndex, newMessageIndex, "", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
+                updateDatabase(newMessageIndex, "", true, false, null, null, false, null);
             }
         }
         nonDeliveredMessages.add(new Pair(query, newMessageIndex));
-        updateDatabase(newMessageIndex, newMessageIndex, actual, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "");
+        updateDatabase(newMessageIndex, actual,false, true, null, null, isHavingLink, null);
         getLocationFromLocationService();
         new computeThread().start();
     }
@@ -1000,8 +1018,8 @@ public class MainActivity extends AppCompatActivity {
                                             public void run() {
                                                 parseSusiResponse(susiResponse,actionNo);
                                                 final String setMessage = answer;
-                                                voiceReply(setMessage, isMap);
-                                                addNewMessage(id,newMessageIndex,setMessage, isMap, isHavingLink, isPieChart, isWebSearch, isSearchResult, datumList, webSearch);
+                                                voiceReply(setMessage, isHavingLink, actionType);
+                                                updateDatabase(id, setMessage, false, false, actionType, mapData, isHavingLink, datumList);
                                             }
                                         }, delay);
                                     }
@@ -1014,7 +1032,7 @@ public class MainActivity extends AppCompatActivity {
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     } else {
-                                        addNewMessage(id, newMessageIndex, getString(R.string.error_internet_connectivity), false, false, false, false, false, null, "");
+                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, false, Constant.ANSWER, mapData, false, datumList);
                                     }
                                     recyclerAdapter.hideDots();
                                 }
@@ -1037,7 +1055,7 @@ public class MainActivity extends AppCompatActivity {
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 } else {
-                                    addNewMessage(id, newMessageIndex, getString(R.string.error_internet_connectivity), false, false, false, false, false, null, "");
+                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, false, Constant.ANSWER, mapData, false, datumList);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -1052,47 +1070,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void addNewMessage(long prevId, long id, String answer, boolean isMap, boolean isHavingLink, boolean isPieChart, boolean isWebSearch, boolean isSearchReult, List<Datum> datumList, String webquery) {
-
-        updateDatabase(prevId, newMessageIndex, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webquery);
-    }
-
-    private void updateDatabase(final long prevId, final long id, final String message, final String date,
-                                final boolean isDate, final boolean mine, final boolean isSearchResult,
-                                final boolean isWebSearch, final boolean image, final boolean isMap,
-                                final boolean isHavingLink, final String timeStamp,
-                                final boolean isPieChart, final List<Datum> datumList, final String webquery) {
-        newMessageIndex = id+1;
+    private void updateDatabase(final long prevId, final String message, final boolean isDate, final boolean mine,
+                                final String actionType, final MapData mapData, final boolean isHavingLink,
+                                final List<Datum> datumList) {
+        final long id = newMessageIndex;
+        newMessageIndex++;
+        final String date = DateTimeHelper.getDate();
+        final String timeStamp = DateTimeHelper.getCurrentTime();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
                 ChatMessage chatMessage = bgRealm.createObject(ChatMessage.class, id);
-                chatMessage.setWebSearch(isWebSearch);
                 chatMessage.setContent(message);
                 chatMessage.setDate(date);
                 chatMessage.setIsDate(isDate);
                 chatMessage.setIsMine(mine);
-                chatMessage.setIsImage(image);
                 chatMessage.setTimeStamp(timeStamp);
-                chatMessage.setMap(isMap);
                 chatMessage.setHavingLink(isHavingLink);
-                chatMessage.setIsPieChart(isPieChart);
-                chatMessage.setSearchResult(isSearchResult);
-                chatMessage.setWebquery(webquery);
+
                 if (mine)
                     chatMessage.setIsDelivered(false);
-                else
+                else {
+                    chatMessage.setActionType(actionType);
+                    Log.v("chirag",id + " " + actionType);
+                    chatMessage.setWebquery(webSearch);
                     chatMessage.setIsDelivered(true);
-                if (datumList != null) {
-                    RealmList<Datum> datumRealmList = new RealmList<>();
-                    for (Datum datum : datumList) {
-                        Datum realmDatum = bgRealm.createObject(Datum.class);
-                        realmDatum.setDescription(datum.getDescription());
-                        realmDatum.setLink(datum.getLink());
-                        realmDatum.setTitle(datum.getTitle());
-                        datumRealmList.add(realmDatum);
+                    if(mapData != null) {
+                        chatMessage.setLatitude(mapData.getLatitude());
+                        chatMessage.setLongitude(mapData.getLongitude());
+                        chatMessage.setZoom(mapData.getZoom());
+                        Log.v("chirag",chatMessage.getId() + " " + chatMessage.getLatitude() + " " +chatMessage.getLongitude() + " " + chatMessage.getZoom());
                     }
-                    chatMessage.setDatumRealmList(datumRealmList);
+                    if (datumList != null) {
+                        RealmList<Datum> datumRealmList = new RealmList<>();
+                        for (Datum datum : datumList) {
+                            Datum realmDatum = bgRealm.createObject(Datum.class);
+                            realmDatum.setDescription(datum.getDescription());
+                            realmDatum.setLink(datum.getLink());
+                            realmDatum.setTitle(datum.getTitle());
+                            datumRealmList.add(realmDatum);
+                        }
+                        chatMessage.setDatumRealmList(datumRealmList);
+                    }
                 }
             }
         }, new Realm.Transaction.OnSuccess() {
