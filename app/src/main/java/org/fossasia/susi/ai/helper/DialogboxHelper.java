@@ -13,7 +13,7 @@ public class DialogboxHelper {
 
     private DialogInterface.OnClickListener dialogPositiveClick,dialogNegativeClick;
 
-    public void OnSuccess(Activity activity, String title, String message){
+    public void onSuccess(Activity activity, String title, String message){
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
         alertDialog.setTitle(title);
@@ -25,10 +25,10 @@ public class DialogboxHelper {
         AlertDialog alert = alertDialog.create();
         alert.show();
 
-        Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        //Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
     }
 
-    public void OnFailure(Activity activity, String title, String message){
+    public void onFailure(Activity activity, String title, String message){
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
         alertDialog.setTitle(title);
@@ -39,7 +39,7 @@ public class DialogboxHelper {
         AlertDialog alert = alertDialog.create();
         alert.show();
 
-        Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        //Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
     }
 
 
