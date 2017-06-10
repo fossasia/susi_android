@@ -30,4 +30,6 @@ public class Constant {
     public static final String WEBSEARCH = "websearch";
     public static final String RSS = "rss";
     public static final String PIECHART = "piechart";
+
+    public static final String MESSAGE_COUNT = "message_count";
 }
