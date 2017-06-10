@@ -499,7 +499,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
         if (model != null) {
             try {
-                final MapHelper mapHelper = new MapHelper(model.getContent(), model.getLatitude(), model.getLongitude(), model.getZoom());
+                final MapHelper mapHelper = new MapHelper(model.getContent(),model.getMapLatitude(),model.getMapLongitude(),model.getZoom());
                 mapViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                 mapViewHolder.text.setText(mapHelper.getDisplayText());
                 mapViewHolder.timestampTextView.setText(model.getTimeStamp());
