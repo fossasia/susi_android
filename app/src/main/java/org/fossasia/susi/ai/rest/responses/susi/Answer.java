@@ -12,13 +12,14 @@ public class Answer {
 
     @SerializedName("data")
     @Expose
-    RealmList<Datum> data = new RealmList<>();
+    private RealmList<Datum> data = new RealmList<>();
     @SerializedName("metadata")
     @Expose
+    private
     Metadata metadata;
     @SerializedName("actions")
     @Expose
-    List<Action> actions = new ArrayList<Action>();
+    private List<Action> actions = new ArrayList<>();
 
     public RealmList<Datum> getData() {
         return data;

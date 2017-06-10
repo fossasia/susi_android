@@ -12,11 +12,11 @@ import java.util.List;
 public class MemoryResponse {
     @SerializedName("cognitions")
     @Expose
-    List <SusiResponse> cognitionsList;
+    private List <SusiResponse> cognitionsList;
 
     @SerializedName("session")
     @Expose
-    Session session;
+    private Session session;
 
     public List<SusiResponse> getCognitionsList() {
         return cognitionsList;

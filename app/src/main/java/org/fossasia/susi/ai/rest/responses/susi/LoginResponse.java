@@ -10,13 +10,13 @@ import com.google.gson.annotations.SerializedName;
 public class LoginResponse {
     @SerializedName("message")
     @Expose
-    String message;
+    private String message;
     @SerializedName("session")
     @Expose
-    Session session;
+    private Session session;
     @SerializedName("valid_seconds")
     @Expose
-    Long validSeconds;
+    private long validSeconds;
     @SerializedName("access_token")
     @Expose
     String accessToken;
@@ -29,7 +29,7 @@ public class LoginResponse {
         return session;
     }
 
-    public Long getValidSeconds() {
+    public long getValidSeconds() {
         return validSeconds;
     }
 

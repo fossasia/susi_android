@@ -21,19 +21,19 @@ public class Datum extends RealmObject {
     private String query;
     @SerializedName("lon")
     @Expose
-    private Double lon;
+    private double lon;
     @SerializedName("place")
     @Expose
     private String place;
     @SerializedName("lat")
     @Expose
-    private Double lat;
+    private double lat;
     @SerializedName("population")
     @Expose
-    private Integer population;
+    private int population;
     @SerializedName("percent")
     @Expose
-    private Float percent;
+    private float percent;
     @SerializedName("president")
     @Expose
     private String president;
@@ -63,7 +63,7 @@ public class Datum extends RealmObject {
         return query;
     }
 
-    public Double getLon() {
+    public double getLon() {
         return lon;
     }
 
@@ -71,15 +71,15 @@ public class Datum extends RealmObject {
         return place;
     }
 
-    public Double getLat() {
+    public double getLat() {
         return lat;
     }
 
-    public Integer getPopulation() {
+    public int getPopulation() {
         return population;
     }
 
-    public Float getPercent() {
+    public float getPercent() {
         return percent;
     }
 

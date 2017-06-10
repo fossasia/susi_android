@@ -11,7 +11,7 @@ public class RelatedTopics {
 
     @SerializedName("FirstURL")
     @Expose
-    private String des;
+    private String url;
 
     @SerializedName("Text")
     @Expose
@@ -21,19 +21,22 @@ public class RelatedTopics {
     @Expose
     private WebIcon icon;
 
+    @SerializedName("Result")
+    @Expose
+    private String result;
 
-    public RelatedTopics(String des, String text, WebIcon icon) {
-        this.des = des;
+    public RelatedTopics(String url, String text, WebIcon icon) {
+        this.url = url;
         this.text = text;
         this.icon = icon;
     }
 
-    public String getDes() {
-        return des;
+    public String getUrl() {
+        return url;
     }
 
-    public void setDes(String des) {
-        this.des = des;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getText() {
@@ -50,5 +53,13 @@ public class RelatedTopics {
 
     public void setIcon(WebIcon icon) {
         this.icon = icon;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }

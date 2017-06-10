@@ -5,7 +5,8 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/background_layout"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/margin_very_small">
 
     <android.support.v7.widget.CardView
         android:layout_width="@dimen/message_layout_max_width"

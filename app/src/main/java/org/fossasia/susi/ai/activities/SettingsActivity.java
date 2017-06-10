@@ -1,16 +1,21 @@
 package org.fossasia.susi.ai.activities;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.helper.Constant;
+import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
 
 import io.realm.Realm;
@@ -24,13 +29,13 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
-        private Preference textToSpeech,rate,server;
+        private Preference textToSpeech,rate,server,micSettings;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.pref_settings);
 
-            textToSpeech = (Preference) getPreferenceManager().findPreference("Lang_Select");
+            textToSpeech = getPreferenceManager().findPreference("Lang_Select");
             textToSpeech.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
@@ -42,7 +47,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            rate=(Preference)getPreferenceManager().findPreference("rate");
+            rate = getPreferenceManager().findPreference("rate");
             rate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
@@ -51,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            server=(Preference)getPreferenceManager().findPreference("Server_Select");
+            server = getPreferenceManager().findPreference("Server_Select");
             server.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
                 @Override
@@ -84,6 +89,18 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
+
+            micSettings = getPreferenceManager().findPreference("Mic_input");
+            if(ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+                boolean voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(getContext());
+                if(!voiceInputAvailable)
+                    PrefManager.putBoolean(Constant.MIC_INPUT, false);
+                micSettings.setEnabled(voiceInputAvailable);
+            } else {
+                PrefManager.putBoolean(Constant.MIC_INPUT, false);
+                micSettings.setEnabled(false);
+            }
         }
     }
 

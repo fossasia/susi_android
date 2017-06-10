@@ -7,7 +7,7 @@ public class Session {
 
     @SerializedName("identity")
     @Expose
-    Identity identity;
+    private Identity identity;
 
     public Identity getIdentity() {
         return identity;
