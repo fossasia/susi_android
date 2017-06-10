@@ -17,6 +17,7 @@ public class ChatMessage extends RealmObject {
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
+    private String mapLatitude,mapLongitude,zoom;
 
     private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate, isImportant;
 
@@ -182,5 +183,29 @@ public class ChatMessage extends RealmObject {
 
     public void setWebquery(String webquery) {
         this.webquery = webquery;
+    }
+
+    public String getMapLatitude() {
+        return mapLatitude;
+    }
+
+    public String getMapLongitude() {
+        return mapLongitude;
+    }
+
+    public String getZoom() {
+        return zoom;
+    }
+
+    public void setMapLatitude(String mapLatitude) {
+        this.mapLatitude = mapLatitude;
+    }
+
+    public void setMapLongitude(String mapLongitude) {
+        this.mapLongitude = mapLongitude;
+    }
+
+    public void setZoom(String zoom) {
+        this.zoom = zoom;
     }
 }

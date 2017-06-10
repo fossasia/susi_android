@@ -69,6 +69,7 @@ import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.model.MapModel;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.clients.LocationClient;
@@ -154,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
     private SpeechRecognizer recognizer;
     private ProgressDialog progressDialog;
+    private String mapLatitude;
+    private String mapLongitude;
+    private String zoom;
+    private MapModel mapModel = null;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -316,6 +321,14 @@ public class MainActivity extends AppCompatActivity {
             isWebSearch = false;
             webSearch = "";
         }
+        if(isMap) {
+            mapLatitude = susiResponse.getAnswers().get(0).getActions().get(2).getLatitude();
+            mapLongitude = susiResponse.getAnswers().get(0).getActions().get(2).getLongitude();
+            zoom = susiResponse.getAnswers().get(0).getActions().get(2).getZoom();
+            mapModel = new MapModel(mapLatitude,mapLongitude,zoom);
+        } else {
+            mapModel = null;
+        }
     }
 
     private void getOldMessages() {
@@ -329,7 +342,7 @@ public class MainActivity extends AppCompatActivity {
                         if(allMessages.size() == 0) {
                             showToast("No messages found");
                         } else {
-                            updateDatabase(0, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
+                            updateDatabase(0, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "",null);
                             long c = 1;
                             for (int i = allMessages.size() - 1; i >= 0; i--) {
                                 String query = allMessages.get(i).getQuery();
@@ -338,12 +351,11 @@ public class MainActivity extends AppCompatActivity {
                                 Log.d(TAG, urlList.toString());
                                 isHavingLink = urlList != null;
                                 if (urlList.size() == 0) isHavingLink = false;
-
-                                updateDatabase(c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "");
+                                updateDatabase(c, query, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "",null);
                                 parseSusiResponse(allMessages.get(i));
                                 rvChatFeed.getRecycledViewPool().clear();
                                 recyclerAdapter.notifyItemChanged((int) c);
-                                updateDatabase(c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webSearch);
+                                updateDatabase(c + 1, answer, DateTimeHelper.getDate(), false, false, isSearchResult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webSearch,mapModel);
                                 c += 2;
                             }
                         }
@@ -937,17 +949,17 @@ public class MainActivity extends AppCompatActivity {
         if (urlList.size() == 0) isHavingLink = false;
 
         if (id == 0) {
-            updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
+            updateDatabase(id, " ", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "",null);
             id++;
         } else {
             String s = realm.where(ChatMessage.class).equalTo("id", id - 1).findFirst().getDate();
             if (!DateTimeHelper.getDate().equals(s)) {
-                updateDatabase(id, "", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "");
+                updateDatabase(id, "", DateTimeHelper.getDate(), true, false, false, false, false, false, false, DateTimeHelper.getCurrentTime(), false, null, "",null);
                 id++;
             }
         }
 
-        updateDatabase(id, actual, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "");
+        updateDatabase(id, actual, DateTimeHelper.getDate(), false, true, false, false, false, false, isHavingLink, DateTimeHelper.getCurrentTime(), false, null, "",null);
         nonDeliveredMessages.add(new Pair(query, id));
         getLocationFromLocationService();
         new computeThread().start();
@@ -1060,7 +1072,7 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     });
-                                    rvChatFeed.getRecycledViewPool().clear();
+                         rvChatFeed.getRecycledViewPool().clear();
                                     recyclerAdapter.notifyItemChanged((int) id);
                                     addNewMessage(getString(R.string.error_internet_connectivity), false, false, false, false, false, null, "");
                                 }
@@ -1093,14 +1105,13 @@ public class MainActivity extends AppCompatActivity {
             answer = Html.fromHtml(answer).toString();
         }
 
-        updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webquery);
+        updateDatabase(id, answer, DateTimeHelper.getDate(), false, false, isSearchReult, isWebSearch, false, isMap, isHavingLink, DateTimeHelper.getCurrentTime(), isPieChart, datumList, webquery,mapModel);
     }
-
     private void updateDatabase(final long id, final String message, final String date,
                                 final boolean isDate, final boolean mine, final boolean isSearchResult,
                                 final boolean isWebSearch, final boolean image, final boolean isMap,
                                 final boolean isHavingLink, final String timeStamp,
-                                final boolean isPieChart, final List<Datum> datumList, final String webquery) {
+                                final boolean isPieChart, final List<Datum> datumList, final String webquery,final MapModel mapModel) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -1121,6 +1132,11 @@ public class MainActivity extends AppCompatActivity {
                     chatMessage.setIsDelivered(false);
                 else
                     chatMessage.setIsDelivered(true);
+                if(mapModel!=null) {
+                    chatMessage.setMapLatitude(mapModel.getLatitude());
+                    chatMessage.setMapLongitude(mapModel.getLongitude());
+                    chatMessage.setZoom(mapModel.getZoom());
+                }
                 if (datumList != null) {
                     RealmList<Datum> datumRealmList = new RealmList<>();
                     for (Datum datum : datumList) {
