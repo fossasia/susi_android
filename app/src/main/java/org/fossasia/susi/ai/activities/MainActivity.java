@@ -294,6 +294,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             isPieChart = susiResponse.getAnswers().get(0).getActions().get(2).getType().equals("piechart");
             datumList = susiResponse.getAnswers().get(0).getData();
+
         } catch (Exception e) {
             Log.d(TAG, e.getLocalizedMessage());
             isPieChart = false;
