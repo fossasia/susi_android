@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     private Deque<Pair<String, Long>> nonDeliveredMessages = new LinkedList<>();
     private SpeechRecognizer recognizer;
     private ProgressDialog progressDialog;
-    private long newMessageIndex = 0;
+    public long newMessageIndex = 0;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -276,14 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch(actionType) {
             case Constant.ANCHOR :
-                try {
-                    boolean isAnchor = susiResponse.getAnswers().get(0).getActions().get(i).getType().equals("anchor");
-                    if(isAnchor)
-                        answer = "<a href=\"" +susiResponse.getAnswers().get(0).getActions().get(i).getAnchorLink() + "\">" + susiResponse.getAnswers().get(0).getActions().get(1).getAnchorText() + "</a>";
-                } catch (Exception e) {
-                    answer = getString(R.string.error_occurred_try_again);
-                }
-                break;
+                // TODO : Add code for anchor here
 
             case Constant.ANSWER :
                 try {
@@ -422,6 +415,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             newMessageIndex = (long) temp + 1;
         }
+
+        PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex);
 
         boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
         if(firstRun && isNetworkConnected()) {
@@ -804,8 +799,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void voiceReply(final String reply, final boolean isHavingLink , final String actionType) {
-        if ( ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) && actionType.equals(Constant.ANSWER)) {
+    private void voiceReply(final String reply, final boolean isHavingLink) {
+        if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             Handler handler = new Handler();
             handler.post(new Runnable() {
@@ -968,6 +963,8 @@ public class MainActivity extends AppCompatActivity {
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
 
+        newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
+
         if (newMessageIndex == 0) {
             updateDatabase(newMessageIndex, "", true, false, null, null, false, null);
         } else {
@@ -1020,7 +1017,8 @@ public class MainActivity extends AppCompatActivity {
                                             public void run() {
                                                 parseSusiResponse(susiResponse,actionNo);
                                                 final String setMessage = answer;
-                                                voiceReply(setMessage, isHavingLink, actionType);
+                                                if(actionType.equals(Constant.ANSWER))
+                                                    voiceReply(setMessage, isHavingLink);
                                                 updateDatabase(id, setMessage, false, false, actionType, mapData, isHavingLink, datumList);
                                             }
                                         }, delay);
@@ -1077,6 +1075,7 @@ public class MainActivity extends AppCompatActivity {
                                 final List<Datum> datumList) {
         final long id = newMessageIndex;
         newMessageIndex++;
+        PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex);
         final String date = DateTimeHelper.getDate();
         final String timeStamp = DateTimeHelper.getCurrentTime();
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -1089,10 +1088,6 @@ public class MainActivity extends AppCompatActivity {
                 chatMessage.setIsMine(mine);
                 chatMessage.setTimeStamp(timeStamp);
                 chatMessage.setHavingLink(isHavingLink);
-                if(actionType == null)
-                    Log.v("chirag",id + " null");
-                else
-                    Log.v("chirag",id + " " + actionType);
                 if (mine)
                     chatMessage.setIsDelivered(false);
                 else {
@@ -1103,7 +1098,6 @@ public class MainActivity extends AppCompatActivity {
                         chatMessage.setLatitude(mapData.getLatitude());
                         chatMessage.setLongitude(mapData.getLongitude());
                         chatMessage.setZoom(mapData.getZoom());
-                        Log.v("chirag",chatMessage.getId() + " " + chatMessage.getLatitude() + " " +chatMessage.getLongitude() + " " + chatMessage.getZoom());
                     }
                     if (datumList != null) {
                         RealmList<Datum> datumRealmList = new RealmList<>();
@@ -1136,6 +1130,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     });
+                    rvChatFeed.smoothScrollToPosition(recyclerAdapter.getItemCount());
                     recyclerAdapter.notifyDataSetChanged();
                 }
             }

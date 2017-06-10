@@ -14,10 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
@@ -60,6 +58,7 @@ import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.MapHelper;
+import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.model.MapData;
 import org.fossasia.susi.ai.model.WebLink;
@@ -360,7 +359,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         webSearch.setUrl(url);
                                         searchResults.add(webSearch);
                                     } catch (Exception e) {
-                                        e.getMessage();
+                                        Log.v(TAG,e.getLocalizedMessage());
                                     }
                                 }
                                 if(searchResults.size()==0) {
@@ -452,13 +451,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         break;
                     case SUSI_MESSAGE:
                         chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-                        // Remove HTML escape sequences from answer, before showing any results
-                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                            chatViewHolder.chatTextView.setText(Html.fromHtml(model.getContent(),Html.FROM_HTML_MODE_COMPACT));
-                        } else{
-                            chatViewHolder.chatTextView.setText(Html.fromHtml(model.getContent()));
-                        }
-                        chatViewHolder.chatTextView.setMovementMethod(LinkMovementMethod.getInstance());
+                        // TODO : Add HTML parser here
+                        chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
@@ -809,6 +803,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             @Override
             public void execute(Realm realm) {
                 getData().deleteFromRealm(position);
+                Number temp = realm.where(ChatMessage.class).max("id");
+                if (temp == null) {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
+                } else {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
+                }
             }
         });
     }
@@ -854,6 +854,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                 if(dateIndexFirst == getData().size() - 1 && getData().size()>0 ){
                     getData().deleteFromRealm(dateIndexFirst);
+                }
+                Number temp = realm.where(ChatMessage.class).max("id");
+                if (temp == null) {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
+                } else {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
                 }
             }
         });
@@ -1001,25 +1007,22 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         String copyText;
                         int selected = getSelectedItems().get(0);
                         copyText = getItem(selected).getContent();
-                        //if (getItem(selected).isMap()) {
-                        //    copyText = copyText.substring(0, copyText.indexOf("http"));
-                        //}
+                        if (getItem(selected).getActionType() == null || getItem(selected).getActionType().equals(Constant.ANSWER)) {
+                            setClipboard(copyText);
+                        }
                         setClipboard(copyText);
                     } else {
                         String copyText = "";
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
-                            Log.d(TAG, message.toString());
-                            copyText += "[" + message.getTimeStamp() + "]";
-                            copyText += " ";
-                            copyText += message.isMine() ? "Me: " : "Susi: ";
-                            //if (message.isMap()) {
-                             //   String CopiedText = getData().get(i).getContent();
-                             //   copyText += CopiedText.substring(0, CopiedText.indexOf("http"));
-                            //} else
+                            if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
+                                Log.d(TAG, message.toString());
+                                copyText += "[" + message.getTimeStamp() + "]";
+                                copyText += " ";
+                                copyText += message.isMine() ? "Me: " : "Susi: ";
                                 copyText += message.getContent();
-                            copyText += "\n";
-                            Log.d("copyText", " " + i + " " + copyText);
+                                copyText += "\n";
+                            }
                         }
                         copyText = copyText.substring(0, copyText.length() - 1);
                         setClipboard(copyText);
@@ -1041,17 +1044,21 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     nSelected = getSelectedItems().size();
                     if (nSelected == 1) {
                         int selected = getSelectedItems().get(0);
-                        shareMessage(getItem(selected).getContent());
+                        if (getItem(selected).getActionType() == null || getItem(selected).getActionType().equals(Constant.ANSWER)) {
+                            shareMessage(getItem(selected).getContent());
+                        }
                     } else {
                         String shareText = "";
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
-                            Log.d(TAG, message.toString());
-                            shareText += "[" + message.getTimeStamp() + "]";
-                            shareText += " ";
-                            shareText += message.isMine() ? "Me: " : "Susi: ";
-                            shareText += message.getContent();
-                            shareText += "\n";
+                            if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
+                                Log.d(TAG, message.toString());
+                                shareText += "[" + message.getTimeStamp() + "]";
+                                shareText += " ";
+                                shareText += message.isMine() ? "Me: " : "Susi: ";
+                                shareText += message.getContent();
+                                shareText += "\n";
+                            }
                         }
                         shareText = shareText.substring(0, shareText.length() - 1);
                         shareMessage(shareText);
