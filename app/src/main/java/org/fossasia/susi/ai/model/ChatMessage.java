@@ -13,11 +13,7 @@ public class ChatMessage extends RealmObject {
 
     @PrimaryKey
     private long id;
-<<<<<<< HEAD
-    private String content, timeStamp, des, date, latitude, longitude, zoom;
-=======
     private String content, timeStamp, des, date, webquery;
->>>>>>> 05a08e2aa62f3d2bd1ae5d049325f37a6fa1d4d5
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
@@ -28,11 +24,7 @@ public class ChatMessage extends RealmObject {
         datumRealmList = new RealmList<>();
     }
 
-<<<<<<< HEAD
-    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList, String latitude, String longitude, String zoom) {
-=======
     public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList, String webquery) {
->>>>>>> 05a08e2aa62f3d2bd1ae5d049325f37a6fa1d4d5
         this.id = id;
         this.isWebSearch = isWebSearch;
         this.isImage = isImage;
@@ -49,14 +41,7 @@ public class ChatMessage extends RealmObject {
         this.isSearchResult = isSearchResult;
         this.webquery = webquery;
         this.webLinkData = null;
-<<<<<<< HEAD
-        this.webSearch = null;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.zoom = zoom;
-=======
         this.webSearchList = null;
->>>>>>> 05a08e2aa62f3d2bd1ae5d049325f37a6fa1d4d5
     }
 
     public RealmList<WebSearchModel> getWebSearchList() {
@@ -191,36 +176,11 @@ public class ChatMessage extends RealmObject {
         return isImportant;
     }
 
-<<<<<<< HEAD
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public String getZoom() {
-        return zoom;
-    }
-
-    public void setZoom(String zoom) {
-        this.zoom = zoom;
-=======
     public String getWebquery() {
         return webquery;
     }
 
     public void setWebquery(String webquery) {
         this.webquery = webquery;
->>>>>>> 05a08e2aa62f3d2bd1ae5d049325f37a6fa1d4d5
     }
 }
