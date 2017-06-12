@@ -110,4 +110,5 @@ public class Datum extends RealmObject {
     public void setLink(String link) {
         this.link = link;
     }
+
 }

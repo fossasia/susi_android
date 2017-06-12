@@ -272,9 +272,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", "", false, false, false, "", null, "");
+                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", 0);
                 }
-                return new ChatMessage(-405, "", "", false, false, false, "", null, "");
+                return new ChatMessage(-405, "", "", false, false, false, "", null, "", 0);
             }
             return getData().get(index);
         }
@@ -400,7 +400,17 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
                         LinearLayoutManager.HORIZONTAL, false);
                 searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
-                SearchResultsAdapter resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
+                SearchResultsAdapter resultsAdapter;
+                List<Datum> data = new ArrayList<>();
+                int count = model.getCount();
+                if(count == -1) {
+                    resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
+                } else {
+                    for (int i=0;i<count;i++) {
+                        data.add(model.getDatumRealmList().get(i));
+                    }
+                    resultsAdapter = new SearchResultsAdapter(currContext, data);
+                }
                 searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
             } else {
                 searchResultsListHolder.recyclerView.setAdapter(null);

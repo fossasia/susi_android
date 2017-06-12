@@ -16,7 +16,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.adapters.viewholders.SearchResultHolder;
+import org.fossasia.susi.ai.adapters.viewholders.RssViewHolder;
 import org.fossasia.susi.ai.rest.responses.susi.Datum;
 
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
  * Created by saurabh on 19/11/16.
  */
 
-public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolder> {
+public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
     public static final String TAG = SearchResultsAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private Context context;
@@ -38,45 +38,50 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
     }
 
     @Override
-    public SearchResultHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SearchResultHolder(inflater.inflate(R.layout.search_item, parent, false));
+    public RssViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new RssViewHolder(inflater.inflate(R.layout.rss_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final SearchResultHolder holder, int position) {
+    public void onBindViewHolder(final RssViewHolder holder, int position) {
         Datum datum = datumList.get(position);
         if (datum != null) {
             holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
-            holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
+            if(datum.getDescription().isEmpty()) {
+                holder.descriptionTextView.setVisibility(View.GONE);
+            } else {
+                holder.descriptionTextView.setVisibility(View.VISIBLE);
+                holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
+            }
+            holder.linkTextView.setText(datum.getLink());
             if (!TextUtils.isEmpty(datum.getLink())) {
                 LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
                     @Override
                     public void onPre() {
-                        holder.previewImageView.setVisibility(View.GONE);
-                        holder.descriptionTextView.setVisibility(View.GONE);
-                        holder.titleTextView.setVisibility(View.GONE);
-                        holder.previewLayout.setVisibility(View.GONE);
+                        holder.linkPreviewImageView.setVisibility(View.GONE);
+                        holder.linkDescriptionTextView.setVisibility(View.GONE);
+                        holder.linkTitleTextView.setVisibility(View.GONE);
+                        holder.linkPreviewLayout.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onPos(final SourceContent sourceContent, boolean b) {
-                        holder.previewLayout.setVisibility(View.VISIBLE);
-                        holder.previewImageView.setVisibility(View.VISIBLE);
-                        holder.descriptionTextView.setVisibility(View.VISIBLE);
-                        holder.titleTextView.setVisibility(View.VISIBLE);
-                        holder.titleTextView.setText(sourceContent.getTitle());
-                        holder.descriptionTextView.setText(sourceContent.getDescription());
-
+                        holder.linkPreviewImageView.setVisibility(View.VISIBLE);
+                        holder.linkDescriptionTextView.setVisibility(View.VISIBLE);
+                        holder.linkTitleTextView.setVisibility(View.VISIBLE);
+                        holder.linkPreviewLayout.setVisibility(View.VISIBLE);
+                        holder.linkTitleTextView.setText(sourceContent.getTitle());
+                        holder.linkDescriptionTextView.setText(sourceContent.getDescription());
                         final List<String> imageList = sourceContent.getImages();
                         if (imageList == null || imageList.size() == 0) {
-                            holder.previewImageView.setVisibility(View.GONE);
+                            holder.linkPreviewImageView.setVisibility(View.GONE);
                         } else {
                             Picasso.with(context).load(imageList.get(0))
                                     .fit().centerCrop()
-                                    .into(holder.previewImageView);
+                                    .into(holder.linkPreviewImageView);
                         }
 
-                        holder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Uri webpage = Uri.parse(sourceContent.getFinalUrl());
