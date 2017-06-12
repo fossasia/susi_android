@@ -23,6 +23,15 @@ public class Action {
     @SerializedName("query")
     @Expose
     private String query;
+    @SerializedName("latitude")
+    @Expose
+    private double latitude;
+    @SerializedName("longitude")
+    @Expose
+    private double longitude;
+    @SerializedName("zoom")
+    @Expose
+    private double zoom;
 
     public String getExpression() {
         return expression;
@@ -46,5 +55,17 @@ public class Action {
 
     public String getQuery() {
         return query;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getZoom() {
+        return zoom;
     }
 }
