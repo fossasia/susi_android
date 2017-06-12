@@ -39,7 +39,7 @@
                     android:paddingBottom="@dimen/message_textview_bottom_padding"
                     android:text="@string/hello_world"
                     android:textColor="@color/message_text_color"
-                    android:textColorLink="@color/md_blue_700"
+                    android:textColorLink="@color/link_text"
                     android:textSize="@dimen/message_text_size" />
 
                 <LinearLayout

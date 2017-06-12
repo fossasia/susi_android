@@ -17,14 +17,8 @@ import butterknife.ButterKnife;
 
 public class SearchResultsListHolder extends MessageViewHolder {
 
-    @BindView(R.id.text)
-    public TextView message;
-    @BindView(R.id.timestamp)
-    public TextView timeStamp;
     @BindView(R.id.recycler_view)
     public RecyclerView recyclerView;
-    @BindView(R.id.message_star)
-    public ImageView messageStar;
     @BindView(R.id.background_layout)
     public LinearLayout backgroundLayout;
 
