@@ -14,8 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
@@ -450,9 +452,15 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         chatViewHolder.receivedTick.setTag(chatViewHolder);
                         break;
                     case SUSI_MESSAGE:
+                        Spanned answerText;
+                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+                            answerText = Html.fromHtml(model.getContent(),Html.FROM_HTML_MODE_COMPACT);
+                        } else{
+                            answerText = Html.fromHtml(model.getContent());
+                        }
+
                         chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-                        // TODO : Add HTML parser here
-                        chatViewHolder.chatTextView.setText(model.getContent());
+                        chatViewHolder.chatTextView.setText(answerText);
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
