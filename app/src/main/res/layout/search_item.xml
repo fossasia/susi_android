@@ -34,8 +34,7 @@
             <LinearLayout
                 android:id="@+id/link_preview_text_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/preview_layout_height"
-                android:layout_marginTop="@dimen/message_layout_margin"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@color/susi_message_link_preview_bg"
                 android:orientation="vertical">
@@ -43,7 +42,7 @@
                 <TextView
                     android:id="@+id/link_preview_title"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/webpreview_headline_height"
+                    android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:background="@color/susi_message_link_preview_bg"
                     android:maxLines="1"
