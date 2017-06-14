@@ -34,7 +34,7 @@
             <LinearLayout
                 android:id="@+id/link_preview_text_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/preview_layout_height"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/message_layout_margin"
                 android:layout_weight="1"
                 android:background="@color/susi_message_link_preview_bg"
