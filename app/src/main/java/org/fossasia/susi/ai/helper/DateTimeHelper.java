@@ -21,7 +21,7 @@ public class DateTimeHelper {
     }
 
     public static String getDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat(" MMM dd yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(" MMM dd, yyyy");
         return sdf.format(new Date());
     }
 }
