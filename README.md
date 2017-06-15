@@ -34,8 +34,9 @@ A native Android app.
     <img src="docs/images/main.png" height = "480" width="270">
   </p>
 
-  <p>
+  <p align="center">
     <img src="docs/images/search.png" height = "480" width="270"> 
+     <img src="docs/images/ImpMessages.png" height = "480" width="270">
     <img src="docs/images/settings.png" height = "480" width="270">
   </p>
   
