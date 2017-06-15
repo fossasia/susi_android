@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.helper;
 
 import android.text.format.DateFormat;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +22,8 @@ public class DateTimeHelper {
     }
 
     public static String getDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat(" MMM dd yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat(" MMM dd, yyyy");
         return sdf.format(new Date());
     }
+
 }
