@@ -12,84 +12,72 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by chiragw15 on 10/12/16.
  */
 
 public class LocationHelper extends Service implements LocationListener {
 
-    private final Context mContext;
-
     private boolean canGetLocation = false;
+    private final WeakReference<Context> weakContext;
 
-    private Location location;
-    private float latitude;
-    private float longitude;
+    private double latitude;
+    private double longitude;
     private String source;
 
     protected LocationManager locationManager;
 
     public LocationHelper(Context context) {
-        this.mContext = context;
-        getLocation();
+        weakContext = new WeakReference<Context>(context);
     }
 
-    public Location getLocation() {
+    public void getLocation() {
+        Context mContext = weakContext.get();
+        Location location;
+        if (mContext == null) {
+            return;
+        }
         try {
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
 
-            boolean isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            boolean isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if (isGPSEnabled || isNetworkEnabled) {
-                this.canGetLocation = true;
-                if (isNetworkEnabled && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-                    if (locationManager != null) {
-                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null) {
-                            latitude = (float) location.getLatitude();
-                            longitude = (float) location.getLongitude();
-                            source = "network";
-                        }
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (locationManager != null) {
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5 * 60 * 1000, 10, this);
+                    location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    if (location != null) {
+                        source = "network";
+                        canGetLocation = true;
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
                     }
                 }
+            }
 
-                if (isGPSEnabled && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 1, this);
-                    if (locationManager != null) {
-                        location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        if (location != null) {
-                            latitude = (float) location.getLatitude();
-                            longitude = (float) location.getLongitude();
-                            source = "gps";
-                        }
+            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (locationManager != null) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5 * 60 * 1000, 10, this);
+                    location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    if (location != null) {
+                        source = "gps";
+                        canGetLocation = true;
+                        latitude = location.getLatitude();
+                        longitude = location.getLongitude();
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return location;
     }
 
-    public float getLatitude() {
-        if (location != null) {
-            latitude = (float) location.getLatitude();
-        }
+    public double getLatitude() {
         return latitude;
     }
 
-    public float getLongitude() {
-        if (location != null) {
-            longitude = (float) location.getLongitude();
-        }
-
+    public double getLongitude() {
         return longitude;
     }
 
@@ -98,12 +86,27 @@ public class LocationHelper extends Service implements LocationListener {
     }
 
     public boolean canGetLocation() {
-        return this.canGetLocation;
+        return canGetLocation;
+    }
+
+    public void removeListener() {
+        Context mContext = weakContext.get();
+        if (mContext != null && locationManager != null) {
+            if (ActivityCompat.checkSelfPermission(mContext,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(mContext,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                locationManager.removeUpdates(this);
+            }
+        }
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        // This method is intentionally empty
+        if (location != null) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+            source = location.getProvider();
+            canGetLocation = true;
+        }
     }
 
     @Override
