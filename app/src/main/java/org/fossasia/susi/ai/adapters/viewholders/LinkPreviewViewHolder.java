@@ -33,8 +33,6 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     public LinearLayout previewLayout;
     @Nullable @BindView(R.id.received_tick)
     public ImageView receivedTick;
-    @BindView(R.id.message_star)
-    public ImageView messageStar;
 
     public LinkPreviewViewHolder(View itemView , ClickListener listener) {
         super(itemView, listener);

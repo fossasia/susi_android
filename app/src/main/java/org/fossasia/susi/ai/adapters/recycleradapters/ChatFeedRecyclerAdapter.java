@@ -47,7 +47,6 @@ import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.activities.ImportantMessages;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
@@ -170,7 +169,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public void showDots() {
         isSusiTyping = true;
     }
-
     public void hideDots() {
         isSusiTyping = false;
     }
@@ -440,7 +438,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             try {
                 switch (getItemViewType(position)) {
                     case USER_MESSAGE:
-                        chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         if(model.getIsDelivered())
@@ -473,7 +470,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             answerText = Html.fromHtml(model.getContent());
                         }
 
-                        chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                         chatViewHolder.chatTextView.setText(answerText);
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
@@ -571,7 +567,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
     private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
-        linkPreviewViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
         linkPreviewViewHolder.text.setText(model.getContent());
         linkPreviewViewHolder.timestampTextView.setText(model.getTimeStamp());
         linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
@@ -765,7 +760,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (model != null) {
             try {
                 pieChartViewHolder.chatTextView.setText(model.getContent());
-                pieChartViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
                 pieChartViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
                 pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
                 pieChartViewHolder.pieChart.setUsePercentValues(true);
@@ -840,7 +834,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             @Override
             public void execute(Realm realm) {
                 ChatMessage chatMessage = getItem(position);
-                chatMessage.setIsImportant(true);
                 realm.copyToRealmOrUpdate(chatMessage);
             }
         });
@@ -851,7 +844,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             @Override
             public void execute(Realm realm) {
                 ChatMessage chatMessage = getItem(position);
-                chatMessage.setIsImportant(false);
                 realm.copyToRealmOrUpdate(chatMessage);
             }
         });
@@ -936,17 +928,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
 
-            MenuItem important = menu.findItem(R.id.menu_item_important);
-            MenuItem unimportant = menu.findItem(R.id.menu_item_unimportant);
-
-            if(currContext instanceof ImportantMessages){
-                important.setVisible(false);
-                unimportant.setVisible(true);
-            } else {
-                important.setVisible(true);
-                unimportant.setVisible(false);
-            }
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 statusBarColor = currActivity.getWindow().getStatusBarColor();
                 currActivity.getWindow().setStatusBarColor(ContextCompat.getColor(currContext, R.color.md_teal_500));
@@ -966,13 +947,11 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             getItemViewType(getSelectedItems().get(i)) == SUSI_WITHLINK){
                         menu.clear();
                         mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
-                        menu.removeItem(R.id.menu_item_unimportant);
                     }
                     else {
                         Log.d(TAG, "onPrepareActionMode: + Other response");
                         menu.removeItem(R.id.menu_item_copy);
                         menu.removeItem(R.id.menu_item_share);
-                        menu.removeItem(R.id.menu_item_unimportant);
                         break;
                     }
                 }
@@ -1110,46 +1089,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     }
 
                     actionMode.finish();
-                    return true;
-
-                case R.id.menu_item_important:
-                    nSelected = getSelectedItems().size();
-                    if (nSelected >0)
-                    {
-                        for (int i = nSelected - 1; i >= 0; i--) {
-                            markImportant(getSelectedItems().get(i));
-                        }
-                        if(nSelected == 1) {
-                            Toast.makeText(context,nSelected+" message marked important",Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, nSelected + " messages marked important", Toast.LENGTH_SHORT).show();
-                        }
-                        important = realm.where(ChatMessage.class).equalTo("isImportant", true).findAll().sort("id");
-                        for(int i=0;i<important.size();++i)
-                            Log.i("message ",""+important.get(i).getContent());
-                        Log.i("total ",""+important.size());
-                        actionMode.finish();
-                    }
-                    return true;
-
-                case R.id.menu_item_unimportant:
-                    nSelected = getSelectedItems().size();
-                    if (nSelected >0) {
-                        for (int i = nSelected - 1; i >= 0; i--) {
-                            markUnimportant(getSelectedItems().get(i));
-                        }
-                        if(nSelected == 1){
-                            Toast.makeText(context,nSelected+" message marked unimportant",Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, nSelected + " messages marked unimportant", Toast.LENGTH_SHORT).show();
-                        }
-                        important = realm.where(ChatMessage.class).equalTo("isImportant", true).findAll().sort("id");
-                        if(important.size() == 0) {
-                            TextView emptyList = (TextView) currActivity.findViewById(R.id.tv_empty_list);
-                            emptyList.setVisibility(View.VISIBLE);
-                        }
-                        actionMode.finish();
-                    }
                     return true;
 
                 default:
