@@ -279,7 +279,13 @@ public class MainActivity extends AppCompatActivity {
 
         switch(actionType) {
             case Constant.ANCHOR :
-                // TODO : Add code for anchor here
+                try {
+                    answer = "<a href=\""  +susiResponse.getAnswers().get(0).getActions().get(i).getAnchorLink() + "\">" + susiResponse.getAnswers().get(0).getActions().get(1).getAnchorText() + "</a>";
+                } catch (Exception e) {
+                    Log.d(TAG, e.getLocalizedMessage());
+                    answer = getString(R.string.error_occurred_try_again);
+                }
+                break;
 
             case Constant.ANSWER :
                 try {
