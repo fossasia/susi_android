@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.SearchResultHolder;
@@ -71,8 +71,8 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
                         if (imageList == null || imageList.size() == 0) {
                             holder.previewImageView.setVisibility(View.GONE);
                         } else {
-                            Glide.with(context).load(imageList.get(0))
-                                    .centerCrop()
+                            Picasso.with(context).load(imageList.get(0))
+                                    .fit().centerCrop()
                                     .into(holder.previewImageView);
                         }
 

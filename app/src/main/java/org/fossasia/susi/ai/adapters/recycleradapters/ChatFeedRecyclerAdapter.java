@@ -31,11 +31,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
@@ -44,6 +39,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
@@ -104,7 +100,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
-    private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
     private String webquery ;
@@ -124,9 +119,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private ZeroHeightHolder nullHolder;
     private boolean isSusiTyping = false;
 
-    public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
+    public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
-        this.glide = glide;
         this.clickListener = this;
         currContext = context;
         currActivity = (AppCompatActivity) context;
@@ -506,21 +500,19 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(),model.getLongitude(),model.getZoom()));
                 mapViewHolder.pointer.setVisibility(View.GONE);
                 Log.v(TAG, mapHelper.getMapURL());
-                Glide.with(currContext).load(mapHelper.getMapURL()).listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model,
-                                                   Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource)
-                    {
-                        mapViewHolder.pointer.setVisibility(View.VISIBLE);
+                Picasso.with(currContext).load(mapHelper.getMapURL())
+                        .into(mapViewHolder.mapImage, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                mapViewHolder.pointer.setVisibility(View.VISIBLE);
+                            }
 
-                        return false;
-                    }
-                }).into(mapViewHolder.mapImage);
+                            @Override
+                            public void onError() {
+                                Log.d("Error","map image can't loaded");
+                            }
+                        });
 
                 mapViewHolder.mapImage.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -602,8 +594,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
                         link.setImageURL("");
                     } else {
-                        glide.load(imageList.get(0))
-                                .centerCrop()
+                        Picasso.with(currContext).load(imageList.get(0))
+                                .fit().centerCrop()
                                 .into(linkPreviewViewHolder.previewImageView);
                         link.setImageURL(imageList.get(0));
                     }
@@ -677,8 +669,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             linkPreviewViewHolder.descriptionTextView.setText(model.getWebLinkData().getBody());
             Log.i(TAG, model.getWebLinkData().getImageURL());
             if (!model.getWebLinkData().getImageURL().equals("")) {
-                glide.load(model.getWebLinkData().getImageURL())
-                        .centerCrop()
+                Picasso.with(currContext).load(model.getWebLinkData().getImageURL())
+                        .fit().centerCrop()
                         .into(linkPreviewViewHolder.previewImageView);
             } else {
                 linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);

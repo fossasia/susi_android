@@ -58,7 +58,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
@@ -943,7 +942,7 @@ public class MainActivity extends AppCompatActivity {
         rvChatFeed.setLayoutManager(linearLayoutManager);
         rvChatFeed.setHasFixedSize(false);
         chatMessageDatabaseList = realm.where(ChatMessage.class).findAllSorted("id");
-        recyclerAdapter = new ChatFeedRecyclerAdapter(Glide.with(this), this, chatMessageDatabaseList, true);
+        recyclerAdapter = new ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true);
         rvChatFeed.setAdapter(recyclerAdapter);
         rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override

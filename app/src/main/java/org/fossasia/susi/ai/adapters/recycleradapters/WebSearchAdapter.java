@@ -9,10 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.SearchResultHolder;
@@ -67,26 +64,23 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
                 holder.titleTextView.setVisibility(View.GONE);
             }
 
-            if (iconUrl != null) {
+            if (iconUrl != null && !iconUrl.isEmpty()) {
                 holder.previewImageView.setVisibility(View.VISIBLE);
                 Log.v(TAG , iconUrl);
+                Picasso.with(context).load(iconUrl)
+                        .into(holder.previewImageView, new com.squareup.picasso.Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.d("Sucess","image loaded successfully");
+                            }
 
-                Glide.with(context).load(iconUrl).listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        holder.previewImageView.setVisibility(View.GONE);
-                        return false;
-                    }
+                            @Override
+                            public void onError() {
+                                holder.previewImageView.setVisibility(View.GONE);
+                            }
+                        });
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model,
-                                                   Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource)
-                    {
-                        return false;
-                    }
-                }).into(holder.previewImageView);
-
-            }else {
+            } else {
                 holder.previewImageView.setVisibility(View.GONE);
             }
 
