@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.media.MediaRecorder;
 import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
 
 /**
  * <h1>Helper class to check if STT and TTS is possible for phone.</h1>
@@ -36,6 +38,10 @@ public class MediaUtil {
      * @return the boolean
      */
     private static boolean getMicrophoneAvailable(Context context) {
+        if (ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
         MediaRecorder recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.DEFAULT);
