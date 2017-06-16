@@ -12,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
@@ -37,11 +36,6 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
@@ -64,11 +58,6 @@ import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.model.MapData;
 import org.fossasia.susi.ai.model.WebLink;
-import org.fossasia.susi.ai.model.WebSearchModel;
-import org.fossasia.susi.ai.rest.clients.WebSearchClient;
-import org.fossasia.susi.ai.rest.services.WebSearchService;
-import org.fossasia.susi.ai.rest.responses.susi.Datum;
-import org.fossasia.susi.ai.rest.responses.others.WebSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,12 +67,8 @@ import java.util.regex.Pattern;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 import pl.tajchert.sample.DotsTextView;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by
@@ -109,7 +94,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private final RequestManager glide;
     public int highlightMessagePosition = -1;
     public String query = "";
-    private String webquery ;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -221,10 +205,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 return new PieChartViewHolder(view, clickListener);
             case SEARCH_RESULT:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
-                return new SearchResultsListHolder(view,clickListener);
+                return new SearchResultsListHolder(view,clickListener,realm,currContext);
             case WEB_SEARCH:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
-                return new SearchResultsListHolder(view,clickListener);
+                return new SearchResultsListHolder(view,clickListener,realm,currContext);
             case DATE_VIEW:
                 view = inflater.inflate(R.layout.date_view,viewGroup, false);
                 return new DateViewHolder(view);
@@ -323,169 +307,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final SearchResultsListHolder searchResultsListHolder,final int position, boolean isClientSearch) {
         searchResultsListHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         final ChatMessage model = getData().get(position);
-        if(isClientSearch) {
-            if(model!=null) {
-                webquery = model.getWebquery();
-
-                if(model.getWebSearchList()==null || model.getWebSearchList().size()==0) {
-                    final WebSearchService apiService = WebSearchClient.getClient().create(WebSearchService.class);
-
-                    Call<WebSearch> call = apiService.getresult(webquery);
-
-                    call.enqueue(new Callback<WebSearch>() {
-                        @Override
-                        public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
-                            Log.e(TAG, response.toString());
-                            if (response.body() != null ) {
-                                realm.beginTransaction();
-                                RealmList<WebSearchModel> searchResults = new RealmList<>();
-
-                                for(int i=0 ; i<response.body().getRelatedTopics().size() ; i++) {
-                                    try {
-                                        String url = response.body().getRelatedTopics().get(i).getUrl();
-                                        String text = response.body().getRelatedTopics().get(i).getText();
-                                        String iconUrl = response.body().getRelatedTopics().get(i).getIcon().getUrl();
-                                        String htmlText = response.body().getRelatedTopics().get(i).getResult();
-                                        Realm realm = Realm.getDefaultInstance();
-                                        final WebSearchModel webSearch = realm.createObject(WebSearchModel.class);
-                                        try {
-                                            String[] tempStr = htmlText.split("\">");
-                                            String[] tempStr2 = tempStr[tempStr.length-1].split("</a>");
-                                            webSearch.setHeadline(tempStr2[0]);
-                                            webSearch.setBody(tempStr2[tempStr2.length-1]);
-                                        } catch (Exception e ) {
-                                            webSearch.setBody(text);
-                                            webSearch.setHeadline(webquery);
-                                        }
-                                        webSearch.setImageURL(iconUrl);
-                                        webSearch.setUrl(url);
-                                        searchResults.add(webSearch);
-                                    } catch (Exception e) {
-                                        Log.v(TAG,e.getLocalizedMessage());
-                                    }
-                                }
-                                if(searchResults.size()==0) {
-                                    Realm realm = Realm.getDefaultInstance();
-                                    final WebSearchModel webSearch = realm.createObject(WebSearchModel.class);
-                                    webSearch.setBody(null);
-                                    webSearch.setHeadline("No Results Found");
-                                    webSearch.setImageURL(null);
-                                    webSearch.setUrl(null);
-                                    searchResults.add(webSearch);
-                                }
-                                LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
-                                        LinearLayoutManager.HORIZONTAL, false);
-                                searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
-                                WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, searchResults);
-                                searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
-                                model.setWebSearchList(searchResults);
-                                realm.copyToRealmOrUpdate(model);
-                                realm.commitTransaction();
-                            } else {
-                                searchResultsListHolder.recyclerView.setAdapter(null);
-                                searchResultsListHolder.recyclerView.setLayoutManager(null);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<WebSearch> call, Throwable t) {
-                            Log.e(TAG, "error" + t.toString());
-                        }
-                    });
-                } else {
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
-                            LinearLayoutManager.HORIZONTAL, false);
-                    searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
-                    WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, model.getWebSearchList());
-                    searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
-                }
-
-            } else{
-                searchResultsListHolder.recyclerView.setAdapter(null);
-                searchResultsListHolder.recyclerView.setLayoutManager(null);
-            }
-        } else {
-            if (model != null) {
-                LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
-                        LinearLayoutManager.HORIZONTAL, false);
-                searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
-                SearchResultsAdapter resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
-                searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
-            } else {
-                searchResultsListHolder.recyclerView.setAdapter(null);
-                searchResultsListHolder.recyclerView.setLayoutManager(null);
-            }
-        }
+        searchResultsListHolder.setView(model,isClientSearch);
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
-
+        int type = getItemViewType(position);
         chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-        if (model != null) {
-            try {
-                switch (getItemViewType(position)) {
-                    case USER_MESSAGE:
-                        chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-                        chatViewHolder.chatTextView.setText(model.getContent());
-                        chatViewHolder.timeStamp.setText(model.getTimeStamp());
-                        if(model.getIsDelivered())
-                            chatViewHolder.receivedTick.setImageResource(R.drawable.check);
-                        else
-                            chatViewHolder.receivedTick.setImageResource(R.drawable.clock);
-
-                        chatViewHolder.chatTextView.setTag(chatViewHolder);
-                        if (highlightMessagePosition == position) {
-                            String text = chatViewHolder.chatTextView.getText().toString();
-                            SpannableString modify = new SpannableString(text);
-                            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-                            Matcher matcher = pattern.matcher(modify);
-                            while (matcher.find()) {
-                                int startIndex = matcher.start();
-                                int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-                            chatViewHolder.chatTextView.setText(modify);
-
-                        }
-                        chatViewHolder.timeStamp.setTag(chatViewHolder);
-                        chatViewHolder.receivedTick.setTag(chatViewHolder);
-                        break;
-                    case SUSI_MESSAGE:
-                        Spanned answerText;
-                        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                            answerText = Html.fromHtml(model.getContent(),Html.FROM_HTML_MODE_COMPACT);
-                        } else{
-                            answerText = Html.fromHtml(model.getContent());
-                        }
-
-                        chatViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-                        chatViewHolder.chatTextView.setText(answerText);
-                        chatViewHolder.timeStamp.setText(model.getTimeStamp());
-                        chatViewHolder.chatTextView.setTag(chatViewHolder);
-                        if (highlightMessagePosition == position) {
-                            String text = chatViewHolder.chatTextView.getText().toString();
-                            SpannableString modify = new SpannableString(text);
-                            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-                            Matcher matcher = pattern.matcher(modify);
-                            while (matcher.find()) {
-                                int startIndex = matcher.start();
-                                int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-                            chatViewHolder.chatTextView.setText(modify);
-
-                        }
-                        chatViewHolder.timeStamp.setTag(chatViewHolder);
-                        break;
-                    case USER_IMAGE:
-                    case SUSI_IMAGE:
-                    default:
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        chatViewHolder.setView(type,position,query,highlightMessagePosition,model,chatViewHolder);
     }
 
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
@@ -749,54 +578,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
         if (model != null) {
-            try {
-                pieChartViewHolder.chatTextView.setText(model.getContent());
-                pieChartViewHolder.messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
-                pieChartViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-                pieChartViewHolder.timeStamp.setText(model.getTimeStamp());
-                pieChartViewHolder.pieChart.setUsePercentValues(true);
-                pieChartViewHolder.pieChart.setDrawHoleEnabled(true);
-                pieChartViewHolder.pieChart.setHoleRadius(7);
-                pieChartViewHolder.pieChart.setTransparentCircleRadius(10);
-                pieChartViewHolder.pieChart.setRotationEnabled(true);
-                pieChartViewHolder.pieChart.setRotationAngle(0);
-                pieChartViewHolder.pieChart.setDragDecelerationFrictionCoef(0.001f);
-                pieChartViewHolder.pieChart.getLegend().setEnabled(false);
-                pieChartViewHolder.pieChart.setDescription("");
-                RealmList<Datum> datumList = model.getDatumRealmList();
-                final ArrayList<Entry> yVals = new ArrayList<>();
-                final ArrayList<String> xVals = new ArrayList<>();
-                for (int i = 0; i < datumList.size(); i++) {
-                    yVals.add(new Entry(datumList.get(i).getPercent(), i));
-                    xVals.add(datumList.get(i).getPresident());
-                }
-                pieChartViewHolder.pieChart.setClickable(false);
-                pieChartViewHolder.pieChart.setHighlightPerTapEnabled(false);
-                PieDataSet dataSet = new PieDataSet(yVals, "");
-                dataSet.setSliceSpace(3);
-                dataSet.setSelectionShift(5);
-                ArrayList<Integer> colors = new ArrayList<>();
-                for (int c : ColorTemplate.VORDIPLOM_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.JOYFUL_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.COLORFUL_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.LIBERTY_COLORS)
-                    colors.add(c);
-                for (int c : ColorTemplate.PASTEL_COLORS)
-                    colors.add(c);
-                dataSet.setColors(colors);
-                PieData data = new PieData(xVals, dataSet);
-                data.setValueFormatter(new PercentFormatter());
-                data.setValueTextSize(11f);
-                data.setValueTextColor(Color.GRAY);
-                pieChartViewHolder.pieChart.setData(data);
-                pieChartViewHolder.pieChart.highlightValues(null);
-                pieChartViewHolder.pieChart.invalidate();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            pieChartViewHolder.setView(model);
+            pieChartViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         }
     }
 

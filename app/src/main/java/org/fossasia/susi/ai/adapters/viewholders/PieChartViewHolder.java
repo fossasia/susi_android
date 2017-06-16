@@ -1,16 +1,27 @@
 package org.fossasia.susi.ai.adapters.viewholders;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.rest.responses.susi.Datum;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.RealmList;
 
 public class PieChartViewHolder extends MessageViewHolder {
 
@@ -29,4 +40,54 @@ public class PieChartViewHolder extends MessageViewHolder {
         super(view , listener);
         ButterKnife.bind(this, itemView);
     }
+
+    public void setView(ChatMessage model) {
+            try {
+                chatTextView.setText(model.getContent());
+                messageStar.setVisibility( (model.isImportant()) ? View.VISIBLE : View.GONE);
+                timeStamp.setText(model.getTimeStamp());
+                pieChart.setUsePercentValues(true);
+                pieChart.setDrawHoleEnabled(true);
+                pieChart.setHoleRadius(7);
+                pieChart.setTransparentCircleRadius(10);
+                pieChart.setRotationEnabled(true);
+                pieChart.setRotationAngle(0);
+                pieChart.setDragDecelerationFrictionCoef(0.001f);
+                pieChart.getLegend().setEnabled(false);
+                pieChart.setDescription("");
+                RealmList<Datum> datumList = model.getDatumRealmList();
+                final ArrayList<Entry> yVals = new ArrayList<>();
+                final ArrayList<String> xVals = new ArrayList<>();
+                for (int i = 0; i < datumList.size(); i++) {
+                    yVals.add(new Entry(datumList.get(i).getPercent(), i));
+                    xVals.add(datumList.get(i).getPresident());
+                }
+                pieChart.setClickable(false);
+                pieChart.setHighlightPerTapEnabled(false);
+                PieDataSet dataSet = new PieDataSet(yVals, "");
+                dataSet.setSliceSpace(3);
+                dataSet.setSelectionShift(5);
+                ArrayList<Integer> colors = new ArrayList<>();
+                for (int c : ColorTemplate.VORDIPLOM_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.JOYFUL_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.COLORFUL_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.LIBERTY_COLORS)
+                    colors.add(c);
+                for (int c : ColorTemplate.PASTEL_COLORS)
+                    colors.add(c);
+                dataSet.setColors(colors);
+                PieData data = new PieData(xVals, dataSet);
+                data.setValueFormatter(new PercentFormatter());
+                data.setValueTextSize(11f);
+                data.setValueTextColor(Color.GRAY);
+                pieChart.setData(data);
+                pieChart.highlightValues(null);
+                pieChart.invalidate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 }
