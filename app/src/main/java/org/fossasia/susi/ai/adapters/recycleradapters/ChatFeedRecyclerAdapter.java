@@ -416,6 +416,20 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 searchResultsListHolder.recyclerView.setLayoutManager(null);
             }
         }
+
+        searchResultsListHolder.backgroundLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (actionMode == null) {
+                    actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                }
+
+                toggleSelectedItem(position);
+
+                return true;
+            }
+        });
+
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
@@ -942,6 +956,29 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
         @Override
         public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+
+            if(getSelectedItems().size()>0) {
+                Log.d(TAG, "onPrepareActionMode: size " + getSelectedItems().size());
+                for(int i = 0; i<getSelectedItems().size() ;i++ ){
+                    if(getItemViewType(getSelectedItems().get(i)) == USER_MESSAGE ||
+                            getItemViewType(getSelectedItems().get(i)) == SUSI_MESSAGE ||
+                            getItemViewType(getSelectedItems().get(i)) == USER_WITHLINK ||
+                            getItemViewType(getSelectedItems().get(i)) == SUSI_WITHLINK){
+                        menu.clear();
+                        mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
+                        menu.removeItem(R.id.menu_item_unimportant);
+                    }
+                    else {
+                        Log.d(TAG, "onPrepareActionMode: + Other response");
+                        menu.removeItem(R.id.menu_item_copy);
+                        menu.removeItem(R.id.menu_item_share);
+                        menu.removeItem(R.id.menu_item_unimportant);
+                        break;
+                    }
+                }
+                Log.d(TAG, "onPrepareActionMode: " + getItemViewType(getSelectedItems().get(0)));
+            }
+
             return false;
         }
 
