@@ -356,10 +356,19 @@ public class MainActivity extends AppCompatActivity {
                         if(allMessages.size() == 0) {
                             showToast("No messages found");
                         } else {
-                            String date = response.body().getCognitionsList().get(0).getQueryDate();
-                            updateDatabase(0, "", true, getDate(date), false, null, null, false, null);
                             long c = 1;
                             for (int i = allMessages.size() - 1; i >= 0; i--) {
+                                String dateAndTime = allMessages.get(i).getQueryDate();
+                                String date = getDate(dateAndTime);
+                                if(newMessageIndex == 0){
+                                    updateDatabase(newMessageIndex, "", true, date, false, null, null, false, null);
+                                } else {
+                                    String prevDateAndTime = allMessages.get(i+1).getQueryDate();
+                                    String prevDate = getDate(prevDateAndTime);
+                                    if(!date.equals(prevDate)) {
+                                        updateDatabase(newMessageIndex,"",true,date,false,null,null,false,null);
+                                    }
+                                }
                                 String query = allMessages.get(i).getQuery();
 
                                 List<String> urlList = extractUrls(query);
