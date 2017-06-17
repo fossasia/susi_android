@@ -113,6 +113,4 @@
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
-    <string name="action_important">Important Messages</string>
-    <string name="action_unimportant">Unimportant Messages</string>
 </resources>

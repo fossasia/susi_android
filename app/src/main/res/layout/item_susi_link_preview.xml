@@ -48,13 +48,6 @@
                     android:gravity="center"
                     android:paddingLeft="8dp">
 
-                    <ImageView
-                        android:id="@+id/message_star"
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:src="@android:drawable/star_off"
-                        android:layout_marginRight="3dp"/>
-
                     <TextView
                         android:id="@+id/timestamp"
                         android:layout_width="wrap_content"

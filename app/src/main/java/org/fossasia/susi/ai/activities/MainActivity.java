@@ -1376,10 +1376,6 @@ public class MainActivity extends AppCompatActivity {
                 Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                 pbutton.setTextColor(Color.BLACK);
                 return true;
-            case R.id.action_important:
-                Intent intent = new Intent(MainActivity.this,ImportantMessages.class);
-                startActivity(intent);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
