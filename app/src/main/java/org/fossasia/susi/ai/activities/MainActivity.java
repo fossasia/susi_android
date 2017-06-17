@@ -82,9 +82,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Deque;
@@ -356,24 +353,37 @@ public class MainActivity extends AppCompatActivity {
                         if(allMessages.size() == 0) {
                             showToast("No messages found");
                         } else {
-                            String date = response.body().getCognitionsList().get(0).getQueryDate();
-                            updateDatabase(0, "", true, getDate(date), false, null, null, false, null);
-                            long c = 1;
+                            long c;
                             for (int i = allMessages.size() - 1; i >= 0; i--) {
                                 String query = allMessages.get(i).getQuery();
+                                String queryDate = allMessages.get(i).getQueryDate();
+                                String answerDdate = allMessages.get(i).getAnswerDate();
 
                                 List<String> urlList = extractUrls(query);
                                 Log.d(TAG, urlList.toString());
                                 isHavingLink = urlList != null;
                                 if (urlList.size() == 0) isHavingLink = false;
+
+                                newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
+
+                                if (newMessageIndex == 0) {
+                                    updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null);
+                                } else {
+                                    String prevDate = DateTimeHelper.getDate(allMessages.get(i+1).getQueryDate());
+
+                                    if (!DateTimeHelper.getDate(queryDate).equals(prevDate)) {
+                                        updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null);
+                                    }
+                                }
+
                                 c = newMessageIndex;
-                                updateDatabase(newMessageIndex,query, false, null, true, null, null, isHavingLink, null);
+                                updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), true, null, null, isHavingLink, null);
 
                                 int actionSize = allMessages.get(i).getAnswers().get(0).getActions().size();
 
                                 for(int j=0 ; j<actionSize ; j++) {
                                     parseSusiResponse(allMessages.get(i),j);
-                                    updateDatabase(c, answer, false, null, false, actionType, mapData, isHavingLink, datumList);
+                                    updateDatabase(c, answer, false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList);
                                 }
                             }
                         }
@@ -849,23 +859,6 @@ public class MainActivity extends AppCompatActivity {
         builder.create().show();
     }
 
-    public String getDate(String date){
-        String queryDate = date.split("T")[0];
-        String strDate;
-        DateFormat dateFormat;
-        dateFormat = DateFormat.getDateInstance(DateFormat.LONG);
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate;
-        try {
-            startDate = df.parse(queryDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-        strDate = dateFormat.format(startDate);
-        return strDate;
-    }
-
     public void cropCapturedImage(Uri picUri) {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(picUri, "image/*");
@@ -981,15 +974,15 @@ public class MainActivity extends AppCompatActivity {
         newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
 
         if (newMessageIndex == 0) {
-            updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), false, null, null, false, null);
+            updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null);
         } else {
             String s = realm.where(ChatMessage.class).equalTo("id", newMessageIndex - 1).findFirst().getDate();
             if (!DateTimeHelper.getDate().equals(s)) {
-                updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), false, null, null, false, null);
+                updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null);
             }
         }
         nonDeliveredMessages.add(new Pair(query, newMessageIndex));
-        updateDatabase(newMessageIndex, actual, false, null, true, null, null, isHavingLink, null);
+        updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), true, null, null, isHavingLink, null);
         getLocationFromLocationService();
         new computeThread().start();
     }
@@ -1019,6 +1012,7 @@ public class MainActivity extends AppCompatActivity {
                                     final SusiResponse susiResponse = response.body();
 
                                     int actionSize = response.body().getAnswers().get(0).getActions().size();
+                                    final String date = response.body().getAnswerDate();
 
                                     for(int i=0 ; i<actionSize ; i++) {
                                         long delay = response.body().getAnswers().get(0).getActions().get(i).getDelay();
@@ -1031,7 +1025,7 @@ public class MainActivity extends AppCompatActivity {
                                                 final String setMessage = answer;
                                                 if(actionType.equals(Constant.ANSWER))
                                                     voiceReply(setMessage, isHavingLink);
-                                                updateDatabase(id, setMessage, false, null, false, actionType, mapData, isHavingLink, datumList);
+                                                updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date), DateTimeHelper.getTime(date), false, actionType, mapData, isHavingLink, datumList);
                                             }
                                         }, delay);
                                     }
@@ -1044,7 +1038,7 @@ public class MainActivity extends AppCompatActivity {
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     } else {
-                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, null, false, Constant.ANSWER, mapData, false, datumList);
+                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList);
                                     }
                                     recyclerAdapter.hideDots();
                                 }
@@ -1067,7 +1061,7 @@ public class MainActivity extends AppCompatActivity {
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 } else {
-                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, null, false, Constant.ANSWER, mapData, false, datumList);
+                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -1082,13 +1076,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void updateDatabase(final long prevId, final String message, final boolean isDate, final String date, final boolean mine,
+    private void updateDatabase(final long prevId, final String message, final boolean isDate, final String date, final String timeStamp , final boolean mine,
                                 final String actionType, final MapData mapData, final boolean isHavingLink,
                                 final List<Datum> datumList) {
         final long id = newMessageIndex;
         newMessageIndex++;
         PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex);
-        final String timeStamp = DateTimeHelper.getCurrentTime();
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -1134,8 +1128,25 @@ public class MainActivity extends AppCompatActivity {
                         public void execute(Realm bgRealm) {
                             try {
                                 ChatMessage previouschatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId).findFirst();
-                                if(previouschatMessage!= null && previouschatMessage.isMine())
+                                if(previouschatMessage!= null && previouschatMessage.isMine()) {
                                     previouschatMessage.setIsDelivered(true);
+                                    previouschatMessage.setDate(date);
+                                    previouschatMessage.setTimeStamp(timeStamp);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            try {
+                                ChatMessage previouschatMessage = bgRealm.where(ChatMessage.class).equalTo("id", prId-1).findFirst();
+                                if(previouschatMessage!= null && previouschatMessage.isDate()) {
+                                    previouschatMessage.setDate(date);
+                                    previouschatMessage.setTimeStamp(timeStamp);
+                                    ChatMessage previouschatMessage2 = bgRealm.where(ChatMessage.class).equalTo("id", prId-2).findFirst();
+                                    if(previouschatMessage2!= null && previouschatMessage2.getDate().equals(previouschatMessage.getDate())) {
+                                        previouschatMessage.deleteFromRealm();
+                                    }
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
