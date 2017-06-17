@@ -29,7 +29,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -829,26 +828,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         });
     }
 
-    private void markImportant(final int position) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                ChatMessage chatMessage = getItem(position);
-                realm.copyToRealmOrUpdate(chatMessage);
-            }
-        });
-    }
-
-    private void markUnimportant(final int position) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                ChatMessage chatMessage = getItem(position);
-                realm.copyToRealmOrUpdate(chatMessage);
-            }
-        });
-    }
-
     private void removeDates(){
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -964,7 +943,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             int nSelected;
-            RealmResults<ChatMessage> important;
 
             switch (item.getItemId()) {
                 case R.id.menu_item_delete:
@@ -1051,6 +1029,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         copyText = copyText.substring(0, copyText.length() - 1);
                         setClipboard(copyText);
                     }
+
                     if (nSelected == 1){
                         Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
