@@ -1041,11 +1041,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                copyText.append("[").append(message.getTimeStamp()).append("]");
-                                copyText.append(" ");
-                                copyText.append(message.isMine() ? "Me: " : "Susi: ");
-                                copyText.append(message.getContent());
-                                copyText.append("\n");
+                                copyText.append("[").append(message.getTimeStamp()).append("]").append(" ");
+                                copyText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
                         String copyText2 = copyText.substring(0, copyText.length() - 1);
@@ -1077,11 +1074,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                shareText.append("[").append(message.getTimeStamp()).append("]");
-                                shareText.append(" ");
-                                shareText.append(message.isMine() ? "Me: " : "Susi: ");
-                                shareText.append(message.getContent());
-                                shareText.append("\n");
+                                shareText.append("[").append(message.getTimeStamp()).append("]").append(" ");
+                                shareText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
                         String shareText2 = shareText.substring(0, shareText.length() - 1);
