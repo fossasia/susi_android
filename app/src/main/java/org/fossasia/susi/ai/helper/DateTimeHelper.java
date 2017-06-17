@@ -1,11 +1,14 @@
 package org.fossasia.susi.ai.helper;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Created by
@@ -26,20 +29,29 @@ public class DateTimeHelper {
         return sdf.format(new Date());
     }
 
-    public static String getDate(String date){
-        String queryDate = date.split("T")[0];
-        String strDate;
-        java.text.DateFormat dateFormat;
-        dateFormat = java.text.DateFormat.getDateInstance(java.text.DateFormat.LONG);
-        java.text.DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate;
+    private static Date formatDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        Date dateIn;
         try {
-            startDate = df.parse(queryDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
+            dateIn = sdf.parse(date);
+        } catch (Exception e) {
+            dateIn = null;
         }
-        strDate = dateFormat.format(startDate);
-        return strDate;
+        return dateIn;
+    }
+
+    public static String getDate(String date){
+        SimpleDateFormat sdf = new SimpleDateFormat(" MMM dd, yyyy");
+        TimeZone tz = TimeZone.getDefault();
+        sdf.setTimeZone(tz);
+        return sdf.format(formatDate(date));
+    }
+
+    public static String getTime(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm aaa");
+        TimeZone tz = TimeZone.getDefault();
+        sdf.setTimeZone(tz);
+        return sdf.format(formatDate(date));
     }
 }
