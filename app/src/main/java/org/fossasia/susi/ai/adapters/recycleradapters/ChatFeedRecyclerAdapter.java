@@ -1036,20 +1036,20 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         }
                         setClipboard(copyText);
                     } else {
-                        String copyText = "";
+                        StringBuilder copyText = new StringBuilder("");
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                copyText += "[" + message.getTimeStamp() + "]";
-                                copyText += " ";
-                                copyText += message.isMine() ? "Me: " : "Susi: ";
-                                copyText += message.getContent();
-                                copyText += "\n";
+                                copyText.append("[").append(message.getTimeStamp()).append("]");
+                                copyText.append(" ");
+                                copyText.append(message.isMine() ? "Me: " : "Susi: ");
+                                copyText.append(message.getContent());
+                                copyText.append("\n");
                             }
                         }
-                        copyText = copyText.substring(0, copyText.length() - 1);
-                        setClipboard(copyText);
+                        String copyText2 = copyText.substring(0, copyText.length() - 1);
+                        setClipboard(copyText2);
                     }
                     if (nSelected == 1){
                         Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
@@ -1072,20 +1072,20 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             shareMessage(getItem(selected).getContent());
                         }
                     } else {
-                        String shareText = "";
+                        StringBuilder shareText = new StringBuilder("");
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                shareText += "[" + message.getTimeStamp() + "]";
-                                shareText += " ";
-                                shareText += message.isMine() ? "Me: " : "Susi: ";
-                                shareText += message.getContent();
-                                shareText += "\n";
+                                shareText.append("[").append(message.getTimeStamp()).append("]");
+                                shareText.append(" ");
+                                shareText.append(message.isMine() ? "Me: " : "Susi: ");
+                                shareText.append(message.getContent());
+                                shareText.append("\n");
                             }
                         }
-                        shareText = shareText.substring(0, shareText.length() - 1);
-                        shareMessage(shareText);
+                        String shareText2 = shareText.substring(0, shareText.length() - 1);
+                        shareMessage(shareText2);
                     }
 
                     actionMode.finish();
