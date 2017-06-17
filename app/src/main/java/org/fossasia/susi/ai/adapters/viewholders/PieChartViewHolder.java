@@ -22,8 +22,6 @@ public class PieChartViewHolder extends MessageViewHolder {
     public PieChart pieChart;
     @BindView(R.id.timestamp)
     public TextView timeStamp;
-    @BindView(R.id.message_star)
-    public ImageView messageStar;
 
     public PieChartViewHolder(View view , ClickListener listener){
         super(view , listener);

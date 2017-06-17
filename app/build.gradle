@@ -49,9 +49,9 @@ dependencies {
     compile "com.android.support:appcompat-v7:$support_lib_version"
     compile "com.android.support:recyclerview-v7:$support_lib_version"
     compile "com.android.support:design:$support_lib_version"
-    compile "com.android.support:customtabs:$support_lib_version"
     compile "com.android.support:cardview-v7:$support_lib_version"
 
+    //piechart
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
 
     //Leak Canary
@@ -66,7 +66,6 @@ dependencies {
     //For Glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile "com.android.support:support-v4:$support_lib_version"
-
 
     //Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -88,9 +87,6 @@ dependencies {
 
     //realm adapter
     compile 'io.realm:android-adapters:1.3.0'
-
-    //Youtube Api
-    compile files('libs/YouTubeAndroidPlayerApi.jar')
 
     //waiting dots
     compile 'com.github.tajchert:WaitingDots:0.3.2'

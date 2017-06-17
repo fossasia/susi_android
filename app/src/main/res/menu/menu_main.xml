@@ -23,12 +23,6 @@
         app:showAsAction="always"/>
 
     <item
-        android:id="@+id/action_important"
-        android:orderInCategory="99"
-        android:title="@string/action_important"
-        app:showAsAction="never"/>
-
-    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

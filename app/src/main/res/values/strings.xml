@@ -21,19 +21,9 @@
     <string name="not_found">Not Found</string>
     <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
-    <string name="player_error">Error initializing YouTube player: %s</string>
     <string name="send_message">Sending the message</string>
     <string name="hint_voice_input">Say Something...</string>
-    <string name="dialog_retrieve_messages_text">Do you want to retrieve your old Messages?</string>
-    <string name="dialog_retrieve_messages_title">Retrieve old Messages</string>
-
-    <string name="google_search">Searching the query from google</string>
-    <string name="set_alarm">Setting the Alarm</string>
-    <string name="reminder_description">Write the description for the Reminder</string>
-    <string name="reminder_date">When you want to be reminded</string>
-    <string name="set_reminder">Setting the Reminder</string>
-    <string name="send_mail">Sending the mail</string>
-    <string name="play_video">Playing the video</string>
+    <string name="dialog_retrieve_messages_title">Retrieving old Messages...</string>
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
@@ -42,7 +32,7 @@
         Please check your email and try again.</string>
     <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
 
-    <string name="websearchnull">NO Result Found</string>
+    <string name="websearchnull">No Result Found</string>
     <string name="error_email">Email address already exists</string>
     <string name="error_msg">Please use the forgot password option, if you do not remember your password</string>
     <string name="email_invalid_title">Incorrect Email</string>
@@ -51,7 +41,6 @@
     <string name="message_copied">Message copied</string>
     <string name="message_deleted">Message deleted</string>
     <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
-
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
@@ -143,8 +132,4 @@
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
-    <string name="action_important">Important Messages</string>
-    <string name="action_unimportant">Unimportant Messages</string>
 </resources>
-
-

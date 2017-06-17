@@ -15,18 +15,13 @@ import butterknife.ButterKnife;
  */
 
 public class MapViewHolder extends MessageViewHolder {
-    @BindView(R.id.text)
-    public TextView text;
-    @BindView(R.id.timestamp)
-    public TextView timestampTextView;
+
     @BindView(R.id.map_image)
     public ImageView mapImage;
     @BindView(R.id.location_pointer)
     public  ImageView pointer;
     @BindView(R.id.background_layout)
     public LinearLayout backgroundLayout;
-    @BindView(R.id.message_star)
-    public ImageView messageStar;
 
     public MapViewHolder(View itemView , ClickListener listener) {
         super(itemView , listener);

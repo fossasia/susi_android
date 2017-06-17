@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -32,11 +33,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoginActivity";
 
     @BindView(R.id.email)
     TextInputLayout email;
@@ -54,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
     protected TextInputLayout url;
 
     private Set<String> savedEmails;
+    private Realm realm;
 
 
     @Override
@@ -62,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         Intent intent;
+        realm = Realm.getDefaultInstance();
         if (!PrefManager.hasTokenExpired()) {
             intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra(getApplicationContext().getString(R.string.first_time), false);
@@ -131,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
             PrefManager.putBoolean(Constant.SUSI_SERVER, true);
         }
         email.setError(null);
-        
+
         logIn.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -161,6 +167,16 @@ public class LoginActivity extends AppCompatActivity {
                     PrefManager.putString(Constant.ACCESS_TOKEN, response.body().getAccessToken());
                     long validity = System.currentTimeMillis() + response.body().getValidSeconds() * 1000;
                     PrefManager.putLong(Constant.TOKEN_VALIDITY, validity);
+
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.deleteAll();
+                            Log.d(TAG, "execute: all messages deleted");
+                        }
+                    });
+
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(getApplicationContext().getString(R.string.first_time), true);

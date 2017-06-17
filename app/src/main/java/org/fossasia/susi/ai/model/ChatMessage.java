@@ -13,33 +13,27 @@ public class ChatMessage extends RealmObject {
 
     @PrimaryKey
     private long id;
-    private String content, timeStamp, des, date, webquery;
+    private String content, timeStamp, date, webquery, actionType;
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
-
-    private boolean isImage, isMine, isMap, isPieChart , isWebSearch, isDelivered, isHavingLink, isSearchResult, isDate, isImportant;
+    private boolean isDelivered, isHavingLink, isDate, isMine;
+    private double latitude, longitude, zoom;
 
     public ChatMessage() {
         datumRealmList = new RealmList<>();
     }
 
-    public ChatMessage(long id, String content, String des , String date, boolean isDate, boolean isMine, boolean isImage, boolean isWebSearch, boolean isSearchResult, boolean isMap, boolean isHavingLink, boolean isPieChart, String timeStamp, RealmList<Datum> datumRealmList, String webquery) {
+    public ChatMessage(long id, String content, String date, boolean isDate, boolean isMine, boolean isHavingLink, String timeStamp, RealmList<Datum> datumRealmList, String webquery) {
         this.id = id;
-        this.isWebSearch = isWebSearch;
-        this.isImage = isImage;
-        this.des = des;
-        this.isMine = isMine;
         this.content = content;
         this.date = date;
         this.isDate = isDate;
         this.timeStamp = timeStamp;
-        this.isMap = isMap;
         this.isHavingLink = isHavingLink;
         this.datumRealmList = datumRealmList;
-        this.isPieChart = isPieChart;
-        this.isSearchResult = isSearchResult;
         this.webquery = webquery;
+        this.isMine = isMine;
         this.webLinkData = null;
         this.webSearchList = null;
     }
@@ -58,30 +52,6 @@ public class ChatMessage extends RealmObject {
 
     public void setWebLinkData(WebLink webLinkData) {
         this.webLinkData = webLinkData;
-    }
-
-    public String getDes() {
-        return des;
-    }
-
-    public void setDes(String des) {
-        this.des = des;
-    }
-
-    public boolean isWebSearch() {
-        return isWebSearch;
-    }
-
-    public void setWebSearch(boolean webSearch) {
-        isWebSearch = webSearch;
-    }
-
-    public boolean isMap() {
-        return isMap;
-    }
-
-    public void setMap(boolean map) {
-        isMap = map;
     }
 
     public String getTimeStamp() {
@@ -132,14 +102,6 @@ public class ChatMessage extends RealmObject {
         this.isMine = isMine;
     }
 
-    public boolean isImage() {
-        return isImage;
-    }
-
-    public void setIsImage(boolean isImage) {
-        this.isImage = isImage;
-    }
-
     public boolean isHavingLink() {return isHavingLink;}
 
     public void setHavingLink(boolean havingLink) {isHavingLink = havingLink;}
@@ -150,31 +112,9 @@ public class ChatMessage extends RealmObject {
         this.datumRealmList = datumRealmList;
     }
 
-    public void setIsPieChart(boolean isPieChart){ this.isPieChart = isPieChart; }
-
-    public boolean isPieChart() { return isPieChart; }
-
     public boolean getIsDelivered() { return isDelivered; }
 
     public void setIsDelivered(boolean isDelivered) { this.isDelivered = isDelivered; }
-
-    public boolean isSearchResult() {
-        return isSearchResult;
-    }
-
-    public void setSearchResult(boolean searchResult) {
-        isSearchResult = searchResult;
-    }
-
-    public void setIsImportant(boolean isImportant)
-    {
-        this.isImportant = isImportant;
-    }
-
-    public boolean isImportant()
-    {
-        return isImportant;
-    }
 
     public String getWebquery() {
         return webquery;
@@ -182,5 +122,37 @@ public class ChatMessage extends RealmObject {
 
     public void setWebquery(String webquery) {
         this.webquery = webquery;
+    }
+
+    public String getActionType() {
+        return actionType;
+    }
+
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longtitude) {
+        this.longitude = longtitude;
+    }
+
+    public double getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(double zoom) {
+        this.zoom = zoom;
     }
 }
