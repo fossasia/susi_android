@@ -27,7 +27,7 @@
                 android:layout_height="@dimen/webpreview_layout_height"
                 android:layout_weight="0.1"
                 android:scaleType="centerInside"
-                android:layout_marginTop="@dimen/margin_small"
+                android:adjustViewBounds="true"
                 android:background="#aaffffff"
                 app:srcCompat="@drawable/ic_user" />
 
@@ -57,7 +57,7 @@
                     android:textSize="15sp"
                     android:layout_gravity="bottom"
                     android:gravity="center_vertical"
-                    android:maxLines="2"
+                    android:maxLines="3"
                     android:padding="@dimen/standard_content_padding"
                     android:textColor="@color/md_grey_600"
                     tools:text="@string/sample_website_description" />
