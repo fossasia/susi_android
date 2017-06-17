@@ -17,7 +17,7 @@ public class ChatMessage extends RealmObject {
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
-    private boolean isDelivered, isHavingLink, isDate, isImportant, isMine;
+    private boolean isDelivered, isHavingLink, isDate, isMine;
     private double latitude, longitude, zoom;
 
     public ChatMessage() {
@@ -115,16 +115,6 @@ public class ChatMessage extends RealmObject {
     public boolean getIsDelivered() { return isDelivered; }
 
     public void setIsDelivered(boolean isDelivered) { this.isDelivered = isDelivered; }
-
-    public void setIsImportant(boolean isImportant)
-    {
-        this.isImportant = isImportant;
-    }
-
-    public boolean isImportant()
-    {
-        return isImportant;
-    }
 
     public String getWebquery() {
         return webquery;
