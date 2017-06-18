@@ -41,4 +41,7 @@ public class Constant {
     public static final String PIECHART = "piechart";
 
     public static final String MESSAGE_COUNT = "message_count";
+
+    public static final String ANONYMOUS_LOGGED_IN = "anonymous_logged_in";
+    public static final String FIRST_TIME = "first_time";
 }

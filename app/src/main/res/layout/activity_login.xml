@@ -121,11 +121,24 @@
             android:typeface="monospace" />
 
         <TextView
+            android:id="@+id/skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:background="?selectableItemBackground"
+            android:text="@string/activity_login_skip"
+            android:textColor="@color/md_grey_400"
+            android:textSize="@dimen/message_text_size"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <TextView
             android:id="@+id/sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:background="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/activity_login_sign_up"

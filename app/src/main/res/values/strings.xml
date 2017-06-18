@@ -6,6 +6,7 @@
     <string name="action_wall_settings">Wallpaper</string>
     <string name="action_share">Share</string>
     <string name="action_log_out">Log out</string>
+    <string name="action_login">Login</string>
     <string name="settings_title">Chat Settings</string>
     <string name="server_settings_title">Server Settings</string>
     <string name="server_pref">Select Server</string>
@@ -91,6 +92,7 @@
     <string name="activity_login_sing_up">Sign Up</string>
     <string name="activity_login_forgot_pass">Forgot Password?</string>
     <string name="activity_login_sign_up">Sign up for SUSI</string>
+    <string name="activity_login_skip">Skip</string>
     <string name="activity_login_imageview_description" translatable="false">SUSI Logo</string>
     <string name="unknown_answer">I don\'t know.</string>
     <string name="settings_mic">Mic Settings</string>

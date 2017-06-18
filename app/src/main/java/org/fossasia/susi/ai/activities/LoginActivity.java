@@ -74,25 +74,32 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent intent;
         realm = Realm.getDefaultInstance();
-        if (!PrefManager.hasTokenExpired()) {
+        if(!PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+            if (!PrefManager.hasTokenExpired()) {
+                intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra(Constant.FIRST_TIME, false);
+                startActivity(intent);
+                finish();
+            }
+            if (savedInstanceState != null) {
+                email.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString());
+                password.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString());
+                if (savedInstanceState.getBoolean(Constant.SERVER)) {
+                    url.setVisibility(View.VISIBLE);
+                } else {
+                    url.setVisibility(View.GONE);
+                }
+            }
+            savedEmails = new HashSet<>();
+            if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null) {
+                savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL));
+                autoCompleteEmail.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>(savedEmails)));
+            }
+        } else if(PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
             intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra(getApplicationContext().getString(R.string.first_time), false);
+            intent.putExtra(Constant.FIRST_TIME, false);
             startActivity(intent);
             finish();
-        }
-        if (savedInstanceState != null) {
-            email.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString());
-            password.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString());
-            if(savedInstanceState.getBoolean(Constant.SERVER)) {
-                url.setVisibility(View.VISIBLE);
-            } else {
-                url.setVisibility(View.GONE);
-            }
-        }
-        savedEmails = new HashSet<>();
-        if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null) {
-            savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL));
-            autoCompleteEmail.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>(savedEmails)));
         }
     }
 
@@ -128,6 +135,19 @@ public class LoginActivity extends AppCompatActivity {
     public void forgotPassword() {
         Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Called when a user clicks on the skip text view.
+     */
+    @OnClick(R.id.skip)
+    public void skip() {
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+        intent.putExtra(Constant.FIRST_TIME, false);
+        PrefManager.clearToken();
+        PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, true);
+        startActivity(intent);
+        finish();
     }
 
     /**
@@ -196,9 +216,10 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
+                    PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, false);
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(getApplicationContext().getString(R.string.first_time), true);
+                    intent.putExtra(Constant.FIRST_TIME, true);
                     startActivity(intent);
                     finish();
                 } else if(response.code() == 422) {
