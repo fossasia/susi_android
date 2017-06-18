@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
@@ -53,10 +54,10 @@ public class SignUpActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if(savedInstanceState!=null){
-            email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
-            password.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[1].toString());
-            confirmPassword.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[2].toString());
-            if(savedInstanceState.getBoolean("server")) {
+            email.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString());
+            password.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString());
+            confirmPassword.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[2].toString());
+            if(savedInstanceState.getBoolean(Constant.SERVER)) {
                 url.setVisibility(View.VISIBLE);
             } else {
                 url.setVisibility(View.GONE);
@@ -113,7 +114,7 @@ public class SignUpActivity extends AppCompatActivity {
             return;
         }
         if (!CredentialHelper.isEmailValid(email.getEditText().getText().toString())) {
-            email.setError("Invalid email");
+            email.setError(getApplicationContext().getString(R.string.invalid_email));
             return;
         }
         email.setError(null);
@@ -122,30 +123,30 @@ public class SignUpActivity extends AppCompatActivity {
         }
         if (!password.getEditText().getText().toString()
                 .equals(confirmPassword.getEditText().getText().toString())) {
-            confirmPassword.setError("Passwords do not match");
+            confirmPassword.setError(getApplicationContext().getString(R.string.error_password_matching));
             return;
         }
         if(personalServer.isChecked()) {
             if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
                 if (CredentialHelper.getValidURL(url,this) != null) {
-                    PrefManager.putBoolean("is_susi_server_selected", false);
-                    PrefManager.putString("custom_server", CredentialHelper.getValidURL(url, this));
+                    PrefManager.putBoolean(Constant.SUSI_SERVER, false);
+                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url, this));
                 } else {
-                    url.setError("Invalid URL");
+                    url.setError(getApplicationContext().getString(R.string.invalid_url));
                     return;
                 }
             } else {
                 return;
             }
         } else{
-            PrefManager.putBoolean("is_susi_server_selected", true);
+            PrefManager.putBoolean(Constant.SUSI_SERVER, true);
         }
 
         confirmPassword.setError(null);
         signUp.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Signing up...");
+        progressDialog.setMessage(getApplicationContext().getString(R.string.signing_up));
         progressDialog.show();
 
         final Call<SignUpResponse> signUpCall = new ClientBuilder().getSusiApi()
@@ -167,7 +168,7 @@ public class SignUpActivity extends AppCompatActivity {
                     alertDialog.setTitle(R.string.signup);
                     alertDialog.setCancelable(false);
                     alertDialog.setMessage(R.string.signup_msg);
-                    alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    alertDialog.setPositiveButton(getApplicationContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             finish();
@@ -186,7 +187,7 @@ public class SignUpActivity extends AppCompatActivity {
                         alertDialog.setTitle(R.string.error_email);
                         alertDialog.setCancelable(false);
                         alertDialog.setMessage(R.string.error_msg);
-                        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        alertDialog.setPositiveButton(getApplicationContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
@@ -196,7 +197,7 @@ public class SignUpActivity extends AppCompatActivity {
                             }
                         });
 
-                        alertDialog.setNeutralButton("Forgot Password", new DialogInterface.OnClickListener() {
+                        alertDialog.setNeutralButton(getApplicationContext().getString(R.string.forgot_pass_activity), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
@@ -212,10 +213,10 @@ public class SignUpActivity extends AppCompatActivity {
                         ok.setTextColor(getResources().getColor(R.color.md_blue_500));
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                        builder.setTitle(response.code() + " Error");
+                        builder.setTitle(response.code() + getApplicationContext().getString(R.string.error));
                         builder.setMessage(response.message())
                                 .setCancelable(false)
-                                .setPositiveButton("OK", null);
+                                .setPositiveButton(getApplicationContext().getString(R.string.ok), null);
                         AlertDialog alert = builder.create();
                         alert.show();
                         Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -233,10 +234,10 @@ public class SignUpActivity extends AppCompatActivity {
                 t.printStackTrace();
                 if( t instanceof UnknownHostException) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                    builder.setTitle("Unknown Host Exception");
+                    builder.setTitle(getApplicationContext().getString(R.string.unknown_host_exception));
                     builder.setMessage(t.getMessage())
                             .setCancelable(false)
-                            .setPositiveButton("RETRY", null);
+                            .setPositiveButton(getApplicationContext().getString(R.string.retry), null);
                     AlertDialog alert = builder.create();
                     alert.show();
                     Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -244,7 +245,7 @@ public class SignUpActivity extends AppCompatActivity {
                     signUp.setEnabled(true);
                     progressDialog.dismiss();
                 } else {
-                    Toast.makeText(SignUpActivity.this, "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignUpActivity.this, getApplicationContext().getString(R.string.internet_connection_prompt), Toast.LENGTH_SHORT).show();
                     signUp.setEnabled(true);
                     progressDialog.dismiss();
                 }
@@ -256,8 +257,8 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString(), confirmPassword.getEditText().getText().toString() };
-        outState.putCharSequenceArray("savedStates", values);
-        outState.putBoolean("server",personalServer.isChecked());
+        outState.putCharSequenceArray(Constant.SAVED_STATES, values);
+        outState.putBoolean(Constant.SERVER,personalServer.isChecked());
     }
 
     @Override
@@ -265,13 +266,13 @@ public class SignUpActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
         alertDialog.setCancelable(false);
         alertDialog.setMessage(R.string.error_cancelling_signUp_process_text);
-        alertDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(getApplicationContext().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 SignUpActivity.super.onBackPressed();
             }
         });
-        alertDialog.setNegativeButton("No",null);
+        alertDialog.setNegativeButton(getApplicationContext().getString(R.string.no),null);
 
         AlertDialog alert = alertDialog.create();
         alert.show();

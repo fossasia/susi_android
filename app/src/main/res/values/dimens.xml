@@ -23,7 +23,7 @@
     <dimen name="piechart_layout_height">300dp</dimen>
     <dimen name="padding_large">10dp</dimen>
     <dimen name="webpreview_headline_height">32dp</dimen>
-    <dimen name="webpreview_content_height">53dp</dimen>
+    <dimen name="webpreview_content_height">63dp</dimen>
     <dimen name="websearch_card_width">225dp</dimen>
     <dimen name="webpreview_layout_height">95dp</dimen>
     <dimen name="margin_very_small">2dp</dimen>

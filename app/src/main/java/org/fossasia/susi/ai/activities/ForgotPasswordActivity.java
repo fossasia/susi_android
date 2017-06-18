@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
@@ -49,8 +50,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setTitle(getString(R.string.forgot_pass_activity));
 
         if (savedInstanceState != null) {
-            email.getEditText().setText(savedInstanceState.getCharSequenceArray("savedStates")[0].toString());
-            if(savedInstanceState.getBoolean("server")) {
+            email.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString());
+            if(savedInstanceState.getBoolean(Constant.SERVER)) {
                 url.setVisibility(View.VISIBLE);
             } else {
                 url.setVisibility(View.GONE);
@@ -95,24 +96,24 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if(personalServer.isChecked()) {
             if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
                 if (CredentialHelper.getValidURL(url,this) != null) {
-                    PrefManager.putBoolean("is_susi_server_selected", false);
-                    PrefManager.putString("custom_server", CredentialHelper.getValidURL(url, this));
+                    PrefManager.putBoolean(Constant.SUSI_SERVER, false);
+                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url, this));
                 } else {
-                    url.setError("Invalid URL");
+                    url.setError(getApplicationContext().getString(R.string.invalid_url));
                     return;
                 }
             } else {
                 return;
             }
         } else{
-            PrefManager.putBoolean("is_susi_server_selected", true);
+            PrefManager.putBoolean(Constant.SUSI_SERVER, true);
         }
 
         email.setError(null);
         resetButton.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
-        progressDialog.setMessage("Loading...");
+        progressDialog.setMessage(getApplicationContext().getString(R.string.loading));
         progressDialog.show();
 
         final Call<ForgotPasswordResponse> forgotPasswordResponseCall = new ClientBuilder().getSusiApi()
@@ -132,7 +133,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
                     builder.setMessage(response.body().getMessage())
                             .setCancelable(false)
-                            .setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(getApplicationContext().getString(R.string.Continue), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -150,7 +151,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     builder.setTitle(R.string.email_invalid_title);
                     builder.setMessage(R.string.email_invalid)
                             .setCancelable(false)
-                            .setPositiveButton("Retry", null);
+                            .setPositiveButton(getApplicationContext().getString(R.string.retry), null);
                     AlertDialog alert = builder.create();
                     alert.show();
                     Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -158,7 +159,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
-                    builder.setTitle(response.code() + " Error");
+                    builder.setTitle(response.code() + getApplicationContext().getString(R.string.error));
                     builder.setMessage(response.message())
                             .setCancelable(false)
                             .setPositiveButton("OK", null);
@@ -177,14 +178,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
                 if( t instanceof UnknownHostException) {
-                    builder.setTitle("Unknown Host Exception");
+                    builder.setTitle(getApplicationContext().getString(R.string.unknown_host_exception));
                     builder.setMessage(t.getMessage());
                 } else {
                     builder.setTitle(R.string.error_internet_connectivity);
                     builder.setMessage(R.string.no_internet_connection);
                 }
                 builder.setCancelable(false)
-                        .setPositiveButton("RETRY", null);
+                        .setPositiveButton(getApplicationContext().getString(R.string.error), null);
                 AlertDialog alert = builder.create();
                 alert.show();
                 Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -199,7 +200,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         CharSequence values[] = {email.getEditText().getText().toString()};
-        outState.putCharSequenceArray("savedStates", values);
-        outState.putBoolean("server",personalServer.isChecked());
+        outState.putCharSequenceArray(Constant.SAVED_STATES, values);
+        outState.putBoolean(Constant.SERVER,personalServer.isChecked());
     }
 }
