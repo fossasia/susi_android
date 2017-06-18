@@ -1,12 +1,10 @@
 package org.fossasia.susi.ai.activities;
-
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +13,7 @@ import android.widget.RadioButton;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.Constant;
+import org.fossasia.susi.ai.helper.AlertboxHelper;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
@@ -42,6 +41,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     @BindView(R.id.input_url)
     protected TextInputLayout url;
 
+    private String alertTitle,alertMessage;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,43 +131,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ForgotPasswordResponse> call, Response<ForgotPasswordResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
-                    builder.setMessage(response.body().getMessage())
-                            .setCancelable(false)
-                            .setPositiveButton(getApplicationContext().getString(R.string.Continue), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button continueButton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    continueButton.setTextColor(Color.BLUE);
-
+                    alertSuccess(response);
                 } else if(response.code() == 422) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
-                    builder.setTitle(R.string.email_invalid_title);
-                    builder.setMessage(R.string.email_invalid)
-                            .setCancelable(false)
-                            .setPositiveButton(getApplicationContext().getString(R.string.retry), null);
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    pbutton.setTextColor(Color.RED);
-
+                    alertTitle = getResources().getString(R.string.email_invalid_title);
+                    alertMessage = getResources().getString(R.string.email_invalid);
+                    alertNotSuccess(alertTitle, alertMessage, getResources().getString(R.string.retry), Color.RED);
                 } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
-                    builder.setTitle(response.code() + getApplicationContext().getString(R.string.error));
-                    builder.setMessage(response.message())
-                            .setCancelable(false)
-                            .setPositiveButton("OK", null);
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    pbutton.setTextColor(Color.BLUE);
+                    alertNotSuccess(response.code()+getResources().getString(R.string.error), response.message(), getResources().getString(R.string.ok), Color.BLUE);
                 }
                 resetButton.setEnabled(true);
                 progressDialog.dismiss();
@@ -175,21 +146,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ForgotPasswordResponse> call, Throwable t) {
                 t.printStackTrace();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(ForgotPasswordActivity.this);
-                if( t instanceof UnknownHostException) {
-                    builder.setTitle(getApplicationContext().getString(R.string.unknown_host_exception));
-                    builder.setMessage(t.getMessage());
+                if(t instanceof UnknownHostException) {
+                    alertTitle = getResources().getString(R.string.unknown_host_exception);
+                    alertMessage = t.getMessage();
                 } else {
-                    builder.setTitle(R.string.error_internet_connectivity);
-                    builder.setMessage(R.string.no_internet_connection);
+                    alertTitle = getResources().getString(R.string.error_internet_connectivity);
+                    alertMessage = getResources().getString(R.string.no_internet_connection);
                 }
-                builder.setCancelable(false)
-                        .setPositiveButton(getApplicationContext().getString(R.string.error), null);
-                AlertDialog alert = builder.create();
-                alert.show();
-                Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                ok.setTextColor(Color.RED);
+                alertNotSuccess(alertTitle,alertMessage, getResources().getString(R.string.retry), Color.RED);
                 resetButton.setEnabled(true);
                 progressDialog.dismiss();
             }
@@ -202,5 +166,25 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         CharSequence values[] = {email.getEditText().getText().toString()};
         outState.putCharSequenceArray(Constant.SAVED_STATES, values);
         outState.putBoolean(Constant.SERVER,personalServer.isChecked());
+    }
+
+    public void alertSuccess(Response<ForgotPasswordResponse> response) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        };
+        alertTitle = getResources().getString(R.string.forgot_password_mail_sent);
+        alertMessage = response.body().getMessage();
+        AlertboxHelper successAlertboxHelper = new AlertboxHelper(ForgotPasswordActivity.this, alertTitle, alertMessage, dialogClickListener, null, getResources().getString(R.string.Continue), null, Color.BLUE);
+        successAlertboxHelper.showAlertBox();
+    }
+
+    public void alertNotSuccess(String title,String message,String positiveButtonText,int colour) {
+        AlertboxHelper notSuccessAlertboxHelper = new AlertboxHelper(ForgotPasswordActivity.this, title, message, null, null, positiveButtonText, null, colour);
+        notSuccessAlertboxHelper.showAlertBox();
     }
 }
