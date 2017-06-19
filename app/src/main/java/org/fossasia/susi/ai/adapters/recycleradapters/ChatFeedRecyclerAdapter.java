@@ -18,6 +18,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
@@ -29,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -52,6 +54,7 @@ import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.SearchResultHolder;
 import org.fossasia.susi.ai.adapters.viewholders.SearchResultsListHolder;
 import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
@@ -82,6 +85,8 @@ import pl.tajchert.sample.DotsTextView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static io.realm.log.RealmLog.clear;
 
 /**
  * Created by
@@ -123,6 +128,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
     private boolean isSusiTyping = false;
+    private SearchResultsAdapter adapter;
+    private int type = 0;
 
     public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -414,19 +421,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             }
         }
 
-        searchResultsListHolder.backgroundLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (actionMode == null) {
-                    actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
-                }
-
-                toggleSelectedItem(position);
-
-                return true;
-            }
-        });
-
     }
 
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
@@ -548,6 +542,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 mapViewHolder.mapImage.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
+                        type = 0;
                         if (actionMode == null) {
                             actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                         }
@@ -634,6 +629,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     linkPreviewViewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View view) {
+                            type = 0;
                             if (actionMode == null) {
                                 actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                             }
@@ -647,6 +643,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     linkPreviewViewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View view) {
+                            type = 0;
                             if (actionMode == null) {
                                 actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                             }
@@ -710,6 +707,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             linkPreviewViewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+                    type = 0;
                     if (actionMode == null) {
                         actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                     }
@@ -723,6 +721,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             linkPreviewViewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
+                    type = 0;
                     if (actionMode == null) {
                         actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                     }
@@ -1029,7 +1028,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         copyText = copyText.substring(0, copyText.length() - 1);
                         setClipboard(copyText);
                     }
-
                     if (nSelected == 1){
                         Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
@@ -1093,4 +1091,129 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             currContext.startActivity(sendIntent);
         }
     }
+
+    private class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolder> {
+        private LayoutInflater inflater;
+        private Context context;
+        private List<Datum> datumList;
+        Realm realm;
+
+
+        private SearchResultsAdapter(Context context, List<Datum> datumList) {
+            this.context = context;
+            this.datumList = datumList;
+            inflater = LayoutInflater.from(context);
+            realm = Realm.getDefaultInstance();
+        }
+
+        @Override
+        public SearchResultHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new SearchResultHolder(inflater.inflate(R.layout.search_item, parent, false));
+        }
+
+        @Override
+        public void onBindViewHolder(final SearchResultHolder holder, final int position) {
+            Datum datum = datumList.get(position);
+            if (datum != null) {
+                holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
+                holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
+                if (!TextUtils.isEmpty(datum.getLink())) {
+                    LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
+                        @Override
+                        public void onPre() {
+                            holder.previewImageView.setVisibility(View.GONE);
+                            holder.descriptionTextView.setVisibility(View.GONE);
+                            holder.titleTextView.setVisibility(View.GONE);
+                            holder.previewLayout.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onPos(final SourceContent sourceContent, boolean b) {
+                            holder.previewLayout.setVisibility(View.VISIBLE);
+                            holder.previewImageView.setVisibility(View.VISIBLE);
+                            holder.descriptionTextView.setVisibility(View.VISIBLE);
+                            holder.titleTextView.setVisibility(View.VISIBLE);
+                            holder.titleTextView.setText(sourceContent.getTitle());
+                            holder.descriptionTextView.setText(sourceContent.getDescription());
+
+                            final List<String> imageList = sourceContent.getImages();
+                            if (imageList == null || imageList.size() == 0) {
+                                holder.previewImageView.setVisibility(View.GONE);
+                            } else {
+                                Glide.with(context).load(imageList.get(0))
+                                        .centerCrop()
+                                        .into(holder.previewImageView);
+                            }
+
+                            holder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Uri webpage = Uri.parse(sourceContent.getFinalUrl());
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                                    if (intent.resolveActivity(context.getPackageManager()) != null) {
+                                        context.startActivity(intent);
+                                    }
+                                }
+                            });
+
+                            holder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                                @Override
+                                public boolean onLongClick(View v) {
+                                    AlertDialog.Builder d = new AlertDialog.Builder(context);
+                                        d.setMessage("Delete message?").
+                                                setCancelable(false).
+                                                setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        clear();
+                                                        removeDates();
+                                                        toast = Toast.makeText(recyclerView.getContext() , R.string.message_deleted , Toast.LENGTH_LONG);
+                                                        toast.setGravity(Gravity.CENTER, 0, 0);
+                                                        toast.show();
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                    AlertDialog alert = d.create();
+                                    alert.show();
+                                    Button cancel = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                                    cancel.setTextColor(Color.BLUE);
+                                    Button delete = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                                    delete.setTextColor(Color.RED);
+                                    return false;
+                                }
+                            });
+
+                        }
+                    };
+                    TextCrawler textCrawler = new TextCrawler();
+                    textCrawler.makePreview(linkPreviewCallback, datum.getLink());
+                }
+            } else {
+                holder.titleTextView.setText(null);
+                holder.descriptionTextView.setText(null);
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return datumList == null ? 0 : datumList.size();
+        }
+
+        private void clear() {
+            int size = this.datumList.size();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    datumList.clear();
+                }
+            });
+            notifyItemRangeRemoved(0, size);
+        }
+    }
+
 }

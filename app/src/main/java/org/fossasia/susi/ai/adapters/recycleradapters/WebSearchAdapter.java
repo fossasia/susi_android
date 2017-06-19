@@ -25,7 +25,6 @@ import java.util.List;
  */
 
 public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
-    public static final String TAG = SearchResultsAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private Context context;
     private List<WebSearchModel> searchResults;
@@ -69,7 +68,6 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
 
             if (iconUrl != null) {
                 holder.previewImageView.setVisibility(View.VISIBLE);
-                Log.v(TAG , iconUrl);
 
                 Glide.with(context).load(iconUrl).listener(new RequestListener<String, GlideDrawable>() {
                     @Override
