@@ -1015,7 +1015,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         }
                         setClipboard(copyText);
                     } else {
-                        StringBuilder copyText = new StringBuilder("");
+                        StringBuilder copyText = new StringBuilder();
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
