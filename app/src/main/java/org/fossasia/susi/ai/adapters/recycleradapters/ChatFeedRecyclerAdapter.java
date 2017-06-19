@@ -1048,7 +1048,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             shareMessage(getItem(selected).getContent());
                         }
                     } else {
-                        StringBuilder shareText = new StringBuilder("");
+                        StringBuilder shareText = new StringBuilder();
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
