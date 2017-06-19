@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
+import org.fossasia.susi.ai.helper.AlertboxHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
@@ -33,19 +34,21 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
 
     @BindView(R.id.email)
-    TextInputLayout email;
+    protected TextInputLayout email;
     @BindView(R.id.password)
-    TextInputLayout password;
+    protected TextInputLayout password;
     @BindView(R.id.confirm_password)
-    TextInputLayout confirmPassword;
+    protected TextInputLayout confirmPassword;
     @BindView(R.id.sign_up)
-    Button signUp;
+    protected Button signUp;
     @BindView(R.id.susi_default)
     protected RadioButton susiServer;
     @BindView(R.id.personal_server)
     protected RadioButton personalServer;
     @BindView(R.id.input_url)
     protected TextInputLayout url;
+
+    private String alertTitle,alertMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     private void setupPasswordWatcher() {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -141,7 +143,6 @@ public class SignUpActivity extends AppCompatActivity {
         } else{
             PrefManager.putBoolean(Constant.SUSI_SERVER, true);
         }
-
         confirmPassword.setError(null);
         signUp.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -164,63 +165,13 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
-                    alertDialog.setTitle(R.string.signup);
-                    alertDialog.setCancelable(false);
-                    alertDialog.setMessage(R.string.signup_msg);
-                    alertDialog.setPositiveButton(getApplicationContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-                    });
-
-                    AlertDialog alert = alertDialog.create();
-                    alert.show();
-
-                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    ok.setTextColor(getResources().getColor(R.color.md_blue_500));
+                    alertSuccess();
                     CredentialHelper.clearFields(email, password, confirmPassword);
                 } else {
                     if(response.code() == 422) {
-                        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(SignUpActivity.this);
-                        alertDialog.setTitle(R.string.error_email);
-                        alertDialog.setCancelable(false);
-                        alertDialog.setMessage(R.string.error_msg);
-                        alertDialog.setPositiveButton(getApplicationContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-
-                        alertDialog.setNeutralButton(getApplicationContext().getString(R.string.forgot_pass_activity), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-
-                        AlertDialog alert = alertDialog.create();
-                        alert.show();
-
-                        Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                        ok.setTextColor(getResources().getColor(R.color.md_blue_500));
+                        alertFaillure();
                     } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                        builder.setTitle(response.code() + getApplicationContext().getString(R.string.error));
-                        builder.setMessage(response.message())
-                                .setCancelable(false)
-                                .setPositiveButton(getApplicationContext().getString(R.string.ok), null);
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                        pbutton.setTextColor(Color.BLUE);
+                        alertError(response.code()+getResources().getString(R.string.error), response.message());
                     }
                     // After the implementation of "Forgot Password" option we could create a xml layout for the dialog.
                     // Until then we need to add the buttons dynamically.
@@ -233,15 +184,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onFailure(Call<SignUpResponse> call, Throwable t) {
                 t.printStackTrace();
                 if( t instanceof UnknownHostException) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
-                    builder.setTitle(getApplicationContext().getString(R.string.unknown_host_exception));
-                    builder.setMessage(t.getMessage())
-                            .setCancelable(false)
-                            .setPositiveButton(getApplicationContext().getString(R.string.retry), null);
-                    AlertDialog alert = builder.create();
-                    alert.show();
-                    Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    ok.setTextColor(Color.RED);
+                    alertError(getResources().getString(R.string.unknown_host_exception), t.getMessage());
                     signUp.setEnabled(true);
                     progressDialog.dismiss();
                 } else {
@@ -273,13 +216,53 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
         alertDialog.setNegativeButton(getApplicationContext().getString(R.string.no),null);
-
         AlertDialog alert = alertDialog.create();
         alert.show();
-        
         Button yes = alert.getButton(DialogInterface.BUTTON_POSITIVE);
         Button no = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
         yes.setTextColor(getResources().getColor(R.color.md_blue_500));
         no.setTextColor(getResources().getColor(R.color.md_red_500));
+    }
+
+    public void alertSuccess() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        };
+        alertTitle = getResources().getString(R.string.signup);
+        alertMessage = getResources().getString(R.string.signup_msg);
+        AlertboxHelper successAlertboxHelper = new AlertboxHelper(SignUpActivity.this, alertTitle, alertMessage, dialogClickListener, null, getResources().getString(R.string.ok), null, getResources().getColor(R.color.md_blue_500));
+        successAlertboxHelper.showAlertBox();
+    }
+
+    public void alertError(String title,String message) {
+        AlertboxHelper errorAlertboxHelper = new AlertboxHelper(SignUpActivity.this, title, message, null, null, getResources().getString(R.string.ok), null, Color.BLUE);
+        errorAlertboxHelper.showAlertBox();
+    }
+
+    public void alertFaillure() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            }
+        };
+        DialogInterface.OnClickListener dialogClickListenern = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        alertTitle = getResources().getString(R.string.error_email);
+        alertMessage = getResources().getString(R.string.error_msg);
+        AlertboxHelper failureAlertboxHelper = new AlertboxHelper(SignUpActivity.this, alertTitle, alertMessage, dialogClickListener, dialogClickListenern, getResources().getString(R.string.ok), getResources().getString(R.string.forgot_pass_activity), getResources().getColor(R.color.md_blue_500));
+        failureAlertboxHelper.showAlertBox();
     }
 }
