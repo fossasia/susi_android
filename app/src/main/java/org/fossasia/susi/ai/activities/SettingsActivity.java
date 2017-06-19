@@ -22,6 +22,8 @@ import io.realm.Realm;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    StringBuilder playStore = new StringBuilder("http://play.google.com/store/apps/details?id=");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

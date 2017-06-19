@@ -665,12 +665,13 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             if (model != null) {
                 List<String> urlList = extractLinks(model.getContent());
-                String url = urlList.get(0);
-                if (!(url.startsWith("http://") || url.startsWith("https://"))) {
-                    url = "http://" + url;
+                StringBuilder url = new StringBuilder(urlList.get(0));
+                StringBuilder http = new StringBuilder("http://");
+                if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(http.toString()))) {
+                    url = http.append(url.toString());
                 }
                 TextCrawler textCrawler = new TextCrawler();
-                textCrawler.makePreview(linkPreviewCallback, url);
+                textCrawler.makePreview(linkPreviewCallback, url.toString());
             }
         } else {
             linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
@@ -1023,8 +1024,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                 copyText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
-                        String copyText2 = copyText.substring(0, copyText.length() - 1);
-                        setClipboard(copyText2);
+                        setClipboard(copyText.toString());
                     }
 
                     if (nSelected == 1){
@@ -1057,8 +1057,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                 shareText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
-                        String shareText2 = shareText.substring(0, shareText.length() - 1);
-                        shareMessage(shareText2);
+                        shareMessage(shareText.toString());
                     }
 
                     actionMode.finish();
