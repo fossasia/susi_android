@@ -30,7 +30,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -128,8 +127,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
     private boolean isSusiTyping = false;
-    private SearchResultsAdapter adapter;
-    private int type = 0;
 
     public ChatFeedRecyclerAdapter(RequestManager glide, @NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
@@ -542,7 +539,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 mapViewHolder.mapImage.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View view) {
-                        type = 0;
                         if (actionMode == null) {
                             actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                         }
@@ -629,7 +625,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     linkPreviewViewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View view) {
-                            type = 0;
                             if (actionMode == null) {
                                 actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                             }
@@ -643,7 +638,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     linkPreviewViewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View view) {
-                            type = 0;
                             if (actionMode == null) {
                                 actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                             }
@@ -707,7 +701,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             linkPreviewViewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    type = 0;
                     if (actionMode == null) {
                         actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                     }
@@ -721,7 +714,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             linkPreviewViewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    type = 0;
                     if (actionMode == null) {
                         actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                     }
@@ -1096,7 +1088,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         private LayoutInflater inflater;
         private Context context;
         private List<Datum> datumList;
-        Realm realm;
+        private Realm realm;
 
 
         private SearchResultsAdapter(Context context, List<Datum> datumList) {
