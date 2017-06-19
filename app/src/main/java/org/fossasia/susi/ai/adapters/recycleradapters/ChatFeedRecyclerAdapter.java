@@ -1149,8 +1149,10 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             });
 
                             holder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                                private static final String TAG = "SearchResultsAdapter";
                                 @Override
                                 public boolean onLongClick(View v) {
+                                    Log.d(TAG, "onLongClick: Clicked");
                                     AlertDialog.Builder d = new AlertDialog.Builder(context);
                                         d.setMessage("Delete message?").
                                                 setCancelable(false).
