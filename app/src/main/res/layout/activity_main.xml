@@ -20,21 +20,20 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="@dimen/margin_very_small"
             android:layout_marginTop="@dimen/margin_very_small"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnScrollToEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/send_message_layout"
-            android:layout_alignEnd="@+id/send_message_layout"
-            android:layout_alignRight="@+id/send_message_layout"
-            android:layout_marginBottom="@dimen/margin_large"
-            android:layout_marginRight="@dimen/margin_large"
             android:alpha="0.85"
             android:onClick="scrollToEnd"
             android:src="@drawable/ic_scroll_to_end_fab"
-            app:fabSize="mini"/>
+            app:fabSize="mini"
+            android:layout_margin="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignBottom="@+id/rv_chat_feed" />
 
         <LinearLayout
             android:id="@+id/send_message_layout"
@@ -61,7 +60,7 @@
                         android:id="@+id/cancel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_close_24dp"/>
+                        app:srcCompat="@drawable/ic_close_24dp" />
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -79,22 +78,22 @@
                             android:hint="@string/send_msg_hint"
                             android:imeOptions="actionSend"
                             android:inputType="text"
-                            android:theme="@style/sendMessageEditTextTheme"
-                            android:scrollbars="vertical" />
+                            android:scrollbars="vertical"
+                            android:theme="@style/sendMessageEditTextTheme" />
 
                         <TextView
                             android:id="@+id/voice_input_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="18sp"
-                            android:layout_marginBottom="1dp"
                             android:layout_gravity="center_vertical"
+                            android:layout_marginBottom="1dp"
                             android:layout_marginLeft="@dimen/margin_medium"
                             android:layout_marginRight="@dimen/margin_medium"
                             android:background="@android:color/transparent"
                             android:hint="@string/hint_voice_input"
-                            android:theme="@style/sendMessageEditTextTheme"
-                            android:scrollbars="vertical" />
+                            android:scrollbars="vertical"
+                            android:textSize="18sp"
+                            android:theme="@style/sendMessageEditTextTheme" />
                     </FrameLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -102,32 +101,32 @@
             <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_background"
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_very_small"
+                android:background="@drawable/round_background"
                 android:elevation="2dp">
 
-                    <ImageView
-                        android:id="@+id/btnSpeak"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_mic_white_24dp"
-                        android:layout_gravity="center"/>
+                <ImageView
+                    android:id="@+id/btnSpeak"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_mic_white_24dp" />
 
-                    <pl.tajchert.sample.DotsTextView
-                        android:id="@+id/dots"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="5dp"
-                        android:textColor="@color/md_white_1000"
-                        android:textSize="20sp"
-                        android:textStyle="normal|bold"
-                        app:autoplay="false"
-                        app:period="1200" />
+                <pl.tajchert.sample.DotsTextView
+                    android:id="@+id/dots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:textColor="@color/md_white_1000"
+                    android:textSize="20sp"
+                    android:textStyle="normal|bold"
+                    app:autoplay="false"
+                    app:period="1200" />
             </FrameLayout>
         </LinearLayout>
     </RelativeLayout>
