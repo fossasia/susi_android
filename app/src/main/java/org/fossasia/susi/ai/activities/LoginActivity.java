@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.helper.AlertboxHelper;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
@@ -43,26 +44,27 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
     @BindView(R.id.email)
-    TextInputLayout email;
+    protected TextInputLayout email;
     @BindView(R.id.email_input)
     protected AutoCompleteTextView autoCompleteEmail;
     @BindView(R.id.password)
-    TextInputLayout password;
+    protected TextInputLayout password;
     @BindView(R.id.log_in)
-    Button logIn;
+    protected Button logIn;
     @BindView(R.id.susi_default)
     protected RadioButton susiServer;
     @BindView(R.id.personal_server)
     protected RadioButton personalServer;
     @BindView(R.id.input_url)
     protected TextInputLayout url;
-
     private Set<String> savedEmails;
-    private Realm realm;
 
+    private Realm realm;
+    private String alertTitle,alertMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -137,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
             PrefManager.putBoolean(Constant.SUSI_SERVER, true);
         }
         email.setError(null);
-
         logIn.setEnabled(false);
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -176,32 +177,17 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
-
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(getApplicationContext().getString(R.string.first_time), true);
                     startActivity(intent);
                     finish();
                 } else if(response.code() == 422) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle(R.string.password_invalid_title);
-                        builder.setMessage(R.string.password_invalid)
-                                .setCancelable(false)
-                                .setPositiveButton(getApplicationContext().getString(R.string.ok), null);
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                        pbutton.setTextColor(Color.BLUE);
+                    alertTitle = getResources().getString(R.string.password_invalid_title);
+                    alertMessage = getResources().getString(R.string.password_invalid);
+                    alertNotSuccess(alertTitle, alertMessage);
                 } else {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                        builder.setTitle(response.code() + getApplicationContext().getString(R.string.error));
-                        builder.setMessage(response.message())
-                                .setCancelable(false)
-                                .setPositiveButton(getApplicationContext().getString(R.string.ok), null);
-                        AlertDialog alert = builder.create();
-                        alert.show();
-                        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                        pbutton.setTextColor(Color.BLUE);
+                    alertNotSuccess(response.code()+getResources().getString(R.string.error), response.message());
                 }
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
@@ -210,21 +196,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 t.printStackTrace();
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                 if( t instanceof UnknownHostException) {
-                    builder.setTitle(getApplicationContext().getString(R.string.unknown_host_exception));
-                    builder.setMessage(t.getMessage());
+                    alertTitle = getResources().getString(R.string.unknown_host_exception);
+                    alertMessage = t.getMessage();
                 } else {
-                    builder.setTitle(R.string.error_internet_connectivity);
-                    builder.setMessage(R.string.no_internet_connection);
+                    alertTitle = getResources().getString(R.string.error_internet_connectivity);
+                    alertMessage = getResources().getString(R.string.no_internet_connection);
                 }
-                builder.setCancelable(false)
-                        .setPositiveButton(getApplicationContext().getString(R.string.retry), null);
-                AlertDialog alert = builder.create();
-                alert.show();
-                Button ok = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                ok.setTextColor(Color.RED);
+                alertNotSuccess(alertTitle, alertMessage);
                 logIn.setEnabled(true);
                 progressDialog.dismiss();
             }
@@ -259,5 +238,10 @@ public class LoginActivity extends AppCompatActivity {
         CharSequence values[] = {email.getEditText().getText().toString(), password.getEditText().getText().toString() };
         outState.putCharSequenceArray(Constant.SAVED_STATES, values);
         outState.putBoolean(Constant.SERVER,personalServer.isChecked());
+    }
+
+    public void alertNotSuccess(String title,String message) {
+        AlertboxHelper notSuccessAlertboxHelper = new AlertboxHelper(LoginActivity.this, title, message, null, null, getResources().getString(R.string.ok), null, Color.BLUE);
+        notSuccessAlertboxHelper.showAlertBox();
     }
 }
