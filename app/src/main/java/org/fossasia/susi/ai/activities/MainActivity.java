@@ -475,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        locationHelper = new LocationHelper(MainActivity.this);
+        locationHelper = new LocationHelper(this.getApplicationContext());
         locationHelper.getLocation();
         getLocationFromLocationService();
     }
@@ -1433,7 +1433,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(
+        ConnectivityManager cm = (ConnectivityManager) this.getApplicationContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
