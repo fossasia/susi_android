@@ -32,6 +32,9 @@ public class Action {
     @SerializedName("zoom")
     @Expose
     private double zoom;
+    @SerializedName("count")
+    @Expose
+    private int count;
 
     public String getExpression() {
         return expression;
@@ -67,5 +70,9 @@ public class Action {
 
     public double getZoom() {
         return zoom;
+    }
+
+    public int getCount() {
+        return count;
     }
 }

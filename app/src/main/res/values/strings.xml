@@ -60,6 +60,7 @@
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
     <string name="tap_on_mic">Tap on mic to speak</string>
+    <string name="know_more">Know more</string>
 
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action!</string>
@@ -81,6 +82,7 @@
     <string name="share_items">Share</string>
     <string name="sample_website_description">Sample Text Extracted from a website</string>
     <string name="sample_website_headline">Website Sample Headline</string>
+    <string name="sample_website_link">Website Link</string>
     <string-array name="dialog_complete_action_items">
         <item>1. Gallery</item>
         <item>2. No Wallpaper</item>

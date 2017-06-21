@@ -19,12 +19,13 @@ public class ChatMessage extends RealmObject {
     private RealmList<WebSearchModel> webSearchList;
     private boolean isDelivered, isHavingLink, isDate, isMine;
     private double latitude, longitude, zoom;
+    private int count;
 
     public ChatMessage() {
         datumRealmList = new RealmList<>();
     }
 
-    public ChatMessage(long id, String content, String date, boolean isDate, boolean isMine, boolean isHavingLink, String timeStamp, RealmList<Datum> datumRealmList, String webquery) {
+    public ChatMessage(long id, String content, String date, boolean isDate, boolean isMine, boolean isHavingLink, String timeStamp, RealmList<Datum> datumRealmList, String webquery, int count) {
         this.id = id;
         this.content = content;
         this.date = date;
@@ -36,6 +37,7 @@ public class ChatMessage extends RealmObject {
         this.isMine = isMine;
         this.webLinkData = null;
         this.webSearchList = null;
+        this.count = count;
     }
 
     public RealmList<WebSearchModel> getWebSearchList() {
@@ -154,5 +156,13 @@ public class ChatMessage extends RealmObject {
 
     public void setZoom(double zoom) {
         this.zoom = zoom;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }
