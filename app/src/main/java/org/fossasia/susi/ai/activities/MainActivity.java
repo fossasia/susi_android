@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
         mapData = null;
         webSearch = "";
         isHavingLink = false;
+        answer = null;
 
         switch(actionType) {
             case Constant.ANCHOR :
