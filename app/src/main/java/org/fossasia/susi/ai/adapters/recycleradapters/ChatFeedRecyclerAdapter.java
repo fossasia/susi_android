@@ -113,7 +113,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private ActionMode actionMode;
     private SparseBooleanArray selectedItems;
     private AppCompatActivity currActivity;
-    private Toast toast;
     // For typing dots from Susi
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
