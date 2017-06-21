@@ -39,6 +39,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * <h1>The Login activity.</h1>
+ * <h2>This activity is used to login into the app.</h2>
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
@@ -57,8 +61,8 @@ public class LoginActivity extends AppCompatActivity {
     protected RadioButton personalServer;
     @BindView(R.id.input_url)
     protected TextInputLayout url;
-    private Set<String> savedEmails;
 
+    private Set<String> savedEmails;
     private Realm realm;
     private String alertTitle,alertMessage;
 
@@ -92,35 +96,50 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Show input edit text for custom url.
+     */
     @OnClick(R.id.personal_server)
     public void showURL() {
         url.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Hide input edit text for custom url.
+     */
     @OnClick(R.id.susi_default)
     public void hideURL() {
         url.setVisibility(View.GONE);
     }
 
+    /**
+     * Called when a user clicks on the sign up text view. Opens SignUpActivity
+     */
     @OnClick(R.id.sign_up)
     public void signUp() {
         Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Called when a user clicks on the forgot password text view. Opens ForgotPasswordActivity
+     */
     @OnClick(R.id.forgot_password)
     public void forgotPassword() {
         Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Called when a user clicks on the login text view.
+     */
     @OnClick(R.id.log_in)
     public void logIn() {
         if (CredentialHelper.checkIfEmpty(email, this) | CredentialHelper.checkIfEmpty(password, this)) {
             return;
         }
         if (!CredentialHelper.isEmailValid(email.getEditText().getText().toString())) {
-            InvalidAcess();
+            InvalidAccess();
             return;
         }
         if(personalServer.isChecked()) {
@@ -210,7 +229,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void InvalidAcess(){
+    /**
+     * To check if the email and password entered by user are correct.
+     */
+    public void InvalidAccess(){
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setTitle(R.string.email_invalid_title);
         builder.setMessage(R.string.email_invalid)
@@ -222,6 +244,12 @@ public class LoginActivity extends AppCompatActivity {
         ok.setTextColor(Color.RED);
     }
 
+    /**
+     * On editor action boolean.
+     *
+     * @param actionId the action id
+     * @return the boolean
+     */
     @OnEditorAction(R.id.password_input)
     public boolean onEditorAction(int actionId) {
         boolean handled = false;
@@ -240,6 +268,12 @@ public class LoginActivity extends AppCompatActivity {
         outState.putBoolean(Constant.SERVER,personalServer.isChecked());
     }
 
+    /**
+     * Displays an alert dialog box in case of unsuccessful login.
+     *
+     * @param title   the title
+     * @param message the message
+     */
     public void alertNotSuccess(String title,String message) {
         AlertboxHelper notSuccessAlertboxHelper = new AlertboxHelper(LoginActivity.this, title, message, null, null, getResources().getString(R.string.ok), null, Color.BLUE);
         notSuccessAlertboxHelper.showAlertBox();

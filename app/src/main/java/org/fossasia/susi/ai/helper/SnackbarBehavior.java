@@ -8,11 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ * <h1>Helper class for snackbar behaviour.</h1>
+ *
  * Created by rajdeep1008 on 17/10/16.
  */
-
 public class SnackbarBehavior extends CoordinatorLayout.Behavior<ViewGroup>{
 
+    /**
+     * Instantiates a new Snackbar behavior.
+     *
+     * @param context the context
+     * @param attrs   the attrs
+     */
     public SnackbarBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

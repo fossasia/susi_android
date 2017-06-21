@@ -12,9 +12,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * <h1>Link preview view holder</h1>
+ *
  * Created by better_clever on 12/10/16.
  */
-
 public class LinkPreviewViewHolder extends MessageViewHolder{
 
     @BindView(R.id.text)
@@ -34,6 +35,12 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     @Nullable @BindView(R.id.received_tick)
     public ImageView receivedTick;
 
+    /**
+     * Instantiates a new Link preview view holder.
+     *
+     * @param itemView the item view
+     * @param listener the listener
+     */
     public LinkPreviewViewHolder(View itemView , ClickListener listener) {
         super(itemView, listener);
         ButterKnife.bind(this,itemView);

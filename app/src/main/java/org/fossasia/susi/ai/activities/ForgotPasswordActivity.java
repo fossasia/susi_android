@@ -28,6 +28,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * <h1>The Forgot password activity.</h1>
+ * <h2>This activity is used in case user forgets his/her password and wants to recover it.</h2>
+ */
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.forgot_email)
@@ -42,7 +46,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected TextInputLayout url;
 
     private String alertTitle,alertMessage;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,16 +77,25 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Show input edit text for custom url.
+     */
     @OnClick(R.id.personal_server)
     public void showURL() {
         url.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Hide input edit text for custom url.
+     */
     @OnClick(R.id.susi_default)
     public void hideURL() {
         url.setVisibility(View.GONE);
     }
 
+    /**
+     * Called when a user clicks on the reset up button
+     */
     @OnClick(R.id.reset_button)
     public void signUp() {
         if (CredentialHelper.checkIfEmpty(email, this)) {
@@ -168,6 +181,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         outState.putBoolean(Constant.SERVER,personalServer.isChecked());
     }
 
+    /**
+     * Displays an alert dialog box in case of successful reset of password.
+     *
+     * @param response the response from server
+     */
     public void alertSuccess(Response<ForgotPasswordResponse> response) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -183,6 +201,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         successAlertboxHelper.showAlertBox();
     }
 
+    /**
+     * Displays an alert dialog box in case of unsuccessful reset of password.
+     *
+     * @param title              the title of dialog box
+     * @param message            the body of dialog box
+     * @param positiveButtonText the positive button text
+     * @param colour             the colour of buttons
+     */
     public void alertNotSuccess(String title,String message,String positiveButtonText,int colour) {
         AlertboxHelper notSuccessAlertboxHelper = new AlertboxHelper(ForgotPasswordActivity.this, title, message, null, null, positiveButtonText, null, colour);
         notSuccessAlertboxHelper.showAlertBox();

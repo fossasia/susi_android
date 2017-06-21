@@ -15,9 +15,10 @@ import android.support.v4.app.ActivityCompat;
 import java.lang.ref.WeakReference;
 
 /**
+ * <h1>Helper class to get location of using network and GPS.</h1>
+ *
  * Created by chiragw15 on 10/12/16.
  */
-
 public class LocationHelper extends Service implements LocationListener {
 
     private boolean canGetLocation = false;
@@ -29,10 +30,18 @@ public class LocationHelper extends Service implements LocationListener {
 
     protected LocationManager locationManager;
 
+    /**
+     * Instantiates a new Location helper.
+     *
+     * @param context the context
+     */
     public LocationHelper(Context context) {
         weakContext = new WeakReference<Context>(context);
     }
 
+    /**
+     * Gets location.
+     */
     public void getLocation() {
         Context mContext = weakContext.get();
         Location location;
@@ -73,22 +82,45 @@ public class LocationHelper extends Service implements LocationListener {
         }
     }
 
+    /**
+     * Gets latitude.
+     *
+     * @return the latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * Gets longitude.
+     *
+     * @return the longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * Gets source.
+     *
+     * @return the source
+     */
     public String getSource() {
         return source;
     }
 
+    /**
+     * Can get location boolean.
+     *
+     * @return the boolean
+     */
     public boolean canGetLocation() {
         return canGetLocation;
     }
 
+    /**
+     * Remove listener.
+     */
     public void removeListener() {
         Context mContext = weakContext.get();
         if (mContext != null && locationManager != null) {

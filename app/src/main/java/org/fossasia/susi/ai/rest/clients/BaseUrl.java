@@ -8,9 +8,10 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
 /**
+ * <h1>Class to get Base URLs of susi/custom server.</h1>
+ *
  * Created by Rajan Maurya on 12/10/16.
  */
-
 public class BaseUrl {
 
     public static final String PROTOCOL_HTTP = "http://";
@@ -23,6 +24,8 @@ public class BaseUrl {
      * lies between the 0 to size() of base urls and just pick the next one base url and set in
      * SharedPreferences and if current base url is the last url in BaseUrl list then just pick
      * the first one base url and set in SharedPreferences.
+     *
+     * @param t the throwable
      */
     public static void updateBaseUrl(Throwable t) {
         SusiBaseUrls baseUrls = PrefManager.getBaseUrls();

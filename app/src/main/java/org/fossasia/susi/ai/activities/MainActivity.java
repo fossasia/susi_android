@@ -104,11 +104,17 @@ import retrofit2.Response;
 
 import static android.media.AudioManager.AUDIOFOCUS_LOSS_TRANSIENT;
 
+/**
+ * <h1>The Main activity.</h1>
+ * <h2>This activity is the main activity of the app. Almost everything is present here.</h2>
+ */
 public class MainActivity extends AppCompatActivity {
+
     public static String TAG = MainActivity.class.getName();
     private final int SELECT_PICTURE = 200;
     private final int CROP_PICTURE = 400;
     private boolean isEnabled = true;
+
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
@@ -158,6 +164,9 @@ public class MainActivity extends AppCompatActivity {
     private String source = "ip";
     private int count;
 
+    /**
+     * Audio manager listener used for Text to Speech.
+     */
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
                 public void onAudioFocusChange(int focusChange) {
@@ -171,6 +180,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
 
+    /**
+     * Text watcher to watch changing of text in input edit text.
+     */
     TextWatcher watch = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -220,6 +232,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Hide the views and buttons used for voice input.
+     */
     private void hideVoiceInput() {
         voiceInputText.setText("");
         voiceInputText.setVisibility(View.GONE);
@@ -230,6 +245,9 @@ public class MainActivity extends AppCompatActivity {
         btnSpeak.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Display the views and buttons used for voice input.
+     */
     private void displayVoiceInput() {
         voiceDots.setVisibility(View.VISIBLE);
         voiceInputText.setVisibility(View.VISIBLE);
@@ -238,6 +256,9 @@ public class MainActivity extends AppCompatActivity {
         btnSpeak.setVisibility(View.GONE);
     }
 
+    /**
+     * Method to cancel speech input.
+     */
     @OnClick(R.id.cancel)
     public void cancelSpeechInput() {
         if(recognizer != null) {
@@ -248,6 +269,12 @@ public class MainActivity extends AppCompatActivity {
         hideVoiceInput();
     }
 
+    /**
+     * Extract urls from the answer.
+     *
+     * @param text the text
+     * @return the list
+     */
     public static List<String> extractUrls(String text) {
         List<String> links = new ArrayList<>();
         Matcher m = Patterns.WEB_URL.matcher(text);
@@ -258,18 +285,39 @@ public class MainActivity extends AppCompatActivity {
         return links;
     }
 
+    /**
+     * Check speech output pref boolean.
+     *
+     * @return the boolean
+     */
     public static boolean checkSpeechOutputPref() {
         return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
     }
 
+    /**
+     * Check speech always pref boolean.
+     *
+     * @return the boolean
+     */
     public static boolean checkSpeechAlwaysPref() {
         return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
     }
 
+    /**
+     * Check mic input boolean.
+     *
+     * @return the boolean
+     */
     public boolean checkMicInput() {
         return micCheck = MediaUtil.isAvailableForVoiceInput(MainActivity.this);
     }
 
+    /**
+     * Method is used to parse susi response and find out the action type to display.
+     *
+     * @param susiResponse Response from susi server
+     * @param i Index of action type
+     */
     private void parseSusiResponse(SusiResponse susiResponse, int i) {
 
         actionType = susiResponse.getAnswers().get(0).getActions().get(i).getType();
@@ -344,6 +392,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method used to retrieve all old messages of the user.
+     */
     private void getOldMessages() {
         if (isNetworkConnected()) {
             Call<MemoryResponse> call = clientBuilder.getSusiApi().getChatHistory();
@@ -414,6 +465,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method used to call getOldMessages() method in a separate thread and display a progress bar.
+     */
     private void retrieveOldMessages() {
         progressDialog = new ProgressDialog(MainActivity.this);
         progressDialog.setCancelable(false);
@@ -482,6 +536,9 @@ public class MainActivity extends AppCompatActivity {
         getLocationFromLocationService();
     }
 
+    /**
+     * Method to initiate Text To Speech.
+     */
     private void compensateTTSDelay() {
         new Handler().post(new Runnable() {
             @Override
@@ -499,6 +556,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to prompt Speech input from user.
+     */
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
@@ -649,11 +709,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Write to temp image uri.
+     *
+     * @param inContext the in context
+     * @param inImage   the in image
+     * @return the uri
+     */
     public static Uri writeToTempImage(Context inContext, Bitmap inImage) {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
 
+    /**
+     * Gets image url.
+     *
+     * @param context the context
+     * @param uri     the uri
+     * @return the image url
+     */
     public static Uri getImageUrl(Context context, Uri uri) {
         InputStream is = null;
         if (uri.getAuthority() != null) {
@@ -674,6 +748,9 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * Initiating method of the main activity.
+     */
     private void init() {
         ButterKnife.bind(this);
         fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
@@ -738,6 +815,9 @@ public class MainActivity extends AppCompatActivity {
         setChatBackground();
     }
 
+    /**
+     * Gets location from public ip address of user
+     */
     public void getLocationFromIP() {
         final LocationService locationService =
                 LocationClient.getClient().create(LocationService.class);
@@ -765,6 +845,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gets location from location service.
+     */
     public void getLocationFromLocationService() {
         if (locationHelper.canGetLocation()) {
             latitude = locationHelper.getLatitude();
@@ -809,6 +892,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method to reply user with Voice. Converts Text to Speech
+     *
+     * @param reply String to reply
+     * @param isHavingLink boolean to check if answer has links
+     */
     private void voiceReply(final String reply, final boolean isHavingLink) {
         if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -839,6 +928,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Chat background activity. Sets background image to main activity.
+     */
     protected void chatBackgroundActivity() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.dialog_action_complete);
@@ -861,6 +953,11 @@ public class MainActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * Crop captured image.
+     *
+     * @param picUri the pic uri
+     */
     public void cropCapturedImage(Uri picUri) {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(picUri, "image/*");
@@ -873,6 +970,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(cropIntent, CROP_PICTURE);
     }
 
+    /**
+     * Sets chat background.
+     */
     public void setChatBackground() {
         String previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "");
         Drawable bg;
@@ -893,6 +993,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Check enter key preference
+     */
     private void checkEnterKeyPref() {
         micCheck = PrefManager.getBoolean(Constant.MIC_INPUT, true);
         if (micCheck) {
@@ -938,6 +1041,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Set up adapter for the recycler view of the main activity.
+     */
     private void setupAdapter() {
         RealmResults<ChatMessage> chatMessageDatabaseList;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -965,8 +1071,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method used to send user message to server for response.
+     *
+     * @param query String query to send to server.
+     * @param actual String query which user typed
+     */
     private void sendMessage(String query, String actual) {
-
         boolean isHavingLink;
         List<String> urlList = extractUrls(query);
         Log.d(TAG, urlList.toString());
@@ -989,6 +1100,9 @@ public class MainActivity extends AppCompatActivity {
         new computeThread().start();
     }
 
+    /**
+     * The method which recieves susi response, parses it and prompts voice output.
+     */
     private synchronized void computeOtherMessage() {
         final String query;
         final long id;
@@ -1078,6 +1192,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the values in database. Adds new messages, both susi's and user's.
+     *
+     * @param prevId It is used to store id of user message corresponding to susi reply.
+     * @param message Stores the message string.
+     * @param isDate boolean to check if message is date.
+     * @param date String to store date.
+     * @param timeStamp String to store time.
+     * @param mine boolean to check if message is from user or susi.
+     * @param actionType String to store action type of user message.
+     * @param mapData Object of MapData Class to store latitude, longitude and zoom.
+     * @param isHavingLink boolean to check if message has link.
+     * @param datumList Object of DatumList class to store data for RSS and Piechart.
+     */
     private void updateDatabase(final long prevId, final String message, final boolean isDate, final String date, final String timeStamp , final boolean mine,
                                 final String actionType, final MapData mapData, final boolean isHavingLink,
                                 final List<Datum> datumList, final int count) {
@@ -1259,12 +1387,22 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Method to search text in messages. Searches text, scrolls to that text and highlights it.
+     *
+     * @param position int to which scroll and highlighting needs to be done
+     */
     private void searchMovement(int position) {
         rvChatFeed.scrollToPosition(position);
         recyclerAdapter.highlightMessagePosition = position;
         recyclerAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Method to modify menu
+     *
+     * @param show boolean to decide if to show view or not.
+     */
     private void modifyMenu(boolean show) {
         menu.findItem(R.id.up_angle).setVisible(show);
         menu.findItem(R.id.down_angle).setVisible(show);
@@ -1439,20 +1577,38 @@ public class MainActivity extends AppCompatActivity {
         realm.close();
     }
 
+    /**
+     * Method to check if user's mobile is connected to internet.
+     *
+     * @return boolean
+     */
     private boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) this.getApplicationContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
 
+    /**
+     * Methid to show toast
+     *
+     * @param message
+     */
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Scroll to end.
+     *
+     * @param view the view
+     */
     public void scrollToEnd(View view) {
         rvChatFeed.smoothScrollToPosition(rvChatFeed.getAdapter().getItemCount() - 1);
     }
 
+    /**
+     * Initiating a new thread to compute messages.
+     */
     private class computeThread extends Thread {
         public void run() {
             computeOtherMessage();

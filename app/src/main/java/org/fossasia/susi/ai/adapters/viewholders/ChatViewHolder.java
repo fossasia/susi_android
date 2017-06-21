@@ -17,12 +17,13 @@ import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAda
 import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_MESSAGE;
 
 /**
+ * <h1>Chat view holder</h1>
+ *
  * Created by
  * --Vatsal Bajpai on
  * --25/09/16 at
  * --9:51 PM
  */
-
 public class ChatViewHolder extends MessageViewHolder{
 
     @BindView(R.id.text)
@@ -34,6 +35,13 @@ public class ChatViewHolder extends MessageViewHolder{
     @Nullable @BindView(R.id.received_tick)
     public ImageView receivedTick;
 
+    /**
+     * Instantiates a new Chat view holder.
+     *
+     * @param view          the view
+     * @param clickListener the click listener
+     * @param myMessage     the my message
+     */
     public ChatViewHolder(View view, ClickListener clickListener ,int myMessage) {
         super(view,clickListener);
         ButterKnife.bind(this, view);
