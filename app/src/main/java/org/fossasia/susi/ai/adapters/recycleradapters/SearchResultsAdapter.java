@@ -1,14 +1,21 @@
 package org.fossasia.susi.ai.adapters.recycleradapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
@@ -21,6 +28,8 @@ import org.fossasia.susi.ai.rest.responses.susi.Datum;
 
 import java.util.List;
 
+import io.realm.Realm;
+
 /**
  * Created by saurabh on 19/11/16.
  */
@@ -30,11 +39,13 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
     private LayoutInflater inflater;
     private Context context;
     private List<Datum> datumList;
+    private Realm realm;
 
     public SearchResultsAdapter(Context context, List<Datum> datumList) {
         this.context = context;
         this.datumList = datumList;
         inflater = LayoutInflater.from(context);
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -87,6 +98,36 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
                             }
                         });
 
+                        holder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                Log.d(TAG, "onLongClick: Clicked");
+                                AlertDialog.Builder d = new AlertDialog.Builder(context);
+                                d.setMessage("Delete message?").
+                                        setCancelable(false).
+                                        setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                clear();
+                                                Toast.makeText(context, R.string.message_deleted, Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                AlertDialog alert = d.create();
+                                alert.show();
+                                Button cancel = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                                cancel.setTextColor(Color.BLUE);
+                                Button delete = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                                delete.setTextColor(Color.RED);
+                                return false;
+                            }
+                        });
+
                     }
                 };
                 TextCrawler textCrawler = new TextCrawler();
@@ -101,5 +142,16 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<SearchResultHolde
     @Override
     public int getItemCount() {
         return datumList == null ? 0 : datumList.size();
+    }
+
+    private void clear() {
+        int size = this.datumList.size();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                datumList.clear();
+            }
+        });
+        notifyItemRangeRemoved(0, size);
     }
 }
