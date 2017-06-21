@@ -1174,6 +1174,7 @@ public class MainActivity extends AppCompatActivity {
 
 //      TODO: Create Preference Pane and Enable Options Menu
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        final EditText editText = (EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1230,6 +1231,9 @@ public class MainActivity extends AppCompatActivity {
                     modifyMenu(false);
                     recyclerAdapter.highlightMessagePosition = -1;
                     recyclerAdapter.notifyDataSetChanged();
+                    if(!editText.isFocused()) {
+                        editText.requestFocus();
+                    }
                 } else {
                     ChatMessage.setVisibility(View.GONE);
                     btnSpeak.setVisibility(View.GONE);
