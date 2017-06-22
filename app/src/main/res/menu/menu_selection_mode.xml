@@ -7,11 +7,6 @@
         android:icon="@drawable/ic_content_copy_white_24dp"
         android:title="@string/copy_items" />
 
-    <item android:id="@+id/menu_item_delete"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_delete_white_24dp"
-        android:title="@string/delete_items" />
-
     <item android:id="@+id/menu_item_share"
         app:showAsAction="always"
         android:icon="@drawable/ic_share_white_24dp"
