@@ -243,6 +243,7 @@ public class MainActivity extends AppCompatActivity {
         voiceDots.setVisibility(View.GONE);
         ChatMessage.setVisibility(View.VISIBLE);
         btnSpeak.setVisibility(View.VISIBLE);
+        ChatMessage.requestFocus();
     }
 
     /**
@@ -1568,6 +1569,9 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
         checkEnterKeyPref();
+        if((ChatMessage.getText().toString().length())>0) {
+            btnSpeak.setImageResource(R.drawable.ic_send_fab);
+        }
     }
 
     @Override
