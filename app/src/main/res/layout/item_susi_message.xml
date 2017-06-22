@@ -32,9 +32,6 @@
                 android:text="@string/hello_world"
                 android:textColor="@color/message_text_color"
                 android:textSize="@dimen/message_text_size"
-                android:clickable="true"
-                android:linksClickable="true"
-                android:longClickable="true"
                 android:textColorLink="@color/link_text"/>
 
             <LinearLayout
