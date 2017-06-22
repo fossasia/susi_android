@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.adapters.recycleradapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -29,7 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.data.Entry;
@@ -56,7 +53,6 @@ import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.ConstraintsHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
-import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.model.MapData;
 import org.fossasia.susi.ai.model.WebLink;
@@ -602,19 +598,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     }
                 });
 
-                mapViewHolder.mapImage.setOnLongClickListener(new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        if (actionMode == null) {
-                            actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
-                        }
-
-                        toggleSelectedItem(position);
-
-                        return true;
-                    }
-                });
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -889,59 +872,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     }
 
     /**
-     * Method to delete message
-     *
-     * @param position position of message to be deleted
-     */
-    private void deleteMessage(final int position) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                getData().deleteFromRealm(position);
-                Number temp = realm.where(ChatMessage.class).max("id");
-                if (temp == null) {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
-                } else {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
-                }
-            }
-        });
-    }
-
-    /**
-     * Method to delete date views
-     */
-    private void removeDates(){
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmResults<ChatMessage> AllDates = realm.where(ChatMessage.class).equalTo("isDate",true).findAll().sort("id");
-
-                int dateIndexFirst = getData().indexOf(AllDates.get(0));
-
-                for(int i = 1 ; i < AllDates.size() ; i++ ){
-                    int dateIndexSecond = getData().indexOf(AllDates.get(i));
-                    if(dateIndexSecond == dateIndexFirst + 1) {
-                        getData().deleteFromRealm(dateIndexFirst);
-                        dateIndexSecond--;
-                    }
-                    dateIndexFirst = dateIndexSecond;
-                }
-
-                if(dateIndexFirst == getData().size() - 1 && getData().size()>0 ){
-                    getData().deleteFromRealm(dateIndexFirst);
-                }
-                Number temp = realm.where(ChatMessage.class).max("id");
-                if (temp == null) {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
-                } else {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
-                }
-            }
-        });
-    }
-
-    /**
      * Scroll to bottom
      */
     private void scrollToBottom() {
@@ -1039,63 +969,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             int nSelected;
 
             switch (item.getItemId()) {
-                case R.id.menu_item_delete:
-                    AlertDialog.Builder d = new AlertDialog.Builder(context);
-                    if (getSelectedItems().size() == 1){
-                        d.setMessage("Delete message?").
-                                setCancelable(false).
-                                setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
-                                            deleteMessage(getSelectedItems().get(i));
-                                        }
-                                        removeDates();
-                                        toast = Toast.makeText(recyclerView.getContext() , R.string.message_deleted , Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                        toast.show();
-                                        actionMode.finish();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                    } else {
-                        d.setMessage("Delete " + getSelectedItems().size() + " messages?").
-                                setCancelable(false).
-                                setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
-                                            deleteMessage(getSelectedItems().get(i));
-                                        }
-                                        removeDates();
-                                        toast = Toast.makeText(recyclerView.getContext() ,getSelectedItems().size() + " Messages deleted", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                        toast.show();
-                                        actionMode.finish();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                    }
-
-                    AlertDialog alert = d.create();
-                    alert.show();
-                    Button cancel = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-                    cancel.setTextColor(Color.BLUE);
-                    Button delete = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    delete.setTextColor(Color.RED);
-                    return true;
 
                 case R.id.menu_item_copy:
                     nSelected = getSelectedItems().size();
