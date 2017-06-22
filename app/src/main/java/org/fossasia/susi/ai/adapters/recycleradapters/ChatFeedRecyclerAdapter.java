@@ -18,6 +18,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
@@ -515,6 +516,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         }
 
                         chatViewHolder.chatTextView.setText(answerText);
+                        chatViewHolder.chatTextView.setMovementMethod(LinkMovementMethod.getInstance());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
