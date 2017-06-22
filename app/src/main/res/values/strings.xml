@@ -40,7 +40,6 @@
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
-    <string name="message_deleted">Message deleted</string>
     <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
@@ -77,7 +76,6 @@
     <string name="pass_validation_text">Enter a combination of at least six characters</string>
     <string name="log_in">Log in</string>
     <string name="field_cannot_be_empty">This field cannot be empty</string>
-    <string name="delete_items">Delete</string>
     <string name="copy_items">Copy</string>
     <string name="share_items">Share</string>
     <string name="sample_website_description">Sample Text Extracted from a website</string>
