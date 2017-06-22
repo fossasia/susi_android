@@ -815,51 +815,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         clipboard.setPrimaryClip(clip);
     }
 
-    private void deleteMessage(final int position) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                getData().deleteFromRealm(position);
-                Number temp = realm.where(ChatMessage.class).max("id");
-                if (temp == null) {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
-                } else {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
-                }
-            }
-        });
-    }
-
-    private void removeDates(){
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmResults<ChatMessage> AllDates = realm.where(ChatMessage.class).equalTo("isDate",true).findAll().sort("id");
-
-                int dateIndexFirst = getData().indexOf(AllDates.get(0));
-
-                for(int i = 1 ; i < AllDates.size() ; i++ ){
-                    int dateIndexSecond = getData().indexOf(AllDates.get(i));
-                    if(dateIndexSecond == dateIndexFirst + 1) {
-                        getData().deleteFromRealm(dateIndexFirst);
-                        dateIndexSecond--;
-                    }
-                    dateIndexFirst = dateIndexSecond;
-                }
-
-                if(dateIndexFirst == getData().size() - 1 && getData().size()>0 ){
-                    getData().deleteFromRealm(dateIndexFirst);
-                }
-                Number temp = realm.where(ChatMessage.class).max("id");
-                if (temp == null) {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
-                } else {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
-                }
-            }
-        });
-    }
-
     private void scrollToBottom() {
         if (getData() != null && !getData().isEmpty() && recyclerView != null) {
             recyclerView.smoothScrollToPosition(getItemCount() - 1);
@@ -947,64 +902,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             int nSelected;
 
             switch (item.getItemId()) {
-                case R.id.menu_item_delete:
-                    AlertDialog.Builder d = new AlertDialog.Builder(context);
-                    if (getSelectedItems().size() == 1){
-                        d.setMessage("Delete message?").
-                                setCancelable(false).
-                                setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
-                                            deleteMessage(getSelectedItems().get(i));
-                                        }
-                                        removeDates();
-                                        toast = Toast.makeText(recyclerView.getContext() , R.string.message_deleted , Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                        toast.show();
-                                        actionMode.finish();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                    } else {
-                        d.setMessage("Delete " + getSelectedItems().size() + " messages?").
-                                setCancelable(false).
-                                setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-
-                                        for (int i = getSelectedItems().size() - 1; i >= 0; i--) {
-                                            deleteMessage(getSelectedItems().get(i));
-                                        }
-                                        removeDates();
-                                        toast = Toast.makeText(recyclerView.getContext() ,getSelectedItems().size() + " Messages deleted", Toast.LENGTH_LONG);
-                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                        toast.show();
-                                        actionMode.finish();
-                                    }
-                                })
-                                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                    }
-
-                    AlertDialog alert = d.create();
-                    alert.show();
-                    Button cancel = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-                    cancel.setTextColor(Color.BLUE);
-                    Button delete = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                    delete.setTextColor(Color.RED);
-                    return true;
-
                 case R.id.menu_item_copy:
                     nSelected = getSelectedItems().size();
                     if (nSelected == 1) {
