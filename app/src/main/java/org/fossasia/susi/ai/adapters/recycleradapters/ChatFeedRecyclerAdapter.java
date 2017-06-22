@@ -54,6 +54,7 @@ import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.Constant;
+import org.fossasia.susi.ai.helper.ConstraintsHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.model.ChatMessage;
@@ -402,9 +403,11 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                 }
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
                                         LinearLayoutManager.HORIZONTAL, false);
+
                                 searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
                                 WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, searchResults);
                                 searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
+                                searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                                 model.setWebSearchList(searchResults);
                                 realm.copyToRealmOrUpdate(model);
                                 realm.commitTransaction();
@@ -424,6 +427,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             LinearLayoutManager.HORIZONTAL, false);
                     searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
                     WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, model.getWebSearchList());
+                    searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                     searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
                 }
 
@@ -436,11 +440,13 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
                         LinearLayoutManager.HORIZONTAL, false);
                 searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
+                searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 SearchResultsAdapter resultsAdapter;
                 List<Datum> data = new ArrayList<>();
                 int count = model.getCount();
                 if(count == -1) {
                     resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
+
                 } else {
                     for (int i=0;i<count;i++) {
                         data.add(model.getDatumRealmList().get(i));
