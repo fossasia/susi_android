@@ -713,7 +713,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 List<String> urlList = extractLinks(model.getContent());
                 StringBuilder url = new StringBuilder(urlList.get(0));
                 StringBuilder http = new StringBuilder("http://");
-                if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(http.toString()))) {
+                StringBuilder https = new StringBuilder("https://");
+                if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(https.toString()))) {
                     url = http.append(url.toString());
                 }
                 TextCrawler textCrawler = new TextCrawler();
