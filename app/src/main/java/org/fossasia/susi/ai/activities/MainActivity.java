@@ -58,7 +58,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
@@ -157,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
     private double latitude = 0;
     private double longitude = 0;
     private String source = "ip";
+    private int count;
 
     private AudioManager.OnAudioFocusChangeListener afChangeListener =
             new AudioManager.OnAudioFocusChangeListener() {
@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
         mapData = null;
         webSearch = "";
         isHavingLink = false;
+        answer = null;
 
         switch(actionType) {
             case Constant.ANCHOR :
@@ -324,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
             case Constant.RSS :
                 try {
                     datumList = susiResponse.getAnswers().get(0).getData();
+                    count = susiResponse.getAnswers().get(0).getActions().get(i).getCount();
                 } catch (Exception e) {
                     datumList = null;
                 }
@@ -367,23 +369,23 @@ public class MainActivity extends AppCompatActivity {
                                 newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
 
                                 if (newMessageIndex == 0) {
-                                    updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null);
+                                    updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null,0);
                                 } else {
                                     String prevDate = DateTimeHelper.getDate(allMessages.get(i+1).getQueryDate());
 
                                     if (!DateTimeHelper.getDate(queryDate).equals(prevDate)) {
-                                        updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null);
+                                        updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null,0);
                                     }
                                 }
 
                                 c = newMessageIndex;
-                                updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), true, null, null, isHavingLink, null);
+                                updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), true, null, null, isHavingLink, null,0);
 
                                 int actionSize = allMessages.get(i).getAnswers().get(0).getActions().size();
 
                                 for(int j=0 ; j<actionSize ; j++) {
                                     parseSusiResponse(allMessages.get(i),j);
-                                    updateDatabase(c, answer, false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList);
+                                    updateDatabase(c, answer, false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList,count);
                                 }
                             }
                         }
@@ -475,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        locationHelper = new LocationHelper(MainActivity.this);
+        locationHelper = new LocationHelper(this.getApplicationContext());
         locationHelper.getLocation();
         getLocationFromLocationService();
     }
@@ -943,7 +945,7 @@ public class MainActivity extends AppCompatActivity {
         rvChatFeed.setLayoutManager(linearLayoutManager);
         rvChatFeed.setHasFixedSize(false);
         chatMessageDatabaseList = realm.where(ChatMessage.class).findAllSorted("id");
-        recyclerAdapter = new ChatFeedRecyclerAdapter(Glide.with(this), this, chatMessageDatabaseList, true);
+        recyclerAdapter = new ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true);
         rvChatFeed.setAdapter(recyclerAdapter);
         rvChatFeed.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -974,15 +976,15 @@ public class MainActivity extends AppCompatActivity {
         newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
 
         if (newMessageIndex == 0) {
-            updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null);
+            updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null,0);
         } else {
             String s = realm.where(ChatMessage.class).equalTo("id", newMessageIndex - 1).findFirst().getDate();
             if (!DateTimeHelper.getDate().equals(s)) {
-                updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null);
+                updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null,0);
             }
         }
         nonDeliveredMessages.add(new Pair(query, newMessageIndex));
-        updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), true, null, null, isHavingLink, null);
+        updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), true, null, null, isHavingLink, null,0);
         getLocationFromLocationService();
         new computeThread().start();
     }
@@ -1025,7 +1027,7 @@ public class MainActivity extends AppCompatActivity {
                                                 final String setMessage = answer;
                                                 if(actionType.equals(Constant.ANSWER))
                                                     voiceReply(setMessage, isHavingLink);
-                                                updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date), DateTimeHelper.getTime(date), false, actionType, mapData, isHavingLink, datumList);
+                                                updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date), DateTimeHelper.getTime(date), false, actionType, mapData, isHavingLink, datumList,count);
                                             }
                                         }, delay);
                                     }
@@ -1038,7 +1040,7 @@ public class MainActivity extends AppCompatActivity {
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     } else {
-                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList);
+                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList,count);
                                     }
                                     recyclerAdapter.hideDots();
                                 }
@@ -1061,7 +1063,7 @@ public class MainActivity extends AppCompatActivity {
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 } else {
-                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList);
+                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList,count);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -1078,7 +1080,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateDatabase(final long prevId, final String message, final boolean isDate, final String date, final String timeStamp , final boolean mine,
                                 final String actionType, final MapData mapData, final boolean isHavingLink,
-                                final List<Datum> datumList) {
+                                final List<Datum> datumList, final int count) {
         final long id = newMessageIndex;
         newMessageIndex++;
         PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex);
@@ -1115,6 +1117,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         chatMessage.setDatumRealmList(datumRealmList);
                     }
+                    chatMessage.setCount(count);
                 }
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -1171,6 +1174,7 @@ public class MainActivity extends AppCompatActivity {
 
 //      TODO: Create Preference Pane and Enable Options Menu
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        final EditText editText = (EditText)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1227,6 +1231,9 @@ public class MainActivity extends AppCompatActivity {
                     modifyMenu(false);
                     recyclerAdapter.highlightMessagePosition = -1;
                     recyclerAdapter.notifyDataSetChanged();
+                    if(!editText.isFocused()) {
+                        editText.requestFocus();
+                    }
                 } else {
                     ChatMessage.setVisibility(View.GONE);
                     btnSpeak.setVisibility(View.GONE);
@@ -1433,7 +1440,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(
+        ConnectivityManager cm = (ConnectivityManager) this.getApplicationContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null;
     }
