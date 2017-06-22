@@ -16,6 +16,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.util.Patterns;
@@ -76,13 +77,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * <h1>Main adapter to display chat feed as a recycler view.</h1>
+ *
  * Created by
  * --Vatsal Bajpai on
  * --25/09/16 at
  * --9:49 PM
  */
-
 public class ChatFeedRecyclerAdapter extends SelectableAdapter implements MessageViewHolder.ClickListener {
+
     public static final int USER_MESSAGE = 0;
     public static final int SUSI_MESSAGE = 1;
     public static final int USER_IMAGE = 2;
@@ -114,6 +117,13 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private ZeroHeightHolder nullHolder;
     private boolean isSusiTyping = false;
 
+    /**
+     * Instantiates a new Chat feed recycler adapter.
+     *
+     * @param context    the context
+     * @param data       the data
+     * @param autoUpdate the auto update
+     */
     public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context, data, autoUpdate);
         this.clickListener = this;
@@ -144,6 +154,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         nullHolder = new ZeroHeightHolder(view1);
     }
 
+    /**
+     * Extract links from text
+     *
+     * @param text String text
+     * @return List of urls
+     */
     private static List<String> extractLinks(String text) {
         List<String> links = new ArrayList<>();
         Matcher m = Patterns.WEB_URL.matcher(text);
@@ -154,9 +170,16 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         return links;
     }
 
+    /**
+     * Show dots while susi is typing.
+     */
     public void showDots() {
         isSusiTyping = true;
     }
+
+    /**
+     * Hide dots when susi is not typing.
+     */
     public void hideDots() {
         isSusiTyping = false;
     }
@@ -302,10 +325,23 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
+    /**
+     * Method to handle date views
+     *
+     * @param dateViewHolder DateViewHolder
+     * @param position position of view
+     */
     private void handleItemEvents(DateViewHolder dateViewHolder, int position){
         dateViewHolder.textDate.setText(getData().get(position).getDate());
     }
 
+    /**
+     * Method to handle Search Results holder for websearch and rss
+     *
+     * @param searchResultsListHolder Search result list holder
+     * @param position position of view
+     * @param isClientSearch boolean to check if action type is websearch or rss
+     */
     private void handleItemEvents(final SearchResultsListHolder searchResultsListHolder,final int position, boolean isClientSearch) {
         searchResultsListHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         final ChatMessage model = getData().get(position);
@@ -428,6 +464,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
     }
 
+    /**
+     * Method to handle text messages both of user's and susi's
+     *
+     * @param chatViewHolder Chat view holder
+     * @param position position of view
+     */
     private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
 
@@ -469,6 +511,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         }
 
                         chatViewHolder.chatTextView.setText(answerText);
+                        chatViewHolder.chatTextView.setMovementMethod(LinkMovementMethod.getInstance());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
@@ -496,6 +539,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
+    /**
+     * Method to handle Map view holder for map action type
+     *
+     * @param mapViewHolder Map view holder
+     * @param position position of view
+     */
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
         mapViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
@@ -548,6 +597,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
+    /**
+     * Method to handle Link preview holder and fetching data from link.
+     *
+     * @param linkPreviewViewHolder Link preview view holder
+     * @param position position of view
+     */
     private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
         linkPreviewViewHolder.text.setText(model.getContent());
@@ -649,12 +704,13 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             if (model != null) {
                 List<String> urlList = extractLinks(model.getContent());
-                String url = urlList.get(0);
-                if (!(url.startsWith("http://") || url.startsWith("https://"))) {
-                    url = "http://" + url;
+                StringBuilder url = new StringBuilder(urlList.get(0));
+                StringBuilder http = new StringBuilder("http://");
+                if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(http.toString()))) {
+                    url = http.append(url.toString());
                 }
                 TextCrawler textCrawler = new TextCrawler();
-                textCrawler.makePreview(linkPreviewCallback, url);
+                textCrawler.makePreview(linkPreviewCallback, url.toString());
             }
         } else {
             linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
@@ -738,6 +794,12 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
+    /**
+     * Method to handle Pie chart view holder for action type piechart
+     *
+     * @param pieChartViewHolder Pie chart view holder
+     * @param position position of view
+     */
     private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
         final ChatMessage model = getData().get(position);
         if (model != null) {
@@ -791,18 +853,85 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
+    /**
+     * To set clipboard for copying text messages
+     *
+     * @param text text to be copied
+     */
     private void setClipboard(String text) {
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) currContext.getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
         clipboard.setPrimaryClip(clip);
     }
 
+
+    /**
+     * Method to delete message
+     *
+     * @param position position of message to be deleted
+     */
+    private void deleteMessage(final int position) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                getData().deleteFromRealm(position);
+                Number temp = realm.where(ChatMessage.class).max("id");
+                if (temp == null) {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
+                } else {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
+                }
+            }
+        });
+    }
+
+    /**
+     * Method to delete date views
+     */
+    private void removeDates(){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<ChatMessage> AllDates = realm.where(ChatMessage.class).equalTo("isDate",true).findAll().sort("id");
+
+                int dateIndexFirst = getData().indexOf(AllDates.get(0));
+
+                for(int i = 1 ; i < AllDates.size() ; i++ ){
+                    int dateIndexSecond = getData().indexOf(AllDates.get(i));
+                    if(dateIndexSecond == dateIndexFirst + 1) {
+                        getData().deleteFromRealm(dateIndexFirst);
+                        dateIndexSecond--;
+                    }
+                    dateIndexFirst = dateIndexSecond;
+                }
+
+                if(dateIndexFirst == getData().size() - 1 && getData().size()>0 ){
+                    getData().deleteFromRealm(dateIndexFirst);
+                }
+                Number temp = realm.where(ChatMessage.class).max("id");
+                if (temp == null) {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
+                } else {
+                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
+                }
+            }
+        });
+    }
+
+    /**
+     * Scroll to bottom
+     */
     private void scrollToBottom() {
         if (getData() != null && !getData().isEmpty() && recyclerView != null) {
             recyclerView.smoothScrollToPosition(getItemCount() - 1);
         }
     }
 
+    /**
+     * Toggle selection of view
+     *
+     * @param position position of message
+     */
     private void  toggleSelectedItem(int position) {
         toggleSelection(position);
         int count = getSelectedItemCount();
@@ -837,6 +966,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         return true;
     }
 
+    /**
+     * Action mode callback for action mode. Used for deleting, copying and sharing messages.
+     */
     private class ActionModeCallback implements ActionMode.Callback {
         @SuppressWarnings("unused")
         private final String TAG = ChatFeedRecyclerAdapter.ActionModeCallback.class.getSimpleName();
@@ -896,20 +1028,16 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         }
                         setClipboard(copyText);
                     } else {
-                        String copyText = "";
+                        StringBuilder copyText = new StringBuilder();
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                copyText += "[" + message.getTimeStamp() + "]";
-                                copyText += " ";
-                                copyText += message.isMine() ? "Me: " : "Susi: ";
-                                copyText += message.getContent();
-                                copyText += "\n";
+                                copyText.append("[").append(message.getTimeStamp()).append("]").append(" ");
+                                copyText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
-                        copyText = copyText.substring(0, copyText.length() - 1);
-                        setClipboard(copyText);
+                        setClipboard(copyText.toString());
                     }
 
                     if (nSelected == 1){
@@ -933,20 +1061,16 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             shareMessage(getItem(selected).getContent());
                         }
                     } else {
-                        String shareText = "";
+                        StringBuilder shareText = new StringBuilder();
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                shareText += "[" + message.getTimeStamp() + "]";
-                                shareText += " ";
-                                shareText += message.isMine() ? "Me: " : "Susi: ";
-                                shareText += message.getContent();
-                                shareText += "\n";
+                                shareText.append("[").append(message.getTimeStamp()).append("]").append(" ");
+                                shareText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
-                        shareText = shareText.substring(0, shareText.length() - 1);
-                        shareMessage(shareText);
+                        shareMessage(shareText.toString());
                     }
 
                     actionMode.finish();

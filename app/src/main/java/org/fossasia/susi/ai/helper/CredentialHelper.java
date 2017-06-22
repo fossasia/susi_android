@@ -10,26 +10,41 @@ import org.fossasia.susi.ai.R;
 import java.net.URL;
 import java.util.regex.Pattern;
 
-
 /**
+ * <h1>Helper class to verify credentials of user during login and sign up.</h1>
+ *
  * Created by saurabh on 11/10/16.
  */
-
 public class CredentialHelper {
-    /**
-     * combination of at least six characters for the moment to get more users instead of strong passwords
-     */
+
     private static Pattern PASSWORD_PATTERN = Pattern.compile("^.{6,64}$");
 
+    /**
+     * Is email valid boolean.
+     *
+     * @param email the email
+     * @return the boolean
+     */
     public static boolean isEmailValid(String email) {
         email = email.trim();
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    /**
+     * Is password valid boolean.
+     *
+     * @param password the password
+     * @return the boolean
+     */
     public static boolean isPasswordValid(String password) {
         return PASSWORD_PATTERN.matcher(password).matches();
     }
 
+    /**
+     * Clear fields.
+     *
+     * @param layouts the layouts
+     */
     public static void clearFields(TextInputLayout... layouts) {
         for (TextInputLayout inputLayout : layouts) {
             if (inputLayout.getEditText() != null) {
@@ -39,6 +54,13 @@ public class CredentialHelper {
         }
     }
 
+    /**
+     * Check password valid boolean.
+     *
+     * @param password the password
+     * @param context  the context
+     * @return the boolean
+     */
     public static boolean checkPasswordValid(TextInputLayout password, Context context) {
         if (password.getEditText() == null)
             throw new IllegalArgumentException("No Edittext hosted!");
@@ -51,6 +73,13 @@ public class CredentialHelper {
         }
     }
 
+    /**
+     * Is url valid boolean.
+     *
+     * @param url     the url
+     * @param context the context
+     * @return the boolean
+     */
     public static boolean isURLValid(TextInputLayout url, Context context) {
         if (url.getEditText() == null)
             throw new IllegalArgumentException("No Edittext hosted!");
@@ -63,6 +92,13 @@ public class CredentialHelper {
         }
     }
 
+    /**
+     * Gets valid url.
+     *
+     * @param url     the url
+     * @param context the context
+     * @return the valid url
+     */
     public static String getValidURL(TextInputLayout url, Context context) {
         try {
             if (url.getEditText().getText().toString().trim().substring(0, 7).equals("http://") || url.getEditText().getText().toString().trim().substring(0, 8).equals("https://")) {
@@ -78,6 +114,13 @@ public class CredentialHelper {
         }
     }
 
+    /**
+     * Check if empty boolean.
+     *
+     * @param inputLayout the input layout
+     * @param context     the context
+     * @return the boolean
+     */
     public static boolean checkIfEmpty(TextInputLayout inputLayout, Context context) {
         if (inputLayout.getEditText() == null)
             throw new IllegalArgumentException("No Edittext hosted!");

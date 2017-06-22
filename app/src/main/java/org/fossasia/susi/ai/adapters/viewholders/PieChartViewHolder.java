@@ -12,6 +12,9 @@ import org.fossasia.susi.ai.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * <h1>Pie chart view holder</h1>
+ */
 public class PieChartViewHolder extends MessageViewHolder {
 
     @BindView(R.id.background_layout)
@@ -23,6 +26,12 @@ public class PieChartViewHolder extends MessageViewHolder {
     @BindView(R.id.timestamp)
     public TextView timeStamp;
 
+    /**
+     * Instantiates a new Pie chart view holder.
+     *
+     * @param view     the view
+     * @param listener the listener
+     */
     public PieChartViewHolder(View view , ClickListener listener){
         super(view , listener);
         ButterKnife.bind(this, itemView);

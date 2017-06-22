@@ -9,10 +9,11 @@ import okhttp3.Interceptor;
 import okhttp3.Response;
 
 /**
+ * <h1>The type Token interceptor.</h1>
+ * <h2>Interceptor to append access token to the request(if exists) on runtime.</h2>
+ *
  * @author saurabh
- *         Interceptor to append access token to the request(if exists) on runtime.
  */
-
 public class TokenInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {

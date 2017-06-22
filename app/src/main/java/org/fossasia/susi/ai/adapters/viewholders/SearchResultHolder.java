@@ -12,10 +12,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ * <h1>Search result view holder</h1>
+ *
  * Created by saurabh on 19/11/16.
  */
-
 public class SearchResultHolder extends RecyclerView.ViewHolder {
+
     @BindView(R.id.link_preview_image)
     public ImageView previewImageView;
     @BindView(R.id.link_preview_title)
@@ -27,6 +29,11 @@ public class SearchResultHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.link_preview_text_layout)
     public LinearLayout previewTextLayout;
 
+    /**
+     * Instantiates a new Search result holder.
+     *
+     * @param itemView the item view
+     */
     public SearchResultHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

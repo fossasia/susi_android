@@ -25,16 +25,22 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 /**
+ * <h1>Unit Test for testing login activity.</h1>
+ *
  * Created by saurabh on 13/10/16.
  */
 @RunWith(AndroidJUnit4.class)
 @MediumTest
 public class TestLoginActivity {
+
     public static final String TAG = TestLoginActivity.class.getSimpleName();
 
     @Rule
     public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(LoginActivity.class);
 
+    /**
+     * Unlock screen.
+     */
     @Before
     public void unlockScreen() {
         final LoginActivity activity = mActivityRule.getActivity();
@@ -76,6 +82,8 @@ public class TestLoginActivity {
 
     /**
      * Test Sign in for app.
+     *
+     * @throws InterruptedException the interrupted exception
      */
     @Test
     public void testSignIn() throws InterruptedException {

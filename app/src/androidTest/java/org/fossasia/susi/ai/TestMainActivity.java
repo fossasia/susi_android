@@ -30,9 +30,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
+ * <h1>Unit Test for testing main activity.</h1>
+ *
  * Created by abhinavtyagi on 09/10/16.
  */
-
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -43,6 +44,12 @@ public class TestMainActivity {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
+    /**
+     * Unlock screen.
+     *
+     * @throws IOException          the io exception
+     * @throws InterruptedException the interrupted exception
+     */
     @Before
     public void unlockScreen() throws IOException, InterruptedException {
         Log.d(TAG,"running unlockScreen..");

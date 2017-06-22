@@ -9,23 +9,50 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 /**
+ * <h1>Helper class for defining layout of chat view holder</h1>
+ *
  * Created by betterclever on 18/12/16.
  */
-
 public class ChatBubbleLayout extends FrameLayout {
 
+    /**
+     * Instantiates a new Chat bubble layout.
+     *
+     * @param context the context
+     */
     public ChatBubbleLayout(Context context) {
         super(context);
     }
 
+    /**
+     * Instantiates a new Chat bubble layout.
+     *
+     * @param context the context
+     * @param attrs   the attrs
+     */
     public ChatBubbleLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
+    /**
+     * Instantiates a new Chat bubble layout.
+     *
+     * @param context      the context
+     * @param attrs        the attrs
+     * @param defStyleAttr the def style attr
+     */
     public ChatBubbleLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
+    /**
+     * Instantiates a new Chat bubble layout.
+     *
+     * @param context      the context
+     * @param attrs        the attrs
+     * @param defStyleAttr the def style attr
+     * @param defStyleRes  the def style res
+     */
     @TargetApi(21)
     public ChatBubbleLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);

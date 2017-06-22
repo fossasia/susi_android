@@ -11,9 +11,10 @@ import butterknife.ButterKnife;
 import pl.tajchert.sample.DotsTextView;
 
 /**
+ * <h1>Typing dots view holder</h1>
+ *
  * Created by mejariamol on 10/21/2016.
  */
-
 public class TypingDotsHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.dots)
@@ -21,6 +22,11 @@ public class TypingDotsHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.background_layout)
     public LinearLayout backgroundLayout;
 
+    /**
+     * Instantiates a new Typing dots holder.
+     *
+     * @param itemView the item view
+     */
     public TypingDotsHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

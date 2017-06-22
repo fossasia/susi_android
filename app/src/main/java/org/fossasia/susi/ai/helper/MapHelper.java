@@ -5,6 +5,9 @@ import android.util.Log;
 
 import org.fossasia.susi.ai.model.MapData;
 
+/**
+ * <h1>Helper class to get map image and link.</h1>
+ */
 public class MapHelper {
     private static final String BASE_URL = "http://staticmap.openstreetmap.de/staticmap.php?";
     private static final String URL_SCHEME = BASE_URL + "center=%f,%f&zoom=%f&size=%sx%s";
@@ -15,6 +18,11 @@ public class MapHelper {
     private String webLink;
     private boolean isParseSuccessful;
 
+    /**
+     * Instantiates a new Map helper.
+     *
+     * @param mapData the map data
+     */
     public MapHelper(MapData mapData) {
         if(mapData == null)
             isParseSuccessful = false;
@@ -28,16 +36,31 @@ public class MapHelper {
         }
     }
 
+    /**
+     * Is parse successful boolean.
+     *
+     * @return the boolean
+     */
     public boolean isParseSuccessful() {
         return isParseSuccessful;
     }
 
+    /**
+     * Gets map url.
+     *
+     * @return the map url
+     */
     @Nullable
     public String getMapURL() {
         return mapUrl;
 
     }
 
+    /**
+     * Gets web link.
+     *
+     * @return the web link
+     */
     @Nullable
     public String getWebLink() {
         return webLink;

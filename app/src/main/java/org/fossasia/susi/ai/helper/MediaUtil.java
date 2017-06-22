@@ -12,17 +12,29 @@ import android.media.MediaRecorder;
 import android.speech.RecognizerIntent;
 
 /**
+ * <h1>Helper class to check if STT and TTS is possible for phone.</h1>
+ *
  * Created by chiragw15 on 6/6/17.
  */
-
 public class MediaUtil {
-    //returns whether a microphone exists
+
+    /**
+     * returns whether a microphone exists
+     *
+     * @param context the context
+     * @return the boolean
+     */
     private static boolean getMicrophoneExists(Context context) {
         PackageManager packageManager = context.getPackageManager();
         return packageManager.hasSystemFeature(PackageManager.FEATURE_MICROPHONE);
     }
 
-    //returns whether the microphone is available
+    /**
+     * returns whether the microphone is available
+     *
+     * @param context the context
+     * @return the boolean
+     */
     private static boolean getMicrophoneAvailable(Context context) {
         MediaRecorder recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -39,7 +51,12 @@ public class MediaUtil {
         return available;
     }
 
-    //returns whether text to speech is available
+    /**
+     * returns whether text to speech is available
+     *
+     * @param context the context
+     * @return the boolean
+     */
     private static boolean getTTSAvailable(Context context) {
         PackageManager packageManager = context.getPackageManager();
         Intent speechIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -47,6 +64,12 @@ public class MediaUtil {
         return (speechActivities.size() != 0);
     }
 
+    /**
+     * Is available for voice input boolean.
+     *
+     * @param context the context
+     * @return the boolean
+     */
     public static boolean isAvailableForVoiceInput(Context context) {
         return getMicrophoneExists(context) && getMicrophoneAvailable(context) && getTTSAvailable(context);
     }

@@ -13,6 +13,8 @@ import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
 /**
+ * <h1>Adapter used for selecting views on long click.</h1>
+ *
  * Created by better_clever on 18/10/16.
  */
 public abstract class SelectableAdapter extends RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder> {
@@ -21,15 +23,33 @@ public abstract class SelectableAdapter extends RealmRecyclerViewAdapter<ChatMes
 
     private SparseBooleanArray selectedItems;
 
+    /**
+     * Instantiates a new Selectable adapter.
+     *
+     * @param context    the context
+     * @param data       the data
+     * @param autoUpdate the auto update
+     */
     public SelectableAdapter(Context context, OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
         super(context,data,autoUpdate);
         selectedItems = new SparseBooleanArray();
     }
 
+    /**
+     * Is selected boolean.
+     *
+     * @param position the position
+     * @return the boolean
+     */
     public boolean isSelected(int position) {
         return getSelectedItems().contains(position);
     }
 
+    /**
+     * Toggle selection.
+     *
+     * @param position the position
+     */
     public void toggleSelection(int position) {
         if (selectedItems.get(position, false)) {
             selectedItems.delete(position);
@@ -39,6 +59,9 @@ public abstract class SelectableAdapter extends RealmRecyclerViewAdapter<ChatMes
         notifyItemChanged(position);
     }
 
+    /**
+     * Clear selection.
+     */
     public void clearSelection() {
         List<Integer> selection = getSelectedItems();
         selectedItems.clear();
@@ -47,10 +70,20 @@ public abstract class SelectableAdapter extends RealmRecyclerViewAdapter<ChatMes
         }
     }
 
+    /**
+     * Gets selected item count.
+     *
+     * @return the selected item count
+     */
     public int getSelectedItemCount() {
         return selectedItems.size();
     }
 
+    /**
+     * Gets selected items.
+     *
+     * @return the selected items
+     */
     public List<Integer> getSelectedItems() {
         List<Integer> items = new ArrayList<>(selectedItems.size());
         for (int i = 0; i < selectedItems.size(); ++i) {

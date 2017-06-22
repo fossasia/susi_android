@@ -22,6 +22,8 @@ import org.fossasia.susi.ai.rest.responses.susi.Datum;
 import java.util.List;
 
 /**
+ * <h1>Adapter to display horizontal list of RSS results.</h1>
+ *
  * Created by saurabh on 19/11/16.
  */
 
@@ -31,6 +33,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
     private Context context;
     private List<Datum> datumList;
 
+    /**
+     * Instantiates a new Search results adapter.
+     *
+     * @param context   the context
+     * @param datumList the datum list
+     */
     public SearchResultsAdapter(Context context, List<Datum> datumList) {
         this.context = context;
         this.datumList = datumList;

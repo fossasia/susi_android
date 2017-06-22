@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>POJO class to parse retrofit response from susi client.</h1>
+ */
 public class SusiResponse {
     @SerializedName("client_id")
     @Expose
@@ -32,34 +35,74 @@ public class SusiResponse {
     @Expose
     private Session session;
 
+    /**
+     * Gets client id.
+     *
+     * @return the client id
+     */
     public String getClientId() {
         return clientId;
     }
 
+    /**
+     * Gets query.
+     *
+     * @return the query
+     */
     public String getQuery() {
         return query;
     }
 
+    /**
+     * Gets query date.
+     *
+     * @return the query date
+     */
     public String getQueryDate() {
         return queryDate;
     }
 
+    /**
+     * Gets answer date.
+     *
+     * @return the answer date
+     */
     public String getAnswerDate() {
         return answerDate;
     }
 
+    /**
+     * Gets answer time.
+     *
+     * @return the answer time
+     */
     public int getAnswerTime() {
         return answerTime;
     }
 
+    /**
+     * Gets count.
+     *
+     * @return the count
+     */
     public int getCount() {
         return count;
     }
 
+    /**
+     * Gets answers.
+     *
+     * @return the answers
+     */
     public List<Answer> getAnswers() {
         return answers;
     }
 
+    /**
+     * Gets session.
+     *
+     * @return the session
+     */
     public Session getSession() {
         return session;
     }
