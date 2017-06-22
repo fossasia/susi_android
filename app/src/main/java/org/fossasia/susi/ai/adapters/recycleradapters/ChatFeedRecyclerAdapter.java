@@ -722,12 +722,13 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             if (model != null) {
                 List<String> urlList = extractLinks(model.getContent());
-                String url = urlList.get(0);
-                if (!(url.startsWith("http://") || url.startsWith("https://"))) {
-                    url = "http://" + url;
+                StringBuilder url = new StringBuilder(urlList.get(0));
+                StringBuilder http = new StringBuilder("http://");
+                if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(http.toString()))) {
+                    url = http.append(url.toString());
                 }
                 TextCrawler textCrawler = new TextCrawler();
-                textCrawler.makePreview(linkPreviewCallback, url);
+                textCrawler.makePreview(linkPreviewCallback, url.toString());
             }
         } else {
             linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
@@ -1101,20 +1102,16 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         }
                         setClipboard(copyText);
                     } else {
-                        String copyText = "";
+                        StringBuilder copyText = new StringBuilder();
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                copyText += "[" + message.getTimeStamp() + "]";
-                                copyText += " ";
-                                copyText += message.isMine() ? "Me: " : "Susi: ";
-                                copyText += message.getContent();
-                                copyText += "\n";
+                                copyText.append("[").append(message.getTimeStamp()).append("]").append(" ");
+                                copyText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
-                        copyText = copyText.substring(0, copyText.length() - 1);
-                        setClipboard(copyText);
+                        setClipboard(copyText.toString());
                     }
 
                     if (nSelected == 1){
@@ -1138,20 +1135,16 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             shareMessage(getItem(selected).getContent());
                         }
                     } else {
-                        String shareText = "";
+                        StringBuilder shareText = new StringBuilder();
                         for (int i : getSelectedItems()) {
                             ChatMessage message = getData().get(i);
                             if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
                                 Log.d(TAG, message.toString());
-                                shareText += "[" + message.getTimeStamp() + "]";
-                                shareText += " ";
-                                shareText += message.isMine() ? "Me: " : "Susi: ";
-                                shareText += message.getContent();
-                                shareText += "\n";
+                                shareText.append("[").append(message.getTimeStamp()).append("]").append(" ");
+                                shareText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
                             }
                         }
-                        shareText = shareText.substring(0, shareText.length() - 1);
-                        shareMessage(shareText);
+                        shareMessage(shareText.toString());
                     }
 
                     actionMode.finish();
