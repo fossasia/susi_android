@@ -864,60 +864,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         clipboard.setPrimaryClip(clip);
     }
 
-
-    /**
-     * Method to delete message
-     *
-     * @param position position of message to be deleted
-     */
-    private void deleteMessage(final int position) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                getData().deleteFromRealm(position);
-                Number temp = realm.where(ChatMessage.class).max("id");
-                if (temp == null) {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
-                } else {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
-                }
-            }
-        });
-    }
-
-    /**
-     * Method to delete date views
-     */
-    private void removeDates(){
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                RealmResults<ChatMessage> AllDates = realm.where(ChatMessage.class).equalTo("isDate",true).findAll().sort("id");
-
-                int dateIndexFirst = getData().indexOf(AllDates.get(0));
-
-                for(int i = 1 ; i < AllDates.size() ; i++ ){
-                    int dateIndexSecond = getData().indexOf(AllDates.get(i));
-                    if(dateIndexSecond == dateIndexFirst + 1) {
-                        getData().deleteFromRealm(dateIndexFirst);
-                        dateIndexSecond--;
-                    }
-                    dateIndexFirst = dateIndexSecond;
-                }
-
-                if(dateIndexFirst == getData().size() - 1 && getData().size()>0 ){
-                    getData().deleteFromRealm(dateIndexFirst);
-                }
-                Number temp = realm.where(ChatMessage.class).max("id");
-                if (temp == null) {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, 0);
-                } else {
-                    PrefManager.putLong(Constant.MESSAGE_COUNT, (long) temp + 1);
-                }
-            }
-        });
-    }
-
     /**
      * Scroll to bottom
      */
