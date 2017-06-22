@@ -42,4 +42,9 @@
         android:orderInCategory="102"
         android:title="@string/action_log_out"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_login"
+        android:orderInCategory="102"
+        android:title="@string/action_login"
+        app:showAsAction="never" />
 </menu>

@@ -499,12 +499,12 @@ public class MainActivity extends AppCompatActivity {
 
         PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex);
 
-        boolean firstRun = getIntent().getBooleanExtra("FIRST_TIME",false);
+        boolean firstRun = getIntent().getBooleanExtra(Constant.FIRST_TIME,false);
         if(firstRun && isNetworkConnected()) {
             retrieveOldMessages();
         }
-        if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null) {
-            throw new IllegalStateException("Not signed in, Cannot access resource!");
+        if(PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && (!PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false))) {
+                throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -1300,6 +1300,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if(PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+            menu.findItem(R.id.action_logout).setVisible(false);
+            menu.findItem(R.id.action_login).setVisible(true);
+        } else if(!(PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false))) {
+            menu.findItem(R.id.action_logout).setVisible(true);
+            menu.findItem(R.id.action_login).setVisible(false);
+        }
 
 //      TODO: Create Preference Pane and Enable Options Menu
         searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
@@ -1533,6 +1540,19 @@ public class MainActivity extends AppCompatActivity {
                 Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
                 pbutton.setTextColor(Color.BLACK);
                 return true;
+            case R.id.action_login:
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.deleteAll();
+                    }
+                });
+                PrefManager.clearToken();
+                PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, false);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
         }
         return super.onOptionsItemSelected(item);
     }
