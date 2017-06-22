@@ -3,7 +3,10 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.widget.Button;
+
 /**
+ * <h1>Helper class to display alert dialog boxes</h1>
+ *
  * Created by meeera on 18/6/17.
  */
 public class AlertboxHelper {
@@ -12,6 +15,18 @@ public class AlertboxHelper {
     private DialogInterface.OnClickListener dialogPositiveClick, dialogNegativeClick;
     private int colour;
 
+    /**
+     * Instantiates a new Alertbox helper.
+     *
+     * @param activity            the activity
+     * @param title               the title
+     * @param message             the message
+     * @param dialogPositiveClick the dialog positive click
+     * @param dialogNegativeClick the dialog negative click
+     * @param positiveText        the positive text
+     * @param negativeText        the negative text
+     * @param colour              the colour
+     */
     public AlertboxHelper(Activity activity, String title, String message, DialogInterface.OnClickListener dialogPositiveClick, DialogInterface.OnClickListener dialogNegativeClick, String positiveText, String negativeText, int colour) {
         this.activity = activity;
         this.title = title;
@@ -23,6 +38,9 @@ public class AlertboxHelper {
         this.colour = colour;
     }
 
+    /**
+     * Show alert box.
+     */
     public void showAlertBox() {
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity);
         alertDialog.setTitle(title);

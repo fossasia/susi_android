@@ -31,6 +31,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * <h1>The SignUp activity.</h1>
+ * <h2>This activity is used to sign up into the app.</h2>
+ */
 public class SignUpActivity extends AppCompatActivity {
 
     @BindView(R.id.email)
@@ -87,6 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     private void setupPasswordWatcher() {
         password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -98,16 +103,25 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Show input edit text for custom url.
+     */
     @OnClick(R.id.personal_server)
     public void showURL() {
         url.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Hide input edit text for custom url.
+     */
     @OnClick(R.id.susi_default)
     public void hideURL() {
         url.setVisibility(View.GONE);
     }
 
+    /**
+     * Called when a user clicks on the sign up button
+     */
     @OnClick(R.id.sign_up)
     public void signUp() {
         if (CredentialHelper.checkIfEmpty(email, this) |
@@ -169,7 +183,7 @@ public class SignUpActivity extends AppCompatActivity {
                     CredentialHelper.clearFields(email, password, confirmPassword);
                 } else {
                     if(response.code() == 422) {
-                        alertFaillure();
+                        alertFailure();
                     } else {
                         alertError(response.code()+getResources().getString(R.string.error), response.message());
                     }
@@ -224,6 +238,9 @@ public class SignUpActivity extends AppCompatActivity {
         no.setTextColor(getResources().getColor(R.color.md_red_500));
     }
 
+    /**
+     * Displays an alert dialog box in case of successful sign up
+     */
     public void alertSuccess() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -237,12 +254,21 @@ public class SignUpActivity extends AppCompatActivity {
         successAlertboxHelper.showAlertBox();
     }
 
+    /**
+     * Displays an alert dialog box in case of unsuccessful sign up. Shows error while signing up.
+     *
+     * @param title   the title
+     * @param message the message
+     */
     public void alertError(String title,String message) {
         AlertboxHelper errorAlertboxHelper = new AlertboxHelper(SignUpActivity.this, title, message, null, null, getResources().getString(R.string.ok), null, Color.BLUE);
         errorAlertboxHelper.showAlertBox();
     }
 
-    public void alertFaillure() {
+    /**
+     * Displays an alert dialog box in case of unsuccessful sign up or any exception
+     */
+    public void alertFailure() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

@@ -13,11 +13,15 @@ import io.realm.RealmConfiguration;
  * --30/09/16 at
  * --10:26 PM
  */
-
 public class MainApplication extends Application {
 
     private static MainApplication instance;
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static MainApplication getInstance() {
         return instance;
     }

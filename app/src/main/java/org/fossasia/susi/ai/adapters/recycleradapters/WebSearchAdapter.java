@@ -18,15 +18,23 @@ import org.fossasia.susi.ai.model.WebSearchModel;
 import java.util.List;
 
 /**
+ * <h1>Adapter to display horizontal list of web search results.</h1>
+ *
  * Created by chiragw15 on 2/6/17.
  */
-
 public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
+
     public static final String TAG = SearchResultsAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private Context context;
     private List<WebSearchModel> searchResults;
 
+    /**
+     * Instantiates a new Web search adapter.
+     *
+     * @param context       the context
+     * @param searchResults the search results
+     */
     public WebSearchAdapter(Context context, List<WebSearchModel> searchResults) {
         this.context = context;
         this.searchResults = searchResults;

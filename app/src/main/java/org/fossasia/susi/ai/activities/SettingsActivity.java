@@ -20,6 +20,10 @@ import org.fossasia.susi.ai.helper.PrefManager;
 
 import io.realm.Realm;
 
+/**
+ * <h1>The Settings activity.</h1>
+ * <h2>This activity is used to define settings of the app. User can change them according to need.</h2>
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override
@@ -28,6 +32,9 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
     }
 
+    /**
+     * The Chat settings fragment.
+     */
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
         private Preference textToSpeech,rate,server,micSettings;
 

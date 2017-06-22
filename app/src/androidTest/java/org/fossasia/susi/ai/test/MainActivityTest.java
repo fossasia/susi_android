@@ -9,12 +9,13 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.activities.MainActivity;
 
 /**
+ * <h1>Unit Test for testing fixtures in main activity.</h1>
+ *
  * Created by
  * --Vatsal Bajpai on
  * --30/09/16 at
  * --10:56 AM
  */
-
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     MainActivity testMainActivity;
@@ -22,6 +23,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     EditText etMessage;
     LinearLayout sendMessageLayout;
 
+    /**
+     * Instantiates a new Main activity test.
+     */
     public MainActivityTest() {
         super(MainActivity.class);
     }
@@ -42,8 +46,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
      * checks the correct setup of your test fixture.
      * If this tests fails all other tests are
      * likely to fail as well.
+     *
+     * @throws Exception the exception
      */
-
     public void testPreconditions() throws Exception {
         assertNotNull("testMainActivity is null", testMainActivity);
         assertNotNull("etMessage is null", etMessage);
@@ -51,6 +56,11 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         assertNotNull("coordinatorLayout is null", coordinatorLayout);
     }
 
+    /**
+     * Test empty edit text message.
+     *
+     * @throws Exception the exception
+     */
     public void testEmptyEditTextMessage() throws Exception {
         boolean actualB = etMessage.getText().toString().trim().isEmpty();
         assertNotSame("etMessage should not be empty", false, actualB);

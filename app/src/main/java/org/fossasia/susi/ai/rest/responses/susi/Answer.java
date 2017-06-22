@@ -8,6 +8,9 @@ import java.util.List;
 
 import io.realm.RealmList;
 
+/**
+ * <h1>POJO class to parse answer in retrofit response from susi client.</h1>
+ */
 public class Answer {
 
     @SerializedName("data")
@@ -21,14 +24,29 @@ public class Answer {
     @Expose
     private List<Action> actions = new ArrayList<>();
 
+    /**
+     * Gets data.
+     *
+     * @return the data
+     */
     public RealmList<Datum> getData() {
         return data;
     }
 
+    /**
+     * Gets metadata.
+     *
+     * @return the metadata
+     */
     public Metadata getMetadata() {
         return metadata;
     }
 
+    /**
+     * Gets actions.
+     *
+     * @return the actions
+     */
     public List<Action> getActions() {
         return actions;
     }

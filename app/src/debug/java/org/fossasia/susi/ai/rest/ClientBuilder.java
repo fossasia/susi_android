@@ -14,12 +14,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * <p>
  * Singleton class to get Susi client.
  */
-
 public class ClientBuilder {
 
     private static Retrofit retrofit;
     private static SusiService susiService;
 
+    /**
+     * Instantiates a new Client builder.
+     */
     public ClientBuilder() {
         createSusiService();
     }
@@ -32,6 +34,9 @@ public class ClientBuilder {
         return retrofit.create(clazz);
     }
 
+    /**
+     * Create susi service.
+     */
     public static void createSusiService() {
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -54,6 +59,11 @@ public class ClientBuilder {
         }
     }
 
+    /**
+     * Gets susi api.
+     *
+     * @return the susi api
+     */
     public SusiService getSusiApi() {
         return susiService;
     }
