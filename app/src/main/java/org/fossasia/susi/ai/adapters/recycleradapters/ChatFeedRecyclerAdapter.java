@@ -633,50 +633,62 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     Realm realm = Realm.getDefaultInstance();
                     WebLink link = realm.createObject(WebLink.class);
 
-                    linkPreviewViewHolder.previewLayout.setVisibility(View.VISIBLE);
-                    linkPreviewViewHolder.previewImageView.setVisibility(View.VISIBLE);
-                    linkPreviewViewHolder.descriptionTextView.setVisibility(View.VISIBLE);
-                    linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
-                    linkPreviewViewHolder.titleTextView.setText(sourceContent.getTitle());
-                    linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
+                    if(sourceContent != null) {
 
-                    link.setBody(sourceContent.getDescription());
-                    link.setHeadline(sourceContent.getTitle());
-                    link.setUrl(sourceContent.getUrl());
+                        if (!sourceContent.getDescription().isEmpty()) {
+                            Log.d(TAG, "onPos: " + sourceContent.getDescription());
+                            linkPreviewViewHolder.previewLayout.setVisibility(View.VISIBLE);
+                            linkPreviewViewHolder.descriptionTextView.setVisibility(View.VISIBLE);
+                            linkPreviewViewHolder.descriptionTextView.setText(sourceContent.getDescription());
+                        }
 
-                    final List<String> imageList = sourceContent.getImages();
-                    if (imageList == null || imageList.size() == 0) {
-                        linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
-                        link.setImageURL("");
-                    } else {
-                        Picasso.with(currContext).load(imageList.get(0))
-                                .fit().centerCrop()
-                                .into(linkPreviewViewHolder.previewImageView);
-                        link.setImageURL(imageList.get(0));
-                    }
+                        if (!sourceContent.getTitle().isEmpty()) {
+                            Log.d(TAG, "onPos: " + sourceContent.getTitle());
+                            linkPreviewViewHolder.previewLayout.setVisibility(View.VISIBLE);
+                            linkPreviewViewHolder.titleTextView.setVisibility(View.VISIBLE);
+                            linkPreviewViewHolder.titleTextView.setText(sourceContent.getTitle());
+                        }
 
-                    linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if(selectedItems.size() == 0) {
-                                Uri webpage = Uri.parse(sourceContent.getFinalUrl());
-                                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                                if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                                    currContext.startActivity(intent);
+                        link.setBody(sourceContent.getDescription());
+                        link.setHeadline(sourceContent.getTitle());
+                        link.setUrl(sourceContent.getUrl());
+
+                        final List<String> imageList = sourceContent.getImages();
+
+                        if (imageList == null || imageList.size() == 0) {
+                            linkPreviewViewHolder.previewImageView.setVisibility(View.GONE);
+                            link.setImageURL("");
+                        } else {
+                            linkPreviewViewHolder.previewImageView.setVisibility(View.VISIBLE);
+                            Picasso.with(currContext).load(imageList.get(0))
+                                    .fit().centerCrop()
+                                    .into(linkPreviewViewHolder.previewImageView);
+                            link.setImageURL(imageList.get(0));
+                        }
+
+                        linkPreviewViewHolder.previewLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (selectedItems.size() == 0) {
+                                    Uri webpage = Uri.parse(sourceContent.getFinalUrl());
+                                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                                    if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                                        currContext.startActivity(intent);
+                                    }
+                                } else {
+                                    toggleSelectedItem(position);
                                 }
-                            } else {
-                                toggleSelectedItem(position);
                             }
-                        }
-                    });
+                        });
 
-                    linkPreviewViewHolder.text.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if(selectedItems.size() != 0)
-                                toggleSelectedItem(position);
-                        }
-                    });
+                        linkPreviewViewHolder.text.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (selectedItems.size() != 0)
+                                    toggleSelectedItem(position);
+                            }
+                        });
+                    }
 
                     linkPreviewViewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
@@ -684,7 +696,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             if (actionMode == null) {
                                 actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                             }
-
                             toggleSelectedItem(position);
 
                             return true;
@@ -722,8 +733,27 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 textCrawler.makePreview(linkPreviewCallback, url.toString());
             }
         } else {
-            linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
-            linkPreviewViewHolder.descriptionTextView.setText(model.getWebLinkData().getBody());
+
+            if(!model.getWebLinkData().getHeadline().isEmpty()) {
+                Log.d(TAG, "onPos: " + model.getWebLinkData().getHeadline());
+                linkPreviewViewHolder.titleTextView.setText(model.getWebLinkData().getHeadline());
+            } else {
+                linkPreviewViewHolder.titleTextView.setVisibility(View.GONE);
+                Log.d(TAG, "handleItemEvents: " + "isEmpty");
+            }
+
+            if(!model.getWebLinkData().getBody().isEmpty()) {
+                Log.d(TAG, "onPos: " + model.getWebLinkData().getHeadline());
+                linkPreviewViewHolder.descriptionTextView.setText(model.getWebLinkData().getBody());
+            } else {
+                linkPreviewViewHolder.descriptionTextView.setVisibility(View.GONE);
+                Log.d(TAG, "handleItemEvents: " + "isEmpty");
+            }
+
+            if(model.getWebLinkData().getHeadline().isEmpty() && model.getWebLinkData().getBody().isEmpty()) {
+                linkPreviewViewHolder.previewLayout.setVisibility(View.GONE);
+            }
+
             Log.i(TAG, model.getWebLinkData().getImageURL());
             if (!model.getWebLinkData().getImageURL().equals("")) {
                 Picasso.with(currContext).load(model.getWebLinkData().getImageURL())
@@ -762,7 +792,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     if (actionMode == null) {
                         actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                     }
-
                     toggleSelectedItem(position);
 
                     return true;
@@ -775,7 +804,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                     if (actionMode == null) {
                         actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
                     }
-
                     toggleSelectedItem(position);
 
                     return true;
