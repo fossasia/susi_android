@@ -232,10 +232,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 return new PieChartViewHolder(view, clickListener);
             case SEARCH_RESULT:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
-                return new SearchResultsListHolder(view,clickListener);
+                SearchResultsListHolder searchResultsListHolder = new SearchResultsListHolder(view, clickListener);
+                searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
+                return new SearchResultsListHolder(view, clickListener);
             case WEB_SEARCH:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
-                return new SearchResultsListHolder(view,clickListener);
+                SearchResultsListHolder webResultsListHolder = new SearchResultsListHolder(view, clickListener);
+                webResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
+                return new SearchResultsListHolder(view, clickListener);
             case DATE_VIEW:
                 view = inflater.inflate(R.layout.date_view,viewGroup, false);
                 return new DateViewHolder(view);
@@ -403,7 +407,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                 searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
                                 WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, searchResults);
                                 searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
-                                searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                                 model.setWebSearchList(searchResults);
                                 realm.copyToRealmOrUpdate(model);
                                 realm.commitTransaction();
@@ -423,7 +426,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                             LinearLayoutManager.HORIZONTAL, false);
                     searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
                     WebSearchAdapter resultsAdapter = new WebSearchAdapter(currContext, model.getWebSearchList());
-                    searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                     searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
                 }
 
@@ -436,7 +438,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                 LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
                         LinearLayoutManager.HORIZONTAL, false);
                 searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
-                searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 SearchResultsAdapter resultsAdapter;
                 List<Datum> data = new ArrayList<>();
                 int count = model.getCount();
