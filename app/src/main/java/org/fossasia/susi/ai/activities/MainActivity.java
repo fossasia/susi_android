@@ -908,21 +908,12 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     int result = audiofocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
                     if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                            @Override
-                            public void onInit(int status) {
-                                if (status != TextToSpeech.ERROR) {
-                                    Locale locale = textToSpeech.getLanguage();
-                                    textToSpeech.setLanguage(locale);
-                                    String spokenReply = reply;
-                                    if (isHavingLink) {
-                                        spokenReply = reply.substring(0, reply.indexOf("http"));
-                                    }
-                                    textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
-                                    audiofocus.abandonAudioFocus(afChangeListener);
-                                }
-                            }
-                        });
+                        String spokenReply = reply;
+                        if (isHavingLink) {
+                            spokenReply = reply.substring(0, reply.indexOf("http"));
+                        }
+                        textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
+                        audiofocus.abandonAudioFocus(afChangeListener);
                     }
                 }
             });
