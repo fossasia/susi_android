@@ -359,7 +359,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                         @Override
                         public void onError() {
-                            Log.d("Error","image can't loaded");
+                            Log.e("Error","image can't loaded");
                         }
                     });
 
@@ -454,7 +454,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         webSearch.setUrl(url);
                                         searchResults.add(webSearch);
                                     } catch (Exception e) {
-                                        Log.v(TAG,e.getLocalizedMessage());
+                                        Log.e(TAG,e.getLocalizedMessage());
                                     }
                                 }
                                 if(searchResults.size()==0) {
@@ -635,7 +635,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                             @Override
                             public void onError() {
-                                Log.d("Error","map image can't loaded");
+                                Log.e("Error","map image can't loaded");
                             }
                         });
 

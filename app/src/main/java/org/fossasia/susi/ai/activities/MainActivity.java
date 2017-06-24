@@ -349,8 +349,8 @@ public class MainActivity extends AppCompatActivity {
                     if (urlList.size() == 0) isHavingLink = false;
 
                 } catch (Exception e ) {
-                    Log.d(TAG, "parseSusiResponse: " + e.toString());
-                    Log.d(TAG, "parseSusiResponse: link error occured");
+                    Log.e(TAG, "parseSusiResponse: " + e.toString());
+                    Log.e(TAG, "parseSusiResponse: link error occured");
                     answer = getString(R.string.error_occurred_try_again);
                     isHavingLink = false;
                 }
