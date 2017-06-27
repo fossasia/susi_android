@@ -510,6 +510,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        clientBuilder = new ClientBuilder();
         prefs = getSharedPreferences(Constant.THEME, MODE_PRIVATE);
         if(prefs.getString(Constant.THEME,"Light").equals("Dark")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -519,7 +520,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        clientBuilder = new ClientBuilder();
 
         realm = Realm.getDefaultInstance();
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
@@ -1723,6 +1723,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        clientBuilder = new ClientBuilder();
         nonDeliveredMessages.clear();
         RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered", false).findAll().sort("id");
         for (ChatMessage each : nonDelivered)

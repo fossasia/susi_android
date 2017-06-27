@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +17,14 @@ import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.Constant;
+import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.login.LoginActivity;
@@ -56,6 +63,9 @@ public class SettingsActivity extends AppCompatActivity {
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
         private Preference textToSpeech,rate,server,micSettings;
         private ListPreference theme;
+        private RadioButton susi_server, personal_server;
+        private TextInputLayout url;
+        private TextInputEditText urlText;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -87,30 +97,89 @@ public class SettingsActivity extends AppCompatActivity {
 
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    if (PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+                        boolean flag;
+                        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                        View promptsView = layoutInflater.inflate(R.layout.alert_change_server, null);
+                        susi_server = (RadioButton) promptsView.findViewById(R.id.susi_default);
+                        personal_server = (RadioButton) promptsView.findViewById(R.id.personal_server);
+                        url = (TextInputLayout) promptsView.findViewById(R.id.input_url);
+                        urlText = (TextInputEditText) promptsView.findViewById(R.id.input_url_text);
+                        if(PrefManager.getBoolean(Constant.SUSI_SERVER, false)) {
+                            url.setVisibility(View.GONE);
+                            flag = true;
+                        } else {
+                            url.setVisibility(View.VISIBLE);
+                            flag = false;
+                        }
+                        susi_server.setChecked(flag);
+                        personal_server.setChecked(!flag);
+                        urlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null));
+                        susi_server.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                url.setVisibility(View.GONE);
+                            }
+                        });
+                        personal_server.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                url.setVisibility(View.VISIBLE);
+                            }
+                        });
+                        builder.setView(promptsView);
+                    } else {
+                        builder.setMessage(Constant.SERVER_CHANGE_PROMPT);
+                    }
                     builder.setTitle(Constant.CHANGE_SERVER);
-                    builder.setMessage(Constant.SERVER_CHANGE_PROMPT)
-                            .setCancelable(false)
-                            .setNegativeButton(Constant.CANCEL,null)
-                            .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    PrefManager.putBoolean(Constant.SUSI_SERVER, true);
-                                    PrefManager.clearToken();
-                                    //clear all messages
-                                    Realm realm = Realm.getDefaultInstance();
-                                    realm.executeTransaction(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm realm) {
-                                            realm.deleteAll();
+                    builder.setCancelable(false)
+                            .setNegativeButton(Constant.CANCEL, null)
+                            .setPositiveButton(getString(R.string.ok), null);
+                    final AlertDialog alert = builder.create();
+                    alert.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(final DialogInterface dialog) {
+                            Button button = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+                                        if (personal_server.isChecked()) {
+                                            if (!CredentialHelper.checkIfEmpty(url, getContext()) && CredentialHelper.isURLValid(url.getEditText().getText().toString())) {
+                                                if (CredentialHelper.getValidURL(url.getEditText().getText().toString()) != null) {
+                                                    PrefManager.putBoolean(Constant.SUSI_SERVER, false);
+                                                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url.getEditText().getText().toString()));
+                                                    dialog.dismiss();
+                                                } else {
+                                                    url.setError(getContext().getString(R.string.invalid_url));
+                                                }
+                                            }
+                                        } else {
+                                            PrefManager.putBoolean(Constant.SUSI_SERVER, true);
+                                            dialog.dismiss();
                                         }
-                                    });
-                                    Intent intent = new Intent(getContext(), LoginActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    dialog.dismiss();
+                                    } else {
+                                        PrefManager.putBoolean(Constant.SUSI_SERVER, true);
+                                        PrefManager.clearToken();
+                                        PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, false);
+                                        //clear all messages
+                                        Realm realm = Realm.getDefaultInstance();
+                                        realm.executeTransaction(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm realm) {
+                                                realm.deleteAll();
+                                            }
+                                        });
+                                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        startActivity(intent);
+                                        dialog.dismiss();
+                                    }
                                 }
                             });
-                    AlertDialog alert = builder.create();
+                        }
+                    });
                     alert.show();
                     return true;
                 }
