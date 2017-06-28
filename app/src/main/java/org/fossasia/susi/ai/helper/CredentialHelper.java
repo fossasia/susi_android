@@ -22,11 +22,11 @@ public class CredentialHelper {
     /**
      * Is email valid boolean.
      *
-     * @param email the email
+     * @param mail the email
      * @return the boolean
      */
-    public static boolean isEmailValid(String email) {
-        email = email.trim();
+    public static boolean isEmailValid(String mail) {
+        String email = mail.trim();
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 

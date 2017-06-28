@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
         if (!CredentialHelper.isEmailValid(email.getEditText().getText().toString())) {
-            InvalidAccess();
+            invalidAccess();
             return;
         }
         if(personalServer.isChecked()) {
@@ -253,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * To check if the email and password entered by user are correct.
      */
-    public void InvalidAccess(){
+    public void invalidAccess(){
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setTitle(R.string.email_invalid_title);
         builder.setMessage(R.string.email_invalid)

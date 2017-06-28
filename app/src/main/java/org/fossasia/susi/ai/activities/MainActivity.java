@@ -116,13 +116,13 @@ public class MainActivity extends AppCompatActivity {
     private boolean isEnabled = true;
 
     @BindView(R.id.coordinator_layout)
-    CoordinatorLayout coordinatorLayout;
+    protected CoordinatorLayout coordinatorLayout;
     @BindView(R.id.rv_chat_feed)
-    RecyclerView rvChatFeed;
+    protected RecyclerView rvChatFeed;
     @BindView(R.id.et_message)
-    EditText ChatMessage;
+    protected EditText ChatMessage;
     @BindView(R.id.send_message_layout)
-    LinearLayout sendMessageLayout;
+    protected LinearLayout sendMessageLayout;
     @BindView(R.id.btnSpeak)
     protected ImageView btnSpeak;
     @BindView(R.id.voice_input_text)
@@ -183,9 +183,10 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Text watcher to watch changing of text in input edit text.
      */
-    TextWatcher watch = new TextWatcher() {
+    private TextWatcher watch = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            //do whatever you want to do before text change in input edit text
         }
 
         @Override
@@ -209,6 +210,8 @@ public class MainActivity extends AppCompatActivity {
                                     ChatMessage.setText("");
                                 }
                                 break;
+                            default:
+                                break;
                         }
                     }
                 });
@@ -228,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-
+            //do whatever you want to do after text change in input edit text
         }
     };
 
@@ -707,6 +710,8 @@ public class MainActivity extends AppCompatActivity {
                 }
                 break;
             }
+            default:
+                break;
         }
     }
 
@@ -755,7 +760,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         ButterKnife.bind(this);
         fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
-        registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         networkStateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -890,6 +895,8 @@ public class MainActivity extends AppCompatActivity {
                     PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
                 }
             }
+            default:
+                break;
         }
     }
 
@@ -938,6 +945,8 @@ public class MainActivity extends AppCompatActivity {
                                 PrefManager.putString(Constant.IMAGE_DATA,
                                         getString(R.string.background_no_wall));
                                 setChatBackground();
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -1015,6 +1024,8 @@ public class MainActivity extends AppCompatActivity {
                                 sendMessage(message, chat);
                                 ChatMessage.setText("");
                             }
+                            break;
+                        default:
                             break;
                     }
                 }
@@ -1544,6 +1555,8 @@ public class MainActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
+            default:
+                return false;
         }
         return super.onOptionsItemSelected(item);
     }
