@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.data.contract
 
 import android.graphics.drawable.Drawable
-import android.speech.SpeechRecognizer
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
@@ -28,4 +27,8 @@ interface IUtilModel {
     fun copyAssetstoSD()
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
+    fun setEnterSend(isEnterSend: Boolean)
+    fun setSpeechAlways(isSpeechAlways: Boolean)
+    fun setSpeechOutput(isSpeechOutput: Boolean)
+
 }

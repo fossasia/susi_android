@@ -10,10 +10,12 @@ import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.util.Log
 import android.widget.Toast
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.LoginActivity
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
 
@@ -34,6 +36,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     lateinit var loginLogout: Preference
+    lateinit var enterSend: Preference
+    lateinit var speechAlways: Preference
+    lateinit var speechOutput: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
@@ -48,8 +53,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
+        enterSend = preferenceManager.findPreference(Constant.ENTER_SEND)
+        speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
+        speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
 
-        if(settingsPresenter.getAnonymity()) {
+        if (settingsPresenter.getAnonymity()) {
             loginLogout.title = "Login"
         } else {
             loginLogout.title = "Logout"
@@ -98,20 +106,41 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
-        if(settingsPresenter.getAnonymity()){
+        if (settingsPresenter.getAnonymity()) {
             server.isEnabled = true
             server.setOnPreferenceClickListener {
                 showAlert()
                 true
             }
-        }
-        else {
+        } else {
             server.isEnabled = false
         }
 
         micSettings.isEnabled = settingsPresenter.enableMic()
 
         hotwordSettings.isEnabled = settingsPresenter.enableHotword()
+
+        if(!settingsPresenter.getAnonymity()) {
+            micSettings.setOnPreferenceClickListener {
+                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString())
+                true
+            }
+
+            enterSend.setOnPreferenceChangeListener { _, newValue ->
+                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString())
+                true
+            }
+
+            speechAlways.setOnPreferenceChangeListener { _, newValue ->
+                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString())
+                true
+            }
+
+            speechOutput.setOnPreferenceChangeListener { _, newValue ->
+                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString())
+                true
+            }
+        }
     }
 
     fun showAlert() {
@@ -147,6 +176,10 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     fun showToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSettingResponse(message: String) {
+        Log.d("settingresponse", message)
     }
 
     override fun onDestroyView() {

@@ -4,8 +4,6 @@ import android.Manifest
 import ai.kitt.snowboy.AppResCopy
 import android.content.Context
 import android.os.Build
-import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
@@ -89,5 +87,17 @@ class UtilModel(val context: Context): IUtilModel {
 
     override fun isArmDevice(): Boolean {
         return Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic")
+    }
+
+    override fun setEnterSend(isEnterSend: Boolean) {
+        PrefManager.putBoolean(Constant.ENTER_SEND, isEnterSend)
+    }
+
+    override fun setSpeechAlways(isSpeechAlways: Boolean) {
+        PrefManager.putBoolean(Constant.SPEECH_ALWAYS, isSpeechAlways)
+    }
+
+    override fun setSpeechOutput(isSpeechOutput: Boolean) {
+        PrefManager.putBoolean(Constant.SPEECH_OUTPUT, isSpeechOutput)
     }
 }
