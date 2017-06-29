@@ -10,6 +10,8 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.PrefManager.getStringSet
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
+import org.fossasia.susi.ai.rest.responses.susi.Settings
+import org.fossasia.susi.ai.rest.responses.susi.UserSetting
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -104,6 +106,7 @@ class LoginInteractor: ILoginInteractor {
                     saveToken(response)
                     deleteAllMessages()
                     PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, false)
+                    getSettings()
 
                     listener.onSuccess(response.body().message)
                 } else if (response.code() == 422) {
@@ -147,5 +150,25 @@ class LoginInteractor: ILoginInteractor {
         realm.executeTransaction({ realm ->
             realm.deleteAll()
         })
+    }
+
+    fun getSettings() {
+       var call: Call<UserSetting> = ClientBuilder().susiApi.getUserSetting(PrefManager.getToken())
+       call?.enqueue(object : Callback<UserSetting> {
+           override fun onFailure(call: Call<UserSetting>, t: Throwable) {
+               t.printStackTrace()
+           }
+
+           override fun onResponse(call: Call<UserSetting>, response: Response<UserSetting>) {
+               if(response.isSuccessful && response.body() != null) {
+                  var settings: Settings  = response.body().settings
+                   PrefManager.putBoolean(Constant.ENTER_SEND, (settings.enterSend).toBoolean())
+                   PrefManager.putBoolean(Constant.SPEECH_OUTPUT, (settings.speechOutput).toBoolean())
+                   PrefManager.putBoolean(Constant.SPEECH_ALWAYS, (settings.speechAlways).toBoolean())
+                   PrefManager.putString(Constant.THEME, settings.theme)
+               }
+           }
+
+       })
     }
 }

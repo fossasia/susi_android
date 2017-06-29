@@ -1,12 +1,14 @@
 package org.fossasia.susi.ai.rest.services;
 
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
+import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
+import org.fossasia.susi.ai.rest.responses.susi.UserSetting;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -84,4 +86,26 @@ public interface SusiService {
      */
     @POST("/aaa/recoverpassword.json")
     Call<ForgotPasswordResponse> forgotPassword(@Query("forgotemail") String email);
+
+    /**
+     * User settings call
+     *
+      * @param key
+     * @param value
+     * @param accessToken
+     * @return the call
+     */
+    @POST("/aaa/changeUserSettings.json")
+    Call<ChangeSettingResponse> changeSettingResponse(@Query("key") String key,
+                                                      @Query("value") String value,
+                                                      @Query("access_token") String accessToken);
+
+    /**
+     * Get User settings
+     *
+     * @param accessToken
+     * @return settings
+     */
+    @GET("/aaa/listUserSettings.json")
+    Call<UserSetting> getUserSetting(@Query("access_token") String accessToken);
 }
