@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-    public static String webSearch;
+    private String webSearch;
     private TextToSpeech textToSpeech;
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
@@ -424,23 +424,23 @@ public class MainActivity extends AppCompatActivity {
                                 newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
 
                                 if (newMessageIndex == 0) {
-                                    updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null,0);
+                                    updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null, "", 0);
                                 } else {
                                     String prevDate = DateTimeHelper.getDate(allMessages.get(i+1).getQueryDate());
 
                                     if (!DateTimeHelper.getDate(queryDate).equals(prevDate)) {
-                                        updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null,0);
+                                        updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null, "", 0);
                                     }
                                 }
 
                                 c = newMessageIndex;
-                                updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), true, null, null, isHavingLink, null,0);
+                                updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), true, null, null, isHavingLink, null, "", 0);
 
                                 int actionSize = allMessages.get(i).getAnswers().get(0).getActions().size();
 
                                 for(int j=0 ; j<actionSize ; j++) {
                                     parseSusiResponse(allMessages.get(i),j);
-                                    updateDatabase(c, answer, false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList,count);
+                                    updateDatabase(c, answer, false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
                                 }
                             }
                         }
@@ -1090,15 +1090,15 @@ public class MainActivity extends AppCompatActivity {
         newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
 
         if (newMessageIndex == 0) {
-            updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null,0);
+            updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null, "", 0);
         } else {
             String s = realm.where(ChatMessage.class).equalTo("id", newMessageIndex - 1).findFirst().getDate();
             if (!DateTimeHelper.getDate().equals(s)) {
-                updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null,0);
+                updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null, "", 0);
             }
         }
         nonDeliveredMessages.add(new Pair(query, newMessageIndex));
-        updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), true, null, null, isHavingLink, null,0);
+        updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), true, null, null, isHavingLink, null, "", 0);
         getLocationFromLocationService();
         new computeThread().start();
     }
@@ -1144,7 +1144,7 @@ public class MainActivity extends AppCompatActivity {
                                                 final String setMessage = answer;
                                                 if(actionType.equals(Constant.ANSWER))
                                                     voiceReply(setMessage, isHavingLink);
-                                                updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date), DateTimeHelper.getTime(date), false, actionType, mapData, isHavingLink, datumList,count);
+                                                updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date), DateTimeHelper.getTime(date), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
                                             }
                                         }, delay);
                                     }
@@ -1157,7 +1157,7 @@ public class MainActivity extends AppCompatActivity {
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     } else {
-                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList,count);
+                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
                                     }
                                     recyclerAdapter.hideDots();
                                 }
@@ -1180,7 +1180,7 @@ public class MainActivity extends AppCompatActivity {
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 } else {
-                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList,count);
+                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -1208,10 +1208,12 @@ public class MainActivity extends AppCompatActivity {
      * @param mapData Object of MapData Class to store latitude, longitude and zoom.
      * @param isHavingLink boolean to check if message has link.
      * @param datumList Object of DatumList class to store data for RSS and Piechart.
+     * @param webSearch String to store the query to be searched in case of websearch action type.
+     * @param count int to store the count of result to be displayed in case of RSS action type.
      */
     private void updateDatabase(final long prevId, final String message, final boolean isDate, final String date, final String timeStamp , final boolean mine,
                                 final String actionType, final MapData mapData, final boolean isHavingLink,
-                                final List<Datum> datumList, final int count) {
+                                final List<Datum> datumList, final String webSearch, final int count) {
         final long id = newMessageIndex;
         newMessageIndex++;
         PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex);
