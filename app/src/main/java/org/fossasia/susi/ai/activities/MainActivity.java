@@ -337,6 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     answer = "<a href=\""  +susiResponse.getAnswers().get(0).getActions().get(i).getAnchorLink() + "\">" + susiResponse.getAnswers().get(0).getActions().get(1).getAnchorText() + "</a>";
                 } catch (Exception e) {
                     Log.d(TAG, e.getLocalizedMessage());
+                    Log.d(TAG, "parseSusiResponse: anchor error occured");
                     answer = getString(R.string.error_occurred_try_again);
                 }
                 break;
@@ -345,11 +346,15 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     answer = susiResponse.getAnswers().get(0).getActions()
                             .get(i).getExpression();
+                    Log.d(TAG, "parseSusiResponse: " + answer);
                     List<String> urlList = extractUrls(answer);
-                    Log.d(TAG, urlList.toString());
+                    Log.d(TAG + " answerLink", urlList.toString());
                     isHavingLink = urlList != null;
                     if (urlList.size() == 0) isHavingLink = false;
+
                 } catch (Exception e ) {
+                    Log.e(TAG, "parseSusiResponse: " + e.toString());
+                    Log.e(TAG, "parseSusiResponse: link error occured");
                     answer = getString(R.string.error_occurred_try_again);
                     isHavingLink = false;
                 }
@@ -392,6 +397,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             default:
+                Log.d(TAG, "parseSusiResponse: default error occured");
                 answer = getString(R.string.error_occurred_try_again);
         }
     }
@@ -417,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
                                 String answerDdate = allMessages.get(i).getAnswerDate();
 
                                 List<String> urlList = extractUrls(query);
-                                Log.d(TAG, urlList.toString());
+                                Log.d(TAG + "queryLink", urlList.toString());
                                 isHavingLink = urlList != null;
                                 if (urlList.size() == 0) isHavingLink = false;
 
@@ -1083,7 +1089,7 @@ public class MainActivity extends AppCompatActivity {
     private void sendMessage(String query, String actual) {
         boolean isHavingLink;
         List<String> urlList = extractUrls(query);
-        Log.d(TAG, urlList.toString());
+        Log.d(TAG + "queryLink", urlList.toString());
         isHavingLink = urlList != null;
         if (urlList.size() == 0) isHavingLink = false;
 
@@ -1251,6 +1257,7 @@ public class MainActivity extends AppCompatActivity {
                         chatMessage.setDatumRealmList(datumRealmList);
                     }
                     chatMessage.setCount(count);
+                    Log.d(TAG, "execute: " + chatMessage.toString());
                 }
             }
         }, new Realm.Transaction.OnSuccess() {

@@ -42,6 +42,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
+import org.fossasia.susi.ai.adapters.viewholders.ImageViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
@@ -101,6 +102,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
+    private static final int IMAGE_VIEW = 13;
     public int highlightMessagePosition = -1;
     public String query = "";
     private String webquery ;
@@ -221,6 +223,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
             case MAP:
                 view = inflater.inflate(R.layout.item_susi_map, viewGroup, false);
                 return new MapViewHolder(view, clickListener);
+            case IMAGE_VIEW:
+                view = inflater.inflate(R.layout.item_susi_image, viewGroup, false);
+                return new ImageViewHolder(view, clickListener);
             case USER_WITHLINK:
                 view = inflater.inflate(R.layout.item_user_link_preview, viewGroup, false);
                 return new LinkPreviewViewHolder(view, clickListener);
@@ -260,6 +265,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isDate()) return DATE_VIEW;
+        else if (item.getContent() != null && (item.getContent().endsWith(".jpg")||(item.getContent().endsWith(".png"))))
+        return IMAGE_VIEW;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
@@ -328,8 +335,67 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         } else if (holder instanceof DateViewHolder) {
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
             handleItemEvents(dateViewHolder, position);
+        } else if (holder instanceof ImageViewHolder) {
+            ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
+            handleItemEvents(imageViewHolder, position);
         }
     }
+
+    private void handleItemEvents(final ImageViewHolder imageViewHolder, final int position) {
+
+        final ChatMessage model = getData().get(position);
+        imageViewHolder.timestampTextView.setText(model.getTimeStamp());
+        imageViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+
+            final String imgLink = model.getContent();
+            imageViewHolder.susiImage.setVisibility(View.GONE);
+            imageViewHolder.timestampTextView.setVisibility(View.GONE);
+            Picasso.with(currContext).load(imgLink)
+                    .into(imageViewHolder.susiImage, new com.squareup.picasso.Callback() {
+                        @Override
+                        public void onSuccess() {
+                            imageViewHolder.susiImage.setVisibility(View.VISIBLE);
+                            imageViewHolder.timestampTextView.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onError() {
+                            Log.e("Error","image can't loaded");
+                        }
+                    });
+
+
+            imageViewHolder.susiImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(selectedItems.size() == 0) {
+                        Uri webpage = Uri.parse(imgLink);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                            currContext.startActivity(intent);
+                        }
+                    } else {
+                        toggleSelectedItem(position);
+                    }
+                }
+            });
+
+            imageViewHolder.susiImage.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (actionMode == null) {
+                        actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
+                    }
+
+                    toggleSelectedItem(position);
+
+                    return true;
+                }
+            });
+
+
+        }
+
 
     /**
      * Method to handle date views
@@ -389,7 +455,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                                         webSearch.setUrl(url);
                                         searchResults.add(webSearch);
                                     } catch (Exception e) {
-                                        Log.v(TAG,e.getLocalizedMessage());
+                                        Log.e(TAG,e.getLocalizedMessage());
                                     }
                                 }
                                 if(searchResults.size()==0) {
@@ -572,7 +638,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
                             @Override
                             public void onError() {
-                                Log.d("Error","map image can't loaded");
+                                Log.e("Error","map image can't loaded");
                             }
                         });
 
