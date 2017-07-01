@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -18,6 +19,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +28,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -33,8 +36,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -163,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
     private double longitude = 0;
     private String source = "ip";
     private int count;
+    private ImageView toolbarImg;
+    private static SharedPreferences prefs;
 
     /**
      * Audio manager listener used for Text to Speech.
@@ -411,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
                             showToast("No messages found");
                         } else {
                             long c;
-                            for (int i = allMessages.size() - 1; i >= 0; i--) {
+                            for (int i = allMessages.size() - 2; i >= 0; i--) {
                                 String query = allMessages.get(i).getQuery();
                                 String queryDate = allMessages.get(i).getQueryDate();
                                 String answerDdate = allMessages.get(i).getAnswerDate();
@@ -489,6 +496,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        prefs = getSharedPreferences(Constant.THEME, MODE_PRIVATE);
+        if(prefs.getString(Constant.THEME,"Light").equals("Dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         setContentView(R.layout.activity_main);
         clientBuilder = new ClientBuilder();
 
@@ -507,7 +523,7 @@ public class MainActivity extends AppCompatActivity {
             retrieveOldMessages();
         }
         if(PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && (!PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false))) {
-                throw new IllegalStateException("Not signed in, Cannot access resource!");
+            throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -769,8 +785,12 @@ public class MainActivity extends AppCompatActivity {
         };
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.toolbar);
         getSupportActionBar().setTitle("");
-        getSupportActionBar().setIcon(R.drawable.susi);
+        toolbarImg = (ImageView) getSupportActionBar().getCustomView()
+                .findViewById(R.id.toolbar_img);
         nonDeliveredMessages.clear();
 
         RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered", false).findAll().sort("id");
@@ -1318,6 +1338,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                toolbarImg.setVisibility(View.GONE);
                 ChatMessage.setVisibility(View.GONE);
                 btnSpeak.setVisibility(View.GONE);
                 sendMessageLayout.setVisibility(View.GONE);
@@ -1332,6 +1353,7 @@ public class MainActivity extends AppCompatActivity {
                 recyclerAdapter.notifyDataSetChanged();
                 searchView.onActionViewCollapsed();
                 offset = 1;
+                toolbarImg.setVisibility(View.VISIBLE);
                 ChatMessage.setVisibility(View.VISIBLE);
                 btnSpeak.setVisibility(View.VISIBLE);
                 sendMessageLayout.setVisibility(View.VISIBLE);
@@ -1420,6 +1442,7 @@ public class MainActivity extends AppCompatActivity {
         menu.findItem(R.id.down_angle).setVisible(show);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
         if (!searchView.isIconified()) {
@@ -1439,7 +1462,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (atHome) {
             if (backPressedOnce) {
-                finish();
+                finishAffinity();
                 return;
             }
             backPressedOnce = true;
@@ -1540,9 +1563,9 @@ public class MainActivity extends AppCompatActivity {
                 alert.setTitle("Logout");
                 alert.show();
                 Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-                nbutton.setTextColor(Color.BLACK);
+                nbutton.setTextColor(Color.CYAN);
                 Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                pbutton.setTextColor(Color.BLACK);
+                pbutton.setTextColor(Color.CYAN);
                 return true;
             case R.id.action_login:
                 realm.executeTransaction(new Realm.Transaction() {

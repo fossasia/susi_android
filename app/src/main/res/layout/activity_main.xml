@@ -77,6 +77,8 @@
                             android:background="@android:color/transparent"
                             android:hint="@string/send_msg_hint"
                             android:imeOptions="actionSend"
+                            android:cursorVisible="true"
+                            android:textCursorDrawable="@null"
                             android:inputType="text"
                             android:scrollbars="vertical"
                             android:theme="@style/sendMessageEditTextTheme" />

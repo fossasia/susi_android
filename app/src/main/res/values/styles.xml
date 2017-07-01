@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,7 +10,8 @@
         <item name="colorControlActivated">@color/edit_text_login_screen</item>
         <item name="colorControlHighlight">@color/edit_text_login_screen</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-        
+        <item name="android:textColorHint">@color/chat_screen_color</item>
+        <item name="colorControlNormal">@color/edit_text_login_screen</item>
     </style>
 
     <style name="SignUp_Theme" parent="AppTheme">
@@ -19,15 +20,28 @@
         <item name="colorAccent">@color/md_grey_500</item>
     </style>
 
-    <style name="Login_Theme" parent="AppTheme">
+    <style name="ForgetPass_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorAccent">@color/md_grey_500</item>
+    </style>
 
-        <item name="android:textColorHint">@color/edit_text_login_screen</item>
-        <item name="colorControlNormal">@color/edit_text_login_screen</item>
-        <item name="colorControlActivated">@color/edit_text_login_screen</item>
-        <item name="colorControlHighlight">@color/edit_text_login_screen</item>
+    <style name="PreferencesThemeDark" parent="PreferenceFixTheme">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+
+    <style name="PreferencesThemeLight" parent="PreferenceFixTheme.Light">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    </style>
+
+    <style name="WindowAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="Login_Theme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="sendMessageEditTextTheme">

@@ -22,7 +22,7 @@
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/settings_title"
-            android:theme="@style/PreferenceFixTheme">
+            android:theme="@style/PreferenceFixTheme.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.activities.MainActivity" />
@@ -44,7 +44,7 @@
         </activity>
         <activity
             android:name=".activities.ForgotPasswordActivity"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            android:theme="@style/ForgetPass_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <!--
         For Developers:
