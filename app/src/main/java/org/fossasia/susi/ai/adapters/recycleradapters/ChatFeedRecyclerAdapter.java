@@ -439,17 +439,8 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         LinearLayoutManager.HORIZONTAL, false);
                 searchResultsListHolder.recyclerView.setLayoutManager(layoutManager);
                 SearchResultsAdapter resultsAdapter;
-                List<Datum> data = new ArrayList<>();
                 int count = model.getCount();
-                if(count == -1) {
-                    resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
-
-                } else {
-                    for (int i=0;i<count;i++) {
-                        data.add(model.getDatumRealmList().get(i));
-                    }
-                    resultsAdapter = new SearchResultsAdapter(currContext, data);
-                }
+                resultsAdapter = new SearchResultsAdapter(currContext, getData().get(position), count);
                 searchResultsListHolder.recyclerView.setAdapter(resultsAdapter);
             } else {
                 searchResultsListHolder.recyclerView.setAdapter(null);

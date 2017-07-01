@@ -19,6 +19,7 @@ public class ChatMessage extends RealmObject {
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
+    private RealmList<WebLink> webLinkRealmList;
     private boolean isDelivered, isHavingLink, isDate, isMine;
     private double latitude, longitude, zoom;
     private int count;
@@ -56,6 +57,7 @@ public class ChatMessage extends RealmObject {
         this.isMine = isMine;
         this.webLinkData = null;
         this.webSearchList = null;
+        this.webLinkRealmList = null;
         this.count = count;
     }
 
@@ -353,5 +355,25 @@ public class ChatMessage extends RealmObject {
      */
     public void setCount(int count) {
         this.count = count;
+    }
+
+    /**
+    * Gets webLinkRealmList
+    *
+    *
+    * @return the realmlist of webLink
+    */
+    public RealmList<WebLink> getWebLinkRealmList() {
+        return webLinkRealmList;
+    }
+
+    /**
+    * Sets webLinkRealmList
+    *
+    *
+    * @param webLinkRealmList the realmlist of webLink
+    */
+    public void setWebLinkRealmList(RealmList<WebLink> webLinkRealmList) {
+        this.webLinkRealmList = webLinkRealmList;
     }
 }
