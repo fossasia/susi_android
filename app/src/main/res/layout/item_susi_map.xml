@@ -33,7 +33,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_location_pointer" />
+                android:background="@drawable/ic_location_on_black_24dp" />
 
         </FrameLayout>
     </android.support.v7.widget.CardView>

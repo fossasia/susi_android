@@ -489,9 +489,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
                         chatViewHolder.chatTextView.setText(model.getContent());
                         chatViewHolder.timeStamp.setText(model.getTimeStamp());
                         if(model.getIsDelivered())
-                            chatViewHolder.receivedTick.setImageResource(R.drawable.check);
+                            chatViewHolder.receivedTick.setImageResource(R.drawable.ic_check);
                         else
-                            chatViewHolder.receivedTick.setImageResource(R.drawable.clock);
+                            chatViewHolder.receivedTick.setImageResource(R.drawable.ic_clock);
 
                         chatViewHolder.chatTextView.setTag(chatViewHolder);
                         if (highlightMessagePosition == position) {
@@ -827,9 +827,9 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
         if (getItemViewType(position) == USER_WITHLINK) {
             if (model.getIsDelivered())
-                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.check);
+                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.ic_check);
             else
-                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.clock);
+                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.ic_clock);
         }
     }
 
