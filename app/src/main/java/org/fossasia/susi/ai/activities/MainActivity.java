@@ -870,11 +870,11 @@ public class MainActivity extends AppCompatActivity {
                     getLocationFromLocationService();
                     locationHelper.getLocation();
                 }
-                if (grantResults.length == 0 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
+                } else {
                     micCheck = false;
                     PrefManager.putBoolean(Constant.MIC_INPUT, false);
-                } else {
-                    PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
                 }
                 break;
             }
