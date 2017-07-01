@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:alpha="0.85"
             android:onClick="scrollToEnd"
-            android:src="@drawable/ic_scroll_to_end_fab"
+            app:srcCompat="@drawable/ic_scroll_to_end"
             app:fabSize="mini"
             android:layout_margin="10dp"
             android:layout_alignParentRight="true"
@@ -114,7 +114,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_mic_white_24dp" />
+                    app:srcCompat="@drawable/ic_mic_24dp" />
 
                 <pl.tajchert.sample.DotsTextView
                     android:id="@+id/dots"

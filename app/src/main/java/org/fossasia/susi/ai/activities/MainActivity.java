@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                btnSpeak.setImageResource(R.drawable.ic_mic_white_24dp);
+                btnSpeak.setImageResource(R.drawable.ic_mic_24dp);
                 btnSpeak.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -1000,7 +1000,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkEnterKeyPref() {
         micCheck = PrefManager.getBoolean(Constant.MIC_INPUT, true);
         if (micCheck) {
-            btnSpeak.setImageResource(R.drawable.ic_mic_white_24dp);
+            btnSpeak.setImageResource(R.drawable.ic_mic_24dp);
             btnSpeak.setOnClickListener(new View.OnClickListener() {
 
                 @Override

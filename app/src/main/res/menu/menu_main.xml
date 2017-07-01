@@ -11,13 +11,13 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/down_angle"
-        android:icon="@drawable/ic_down_angle"
+        android:icon="@drawable/ic_arrow_down_24dp"
         android:title="Search Down"
         android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/up_angle"
-        android:icon="@drawable/ic_up_angle"
+        android:icon="@drawable/ic_arrow_up_24dp"
         android:title="Search Up"
         android:visible="false"
         app:showAsAction="always"/>
