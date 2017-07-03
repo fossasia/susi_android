@@ -1560,12 +1560,21 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 AlertDialog alert = d.create();
-                alert.setTitle("Logout");
+                alert.setTitle(getString(R.string.logout));
                 alert.show();
-                Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-                nbutton.setTextColor(Color.CYAN);
-                Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-                pbutton.setTextColor(Color.CYAN);
+                if(prefs.getString(Constant.THEME,"Light").equals("Dark")) {
+                    Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                    nbutton.setTextColor(Color.WHITE);
+                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    pbutton.setTextColor(Color.WHITE);
+                }
+                else {
+                    Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+                    nbutton.setTextColor(Color.BLUE);
+                    Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+                    pbutton.setTextColor(Color.BLUE);
+                }
+
                 return true;
             case R.id.action_login:
                 realm.executeTransaction(new Realm.Transaction() {
