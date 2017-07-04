@@ -25,6 +25,7 @@
     <string name="send_message">Sending the message</string>
     <string name="hint_voice_input">Say Something...</string>
     <string name="dialog_retrieve_messages_title">Retrieving old Messages...</string>
+    <string name="hotword_success">Hotword detected</string>
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
@@ -67,6 +68,7 @@
     <string name="error_occurred_try_again">An error occurred. please try again!</string>
     <string name="error_invalid_token">Invalid Access Token!</string>
     <string name="error_internet_connectivity">Internet Connectivity Problem!</string>
+    <string name="error_hotword">Sorry, Hotword detection not supprted on your phone.</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
