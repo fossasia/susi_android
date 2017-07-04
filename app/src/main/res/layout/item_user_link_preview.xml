@@ -63,6 +63,7 @@
                         android:layout_width="@dimen/timestamp_size"
                         android:layout_height="@dimen/timestamp_size"
                         android:layout_marginLeft="@dimen/margin_small"
+                        android:textColor="@color/timestamp_color"
                         app:srcCompat="@drawable/ic_clock" />
 
                 </LinearLayout>

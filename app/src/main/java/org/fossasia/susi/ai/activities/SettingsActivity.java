@@ -4,14 +4,17 @@ import android.Manifest;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.ListPreference;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
+import android.util.Log;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.Constant;
@@ -20,16 +23,30 @@ import org.fossasia.susi.ai.helper.PrefManager;
 
 import io.realm.Realm;
 
+import static org.fossasia.susi.ai.helper.Constant.DARK;
+
 /**
  * <h1>The Settings activity.</h1>
  * <h2>This activity is used to define settings of the app. User can change them according to need.</h2>
  */
 public class SettingsActivity extends AppCompatActivity {
 
+    private static final String TAG = "SettingsActivity";
+    private static SharedPreferences prefs;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prefs = getSharedPreferences(Constant.THEME, MODE_PRIVATE);
+        Log.d(TAG, "onCreate: " + (prefs.getString(Constant.THEME, DARK)));
+        if(prefs.getString(Constant.THEME, "Light").equals("Dark")) {
+            setTheme(R.style.PreferencesThemeDark);
+        }
+        else {
+            setTheme(R.style.PreferencesThemeLight);
+        }
         setContentView(R.layout.activity_settings);
+
     }
 
     /**
@@ -37,6 +54,7 @@ public class SettingsActivity extends AppCompatActivity {
      */
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
         private Preference textToSpeech,rate,server,micSettings;
+        private ListPreference theme;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -97,6 +115,28 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
+            theme = (ListPreference) getPreferenceManager().findPreference(getString(R.string.theme_setting_key));
+            if(theme.getValue()==null) {
+                theme.setValueIndex(1);
+            }
+            if(theme.getEntry() != null)
+                theme.setSummary(theme.getEntry().toString());
+
+            theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    preference.setSummary(newValue.toString());
+                    Log.d(TAG, "onPreferenceChange: " + newValue.toString());
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString(Constant.THEME, newValue.toString());
+                    editor.apply();
+                    Log.d(TAG, "onPreferenceChange: " + prefs.getString(Constant.THEME, DARK));
+                    getActivity().recreate();
+                    return true;
+                }
+            });
+
+
             micSettings = getPreferenceManager().findPreference("Mic_input");
             if(ActivityCompat.checkSelfPermission(getContext(),
                     Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
@@ -114,5 +154,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.finish();
+        startActivity(new Intent(this, MainActivity.class));
     }
 }

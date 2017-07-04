@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:title="@string/settings_title">
 
     <PreferenceCategory
@@ -14,32 +14,41 @@
 
     <PreferenceCategory
         android:title="@string/settings_title">
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/enter_key_pref"
-        android:defaultValue="true"
-        android:key="@string/settings_enterPreference_key"
-        android:summary="@string/settings_enterPreference_summary"
-        android:title="@string/settings_enterPreference_label" />
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/enter_key_pref"
+            android:defaultValue="true"
+            android:key="@string/settings_enterPreference_key"
+            android:summary="@string/settings_enterPreference_summary"
+            android:title="@string/settings_enterPreference_label" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/settings_mic">
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/mic_input"
-        android:defaultValue="true"
-        android:key="@string/setting_mic_key"
-        android:summary="@string/settings_micPreference_summary"
-        android:title="@string/setting_mic_input"/>
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/mic_input"
+            android:defaultValue="true"
+            android:key="@string/setting_mic_key"
+            android:summary="@string/settings_micPreference_summary"
+            android:title="@string/setting_mic_input"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/settings_theme">
+        <ListPreference
+            android:key="@string/theme_setting_key"
+            android:title="@string/theme"
+            android:entries="@array/listentries"
+            android:entryValues="@array/listentries" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/settings_speech">
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/speech_pref"
-        android:defaultValue="true"
-        android:key="@string/settings_speechPreference_key"
-        android:summary="@string/settings_speechPreference_summary"
-        android:title="@string/settings_speechPreference_label" />
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/speech_pref"
+            android:defaultValue="true"
+            android:key="@string/settings_speechPreference_key"
+            android:summary="@string/settings_speechPreference_summary"
+            android:title="@string/settings_speechPreference_label" />
     </PreferenceCategory>
 
     <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
