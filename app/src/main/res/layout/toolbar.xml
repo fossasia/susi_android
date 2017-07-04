@@ -1,0 +1,16 @@
+<android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Theme.AppCompat"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorPrimary"
+    android:minHeight="@dimen/abc_action_bar_default_height_material">
+
+    <ImageView
+        android:id="@+id/toolbar_img"
+        android:layout_width="@dimen/toolbar_logo_width"
+        android:layout_height="@dimen/toolbar_logo_height"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/ic_susi_white" />
+
+</android.support.v7.widget.Toolbar>

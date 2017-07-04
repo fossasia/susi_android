@@ -22,7 +22,7 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/edit_text_login_screen"
+            android:textColor="?android:attr/textColorPrimary"
             android:textColorHint="@color/edit_text_login_screen"
             app:errorEnabled="true">
 
@@ -31,9 +31,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/edit_text_login_screen"
+                android:textColor="?android:attr/textColorPrimary"
                 app:theme="@style/Login_Theme"
-                android:textColorHint="@color/edit_text_login_screen"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
 
@@ -42,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:textColor="@color/edit_text_login_screen"
+            android:textColor="?android:attr/textColorPrimary"
             android:textColorHint="@color/edit_text_login_screen"
             app:passwordToggleEnabled="true"
             app:errorEnabled="true">
@@ -53,7 +52,7 @@
                 android:hint="@string/password"
                 app:theme="@style/Login_Theme"
                 android:inputType="textPassword"
-                android:textColor="@color/edit_text_login_screen"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textColorHint="@color/edit_text_login_screen"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
@@ -64,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/message_layout_margin"
             app:passwordToggleEnabled="true"
-            android:textColor="@color/edit_text_login_screen"
+            android:textColor="?android:attr/textColorPrimary"
             android:textColorHint="@color/edit_text_login_screen"
             app:errorEnabled="true">
 
@@ -74,7 +73,7 @@
                 android:hint="@string/confirm_password"
                 app:theme="@style/Login_Theme"
                 android:inputType="textPassword"
-                android:textColor="@color/edit_text_login_screen"
+                android:textColor="?android:attr/textColorPrimary"
                 android:textColorHint="@color/edit_text_login_screen"
                 android:maxLines="1" />
         </android.support.design.widget.TextInputLayout>
@@ -88,14 +87,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/susi_default"
                 android:checked="true"
-                android:textColor="@color/edit_text_login_screen"
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:text="Personal Server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/edit_text_login_screen"
+                android:textColor="?android:attr/textColorPrimary"
                 android:id="@+id/personal_server" />
         </RadioGroup>
 
@@ -110,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter URL"
-                android:textColor="@color/edit_text_login_screen"
+                android:textColor="?android:attr/textColorPrimary"
                 android:inputType="textUri"
                 android:textColorHint="@color/edit_text_login_screen" />
         </android.support.design.widget.TextInputLayout>
