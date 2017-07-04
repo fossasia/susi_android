@@ -63,6 +63,11 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="know_more">Know more</string>
 
+    <string name="settings_theme">Theme Settings</string>
+    <string name="theme_setting_key">Theme_key</string>
+    <string name="theme">Select Theme</string>
+    <string name="selection_theme">Dark Theme</string>
+
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action!</string>
     <string name="error_occurred_try_again">An error occurred. please try again!</string>
@@ -137,4 +142,5 @@
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
+    <string name="logout">Logout</string>
 </resources>

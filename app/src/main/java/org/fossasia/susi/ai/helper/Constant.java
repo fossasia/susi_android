@@ -19,6 +19,9 @@ public class Constant {
     public static final String SPEECH_OUTPUT = "Speech_output";
     public static final String SPEECH_ALWAYS = "Speech_always";
 
+    public static final String THEME = "theme";
+    public static final String DARK = "dark";
+
     public static final String SAVED_EMAIL="saved_email";
 
     public static final String SUSI_SERVER="is_susi_server_selected";

@@ -17,13 +17,14 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/settings_title"
-            android:theme="@style/PreferenceFixTheme">
+            android:theme="@style/PreferenceFixTheme.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.activities.MainActivity" />

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#2B3E50</color>
-    <color name="colorPrimaryDark">#293846</color>
-    <color name="colorAccent">#ffff</color>
+    <color name="colorPrimary">#0091ea</color>
+    <color name="colorPrimaryDark">#0064b7</color>
+    <color name="colorAccent">#ffffff</color>
 
     <!-- google's material design colours from http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
 
@@ -319,7 +319,8 @@
     <!--Link color-->
     <color name="link_text">#14a1b3</color>
 
-    <color name="edit_text_login_screen">#D6D7D7</color>
+    <color name="edit_text_login_screen">#ffffff</color>
+    <color name="chat_screen_color">#000000</color>
     <color name="message_text_color">#0d0d0d</color>
     <color name="timestamp_color">#787878</color>
 </resources>
