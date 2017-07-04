@@ -18,14 +18,17 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -58,7 +61,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
@@ -84,12 +86,17 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 
+import ai.kitt.snowboy.AppResCopy;
+import ai.kitt.snowboy.MsgEnum;
+import ai.kitt.snowboy.audio.AudioDataSaver;
+import ai.kitt.snowboy.audio.RecordingThread;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -162,6 +169,8 @@ public class MainActivity extends AppCompatActivity {
     private double latitude = 0;
     private double longitude = 0;
     private String source = "ip";
+    private RecordingThread recordingThread;
+    private boolean isDetectionOn = false;
     private int count;
 
     /**
@@ -271,6 +280,10 @@ public class MainActivity extends AppCompatActivity {
             recognizer=null;
         }
         hideVoiceInput();
+        if(recordingThread != null && !isDetectionOn) {
+            recordingThread.startRecording();
+            isDetectionOn = true;
+        }
     }
 
     /**
@@ -509,27 +522,20 @@ public class MainActivity extends AppCompatActivity {
         if(PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && (!PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false))) {
                 throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this,
-                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.RECORD_AUDIO}, 1);
-        } else if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 2);
-        } else if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 3);
-        }
 
-        if(ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
-        }
-
+        checkPermissions();
         getLocationFromIP();
         init();
         compensateTTSDelay();
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this,
+                        Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED ) {
+            if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && checkMicInput())
+                initHotword();
+            else
+                showToast(getString(R.string.error_hotword));
+        }
     }
 
     @Override
@@ -564,6 +570,10 @@ public class MainActivity extends AppCompatActivity {
      * Method to prompt Speech input from user.
      */
     private void promptSpeechInput() {
+        if(recordingThread !=null && isDetectionOn){
+            recordingThread.stopRecording();
+            isDetectionOn = false;
+        }
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -589,6 +599,10 @@ public class MainActivity extends AppCompatActivity {
                 sendMessage(voiceResults.get(0),voiceResults.get(0));
                 recognizer.destroy();
                 hideVoiceInput();
+                if(recordingThread != null && !isDetectionOn) {
+                    recordingThread.startRecording();
+                    isDetectionOn = true;
+                }
             }
 
             @Override
@@ -604,6 +618,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Could not recognize speech, try again.",Toast.LENGTH_SHORT).show();
                 recognizer.destroy();
                 hideVoiceInput();
+                if(recordingThread != null && !isDetectionOn) {
+                    recordingThread.startRecording();
+                    isDetectionOn = true;
+                }
             }
 
             @Override
@@ -641,6 +659,47 @@ public class MainActivity extends AppCompatActivity {
         };
         recognizer.setRecognitionListener(listener);
         recognizer.startListening(intent);
+    }
+
+    /**
+     * Method to initiate Hotword Detection
+     */
+    private void initHotword() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            AppResCopy.copyResFromAssetsToSD(this);
+
+            recordingThread = new RecordingThread(new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    MsgEnum message = MsgEnum.getMsgEnum(msg.what);
+                    switch(message) {
+                        case MSG_ACTIVE:
+                            displayVoiceInput();
+                            promptSpeechInput();
+                            //showToast(getString(R.string.hotword_success));
+                            break;
+                        case MSG_INFO:
+                            break;
+                        case MSG_VAD_SPEECH:
+                            break;
+                        case MSG_VAD_NOSPEECH:
+                            break;
+                        case MSG_ERROR:
+                            break;
+                        default:
+                            super.handleMessage(msg);
+                            break;
+                    }
+                }
+            }, new AudioDataSaver());
+            if(!isDetectionOn) {
+                recordingThread.startRecording();
+                isDetectionOn = true;
+            }
+        }
     }
 
     @Override
@@ -862,37 +921,74 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method to check user permissions.
+     * Requests permission for Audio record, Location and Write to storage
+     */
+    private void checkPermissions() {
+        String[] permissions = new String[3];
+        int c = 0;
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissions[c] = Manifest.permission.ACCESS_FINE_LOCATION;
+            c++;
+        }
+
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            permissions[c] = Manifest.permission.RECORD_AUDIO;
+            c++;
+        }
+
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissions[c] = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+            c++;
+        }
+
+        if(c > 0) {
+            ActivityCompat.requestPermissions(this, permissions, 1);
+        }
+
+        if(ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
+        }
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocationFromLocationService();
-                    locationHelper.getLocation();
-                }
-                if (grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
-                } else {
-                    micCheck = false;
-                    PrefManager.putBoolean(Constant.MIC_INPUT, false);
-                }
-                break;
-            }
+                boolean audioPermissionGiven = false;
+                for(int i=0 ; i<permissions.length ; i++) {
+                    switch (permissions[i]) {
+                        case Manifest.permission.ACCESS_FINE_LOCATION :
+                            if (grantResults.length > 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                                getLocationFromLocationService();
+                                locationHelper.getLocation();
+                            }
+                            break;
 
-            case 2: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getLocationFromLocationService();
-                    locationHelper.getLocation();
-                }
-                break;
-            }
+                        case Manifest.permission.RECORD_AUDIO :
+                            if (grantResults.length == 0 || grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                                micCheck = false;
+                                PrefManager.putBoolean(Constant.MIC_INPUT, false);
+                            } else {
+                                PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
+                            }
+                            audioPermissionGiven = true;
+                            break;
 
-            case 3: {
-                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    micCheck = false;
-                    PrefManager.putBoolean(Constant.MIC_INPUT, false);
-                } else {
-                    PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
+                        case Manifest.permission.WRITE_EXTERNAL_STORAGE :
+                            if (grantResults.length >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
+                                if(Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && checkMicInput())
+                                    initHotword();
+                                else
+                                    showToast(getString(R.string.error_hotword));
+                            }
+                            break;
+                    }
                 }
             }
             default:
@@ -919,7 +1015,36 @@ public class MainActivity extends AppCompatActivity {
                         if (isHavingLink) {
                             spokenReply = reply.substring(0, reply.indexOf("http"));
                         }
-                        textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, null);
+                        textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                            @Override
+                            public void onStart(String s) {
+                                if(recordingThread !=null && isDetectionOn){
+                                    recordingThread.stopRecording();
+                                    isDetectionOn = false;
+                                }
+                            }
+
+                            @Override
+                            public void onDone(String s) {
+                                if(recordingThread != null && !isDetectionOn) {
+                                    recordingThread.startRecording();
+                                    isDetectionOn = true;
+                                }
+                            }
+
+                            @Override
+                            public void onError(String s) {
+                                if(recordingThread != null && !isDetectionOn) {
+                                    recordingThread.startRecording();
+                                    isDetectionOn = true;
+                                }
+                            }
+                        });
+
+                        HashMap<String,String> ttsParams = new HashMap<String, String>();
+                        ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+                                MainActivity.this.getPackageName());
+                        textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, ttsParams);
                         audiofocus.abandonAudioFocus(afChangeListener);
                     }
                 }
@@ -1575,6 +1700,10 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
         checkEnterKeyPref();
+        if(recordingThread != null && !isDetectionOn) {
+            recordingThread.startRecording();
+            isDetectionOn = true;
+        }
         if((ChatMessage.getText().toString().length())>0) {
             btnSpeak.setImageResource(R.drawable.ic_send_fab);
         }
@@ -1590,6 +1719,11 @@ public class MainActivity extends AppCompatActivity {
             recognizer=null;
         }
         hideVoiceInput();
+
+        if(recordingThread !=null && isDetectionOn){
+            recordingThread.stopRecording();
+            isDetectionOn = false;
+        }
     }
 
     @Override
@@ -1605,6 +1739,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         realm.close();
+        if(textToSpeech != null) {
+            textToSpeech.shutdown();
+            textToSpeech = null;
+        }
     }
 
     /**
