@@ -64,7 +64,7 @@
                         android:layout_height="@dimen/timestamp_size"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:textColor="@color/timestamp_color"
-                        android:src="@drawable/clock" />
+                        app:srcCompat="@drawable/ic_clock" />
 
                 </LinearLayout>
             </org.fossasia.susi.ai.helper.ChatBubbleLayout>

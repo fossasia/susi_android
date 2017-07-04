@@ -1,0 +1,22 @@
+<vector android:height="4dp" android:viewportHeight="26.0"
+
+    android:viewportWidth="26.0" android:width="4dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:name="rotationGroup"
+        android:pivotX="13.0"
+        android:pivotY="10.0"
+        android:rotation="180.0" >
+
+    <path
+        android:fillColor="#939192"
+        android:pathData="M0.046,6.418l2.084,2.084l10.837,-10.836l10.836,10.836l2.084,-2.084l-12.92,-12.92z"/>
+
+    <path
+        android:fillColor="#939192"
+        android:pathData="M0.046,15.418l2.084,2.084l10.837,-10.836l10.836,10.836l2.084,-2.084l-12.92,-12.92z"/>
+
+</group>
+
+</vector>
