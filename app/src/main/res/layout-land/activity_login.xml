@@ -118,6 +118,7 @@
                 android:layout_gravity="center"
                 android:padding="12dp"
                 android:text="@string/activity_login_log_in"
+                android:background="@drawable/rounded_button"
                 android:textColor="@color/colorPrimary" />
 
 
