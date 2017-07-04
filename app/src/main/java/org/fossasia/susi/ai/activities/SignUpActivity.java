@@ -19,6 +19,7 @@ import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.AlertboxHelper;
 import org.fossasia.susi.ai.helper.PrefManager;
+import org.fossasia.susi.ai.login.LoginActivity;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 
@@ -144,9 +145,9 @@ public class SignUpActivity extends AppCompatActivity {
         }
         if(personalServer.isChecked()) {
             if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
-                if (CredentialHelper.getValidURL(url,this) != null) {
+                if (CredentialHelper.getValidURL(url.getEditText().getText().toString()) != null) {
                     PrefManager.putBoolean(Constant.SUSI_SERVER, false);
-                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url, this));
+                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url.getEditText().getText().toString()));
                 } else {
                     url.setError(getApplicationContext().getString(R.string.invalid_url));
                     return;

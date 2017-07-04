@@ -96,16 +96,15 @@ public class CredentialHelper {
      * Gets valid url.
      *
      * @param url     the url
-     * @param context the context
      * @return the valid url
      */
-    public static String getValidURL(TextInputLayout url, Context context) {
+    public static String getValidURL(String url) {
         try {
-            if (url.getEditText().getText().toString().trim().substring(0, 7).equals("http://") || url.getEditText().getText().toString().trim().substring(0, 8).equals("https://")) {
-                URL susiURL = new URL(url.getEditText().getText().toString().trim());
+            if (url.trim().substring(0, 7).equals("http://") || url.trim().substring(0, 8).equals("https://")) {
+                URL susiURL = new URL(url.trim());
                 return susiURL.getProtocol() + "://" + susiURL.getHost();
             } else {
-                URL susiURL = new URL("http://" + url.getEditText().getText().toString().trim());
+                URL susiURL = new URL("http://" + url.trim());
                 return susiURL.getProtocol() + "://" + susiURL.getHost();
             }
         } catch (Exception e) {
