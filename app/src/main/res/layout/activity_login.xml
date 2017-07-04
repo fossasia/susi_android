@@ -113,7 +113,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:padding="@dimen/cmv_padding"
             android:text="@string/activity_login_log_in"
-            android:background="@color/md_grey_300"
+            android:background="@drawable/rounded_button"
             android:textColor="@color/colorPrimary"/>
 
         <TextView
