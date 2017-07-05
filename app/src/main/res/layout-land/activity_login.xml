@@ -113,17 +113,17 @@
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/log_in"
-                android:layout_width="@dimen/button_width"
-                android:layout_height="wrap_content"
+                android:layout_width="130dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center"
-                android:padding="12dp"
+                android:background="@drawable/rounded_button"
                 android:text="@string/activity_login_log_in"
                 android:textColor="@color/colorPrimary" />
 
 
             <TextView
                 android:id="@+id/forgot_password"
-                android:layout_width="wrap_content"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
@@ -132,6 +132,7 @@
                 android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
+                android:paddingLeft="48dp"
                 android:typeface="monospace" />
 
             <TextView
