@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.activities;
+package org.fossasia.susi.ai.activities.SignUp;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -12,30 +12,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.activities.ForgotPasswordActivity;
+import org.fossasia.susi.ai.activities.LoginActivity;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.AlertboxHelper;
-import org.fossasia.susi.ai.helper.PrefManager;
-import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 
-import java.net.UnknownHostException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-/**
- * <h1>The SignUp activity.</h1>
- * <h2>This activity is used to sign up into the app.</h2>
- */
-public class SignUpActivity extends AppCompatActivity {
+
+public class SignUpActivity extends AppCompatActivity implements SignUpView{
 
     @BindView(R.id.email)
     protected TextInputLayout email;
@@ -53,12 +44,18 @@ public class SignUpActivity extends AppCompatActivity {
     protected TextInputLayout url;
 
     private String alertTitle,alertMessage;
+    SignUpInteractor signUpInteractor;
+
+
+    private static final String TAG = "SignUpActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+        signUpInteractor = new SignUpPresenterImpl(this, getApplicationContext());
+
 
         if(savedInstanceState!=null){
             email.getEditText().setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString());
@@ -92,124 +89,6 @@ public class SignUpActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupPasswordWatcher() {
-        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    CredentialHelper.checkPasswordValid(password, SignUpActivity.this);
-                }
-            }
-        });
-    }
-
-    /**
-     * Show input edit text for custom url.
-     */
-    @OnClick(R.id.personal_server)
-    public void showURL() {
-        url.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * Hide input edit text for custom url.
-     */
-    @OnClick(R.id.susi_default)
-    public void hideURL() {
-        url.setVisibility(View.GONE);
-    }
-
-    /**
-     * Called when a user clicks on the sign up button
-     */
-    @OnClick(R.id.sign_up)
-    public void signUp() {
-        if (CredentialHelper.checkIfEmpty(email, this) |
-                CredentialHelper.checkIfEmpty(password, this) |
-                CredentialHelper.checkIfEmpty(confirmPassword, this)) {
-            return;
-        }
-        if (!CredentialHelper.isEmailValid(email.getEditText().getText().toString())) {
-            email.setError(getApplicationContext().getString(R.string.invalid_email));
-            return;
-        }
-        email.setError(null);
-        if (!CredentialHelper.checkPasswordValid(password, this)) {
-            return;
-        }
-        if (!password.getEditText().getText().toString()
-                .equals(confirmPassword.getEditText().getText().toString())) {
-            confirmPassword.setError(getApplicationContext().getString(R.string.error_password_matching));
-            return;
-        }
-        if(personalServer.isChecked()) {
-            if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
-                if (CredentialHelper.getValidURL(url,this) != null) {
-                    PrefManager.putBoolean(Constant.SUSI_SERVER, false);
-                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url, this));
-                } else {
-                    url.setError(getApplicationContext().getString(R.string.invalid_url));
-                    return;
-                }
-            } else {
-                return;
-            }
-        } else{
-            PrefManager.putBoolean(Constant.SUSI_SERVER, true);
-        }
-        confirmPassword.setError(null);
-        signUp.setEnabled(false);
-        final ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setMessage(getApplicationContext().getString(R.string.signing_up));
-        progressDialog.show();
-
-        final Call<SignUpResponse> signUpCall = new ClientBuilder().getSusiApi()
-                .signUp(email.getEditText().getText().toString().trim(),
-                        password.getEditText().getText().toString());
-        progressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                signUpCall.cancel();
-                signUp.setEnabled(true);
-            }
-        });
-
-        signUpCall.enqueue(new Callback<SignUpResponse>() {
-            @Override
-            public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    alertSuccess();
-                    CredentialHelper.clearFields(email, password, confirmPassword);
-                } else {
-                    if(response.code() == 422) {
-                        alertFailure();
-                    } else {
-                        alertError(response.code()+getResources().getString(R.string.error), response.message());
-                    }
-                    // After the implementation of "Forgot Password" option we could create a xml layout for the dialog.
-                    // Until then we need to add the buttons dynamically.
-                }
-                signUp.setEnabled(true);
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<SignUpResponse> call, Throwable t) {
-                t.printStackTrace();
-                if( t instanceof UnknownHostException) {
-                    alertError(getResources().getString(R.string.unknown_host_exception), t.getMessage());
-                    signUp.setEnabled(true);
-                    progressDialog.dismiss();
-                } else {
-                    Toast.makeText(SignUpActivity.this, getApplicationContext().getString(R.string.internet_connection_prompt), Toast.LENGTH_SHORT).show();
-                    signUp.setEnabled(true);
-                    progressDialog.dismiss();
-                }
-            }
-        });
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -238,9 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
         no.setTextColor(getResources().getColor(R.color.md_red_500));
     }
 
-    /**
-     * Displays an alert dialog box in case of successful sign up
-     */
+    @Override
     public void alertSuccess() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -254,20 +131,102 @@ public class SignUpActivity extends AppCompatActivity {
         successAlertboxHelper.showAlertBox();
     }
 
-    /**
-     * Displays an alert dialog box in case of unsuccessful sign up. Shows error while signing up.
-     *
-     * @param title   the title
-     * @param message the message
-     */
+    @Override
     public void alertError(String title,String message) {
         AlertboxHelper errorAlertboxHelper = new AlertboxHelper(SignUpActivity.this, title, message, null, null, getResources().getString(R.string.ok), null, Color.BLUE);
         errorAlertboxHelper.showAlertBox();
     }
 
-    /**
-     * Displays an alert dialog box in case of unsuccessful sign up or any exception
-     */
+    @Override
+    public void setErrorEmail(String msg) {
+        email.setError(msg);
+    }
+
+    @Override
+    public void setErrorPass(String msg) {
+        password.setError(msg);
+    }
+
+    @Override
+    public void setErrorConpass(String msg) {
+        confirmPassword.setError(msg);
+    }
+
+    @Override
+    public void setErrorUrl(String msg) {
+        url.setError(msg);
+    }
+
+    @Override
+    public void enableSignUp(boolean bool) {
+        signUp.setEnabled(bool);
+    }
+
+    @Override
+    public boolean isPersonalServer() {
+        return personalServer.isChecked();
+    }
+
+    @Override
+    public void clearFiled() {
+        CredentialHelper.clearFields(email, password, confirmPassword);
+    }
+
+    @Override
+    public boolean checkIfEmptyUrl() {
+        return CredentialHelper.checkIfEmpty(url,this);
+    }
+
+    @Override
+    public boolean isURLValid() {
+        return CredentialHelper.isURLValid(url,this);
+    }
+
+    @Override
+    public boolean isEmailValid(String email) {
+        return CredentialHelper.isEmailValid(email);
+    }
+
+    @Override
+    public void setupPasswordWatcher() {
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    CredentialHelper.checkPasswordValid(password, SignUpActivity.this);
+                }
+            }
+        });
+    }
+
+    @Override
+    public String getValidURL() {
+        return CredentialHelper.getValidURL(url, this);
+    }
+
+    @Override
+    public ProgressDialog showProcess() {
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this);
+        progressDialog.setCancelable(false);
+        progressDialog.setMessage(getApplicationContext().getString(R.string.signing_up));
+        progressDialog.show();
+        return progressDialog;
+    }
+
+    @Override
+    public boolean checkPasswordValid() {
+        return CredentialHelper.checkPasswordValid(password, this);
+    }
+
+    @Override
+    public boolean checkCredentials() {
+
+        return CredentialHelper.checkIfEmpty(email, this) |
+                CredentialHelper.checkIfEmpty(password, this) |
+                CredentialHelper.checkIfEmpty(confirmPassword, this);
+    }
+
+    @Override
     public void alertFailure() {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -291,4 +250,20 @@ public class SignUpActivity extends AppCompatActivity {
         AlertboxHelper failureAlertboxHelper = new AlertboxHelper(SignUpActivity.this, alertTitle, alertMessage, dialogClickListener, dialogClickListenern, getResources().getString(R.string.ok), getResources().getString(R.string.forgot_pass_activity), getResources().getColor(R.color.md_blue_500));
         failureAlertboxHelper.showAlertBox();
     }
+
+    @OnClick(R.id.sign_up)
+    public void signUp() {
+            signUpInteractor.signUp(email.getEditText().getText().toString() , password.getEditText().getText().toString(), confirmPassword.getEditText().getText().toString());
+        }
+
+    @OnClick(R.id.personal_server)
+    public void showURL() {
+        url.setVisibility(View.VISIBLE);
+    }
+
+    @OnClick(R.id.susi_default)
+    public void hideURL() {
+        url.setVisibility(View.GONE);
+    }
+
 }

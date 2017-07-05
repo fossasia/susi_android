@@ -18,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.activities.SignUp.SignUpActivity;
 import org.fossasia.susi.ai.helper.AlertboxHelper;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.CredentialHelper;
