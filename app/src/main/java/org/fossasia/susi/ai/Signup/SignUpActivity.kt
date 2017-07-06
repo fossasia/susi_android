@@ -12,7 +12,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.activities.ForgotPasswordActivity
-import org.fossasia.susi.ai.activities.LoginActivity
+import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
@@ -142,7 +142,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun getValidURL(): String {
-        return CredentialHelper.getValidURL(input_url, this)
+        return CredentialHelper.getValidURL(input_url.editText?.text.toString())
     }
 
     override fun showProcess(): ProgressDialog {
