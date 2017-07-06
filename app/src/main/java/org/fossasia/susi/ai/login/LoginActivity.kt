@@ -12,8 +12,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.signup.SignUpActivity
-import org.fossasia.susi.ai.activities.ForgotPasswordActivity
 import org.fossasia.susi.ai.activities.MainActivity
+import org.fossasia.susi.ai.forgotPassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 
