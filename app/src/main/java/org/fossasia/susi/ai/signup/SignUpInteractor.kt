@@ -1,7 +1,7 @@
-package org.fossasia.susi.ai.Signup
+package org.fossasia.susi.ai.signup
 
-import android.util.Log
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
@@ -15,32 +15,42 @@ import java.net.UnknownHostException
  */
 class SignUpInteractor: ISignUpInteractor {
 
-    override fun signUp(email: String, password: String, conpass: String, listener: ISignUpInteractor.OnLoginFinishedListener) {
-        if (listener.checkCredentials()!!) {
+    override fun signUp(email: String, password: String, conpass: String, url: String, listener: ISignUpInteractor.OnLoginFinishedListener) {
+        if(email.isEmpty()){
+            listener.emptyEmail()
             return
         }
-        if (!listener.isEmailValid(email)) {
-            listener.setErrorEmail(true)
+        if(password.isEmpty()){
+            listener.emptyPassword()
             return
         }
-        listener.setErrorEmail(false)
-        if (!listener.checkPasswordValid()) {
+        if(conpass.isEmpty()){
+            listener.emptyConPassword()
+            return
+        }
+        if (!CredentialHelper.isEmailValid(email)) {
+            listener.setErrorEmail()
+            return
+        }
+        if (!CredentialHelper.checkPasswordValid(password)) {
+            listener.passwordInvalid()
             return
         }
         if (password != conpass) {
             listener.setErrorPass()
             return
         }
-        if(listener.isPersonalServer()!!) {
-            if(!listener.checkIfEmptyUrl() && listener.isURLValid()!!) {
-                if (listener?.getValidURL() != null) {
+        if(listener.isPersonalServer()) {
+            if(!url.isEmpty() && CredentialHelper.isURLValid(url)) {
+                if (CredentialHelper.getValidURL(url) != null) {
                     PrefManager.putBoolean(Constant.SUSI_SERVER, false)
-                    PrefManager.putString(Constant.CUSTOM_SERVER, listener.getValidURL())
+                    PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url))
                 } else {
                     listener.setErrorUrl()
                     return
                 }
             } else {
+                listener.setErrorUrl()
                 return
             }
         } else{

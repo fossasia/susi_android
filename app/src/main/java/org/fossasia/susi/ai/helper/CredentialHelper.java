@@ -62,17 +62,12 @@ public class CredentialHelper {
      * Check password valid boolean.
      *
      * @param password the password
-     * @param context  the context
      * @return the boolean
      */
-    public static boolean checkPasswordValid(TextInputLayout password, Context context) {
-        if (password.getEditText() == null)
-            throw new IllegalArgumentException("No Edittext hosted!");
-        if (!isPasswordValid(password.getEditText().getText().toString())) {
-            password.setError(context.getString(R.string.pass_validation_text));
+    public static boolean checkPasswordValid(String password) {
+        if (!isPasswordValid(password)) {
             return false;
         } else {
-            password.setError(null);
             return true;
         }
     }
@@ -81,17 +76,12 @@ public class CredentialHelper {
      * Is url valid boolean.
      *
      * @param url     the url
-     * @param context the context
      * @return the boolean
      */
-    public static boolean isURLValid(TextInputLayout url, Context context) {
-        if (url.getEditText() == null)
-            throw new IllegalArgumentException("No Edittext hosted!");
-        if (!Patterns.WEB_URL.matcher(url.getEditText().getText().toString()).matches()) {
-            url.setError("Invalid URL");
+    public static boolean isURLValid(String url) {
+        if (!Patterns.WEB_URL.matcher(url).matches()) {
             return false;
         } else {
-            url.setError(null);
             return true;
         }
     }
@@ -125,8 +115,6 @@ public class CredentialHelper {
      * @return the boolean
      */
     public static boolean checkIfEmpty(TextInputLayout inputLayout, Context context) {
-        if (inputLayout.getEditText() == null)
-            throw new IllegalArgumentException("No Edittext hosted!");
         if (TextUtils.isEmpty(inputLayout.getEditText().getText().toString())) {
             inputLayout.setError(context.getString(R.string.field_cannot_be_empty));
             return true;

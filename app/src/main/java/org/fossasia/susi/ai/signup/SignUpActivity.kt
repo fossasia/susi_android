@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.Signup
+package org.fossasia.susi.ai.signup
 
 import android.app.ProgressDialog
 import android.content.DialogInterface
@@ -30,9 +30,18 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         setContentView(R.layout.activity_sign_up)
         addListeners()
 
+        if(savedInstanceState!=null){
+            email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
+            password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
+            confirm_password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[2].toString())
+            if(savedInstanceState.getBoolean(Constant.SERVER)) {
+                input_url.visibility = View.VISIBLE
+            } else {
+                input_url.visibility = View.GONE
+            }
+        }
         signUpPresenter = SignUpPresenter()
-        signUpPresenter?.onAttach(this, applicationContext)
-
+        signUpPresenter?.onAttach(this)
     }
 
     fun addListeners() {
@@ -70,13 +79,13 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         no.setTextColor(resources.getColor(R.color.md_red_500))
     }
 
-
     override fun alertSuccess() {
         val dialogClickListener = DialogInterface.OnClickListener { dialogInterface, i -> finish() }
         val alertTitle = resources.getString(R.string.signup)
         val alertMessage = resources.getString(R.string.signup_msg)
         val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, alertTitle, alertMessage, dialogClickListener, null, resources.getString(R.string.ok), null, resources.getColor(R.color.md_blue_500))
-        successAlertboxHelper.showAlertBox()    }
+        successAlertboxHelper.showAlertBox()
+    }
 
     override fun alertFailure() {
         val dialogClickListener = DialogInterface.OnClickListener { dialogInterface, i ->
@@ -96,29 +105,29 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         failureAlertboxHelper.showAlertBox()
     }
 
-    override fun alertError(title: String, message: String) {
-        val errorAlertboxHelper = AlertboxHelper(this@SignUpActivity, title, message, null, null, resources.getString(R.string.ok), null, Color.BLUE)
+    override fun alertError(message: String) {
+        val errorAlertboxHelper = AlertboxHelper(this@SignUpActivity, getString(R.string.unknown_host_exception), message, null, null, resources.getString(R.string.ok), null, Color.BLUE)
         errorAlertboxHelper.showAlertBox()
     }
 
-    override fun setErrorEmail(msg: String) {
-        email?.setError(msg)
+    override fun setErrorEmail() {
+        email?.error = getString(R.string.invalid_email)
     }
 
-    override fun setErrorPass(msg: String) {
-        password?.setError(msg)
+    override fun setErrorPass() {
+        password?.error = getString(R.string.error_password_matching)
     }
 
     override fun setErrorConpass(msg: String) {
-        confirm_password?.setError(msg)
+        confirm_password?.error = msg
     }
 
-    override fun setErrorUrl(msg: String) {
-        input_url?.setError(msg)
+    override fun setErrorUrl() {
+        input_url?.error = getString(R.string.invalid_url)
     }
 
     override fun enableSignUp(bool: Boolean) {
-        sign_up?.setEnabled(bool)
+        sign_up?.isEnabled = bool
     }
 
     override fun isPersonalServer(): Boolean? {
@@ -129,20 +138,12 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         CredentialHelper.clearFields(email, password, confirm_password)
     }
 
-    override fun checkIfEmptyUrl(): Boolean {
-        return CredentialHelper.checkIfEmpty(input_url, this)
-    }
-
     override fun setupPasswordWatcher() {
         password?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                CredentialHelper.checkPasswordValid(password, this@SignUpActivity)
+                CredentialHelper.checkPasswordValid(password.editText?.text.toString())
             }
         }
-    }
-
-    override fun getValidURL(): String {
-        return CredentialHelper.getValidURL(input_url.editText?.text.toString())
     }
 
     override fun showProcess(): ProgressDialog {
@@ -153,31 +154,33 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         return progressDialog
     }
 
-    override fun checkCredentials(): Boolean {
-        return CredentialHelper.checkIfEmpty(email, this) or
-                CredentialHelper.checkIfEmpty(password, this) or
-                CredentialHelper.checkIfEmpty(confirm_password, this)
-    }
-
-    override fun isEmailValid(email: String): Boolean {
-        return CredentialHelper.isEmailValid(email)
-    }
-
-    override fun checkPasswordValid(): Boolean {
-        return CredentialHelper.checkPasswordValid(password, this);
-    }
-
-    override fun isURLValid(): Boolean {
-        return CredentialHelper.isURLValid(input_url,this);
-    }
-
     override fun clearFiled() {
         CredentialHelper.clearFields(email, password, confirm_password)
     }
 
+    override fun emptyEmailError() {
+        email.error = getString(R.string.field_cannot_be_empty)
+        sign_up.isEnabled = true
+    }
+
+    override fun emptyPasswordError() {
+        password.error = getString(R.string.field_cannot_be_empty)
+        sign_up.isEnabled = true
+    }
+
+    override fun emptyConPassError() {
+        confirm_password.error = getString(R.string.field_cannot_be_empty)
+        sign_up.isEnabled = true
+    }
+
+    override fun passwordInvalid() {
+        password.error = getString(R.string.pass_validation_text)
+        sign_up.isEnabled = true
+    }
+
     fun showURL() {
         personal_server.setOnClickListener {
-                input_url?.visibility = View.VISIBLE
+            input_url?.visibility = View.VISIBLE
         }
     }
 
@@ -191,11 +194,17 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         sign_up.setOnClickListener {
 
+            email.error = null
+            password.error = null
+            confirm_password.error = null
+            input_url.error = null
+
             val stringEmail = email.editText?.text.toString()
             val stringPassword = password.editText?.text.toString()
             val stringConPassword = confirm_password.editText?.text.toString()
+            val stringURL = input_url.editText?.text.toString()
 
-            signUpPresenter?.signUp(stringEmail, stringPassword, stringConPassword)
+            signUpPresenter?.signUp(stringEmail, stringPassword, stringConPassword, stringURL)
         }
     }
 
