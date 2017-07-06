@@ -65,11 +65,7 @@ public class CredentialHelper {
      * @return the boolean
      */
     public static boolean checkPasswordValid(String password) {
-        if (!isPasswordValid(password)) {
-            return false;
-        } else {
-            return true;
-        }
+        return isPasswordValid(password);
     }
 
     /**
@@ -79,11 +75,7 @@ public class CredentialHelper {
      * @return the boolean
      */
     public static boolean isURLValid(String url) {
-        if (!Patterns.WEB_URL.matcher(url).matches()) {
-            return false;
-        } else {
-            return true;
-        }
+        return Patterns.WEB_URL.matcher(url).matches();
     }
 
     /**
