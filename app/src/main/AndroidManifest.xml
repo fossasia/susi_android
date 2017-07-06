@@ -33,7 +33,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
             tools:replace="android:theme" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>

@@ -34,7 +34,7 @@
             android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         <intent-filter>

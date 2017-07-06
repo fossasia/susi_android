@@ -119,7 +119,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@color/md_grey_300"
+            android:background="@drawable/rounded_button"
             android:text="@string/sign_up"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
