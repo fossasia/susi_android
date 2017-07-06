@@ -35,12 +35,14 @@ interface ISignUpView {
 
     fun showProcess(): ProgressDialog
 
-    fun  checkCredentials(): Boolean
+    fun checkCredentials(): Boolean
 
-    fun  isEmailValid(email: String): Boolean
+    fun isEmailValid(email: String): Boolean
 
-    fun  checkPasswordValid(): Boolean
+    fun checkPasswordValid(): Boolean
 
-    fun  isURLValid(): Boolean
+    fun isURLValid(): Boolean
+
+    fun clearFiled()
 
 }

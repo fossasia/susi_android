@@ -5,15 +5,11 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.RadioButton
-import butterknife.BindView
-import butterknife.ButterKnife
+import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.activities.ForgotPasswordActivity
 import org.fossasia.susi.ai.activities.LoginActivity
@@ -27,33 +23,23 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
-    @BindView(R.id.email)
-    protected var email: TextInputLayout? = null
-    @BindView(R.id.password)
-    protected var password: TextInputLayout? = null
-    @BindView(R.id.confirm_password)
-    protected var confirmPassword: TextInputLayout? = null
-    @BindView(R.id.sign_up)
-    protected var signUp: Button? = null
-    @BindView(R.id.susi_default)
-    protected var susiServer: RadioButton? = null
-    @BindView(R.id.personal_server)
-    protected var personalServer: RadioButton? = null
-    @BindView(R.id.input_url)
-    protected var url: TextInputLayout? = null
-
     var signUpPresenter: ISignUpPresenter? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        ButterKnife.bind(this)
+        setContentView(R.layout.activity_sign_up)
+        addListeners()
 
         signUpPresenter = SignUpPresenter()
-        signUpPresenter!!.onAttach(this, applicationContext)
+        signUpPresenter?.onAttach(this, applicationContext)
 
     }
+
+    fun addListeners() {
+            showURL()
+            hideURL()
+            signUp()
+        }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -65,9 +51,9 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val values = arrayOf<CharSequence>(email?.editText!!.text.toString(), password?.editText!!.text.toString(), confirmPassword?.editText!!.text.toString())
+        val values = arrayOf<CharSequence>(email?.editText!!.text.toString(), password?.editText!!.text.toString(), confirm_password?.editText!!.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, personalServer?.isChecked!!)
+        outState.putBoolean(Constant.SERVER, personal_server?.isChecked!!)
     }
 
     override fun onBackPressed() {
@@ -124,27 +110,27 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun setErrorConpass(msg: String) {
-        confirmPassword?.setError(msg)
+        confirm_password?.setError(msg)
     }
 
     override fun setErrorUrl(msg: String) {
-        url?.setError(msg)
+        input_url?.setError(msg)
     }
 
     override fun enableSignUp(bool: Boolean) {
-        signUp?.setEnabled(bool)
+        sign_up?.setEnabled(bool)
     }
 
     override fun isPersonalServer(): Boolean? {
-        return personalServer?.isChecked()
+        return personal_server?.isChecked()
     }
 
     override fun clearField() {
-        CredentialHelper.clearFields(email, password, confirmPassword)
+        CredentialHelper.clearFields(email, password, confirm_password)
     }
 
     override fun checkIfEmptyUrl(): Boolean {
-        return CredentialHelper.checkIfEmpty(url, this)
+        return CredentialHelper.checkIfEmpty(input_url, this)
     }
 
     override fun setupPasswordWatcher() {
@@ -156,7 +142,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun getValidURL(): String {
-        return CredentialHelper.getValidURL(url, this)
+        return CredentialHelper.getValidURL(input_url, this)
     }
 
     override fun showProcess(): ProgressDialog {
@@ -170,11 +156,11 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     override fun checkCredentials(): Boolean {
         return CredentialHelper.checkIfEmpty(email, this) or
                 CredentialHelper.checkIfEmpty(password, this) or
-                CredentialHelper.checkIfEmpty(confirmPassword, this)
+                CredentialHelper.checkIfEmpty(confirm_password, this)
     }
 
     override fun isEmailValid(email: String): Boolean {
-        return CredentialHelper.isEmailValid(email);
+        return CredentialHelper.isEmailValid(email)
     }
 
     override fun checkPasswordValid(): Boolean {
@@ -182,7 +168,35 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun isURLValid(): Boolean {
-        return CredentialHelper.isURLValid(url,this);
+        return CredentialHelper.isURLValid(input_url,this);
+    }
+
+    override fun clearFiled() {
+        CredentialHelper.clearFields(email, password, confirm_password)
+    }
+
+    fun showURL() {
+        personal_server.setOnClickListener {
+                input_url?.visibility = View.VISIBLE
+        }
+    }
+
+    fun hideURL() {
+        susi_default.setOnClickListener {
+            input_url?.visibility = View.GONE
+        }
+    }
+
+    fun signUp() {
+
+        sign_up.setOnClickListener {
+
+            val stringEmail = email.editText?.text.toString()
+            val stringPassword = password.editText?.text.toString()
+            val stringConPassword = confirm_password.editText?.text.toString()
+
+            signUpPresenter?.signUp(stringEmail, stringPassword, stringConPassword)
+        }
     }
 
 }

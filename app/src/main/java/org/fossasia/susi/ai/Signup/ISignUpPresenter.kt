@@ -8,9 +8,9 @@ import android.content.Context
  */
 interface ISignUpPresenter {
 
-    fun onAttach(sinUpView: ISignUpView, context: Context)
+    fun onAttach(signUpView: ISignUpView, context: Context)
 
-    fun login(email: String, password: String, conpass: String)
+    fun signUp(email: String, password: String, conpass: String)
 
     fun onDetach()
 

@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.helper;
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 
 import org.fossasia.susi.ai.R;
@@ -17,6 +18,8 @@ import java.util.regex.Pattern;
  */
 public class CredentialHelper {
 
+    private static final String TAG = "CredentialHelper";
+
     private static Pattern PASSWORD_PATTERN = Pattern.compile("^.{6,64}$");
 
     /**
@@ -26,6 +29,7 @@ public class CredentialHelper {
      * @return the boolean
      */
     public static boolean isEmailValid(String mail) {
+        Log.d(TAG, "isEmailValid: " + mail);
         String email = mail.trim();
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
