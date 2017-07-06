@@ -20,6 +20,7 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
+import org.fossasia.susi.ai.login.LoginActivity;
 
 import io.realm.Realm;
 

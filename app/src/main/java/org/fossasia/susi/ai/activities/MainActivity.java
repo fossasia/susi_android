@@ -71,6 +71,7 @@ import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
+import org.fossasia.susi.ai.login.LoginActivity;
 import org.fossasia.susi.ai.model.ChatMessage;
 import org.fossasia.susi.ai.model.MapData;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;

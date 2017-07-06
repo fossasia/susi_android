@@ -14,7 +14,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:weightSum="1"
-        tools:context="org.fossasia.susi.ai.activities.LoginActivity">
+        tools:context="org.fossasia.susi.ai.login.LoginActivity">
 
         <ImageView
             android:layout_width="wrap_content"
