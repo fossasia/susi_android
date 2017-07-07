@@ -109,7 +109,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
 
         if(personalServer.isChecked()) {
-            if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url,this)) {
+            if(!CredentialHelper.checkIfEmpty(url,this) && CredentialHelper.isURLValid(url.getEditText().getText().toString())) {
                 if (CredentialHelper.getValidURL(url.getEditText().getText().toString()) != null) {
                     PrefManager.putBoolean(Constant.SUSI_SERVER, false);
                     PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url.getEditText().getText().toString()));
@@ -118,6 +118,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     return;
                 }
             } else {
+                url.setError(getApplicationContext().getString(R.string.invalid_url));
                 return;
             }
         } else{
