@@ -53,13 +53,12 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
     @Override
     public void onBindViewHolder(final RssViewHolder holder, int position) {
         Datum datum = datumList.get(position);
-        if (datum.getTitle() != null) {
-             holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
-            if(datum.getDescription().isEmpty()) {
-                holder.descriptionTextView.setVisibility(View.GONE);
+        if(datum != null) {
+            if( datum.getTitle() == null || datum.getTitle().isEmpty()) {
+                holder.titleTextView.setVisibility(View.GONE);
             } else {
-                holder.descriptionTextView.setVisibility(View.VISIBLE);
-                holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
+                holder.titleTextView.setVisibility(View.VISIBLE);
+                holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
             }
             holder.linkTextView.setText(datum.getLink());
             if (!TextUtils.isEmpty(datum.getLink())) {
