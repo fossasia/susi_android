@@ -15,7 +15,7 @@ import java.net.UnknownHostException
  */
 class SignUpInteractor: ISignUpInteractor {
 
-    override fun signUp(email: String, password: String, conpass: String, url: String, listener: ISignUpInteractor.OnLoginFinishedListener) {
+    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, listener: ISignUpInteractor.OnLoginFinishedListener) {
         if(email.isEmpty()){
             listener.emptyEmail()
             return
@@ -32,7 +32,7 @@ class SignUpInteractor: ISignUpInteractor {
             listener.setErrorEmail()
             return
         }
-        if (!CredentialHelper.checkPasswordValid(password)) {
+        if (!CredentialHelper.isPasswordValid(password)) {
             listener.passwordInvalid()
             return
         }
@@ -40,7 +40,7 @@ class SignUpInteractor: ISignUpInteractor {
             listener.setErrorPass()
             return
         }
-        if(listener.isPersonalServer()) {
+        if(!isSusiServerSelected) {
             if(!url.isEmpty() && CredentialHelper.isURLValid(url)) {
                 if (CredentialHelper.getValidURL(url) != null) {
                     PrefManager.putBoolean(Constant.SUSI_SERVER, false)
@@ -57,7 +57,6 @@ class SignUpInteractor: ISignUpInteractor {
             PrefManager.putBoolean(Constant.SUSI_SERVER, true)
         }
         listener.enableSignUp(false)
-        val progressDialog = listener.showProcess()
 
         val signUpCall = ClientBuilder().susiApi
                 .signUp(email.trim(), password)
@@ -76,7 +75,7 @@ class SignUpInteractor: ISignUpInteractor {
 
                 }
                 listener.enableSignUp(true)
-                progressDialog.dismiss()
+                listener.hideProgress()
             }
 
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
@@ -84,10 +83,10 @@ class SignUpInteractor: ISignUpInteractor {
                 if( t is UnknownHostException) {
                     listener.alertError(t.message.toString())
                     listener.enableSignUp(true)
-                    progressDialog.dismiss()
+                    listener.hideProgress()
                 } else {
                     listener.enableSignUp(true)
-                    progressDialog.dismiss()
+                    listener.hideProgress()
                 }
             }
         })

@@ -59,16 +59,6 @@ public class CredentialHelper {
     }
 
     /**
-     * Check password valid boolean.
-     *
-     * @param password the password
-     * @return the boolean
-     */
-    public static boolean checkPasswordValid(String password) {
-        return isPasswordValid(password);
-    }
-
-    /**
      * Is url valid boolean.
      *
      * @param url     the url

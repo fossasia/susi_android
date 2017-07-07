@@ -24,6 +24,7 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     var signUpPresenter: ISignUpPresenter? = null
+    var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,15 +41,20 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                 input_url.visibility = View.GONE
             }
         }
+
+        progressDialog = ProgressDialog(this@SignUpActivity)
+        progressDialog?.setCancelable(false)
+        progressDialog?.setMessage(applicationContext.getString(R.string.signing_up))
+
         signUpPresenter = SignUpPresenter()
         signUpPresenter?.onAttach(this)
     }
 
     fun addListeners() {
-            showURL()
-            hideURL()
-            signUp()
-        }
+        showURL()
+        hideURL()
+        signUp()
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
@@ -130,10 +136,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         sign_up?.isEnabled = bool
     }
 
-    override fun isPersonalServer(): Boolean? {
-        return personal_server?.isChecked()
-    }
-
     override fun clearField() {
         CredentialHelper.clearFields(email, password, confirm_password)
     }
@@ -141,17 +143,17 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     override fun setupPasswordWatcher() {
         password?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
             if (!hasFocus) {
-                CredentialHelper.checkPasswordValid(password.editText?.text.toString())
+                CredentialHelper.isPasswordValid(password.editText?.text.toString())
             }
         }
     }
 
-    override fun showProcess(): ProgressDialog {
-        val progressDialog = ProgressDialog(this@SignUpActivity)
-        progressDialog.setCancelable(false)
-        progressDialog.setMessage(applicationContext.getString(R.string.signing_up))
-        progressDialog.show()
-        return progressDialog
+    override fun showProcess() {
+        progressDialog?.show()
+    }
+
+    override fun hideProcess() {
+        progressDialog?.hide()
     }
 
     override fun clearFiled() {
@@ -204,7 +206,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val stringConPassword = confirm_password.editText?.text.toString()
             val stringURL = input_url.editText?.text.toString()
 
-            signUpPresenter?.signUp(stringEmail, stringPassword, stringConPassword, stringURL)
+            signUpPresenter?.signUp(stringEmail, stringPassword, stringConPassword, susi_default.isChecked, stringURL)
         }
     }
 

@@ -7,7 +7,7 @@ interface ISignUpPresenter {
 
     fun onAttach(signUpView: ISignUpView)
 
-    fun signUp(email: String, password: String, conpass: String, url: String)
+    fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String)
 
     fun onDetach()
 

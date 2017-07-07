@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.signup
 
-import android.app.ProgressDialog
 import android.content.Context
 
 /**
@@ -18,8 +17,8 @@ class SignUpPresenter: ISignUpPresenter, ISignUpInteractor.OnLoginFinishedListen
         this.signUpInteractor = SignUpInteractor()
     }
 
-    override fun signUp(email: String, password: String, conpass: String, url: String) {
-        signUpInteractor?.signUp(email, password, conpass, url, this)
+    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String) {
+        signUpInteractor?.signUp(email, password, conpass, isSusiServerSelected, url, this)
     }
 
     override fun enableSignUp(b: Boolean) {
@@ -42,8 +41,12 @@ class SignUpPresenter: ISignUpPresenter, ISignUpInteractor.OnLoginFinishedListen
         signUpView?.alertSuccess()
     }
 
-    override fun showProcess(): ProgressDialog {
-        return signUpView?.showProcess()!!
+    override fun showProgress() {
+        signUpView?.showProcess()
+    }
+
+    override fun hideProgress() {
+        signUpView?.hideProcess()
     }
 
     override fun setErrorEmail() {
@@ -51,15 +54,11 @@ class SignUpPresenter: ISignUpPresenter, ISignUpInteractor.OnLoginFinishedListen
     }
 
     override fun passwordInvalid() {
-        signUpView?.passwordInvalid()!!
+        signUpView?.passwordInvalid()
     }
 
     override fun setErrorPass() {
         signUpView?.setErrorPass()
-    }
-
-    override fun isPersonalServer(): Boolean {
-        return signUpView?.isPersonalServer() as Boolean
     }
 
     override fun setErrorUrl() {

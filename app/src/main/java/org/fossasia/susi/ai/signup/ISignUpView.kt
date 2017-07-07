@@ -15,10 +15,10 @@ interface ISignUpView {
     fun setErrorConpass(msg: String)
     fun setErrorUrl()
     fun enableSignUp(bool: Boolean)
-    fun isPersonalServer(): Boolean?
     fun clearField()
     fun setupPasswordWatcher()
-    fun showProcess(): ProgressDialog
+    fun showProcess()
+    fun hideProcess()
     fun passwordInvalid()
     fun clearFiled()
     fun emptyEmailError()

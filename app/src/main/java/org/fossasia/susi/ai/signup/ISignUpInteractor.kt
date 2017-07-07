@@ -14,18 +14,18 @@ interface ISignUpInteractor {
         fun alertFailure()
         fun clearField()
         fun alertSuccess()
-        fun showProcess(): ProgressDialog
         fun setErrorEmail()
         fun setErrorPass()
-        fun isPersonalServer(): Boolean
         fun setErrorUrl()
         fun emptyEmail()
         fun emptyPassword()
         fun emptyConPassword()
         fun passwordInvalid()
+        fun showProgress()
+        fun hideProgress()
 
     }
 
-    fun signUp(email: String, password: String, conpass: String, url: String, listener: ISignUpInteractor.OnLoginFinishedListener)
+    fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, listener: ISignUpInteractor.OnLoginFinishedListener)
 
 }
