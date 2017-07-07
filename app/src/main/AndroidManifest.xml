@@ -20,7 +20,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name=".settings.SettingsActivity"
             android:label="@string/settings_title"
             android:theme="@style/PreferenceFixTheme.Light">
             <meta-data
@@ -28,7 +28,7 @@
                 android:value="org.fossasia.susi.ai.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize"
             tools:replace="android:theme" />
