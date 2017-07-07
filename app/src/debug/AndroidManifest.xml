@@ -30,7 +30,7 @@
                 android:value="org.fossasia.susi.ai.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
