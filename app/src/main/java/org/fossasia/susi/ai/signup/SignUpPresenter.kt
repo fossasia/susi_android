@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.signup
 
-import android.content.Context
-
 /**
  * Created by mayanktripathi on 05/07/17.
  */
@@ -10,7 +8,6 @@ class SignUpPresenter: ISignUpPresenter, ISignUpInteractor.OnLoginFinishedListen
 
     var signUpView: ISignUpView? = null
     var signUpInteractor: SignUpInteractor? = null
-    var context: Context? = null
 
     override fun onAttach(signUpView: ISignUpView) {
         this.signUpView = signUpView
@@ -42,11 +39,11 @@ class SignUpPresenter: ISignUpPresenter, ISignUpInteractor.OnLoginFinishedListen
     }
 
     override fun showProgress() {
-        signUpView?.showProcess()
+        signUpView?.showProgress()
     }
 
     override fun hideProgress() {
-        signUpView?.hideProcess()
+        signUpView?.hideProgress()
     }
 
     override fun setErrorEmail() {

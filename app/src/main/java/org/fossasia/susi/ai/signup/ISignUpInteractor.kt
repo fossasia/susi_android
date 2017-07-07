@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.signup
 
-import android.app.ProgressDialog
-
 /**
  * Created by mayanktripathi on 05/07/17.
  */

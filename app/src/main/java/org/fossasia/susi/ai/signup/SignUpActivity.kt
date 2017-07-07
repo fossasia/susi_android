@@ -44,7 +44,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         progressDialog = ProgressDialog(this@SignUpActivity)
         progressDialog?.setCancelable(false)
-        progressDialog?.setMessage(applicationContext.getString(R.string.signing_up))
+        progressDialog?.setMessage(this.getString(R.string.signing_up))
 
         signUpPresenter = SignUpPresenter()
         signUpPresenter?.onAttach(this)
@@ -66,17 +66,17 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val values = arrayOf<CharSequence>(email?.editText!!.text.toString(), password?.editText!!.text.toString(), confirm_password?.editText!!.text.toString())
+        val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirm_password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, personal_server?.isChecked!!)
+        outState.putBoolean(Constant.SERVER, personal_server.isChecked)
     }
 
     override fun onBackPressed() {
         val alertDialog = AlertDialog.Builder(this@SignUpActivity)
         alertDialog.setCancelable(false)
         alertDialog.setMessage(R.string.error_cancelling_signUp_process_text)
-        alertDialog.setPositiveButton(applicationContext.getString(R.string.yes)) { dialogInterface, i -> super@SignUpActivity.onBackPressed() }
-        alertDialog.setNegativeButton(applicationContext.getString(R.string.no), null)
+        alertDialog.setPositiveButton(R.string.yes) { _, _ -> super@SignUpActivity.onBackPressed() }
+        alertDialog.setNegativeButton((R.string.no), null)
         val alert = alertDialog.create()
         alert.show()
         val yes = alert.getButton(DialogInterface.BUTTON_POSITIVE)
@@ -86,27 +86,27 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun alertSuccess() {
-        val dialogClickListener = DialogInterface.OnClickListener { dialogInterface, i -> finish() }
-        val alertTitle = resources.getString(R.string.signup)
-        val alertMessage = resources.getString(R.string.signup_msg)
+        val dialogClickListener = DialogInterface.OnClickListener { _, _ -> finish() }
+        val alertTitle = getString(R.string.signup)
+        val alertMessage = getString(R.string.signup_msg)
         val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, alertTitle, alertMessage, dialogClickListener, null, resources.getString(R.string.ok), null, resources.getColor(R.color.md_blue_500))
         successAlertboxHelper.showAlertBox()
     }
 
     override fun alertFailure() {
-        val dialogClickListener = DialogInterface.OnClickListener { dialogInterface, i ->
+        val dialogClickListener = DialogInterface.OnClickListener { _, _ ->
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
         }
-        val dialogClickListenern = DialogInterface.OnClickListener { dialogInterface, i ->
+        val dialogClickListenern = DialogInterface.OnClickListener { _, _ ->
             val intent = Intent(this@SignUpActivity, ForgotPasswordActivity::class.java)
             startActivity(intent)
             finish()
         }
-        val alertTitle = resources.getString(R.string.error_email)
-        val alertMessage = resources.getString(R.string.error_msg)
+        val alertTitle = getString(R.string.error_email)
+        val alertMessage = getString(R.string.error_msg)
         val failureAlertboxHelper = AlertboxHelper(this@SignUpActivity, alertTitle, alertMessage, dialogClickListener, dialogClickListenern, resources.getString(R.string.ok), resources.getString(R.string.forgot_pass_activity), resources.getColor(R.color.md_blue_500))
         failureAlertboxHelper.showAlertBox()
     }
@@ -141,18 +141,18 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun setupPasswordWatcher() {
-        password?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+        password?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 CredentialHelper.isPasswordValid(password.editText?.text.toString())
             }
         }
     }
 
-    override fun showProcess() {
+    override fun showProgress() {
         progressDialog?.show()
     }
 
-    override fun hideProcess() {
+    override fun hideProgress() {
         progressDialog?.hide()
     }
 

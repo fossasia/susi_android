@@ -61,6 +61,8 @@ class SignUpInteractor: ISignUpInteractor {
         val signUpCall = ClientBuilder().susiApi
                 .signUp(email.trim(), password)
 
+        listener.showProgress()
+
         signUpCall?.enqueue(object : Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
                 if (response.isSuccessful && response.body() != null) {
