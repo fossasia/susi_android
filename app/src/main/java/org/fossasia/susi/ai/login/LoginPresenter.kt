@@ -51,7 +51,7 @@ class LoginPresenter: ILoginPresenter, ILoginInteractor.OnLoginFinishedListener,
     }
 
     override fun cancelLogin() {
-        loginInteractor!!.cancelLogin()
+        loginInteractor?.cancelLogin()
     }
 
     override fun incorrectEmail() {

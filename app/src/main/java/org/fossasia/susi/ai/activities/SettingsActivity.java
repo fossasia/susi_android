@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -54,7 +55,7 @@ public class SettingsActivity extends AppCompatActivity {
      * The Chat settings fragment.
      */
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
-        private Preference textToSpeech,rate,server,micSettings;
+        private Preference textToSpeech,rate,server,micSettings, hotwordSettings;
         private ListPreference theme;
 
         @Override
@@ -148,6 +149,23 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 PrefManager.putBoolean(Constant.MIC_INPUT, false);
                 micSettings.setEnabled(false);
+            }
+
+            hotwordSettings = getPreferenceManager().findPreference("hotword_detection");
+            if(ActivityCompat.checkSelfPermission(getContext(),
+                    Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(getContext(),
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                boolean voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(getContext());
+                if(!voiceInputAvailable || !Build.CPU_ABI.contains("arm") || Build.FINGERPRINT.contains("generic")) {
+                    PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false);
+                    hotwordSettings.setEnabled(false);
+                } else {
+                    hotwordSettings.setEnabled(true);
+                }
+            } else {
+                PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false);
+                hotwordSettings.setEnabled(false);
             }
         }
     }

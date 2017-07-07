@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
             recognizer=null;
         }
         hideVoiceInput();
-        if(recordingThread != null && !isDetectionOn) {
+        if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
             recordingThread.startRecording();
             isDetectionOn = true;
         }
@@ -334,6 +334,15 @@ public class MainActivity extends AppCompatActivity {
      */
     public boolean checkMicInput() {
         return micCheck = MediaUtil.isAvailableForVoiceInput(MainActivity.this);
+    }
+
+    /**
+     * Check for hotword detection pref boolean
+     *
+     * @return the boolean
+     */
+    public boolean checkHotwordPref() {
+        return PrefManager.getBoolean(Constant.HOTWORD_DETECTION, false);
     }
 
     /**
@@ -549,8 +558,10 @@ public class MainActivity extends AppCompatActivity {
                         Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED ) {
             if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && checkMicInput())
                 initHotword();
-            else
+            else {
                 showToast(getString(R.string.error_hotword));
+                PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false);
+            }
         }
     }
 
@@ -615,7 +626,7 @@ public class MainActivity extends AppCompatActivity {
                 sendMessage(voiceResults.get(0),voiceResults.get(0));
                 recognizer.destroy();
                 hideVoiceInput();
-                if(recordingThread != null && !isDetectionOn) {
+                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
                     recordingThread.startRecording();
                     isDetectionOn = true;
                 }
@@ -634,7 +645,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Could not recognize speech, try again.",Toast.LENGTH_SHORT).show();
                 recognizer.destroy();
                 hideVoiceInput();
-                if(recordingThread != null && !isDetectionOn) {
+                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
                     recordingThread.startRecording();
                     isDetectionOn = true;
                 }
@@ -711,7 +722,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }, new AudioDataSaver());
-            if(!isDetectionOn) {
+            if(!isDetectionOn && checkHotwordPref()) {
                 recordingThread.startRecording();
                 isDetectionOn = true;
             }
@@ -1004,8 +1015,10 @@ public class MainActivity extends AppCompatActivity {
                             if (grantResults.length >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
                                 if(Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && checkMicInput())
                                     initHotword();
-                                else
+                                else {
                                     showToast(getString(R.string.error_hotword));
+                                    PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false);
+                                }
                             }
                             break;
                     }
@@ -1046,7 +1059,7 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onDone(String s) {
-                                if(recordingThread != null && !isDetectionOn) {
+                                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
                                     recordingThread.startRecording();
                                     isDetectionOn = true;
                                 }
@@ -1054,7 +1067,7 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onError(String s) {
-                                if(recordingThread != null && !isDetectionOn) {
+                                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
                                     recordingThread.startRecording();
                                     isDetectionOn = true;
                                 }
@@ -1732,7 +1745,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
         checkEnterKeyPref();
-        if(recordingThread != null && !isDetectionOn) {
+        if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
             recordingThread.startRecording();
             isDetectionOn = true;
         }
