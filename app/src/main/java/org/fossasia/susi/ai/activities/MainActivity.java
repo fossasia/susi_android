@@ -29,7 +29,6 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.RequiresApi;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -510,6 +509,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        clientBuilder = new ClientBuilder();
         prefs = getSharedPreferences(Constant.THEME, MODE_PRIVATE);
         if(prefs.getString(Constant.THEME,"Light").equals("Dark")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -519,7 +519,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_main);
-        clientBuilder = new ClientBuilder();
 
         realm = Realm.getDefaultInstance();
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
@@ -1567,7 +1566,6 @@ public class MainActivity extends AppCompatActivity {
         menu.findItem(R.id.down_angle).setVisible(show);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
         if (!searchView.isIconified()) {
@@ -1587,7 +1585,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (atHome) {
             if (backPressedOnce) {
-                finishAffinity();
+                finish();
                 return;
             }
             backPressedOnce = true;
@@ -1723,6 +1721,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        clientBuilder = new ClientBuilder();
         nonDeliveredMessages.clear();
         RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered", false).findAll().sort("id");
         for (ChatMessage each : nonDelivered)
