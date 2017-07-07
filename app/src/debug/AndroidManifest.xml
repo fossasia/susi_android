@@ -17,7 +17,6 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
