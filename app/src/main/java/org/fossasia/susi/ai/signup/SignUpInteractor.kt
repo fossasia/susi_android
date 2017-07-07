@@ -93,4 +93,8 @@ class SignUpInteractor: ISignUpInteractor {
             }
         })
     }
+
+    override fun isvalidPassword(password: String): Boolean {
+        return CredentialHelper.isPasswordValid(password)
+    }
 }

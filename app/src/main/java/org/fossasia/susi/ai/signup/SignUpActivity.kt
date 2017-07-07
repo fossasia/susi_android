@@ -30,6 +30,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
         addListeners()
+        setupPasswordWatcher()
 
         if(savedInstanceState!=null){
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
@@ -140,24 +141,12 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         CredentialHelper.clearFields(email, password, confirm_password)
     }
 
-    override fun setupPasswordWatcher() {
-        password?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) {
-                CredentialHelper.isPasswordValid(password.editText?.text.toString())
-            }
-        }
-    }
-
     override fun showProgress() {
         progressDialog?.show()
     }
 
     override fun hideProgress() {
         progressDialog?.hide()
-    }
-
-    override fun clearFiled() {
-        CredentialHelper.clearFields(email, password, confirm_password)
     }
 
     override fun emptyEmailError() {
@@ -189,6 +178,14 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     fun hideURL() {
         susi_default.setOnClickListener {
             input_url?.visibility = View.GONE
+        }
+    }
+
+    fun setupPasswordWatcher() {
+        password.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            password.error = null
+            if (!hasFocus)
+                signUpPresenter?.checkForPassword(password.editText?.text.toString())
         }
     }
 

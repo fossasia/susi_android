@@ -66,6 +66,11 @@ class SignUpPresenter: ISignUpPresenter, ISignUpInteractor.OnLoginFinishedListen
         signUpView?.emptyEmailError()
     }
 
+    override fun checkForPassword(password: String) {
+        if(!signUpInteractor?.isvalidPassword(password)!!)
+            signUpView?.passwordInvalid()
+    }
+
     override fun emptyPassword() {
         signUpView?.emptyPasswordError()
     }

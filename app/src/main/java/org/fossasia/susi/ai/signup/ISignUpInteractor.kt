@@ -21,8 +21,11 @@ interface ISignUpInteractor {
         fun passwordInvalid()
         fun showProgress()
         fun hideProgress()
+        fun checkForPassword(password: String)
 
     }
+
+    fun isvalidPassword(password: String): Boolean
 
     fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, listener: ISignUpInteractor.OnLoginFinishedListener)
 
