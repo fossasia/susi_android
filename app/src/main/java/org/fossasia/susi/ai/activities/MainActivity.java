@@ -29,7 +29,6 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.speech.tts.TextToSpeech;
-import android.support.annotation.RequiresApi;
 import android.speech.tts.UtteranceProgressListener;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -1567,7 +1566,6 @@ public class MainActivity extends AppCompatActivity {
         menu.findItem(R.id.down_angle).setVisible(show);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
         if (!searchView.isIconified()) {
@@ -1587,7 +1585,7 @@ public class MainActivity extends AppCompatActivity {
         }
         if (atHome) {
             if (backPressedOnce) {
-                finishAffinity();
+                finish();
                 return;
             }
             backPressedOnce = true;
