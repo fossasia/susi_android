@@ -144,17 +144,21 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     fun logIn() {
         log_in.setOnClickListener {
-            val stringEmail = email.editText?.text.toString()
-            val stringPassword = password.editText?.text.toString()
-            val stringURL = input_url.editText?.text.toString()
-
-            log_in.isEnabled = false
-            email.error = null
-            password.error = null
-            input_url.error = null
-
-            loginPresenter?.login(stringEmail, stringPassword, susi_default.isChecked, this, stringURL)
+            startLogin()
         }
+    }
+
+    fun startLogin() {
+        val stringEmail = email.editText?.text.toString()
+        val stringPassword = password.editText?.text.toString()
+        val stringURL = input_url.editText?.text.toString()
+
+        log_in.isEnabled = false
+        email.error = null
+        password.error = null
+        input_url.error = null
+
+        loginPresenter?.login(stringEmail, stringPassword, susi_default.isChecked, this, stringURL)
     }
 
     fun cancelLogin() {
@@ -168,7 +172,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         password_input.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_GO) {
-                logIn()
+                startLogin()
                 handled = true
             }
             handled
