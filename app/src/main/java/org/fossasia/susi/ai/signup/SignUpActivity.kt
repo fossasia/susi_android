@@ -207,4 +207,8 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         }
     }
 
+    override fun onDestroy() {
+        signUpPresenter?.onDetach()
+        super.onDestroy()
+    }
 }

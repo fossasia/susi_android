@@ -181,4 +181,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
         outState.putBoolean(Constant.SERVER, personal_server.isChecked)
     }
+
+    override fun onDestroy() {
+        loginPresenter?.onDetach()
+        super.onDestroy()
+    }
 }
