@@ -18,8 +18,7 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 6. To Build the app, go to _Build>Make Project_ (or alternatively press the Make Project icon in the toolbar).
 
-7. If the app was built successfully, you can test it by running it on either a real device or an emulated one by going to _Run>Run 'app'_ or pres
-sing the Run icon in the toolbar.
+7. If the app was built successfully, you can test it by running it on either a real device or an emulated one by going to _Run>Run 'app'_ or pressing the Run icon in the toolbar.
 
 # Configuring the app
 
