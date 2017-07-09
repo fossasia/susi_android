@@ -309,24 +309,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Check speech output pref boolean.
-     *
-     * @return the boolean
-     */
-    public static boolean checkSpeechOutputPref() {
-        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
-    }
-
-    /**
-     * Check speech always pref boolean.
-     *
-     * @return the boolean
-     */
-    public static boolean checkSpeechAlwaysPref() {
-        return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
-    }
-
-    /**
      * Check mic input boolean.
      *
      * @return the boolean
@@ -350,79 +332,7 @@ public class MainActivity extends AppCompatActivity {
      * @param susiResponse Response from susi server
      * @param i Index of action type
      */
-    private void parseSusiResponse(SusiResponse susiResponse, int i) {
 
-        actionType = susiResponse.getAnswers().get(0).getActions().get(i).getType();
-        datumList = null;
-        mapData = null;
-        webSearch = "";
-        isHavingLink = false;
-        answer = null;
-
-        switch(actionType) {
-            case Constant.ANCHOR :
-                try {
-                    answer = "<a href=\""  +susiResponse.getAnswers().get(0).getActions().get(i).getAnchorLink() + "\">" + susiResponse.getAnswers().get(0).getActions().get(1).getAnchorText() + "</a>";
-                } catch (Exception e) {
-                    Log.d(TAG, e.getLocalizedMessage());
-                    answer = getString(R.string.error_occurred_try_again);
-                }
-                break;
-
-            case Constant.ANSWER :
-                try {
-                    answer = susiResponse.getAnswers().get(0).getActions()
-                            .get(i).getExpression();
-                    List<String> urlList = extractUrls(answer);
-                    Log.d(TAG, urlList.toString());
-                    isHavingLink = urlList != null;
-                    if (urlList.size() == 0) isHavingLink = false;
-                } catch (Exception e ) {
-                    answer = getString(R.string.error_occurred_try_again);
-                    isHavingLink = false;
-                }
-                break;
-
-            case Constant.MAP :
-                try {
-                    final double latitude = susiResponse.getAnswers().get(0).getActions().get(i).getLatitude();
-                    final double longitude = susiResponse.getAnswers().get(0).getActions().get(i).getLongitude();
-                    final double zoom = susiResponse.getAnswers().get(0).getActions().get(i).getZoom();
-                    mapData = new MapData(latitude,longitude,zoom);
-                } catch (Exception e) {
-                    mapData = null;
-                }
-                break;
-
-            case Constant.PIECHART :
-                try {
-                    datumList = susiResponse.getAnswers().get(0).getData();
-                } catch (Exception e) {
-                    datumList = null;
-                }
-                break;
-
-            case Constant.RSS :
-                try {
-                    datumList = susiResponse.getAnswers().get(0).getData();
-                    count = susiResponse.getAnswers().get(0).getActions().get(i).getCount();
-                } catch (Exception e) {
-                    datumList = null;
-                }
-                break;
-
-            case Constant.WEBSEARCH :
-                try {
-                    webSearch = susiResponse.getAnswers().get(0).getActions().get(1).getQuery();
-                } catch (Exception e) {
-                    webSearch = "";
-                }
-                break;
-
-            default:
-                answer = getString(R.string.error_occurred_try_again);
-        }
-    }
 
     /**
      * Method used to retrieve all old messages of the user.
