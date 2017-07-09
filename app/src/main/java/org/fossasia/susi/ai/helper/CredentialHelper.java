@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.helper;
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 
 import org.fossasia.susi.ai.R;
@@ -17,6 +18,8 @@ import java.util.regex.Pattern;
  */
 public class CredentialHelper {
 
+    private static final String TAG = "CredentialHelper";
+
     private static Pattern PASSWORD_PATTERN = Pattern.compile("^.{6,64}$");
 
     /**
@@ -26,6 +29,7 @@ public class CredentialHelper {
      * @return the boolean
      */
     public static boolean isEmailValid(String mail) {
+        Log.d(TAG, "isEmailValid: " + mail);
         String email = mail.trim();
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -55,41 +59,13 @@ public class CredentialHelper {
     }
 
     /**
-     * Check password valid boolean.
-     *
-     * @param password the password
-     * @param context  the context
-     * @return the boolean
-     */
-    public static boolean checkPasswordValid(TextInputLayout password, Context context) {
-        if (password.getEditText() == null)
-            throw new IllegalArgumentException("No Edittext hosted!");
-        if (!isPasswordValid(password.getEditText().getText().toString())) {
-            password.setError(context.getString(R.string.pass_validation_text));
-            return false;
-        } else {
-            password.setError(null);
-            return true;
-        }
-    }
-
-    /**
      * Is url valid boolean.
      *
      * @param url     the url
-     * @param context the context
      * @return the boolean
      */
-    public static boolean isURLValid(TextInputLayout url, Context context) {
-        if (url.getEditText() == null)
-            throw new IllegalArgumentException("No Edittext hosted!");
-        if (!Patterns.WEB_URL.matcher(url.getEditText().getText().toString()).matches()) {
-            url.setError("Invalid URL");
-            return false;
-        } else {
-            url.setError(null);
-            return true;
-        }
+    public static boolean isURLValid(String url) {
+        return Patterns.WEB_URL.matcher(url).matches();
     }
 
     /**
@@ -121,8 +97,6 @@ public class CredentialHelper {
      * @return the boolean
      */
     public static boolean checkIfEmpty(TextInputLayout inputLayout, Context context) {
-        if (inputLayout.getEditText() == null)
-            throw new IllegalArgumentException("No Edittext hosted!");
         if (TextUtils.isEmpty(inputLayout.getEditText().getText().toString())) {
             inputLayout.setError(context.getString(R.string.field_cannot_be_empty));
             return true;
