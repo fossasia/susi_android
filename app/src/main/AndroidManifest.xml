@@ -43,7 +43,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.ForgotPasswordActivity"
+            android:name=".forgotPassword.ForgotPasswordActivity"
             android:theme="@style/ForgetPass_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <!--
