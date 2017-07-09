@@ -29,8 +29,13 @@ import org.fossasia.susi.ai.helper.CredentialHelper;
 import org.fossasia.susi.ai.helper.MediaUtil;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.login.LoginActivity;
+import org.fossasia.susi.ai.rest.ClientBuilder;
+import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse;
 
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static org.fossasia.susi.ai.helper.Constant.DARK;
 
@@ -62,15 +67,32 @@ public class SettingsActivity extends AppCompatActivity {
      * The Chat settings fragment.
      */
     public static class ChatSettingsFragment extends PreferenceFragmentCompat {
-        private Preference textToSpeech,rate,server,micSettings, hotwordSettings;
         private ListPreference theme;
         private RadioButton susi_server, personal_server;
         private TextInputLayout url;
         private TextInputEditText urlText;
+        private Preference textToSpeech,rate,server,micSettings,enterSend,speechOutput,speechAlways, hotwordSettings;
 
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             addPreferencesFromResource(R.xml.pref_settings);
+
+            enterSend = (Preference)getPreferenceManager().findPreference(Constant.ENTER_SEND);
+            enterSend.setDefaultValue(PrefManager.getBoolean(Constant.ENTER_SEND, false));
+            enterSend.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Thread thread = new Thread() {
+
+                        @Override
+                        public void run() {
+                            sendSetting("enter_send", String.valueOf(PrefManager.getBoolean(Constant.ENTER_SEND, false)));
+                        }
+                    };
+                    thread.start();
+                    return true;
+                }
+            });
 
             textToSpeech = (Preference) getPreferenceManager().findPreference(Constant.LANG_SELECT);
             textToSpeech.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -195,7 +217,15 @@ public class SettingsActivity extends AppCompatActivity {
 
             theme.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                public boolean onPreferenceChange(Preference preference, final Object newValue) {
+                    Thread thread = new Thread() {
+
+                        @Override
+                        public void run() {
+                            sendSetting("theme", newValue.toString());
+                        }
+                    };
+                    thread.start();
                     preference.setSummary(newValue.toString());
                     Log.d(TAG, "onPreferenceChange: " + newValue.toString());
                     SharedPreferences.Editor editor = prefs.edit();
@@ -209,6 +239,20 @@ public class SettingsActivity extends AppCompatActivity {
 
 
             micSettings = getPreferenceManager().findPreference("Mic_input");
+            micSettings.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Thread thread = new Thread() {
+
+                        @Override
+                        public void run() {
+                            sendSetting("mic_input", String.valueOf(PrefManager.getBoolean(Constant.MIC_INPUT, false)));
+                        }
+                    };
+                    thread.start();
+                    return true;
+                }
+            });
             if(ActivityCompat.checkSelfPermission(getContext(),
                     Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                 boolean voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(getContext());
@@ -219,7 +263,7 @@ public class SettingsActivity extends AppCompatActivity {
                 PrefManager.putBoolean(Constant.MIC_INPUT, false);
                 micSettings.setEnabled(false);
             }
-
+            
             hotwordSettings = getPreferenceManager().findPreference("hotword_detection");
             if(ActivityCompat.checkSelfPermission(getContext(),
                     Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
@@ -236,7 +280,58 @@ public class SettingsActivity extends AppCompatActivity {
                 PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false);
                 hotwordSettings.setEnabled(false);
             }
+            speechOutput = (Preference)getPreferenceManager().findPreference(Constant.SPEECH_OUTPUT);
+            speechOutput.setDefaultValue(PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false));
+            speechOutput.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Thread thread = new Thread() {
+
+                        @Override
+                        public void run() {
+                            sendSetting("speech_output", String.valueOf(PrefManager.getBoolean(Constant.SPEECH_OUTPUT, false)));
+                        }
+                    };
+                    thread.start();
+                    return true;
+                }
+            });
+
+            speechAlways = (Preference)getPreferenceManager().findPreference(Constant.SPEECH_ALWAYS);
+            speechAlways.setDefaultValue(PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false));
+            speechAlways.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Thread thread = new Thread() {
+
+                        @Override
+                        public void run() {
+                            sendSetting("speech_always", String.valueOf(PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false)));
+                        }
+                    };
+                    thread.start();
+                    return true;
+                }
+            });
         }
+    }
+
+    public static void sendSetting(String key, String value) {
+        Call<ChangeSettingResponse> changeSettingResponseCall = new ClientBuilder().getSusiApi()
+                .changeSettingResponse(key, value, PrefManager.getToken());
+        changeSettingResponseCall.enqueue(new Callback<ChangeSettingResponse>() {
+            @Override
+            public void onResponse(Call<ChangeSettingResponse> call, Response<ChangeSettingResponse> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    Log.d("SettingsChange","Success");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChangeSettingResponse> call, Throwable t) {
+                Log.v("SettingsChange", "Error", t);
+            }
+        });
     }
 
     @Override
