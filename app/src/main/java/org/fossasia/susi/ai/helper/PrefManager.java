@@ -237,6 +237,24 @@ public class PrefManager {
         editor.remove(Constant.TOKEN_VALIDITY);
         editor.apply();
     }
+
+    /**
+     * Check speech output pref boolean.
+     *
+     * @return the boolean
+     */
+    public static boolean checkSpeechOutputPref() {
+        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
+    }
+
+    /**
+     * Check speech always pref boolean.
+     *
+     * @return the boolean
+     */
+    public static boolean checkSpeechAlwaysPref() {
+        return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
+    }
 }
 
 
