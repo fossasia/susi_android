@@ -30,6 +30,13 @@
             android:key="@string/setting_mic_key"
             android:summary="@string/settings_micPreference_summary"
             android:title="@string/setting_mic_input"/>
+
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/hotword_detection"
+            android:defaultValue="false"
+            android:key="@string/setting_hotword_key"
+            android:summary="@string/settings_hotwordPreference_summary"
+            android:title="@string/setting_hotword_detection"/>
     </PreferenceCategory>
 
     <PreferenceCategory
