@@ -12,8 +12,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.signup.SignUpActivity
-import org.fossasia.susi.ai.activities.ForgotPasswordActivity
 import org.fossasia.susi.ai.activities.MainActivity
+import org.fossasia.susi.ai.forgotPassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 
@@ -34,8 +34,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         addListeners()
 
         if (savedInstanceState != null) {
-            email.editText!!.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)!![0].toString())
-            password.editText!!.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)!![1].toString())
+            email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
+            password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
             if (savedInstanceState.getBoolean(Constant.SERVER)) {
                 input_url.visibility = View.VISIBLE
             } else {

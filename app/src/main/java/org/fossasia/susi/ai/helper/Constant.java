@@ -18,6 +18,7 @@ public class Constant {
     public static final String TOKEN_VALIDITY = "token_validity";
     public static final String SPEECH_OUTPUT = "Speech_output";
     public static final String SPEECH_ALWAYS = "Speech_always";
+    public static final String HOTWORD_DETECTION = "hotword_detection";
 
     public static final String THEME = "theme";
     public static final String DARK = "dark";
