@@ -6,13 +6,14 @@ import android.content.SharedPreferences
 /**
  * Created by mayanktripathi on 07/07/17.
  */
+
 interface ISettingsInteractor{
 
     fun deleteMsg()
 
-    fun getTheme(preferences: SharedPreferences): String
+    fun getTheme(): String
 
-    fun setTheme(string: String, preferences: SharedPreferences)
+    fun setTheme(string: String)
 
     fun setEnableMic(context: Context): Boolean
 }

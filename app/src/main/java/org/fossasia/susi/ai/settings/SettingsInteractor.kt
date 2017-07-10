@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.settings
 
 import android.Manifest
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import io.realm.Realm
@@ -16,14 +15,12 @@ import org.fossasia.susi.ai.helper.PrefManager
 
 class SettingsInteractor: ISettingsInteractor{
 
-    override fun getTheme(preferences: SharedPreferences): String {
-        return preferences.getString(Constant.THEME, "Light")!!
+    override fun getTheme(): String {
+        return PrefManager.getTheme()
     }
 
-    override fun setTheme(string: String, preferences: SharedPreferences) {
-        val editor: SharedPreferences.Editor = preferences.edit()
-        editor.putString(Constant.THEME, string)
-        editor.apply()
+    override fun setTheme(string: String) {
+        PrefManager.putTheme(Constant.THEME, string)
     }
 
     override fun deleteMsg() {
@@ -45,5 +42,4 @@ class SettingsInteractor: ISettingsInteractor{
             return false
         }
     }
-
 }

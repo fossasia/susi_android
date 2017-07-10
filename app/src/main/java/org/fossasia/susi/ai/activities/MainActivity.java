@@ -178,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean isDetectionOn = false;
     private int count;
     private ImageView toolbarImg;
-    private static SharedPreferences prefs;
 
     /**
      * Audio manager listener used for Text to Speech.
@@ -520,8 +519,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         clientBuilder = new ClientBuilder();
-        prefs = getSharedPreferences(Constant.THEME, MODE_PRIVATE);
-        if(prefs.getString(Constant.THEME,"Light").equals("Dark")) {
+        if(PrefManager.getTheme().equals("Dark")) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         else {
@@ -1699,7 +1697,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog alert = d.create();
                 alert.setTitle(getString(R.string.logout));
                 alert.show();
-                if(prefs.getString(Constant.THEME,"Light").equals("Dark")) {
+                if(PrefManager.getTheme().equals("Dark")) {
                     Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
                     nbutton.setTextColor(Color.WHITE);
                     Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);

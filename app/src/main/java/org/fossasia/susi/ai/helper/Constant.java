@@ -22,6 +22,7 @@ public class Constant {
 
     public static final String THEME = "theme";
     public static final String DARK = "dark";
+    public static final String LIGHT = "Light";
 
     public static final String SAVED_EMAIL="saved_email";
 

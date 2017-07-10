@@ -35,6 +35,10 @@ public class PrefManager {
         getPreferences().edit().clear().apply();
     }
 
+    public static String getTheme() {
+        return getPreferences().getString(Constant.THEME, Constant.LIGHT);
+    }
+
     /**
      * Gets int.
      *
@@ -44,6 +48,10 @@ public class PrefManager {
      */
     public static int getInt(String preferenceKey, int preferenceDefaultValue) {
         return getPreferences().getInt(preferenceKey, preferenceDefaultValue);
+    }
+
+    public static void putTheme(String preferenceKey, String value){
+        getPreferences().edit().putString(Constant.THEME, value).apply();
     }
 
     /**
