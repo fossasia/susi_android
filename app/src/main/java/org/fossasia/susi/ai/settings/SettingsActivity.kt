@@ -23,7 +23,7 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
         super.onCreate(savedInstanceState)
 
 
-        if (PrefManager.getTheme() == "Dark") {
+        if (PrefManager.getTheme() == Constant.DARK) {
             setTheme(R.style.PreferencesThemeDark)
         } else {
             setTheme(R.style.PreferencesThemeLight)

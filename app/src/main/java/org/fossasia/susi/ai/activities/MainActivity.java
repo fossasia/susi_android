@@ -519,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         clientBuilder = new ClientBuilder();
-        if(PrefManager.getTheme().equals("Dark")) {
+        if(PrefManager.getTheme().equals(Constant.DARK)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
         else {
@@ -1697,7 +1697,7 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog alert = d.create();
                 alert.setTitle(getString(R.string.logout));
                 alert.show();
-                if(PrefManager.getTheme().equals("Dark")) {
+                if(PrefManager.getTheme().equals(Constant.DARK)) {
                     Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
                     nbutton.setTextColor(Color.WHITE);
                     Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
