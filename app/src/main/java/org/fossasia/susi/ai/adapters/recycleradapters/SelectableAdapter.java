@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 
-import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.data.model.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.List;

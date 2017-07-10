@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.login
+package org.fossasia.susi.ai.login.contract
 
 import android.content.Context
 

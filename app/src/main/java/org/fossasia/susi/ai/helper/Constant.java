@@ -48,4 +48,8 @@ public class Constant {
 
     public static final String ANONYMOUS_LOGGED_IN = "anonymous_logged_in";
     public static final String FIRST_TIME = "first_time";
+
+    public static final String EMAIL = "email";
+    public static final String PASSWORD = "password";
+    public static final String INPUT_URL = "input_url";
 }

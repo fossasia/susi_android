@@ -1,9 +1,8 @@
 package org.fossasia.susi.ai.helper;
 
 import android.support.annotation.Nullable;
-import android.util.Log;
 
-import org.fossasia.susi.ai.model.MapData;
+import org.fossasia.susi.ai.data.model.MapData;
 
 /**
  * <h1>Helper class to get map image and link.</h1>

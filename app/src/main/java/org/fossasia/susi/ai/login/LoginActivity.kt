@@ -16,6 +16,8 @@ import org.fossasia.susi.ai.activities.MainActivity
 import org.fossasia.susi.ai.forgotPassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.login.contract.ILoginPresenter
+import org.fossasia.susi.ai.login.contract.ILoginView
 
 /**
  * <h1>The Login activity.</h1>
@@ -67,40 +69,27 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         finish()
     }
 
-    override fun incorrectEmailError() {
-        email.error = getString(R.string.email_invalid_title)
+    override fun invalidCredentials(isEmpty: Boolean, what: String) {
+        if(isEmpty) {
+            when(what) {
+                Constant.EMAIL -> email.error = getString(R.string.email_cannot_be_empty)
+                Constant.PASSWORD -> password.error = getString(R.string.password_cannot_be_empty)
+                Constant.INPUT_URL -> input_url.error = getString(R.string.url_cannot_be_empty)
+            }
+        } else {
+            when(what) {
+                Constant.EMAIL -> email.error = getString(R.string.email_invalid_title)
+                Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
+            }
+        }
         log_in.isEnabled = true
     }
 
-    override fun emptyEmailError() {
-        email.error = getString(R.string.email_cannot_be_empty)
-        log_in.isEnabled = true
+    override fun showProgress(boolean: Boolean) {
+        if (boolean) progressDialog?.show() else progressDialog?.hide()
     }
 
-    override fun emptyPasswordError() {
-        password.error = getString(R.string.password_cannot_be_empty)
-        log_in.isEnabled = true
-    }
-
-    override fun emptyURLError() {
-        input_url.error = getString(R.string.url_cannot_be_empty)
-        log_in.isEnabled = true
-    }
-
-    override fun invalidURLError() {
-        input_url.error = getString(R.string.invalid_url)
-        log_in.isEnabled = true
-    }
-
-    override fun showProgress() {
-        progressDialog?.show()
-    }
-
-    override fun hideProgress() {
-        progressDialog?.hide()
-    }
-
-    override fun onLoginError(title: String, message: String) {
+    override fun onLoginError(title: String?, message: String?) {
         val notSuccessAlertboxHelper = AlertboxHelper(this@LoginActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
         notSuccessAlertboxHelper.showAlertBox()
         log_in.isEnabled = true
