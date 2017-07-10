@@ -10,26 +10,27 @@ import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.forgotPassword.contract.IForgotPasswordPresenter
+import org.fossasia.susi.ai.forgotPassword.contract.IForgotPasswordView
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.LoginActivity
 
 /**
+ * <h1>The ForgotPassword activity.</h1>
+ * <h2>This activity is used to request password if user forgot password.</h2>
+ *
  * Created by meeera on 6/7/17.
  */
 class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
 
-    var forgotPasswordPresenter: IForgotPasswordPresenter?= null
-    var progressDialog: ProgressDialog? = null
+    lateinit var forgotPasswordPresenter: IForgotPasswordPresenter
+    lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
         title = getString(R.string.forgot_pass_activity)
-        showUrl()
-        hideUrl()
-        cancelRequestPassword()
-        requestPassword()
 
         if(savedInstanceState != null) {
             forgot_email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
@@ -45,10 +46,16 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         }
 
         progressDialog = ProgressDialog(this)
-        progressDialog?.setCancelable(false)
-        progressDialog?.setMessage(getString(R.string.login))
-        forgotPasswordPresenter = ForgotPasswordPresenter()
-        forgotPasswordPresenter?.onAttach(this)
+        progressDialog.setCancelable(false)
+        progressDialog.setMessage(getString(R.string.login))
+
+        showUrl()
+        hideUrl()
+        cancelRequestPassword()
+        requestPassword()
+
+        forgotPasswordPresenter = ForgotPasswordPresenter(this)
+        forgotPasswordPresenter.onAttach(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -59,25 +66,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun invalidUrl() {
-        input_url.error = getString(R.string.invalid_url)
-        reset_button.isEnabled = true
-    }
-
-    override fun emptyUrl() {
-        input_url.error = getString(R.string.url_cannot_be_empty)
-        reset_button.isEnabled = true
-    }
-
-    override fun showProgress() {
-        progressDialog?.show()
-    }
-
-    override fun hideProgress() {
-        progressDialog?.hide()
-    }
-
-    override fun success(title: String, message: String) {
+    override fun success(title: String?, message: String?) {
         val dialogClickListener = DialogInterface.OnClickListener { _, _ ->
             val intent = Intent(this@ForgotPasswordActivity, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -89,19 +78,9 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         reset_button.isEnabled = true
     }
 
-    override fun failure(title: String, message: String, button: String, color: Int) {
+    override fun failure(title: String?, message: String?, button: String?, color: Int) {
         val notSuccessAlertboxHelper = AlertboxHelper(this@ForgotPasswordActivity, title, message, null, null, button, null, color)
         notSuccessAlertboxHelper.showAlertBox()
-        reset_button.isEnabled = true
-    }
-
-    override fun emptyEmail() {
-        forgot_email.error = getString(R.string.field_cannot_be_empty)
-        reset_button.isEnabled = true
-    }
-
-    override fun wrongEmail() {
-        forgot_email.error = getString(R.string.email_invalid_title)
         reset_button.isEnabled = true
     }
 
@@ -118,8 +97,8 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     }
 
     fun cancelRequestPassword() {
-        progressDialog?.setOnCancelListener {
-            forgotPasswordPresenter?.cancelSignup()
+        progressDialog.setOnCancelListener {
+            forgotPasswordPresenter.cancelSignup()
             reset_button.isEnabled = true
         }
     }
@@ -131,8 +110,27 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
             forgot_email.error = null
             input_url.error = null
             reset_button.isEnabled = false
-            forgotPasswordPresenter?.signup(email, url, isPersonalServerChecked, this)
+            forgotPasswordPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
+    }
+
+    override fun invalidCredentials(isEmpty: Boolean, what: String) {
+        if(isEmpty) {
+            when(what) {
+                Constant.EMAIL -> forgot_email.error = getString(R.string.email_cannot_be_empty)
+                Constant.INPUT_URL -> input_url.error = getString(R.string.url_cannot_be_empty)
+            }
+        } else {
+            when(what) {
+                Constant.EMAIL -> forgot_email.error = getString(R.string.email_invalid_title)
+                Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
+            }
+        }
+        reset_button.isEnabled = true
+    }
+
+    override fun showProgress(boolean: Boolean) {
+        if (boolean) progressDialog.show() else progressDialog.hide()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -144,6 +142,6 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
 
     override fun onDestroy() {
         super.onDestroy()
-        forgotPasswordPresenter?.onDetach()
+        forgotPasswordPresenter.onDetach()
     }
 }

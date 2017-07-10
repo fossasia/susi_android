@@ -49,6 +49,7 @@ public class Constant {
 
     public static final String ANONYMOUS_LOGGED_IN = "anonymous_logged_in";
     public static final String FIRST_TIME = "first_time";
+
     public static final CharSequence THEME_KEY = "Theme_key";
 
     public static final String EMAIL = "email";
