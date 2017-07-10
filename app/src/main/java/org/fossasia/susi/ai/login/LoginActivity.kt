@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             }
         } else {
             when(what) {
-                Constant.EMAIL -> email.error = getString(R.string.email_invalid_title)
+                Constant.EMAIL -> email.error = getString(R.string.invalid_email)
                 Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
             }
         }
@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     override fun attachEmails(savedEmails: MutableSet<String>?) {
         if (savedEmails != null)
-            email_input.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
+            email_input?.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }
 
     fun addListeners() {
