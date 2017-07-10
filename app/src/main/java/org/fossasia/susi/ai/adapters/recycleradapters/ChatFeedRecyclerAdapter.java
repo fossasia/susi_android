@@ -32,7 +32,7 @@ import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.ConstraintsHelper;
-import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.data.model.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.List;

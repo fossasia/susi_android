@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.model;
+package org.fossasia.susi.ai.data.model;
 
 import io.realm.RealmObject;
 

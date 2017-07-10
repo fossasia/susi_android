@@ -15,8 +15,8 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
-import org.fossasia.susi.ai.model.ChatMessage;
-import org.fossasia.susi.ai.model.MapData;
+import org.fossasia.susi.ai.data.model.ChatMessage;
+import org.fossasia.susi.ai.data.model.MapData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

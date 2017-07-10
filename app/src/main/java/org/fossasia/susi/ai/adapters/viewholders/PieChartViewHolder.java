@@ -13,7 +13,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.model.ChatMessage;
+import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.rest.responses.susi.Datum;
 
 import java.util.ArrayList;

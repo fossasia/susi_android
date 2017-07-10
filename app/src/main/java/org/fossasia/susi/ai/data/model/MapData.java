@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.model;
+package org.fossasia.susi.ai.data.model;
 
 /**
  * <h1>Class to store data in case of map action type.</h1>

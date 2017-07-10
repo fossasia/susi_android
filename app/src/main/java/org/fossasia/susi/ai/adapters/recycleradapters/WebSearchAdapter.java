@@ -13,7 +13,7 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.SearchResultHolder;
-import org.fossasia.susi.ai.model.WebSearchModel;
+import org.fossasia.susi.ai.data.model.WebSearchModel;
 
 import java.util.List;
 
