@@ -113,6 +113,10 @@ class SignUpPresenter : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener 
             signUpView?.passwordInvalid()
     }
 
+    override fun cancelSignUp() {
+        signUpModel?.cancelSignUp()
+    }
+
     override fun onDetach() {
         signUpView = null
     }

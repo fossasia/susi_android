@@ -13,6 +13,8 @@ interface ISignUpPresenter {
 
     fun onDetach()
 
+    fun cancelSignUp()
+
     fun checkForPassword(password: String)
 
 }

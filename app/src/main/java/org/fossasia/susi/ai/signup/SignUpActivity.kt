@@ -25,13 +25,12 @@ import org.fossasia.susi.ai.signup.contract.ISignUpView
 
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
-    var signUpPresenter: ISignUpPresenter? = null
-    var progressDialog: ProgressDialog? = null
+    lateinit var signUpPresenter: ISignUpPresenter
+    lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
-        addListeners()
         setupPasswordWatcher()
 
         if(savedInstanceState!=null){
@@ -46,17 +45,20 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         }
 
         progressDialog = ProgressDialog(this@SignUpActivity)
-        progressDialog?.setCancelable(false)
-        progressDialog?.setMessage(this.getString(R.string.signing_up))
+        progressDialog.setCancelable(false)
+        progressDialog.setMessage(this.getString(R.string.signing_up))
 
+        addListeners()
         signUpPresenter = SignUpPresenter()
-        signUpPresenter?.onAttach(this)
+        signUpPresenter.onAttach(this)
+
     }
 
     fun addListeners() {
         showURL()
         hideURL()
         signUp()
+        cancelSignUp()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -127,7 +129,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun showProgress(bool: Boolean) {
-        if (bool) progressDialog?.show() else progressDialog?.hide()
+        if (bool) progressDialog.show() else progressDialog.hide()
     }
 
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
@@ -168,9 +170,17 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         password.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             password.error = null
             if (!hasFocus)
-                signUpPresenter?.checkForPassword(password.editText?.text.toString())
+                signUpPresenter.checkForPassword(password.editText?.text.toString())
         }
     }
+
+    fun cancelSignUp() {
+        progressDialog.setOnCancelListener({
+            signUpPresenter.cancelSignUp()
+            sign_up.isEnabled = true
+        })
+    }
+
 
     override fun onSignUpError(title: String?, message: String?) {
         val notSuccessAlertboxHelper = AlertboxHelper(this@SignUpActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
@@ -193,12 +203,12 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val stringConPassword = confirm_password.editText?.text.toString()
             val stringURL = input_url.editText?.text.toString()
 
-            signUpPresenter?.signUp(stringEmail, stringPassword, stringConPassword, susi_default.isChecked, this, stringURL)
+            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, susi_default.isChecked, this, stringURL)
         }
     }
 
     override fun onDestroy() {
-        signUpPresenter?.onDetach()
+        signUpPresenter.onDetach()
         super.onDestroy()
     }
 }

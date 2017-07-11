@@ -17,14 +17,14 @@ import retrofit2.Response
 
 class SignUpModel: ISignUpModel {
 
-    var authResponseCall: Call<SignUpResponse>?= null
+    lateinit var authResponseCall: Call<SignUpResponse>
 
     override fun signUp(email: String, password: String, listener: ISignUpModel.OnSignUpFinishedListener) {
 
         authResponseCall = ClientBuilder().susiApi
                 .signUp(email, password)
 
-        authResponseCall?.enqueue(object : Callback<SignUpResponse> {
+        authResponseCall.enqueue(object : Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {
                 listener.onSuccess(response)
             }
@@ -37,6 +37,6 @@ class SignUpModel: ISignUpModel {
     }
 
     override fun cancelSignUp() {
-        authResponseCall?.cancel()
+        authResponseCall.cancel()
     }
 }
