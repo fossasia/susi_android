@@ -181,13 +181,11 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         })
     }
 
-
     override fun onSignUpError(title: String?, message: String?) {
         val notSuccessAlertboxHelper = AlertboxHelper(this@SignUpActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
         notSuccessAlertboxHelper.showAlertBox()
         sign_up.isEnabled = true
     }
-
 
     fun signUp() {
 
