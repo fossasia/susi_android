@@ -24,8 +24,8 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.PrefManager;
-import org.fossasia.susi.ai.model.ChatMessage;
-import org.fossasia.susi.ai.model.WebLink;
+import org.fossasia.susi.ai.data.model.ChatMessage;
+import org.fossasia.susi.ai.data.model.WebLink;
 
 import java.util.List;
 import java.util.regex.Matcher;
