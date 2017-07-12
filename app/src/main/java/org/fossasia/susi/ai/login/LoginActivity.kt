@@ -97,7 +97,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     override fun attachEmails(savedEmails: MutableSet<String>?) {
         if (savedEmails != null)
-            email_input?.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
+            email_input.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }
 
     fun addListeners() {
