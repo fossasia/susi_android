@@ -12,5 +12,11 @@ interface IChatInteractor {
         fun hideRetrieveProgress()
     }
 
+    interface OnLocationFromIPReceivedListener {
+        fun onLocationSuccess()
+        fun onLocationError()
+    }
+
     fun retrieveOldMessages(listener: OnRetrievingMessagesFinishedListener)
+    fun getLocationFromIp(listener: OnLocationFromIPReceivedListener)
 }

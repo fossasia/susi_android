@@ -54,4 +54,6 @@ public class Constant {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String INPUT_URL = "input_url";
+
+    public static final String ID = "id";
 }
