@@ -121,6 +121,7 @@
     <string name="first_time">FIRST_TIME</string>
     <string name="ok">OK</string>
     <string name="invalid_email">Invalid Email</string>
+    <string name="email_invalid_title">Incorrect Email</string>
 
     <!-- Settings Activity-->
     <string name="server_change_prompt">Please login again to change susi server</string>

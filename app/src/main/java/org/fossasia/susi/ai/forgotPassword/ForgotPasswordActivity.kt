@@ -101,7 +101,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     }
 
     override fun wrongEmail() {
-        forgot_email.error = getString(R.string.invalid_email)
+        forgot_email.error = getString(R.string.email_invalid_title)
         reset_button.isEnabled = true
     }
 

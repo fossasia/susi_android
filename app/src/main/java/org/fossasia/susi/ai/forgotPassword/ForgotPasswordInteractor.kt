@@ -63,7 +63,7 @@ class ForgotPasswordInteractor: IForgotPasswordInteractor {
                 if (response.isSuccessful && response.body() != null) {
                     listener.success(context.getString(R.string.forgot_password_mail_sent), response.body().message)
                 } else if (response.code() == 422) {
-                    listener.failure(context.getString(R.string.invalid_email), context.getString(R.string.email_invalid), context.getString(R.string.retry), Color.RED)
+                    listener.failure(context.getString(R.string.email_invalid_title), context.getString(R.string.email_invalid), context.getString(R.string.retry), Color.RED)
                 } else {
                     listener.failure("${response.code()} " + context.getString(R.string.error), response.message(), context.getString(R.string.ok), Color.BLUE)
                 }
