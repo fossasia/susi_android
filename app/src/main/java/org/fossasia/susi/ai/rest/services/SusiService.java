@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.rest.services;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
@@ -84,4 +85,18 @@ public interface SusiService {
      */
     @POST("/aaa/recoverpassword.json")
     Call<ForgotPasswordResponse> forgotPassword(@Query("forgotemail") String email);
+
+    /**
+     * Reset Password call
+     *
+     * @param email
+     * @param password
+     * @param newPassword
+     * @return the call
+     */
+    @POST("/aaa/changepassword.json")
+    Call<ResetPasswordResponse> resetPasswordResponse(@Query("changepassword") String email,
+                                                      @Query("password") String password,
+                                                      @Query("newpassword") String newPassword);
+
 }
