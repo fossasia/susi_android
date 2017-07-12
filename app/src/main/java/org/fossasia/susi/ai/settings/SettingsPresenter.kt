@@ -35,5 +35,4 @@ class SettingsPresenter: ISettingsPresenter{
     override fun onDetach() {
         settingView = null
     }
-
 }

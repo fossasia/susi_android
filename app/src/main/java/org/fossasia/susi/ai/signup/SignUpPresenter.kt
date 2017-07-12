@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.signup
 
-import android.content.Context
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.SignUpModel
 import org.fossasia.susi.ai.data.UtilModel
@@ -14,24 +13,25 @@ import retrofit2.Response
 import java.net.UnknownHostException
 
 /**
+ * Presenter for Login
+ * The P in MVP
+ *
  * Created by mayanktripathi on 05/07/17.
  */
 
-class SignUpPresenter : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener {
+class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener {
 
     var signUpView: ISignUpView? = null
     var signUpModel: SignUpModel? = null
-    var utilModel: UtilModel? = null
-    var email: String? = null
-    var context: Context? = null
+    var utilModel: UtilModel = UtilModel(signUpActivity)
+    lateinit var email: String
 
     override fun onAttach(signUpView: ISignUpView) {
         this.signUpView = signUpView
         this.signUpModel = SignUpModel()
-        this.utilModel = UtilModel()
     }
 
-    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, context: Context, url: String) {
+    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String) {
 
         if (email.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.EMAIL)
@@ -60,8 +60,8 @@ class SignUpPresenter : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener 
         if (!isSusiServerSelected) {
             if (!url.isEmpty() && CredentialHelper.isURLValid(url)) {
                 if (CredentialHelper.getValidURL(url) != null) {
-                    utilModel?.setServer(false)
-                    utilModel?.setCustomURL(url)
+                    utilModel.setServer(false)
+                    utilModel.setCustomURL(url)
                 } else {
                     signUpView?.invalidCredentials(false, Constant.INPUT_URL)
                     return
@@ -71,11 +71,10 @@ class SignUpPresenter : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener 
                 return
             }
         } else {
-            utilModel?.setServer(true)
+            utilModel.setServer(true)
         }
 
         this.email = email
-        this.context = context
         signUpView?.showProgress(true)
         signUpModel?.signUp(email.trim({ it <= ' ' }).toLowerCase(), password, this)
 
@@ -85,10 +84,10 @@ class SignUpPresenter : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener 
         signUpView?.showProgress(false)
 
         if (throwable is UnknownHostException) {
-            signUpView?.onSignUpError(context?.getString(R.string.unknown_host_exception), throwable.message.toString())
+            signUpView?.onSignUpError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
         } else {
-            signUpView?.onSignUpError(context?.getString(R.string.error_internet_connectivity),
-                    context?.getString(R.string.no_internet_connection))
+            signUpView?.onSignUpError(utilModel.getString(R.string.error_internet_connectivity),
+                    utilModel.getString(R.string.no_internet_connection))
         }
     }
 
@@ -102,7 +101,7 @@ class SignUpPresenter : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener 
             if (response.code() == 422) {
                 signUpView?.alertFailure()
             } else {
-                signUpView?.onSignUpError("${response.code()} " + context?.getString(R.string.error), response.message())
+                signUpView?.onSignUpError("${response.code()} " + utilModel.getString(R.string.error), response.message())
             }
         }
         signUpView?.showProgress(false)

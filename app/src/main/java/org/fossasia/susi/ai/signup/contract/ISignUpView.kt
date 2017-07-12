@@ -1,6 +1,9 @@
 package org.fossasia.susi.ai.signup.contract
 
 /**
+ *  * The interface for SignUp view
+
+ *
  * Created by mayanktripathi on 05/07/17.
  */
 interface ISignUpView {

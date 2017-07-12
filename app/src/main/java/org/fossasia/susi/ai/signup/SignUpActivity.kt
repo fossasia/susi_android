@@ -20,6 +20,9 @@ import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 
 /**
+ * <h1>The SignUp activity.</h1>
+ * <h2>This activity is used to signUp into the app.</h2>
+ *
  * Created by mayanktripathi on 05/07/17.
  */
 
@@ -49,7 +52,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         progressDialog.setMessage(this.getString(R.string.signing_up))
 
         addListeners()
-        signUpPresenter = SignUpPresenter()
+        signUpPresenter = SignUpPresenter(this)
         signUpPresenter.onAttach(this)
 
     }
@@ -201,7 +204,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val stringConPassword = confirm_password.editText?.text.toString()
             val stringURL = input_url.editText?.text.toString()
 
-            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, susi_default.isChecked, this, stringURL)
+            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, susi_default.isChecked, stringURL)
         }
     }
 
