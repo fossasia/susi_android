@@ -27,13 +27,12 @@ import org.fossasia.susi.ai.login.contract.ILoginView
  */
 class LoginActivity : AppCompatActivity(), ILoginView {
 
-    var loginPresenter: ILoginPresenter? = null
-    var progressDialog: ProgressDialog? = null
+    lateinit var loginPresenter: ILoginPresenter
+    lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        addListeners()
 
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
@@ -46,11 +45,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         }
 
         progressDialog = ProgressDialog(this)
-        progressDialog?.setCancelable(false)
-        progressDialog?.setMessage(getString(R.string.login))
+        progressDialog.setCancelable(false)
+        progressDialog.setMessage(getString(R.string.login))
 
-        loginPresenter = LoginPresenter()
-        loginPresenter?.onAttach(this)
+        addListeners()
+        loginPresenter = LoginPresenter(this)
+        loginPresenter.onAttach(this)
     }
 
     override fun onLoginSuccess(message: String) {
@@ -78,7 +78,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             }
         } else {
             when(what) {
-                Constant.EMAIL -> email.error = getString(R.string.invalid_email)
+                Constant.EMAIL -> email.error = getString(R.string.email_invalid_title)
                 Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
             }
         }
@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun showProgress(boolean: Boolean) {
-        if (boolean) progressDialog?.show() else progressDialog?.hide()
+        if (boolean) progressDialog.show() else progressDialog.hide()
     }
 
     override fun onLoginError(title: String?, message: String?) {
@@ -128,7 +128,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     fun skip() {
-        skip.setOnClickListener { loginPresenter?.skipLogin() }
+        skip.setOnClickListener { loginPresenter.skipLogin() }
     }
 
     fun logIn() {
@@ -147,12 +147,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         password.error = null
         input_url.error = null
 
-        loginPresenter?.login(stringEmail, stringPassword, susi_default.isChecked, this, stringURL)
+        loginPresenter.login(stringEmail, stringPassword, susi_default.isChecked, stringURL)
     }
 
     fun cancelLogin() {
-        progressDialog?.setOnCancelListener({
-            loginPresenter?.cancelLogin()
+        progressDialog.setOnCancelListener({
+            loginPresenter.cancelLogin()
             log_in.isEnabled = true
         })
     }
@@ -176,7 +176,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun onDestroy() {
-        loginPresenter?.onDetach()
+        loginPresenter.onDetach()
         super.onDestroy()
     }
 }

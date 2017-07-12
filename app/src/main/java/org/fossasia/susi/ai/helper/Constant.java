@@ -21,7 +21,8 @@ public class Constant {
     public static final String HOTWORD_DETECTION = "hotword_detection";
 
     public static final String THEME = "theme";
-    public static final String DARK = "dark";
+    public static final String DARK = "Dark";
+    public static final String LIGHT = "Light";
 
     public static final String SAVED_EMAIL="saved_email";
 
@@ -52,5 +53,6 @@ public class Constant {
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
     public static final String CONFIRM_PASSWORD = "confirm_password";
+    public static final CharSequence THEME_KEY = "Theme_key";
     public static final String INPUT_URL = "input_url";
 }

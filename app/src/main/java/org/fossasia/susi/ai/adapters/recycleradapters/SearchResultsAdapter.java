@@ -60,7 +60,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
                 holder.titleTextView.setVisibility(View.VISIBLE);
                 holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
             }
-            if(datum.getDescription().isEmpty()) {
+            if(datum.getDescription() == null || datum.getDescription().isEmpty()) {
                 holder.descriptionTextView.setVisibility(View.GONE);
             } else {
                 holder.descriptionTextView.setVisibility(View.VISIBLE);

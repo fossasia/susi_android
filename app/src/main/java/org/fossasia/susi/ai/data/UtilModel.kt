@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data
 
+import android.content.Context
 import io.realm.Realm
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.Constant
@@ -13,7 +14,8 @@ import retrofit2.Response
  *
  * Created by chiragw15 on 10/7/17.
  */
-class UtilModel: IUtilModel {
+
+class UtilModel(val context: Context): IUtilModel {
 
     override fun saveToken(response: Response<LoginResponse>) {
         PrefManager.putString(Constant.ACCESS_TOKEN, response.body().accessToken)
@@ -62,5 +64,9 @@ class UtilModel: IUtilModel {
 
     override fun setCustomURL(url: String) {
         PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url))
+    }
+
+    override fun getString(id: Int): String {
+        return context.getString(id)
     }
 }

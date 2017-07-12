@@ -16,14 +16,14 @@ import retrofit2.Response
  */
 class LoginModel : ILoginModel {
 
-    var authResponseCall: Call<LoginResponse>?= null
+    lateinit var authResponseCall: Call<LoginResponse>
 
     override fun login(email: String, password: String, listener: ILoginModel.OnLoginFinishedListener) {
 
         authResponseCall = ClientBuilder().susiApi
                 .login(email, password)
 
-        authResponseCall?.enqueue(object : Callback<LoginResponse> {
+        authResponseCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                 listener.onSuccess(response)
             }
@@ -36,6 +36,6 @@ class LoginModel : ILoginModel {
     }
 
     override fun cancelLogin() {
-        authResponseCall?.cancel()
+        authResponseCall.cancel()
     }
 }
