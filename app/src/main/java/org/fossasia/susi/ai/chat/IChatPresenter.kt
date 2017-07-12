@@ -7,7 +7,8 @@ import android.content.Context
  */
 interface IChatPresenter {
 
-    fun onAttach(chatView: IChatView, firstRun: Boolean, context: Context)
-
+    fun onAttach(chatView: IChatView, context: Context)
+    fun retrieveOldMessages(firstRun: Boolean)
+    fun getLocationFromIP()
 
 }

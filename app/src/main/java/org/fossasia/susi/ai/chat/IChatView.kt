@@ -6,4 +6,6 @@ package org.fossasia.susi.ai.chat
 interface IChatView {
 
     fun setTheme(darkTheme: Boolean)
+    fun checkPermissions(permission: String): Boolean
+    fun askForPermission(permissions: Array<String?>)
 }

@@ -45,6 +45,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.LoginFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -68,6 +69,7 @@ import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.DateTimeHelper;
 import org.fossasia.susi.ai.helper.MediaUtil;
+import org.fossasia.susi.ai.helper.NetworkUtils;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.login.LoginActivity;
 import org.fossasia.susi.ai.data.model.ChatMessage;
@@ -147,11 +149,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean backPressedOnce = false;
     private FloatingActionButton fab_scrollToEnd;
     //	 Global Variables used for the setMessage Method
-    private String answer;
-    private boolean isHavingLink = false;
-    private String actionType;
-    private MapData mapData = null;
-    private List<Datum> datumList = null;
     private boolean micCheck;
     private SearchView searchView;
     private boolean check;
@@ -161,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
     private int offset = 1;
     private ChatFeedRecyclerAdapter recyclerAdapter;
     private Realm realm;
-    private String webSearch;
     private TextToSpeech textToSpeech;
     private BroadcastReceiver networkStateReceiver;
     private ClientBuilder clientBuilder;
@@ -175,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
     private String source = "ip";
     private RecordingThread recordingThread;
     private boolean isDetectionOn = false;
-    private int count;
     private ImageView toolbarImg;
 
     /**
@@ -285,59 +280,17 @@ public class MainActivity extends AppCompatActivity {
             recognizer=null;
         }
         hideVoiceInput();
-        if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
+        if(recordingThread != null && !isDetectionOn && PrefManager.checkHotwordPref()) {
             recordingThread.startRecording();
             isDetectionOn = true;
         }
     }
 
     /**
-     * Extract urls from the answer.
-     *
-     * @param text the text
-     * @return the list
-     */
-    public static List<String> extractUrls(String text) {
-        List<String> links = new ArrayList<>();
-        Matcher m = Patterns.WEB_URL.matcher(text);
-        while (m.find()) {
-            String url = m.group();
-            links.add(url);
-        }
-        return links;
-    }
-
-    /**
-     * Check mic input boolean.
-     *
-     * @return the boolean
-     */
-    public boolean checkMicInput() {
-        return micCheck = MediaUtil.INSTANCE.isAvailableForVoiceInput(MainActivity.this);
-    }
-
-    /**
-     * Check for hotword detection pref boolean
-     *
-     * @return the boolean
-     */
-    public boolean checkHotwordPref() {
-        return PrefManager.getBoolean(Constant.HOTWORD_DETECTION, false);
-    }
-
-    /**
-     * Method is used to parse susi response and find out the action type to display.
-     *
-     * @param susiResponse Response from susi server
-     * @param i Index of action type
-     */
-
-
-    /**
      * Method used to retrieve all old messages of the user.
      */
     private void getOldMessages() {
-        if (isNetworkConnected()) {
+        if (NetworkUtils.Companion.isNetworkConnected()) {
             Call<MemoryResponse> call = clientBuilder.getSusiApi().getChatHistory();
             call.enqueue(new Callback<MemoryResponse>() {
                 @Override
@@ -353,9 +306,9 @@ public class MainActivity extends AppCompatActivity {
                                 String queryDate = allMessages.get(i).getQueryDate();
                                 String answerDdate = allMessages.get(i).getAnswerDate();
 
-                                List<String> urlList = extractUrls(query);
+                                List<String> urlList = ParseSusiResponseHelper.Companion.extractUrls(query);
                                 Log.d(TAG, urlList.toString());
-                                isHavingLink = urlList != null;
+                                boolean isHavingLink = true;
                                 if (urlList.size() == 0) isHavingLink = false;
 
                                 newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
@@ -376,14 +329,15 @@ public class MainActivity extends AppCompatActivity {
                                 int actionSize = allMessages.get(i).getAnswers().get(0).getActions().size();
 
                                 for(int j=0 ; j<actionSize ; j++) {
-                                    parseSusiResponse(allMessages.get(i),j);
-                                    updateDatabase(c, answer, false, DateTimeHelper.INSTANCE.getDate(answerDdate), DateTimeHelper.INSTANCE.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
+                                    ParseSusiResponseHelper psh = new ParseSusiResponseHelper(MainActivity.this);
+                                    psh.parseSusiResponse(allMessages.get(i),j);
+                                    updateDatabase(c, psh.getAnswer(), false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, psh.getActionType(), psh.getMapData(), isHavingLink, psh.getDatumList(), psh.getWebSearch(), psh.getCount());
                                 }
                             }
                         }
                         progressDialog.dismiss();
                     } else {
-                        if (!isNetworkConnected()) {
+                        if (!NetworkUtils.Companion.isNetworkConnected()) {
                             Snackbar snackbar = Snackbar.make(coordinatorLayout,
                                     getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                             snackbar.show();
@@ -428,6 +382,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         clientBuilder = new ClientBuilder();
+
+        //theme done
+
         if(PrefManager.getTheme().equals(Constant.DARK)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
@@ -435,8 +392,10 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
+        //done
         setContentView(R.layout.activity_main);
 
+        //done
         realm = Realm.getDefaultInstance();
         Number temp = realm.where(ChatMessage.class).max(getString(R.string.id));
         if (temp == null) {
@@ -445,14 +404,25 @@ public class MainActivity extends AppCompatActivity {
             newMessageIndex = (long) temp + 1;
         }
 
+        //done
         PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex);
+        micCheck = PrefManager.checkMicInput(this);
 
+        //done
         boolean firstRun = getIntent().getBooleanExtra(Constant.FIRST_TIME,false);
-        if(firstRun && isNetworkConnected()) {
+        if(firstRun && NetworkUtils.Companion.isNetworkConnected()) {
             retrieveOldMessages();
         }
 
+        //wait
+        if(PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && (!PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false))) {
+            throw new IllegalStateException("Not signed in, Cannot access resource!");
+        }
+
+        //partial
         checkPermissions();
+
+
         getLocationFromIP();
         init();
         compensateTTSDelay();
@@ -460,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
                         Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED ) {
-            if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && checkMicInput())
+            if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && PrefManager.checkMicInput(this))
                 initHotword();
             else {
                 showToast(getString(R.string.error_hotword));
@@ -530,7 +500,7 @@ public class MainActivity extends AppCompatActivity {
                 sendMessage(voiceResults.get(0),voiceResults.get(0));
                 recognizer.destroy();
                 hideVoiceInput();
-                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
+                if(recordingThread != null && !isDetectionOn && PrefManager.checkHotwordPref()) {
                     recordingThread.startRecording();
                     isDetectionOn = true;
                 }
@@ -549,7 +519,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Could not recognize speech, try again.",Toast.LENGTH_SHORT).show();
                 recognizer.destroy();
                 hideVoiceInput();
-                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
+                if(recordingThread != null && !isDetectionOn && PrefManager.checkHotwordPref()) {
                     recordingThread.startRecording();
                     isDetectionOn = true;
                 }
@@ -626,7 +596,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }, new AudioDataSaver());
-            if(!isDetectionOn && checkHotwordPref()) {
+            if(!isDetectionOn && PrefManager.checkHotwordPref()) {
                 recordingThread.startRecording();
                 isDetectionOn = true;
             }
@@ -860,6 +830,8 @@ public class MainActivity extends AppCompatActivity {
      * Method to check user permissions.
      * Requests permission for Audio record, Location and Write to storage
      */
+
+    //done
     private void checkPermissions() {
         String[] permissions = new String[3];
         int c = 0;
@@ -887,10 +859,11 @@ public class MainActivity extends AppCompatActivity {
 
         if(ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput() && PrefManager.getBoolean(Constant.MIC_INPUT, false));
+            PrefManager.putBoolean(Constant.MIC_INPUT, PrefManager.checkMicInput(this));
         }
     }
 
+    //partial done
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -910,14 +883,14 @@ public class MainActivity extends AppCompatActivity {
                                 micCheck = false;
                                 PrefManager.putBoolean(Constant.MIC_INPUT, false);
                             } else {
-                                PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
+                                PrefManager.putBoolean(Constant.MIC_INPUT, PrefManager.checkMicInput(this));
                             }
                             audioPermissionGiven = true;
                             break;
 
                         case Manifest.permission.WRITE_EXTERNAL_STORAGE :
                             if (grantResults.length >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
-                                if(Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && checkMicInput())
+                                if(Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && PrefManager.checkMicInput(this))
                                     initHotword();
                                 else {
                                     showToast(getString(R.string.error_hotword));
@@ -940,7 +913,7 @@ public class MainActivity extends AppCompatActivity {
      * @param isHavingLink boolean to check if answer has links
      */
     private void voiceReply(final String reply, final boolean isHavingLink) {
-        if ((checkSpeechOutputPref() && check) || checkSpeechAlwaysPref()) {
+        if ((PrefManager.checkSpeechOutputPref() && check) || PrefManager.checkSpeechAlwaysPref()) {
             final AudioManager audiofocus = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
             Handler handler = new Handler();
             handler.post(new Runnable() {
@@ -963,7 +936,7 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onDone(String s) {
-                                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
+                                if(recordingThread != null && !isDetectionOn && PrefManager.checkHotwordPref()) {
                                     recordingThread.startRecording();
                                     isDetectionOn = true;
                                 }
@@ -971,7 +944,7 @@ public class MainActivity extends AppCompatActivity {
 
                             @Override
                             public void onError(String s) {
-                                if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
+                                if(recordingThread != null && !isDetectionOn && PrefManager.checkHotwordPref()) {
                                     recordingThread.startRecording();
                                     isDetectionOn = true;
                                 }
@@ -1144,9 +1117,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void sendMessage(String query, String actual) {
         boolean isHavingLink;
-        List<String> urlList = extractUrls(query);
+        List<String> urlList = ParseSusiResponseHelper.Companion.extractUrls(query);
         Log.d(TAG, urlList.toString());
-        isHavingLink = urlList != null;
+        isHavingLink = true;
         if (urlList.size() == 0) isHavingLink = false;
 
         newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
@@ -1173,7 +1146,7 @@ public class MainActivity extends AppCompatActivity {
         final long id;
 
         if (null != nonDeliveredMessages && !nonDeliveredMessages.isEmpty()) {
-            if (isNetworkConnected()) {
+            if (NetworkUtils.Companion.isNetworkConnected()) {
                 recyclerAdapter.showDots();
                 TimeZone tz = TimeZone.getDefault();
                 Date now = new Date();
@@ -1202,28 +1175,29 @@ public class MainActivity extends AppCompatActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                parseSusiResponse(susiResponse,actionNo);
-                                                final String setMessage = answer;
-                                                if(actionType.equals(Constant.ANSWER))
-                                                    voiceReply(setMessage, isHavingLink);
-                                                updateDatabase(id, setMessage, false, DateTimeHelper.INSTANCE.getDate(date), DateTimeHelper.INSTANCE.getTime(date), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
+                                                ParseSusiResponseHelper psh = new ParseSusiResponseHelper(MainActivity.this);
+                                                psh.parseSusiResponse(susiResponse,actionNo);
+                                                final String setMessage = psh.getAnswer();
+                                                if(psh.getActionType().equals(Constant.ANSWER))
+                                                    voiceReply(setMessage, psh.isHavingLink());
+                                                updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date), DateTimeHelper.getTime(date), false, psh.getActionType(), psh.getMapData(), psh.isHavingLink(), psh.getDatumList(), psh.getWebSearch(), psh.getCount());
                                             }
                                         }, delay);
                                     }
                                     recyclerAdapter.hideDots();
                                 } else {
-                                    if (!isNetworkConnected()) {
+                                    if (!NetworkUtils.Companion.isNetworkConnected()) {
                                         recyclerAdapter.hideDots();
                                         nonDeliveredMessages.addFirst(new Pair(query, id));
                                         Snackbar snackbar = Snackbar.make(coordinatorLayout,
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     } else {
-                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.INSTANCE.getDate(), DateTimeHelper.INSTANCE.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
+                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, null, false, null, null, -1);
                                     }
                                     recyclerAdapter.hideDots();
                                 }
-                                if (isNetworkConnected())
+                                if (!NetworkUtils.Companion.isNetworkConnected())
                                     computeOtherMessage();
                             }
 
@@ -1236,13 +1210,13 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 recyclerAdapter.hideDots();
 
-                                if (!isNetworkConnected()) {
+                                if (!NetworkUtils.Companion.isNetworkConnected()) {
                                     nonDeliveredMessages.addFirst(new Pair(query, id));
                                     Snackbar snackbar = Snackbar.make(coordinatorLayout,
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 } else {
-                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.INSTANCE.getDate(), DateTimeHelper.INSTANCE.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
+                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, null, false, null, null, -1);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
@@ -1649,7 +1623,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
         checkEnterKeyPref();
-        if(recordingThread != null && !isDetectionOn && checkHotwordPref()) {
+        if(recordingThread != null && !isDetectionOn && PrefManager.checkHotwordPref()) {
             recordingThread.startRecording();
             isDetectionOn = true;
         }
@@ -1692,17 +1666,6 @@ public class MainActivity extends AppCompatActivity {
             textToSpeech.shutdown();
             textToSpeech = null;
         }
-    }
-
-    /**
-     * Method to check if user's mobile is connected to internet.
-     *
-     * @return boolean
-     */
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) this.getApplicationContext().getSystemService(
-                Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
     }
 
     /**

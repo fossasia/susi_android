@@ -4,6 +4,7 @@ package org.fossasia.susi.ai.chat
  * Created by chiragw15 on 9/7/17.
  */
 class ChatInteractor: IChatInteractor {
+
     override fun retrieveOldMessages(listener: IChatInteractor.OnRetrievingMessagesFinishedListener) {
         val thread = object : Thread() {
             override fun run() {
@@ -11,6 +12,10 @@ class ChatInteractor: IChatInteractor {
             }
         }
         thread.start()
+    }
+
+    override fun getLocationFromIp(listener: IChatInteractor.OnLocationFromIPReceivedListener) {
+
     }
 
     fun getOldMessages(listener: IChatInteractor.OnRetrievingMessagesFinishedListener) {

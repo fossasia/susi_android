@@ -1,11 +1,13 @@
 package org.fossasia.susi.ai.helper;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
 import org.fossasia.susi.ai.MainApplication;
+import org.fossasia.susi.ai.activities.MainActivity;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 
@@ -254,6 +256,24 @@ public class PrefManager {
      */
     public static boolean checkSpeechAlwaysPref() {
         return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
+    }
+
+    /**
+     * Check for hotword detection pref boolean
+     *
+     * @return the boolean
+     */
+    public static boolean checkHotwordPref() {
+        return PrefManager.getBoolean(Constant.HOTWORD_DETECTION, false);
+    }
+
+    /**
+     * Check mic input boolean.
+     *
+     * @return the boolean
+     */
+    public static boolean checkMicInput(Context context) {
+        return MediaUtil.isAvailableForVoiceInput(context);
     }
 }
 

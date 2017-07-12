@@ -1,44 +1,48 @@
 package org.fossasia.susi.ai.activities
 
-import android.util.Log
+import android.content.Context
+import android.util.Patterns
+import io.realm.RealmList
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.model.MapData
+import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+import java.util.ArrayList
 
 /**
+ * Helper class to parse susi response
+ *
  * Created by chiragw15 on 10/7/17.
  */
-class ParseSusiResponseHelper {
+class ParseSusiResponseHelper(val context: Context) {
 
-    val answer: String? = null
-    val actionType: String? = null
+    var answer: String? = null
+    var actionType: String? = null
+    var datumList: RealmList<Datum>? = null
+    var mapData: MapData?= null
+    var webSearch: String?= ""
+    var isHavingLink = false
+    var count: Int?= -1
 
-    private fun parseSusiResponse(susiResponse: SusiResponse, i: Int) {
+    fun parseSusiResponse(susiResponse: SusiResponse, i: Int) {
 
         actionType = susiResponse.answers[0].actions[i].type
-        datumList = null
-        mapData = null
-        webSearch = ""
-        isHavingLink = false
-        answer = null
 
         when (actionType) {
             Constant.ANCHOR -> try {
                 answer = "<a href=\"" + susiResponse.answers[0].actions[i].anchorLink + "\">" + susiResponse.answers[0].actions[1].anchorText + "</a>"
             } catch (e: Exception) {
-                Log.d(TAG, e.localizedMessage)
-                answer = getString(R.string.error_occurred_try_again)
+                answer = context.getString(R.string.error_occurred_try_again)
             }
 
             Constant.ANSWER -> try {
                 answer = susiResponse.answers[0].actions[i].expression
-                val urlList = extractUrls(answer)
-                Log.d(TAG, urlList!!.toString())
-                isHavingLink = urlList != null
-                if (urlList!!.size == 0) isHavingLink = false
+                val urlList = extractUrls(answer as String)
+                isHavingLink = true
+                if (urlList.isEmpty()) isHavingLink = false
             } catch (e: Exception) {
-                answer = getString(R.string.error_occurred_try_again)
+                answer = context.getString(R.string.error_occurred_try_again)
                 isHavingLink = false
             }
 
@@ -70,7 +74,19 @@ class ParseSusiResponseHelper {
                 webSearch = ""
             }
 
-            else -> answer = getString(R.string.error_occurred_try_again)
+            else -> answer = context.getString(R.string.error_occurred_try_again)
+        }
+    }
+
+    companion object {
+        fun extractUrls(text: String): List<String> {
+            val links = ArrayList<String>()
+            val m = Patterns.WEB_URL.matcher(text)
+            while (m.find()) {
+                val url = m.group()
+                links.add(url)
+            }
+            return links
         }
     }
 }
