@@ -8,64 +8,21 @@ import com.google.gson.annotations.SerializedName
 
  * Created by mayank on 09-12-2016.
  */
-class RelatedTopics
-/**
- * Instantiates a new Related topics.
 
- * @param url  the url
- * *
- * @param text the text
- * *
- * @param icon the icon
- */
+class RelatedTopics
+
 (@SerializedName("FirstURL")
  @Expose
- /**
-  * Gets url.
+ var url: String?,
 
-  * @return the url
-  */
- /**
-  * Sets url.
-
-  * @param url the url
-  */
- var url: String?, @SerializedName("Text")
+ @SerializedName("Text")
  @Expose
- /**
-  * Gets text.
+ var text: String?,
 
-  * @return the text
-  */
- /**
-  * Sets text.
-
-  * @param text the text
-  */
- var text: String?, @SerializedName("Icon")
+ @SerializedName("Icon")
  @Expose
- /**
-  * Gets icon.
-
-  * @return the icon
-  */
- /**
-  * Sets icon.
-
-  * @param icon the icon
-  */
  var icon: WebIcon?) {
 
-    /**
-     * Gets result.
-
-     * @return the result
-     */
-    /**
-     * Sets result.
-
-     * @param result the result
-     */
     @SerializedName("Result")
     @Expose
     var result: String? = null

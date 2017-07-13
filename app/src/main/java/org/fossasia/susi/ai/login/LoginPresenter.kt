@@ -116,7 +116,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
             utilModel.saveEmail(email)
             utilModel.saveAnonymity(false)
 
-            loginView?.onLoginSuccess(response.body().message)
+            loginView?.onLoginSuccess(response.body().message!!)
         } else if (response.code() == 422) {
             loginView?.onLoginError(utilModel.getString(R.string.password_invalid_title),
                     utilModel.getString(R.string.password_invalid))

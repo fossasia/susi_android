@@ -8,23 +8,10 @@ import com.google.gson.annotations.SerializedName
 
  * Created by mayank on 12-12-2016.
  */
-class WebIcon
-/**
- * Instantiates a new Web icon.
 
- * @param url the url
- */
+class WebIcon
+
 (@SerializedName("URL")
  @Expose
- /**
-  * Gets url.
-
-  * @return the url
-  */
- /**
-  * Sets url.
-
-  * @param url the url
-  */
  var url: String?)
 
