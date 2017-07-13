@@ -9,10 +9,15 @@ import org.fossasia.susi.ai.data.model.ChatMessage
 interface IChatView {
 
     fun setTheme(darkTheme: Boolean)
-    fun checkPermissions(permission: String): Boolean
+    fun checkPermission(permission: String): Boolean
     fun askForPermission(permissions: Array<String?>)
     fun checkMicPref(micCheck: Boolean)
     fun checkEnterKeyPref(isChecked: Boolean)
     fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>)
     fun setChatBackground(previouslyChatImage: String)
+    fun showToast(message: String)
+    fun showVoiceDots()
+    fun displayVoiceInput()
+    fun hideVoiceInput()
+    fun displayPartialSTT(text: String)
 }

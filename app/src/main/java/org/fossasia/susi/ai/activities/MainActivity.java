@@ -429,8 +429,10 @@ public class MainActivity extends AppCompatActivity {
 
         init();
 
-
+        //done
         compensateTTSDelay();
+
+        //done
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this,
@@ -1696,6 +1698,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param message
      */
+    //done
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
@@ -1705,6 +1708,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param view the view
      */
+    //done
     public void scrollToEnd(View view) {
         rvChatFeed.smoothScrollToPosition(rvChatFeed.getAdapter().getItemCount() - 1);
     }

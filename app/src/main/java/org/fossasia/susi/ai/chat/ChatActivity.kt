@@ -21,12 +21,14 @@ import android.util.Base64
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
+import android.widget.Toast
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.LocationHelper
 import org.fossasia.susi.ai.helper.PrefManager
 
 /**
@@ -55,7 +57,13 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         chatPresenter.retrieveOldMessages(firstRun)
         chatPresenter.getLocationFromIP()
         chatPresenter.getUndeliveredMessages()
+        chatPresenter.initiateHotwordDetection()
         hideVoiceInput()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        chatPresenter.getLocationFromLocationService(applicationContext)
     }
 
     fun setToolbar() {
@@ -175,7 +183,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         }
     }
 
-    private fun hideVoiceInput() {
+    override fun hideVoiceInput() {
         voice_input_text.text = ""
         voice_input_text.visibility = View.GONE
         cancel.visibility = View.GONE
@@ -186,12 +194,21 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         et_message.requestFocus()
     }
 
-    private fun displayVoiceInput() {
+    override fun displayVoiceInput() {
         dots.visibility = View.VISIBLE
         voice_input_text.visibility = View.VISIBLE
         cancel.visibility = View.VISIBLE
         et_message.visibility = View.GONE
         btnSpeak.visibility = View.GONE
+    }
+
+    override fun displayPartialSTT(text: String) {
+        voice_input_text.setText(text)
+    }
+
+    override fun showVoiceDots() {
+        dots.show()
+        dots.start()
     }
 
     var check = false
@@ -225,7 +242,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         }
     }
 
-    override fun checkPermissions(permission: String): Boolean {
+    override fun checkPermission(permission: String): Boolean {
         return ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -266,6 +283,14 @@ class ChatActivity: AppCompatActivity(), IChatView  {
                 }
             }
         }
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun scrollToEnd(view: View) {
+        rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
     }
 
 
