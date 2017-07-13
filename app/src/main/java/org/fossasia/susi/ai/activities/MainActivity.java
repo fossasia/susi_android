@@ -422,9 +422,13 @@ public class MainActivity extends AppCompatActivity {
         //partial
         checkPermissions();
 
-
+        //done
         getLocationFromIP();
+
+
         init();
+
+
         compensateTTSDelay();
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
@@ -717,9 +721,13 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Initiating method of the main activity.
      */
+    //done
     private void init() {
+        //no need
         ButterKnife.bind(this);
         fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
+
+        //don't know what it does
         registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         networkStateReceiver = new BroadcastReceiver() {
             @Override
@@ -728,6 +736,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        //done
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -735,6 +744,9 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         toolbarImg = (ImageView) getSupportActionBar().getCustomView()
                 .findViewById(R.id.toolbar_img);
+
+
+        //done
         nonDeliveredMessages.clear();
 
         RealmResults<ChatMessage> nonDelivered = realm.where(ChatMessage.class).equalTo("isDelivered", false).findAll().sort("id");
@@ -744,9 +756,16 @@ public class MainActivity extends AppCompatActivity {
             nonDeliveredMessages.add(new Pair(each.getContent(), each.getId()));
         }
 
+        //done
         checkEnterKeyPref();
+
+        //done
         setupAdapter();
+
+        //done
         hideVoiceInput();
+
+        //done
         rvChatFeed.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -763,6 +782,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //done
         ChatMessage.setMaxLines(4);
         ChatMessage.setHorizontallyScrolling(false);
         ChatMessage.addTextChangedListener(watch);
@@ -782,6 +802,8 @@ public class MainActivity extends AppCompatActivity {
                 return handled;
             }
         });
+
+        //done
         setChatBackground();
     }
 

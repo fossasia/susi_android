@@ -10,5 +10,7 @@ interface IChatPresenter {
     fun onAttach(chatView: IChatView, context: Context)
     fun retrieveOldMessages(firstRun: Boolean)
     fun getLocationFromIP()
-
+    fun getUndeliveredMessages()
+    fun sendMessage(query: String, actual: String)
+    fun setUp()
 }

@@ -1,8 +1,9 @@
 package org.fossasia.susi.ai.activities
 
 import io.realm.Realm
+import io.realm.RealmResults
+import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.model.ChatMessage
 
 /**
  * Created by chiragw15 on 12/7/17.
@@ -21,5 +22,13 @@ class DatabaseRepository: IDatabaseRepository {
 
     override fun deleteAllMessages(): Boolean {
         return false
+    }
+
+    override fun getUndeliveredMessages(): RealmResults<ChatMessage> {
+        return realm.where(ChatMessage::class.java).equalTo(Constant.IS_DELIVERED, false).findAll().sort(Constant.ID);
+    }
+
+    override fun getAllMessages(): RealmResults<ChatMessage> {
+        return realm.where(ChatMessage::class.java).findAllSorted(Constant.ID);
     }
 }

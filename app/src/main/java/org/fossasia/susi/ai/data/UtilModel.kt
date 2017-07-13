@@ -112,4 +112,12 @@ class UtilModel(val context: Context): IUtilModel {
             return false
         }
     }
+
+    override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
+        return PrefManager.getBoolean(prefName, defaultValue);
+    }
+
+    override fun checkMicInput(): Boolean {
+        return MediaUtil.isAvailableForVoiceInput(context)
+    }
 }
