@@ -10,8 +10,13 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import android.content.Intent
 import org.fossasia.susi.ai.activities.MainActivity
+import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.settings.contract.ISettingsView
 
 /**
+ * <h1>The Settings activity.</h1>
+ * <h2>This activity is used to set Preferences into the app.</h2>
+ *
  * Created by mayanktripathi on 07/07/17.
  */
 
@@ -21,7 +26,6 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         if (PrefManager.getTheme() == Constant.DARK) {
             setTheme(R.style.PreferencesThemeDark)

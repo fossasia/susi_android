@@ -8,15 +8,13 @@ import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.PrefManager
-import android.os.Build
-import org.fossasia.susi.ai.helper.MediaUtil
-import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
-
+import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 
 /**
+ * The Fragment for Settings Activity
+ *
  * Created by mayanktripathi on 10/07/17.
  */
 
@@ -31,11 +29,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat() {
     var theme: ListPreference? = null
     var hotwordSettings: Preference? = null
     var settingActivity: SettingsActivity? = null
+    var utilModel: UtilModel?= null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
 
-        settingsPresenter = SettingsPresenter()
+        settingsPresenter = SettingsPresenter(activity)
+        utilModel = UtilModel(activity)
         (settingsPresenter as SettingsPresenter).onAttach(this)
 
         textToSpeech = preferenceManager.findPreference(Constant.LANG_SELECT)
@@ -64,9 +64,15 @@ class ChatSettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        server?.setOnPreferenceClickListener {
-            settingActivity?.showAlert(activity)
-            true
+        if(utilModel?.getAnonymity()!!){
+            server?.isEnabled = true
+            server?.setOnPreferenceClickListener {
+                settingActivity?.showAlert(activity)
+                true
+            }
+        }
+        else {
+            server?.isEnabled = false
         }
 
         theme?.setOnPreferenceChangeListener({ preference, newValue ->
@@ -76,29 +82,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat() {
             true
         })
 
-        micSettings?.setOnPreferenceChangeListener({ _, _ ->
-            micSettings?.isEnabled = settingsPresenter?.enableMic(activity) as Boolean
-            true
-        })
+        micSettings?.isEnabled = settingsPresenter?.enableMic() as Boolean
 
-        if (ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(context)
-            if (!voiceInputAvailable || !Build.CPU_ABI.contains("arm") || Build.FINGERPRINT.contains("generic")) {
-                PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
-                hotwordSettings?.setEnabled(false)
-            } else {
-                hotwordSettings?.setEnabled(true)
-            }
-        } else {
-            PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
-            hotwordSettings?.setEnabled(false)
-        }
+        hotwordSettings?.isEnabled = settingsPresenter?.enableHotword() as Boolean
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         settingsPresenter?.onDetach()
     }
+
 }
