@@ -13,7 +13,7 @@ import retrofit2.Response
  */
 class ChatInteractor: IChatInteractor {
 
-    val TAG = ChatInteractor::class.java.name
+    val TAG: String = ChatInteractor::class.java.name
 
     override fun retrieveOldMessages(listener: IChatInteractor.OnRetrievingMessagesFinishedListener) {
         val thread = object : Thread() {

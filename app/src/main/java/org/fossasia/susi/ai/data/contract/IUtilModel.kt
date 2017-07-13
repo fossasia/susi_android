@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data.contract
 
+import android.speech.SpeechRecognizer
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
@@ -22,5 +23,8 @@ interface IUtilModel {
     fun setCustomURL(url: String)
     fun getString(id: Int): String
     fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean
+    fun putBooleanPref(prefName: String, value: Boolean)
     fun checkMicInput(): Boolean
+    fun copyAssetstoSD()
+    fun createSpeechRecognizer(): SpeechRecognizer
 }

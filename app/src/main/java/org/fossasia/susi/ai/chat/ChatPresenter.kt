@@ -1,12 +1,31 @@
 package org.fossasia.susi.ai.chat
 
+import ai.kitt.snowboy.AppResCopy
+import ai.kitt.snowboy.MsgEnum
+import ai.kitt.snowboy.audio.AudioDataSaver
+import ai.kitt.snowboy.audio.RecordingThread
 import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
+import android.support.v4.app.ActivityCompat
 import android.support.v4.util.Pair
+import android.util.Log
+import android.widget.Toast
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.activities.DatabaseRepository
 import org.fossasia.susi.ai.activities.IDatabaseRepository
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.LocationHelper
 import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
@@ -19,6 +38,8 @@ import java.util.*
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor.OnRetrievingMessagesFinishedListener,
         IChatInteractor.OnLocationFromIPReceivedListener {
 
+    val TAG: String = ChatPresenter::class.java.name
+
     var chatView: IChatView?= null
     var chatInteractor: IChatInteractor = ChatInteractor()
     var utilModel: UtilModel = UtilModel(chatActivity)
@@ -29,6 +50,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
     var longitude: Double = 0.0
     var source = Constant.IP
     private val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
+    lateinit var locationHelper: LocationHelper
+    lateinit var textToSpeech: TextToSpeech
+    var recordingThread: RecordingThread? = null
+    var isDetectionOn = false
+    lateinit var recognizer: SpeechRecognizer
 
     override fun onAttach(chatView: IChatView, context: Context) {
         this.chatView = chatView
@@ -52,6 +78,132 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
 
         //set background
         chatView?.setChatBackground(PrefManager.getString(Constant.IMAGE_DATA, ""))
+    }
+
+    //initiates hotword detection
+    override fun initiateHotwordDetection() {
+        if (chatView!!.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
+                chatView!!.checkPermission(Manifest.permission.RECORD_AUDIO)) {
+            if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && utilModel.checkMicInput())
+                initHotword()
+            else {
+                chatView?.showToast(utilModel.getString(R.string.error_hotword))
+                utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
+            }
+        }
+    }
+
+    fun initHotword() {
+        utilModel.copyAssetstoSD()
+
+        recordingThread = RecordingThread(object : Handler() {
+            override fun handleMessage(msg: Message) {
+                val message = MsgEnum.getMsgEnum(msg.what)
+                when (message) {
+                    MsgEnum.MSG_ACTIVE -> {
+                        chatView?.displayVoiceInput()
+                        promptSpeechInput()
+                    }
+                    MsgEnum.MSG_INFO -> {
+                    }
+                    MsgEnum.MSG_VAD_SPEECH -> {
+                    }
+                    MsgEnum.MSG_VAD_NOSPEECH -> {
+                    }
+                    MsgEnum.MSG_ERROR -> {
+                    }
+                    else -> super.handleMessage(msg)
+                }
+            }
+        }, AudioDataSaver())
+        startHotwordDetection()
+    }
+
+    fun startHotwordDetection() {
+        if (recordingThread != null && !isDetectionOn && utilModel.getBooleanPref(Constant.HOTWORD_DETECTION, false)) {
+            recordingThread?.startRecording()
+            isDetectionOn = true
+        }
+    }
+
+    fun stopHotwordDetection() {
+        if (recordingThread != null && isDetectionOn) {
+            recordingThread?.stopRecording()
+            isDetectionOn = false
+        }
+    }
+
+    //Take user's speech as input and send the message
+    private fun promptSpeechInput() {
+        stopHotwordDetection()
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                "com.domain.app")
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+
+        recognizer = utilModel.createSpeechRecognizer()
+
+        val listener = object : RecognitionListener {
+            override fun onResults(results: Bundle) {
+                val voiceResults = results
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                if (voiceResults == null) {
+                    Log.e(TAG, "No voice results")
+                } else {
+                    Log.d(TAG, "Printing matches: ")
+                    for (match in voiceResults) {
+                        Log.d(TAG, match)
+                    }
+                }
+                sendMessage(voiceResults[0], voiceResults[0])
+                recognizer.destroy()
+                chatView?.hideVoiceInput()
+                startHotwordDetection()
+            }
+
+            override fun onReadyForSpeech(params: Bundle) {
+                Log.d(TAG, "Ready for speech")
+                chatView?.showVoiceDots()
+            }
+
+            override fun onError(error: Int) {
+                Log.d(TAG, "Error listening for speech: " + error)
+                chatView?.showToast("Could not recognize speech, try again.")
+                recognizer.destroy()
+                chatView?.hideVoiceInput()
+                startHotwordDetection()
+            }
+
+            override fun onBeginningOfSpeech() {
+                Log.d(TAG, "Speech starting")
+            }
+
+            override fun onBufferReceived(buffer: ByteArray) {
+                // This method is intentionally empty
+            }
+
+            override fun onEndOfSpeech() {
+                // This method is intentionally empty
+            }
+
+            override fun onEvent(eventType: Int, params: Bundle) {
+                // This method is intentionally empty
+            }
+
+            override fun onPartialResults(partialResults: Bundle) {
+                val partial = partialResults
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                chatView?.displayPartialSTT(partial[0])
+            }
+
+            override fun onRmsChanged(rmsdB: Float) {
+                // This method is intentionally empty
+            }
+        }
+        recognizer.setRecognitionListener(listener)
+        recognizer.startListening(intent)
     }
 
     //Retrieves old Messages
@@ -84,6 +236,32 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
         }
     }
 
+    //Gets Location of user using gps and network
+    override fun getLocationFromLocationService(context: Context) {
+        locationHelper = LocationHelper(context)
+        getLocation()
+    }
+
+    fun getLocation() {
+        locationHelper.getLocation()
+        if (locationHelper.canGetLocation()) {
+            latitude = locationHelper.latitude
+            longitude = locationHelper.longitude
+            source = locationHelper.source
+        }
+    }
+
+    override fun compensateTTSDelay(context: Context) {
+        Handler().post {
+            textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+                if (status != TextToSpeech.ERROR) {
+                    val locale = textToSpeech.getLanguage()
+                    textToSpeech.language = locale
+                }
+            })
+        }
+    }
+
     //get undelivered messages from database
     override fun getUndeliveredMessages() {
         nonDeliveredMessages.clear()
@@ -108,7 +286,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
         var c = 0
 
         for(permission in permissionsRequired) {
-            if(!(chatView?.checkPermissions(permission) as Boolean)) {
+            if(!(chatView?.checkPermission(permission) as Boolean)) {
                 permissionsGranted[c] = permission
                 c++
             }
@@ -118,7 +296,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
             chatView?.askForPermission(permissionsGranted)
         }
 
-        if(!(chatView?.checkPermissions(permissionsRequired[1]) as Boolean)) {
+        if(!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
         }
     }

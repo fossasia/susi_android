@@ -1,11 +1,14 @@
 package org.fossasia.susi.ai.data
 
 import android.Manifest
+import ai.kitt.snowboy.AppResCopy
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.v4.app.ActivityCompat
+import android.speech.SpeechRecognizer
 import io.realm.Realm
+import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
@@ -117,7 +120,20 @@ class UtilModel(val context: Context): IUtilModel {
         return PrefManager.getBoolean(prefName, defaultValue);
     }
 
+    override fun putBooleanPref(prefName: String, value: Boolean) {
+        PrefManager.putBoolean(prefName, value)
+    }
+
     override fun checkMicInput(): Boolean {
         return MediaUtil.isAvailableForVoiceInput(context)
+    }
+
+    override fun copyAssetstoSD() {
+        AppResCopy.copyResFromAssetsToSD(context)
+    }
+
+    override fun createSpeechRecognizer(): SpeechRecognizer {
+        return SpeechRecognizer.createSpeechRecognizer(MainApplication.getInstance()
+                .applicationContext)
     }
 }

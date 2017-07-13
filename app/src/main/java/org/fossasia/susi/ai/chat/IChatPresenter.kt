@@ -13,4 +13,7 @@ interface IChatPresenter {
     fun getUndeliveredMessages()
     fun sendMessage(query: String, actual: String)
     fun setUp()
+    fun initiateHotwordDetection()
+    fun getLocationFromLocationService(context: Context)
+    fun compensateTTSDelay(context: Context)
 }
