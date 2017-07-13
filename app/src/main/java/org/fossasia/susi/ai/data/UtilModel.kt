@@ -5,6 +5,7 @@ import io.realm.Realm
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.MediaUtil
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
@@ -67,5 +68,13 @@ class UtilModel(val context: Context): IUtilModel {
 
     override fun getString(id: Int): String {
         return context.getString(id)
+    }
+
+    override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
+        return PrefManager.getBoolean(prefName, defaultValue);
+    }
+
+    override fun checkMicInput(): Boolean {
+        return MediaUtil.isAvailableForVoiceInput(context)
     }
 }

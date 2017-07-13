@@ -21,4 +21,6 @@ interface IUtilModel {
     fun setServer(isSusiServer: Boolean)
     fun setCustomURL(url: String)
     fun getString(id: Int): String
+    fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean
+    fun checkMicInput(): Boolean
 }

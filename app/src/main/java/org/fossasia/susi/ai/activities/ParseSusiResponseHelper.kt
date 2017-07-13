@@ -5,7 +5,7 @@ import android.util.Patterns
 import io.realm.RealmList
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.model.MapData
+import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import java.util.ArrayList
@@ -21,9 +21,9 @@ class ParseSusiResponseHelper(val context: Context) {
     var actionType: String? = null
     var datumList: RealmList<Datum>? = null
     var mapData: MapData?= null
-    var webSearch: String?= ""
+    var webSearch = ""
     var isHavingLink = false
-    var count: Int?= -1
+    var count = -1
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int) {
 

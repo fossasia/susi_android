@@ -56,4 +56,9 @@ public class Constant {
     public static final String INPUT_URL = "input_url";
 
     public static final String ID = "id";
+    public static final String IS_DELIVERED = "isDelivered";
+
+    public static final String GPS = "gps";
+    public static final String NETWORK = "network";
+    public static final String IP = "ip";
 }
