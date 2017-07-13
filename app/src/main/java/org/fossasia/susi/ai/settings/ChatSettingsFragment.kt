@@ -9,6 +9,12 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
+import android.os.Build
+import org.fossasia.susi.ai.helper.MediaUtil
+import android.content.pm.PackageManager
+import android.support.v4.app.ActivityCompat
+
 
 /**
  * Created by mayanktripathi on 10/07/17.
@@ -23,6 +29,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat() {
     var server: Preference? = null
     var micSettings: Preference? = null
     var theme: ListPreference? = null
+    var hotwordSettings: Preference? = null
     var settingActivity: SettingsActivity? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -36,6 +43,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat() {
         server = preferenceManager.findPreference(Constant.SELECT_SERVER)
         theme = preferenceManager.findPreference(Constant.THEME_KEY) as ListPreference
         micSettings = preferenceManager.findPreference(Constant.MIC_INPUT)
+        hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         settingActivity = SettingsActivity()
 
         if (theme?.value == null)
@@ -72,6 +80,21 @@ class ChatSettingsFragment : PreferenceFragmentCompat() {
             micSettings?.isEnabled = settingsPresenter?.enableMic(activity) as Boolean
             true
         })
+
+        if (ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            val voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(context)
+            if (!voiceInputAvailable || !Build.CPU_ABI.contains("arm") || Build.FINGERPRINT.contains("generic")) {
+                PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
+                hotwordSettings?.setEnabled(false)
+            } else {
+                hotwordSettings?.setEnabled(true)
+            }
+        } else {
+            PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
+            hotwordSettings?.setEnabled(false)
+        }
     }
 
     override fun onDestroyView() {
