@@ -33,7 +33,6 @@
                     android:layout_width="@dimen/message_layout_max_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|left"
-                    android:autoLink="all"
                     android:maxWidth="@dimen/message_layout_max_width"
                     android:paddingBottom="@dimen/message_textview_bottom_padding"
                     android:textColorLink="@color/link_text"

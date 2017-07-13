@@ -4,10 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
@@ -85,7 +89,16 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
      * @param query the query
      */
     public void setView(final ChatMessage model, final Context currContext, final ChatFeedRecyclerAdapter recyclerAdapter, int highlightMessagePosition, final int position, String query) {
-        text.setText(model.getContent());
+        Spanned answerText;
+        text.setLinksClickable(true);
+        text.setMovementMethod(LinkMovementMethod.getInstance());
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            answerText = Html.fromHtml(model.getContent(), Html.FROM_HTML_MODE_COMPACT);
+        } else {
+            answerText = Html.fromHtml(model.getContent());
+        }
+
+        text.setText(answerText);
         timestampTextView.setText(model.getTimeStamp());
         if (model.getWebLinkData() == null) {
             LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
