@@ -22,13 +22,12 @@ import java.net.UnknownHostException
 class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener {
 
     var signUpView: ISignUpView? = null
-    var signUpModel: SignUpModel? = null
+    var signUpModel: SignUpModel = SignUpModel()
     var utilModel: UtilModel = UtilModel(signUpActivity)
     lateinit var email: String
 
     override fun onAttach(signUpView: ISignUpView) {
         this.signUpView = signUpView
-        this.signUpModel = SignUpModel()
     }
 
     override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String) {

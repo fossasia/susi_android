@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.signup.contract
 
 /**
- * * The interface for SignUp Presenter
+ * The interface for SignUp Presenter
  *
  * Created by mayanktripathi on 05/07/17.
  */
