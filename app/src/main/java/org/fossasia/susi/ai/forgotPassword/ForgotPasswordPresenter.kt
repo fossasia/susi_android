@@ -39,8 +39,8 @@ class ForgotPasswordPresenter : IForgotPasswordPresenter, IForgotPasswordInterac
         forgotPasswordView?.hideProgress()
     }
 
-    override fun success(title: String, message: String) {
-        forgotPasswordView?.success(title, message)
+    override fun success(title: String, message: String?) {
+        forgotPasswordView?.success(title, message as String)
     }
 
     override fun failure(title: String, message: String, button: String, color: Int) {
