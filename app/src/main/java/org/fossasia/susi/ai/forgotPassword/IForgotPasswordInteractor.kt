@@ -14,7 +14,7 @@ interface IForgotPasswordInteractor {
         fun emptyUrl()
         fun showProgress()
         fun hideProgress()
-        fun success(title: String, message: String?)
+        fun success(title: String, message: String)
         fun failure(title: String, message: String, button: String, color: Int)
     }
 

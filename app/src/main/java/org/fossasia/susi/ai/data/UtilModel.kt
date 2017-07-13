@@ -14,6 +14,7 @@ import retrofit2.Response
  *
  * Created by chiragw15 on 10/7/17.
  */
+
 class UtilModel(val context: Context): IUtilModel {
 
     override fun saveToken(response: Response<LoginResponse>) {
