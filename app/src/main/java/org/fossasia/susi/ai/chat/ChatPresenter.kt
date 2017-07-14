@@ -1,38 +1,32 @@
 package org.fossasia.susi.ai.chat
 
-import ai.kitt.snowboy.AppResCopy
 import ai.kitt.snowboy.MsgEnum
 import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
-import android.Manifest
-import android.content.Context
+
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
+import android.graphics.Bitmap
+import android.os.*
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
-import android.support.v4.app.ActivityCompat
-import android.support.v4.util.Pair
 import android.util.Log
-import android.widget.Toast
+import org.fossasia.susi.ai.MainApplication
+
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.activities.DatabaseRepository
 import org.fossasia.susi.ai.activities.IDatabaseRepository
 import org.fossasia.susi.ai.data.UtilModel
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.LocationHelper
-import org.fossasia.susi.ai.helper.NetworkUtils
-import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
+
 import retrofit2.Response
+
 import java.util.*
 
 /**
+ *
  * Created by chiragw15 on 9/7/17.
  */
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor.OnRetrievingMessagesFinishedListener,
@@ -56,7 +50,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
     var isDetectionOn = false
     lateinit var recognizer: SpeechRecognizer
 
-    override fun onAttach(chatView: IChatView, context: Context) {
+    override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
     }
 
@@ -76,14 +70,40 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
 
         chatView?.setupAdapter(databaseRepository.getAllMessages())
 
-        //set background
-        chatView?.setChatBackground(PrefManager.getString(Constant.IMAGE_DATA, ""))
+    }
+
+    override fun setUpBackground() {
+        val previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "")
+        if (previouslyChatImage.equals(utilModel.getString(R.string.background_no_wall), ignoreCase = true)) {
+            chatView?.setChatBackground(null)
+        } else if (!previouslyChatImage.equals("", ignoreCase = true)) {
+           chatView?.setChatBackground(utilModel.decodeImage(previouslyChatImage))
+        } else {
+            chatView?.setChatBackground(null)
+        }
+    }
+
+    override fun openSelectBackgroundDialog(which: Int) {
+        when (which) {
+            0 -> {
+                chatView?.openImagePickerActivity()
+            }
+            1 -> {
+                PrefManager.putString(Constant.IMAGE_DATA, utilModel.getString(R.string.background_no_wall))
+                setUpBackground()
+            }
+        }
+    }
+
+    override fun cropPicture(encodedImage: String) {
+        PrefManager.putString(Constant.IMAGE_DATA, encodedImage)
+        setUpBackground()
     }
 
     //initiates hotword detection
     override fun initiateHotwordDetection() {
-        if (chatView!!.checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) &&
-                chatView!!.checkPermission(Manifest.permission.RECORD_AUDIO)) {
+        if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
+                chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
             if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && utilModel.checkMicInput())
                 initHotword()
             else {
@@ -237,8 +257,8 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
     }
 
     //Gets Location of user using gps and network
-    override fun getLocationFromLocationService(context: Context) {
-        locationHelper = LocationHelper(context)
+    override fun getLocationFromLocationService() {
+        locationHelper = LocationHelper(MainApplication.getInstance().applicationContext)
         getLocation()
     }
 
@@ -251,9 +271,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
         }
     }
 
-    override fun compensateTTSDelay(context: Context) {
+    override fun compensateTTSDelay() {
         Handler().post {
-            textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+            textToSpeech = TextToSpeech(MainApplication.getInstance()
+                    .applicationContext, TextToSpeech.OnInitListener { status ->
                 if (status != TextToSpeech.ERROR) {
                     val locale = textToSpeech.getLanguage()
                     textToSpeech.language = locale
@@ -278,9 +299,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
 
     //Asks for permissions from user
     fun getPermissions() {
-        val permissionsRequired = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-                                          Manifest.permission.RECORD_AUDIO,
-                                          Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        val permissionsRequired = utilModel.permissionsToGet()
 
         val permissionsGranted = arrayOfNulls<String>(3)
         var c = 0
@@ -299,6 +318,19 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
         if(!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
         }
+    }
+
+    override fun logout() {
+        utilModel.clearToken()
+        databaseRepository.deleteAllMessages()
+        chatView?.startLoginActivity()
+    }
+
+    override fun login() {
+        utilModel.clearToken()
+        utilModel.saveAnonymity(false)
+        databaseRepository.deleteAllMessages()
+        chatView?.startLoginActivity()
     }
 
 }

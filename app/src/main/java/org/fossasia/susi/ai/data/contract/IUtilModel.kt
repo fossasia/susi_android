@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data.contract
 
+import android.graphics.drawable.Drawable
 import android.speech.SpeechRecognizer
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
@@ -27,4 +28,6 @@ interface IUtilModel {
     fun checkMicInput(): Boolean
     fun copyAssetstoSD()
     fun createSpeechRecognizer(): SpeechRecognizer
+    fun decodeImage(previouslyChatImage: String): Drawable
+    fun permissionsToGet() : Array<String>
 }

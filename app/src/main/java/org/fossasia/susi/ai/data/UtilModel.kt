@@ -1,15 +1,14 @@
 package org.fossasia.susi.ai.data
 
 import ai.kitt.snowboy.AppResCopy
+import android.Manifest
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.speech.SpeechRecognizer
 import io.realm.Realm
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.data.contract.IUtilModel
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.CredentialHelper
-import org.fossasia.susi.ai.helper.MediaUtil
-import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
@@ -92,5 +91,15 @@ class UtilModel(val context: Context): IUtilModel {
     override fun createSpeechRecognizer(): SpeechRecognizer {
         return SpeechRecognizer.createSpeechRecognizer(MainApplication.getInstance()
                 .applicationContext)
+    }
+
+    override fun decodeImage(previouslyChatImage: String): Drawable {
+        return ImageUtils.Companion.decodeImage(context,previouslyChatImage)
+    }
+
+    override fun permissionsToGet(): Array<String> {
+        return arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 }

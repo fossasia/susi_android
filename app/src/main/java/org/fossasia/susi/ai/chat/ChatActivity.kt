@@ -1,15 +1,20 @@
 package org.fossasia.susi.ai.chat
 
 import android.Manifest
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
@@ -17,7 +22,8 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.util.Base64
+import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
@@ -28,42 +34,66 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.LocationHelper
+import org.fossasia.susi.ai.helper.ImageUtils
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.login.LoginActivity
+import org.fossasia.susi.ai.settings.SettingsActivity
+import java.io.FileNotFoundException
 
 /**
+ *
  * Created by chiragw15 on 9/7/17.
  */
 class ChatActivity: AppCompatActivity(), IChatView  {
 
+    val TAG: String = ChatActivity::class.java.name
+
+    val SELECT_PICTURE = 200
+    val CROP_PICTURE = 400
     lateinit var chatPresenter: IChatPresenter
     val PERM_REQ_CODE = 1
     lateinit var toolbarImg: ImageView
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
-    //might want to remove it later
+    //TODO: might want to remove these two later
     var micCheck = false
+    var check = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setToolbar()
-        setEditText()
+        setUpUI()
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
 
         chatPresenter = ChatPresenter(this)
-        chatPresenter.onAttach(this, applicationContext)
+        chatPresenter.onAttach(this)
+        initializationMethod(firstRun)
+    }
+
+    // This method is used to set up the UI components
+    // of Chat Activity like Adapter, Toolbar, Background, Theme, etc
+    fun setUpUI() {
+        setToolbar()
+        setEditText()
         chatPresenter.setUp()
+        chatPresenter.setUpBackground()
+    }
+
+    // This method is used to call all other methods
+    // which should run every time when the Chat Activity is started
+    // like getting user location, initialization of TTS and hotword etc
+    fun initializationMethod(firstRun: Boolean) {
         chatPresenter.retrieveOldMessages(firstRun)
         chatPresenter.getLocationFromIP()
         chatPresenter.getUndeliveredMessages()
         chatPresenter.initiateHotwordDetection()
+        chatPresenter.compensateTTSDelay()
         hideVoiceInput()
     }
 
     override fun onStart() {
         super.onStart()
-        chatPresenter.getLocationFromLocationService(applicationContext)
+        chatPresenter.getLocationFromLocationService()
     }
 
     fun setToolbar() {
@@ -115,6 +145,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         et_message.maxLines = 4
         et_message.isVerticalScrollBarEnabled = true
         et_message.setHorizontallyScrolling(false)
+
         et_message.addTextChangedListener(watch)
         et_message.setOnEditorActionListener({ _, actionId, _ ->
             var handled = false
@@ -133,10 +164,12 @@ class ChatActivity: AppCompatActivity(), IChatView  {
     override fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>) {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true
+
         rv_chat_feed.layoutManager = linearLayoutManager
         rv_chat_feed.setHasFixedSize(false)
         recyclerAdapter = ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true)
         rv_chat_feed.adapter = recyclerAdapter
+
         rv_chat_feed.addOnLayoutChangeListener({ _, _, _, _, bottom, _, _, _, oldBottom ->
             if (bottom < oldBottom) {
                 rv_chat_feed.postDelayed({
@@ -147,7 +180,8 @@ class ChatActivity: AppCompatActivity(), IChatView  {
             }
         })
 
-        rv_chat_feed.setOnScrollListener(object : RecyclerView.OnScrollListener() {
+        //TODO: remember to remove it in ondestroy
+        rv_chat_feed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
@@ -166,21 +200,63 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         AppCompatDelegate.setDefaultNightMode( if(darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 
-    override fun setChatBackground(previouslyChatImage: String) {
-        val bg: Drawable
-        if (previouslyChatImage.equals(getString(R.string.background_no_wall), ignoreCase = true)) {
-            //set no wall
+    override fun setChatBackground(bg: Drawable?) {
+        if(bg == null) {
             window.decorView.setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg))
-        } else if (!previouslyChatImage.equals("", ignoreCase = true)) {
-            val b = Base64.decode(previouslyChatImage, Base64.DEFAULT)
-            val bitmap = BitmapFactory.decodeByteArray(b, 0, b.size)
-            bg = BitmapDrawable(resources, bitmap)
-            //set Drawable bitmap which taking from gallery
-            window.setBackgroundDrawable(bg)
         } else {
-            //set default layout when app launch first time
-            window.decorView.setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg))
+            window.setBackgroundDrawable(bg)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val mHandler = Handler(Looper.getMainLooper())
+        when (requestCode) {
+            CROP_PICTURE -> {
+                if (resultCode == RESULT_OK && null != data) {
+                    mHandler.post {
+                        try {
+                            val thePic = data.extras.getParcelable<Bitmap>("data")
+                            val encodedImage = ImageUtils.Companion.cropImage(thePic)
+                            chatPresenter.cropPicture(encodedImage)
+                        } catch (e: NullPointerException) {
+                            Log.d(TAG, e.localizedMessage)
+                        }
+                    }
+                }
+            }
+            SELECT_PICTURE -> {
+                if (resultCode == RESULT_OK && null != data) {
+                    mHandler.post {
+                        val selectedImageUri = data.data
+                        try {
+                            cropCapturedImage(ImageUtils.Companion.getImageUrl(applicationContext, selectedImageUri))
+                        } catch (aNFE: ActivityNotFoundException) {
+                            //display an error message if user device doesn't support
+                            showToast(getString(R.string.error_crop_not_supported))
+                            try {
+                                chatPresenter.cropPicture(ImageUtils.Companion.encodeImage(applicationContext,selectedImageUri))
+                            } catch (e: FileNotFoundException) {
+                                e.printStackTrace()
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun cropCapturedImage(picUri: Uri?) {
+        val cropIntent = Intent("com.android.camera.action.CROP")
+        cropIntent.setDataAndType(picUri, "image/*")
+        cropIntent.putExtra("crop", "true")
+        cropIntent.putExtra("aspectX", 9)
+        cropIntent.putExtra("aspectY", 14)
+        cropIntent.putExtra("outputX", 256)
+        cropIntent.putExtra("outputY", 256)
+        cropIntent.putExtra("return-data", true)
+        startActivityForResult(cropIntent, CROP_PICTURE)
     }
 
     override fun hideVoiceInput() {
@@ -203,7 +279,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
     }
 
     override fun displayPartialSTT(text: String) {
-        voice_input_text.setText(text)
+        voice_input_text.text = text
     }
 
     override fun showVoiceDots() {
@@ -211,13 +287,13 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         dots.start()
     }
 
-    var check = false
     override fun checkMicPref(micCheck: Boolean) {
         if (micCheck) {
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
                 check = true
                 displayVoiceInput()
+                //TODO
                 //promptSpeechInput()
             })
         } else {
@@ -300,5 +376,99 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         progressDialog.setMessage(getString(R.string.dialog_retrieve_messages_title))
         progressDialog.show()
     }*/
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> {
+                val i = Intent(this, SettingsActivity::class.java)
+                startActivity(i)
+                return true
+            }
+            R.id.wall_settings -> {
+                selectBackground()
+                return true
+            }
+            R.id.action_share -> {
+                try {
+                    val shareIntent = Intent()
+                    shareIntent.action = Intent.ACTION_SEND
+                    shareIntent.type = "text/plain"
+                    shareIntent.putExtra(Intent.EXTRA_TEXT,
+                            String.format(getString(R.string.promo_msg_template),
+                                    String.format(getString(R.string.app_share_url), packageName)))
+                    startActivity(shareIntent)
+                } catch (e: Exception) {
+                    showToast(getString(R.string.error_msg_retry))
+                }
+
+                return true
+            }
+            R.id.up_angle -> {
+                /*
+                offset++
+                if (results.size - offset > -1) {
+                    pointer = results.get(results.size - offset).getId().toInt()
+                    Log.d(TAG, results.get(results.size - offset).getContent() + "  " +
+                            results.get(results.size - offset).getId())
+                    searchMovement(pointer)
+                } else {
+                    showToast(getString(R.string.nothing_up_matches_your_query))
+                    offset--
+                }*/
+            }
+            R.id.down_angle -> {
+                /*
+                offset--
+                if (results.size - offset < results.size) {
+                    pointer = results.get(results.size - offset).getId().toInt()
+                    Log.d(TAG, results.get(results.size - offset).getContent() + "  " +
+                            results.get(results.size - offset).getId())
+                    searchMovement(pointer)
+                } else {
+                    showToast(getString(R.string.nothing_down_matches_your_query))
+                    offset++
+                }
+                return true
+                */
+            }
+            R.id.action_logout -> {
+                val d = AlertDialog.Builder(this)
+                d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
+                   chatPresenter.logout()
+                }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+
+                val alert = d.create()
+                alert.setTitle(getString(R.string.logout))
+                alert.show()
+                return true
+            }
+            R.id.action_login -> {
+                chatPresenter.login()
+                return false
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun selectBackground() {
+        val builder = AlertDialog.Builder(this@ChatActivity)
+        builder.setTitle(R.string.dialog_action_complete)
+        builder.setItems(R.array.dialog_complete_action_items) { _, which ->
+            chatPresenter.openSelectBackgroundDialog(which)
+        }
+        builder.create().show()
+    }
+
+    override fun openImagePickerActivity() {
+        val i = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(i, SELECT_PICTURE)
+    }
+
+    override fun startLoginActivity() {
+        val intent = Intent(this@ChatActivity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
+    }
 
 }
