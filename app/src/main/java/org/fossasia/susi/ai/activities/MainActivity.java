@@ -571,6 +571,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Method to initiate Hotword Detection
      */
+    //done
     private void initHotword() {
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
@@ -609,6 +610,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //done
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -688,6 +690,7 @@ public class MainActivity extends AppCompatActivity {
      * @param inImage   the in image
      * @return the uri
      */
+    //done
     public static Uri writeToTempImage(Context inContext, Bitmap inImage) {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
@@ -700,6 +703,7 @@ public class MainActivity extends AppCompatActivity {
      * @param uri     the uri
      * @return the image url
      */
+    //done
     public static Uri getImageUrl(Context context, Uri uri) {
         InputStream is = null;
         if (uri.getAuthority() != null) {
@@ -812,6 +816,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Gets location from public ip address of user
      */
+    //done
     public void getLocationFromIP() {
         final LocationService locationService =
                 LocationClient.getClient().create(LocationService.class);
@@ -842,6 +847,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Gets location from location service.
      */
+    //done
     public void getLocationFromLocationService() {
         if (locationHelper.canGetLocation()) {
             latitude = locationHelper.getLatitude();
@@ -989,6 +995,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Chat background activity. Sets background image to main activity.
      */
+    //done
     protected void chatBackgroundActivity() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle(R.string.dialog_action_complete);
@@ -1018,6 +1025,7 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param picUri the pic uri
      */
+    //done
     public void cropCapturedImage(Uri picUri) {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
         cropIntent.setDataAndType(picUri, "image/*");
@@ -1033,6 +1041,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Sets chat background.
      */
+    //done
     public void setChatBackground() {
         String previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "");
         Drawable bg;
@@ -1056,6 +1065,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Check enter key preference
      */
+    //done
     private void checkEnterKeyPref() {
         micCheck = PrefManager.getBoolean(Constant.MIC_INPUT, false);
         if (micCheck) {
@@ -1106,6 +1116,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Set up adapter for the recycler view of the main activity.
      */
+    //done
     private void setupAdapter() {
         RealmResults<ChatMessage> chatMessageDatabaseList;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
