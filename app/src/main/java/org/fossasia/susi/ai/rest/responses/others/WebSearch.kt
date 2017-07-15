@@ -4,17 +4,19 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
- * <h1>POJO class to parse retrofit response from websearch client.</h1>
-
+ * <h1>Kotlin Data class to parse retrofit response from websearch client.</h1>
+ *
  * Created by mayank on 12-12-2016.
  */
 
-class WebSearch
+class WebSearch {
 
-(@SerializedName("Heading")
+ @SerializedName("Heading")
  @Expose
- var heading: String?,
+ var heading: String? = null
 
  @SerializedName("RelatedTopics")
  @Expose
- var relatedTopics: List<RelatedTopics>?)
+ var relatedTopics: List<RelatedTopics>? = null
+
+}

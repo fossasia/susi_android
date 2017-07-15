@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
- * <h1>POJO class to parse retrofit response from memory endpoint susi client.</h1>
+ * <h1>Kotlin Data class to parse retrofit response from memory endpoint susi client.</h1>
 
  * Created by chiragw15 on 25/5/17.
  */

@@ -4,14 +4,16 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
- * <h1>POJO class to parse web icon object in retrofit response from websearch client.</h1>
-
+ * <h1>Kotlin Data class to parse web icon object in retrofit response from websearch client.</h1>
+ *
  * Created by mayank on 12-12-2016.
  */
 
-class WebIcon
+class WebIcon {
 
-(@SerializedName("URL")
+@SerializedName("URL")
  @Expose
- var url: String?)
+ var url: String? = null
+
+}
 

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 
 /**
- * <h1>POJO class to parse retrofit response from susi client to get susi base urls.</h1>
+ * <h1>Kotlin Data class to parse retrofit response from susi client to get susi base urls.</h1>
 
  * Created by Rajan Maurya on 12/10/16.
  */

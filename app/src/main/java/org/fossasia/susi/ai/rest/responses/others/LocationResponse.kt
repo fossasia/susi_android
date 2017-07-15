@@ -3,8 +3,8 @@ package org.fossasia.susi.ai.rest.responses.others
 import com.google.gson.annotations.SerializedName
 
 /**
- * <h1>POJO class to parse retrofit response from location client.</h1>
-
+ * <h1>Kotlin Data class to parse retrofit response from location client.</h1>
+ *
  * Created by chiragw15 on 6/12/16.
  */
 

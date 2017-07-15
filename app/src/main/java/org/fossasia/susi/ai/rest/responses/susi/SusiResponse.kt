@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 
 /**
- * <h1>POJO class to parse retrofit response from susi client.</h1>
+ * <h1>Kotlin Data class to parse retrofit response from susi client.</h1>
  */
 
 class SusiResponse {
