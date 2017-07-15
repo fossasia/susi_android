@@ -18,7 +18,7 @@ import retrofit2.Response
 class UtilModel(val context: Context): IUtilModel {
 
     override fun saveToken(response: Response<LoginResponse>) {
-        PrefManager.putString(Constant.ACCESS_TOKEN, response.body().accessToken)
+        PrefManager.putString(Constant.ACCESS_TOKEN, response.body().accessToken as String)
         val validity = System.currentTimeMillis() + response.body().validSeconds * 1000
         PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
     }
@@ -63,7 +63,7 @@ class UtilModel(val context: Context): IUtilModel {
     }
 
     override fun setCustomURL(url: String) {
-        PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url))
+        PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url) as String)
     }
 
     override fun getString(id: Int): String {

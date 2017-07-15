@@ -53,7 +53,7 @@ class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : 
             if ( CredentialHelper.isURLValid(url)) {
                 if (CredentialHelper.getValidURL(url) != null) {
                     utilModel.setServer(false)
-                    utilModel.setCustomURL(CredentialHelper.getValidURL(url))
+                    utilModel.setCustomURL(CredentialHelper.getValidURL(url) as String)
                 } else {
                     forgotPasswordView?.invalidCredentials(false, Constant.INPUT_URL)
                     return
