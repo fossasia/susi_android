@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmObject;
 
 /**
- * <h1>POJO class to parse data object in retrofit response from susi client.</h1>
+ * <h1>Kotlin Data class to parse data object in retrofit response from susi client.</h1>
  */
 public class Datum extends RealmObject {
 
