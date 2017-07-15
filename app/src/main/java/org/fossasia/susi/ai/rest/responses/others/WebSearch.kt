@@ -13,8 +13,8 @@ class WebSearch
 
 (@SerializedName("Heading")
  @Expose
+ var heading: String?,
 
- var heading: String?, @SerializedName("RelatedTopics")
+ @SerializedName("RelatedTopics")
  @Expose
-
  var relatedTopics: List<RelatedTopics>?)
