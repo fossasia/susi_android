@@ -26,5 +26,6 @@ class LoginResponse {
     @SerializedName("access_token")
     @Expose
     var accessToken: String? = null
+        internal set
 
 }
