@@ -1,6 +1,7 @@
-package org.fossasia.susi.ai.chat
+package org.fossasia.susi.ai.data
 
 import android.util.Log
+import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.rest.clients.LocationClient
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.services.LocationService
@@ -11,11 +12,11 @@ import retrofit2.Response
 /**
  * Created by chiragw15 on 9/7/17.
  */
-class ChatInteractor: IChatInteractor {
+class ChatModel : IChatModel {
 
-    val TAG: String = ChatInteractor::class.java.name
+    val TAG: String = ChatModel::class.java.name
 
-    override fun retrieveOldMessages(listener: IChatInteractor.OnRetrievingMessagesFinishedListener) {
+    override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
         val thread = object : Thread() {
             override fun run() {
                 getOldMessages(listener)
@@ -24,7 +25,7 @@ class ChatInteractor: IChatInteractor {
         thread.start()
     }
 
-    override fun getLocationFromIP(listener: IChatInteractor.OnLocationFromIPReceivedListener) {
+    override fun getLocationFromIP(listener: IChatModel.OnLocationFromIPReceivedListener) {
         val locationService = LocationClient.getClient().create(LocationService::class.java)
 
         locationService.locationUsingIP.enqueue(object : Callback<LocationResponse> {
@@ -38,6 +39,6 @@ class ChatInteractor: IChatInteractor {
         })
     }
 
-    fun getOldMessages(listener: IChatInteractor.OnRetrievingMessagesFinishedListener) {
+    fun getOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
     }
 }

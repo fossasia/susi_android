@@ -1,7 +1,8 @@
-package org.fossasia.susi.ai.activities
+package org.fossasia.susi.ai.data.db
 
 import io.realm.Realm
 import io.realm.RealmResults
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 

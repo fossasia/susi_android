@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.activities
+package org.fossasia.susi.ai.chat
 
 import android.content.Context
 import android.util.Patterns

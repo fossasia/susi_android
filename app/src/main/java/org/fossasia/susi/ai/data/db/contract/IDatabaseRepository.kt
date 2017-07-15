@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.activities
+package org.fossasia.susi.ai.data.db.contract
 
 import io.realm.RealmResults
 import org.fossasia.susi.ai.data.model.ChatMessage

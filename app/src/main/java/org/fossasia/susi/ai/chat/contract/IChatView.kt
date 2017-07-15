@@ -1,10 +1,11 @@
-package org.fossasia.susi.ai.chat
+package org.fossasia.susi.ai.chat.contract
 
 import android.graphics.drawable.Drawable
 import io.realm.RealmResults
 import org.fossasia.susi.ai.data.model.ChatMessage
 
 /**
+ *
  * Created by chiragw15 on 9/7/17.
  */
 interface IChatView {

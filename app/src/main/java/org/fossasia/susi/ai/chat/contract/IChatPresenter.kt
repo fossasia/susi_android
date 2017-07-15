@@ -1,6 +1,7 @@
-package org.fossasia.susi.ai.chat
+package org.fossasia.susi.ai.chat.contract
 
 /**
+ *
  * Created by chiragw15 on 9/7/17.
  */
 interface IChatPresenter {

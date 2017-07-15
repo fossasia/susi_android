@@ -2,9 +2,13 @@ package org.fossasia.susi.ai.chat
 
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.activities.DatabaseRepository
-import org.fossasia.susi.ai.activities.IDatabaseRepository
+import org.fossasia.susi.ai.data.db.DatabaseRepository
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
+import org.fossasia.susi.ai.chat.contract.IChatPresenter
+import org.fossasia.susi.ai.chat.contract.IChatView
+import org.fossasia.susi.ai.data.ChatModel
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 
@@ -16,11 +20,11 @@ import java.util.*
  *
  * Created by chiragw15 on 9/7/17.
  */
-class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor.OnRetrievingMessagesFinishedListener,
-        IChatInteractor.OnLocationFromIPReceivedListener {
+class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
+        IChatModel.OnLocationFromIPReceivedListener {
 
     var chatView: IChatView?= null
-    var chatInteractor: IChatInteractor = ChatInteractor()
+    var chatModel: IChatModel = ChatModel()
     var utilModel: UtilModel = UtilModel(chatActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
     var newMessageIndex: Long = 0
@@ -127,7 +131,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
     //Retrieves old Messages
     override fun retrieveOldMessages(firstRun: Boolean) {
         if(firstRun and NetworkUtils.isNetworkConnected()) {
-            chatInteractor.retrieveOldMessages(this)
+            chatModel.retrieveOldMessages(this)
         }
     }
 
@@ -137,7 +141,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
 
     //Gets Location of user using his IP Address
     override fun getLocationFromIP() {
-        chatInteractor.getLocationFromIP(this)
+        chatModel.getLocationFromIP(this)
     }
 
     override fun onLocationSuccess(response: Response<LocationResponse>) {

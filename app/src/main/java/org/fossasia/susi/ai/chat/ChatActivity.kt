@@ -41,10 +41,11 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter
+import org.fossasia.susi.ai.chat.contract.IChatPresenter
+import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.ImageUtils
-import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.settings.SettingsActivity
 
@@ -54,7 +55,7 @@ import java.io.FileNotFoundException
  *
  * Created by chiragw15 on 9/7/17.
  */
-class ChatActivity: AppCompatActivity(), IChatView  {
+class ChatActivity: AppCompatActivity(), IChatView {
 
     val TAG: String = ChatActivity::class.java.name
 

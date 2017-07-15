@@ -1,12 +1,13 @@
-package org.fossasia.susi.ai.chat
+package org.fossasia.susi.ai.data.contract
 
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import retrofit2.Response
 
 /**
+ *
  * Created by chiragw15 on 9/7/17.
  */
-interface IChatInteractor {
+interface IChatModel {
 
     interface OnRetrievingMessagesFinishedListener {
         fun onRetrieveSuccess(message: String)
