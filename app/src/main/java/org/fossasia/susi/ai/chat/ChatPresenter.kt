@@ -1,19 +1,6 @@
 package org.fossasia.susi.ai.chat
 
-import ai.kitt.snowboy.MsgEnum
-import ai.kitt.snowboy.audio.AudioDataSaver
-import ai.kitt.snowboy.audio.RecordingThread
-
-import android.content.Intent
-import android.graphics.Bitmap
-import android.os.*
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
-import android.speech.tts.TextToSpeech
-import android.util.Log
 import org.fossasia.susi.ai.MainApplication
-
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.activities.DatabaseRepository
 import org.fossasia.susi.ai.activities.IDatabaseRepository
@@ -32,8 +19,6 @@ import java.util.*
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor.OnRetrievingMessagesFinishedListener,
         IChatInteractor.OnLocationFromIPReceivedListener {
 
-    val TAG: String = ChatPresenter::class.java.name
-
     var chatView: IChatView?= null
     var chatInteractor: IChatInteractor = ChatInteractor()
     var utilModel: UtilModel = UtilModel(chatActivity)
@@ -45,10 +30,8 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
     var source = Constant.IP
     private val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
     lateinit var locationHelper: LocationHelper
-    lateinit var textToSpeech: TextToSpeech
-    var recordingThread: RecordingThread? = null
     var isDetectionOn = false
-    lateinit var recognizer: SpeechRecognizer
+    var check = false
 
     override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
@@ -104,8 +87,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
     override fun initiateHotwordDetection() {
         if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
                 chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
-            if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && utilModel.checkMicInput())
-                initHotword()
+            if ( utilModel.isArmDevice() && utilModel.checkMicInput()) {
+                utilModel.copyAssetstoSD()
+                chatView?.initHotword()
+                startHotwordDetection()
+            }
             else {
                 chatView?.showToast(utilModel.getString(R.string.error_hotword))
                 utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
@@ -113,117 +99,29 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
         }
     }
 
-    fun initHotword() {
-        utilModel.copyAssetstoSD()
-
-        recordingThread = RecordingThread(object : Handler() {
-            override fun handleMessage(msg: Message) {
-                val message = MsgEnum.getMsgEnum(msg.what)
-                when (message) {
-                    MsgEnum.MSG_ACTIVE -> {
-                        chatView?.displayVoiceInput()
-                        promptSpeechInput()
-                    }
-                    MsgEnum.MSG_INFO -> {
-                    }
-                    MsgEnum.MSG_VAD_SPEECH -> {
-                    }
-                    MsgEnum.MSG_VAD_NOSPEECH -> {
-                    }
-                    MsgEnum.MSG_ERROR -> {
-                    }
-                    else -> super.handleMessage(msg)
-                }
-            }
-        }, AudioDataSaver())
-        startHotwordDetection()
+    override fun hotwordDetected() {
+        chatView?.displayVoiceInput()
+        chatView?.promptSpeechInput()
     }
 
-    fun startHotwordDetection() {
-        if (recordingThread != null && !isDetectionOn && utilModel.getBooleanPref(Constant.HOTWORD_DETECTION, false)) {
-            recordingThread?.startRecording()
+    override fun startHotwordDetection() {
+        if (!isDetectionOn && utilModel.getBooleanPref(Constant.HOTWORD_DETECTION, false)) {
+            chatView?.stopRecording()
             isDetectionOn = true
         }
     }
 
-    fun stopHotwordDetection() {
-        if (recordingThread != null && isDetectionOn) {
-            recordingThread?.stopRecording()
+    override fun stopHotwordDetection() {
+        if (isDetectionOn) {
+            chatView?.stopRecording()
             isDetectionOn = false
         }
     }
 
-    //Take user's speech as input and send the message
-    private fun promptSpeechInput() {
-        stopHotwordDetection()
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                "com.domain.app")
-        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-
-        recognizer = utilModel.createSpeechRecognizer()
-
-        val listener = object : RecognitionListener {
-            override fun onResults(results: Bundle) {
-                val voiceResults = results
-                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                if (voiceResults == null) {
-                    Log.e(TAG, "No voice results")
-                } else {
-                    Log.d(TAG, "Printing matches: ")
-                    for (match in voiceResults) {
-                        Log.d(TAG, match)
-                    }
-                }
-                sendMessage(voiceResults[0], voiceResults[0])
-                recognizer.destroy()
-                chatView?.hideVoiceInput()
-                startHotwordDetection()
-            }
-
-            override fun onReadyForSpeech(params: Bundle) {
-                Log.d(TAG, "Ready for speech")
-                chatView?.showVoiceDots()
-            }
-
-            override fun onError(error: Int) {
-                Log.d(TAG, "Error listening for speech: " + error)
-                chatView?.showToast("Could not recognize speech, try again.")
-                recognizer.destroy()
-                chatView?.hideVoiceInput()
-                startHotwordDetection()
-            }
-
-            override fun onBeginningOfSpeech() {
-                Log.d(TAG, "Speech starting")
-            }
-
-            override fun onBufferReceived(buffer: ByteArray) {
-                // This method is intentionally empty
-            }
-
-            override fun onEndOfSpeech() {
-                // This method is intentionally empty
-            }
-
-            override fun onEvent(eventType: Int, params: Bundle) {
-                // This method is intentionally empty
-            }
-
-            override fun onPartialResults(partialResults: Bundle) {
-                val partial = partialResults
-                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                chatView?.displayPartialSTT(partial[0])
-            }
-
-            override fun onRmsChanged(rmsdB: Float) {
-                // This method is intentionally empty
-            }
-        }
-        recognizer.setRecognitionListener(listener)
-        recognizer.startListening(intent)
+    override fun startSpeechInput() {
+        check = true
+        chatView?.displayVoiceInput()
+        chatView?.promptSpeechInput()
     }
 
     //Retrieves old Messages
@@ -268,18 +166,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
             latitude = locationHelper.latitude
             longitude = locationHelper.longitude
             source = locationHelper.source
-        }
-    }
-
-    override fun compensateTTSDelay() {
-        Handler().post {
-            textToSpeech = TextToSpeech(MainApplication.getInstance()
-                    .applicationContext, TextToSpeech.OnInitListener { status ->
-                if (status != TextToSpeech.ERROR) {
-                    val locale = textToSpeech.getLanguage()
-                    textToSpeech.language = locale
-                }
-            })
         }
     }
 
@@ -332,5 +218,4 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatInteractor
         databaseRepository.deleteAllMessages()
         chatView?.startLoginActivity()
     }
-
 }

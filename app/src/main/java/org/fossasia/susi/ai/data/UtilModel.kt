@@ -4,12 +4,10 @@ import android.Manifest
 import ai.kitt.snowboy.AppResCopy
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.content.pm.PackageManager
 import android.os.Build
+import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
-import android.speech.SpeechRecognizer
 import io.realm.Realm
-import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
@@ -130,11 +128,6 @@ class UtilModel(val context: Context): IUtilModel {
         AppResCopy.copyResFromAssetsToSD(context)
     }
 
-    override fun createSpeechRecognizer(): SpeechRecognizer {
-        return SpeechRecognizer.createSpeechRecognizer(MainApplication.getInstance()
-                .applicationContext)
-    }
-
     override fun decodeImage(previouslyChatImage: String): Drawable {
         return ImageUtils.Companion.decodeImage(context,previouslyChatImage)
     }
@@ -143,5 +136,9 @@ class UtilModel(val context: Context): IUtilModel {
         return arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun isArmDevice(): Boolean {
+        return Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic")
     }
 }

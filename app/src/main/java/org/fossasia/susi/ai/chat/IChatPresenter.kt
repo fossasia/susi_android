@@ -14,9 +14,12 @@ interface IChatPresenter {
     fun setUpBackground()
     fun initiateHotwordDetection()
     fun getLocationFromLocationService()
-    fun compensateTTSDelay()
     fun cropPicture(encodedImage: String)
     fun openSelectBackgroundDialog(which: Int)
+    fun stopHotwordDetection()
+    fun startHotwordDetection()
+    fun hotwordDetected()
+    fun startSpeechInput()
     fun logout()
     fun login()
 }

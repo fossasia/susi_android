@@ -23,4 +23,8 @@ interface IChatView {
     fun displayPartialSTT(text: String)
     fun startLoginActivity()
     fun openImagePickerActivity()
+    fun startRecording()
+    fun stopRecording()
+    fun initHotword()
+    fun promptSpeechInput()
 }

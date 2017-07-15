@@ -1,5 +1,9 @@
 package org.fossasia.susi.ai.chat
 
+import ai.kitt.snowboy.MsgEnum
+import ai.kitt.snowboy.audio.AudioDataSaver
+import ai.kitt.snowboy.audio.RecordingThread
+
 import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -7,10 +11,11 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.*
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.ActionBar
@@ -28,8 +33,12 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.Toast
+
 import io.realm.RealmResults
+
 import kotlinx.android.synthetic.main.activity_main.*
+
+import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
@@ -38,6 +47,7 @@ import org.fossasia.susi.ai.helper.ImageUtils
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.settings.SettingsActivity
+
 import java.io.FileNotFoundException
 
 /**
@@ -54,6 +64,9 @@ class ChatActivity: AppCompatActivity(), IChatView  {
     val PERM_REQ_CODE = 1
     lateinit var toolbarImg: ImageView
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
+    lateinit var textToSpeech: TextToSpeech
+    var recordingThread: RecordingThread? = null
+    lateinit var recognizer: SpeechRecognizer
     //TODO: might want to remove these two later
     var micCheck = false
     var check = false
@@ -87,7 +100,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         chatPresenter.getLocationFromIP()
         chatPresenter.getUndeliveredMessages()
         chatPresenter.initiateHotwordDetection()
-        chatPresenter.compensateTTSDelay()
+        compensateTTSDelay()
         hideVoiceInput()
     }
 
@@ -129,9 +142,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
                 } else {
                     btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
                     btnSpeak.setOnClickListener {
-                        check = true
-                        displayVoiceInput()
-                        //promptSpeechInput()
+                        chatPresenter.startSpeechInput()
                     }
                 }
             }
@@ -206,6 +217,123 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         } else {
             window.setBackgroundDrawable(bg)
         }
+    }
+
+    fun compensateTTSDelay() {
+        Handler().post {
+            textToSpeech = TextToSpeech(MainApplication.getInstance()
+                    .applicationContext, TextToSpeech.OnInitListener { status ->
+                if (status != TextToSpeech.ERROR) {
+                    val locale = textToSpeech.getLanguage()
+                    textToSpeech.language = locale
+                }
+            })
+        }
+    }
+
+    //Take user's speech as input and send the message
+    override fun promptSpeechInput() {
+        if(recordingThread != null)
+            chatPresenter.stopHotwordDetection()
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                "com.domain.app")
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+
+        recognizer = SpeechRecognizer.createSpeechRecognizer(MainApplication.getInstance().applicationContext)
+
+        val listener = object : RecognitionListener {
+            override fun onResults(results: Bundle) {
+                val voiceResults = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                if (voiceResults == null) {
+                    Log.e(TAG, "No voice results")
+                } else {
+                    Log.d(TAG, "Printing matches: ")
+                    for (match in voiceResults) {
+                        Log.d(TAG, match)
+                    }
+                }
+                chatPresenter.sendMessage(voiceResults[0], voiceResults[0])
+                recognizer.destroy()
+                hideVoiceInput()
+                if(recordingThread != null)
+                    chatPresenter.startHotwordDetection()
+            }
+
+            override fun onReadyForSpeech(params: Bundle) {
+                Log.d(TAG, "Ready for speech")
+                showVoiceDots()
+            }
+
+            override fun onError(error: Int) {
+                Log.d(TAG, "Error listening for speech: " + error)
+                showToast("Could not recognize speech, try again.")
+                recognizer.destroy()
+                hideVoiceInput()
+                if(recordingThread != null)
+                chatPresenter.startHotwordDetection()
+            }
+
+            override fun onBeginningOfSpeech() {
+                Log.d(TAG, "Speech starting")
+            }
+
+            override fun onBufferReceived(buffer: ByteArray) {
+                // This method is intentionally empty
+            }
+
+            override fun onEndOfSpeech() {
+                // This method is intentionally empty
+            }
+
+            override fun onEvent(eventType: Int, params: Bundle) {
+                // This method is intentionally empty
+            }
+
+            override fun onPartialResults(partialResults: Bundle) {
+                val partial = partialResults
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                displayPartialSTT(partial[0])
+            }
+
+            override fun onRmsChanged(rmsdB: Float) {
+                // This method is intentionally empty
+            }
+        }
+        recognizer.setRecognitionListener(listener)
+        recognizer.startListening(intent)
+    }
+
+    override fun initHotword() {
+        recordingThread = RecordingThread(object : Handler() {
+            override fun handleMessage(msg: Message) {
+                val message = MsgEnum.getMsgEnum(msg.what)
+                when (message) {
+                    MsgEnum.MSG_ACTIVE -> {
+                        chatPresenter.hotwordDetected()
+                    }
+                    MsgEnum.MSG_INFO -> {
+                    }
+                    MsgEnum.MSG_VAD_SPEECH -> {
+                    }
+                    MsgEnum.MSG_VAD_NOSPEECH -> {
+                    }
+                    MsgEnum.MSG_ERROR -> {
+                    }
+                    else -> super.handleMessage(msg)
+                }
+            }
+        }, AudioDataSaver())
+    }
+
+    override fun startRecording() {
+        recordingThread?.startRecording()
+    }
+
+    override fun stopRecording() {
+        recordingThread?.stopRecording()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -333,8 +461,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
                 for (i in permissions.indices) {
                     when (permissions[i]) {
                         Manifest.permission.ACCESS_FINE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                            //getLocationFromLocationService()
-                            //locationHelper.getLocation()
+                            chatPresenter.getLocationFromLocationService()
                         }
 
                         Manifest.permission.RECORD_AUDIO -> {
@@ -348,12 +475,7 @@ class ChatActivity: AppCompatActivity(), IChatView  {
                         }
 
                         Manifest.permission.WRITE_EXTERNAL_STORAGE -> if (grantResults.size >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
-                            if (Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic") && PrefManager.checkMicInput(this))
-                                //initHotword()
-                            else {
-                                //showToast(getString(R.string.error_hotword))
-                                //PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
-                            }
+                           chatPresenter.initiateHotwordDetection()
                         }
                     }
                 }
@@ -470,5 +592,4 @@ class ChatActivity: AppCompatActivity(), IChatView  {
         startActivity(intent)
         finish()
     }
-
 }
