@@ -15,17 +15,17 @@ import java.util.ArrayList
  *
  * Created by chiragw15 on 10/7/17.
  */
-class ParseSusiResponseHelper(val context: Context) {
+class ParseSusiResponseHelper {
 
-    var answer: String? = null
-    var actionType: String? = null
+    var answer: String = ""
+    var actionType: String = Constant.ANSWER
     var datumList: RealmList<Datum>? = null
     var mapData: MapData?= null
     var webSearch = ""
     var isHavingLink = false
     var count = -1
 
-    fun parseSusiResponse(susiResponse: SusiResponse, i: Int) {
+    fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
         actionType = susiResponse.answers[0].actions[i].type
 
@@ -33,7 +33,7 @@ class ParseSusiResponseHelper(val context: Context) {
             Constant.ANCHOR -> try {
                 answer = "<a href=\"" + susiResponse.answers[0].actions[i].anchorLink + "\">" + susiResponse.answers[0].actions[1].anchorText + "</a>"
             } catch (e: Exception) {
-                answer = context.getString(R.string.error_occurred_try_again)
+                answer = error
             }
 
             Constant.ANSWER -> try {
@@ -42,7 +42,7 @@ class ParseSusiResponseHelper(val context: Context) {
                 isHavingLink = true
                 if (urlList.isEmpty()) isHavingLink = false
             } catch (e: Exception) {
-                answer = context.getString(R.string.error_occurred_try_again)
+                answer = error
                 isHavingLink = false
             }
 
@@ -74,7 +74,7 @@ class ParseSusiResponseHelper(val context: Context) {
                 webSearch = ""
             }
 
-            else -> answer = context.getString(R.string.error_occurred_try_again)
+            else -> answer = error
         }
     }
 

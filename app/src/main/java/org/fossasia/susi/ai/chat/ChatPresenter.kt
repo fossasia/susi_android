@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.chat
 
+import android.os.Handler
+
 import io.realm.RealmResults
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
@@ -11,11 +13,10 @@ import org.fossasia.susi.ai.data.ChatModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.data.model.ChatMessage
-import org.fossasia.susi.ai.helper.LocationHelper
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.NetworkUtils
-import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.*
+import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
+import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 
 import retrofit2.Response
 
@@ -26,7 +27,8 @@ import java.util.*
  * Created by chiragw15 on 9/7/17.
  */
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
-        IChatModel.OnLocationFromIPReceivedListener {
+        IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
+        IDatabaseRepository.onDatabaseUpdateListener{
 
     var chatView: IChatView?= null
     var chatModel: IChatModel = ChatModel()
@@ -60,11 +62,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
         getPermissions()
 
-        chatView?.checkMicPref(utilModel.getBooleanPref(Constant.MIC_INPUT, true))
-        chatView?.checkEnterKeyPref(utilModel.getBooleanPref(Constant.ENTER_SEND, false))
-
         chatView?.setupAdapter(databaseRepository.getAllMessages())
 
+    }
+
+    override fun checkPreferences() {
+        chatView?.checkMicPref(utilModel.getBooleanPref(Constant.MIC_INPUT, true))
+        chatView?.checkEnterKeyPref(utilModel.getBooleanPref(Constant.ENTER_SEND, false))
     }
 
     override fun onMenuCreated() {
@@ -197,7 +201,119 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     //sends message to susi
     override fun sendMessage(query: String, actual: String) {
+        val urlList = ParseSusiResponseHelper.extractUrls(query)
+        val isHavingLink = !urlList.isEmpty()
 
+        newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
+
+        if (newMessageIndex == 0L) {
+            databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(),
+                    DateTimeHelper.getCurrentTime(), false, "", null, false, null, "", 0, this)
+        } else {
+            val s = databaseRepository.getAMessage(newMessageIndex-1).date
+            if (DateTimeHelper.getDate() != s) {
+                databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(),
+                        DateTimeHelper.getCurrentTime(), false, "", null, false, null, "", 0, this)
+            }
+        }
+        nonDeliveredMessages.add(Pair(query, newMessageIndex))
+        databaseRepository.updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(),
+                DateTimeHelper.getCurrentTime(), true, "", null, isHavingLink, null, "", 0, this)
+        getLocationFromLocationService()
+        computeThread().start()
+    }
+
+    override fun startComputingThread() {
+        computeThread().start()
+    }
+
+    private inner class computeThread : Thread() {
+        override fun run() {
+            computeOtherMessage()
+        }
+    }
+
+    @Synchronized
+    fun computeOtherMessage() {
+        if (!nonDeliveredMessages.isEmpty()) {
+            if (NetworkUtils.isNetworkConnected()) {
+                chatView?.showWaitingDots()
+                val tz = TimeZone.getDefault()
+                val now = Date()
+                val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
+                val query = nonDeliveredMessages.first.first
+
+                chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, Locale.getDefault().language, query, this)
+
+            } else run {
+                chatView?.hideWaitingDots()
+                chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
+            }
+        }
+    }
+
+    override fun onSusiMessageReceivedFailure(t: Throwable) {
+        chatView?.hideWaitingDots()
+        val id = nonDeliveredMessages.first.second
+        val query = nonDeliveredMessages.first.first
+        nonDeliveredMessages.pop()
+
+        if (!NetworkUtils.isNetworkConnected()) {
+            nonDeliveredMessages.addFirst(Pair(query, id))
+            chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
+        } else {
+            databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
+                    false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false,
+                    Constant.ANSWER, null, false, null, "", -1, this)
+        }
+        BaseUrl.updateBaseUrl(t)
+        computeOtherMessage()
+    }
+
+    override fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?) {
+        val id = nonDeliveredMessages.first.second
+        val query = nonDeliveredMessages.first.first
+        nonDeliveredMessages.pop()
+
+        if (response != null && response.isSuccessful && response.body() != null) {
+            val susiResponse = response.body()
+
+            val actionSize = response.body().answers[0].actions.size
+            val date = response.body().answerDate
+
+            for (i in 0..actionSize - 1) {
+                val delay = response.body().answers[0].actions[i].delay
+                val actionNo = i
+                val handler = Handler()
+                handler.postDelayed({
+                    val psh = ParseSusiResponseHelper()
+                    psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
+                    val setMessage = psh.answer
+                    if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()))
+                        chatView?.voiceReply(setMessage, psh.isHavingLink)
+                    databaseRepository.updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date),
+                            DateTimeHelper.getTime(date), false, psh.actionType, psh.mapData, psh.isHavingLink,
+                            psh.datumList, psh.webSearch, psh.count, this)
+                }, delay)
+            }
+            chatView?.hideWaitingDots()
+        } else {
+            if (!NetworkUtils.isNetworkConnected()) {
+                nonDeliveredMessages.addFirst(Pair(query, id))
+                chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
+            } else {
+                databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
+                        false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false,
+                        Constant.ANSWER, null, false, null, "", -1, this)
+            }
+            chatView?.hideWaitingDots()
+        }
+        if (!NetworkUtils.isNetworkConnected())
+            computeOtherMessage()
+    }
+
+    override fun onDatabaseUpdateSuccess() {
+        chatView?.databaseUpdated()
     }
 
     //Search methods. Used when search is enabled
@@ -278,5 +394,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         utilModel.saveAnonymity(false)
         databaseRepository.deleteAllMessages()
         chatView?.startLoginActivity()
+    }
+
+    override fun onDetach() {
+        locationHelper.removeListener()
+        databaseRepository.closeDatabase()
+        chatView = null
     }
 }

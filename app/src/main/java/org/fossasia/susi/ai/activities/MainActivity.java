@@ -326,8 +326,8 @@ public class MainActivity extends AppCompatActivity {
                                 int actionSize = allMessages.get(i).getAnswers().get(0).getActions().size();
 
                                 for(int j=0 ; j<actionSize ; j++) {
-                                    ParseSusiResponseHelper psh = new ParseSusiResponseHelper(MainActivity.this);
-                                    psh.parseSusiResponse(allMessages.get(i),j);
+                                    ParseSusiResponseHelper psh = new ParseSusiResponseHelper();
+                                    psh.parseSusiResponse(allMessages.get(i),j, "");
                                     updateDatabase(c, psh.getAnswer(), false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, psh.getActionType(), psh.getMapData(), isHavingLink, psh.getDatumList(), psh.getWebSearch(), psh.getCount());
                                 }
                             }
@@ -730,7 +730,7 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         fab_scrollToEnd = (FloatingActionButton) findViewById(R.id.btnScrollToEnd);
 
-        //don't know what it does
+        //don't know what it does. okay got it
         registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
         networkStateReceiver = new BroadcastReceiver() {
             @Override
@@ -1207,8 +1207,8 @@ public class MainActivity extends AppCompatActivity {
                                         handler.postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                ParseSusiResponseHelper psh = new ParseSusiResponseHelper(MainActivity.this);
-                                                psh.parseSusiResponse(susiResponse,actionNo);
+                                                ParseSusiResponseHelper psh = new ParseSusiResponseHelper();
+                                                psh.parseSusiResponse(susiResponse,actionNo,"");
                                                 final String setMessage = psh.getAnswer();
                                                 if(psh.getActionType().equals(Constant.ANSWER))
                                                     voiceReply(setMessage, psh.isHavingLink());

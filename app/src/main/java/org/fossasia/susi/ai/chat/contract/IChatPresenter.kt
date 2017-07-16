@@ -11,6 +11,7 @@ interface IChatPresenter {
     fun retrieveOldMessages(firstRun: Boolean)
     fun getUndeliveredMessages()
     fun setUp()
+    fun checkPreferences()
     fun onMenuCreated()
 
     //Getting user location
@@ -19,6 +20,7 @@ interface IChatPresenter {
 
     //Interaction with susi
     fun sendMessage(query: String, actual: String)
+    fun startComputingThread()
 
     //Setting background wallpaper
     fun setUpBackground()
@@ -41,7 +43,8 @@ interface IChatPresenter {
     fun searchUP()
     fun searchDown()
 
-    //Login and Logout
+    //Login, Logout and detach
     fun logout()
     fun login()
+    fun onDetach()
 }
