@@ -18,16 +18,20 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.MenuItemCompat
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
 import android.text.Editable
 import android.text.InputType
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -68,6 +72,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
     lateinit var textToSpeech: TextToSpeech
     var recordingThread: RecordingThread? = null
     lateinit var recognizer: SpeechRecognizer
+    lateinit var searchView: SearchView
+    lateinit var menu: Menu
     //TODO: might want to remove these two later
     var micCheck = false
     var check = false
@@ -420,10 +426,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         if (micCheck) {
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
-                check = true
-                displayVoiceInput()
-                //TODO
-                //promptSpeechInput()
+                chatPresenter.startSpeechInput()
             })
         } else {
             check = false
@@ -500,6 +503,75 @@ class ChatActivity: AppCompatActivity(), IChatView {
         progressDialog.show()
     }*/
 
+    override fun enableLoginInMenu(isVisible: Boolean) {
+        menu.findItem(R.id.action_logout).isVisible = !isVisible
+        menu.findItem(R.id.action_login).isVisible = isVisible
+    }
+
+    override fun displaySearchElements(isSearchEnabled: Boolean) {
+        toolbarImg.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
+        et_message.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
+        btnSpeak.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
+        send_message_layout.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
+    }
+
+    override fun modifyMenu(show: Boolean) {
+        menu.findItem(R.id.up_angle).isVisible = show
+        menu.findItem(R.id.down_angle).isVisible = show
+    }
+
+    override fun searchMovement(position: Int) {
+        rv_chat_feed.scrollToPosition(position)
+        recyclerAdapter.highlightMessagePosition = position
+        recyclerAdapter.notifyDataSetChanged()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.menu = menu
+        menuInflater.inflate(R.menu.menu_main, menu)
+        chatPresenter.onMenuCreated()
+
+        searchView = MenuItemCompat.getActionView(menu.findItem(R.id.action_search)) as SearchView
+        val editText = searchView.findViewById(R.id.search_src_text)
+
+        searchView.setOnSearchClickListener({
+            chatPresenter.startSearch()
+        })
+
+        searchView.setOnCloseListener({
+            recyclerAdapter.highlightMessagePosition = -1
+            recyclerAdapter.notifyDataSetChanged()
+            searchView.onActionViewCollapsed()
+            chatPresenter.stopSearch()
+            false
+        })
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                //// Handle Search Query
+                chatPresenter.onSearchQuerySearched(query)
+                recyclerAdapter.query = query
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (TextUtils.isEmpty(newText)) {
+                    modifyMenu(false)
+                    recyclerAdapter.highlightMessagePosition = -1
+                    recyclerAdapter.notifyDataSetChanged()
+                    if (!editText.isFocused) {
+                        editText.requestFocus()
+                    }
+                } else {
+                    chatPresenter.onSearchQuerySearched(newText)
+                    recyclerAdapter.query = newText
+                }
+                return false
+            }
+        })
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> {
@@ -527,32 +599,12 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 return true
             }
             R.id.up_angle -> {
-                /*
-                offset++
-                if (results.size - offset > -1) {
-                    pointer = results.get(results.size - offset).getId().toInt()
-                    Log.d(TAG, results.get(results.size - offset).getContent() + "  " +
-                            results.get(results.size - offset).getId())
-                    searchMovement(pointer)
-                } else {
-                    showToast(getString(R.string.nothing_up_matches_your_query))
-                    offset--
-                }*/
+                chatPresenter.searchUP()
+                return true
             }
             R.id.down_angle -> {
-                /*
-                offset--
-                if (results.size - offset < results.size) {
-                    pointer = results.get(results.size - offset).getId().toInt()
-                    Log.d(TAG, results.get(results.size - offset).getContent() + "  " +
-                            results.get(results.size - offset).getId())
-                    searchMovement(pointer)
-                } else {
-                    showToast(getString(R.string.nothing_down_matches_your_query))
-                    offset++
-                }
+                chatPresenter.searchDown()
                 return true
-                */
             }
             R.id.action_logout -> {
                 val d = AlertDialog.Builder(this)

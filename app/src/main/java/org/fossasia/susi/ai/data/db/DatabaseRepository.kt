@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data.db
 
+import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmResults
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
@@ -7,6 +8,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 
 /**
+ *
  * Created by chiragw15 on 12/7/17.
  */
 class DatabaseRepository: IDatabaseRepository {
@@ -31,5 +33,10 @@ class DatabaseRepository: IDatabaseRepository {
 
     override fun getAllMessages(): RealmResults<ChatMessage> {
         return realm.where(ChatMessage::class.java).findAllSorted(Constant.ID);
+    }
+
+    override fun getSearchResults(query: String): RealmResults<ChatMessage> {
+        return realm.where(ChatMessage::class.java).contains(Constant.CONTENT,
+                query, Case.INSENSITIVE).findAll()
     }
 }

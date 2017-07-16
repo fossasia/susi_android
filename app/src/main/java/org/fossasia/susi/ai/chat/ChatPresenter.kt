@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.chat
 
+import io.realm.RealmResults
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.db.DatabaseRepository
@@ -9,7 +10,11 @@ import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.ChatModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IChatModel
-import org.fossasia.susi.ai.helper.*
+import org.fossasia.susi.ai.data.model.ChatMessage
+import org.fossasia.susi.ai.helper.LocationHelper
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.NetworkUtils
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 
 import retrofit2.Response
@@ -27,15 +32,18 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var chatModel: IChatModel = ChatModel()
     var utilModel: UtilModel = UtilModel(chatActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
+    lateinit var locationHelper: LocationHelper
+    val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
+    lateinit var results: RealmResults<ChatMessage>
     var newMessageIndex: Long = 0
     var micCheck = false
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var source = Constant.IP
-    private val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
-    lateinit var locationHelper: LocationHelper
     var isDetectionOn = false
     var check = false
+    var offset = 1
+    var isEnabled = true
 
     override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
@@ -59,6 +67,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     }
 
+    override fun onMenuCreated() {
+        chatView?.enableLoginInMenu(utilModel.getAnonymity())
+    }
+
+    //Change Background Methods
     override fun setUpBackground() {
         val previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "")
         if (previouslyChatImage.equals(utilModel.getString(R.string.background_no_wall), ignoreCase = true)) {
@@ -185,6 +198,50 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     //sends message to susi
     override fun sendMessage(query: String, actual: String) {
 
+    }
+
+    //Search methods. Used when search is enabled
+    override fun startSearch() {
+        chatView?.displaySearchElements(true)
+        isEnabled = false
+    }
+
+    override fun stopSearch() {
+        chatView?.modifyMenu(false)
+        offset = 1
+        chatView?.displaySearchElements(false)
+    }
+
+    override fun onSearchQuerySearched(query: String) {
+        chatView?.displaySearchElements(true)
+        results = databaseRepository.getSearchResults(query)
+        offset = 1
+        if (results.size > 0) {
+            chatView?.modifyMenu(true)
+            chatView?.searchMovement(results[results.size - offset].id.toInt())
+        } else {
+            chatView?.showToast(utilModel.getString(R.string.not_found))
+        }
+    }
+
+    override fun searchUP() {
+        offset++
+        if (results.size - offset > -1) {
+            chatView?.searchMovement(results[results.size - offset].id.toInt())
+        } else {
+            chatView?.showToast(utilModel.getString(R.string.nothing_up_matches_your_query))
+            offset--
+        }
+    }
+
+    override fun searchDown() {
+        offset--
+        if (results.size - offset < results.size) {
+            chatView?.searchMovement(results[results.size - offset].id.toInt())
+        } else {
+            chatView?.showToast(utilModel.getString(R.string.nothing_down_matches_your_query))
+            offset++
+        }
     }
 
     //Asks for permissions from user

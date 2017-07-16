@@ -16,6 +16,7 @@ interface IChatView {
     fun checkMicPref(micCheck: Boolean)
     fun checkEnterKeyPref(isChecked: Boolean)
     fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>)
+    fun enableLoginInMenu(isVisible: Boolean)
     fun setChatBackground(bg: Drawable?)
     fun showToast(message: String)
     fun showVoiceDots()
@@ -28,4 +29,7 @@ interface IChatView {
     fun stopRecording()
     fun initHotword()
     fun promptSpeechInput()
+    fun displaySearchElements(isSearchEnabled: Boolean)
+    fun modifyMenu(show: Boolean)
+    fun searchMovement(position: Int)
 }
