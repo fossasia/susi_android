@@ -16,6 +16,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
+import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 
 import retrofit2.Response
@@ -23,7 +24,9 @@ import retrofit2.Response
 import java.util.*
 
 /**
+ * Presentation Layer for Chat View.
  *
+ * The P in MVP
  * Created by chiragw15 on 9/7/17.
  */
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
@@ -46,9 +49,14 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var check = false
     var offset = 1
     var isEnabled = true
+    var atHome = true
+    var backPressedOnce = false
 
     override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
+        if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && !PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+            throw IllegalStateException("Not signed in, Cannot access resource!")
+        }
     }
 
     override fun setUp() {
@@ -73,6 +81,14 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun onMenuCreated() {
         chatView?.enableLoginInMenu(utilModel.getAnonymity())
+    }
+
+    override fun micCheck(): Boolean {
+        return micCheck
+    }
+
+    override fun check(boolean: Boolean) {
+        check = boolean
     }
 
     //Change Background Methods
@@ -145,15 +161,79 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         chatView?.promptSpeechInput()
     }
 
-    //Retrieves old Messages
-    override fun retrieveOldMessages(firstRun: Boolean) {
-        if(firstRun and NetworkUtils.isNetworkConnected()) {
-            chatModel.retrieveOldMessages(this)
+    override fun disableMicInput(boolean: Boolean) {
+        if(!boolean) {
+            micCheck = false
+            PrefManager.putBoolean(Constant.MIC_INPUT, false)
+        } else {
+            micCheck = utilModel.checkMicInput()
+            PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
         }
     }
 
-    override fun onRetrieveSuccess(message: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    //Retrieves old Messages
+    override fun retrieveOldMessages(firstRun: Boolean) {
+        if(firstRun and NetworkUtils.isNetworkConnected()) {
+            chatView?.showRetrieveOldMessageProgress()
+            val thread = object : Thread() {
+                override fun run() {
+                    chatModel.retrieveOldMessages(this@ChatPresenter)
+                }
+            }
+            thread.start()
+        }
+    }
+
+    override fun onRetrieveSuccess(response: Response<MemoryResponse>?) {
+        if (response != null && response.isSuccessful && response.body() != null) {
+            val allMessages = response.body().cognitionsList
+            if (allMessages.size == 0) {
+                chatView?.showToast("No messages found")
+            } else {
+                var c: Long
+                for (i in allMessages.size - 2 downTo 0) {
+                    val query = allMessages[i].query
+                    val queryDate = allMessages[i].queryDate
+                    val answerDdate = allMessages[i].answerDate
+
+                    val urlList = ParseSusiResponseHelper.extractUrls(query)
+                    val isHavingLink = urlList.isEmpty()
+
+                    newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
+
+                    if (newMessageIndex == 0L) {
+                        databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate),
+                                DateTimeHelper.getTime(queryDate), false, "", null, false, null, "", 0, this)
+                    } else {
+                        val prevDate = DateTimeHelper.getDate(allMessages[i + 1].queryDate)
+
+                        if (DateTimeHelper.getDate(queryDate) != prevDate) {
+                            databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate),
+                                    DateTimeHelper.getTime(queryDate), false, "", null, false, null, "", 0, this)
+                        }
+                    }
+
+                    c = newMessageIndex
+                    databaseRepository.updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate),
+                            DateTimeHelper.getTime(queryDate), true, "", null, isHavingLink, null, "", 0, this)
+
+                    val actionSize = allMessages[i].answers[0].actions.size
+
+                    for (j in 0..actionSize - 1) {
+                        val psh = ParseSusiResponseHelper()
+                        psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
+                        databaseRepository.updateDatabase(c, psh.answer, false, DateTimeHelper.getDate(answerDdate),
+                                DateTimeHelper.getTime(answerDdate), false, psh.actionType, psh.mapData, isHavingLink,
+                                psh.datumList, psh.webSearch, psh.count, this)
+                    }
+                }
+            }
+        }
+        chatView?.hideRetrieveOldMessageProgress()
+    }
+
+    override fun onRetrieveFailure() {
+        chatView?.hideRetrieveOldMessageProgress()
     }
 
     //Gets Location of user using his IP Address
@@ -289,8 +369,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     val psh = ParseSusiResponseHelper()
                     psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
                     val setMessage = psh.answer
-                    if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()))
-                        chatView?.voiceReply(setMessage, psh.isHavingLink)
+                    if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())){
+                        var speechReply = setMessage
+                        if (psh.isHavingLink) {
+                            speechReply = setMessage.substring(0, setMessage.indexOf("http"))
+                        }
+                        chatView?.voiceReply(speechReply)
+                    }
                     databaseRepository.updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date),
                             DateTimeHelper.getTime(date), false, psh.actionType, psh.mapData, psh.isHavingLink,
                             psh.datumList, psh.webSearch, psh.count, this)
@@ -394,6 +479,20 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         utilModel.saveAnonymity(false)
         databaseRepository.deleteAllMessages()
         chatView?.startLoginActivity()
+    }
+
+    override fun exitChatActivity() {
+        if (atHome) {
+            if (backPressedOnce) {
+                chatView?.finishActivity()
+                return
+            }
+            backPressedOnce = true
+            chatView?.showToast(utilModel.getString(R.string.exit))
+            Handler().postDelayed({ backPressedOnce = false }, 2000)
+        } else if (!atHome) {
+            atHome = true
+        }
     }
 
     override fun onDetach() {

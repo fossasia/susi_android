@@ -5,6 +5,7 @@ import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.clients.LocationClient
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
+import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import org.fossasia.susi.ai.rest.services.LocationService
 import retrofit2.Call
@@ -13,7 +14,9 @@ import retrofit2.Response
 import java.util.*
 
 /**
+ * The Model of Chat Activity.
  *
+ * The M in MVP
  * Created by chiragw15 on 9/7/17.
  */
 class ChatModel : IChatModel {
@@ -23,12 +26,17 @@ class ChatModel : IChatModel {
     var clientBuilder: ClientBuilder = ClientBuilder()
 
     override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
-        val thread = object : Thread() {
-            override fun run() {
-                getOldMessages(listener)
+        val call = clientBuilder.susiApi.chatHistory
+        call.enqueue(object : Callback<MemoryResponse> {
+            override fun onResponse(call: Call<MemoryResponse>, response: Response<MemoryResponse>?) {
+                listener.onRetrieveSuccess(response)
             }
-        }
-        thread.start()
+
+            override fun onFailure(call: Call<MemoryResponse>, t: Throwable) {
+                Log.e(TAG, t.toString())
+                listener.onRetrieveFailure()
+            }
+        })
     }
 
     override fun getLocationFromIP(listener: IChatModel.OnLocationFromIPReceivedListener) {
@@ -43,9 +51,6 @@ class ChatModel : IChatModel {
                 Log.e(TAG, t.toString())
             }
         })
-    }
-
-    fun getOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
     }
 
     override fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,

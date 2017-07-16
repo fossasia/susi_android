@@ -6,6 +6,7 @@ import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 
 /**
+ * The interface for Database Repository
  *
  * Created by chiragw15 on 12/7/17.
  */

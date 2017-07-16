@@ -5,6 +5,7 @@ import io.realm.RealmResults
 import org.fossasia.susi.ai.data.model.ChatMessage
 
 /**
+ * The interface for ChatActivity
  *
  * Created by chiragw15 on 9/7/17.
  */
@@ -22,7 +23,9 @@ interface IChatView {
     fun showVoiceDots()
     fun displayVoiceInput()
     fun hideVoiceInput()
-    fun voiceReply(reply: String, isHavingLink: Boolean)
+    fun voiceReply(reply: String)
+    fun showRetrieveOldMessageProgress()
+    fun hideRetrieveOldMessageProgress()
     fun showWaitingDots()
     fun hideWaitingDots()
     fun databaseUpdated()
@@ -37,4 +40,5 @@ interface IChatView {
     fun displaySearchElements(isSearchEnabled: Boolean)
     fun modifyMenu(show: Boolean)
     fun searchMovement(position: Int)
+    fun finishActivity()
 }

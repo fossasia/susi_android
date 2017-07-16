@@ -67,7 +67,7 @@ public class TestMainActivity {
     }
 
     /**
-     * Test activity_main items visibility on launch of app
+     * Test activity_chat items visibility on launch of app
      */
     @Test
     public void test01_UIViewsPresenceOnLoad() {

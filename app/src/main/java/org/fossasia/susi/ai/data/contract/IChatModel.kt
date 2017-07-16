@@ -1,18 +1,20 @@
 package org.fossasia.susi.ai.data.contract
 
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
+import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
-import org.fossasia.susi.ai.rest.services.SusiService
 import retrofit2.Response
 
 /**
+ * The interface for Chat Model
  *
  * Created by chiragw15 on 9/7/17.
  */
 interface IChatModel {
 
     interface OnRetrievingMessagesFinishedListener {
-        fun onRetrieveSuccess(message: String)
+        fun onRetrieveSuccess(response: Response<MemoryResponse>?)
+        fun onRetrieveFailure()
     }
 
     interface OnLocationFromIPReceivedListener {

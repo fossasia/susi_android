@@ -5,6 +5,7 @@ import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
 
 import android.Manifest
+import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -44,7 +45,7 @@ import android.widget.Toast
 
 import io.realm.RealmResults
 
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_chat.*
 
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
@@ -54,7 +55,6 @@ import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.ImageUtils
-import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.settings.SettingsActivity
 
@@ -62,7 +62,10 @@ import java.io.FileNotFoundException
 import java.util.HashMap
 
 /**
+ * The Chat Activity. Does all the main processes including
+ * getting location of user, searching, interacting with susi, Hotword Detection, STT and TTS
  *
+ * The V in MVP
  * Created by chiragw15 on 9/7/17.
  */
 class ChatActivity: AppCompatActivity(), IChatView {
@@ -81,9 +84,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     lateinit var recognizer: SpeechRecognizer
     lateinit var searchView: SearchView
     lateinit var menu: Menu
-    //TODO: might want to remove these two later
-    var micCheck = false
-    var check = false
+    lateinit var progressDialog: ProgressDialog
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
@@ -93,21 +94,23 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        setUpUI()
+        setContentView(R.layout.activity_chat)
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
 
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
         initializationMethod(firstRun)
+        cancelSpeechInput()
+        setUpUI()
 
-        registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
         networkStateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 chatPresenter.startComputingThread()
             }
         }
+        registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        recognizer = SpeechRecognizer.createSpeechRecognizer(MainApplication.getInstance().applicationContext)
     }
 
     // This method is used to set up the UI components
@@ -149,10 +152,10 @@ class ChatActivity: AppCompatActivity(), IChatView {
             }
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                if (charSequence.toString().trim { it <= ' ' }.isNotEmpty() || !micCheck) {
+                if (charSequence.toString().trim { it <= ' ' }.isNotEmpty() || !chatPresenter.micCheck()) {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
                     btnSpeak.setOnClickListener ({
-                        check = false
+                        chatPresenter.check(false)
                         val chat_message = et_message.text.toString().trim({ it <= ' ' })
                         val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                         var message = ""
@@ -265,8 +268,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 "com.domain.app")
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
 
-        recognizer = SpeechRecognizer.createSpeechRecognizer(MainApplication.getInstance().applicationContext)
-
         val listener = object : RecognitionListener {
             override fun onResults(results: Bundle) {
                 val voiceResults = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
@@ -330,16 +331,12 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     //Replies user with Speech
-     override fun voiceReply(reply: String, isHavingLink: Boolean) {
+     override fun voiceReply(reply: String) {
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
             val result = audioFocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                var spokenReply = reply
-                if (isHavingLink) {
-                    spokenReply = reply.substring(0, reply.indexOf("http"))
-                }
                 textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onStart(s: String) {
                         if (recordingThread != null)
@@ -360,7 +357,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 val ttsParams = HashMap<String, String>()
                 ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
                         this@ChatActivity.packageName)
-                textToSpeech.speak(spokenReply, TextToSpeech.QUEUE_FLUSH, ttsParams)
+                textToSpeech.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
                 audioFocus.abandonAudioFocus(afChangeListener)
             }
         }
@@ -486,6 +483,16 @@ class ChatActivity: AppCompatActivity(), IChatView {
         btnSpeak.visibility = View.GONE
     }
 
+    fun cancelSpeechInput() {
+        cancel.setOnClickListener {
+            recognizer.cancel()
+            recognizer.destroy()
+            hideVoiceInput()
+            if (recordingThread != null)
+                chatPresenter.startHotwordDetection()
+        }
+    }
+
     override fun displayPartialSTT(text: String) {
         voice_input_text.text = text
     }
@@ -502,7 +509,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 chatPresenter.startSpeechInput()
             })
         } else {
-            check = false
+            chatPresenter.check(false)
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
             btnSpeak.setOnClickListener({
                 val message = et_message.text.toString().trim({ it <= ' ' })
@@ -543,10 +550,9 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
                         Manifest.permission.RECORD_AUDIO -> {
                             if (grantResults.isNotEmpty() || grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                                //micCheck = false
-                                //PrefManager.putBoolean(Constant.MIC_INPUT, false)
+                                chatPresenter.disableMicInput(false)
                             } else {
-                                //PrefManager.putBoolean(Constant.MIC_INPUT, PrefManager.checkMicInput(this))
+                                chatPresenter.disableMicInput(true)
                             }
                             audioPermissionGiven = true
                         }
@@ -568,13 +574,16 @@ class ChatActivity: AppCompatActivity(), IChatView {
         rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
     }
 
-
-    /*override fun showRetrieveOldMessageProgress() {
-        val progressDialog = ProgressDialog(this@ChatActivity)
+    override fun showRetrieveOldMessageProgress() {
+        progressDialog = ProgressDialog(this@ChatActivity)
         progressDialog.setCancelable(false)
         progressDialog.setMessage(getString(R.string.dialog_retrieve_messages_title))
         progressDialog.show()
-    }*/
+    }
+
+    override fun hideRetrieveOldMessageProgress() {
+        progressDialog.dismiss()
+    }
 
     override fun enableLoginInMenu(isVisible: Boolean) {
         menu.findItem(R.id.action_logout).isVisible = !isVisible
@@ -621,7 +630,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                //// Handle Search Query
+                //Handle Search Query
                 chatPresenter.onSearchQuerySearched(query)
                 recyclerAdapter.query = query
                 return false
@@ -719,10 +728,26 @@ class ChatActivity: AppCompatActivity(), IChatView {
         finish()
     }
 
+    override fun onBackPressed() {
+        if (!searchView.isIconified) {
+
+            chatPresenter.stopSearch()
+            recyclerAdapter.highlightMessagePosition = -1
+            recyclerAdapter.notifyDataSetChanged()
+            searchView.onActionViewCollapsed()
+            recyclerAdapter.clearSelection()
+
+            return
+        }
+        chatPresenter.exitChatActivity()
+    }
+
+    override fun finishActivity() {
+        finish()
+    }
+
     override fun onResume() {
         super.onResume()
-
-        //clientBuilder = ClientBuilder()
 
         chatPresenter.getUndeliveredMessages()
 
@@ -758,6 +783,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun onDestroy() {
         super.onDestroy()
         rv_chat_feed.clearOnScrollListeners()
+
         textToSpeech.shutdown()
         chatPresenter.onDetach()
     }

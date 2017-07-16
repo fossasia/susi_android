@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.chat.contract
 
 /**
+ * The interface for Chat Presenter
  *
  * Created by chiragw15 on 9/7/17.
  */
@@ -11,8 +12,12 @@ interface IChatPresenter {
     fun retrieveOldMessages(firstRun: Boolean)
     fun getUndeliveredMessages()
     fun setUp()
-    fun checkPreferences()
     fun onMenuCreated()
+
+    //Preferences and permissions
+    fun checkPreferences()
+    fun check(boolean: Boolean)
+    fun micCheck(): Boolean
 
     //Getting user location
     fun getLocationFromIP()
@@ -35,6 +40,7 @@ interface IChatPresenter {
 
     //STT and TTS
     fun startSpeechInput()
+    fun disableMicInput(boolean: Boolean)
 
     //Search for messages
     fun startSearch()
@@ -46,5 +52,6 @@ interface IChatPresenter {
     //Login, Logout and detach
     fun logout()
     fun login()
+    fun exitChatActivity()
     fun onDetach()
 }

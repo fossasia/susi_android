@@ -1,20 +1,19 @@
 package org.fossasia.susi.ai.data.db
 
-import android.util.Log
 import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
-import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.Datum
-import kotlin.coroutines.experimental.EmptyCoroutineContext.plus
 
 /**
+ * The Database repository. Does all database operations like updating database,
+ * deleting from database, searching from database etc
  *
  * Created by chiragw15 on 12/7/17.
  */

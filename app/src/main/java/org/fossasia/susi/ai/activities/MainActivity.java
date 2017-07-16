@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //done
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_chat);
 
         //done
         realm = Realm.getDefaultInstance();
@@ -411,12 +411,12 @@ public class MainActivity extends AppCompatActivity {
             retrieveOldMessages();
         }
 
-        //wait
+        //done
         if(PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && (!PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false))) {
             throw new IllegalStateException("Not signed in, Cannot access resource!");
         }
 
-        //partial
+        //done
         checkPermissions();
 
         //done
@@ -890,7 +890,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //partial done
+    //done
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
