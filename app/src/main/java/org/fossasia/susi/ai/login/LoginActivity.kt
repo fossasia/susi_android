@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun showProgress(boolean: Boolean) {
-        if (boolean) progressDialog.show() else progressDialog.hide()
+        if (boolean) progressDialog.show() else progressDialog.dismiss()
     }
 
     override fun onLoginError(title: String?, message: String?) {

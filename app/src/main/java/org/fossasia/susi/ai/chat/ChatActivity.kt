@@ -47,7 +47,6 @@ import io.realm.RealmResults
 
 import kotlinx.android.synthetic.main.activity_chat.*
 
-import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter

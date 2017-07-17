@@ -272,7 +272,7 @@ public class PrefManager {
      * @return the boolean
      */
     public static boolean checkMicInput(Context context) {
-        return MediaUtil.isAvailableForVoiceInput(context);
+        return MediaUtil.INSTANCE.isAvailableForVoiceInput(context);
     }
 }
 

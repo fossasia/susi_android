@@ -1,9 +1,7 @@
 package org.fossasia.susi.ai.chat
 
-import android.content.Context
 import android.util.Patterns
 import io.realm.RealmList
-import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.rest.responses.susi.Datum
@@ -38,7 +36,7 @@ class ParseSusiResponseHelper {
 
             Constant.ANSWER -> try {
                 answer = susiResponse.answers[0].actions[i].expression
-                val urlList = extractUrls(answer as String)
+                val urlList = extractUrls(answer)
                 isHavingLink = true
                 if (urlList.isEmpty()) isHavingLink = false
             } catch (e: Exception) {

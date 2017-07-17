@@ -1,12 +1,13 @@
 package org.fossasia.susi.ai.test;
 
 import android.support.design.widget.CoordinatorLayout;
+import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.activities.MainActivity;
+import org.fossasia.susi.ai.chat.ChatActivity;
 
 /**
  * <h1>Unit Test for testing fixtures in main activity.</h1>
@@ -16,9 +17,10 @@ import org.fossasia.susi.ai.activities.MainActivity;
  * --30/09/16 at
  * --10:56 AM
  */
-public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class ChatActivityTest extends ActivityInstrumentationTestCase2<ChatActivity> {
 
-    MainActivity testMainActivity;
+    @VisibleForTesting
+    ChatActivity testChatActivity;
     CoordinatorLayout coordinatorLayout;
     EditText etMessage;
     LinearLayout sendMessageLayout;
@@ -26,18 +28,18 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     /**
      * Instantiates a new Main activity test.
      */
-    public MainActivityTest() {
-        super(MainActivity.class);
+    public ChatActivityTest() {
+        super(ChatActivity.class);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
 
-        testMainActivity = getActivity();
-        etMessage = (EditText) testMainActivity.findViewById(R.id.et_message);
-        sendMessageLayout = (LinearLayout) testMainActivity.findViewById(R.id.send_message_layout);
-        coordinatorLayout = (CoordinatorLayout) testMainActivity.findViewById(R.id.coordinator_layout);
+        testChatActivity = getActivity();
+        etMessage = (EditText) testChatActivity.findViewById(R.id.et_message);
+        sendMessageLayout = (LinearLayout) testChatActivity.findViewById(R.id.send_message_layout);
+        coordinatorLayout = (CoordinatorLayout) testChatActivity.findViewById(R.id.coordinator_layout);
     }
 
     /**
@@ -50,7 +52,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
      * @throws Exception the exception
      */
     public void testPreconditions() throws Exception {
-        assertNotNull("testMainActivity is null", testMainActivity);
+        assertNotNull("testMainActivity is null", testChatActivity);
         assertNotNull("etMessage is null", etMessage);
         assertNotNull("sendMessageLayout is null", sendMessageLayout);
         assertNotNull("coordinatorLayout is null", coordinatorLayout);

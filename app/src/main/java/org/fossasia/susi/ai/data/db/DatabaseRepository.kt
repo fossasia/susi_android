@@ -38,11 +38,11 @@ class DatabaseRepository: IDatabaseRepository {
     }
 
     override fun getUndeliveredMessages(): RealmResults<ChatMessage> {
-        return realm.where(ChatMessage::class.java).equalTo(Constant.IS_DELIVERED, false).findAll().sort(Constant.ID);
+        return realm.where(ChatMessage::class.java).equalTo(Constant.IS_DELIVERED, false).findAll().sort(Constant.ID)
     }
 
     override fun getAllMessages(): RealmResults<ChatMessage> {
-        return realm.where(ChatMessage::class.java).findAllSorted(Constant.ID);
+        return realm.where(ChatMessage::class.java).findAllSorted(Constant.ID)
     }
 
     override fun getSearchResults(query: String): RealmResults<ChatMessage> {

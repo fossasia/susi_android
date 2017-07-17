@@ -54,9 +54,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
-        if (PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && !PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
-            throw IllegalStateException("Not signed in, Cannot access resource!")
-        }
     }
 
     override fun setUp() {
@@ -189,7 +186,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     override fun onRetrieveSuccess(response: Response<MemoryResponse>?) {
         if (response != null && response.isSuccessful && response.body() != null) {
             val allMessages = response.body().cognitionsList
-            if (allMessages.size == 0) {
+            if (allMessages.isEmpty()) {
                 chatView?.showToast("No messages found")
             } else {
                 var c: Long
@@ -294,18 +291,18 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
 
         if (newMessageIndex == 0L) {
-            databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(),
-                    DateTimeHelper.getCurrentTime(), false, "", null, false, null, "", 0, this)
+            databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
+                    DateTimeHelper.currentTime, false, "", null, false, null, "", 0, this)
         } else {
             val s = databaseRepository.getAMessage(newMessageIndex-1).date
-            if (DateTimeHelper.getDate() != s) {
-                databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(),
-                        DateTimeHelper.getCurrentTime(), false, "", null, false, null, "", 0, this)
+            if (DateTimeHelper.date != s) {
+                databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
+                        DateTimeHelper.currentTime, false, "", null, false, null, "", 0, this)
             }
         }
         nonDeliveredMessages.add(Pair(query, newMessageIndex))
-        databaseRepository.updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(),
-                DateTimeHelper.getCurrentTime(), true, "", null, isHavingLink, null, "", 0, this)
+        databaseRepository.updateDatabase(newMessageIndex, actual, false, DateTimeHelper.date,
+                DateTimeHelper.currentTime, true, "", null, isHavingLink, null, "", 0, this)
         getLocationFromLocationService()
         computeThread().start()
     }
@@ -350,8 +347,8 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
         } else {
             databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
-                    false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false,
-                    Constant.ANSWER, null, false, null, "", -1, this)
+                    false, DateTimeHelper.date, DateTimeHelper.currentTime, false, Constant.ANSWER,
+                    null, false, null, "", -1, this)
         }
         BaseUrl.updateBaseUrl(t)
         computeOtherMessage()
@@ -395,7 +392,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
             } else {
                 databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
-                        false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false,
+                        false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
                         Constant.ANSWER, null, false, null, "", -1, this)
             }
             chatView?.hideWaitingDots()
