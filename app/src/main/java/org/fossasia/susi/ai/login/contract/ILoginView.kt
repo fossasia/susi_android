@@ -7,7 +7,7 @@ package org.fossasia.susi.ai.login.contract
  */
 interface ILoginView {
 
-    fun onLoginSuccess(message: String)
+    fun onLoginSuccess(message: String?)
 
     fun skipLogin()
 

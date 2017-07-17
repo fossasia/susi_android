@@ -44,5 +44,4 @@ class SettingsPresenter(fragmentActivity: FragmentActivity): ISettingsPresenter 
     override fun onDetach() {
         settingView = null
     }
-
 }

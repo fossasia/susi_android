@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         loginPresenter.onAttach(this)
     }
 
-    override fun onLoginSuccess(message: String) {
+    override fun onLoginSuccess(message: String?) {
         Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
         val intent = Intent(this@LoginActivity, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
