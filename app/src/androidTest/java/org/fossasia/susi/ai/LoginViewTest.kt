@@ -132,6 +132,7 @@ class LoginViewTest {
     fun testSkip() {
         Log.d(TAG, "running skip login test")
 
+        onView(withId(R.id.skip)).perform(scrollTo())
         onView(withId(R.id.skip)).perform(click())
         Thread.sleep(3000)
         openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
@@ -154,8 +155,8 @@ class LoginViewTest {
         Log.d(TAG, "running signUp test")
 
         onView(withId(R.id.forgot_password)).perform(click())
-        Thread.sleep(3000)
         Espresso.pressBack()
+        Thread.sleep(3000)
     }
 
     companion object {
