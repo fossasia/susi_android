@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -332,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
      * @return the boolean
      */
     public boolean checkMicInput() {
-        return micCheck = MediaUtil.isAvailableForVoiceInput(MainActivity.this);
+        return micCheck = MediaUtil.INSTANCE.isAvailableForVoiceInput(MainActivity.this);
     }
 
     /**
@@ -452,23 +451,23 @@ public class MainActivity extends AppCompatActivity {
                                 newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
 
                                 if (newMessageIndex == 0) {
-                                    updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null, "", 0);
+                                    updateDatabase(newMessageIndex, "", true, DateTimeHelper.INSTANCE.getDate(queryDate), DateTimeHelper.INSTANCE.getTime(queryDate), false, null, null, false, null, "", 0);
                                 } else {
-                                    String prevDate = DateTimeHelper.getDate(allMessages.get(i+1).getQueryDate());
+                                    String prevDate = DateTimeHelper.INSTANCE.getDate(allMessages.get(i+1).getQueryDate());
 
-                                    if (!DateTimeHelper.getDate(queryDate).equals(prevDate)) {
-                                        updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), false, null, null, false, null, "", 0);
+                                    if (!DateTimeHelper.INSTANCE.getDate(queryDate).equals(prevDate)) {
+                                        updateDatabase(newMessageIndex, "", true, DateTimeHelper.INSTANCE.getDate(queryDate), DateTimeHelper.INSTANCE.getTime(queryDate), false, null, null, false, null, "", 0);
                                     }
                                 }
 
                                 c = newMessageIndex;
-                                updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate), DateTimeHelper.getTime(queryDate), true, null, null, isHavingLink, null, "", 0);
+                                updateDatabase(newMessageIndex, query, false, DateTimeHelper.INSTANCE.getDate(queryDate), DateTimeHelper.INSTANCE.getTime(queryDate), true, null, null, isHavingLink, null, "", 0);
 
                                 int actionSize = allMessages.get(i).getAnswers().get(0).getActions().size();
 
                                 for(int j=0 ; j<actionSize ; j++) {
                                     parseSusiResponse(allMessages.get(i),j);
-                                    updateDatabase(c, answer, false, DateTimeHelper.getDate(answerDdate), DateTimeHelper.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
+                                    updateDatabase(c, answer, false, DateTimeHelper.INSTANCE.getDate(answerDdate), DateTimeHelper.INSTANCE.getTime(answerDdate), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
                                 }
                             }
                         }
@@ -1246,15 +1245,15 @@ public class MainActivity extends AppCompatActivity {
         newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0);
 
         if (newMessageIndex == 0) {
-            updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null, "", 0);
+            updateDatabase(newMessageIndex, "", true, DateTimeHelper.INSTANCE.getDate(), DateTimeHelper.INSTANCE.getCurrentTime(), false, null, null, false, null, "", 0);
         } else {
             String s = realm.where(ChatMessage.class).equalTo("id", newMessageIndex - 1).findFirst().getDate();
-            if (!DateTimeHelper.getDate().equals(s)) {
-                updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, null, null, false, null, "", 0);
+            if (!DateTimeHelper.INSTANCE.getDate().equals(s)) {
+                updateDatabase(newMessageIndex, "", true, DateTimeHelper.INSTANCE.getDate(), DateTimeHelper.INSTANCE.getCurrentTime(), false, null, null, false, null, "", 0);
             }
         }
         nonDeliveredMessages.add(new Pair(query, newMessageIndex));
-        updateDatabase(newMessageIndex, actual, false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), true, null, null, isHavingLink, null, "", 0);
+        updateDatabase(newMessageIndex, actual, false, DateTimeHelper.INSTANCE.getDate(), DateTimeHelper.INSTANCE.getCurrentTime(), true, null, null, isHavingLink, null, "", 0);
         getLocationFromLocationService();
         new computeThread().start();
     }
@@ -1300,7 +1299,7 @@ public class MainActivity extends AppCompatActivity {
                                                 final String setMessage = answer;
                                                 if(actionType.equals(Constant.ANSWER))
                                                     voiceReply(setMessage, isHavingLink);
-                                                updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date), DateTimeHelper.getTime(date), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
+                                                updateDatabase(id, setMessage, false, DateTimeHelper.INSTANCE.getDate(date), DateTimeHelper.INSTANCE.getTime(date), false, actionType, mapData, isHavingLink, datumList, webSearch, count);
                                             }
                                         }, delay);
                                     }
@@ -1313,7 +1312,7 @@ public class MainActivity extends AppCompatActivity {
                                                 getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                         snackbar.show();
                                     } else {
-                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
+                                        updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.INSTANCE.getDate(), DateTimeHelper.INSTANCE.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
                                     }
                                     recyclerAdapter.hideDots();
                                 }
@@ -1336,7 +1335,7 @@ public class MainActivity extends AppCompatActivity {
                                             getString(R.string.no_internet_connection), Snackbar.LENGTH_LONG);
                                     snackbar.show();
                                 } else {
-                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.getDate(), DateTimeHelper.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
+                                    updateDatabase(id, getString(R.string.error_internet_connectivity), false, DateTimeHelper.INSTANCE.getDate(), DateTimeHelper.INSTANCE.getCurrentTime(), false, Constant.ANSWER, mapData, false, datumList, webSearch, count);
                                 }
                                 BaseUrl.updateBaseUrl(t);
                                 computeOtherMessage();
