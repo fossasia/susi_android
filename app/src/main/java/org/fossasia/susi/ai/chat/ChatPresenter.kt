@@ -68,13 +68,14 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex)
         micCheck = utilModel.checkMicInput()
 
-        getPermissions()
-
         chatView?.setupAdapter(databaseRepository.getAllMessages())
+
+        getPermissions()
 
     }
 
     override fun checkPreferences() {
+        micCheck = utilModel.getBooleanPref(Constant.MIC_INPUT, true)
         chatView?.checkMicPref(utilModel.getBooleanPref(Constant.MIC_INPUT, true))
         chatView?.checkEnterKeyPref(utilModel.getBooleanPref(Constant.ENTER_SEND, false))
     }
@@ -162,12 +163,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun disableMicInput(boolean: Boolean) {
-        if(!boolean) {
+        if(boolean) {
             micCheck = false
             PrefManager.putBoolean(Constant.MIC_INPUT, false)
         } else {
             micCheck = utilModel.checkMicInput()
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
+            chatView?.checkMicPref(micCheck)
         }
     }
 
@@ -191,13 +193,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 chatView?.showToast("No messages found")
             } else {
                 var c: Long
-                for (i in allMessages.size - 2 downTo 0) {
+                for (i in allMessages.size - 1 downTo 0) {
                     val query = allMessages[i].query
                     val queryDate = allMessages[i].queryDate
-                    val answerDdate = allMessages[i].answerDate
+                    val answerDate = allMessages[i].answerDate
 
                     val urlList = ParseSusiResponseHelper.extractUrls(query)
-                    val isHavingLink = urlList.isEmpty()
+                    val isHavingLink = !urlList.isEmpty()
 
                     newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
 
@@ -222,14 +224,19 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     for (j in 0..actionSize - 1) {
                         val psh = ParseSusiResponseHelper()
                         psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
-                        databaseRepository.updateDatabase(c, psh.answer, false, DateTimeHelper.getDate(answerDdate),
-                                DateTimeHelper.getTime(answerDdate), false, psh.actionType, psh.mapData, isHavingLink,
+                        databaseRepository.updateDatabase(c, psh.answer, false, DateTimeHelper.getDate(answerDate),
+                                DateTimeHelper.getTime(answerDate), false, psh.actionType, psh.mapData, psh.isHavingLink,
                                 psh.datumList, psh.webSearch, psh.count, this)
                     }
                 }
             }
         }
         chatView?.hideRetrieveOldMessageProgress()
+    }
+
+    override fun updateMessageCount() {
+        newMessageIndex++
+        PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex)
     }
 
     override fun onRetrieveFailure() {

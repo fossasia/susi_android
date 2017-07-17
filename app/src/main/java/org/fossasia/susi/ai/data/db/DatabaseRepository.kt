@@ -33,8 +33,8 @@ class DatabaseRepository: IDatabaseRepository {
         return realm.where(ChatMessage::class.java).equalTo("id", index).findFirst()
     }
 
-    override fun deleteAllMessages(): Boolean {
-        return false
+    override fun deleteAllMessages() {
+        realm.executeTransaction { realm -> realm.deleteAll() }
     }
 
     override fun getUndeliveredMessages(): RealmResults<ChatMessage> {
@@ -56,7 +56,7 @@ class DatabaseRepository: IDatabaseRepository {
                                 listener: IDatabaseRepository.onDatabaseUpdateListener) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
-        PrefManager.putLong(Constant.MESSAGE_COUNT, id + 1)
+        listener.updateMessageCount()
 
         realm.executeTransactionAsync({ bgRealm ->
             val chatMessage = bgRealm.createObject(ChatMessage::class.java, id)

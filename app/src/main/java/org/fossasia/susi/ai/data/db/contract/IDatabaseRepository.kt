@@ -14,11 +14,12 @@ interface IDatabaseRepository {
 
     interface onDatabaseUpdateListener {
         fun onDatabaseUpdateSuccess()
+        fun updateMessageCount()
     }
 
     fun getMessageCount() : Long
     fun getAMessage(index: Long): ChatMessage
-    fun deleteAllMessages() : Boolean
+    fun deleteAllMessages()
     fun getUndeliveredMessages() : RealmResults<ChatMessage>
     fun getAllMessages(): RealmResults<ChatMessage>
     fun getSearchResults(query: String): RealmResults<ChatMessage>

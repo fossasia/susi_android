@@ -100,9 +100,9 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
+        setUpUI()
         initializationMethod(firstRun)
         cancelSpeechInput()
-        setUpUI()
 
         networkStateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -110,17 +110,17 @@ class ChatActivity: AppCompatActivity(), IChatView {
             }
         }
         registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
-        recognizer = SpeechRecognizer.createSpeechRecognizer(MainApplication.getInstance().applicationContext)
+        recognizer = SpeechRecognizer.createSpeechRecognizer(applicationContext)
     }
 
     // This method is used to set up the UI components
     // of Chat Activity like Adapter, Toolbar, Background, Theme, etc
     fun setUpUI() {
-        setToolbar()
-        setEditText()
         chatPresenter.setUp()
         chatPresenter.checkPreferences()
         chatPresenter.setUpBackground()
+        setToolbar()
+        setEditText()
     }
 
     // This method is used to call all other methods
@@ -247,8 +247,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     fun compensateTTSDelay() {
         Handler().post {
-            textToSpeech = TextToSpeech(MainApplication.getInstance()
-                    .applicationContext, TextToSpeech.OnInitListener { status ->
+            textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
                 if (status != TextToSpeech.ERROR) {
                     val locale = textToSpeech.getLanguage()
                     textToSpeech.language = locale
@@ -504,6 +503,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     override fun checkMicPref(micCheck: Boolean) {
         if (micCheck) {
+            chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
                 chatPresenter.startSpeechInput()
@@ -549,7 +549,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                         }
 
                         Manifest.permission.RECORD_AUDIO -> {
-                            if (grantResults.isNotEmpty() || grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                                 chatPresenter.disableMicInput(false)
                             } else {
                                 chatPresenter.disableMicInput(true)
@@ -558,7 +558,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                         }
 
                         Manifest.permission.WRITE_EXTERNAL_STORAGE -> if (grantResults.size >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
-                           chatPresenter.initiateHotwordDetection()
+                            chatPresenter.initiateHotwordDetection()
                         }
                     }
                 }
