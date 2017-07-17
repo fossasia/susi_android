@@ -541,9 +541,6 @@ public class MainActivity extends AppCompatActivity {
         if(firstRun && isNetworkConnected()) {
             retrieveOldMessages();
         }
-        if(PrefManager.getString(Constant.ACCESS_TOKEN, null) == null && (!PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false))) {
-            throw new IllegalStateException("Not signed in, Cannot access resource!");
-        }
 
         checkPermissions();
         getLocationFromIP();
