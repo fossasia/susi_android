@@ -445,7 +445,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 statusBarColor = currActivity.getWindow().getStatusBarColor();
-                currActivity.getWindow().setStatusBarColor(ContextCompat.getColor(currContext, R.color.md_teal_500));
+                currActivity.getWindow().setStatusBarColor(ContextCompat.getColor(currContext, R.color.md_white_1000));
             }
             return true;
         }

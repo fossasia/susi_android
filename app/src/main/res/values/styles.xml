@@ -6,12 +6,22 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionModeBackground">@color/md_teal_300</item>
+        <item name="actionModeStyle">@style/CustomActionModeStyle</item>
+        <item name="android:actionModeCloseDrawable">@drawable/ic_arrow_back_black_24dp</item>
         <item name="colorControlActivated">@color/edit_text_login_screen</item>
         <item name="colorControlHighlight">@color/edit_text_login_screen</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:textColorHint">@color/chat_screen_color</item>
         <item name="colorControlNormal">@color/edit_text_login_screen</item>
+    </style>
+
+    <style name="CustomActionModeStyle" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">@color/md_white_1000</item>
+        <item name="titleTextStyle">@style/CustomeActionModeTextStyle</item>
+    </style>
+
+    <style name="CustomeActionModeTextStyle" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
+        <item name="android:textColor">@color/md_blue_grey_600</item>
     </style>
 
     <style name="SignUp_Theme" parent="AppTheme">
