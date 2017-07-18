@@ -63,6 +63,7 @@ public class TestMainActivity {
             }
         };
         activity.runOnUiThread(wakeUpDevice);
+
     }
 
     /**
@@ -127,7 +128,7 @@ public class TestMainActivity {
         // checks if wallpaper setting menu item is present
         onView(withText(R.string.action_wall_settings)).check(matches(isDisplayed()));
 
-        // checks if log out setting menu item is present
+        // checks if log out/log in setting menu item is present
         onView(withText(R.string.action_log_out)).check(matches(isDisplayed()));
     }
 
@@ -139,6 +140,13 @@ public class TestMainActivity {
         Log.d(TAG,"running test04_SearchButtonClickUIChanges..");
 
         // enter text to chat
+        onView(withId(R.id.et_message)).perform(click());
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.et_message)).perform(click()).perform(typeText("Hi! I am Unit Test"));
 
         // click send button

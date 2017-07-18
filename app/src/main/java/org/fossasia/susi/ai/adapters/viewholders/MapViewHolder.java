@@ -80,10 +80,10 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                           Open in Google Maps if installed, otherwise open browser.
                         */
                             Intent mapIntent;
-                            if (AndroidHelper.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
+                            if (AndroidHelper.INSTANCE.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
                                 Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", model.getLatitude(), model.getLongitude(), model.getZoom()));
                                 mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                                mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
+                                mapIntent.setPackage(AndroidHelper.INSTANCE.getGOOGLE_MAPS_PKG());
                             } else {
                                 mapIntent = new Intent(Intent.ACTION_VIEW);
                                 mapIntent.setData(Uri.parse(mapHelper.getWebLink()));
