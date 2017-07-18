@@ -21,7 +21,6 @@ import org.junit.runner.RunWith
 /**
  * Created by mayanktripathi on 18/07/17.
  */
-
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class ForgetPassTest {
