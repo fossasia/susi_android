@@ -14,6 +14,7 @@ import retrofit2.Response
  *
  * Created by chiragw15 on 4/7/17.
  */
+
 class LoginModel : ILoginModel {
 
     lateinit var authResponseCall: Call<LoginResponse>

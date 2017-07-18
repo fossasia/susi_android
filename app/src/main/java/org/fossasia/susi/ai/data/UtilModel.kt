@@ -1,10 +1,15 @@
 package org.fossasia.susi.ai.data
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.support.v4.app.ActivityCompat
 import io.realm.Realm
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.MediaUtil
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
@@ -28,6 +33,14 @@ class UtilModel(val context: Context): IUtilModel {
         realm.executeTransaction({ realm ->
             realm.deleteAll()
         })
+    }
+
+    fun getTheme(): String {
+        return PrefManager.getTheme()
+    }
+
+    fun setTheme(string: String) {
+        PrefManager.putTheme(Constant.THEME, string)
     }
 
     override fun saveAnonymity(isAnonymous: Boolean) {
@@ -68,5 +81,35 @@ class UtilModel(val context: Context): IUtilModel {
 
     override fun getString(id: Int): String {
         return context.getString(id)
+    }
+
+    fun setEnableMic(): Boolean {
+        if (ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            val voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(context)
+            if (!voiceInputAvailable)
+                PrefManager.putBoolean(Constant.MIC_INPUT, false)
+            return voiceInputAvailable
+        } else {
+            PrefManager.putBoolean(Constant.MIC_INPUT, false)
+            return false
+        }
+    }
+
+    fun setEnableHotword(): Boolean {
+        if (ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            val voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(context)
+            if (!voiceInputAvailable || !Build.CPU_ABI.contains("arm") || Build.FINGERPRINT.contains("generic")) {
+                PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
+                return false
+            } else {
+                return true
+            }
+        } else {
+            PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
+            return false
+        }
     }
 }

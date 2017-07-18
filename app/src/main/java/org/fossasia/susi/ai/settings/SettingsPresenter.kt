@@ -1,38 +1,48 @@
 package org.fossasia.susi.ai.settings
 
-import android.content.Context
+import android.support.v4.app.FragmentActivity
+import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.settings.contract.ISettingsView
 
 /**
+ * Presenter for Settings
+ * The P in MVP
+ *
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter: ISettingsPresenter{
+class SettingsPresenter(fragmentActivity: FragmentActivity): ISettingsPresenter {
 
     var settingView: ISettingsView? = null
-    var settingInteractor: SettingsInteractor? = null
+    var utilModel: UtilModel = UtilModel(fragmentActivity)
 
     override fun onAttach(chatSettingsFragment: ChatSettingsFragment) {
         this.settingView = settingView
-        this.settingInteractor = SettingsInteractor()
     }
 
     override fun deleteMsg() {
-        settingInteractor?.deleteMsg()
+        utilModel.deleteAllMessages()
     }
 
     override fun getThemes(): String? {
-        return settingInteractor?.getTheme()
+        return utilModel.getTheme()
     }
 
     override fun setTheme(string: String) {
-        settingInteractor?.setTheme(string)
+        utilModel.setTheme(string)
     }
 
-    override fun enableMic(context: Context): Boolean {
-        return settingInteractor?.setEnableMic(context)!!
+    override fun enableMic(): Boolean {
+        return utilModel.setEnableMic()
+    }
+
+    override fun enableHotword(): Boolean {
+        return utilModel.setEnableHotword()
     }
 
     override fun onDetach() {
         settingView = null
     }
+
 }

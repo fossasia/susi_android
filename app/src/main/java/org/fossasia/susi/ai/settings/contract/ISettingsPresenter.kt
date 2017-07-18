@@ -1,8 +1,10 @@
-package org.fossasia.susi.ai.settings
+package org.fossasia.susi.ai.settings.contract
 
-import android.content.Context
+import org.fossasia.susi.ai.settings.ChatSettingsFragment
 
 /**
+ * The interface for Settings Presenter
+ *
  * Created by mayanktripathi on 07/07/17.
  */
 
@@ -16,7 +18,9 @@ interface ISettingsPresenter {
 
     fun setTheme(string: String)
 
-    fun enableMic(context: Context): Boolean
+    fun enableMic(): Boolean
+
+    fun enableHotword(): Boolean
 
     fun onDetach()
 

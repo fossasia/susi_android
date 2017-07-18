@@ -977,7 +977,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput());
+            PrefManager.putBoolean(Constant.MIC_INPUT, checkMicInput() && PrefManager.getBoolean(Constant.MIC_INPUT, false));
         }
     }
 
@@ -1150,7 +1150,7 @@ public class MainActivity extends AppCompatActivity {
      * Check enter key preference
      */
     private void checkEnterKeyPref() {
-        micCheck = PrefManager.getBoolean(Constant.MIC_INPUT, true);
+        micCheck = PrefManager.getBoolean(Constant.MIC_INPUT, false);
         if (micCheck) {
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp);
             btnSpeak.setOnClickListener(new View.OnClickListener() {
