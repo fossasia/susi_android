@@ -301,14 +301,14 @@
     <color name="md_blue_grey_900">#263238</color>
 
     <!--Chat bubble colors for android-->
-    <color name="user_message_bg">#DCF8C6</color>
-    <color name="susi_message_bg">#FFFFFF</color>
+    <color name="user_message_bg">#9a4fb39b</color>
+    <color name="susi_message_bg">#d6207fc9</color>
     <color name="user_message_pressed_bg">#9DE1FE</color>
     <color name="susi_message_pressed_bg">#9DE1FE</color>
     <color name="translucent_blue">#4a5bb0bc</color>
 
-    <color name="user_message_link_preview_bg">#D1ECBC</color>
-    <color name="susi_message_link_preview_bg">#F5F5F5</color>
+    <color name="user_message_link_preview_bg">#ffffff</color>
+    <color name="susi_message_link_preview_bg">#ffffff</color>
 
     <!--Default chat background color-->
     <color name="default_bg">#E5DDD5</color>
@@ -317,10 +317,11 @@
     <color name="date_bg">#E3F6FE</color>
 
     <!--Link color-->
-    <color name="link_text">#14a1b3</color>
+    <color name="link_text">#43A047</color>
 
     <color name="edit_text_login_screen">#ffffff</color>
     <color name="chat_screen_color">#000000</color>
-    <color name="message_text_color">#0d0d0d</color>
-    <color name="timestamp_color">#787878</color>
+    <color name="message_text_color">#ffffff</color>
+    <color name="timestamp_color">#ffffff</color>
+    <color name="date_color">#ff455a64</color>
 </resources>
