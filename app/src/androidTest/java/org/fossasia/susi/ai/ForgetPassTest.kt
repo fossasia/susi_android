@@ -68,21 +68,21 @@ class ForgetPassTest {
 
     }
 
-    @Test
-    fun testPersonalServer() {
-        Log.d(ForgetPassTest.TAG, "running resetPassword test on personal server..")
-
-        val emailInput = (mActivityRule.activity.findViewById(R.id.forgot_email) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
-
-        onView(withId(R.id.personal_server)).perform(click())
-
-        val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }
-
-        onView(withId(R.id.reset_button)).perform(click())
-
-    }
+//    @Test
+//    fun testPersonalServer() {
+//        Log.d(ForgetPassTest.TAG, "running resetPassword test on personal server..")
+//
+//        val emailInput = (mActivityRule.activity.findViewById(R.id.forgot_email) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
+//
+//        onView(withId(R.id.personal_server)).perform(click())
+//
+//        val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }
+//
+//        onView(withId(R.id.reset_button)).perform(click())
+//
+//    }
 
     companion object {
         private val TAG = "ForgetPassTest"

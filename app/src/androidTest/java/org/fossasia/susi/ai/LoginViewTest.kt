@@ -101,31 +101,31 @@ class LoginViewTest {
 
     }
 
-    @Test
-    @Throws(InterruptedException::class)
-    fun testSignIn() {
-        Log.d(TAG, "running Sign in test")
-        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as AutoCompleteTextView?
-        getInstrumentation().runOnMainSync { emailInput!!.setText("singhalsaurabh95@gmail.com") }
-        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
-        getInstrumentation().runOnMainSync { passInput!!.setText("qwertY12") }
-
-        val susiServer = mActivityRule.activity.findViewById(R.id.susi_default) as RadioButton
-        getInstrumentation().runOnMainSync { susiServer.isChecked = true }
-
-        onView(withId(R.id.log_in)).perform(click())
-
-        Thread.sleep(6000)
-        try {
-            openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
-            onView(withText(R.string.action_log_out)).perform(click())
-            onView(withText("Yes")).perform(click())
-        } catch (e: NoMatchingViewException) {
-            e.printStackTrace()
-        }
-
-        Thread.sleep(2000)
-    }
+//    @Test
+//    @Throws(InterruptedException::class)
+//    fun testSignIn() {
+//        Log.d(TAG, "running Sign in test")
+//        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as AutoCompleteTextView?
+//        getInstrumentation().runOnMainSync { emailInput!!.setText("singhalsaurabh95@gmail.com") }
+//        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
+//        getInstrumentation().runOnMainSync { passInput!!.setText("qwertY12") }
+//
+//        val susiServer = mActivityRule.activity.findViewById(R.id.susi_default) as RadioButton
+//        getInstrumentation().runOnMainSync { susiServer.isChecked = true }
+//
+//        onView(withId(R.id.log_in)).perform(click())
+//
+//        Thread.sleep(6000)
+//        try {
+//            openActionBarOverflowOrOptionsMenu(getInstrumentation().targetContext)
+//            onView(withText(R.string.action_log_out)).perform(click())
+//            onView(withText("Yes")).perform(click())
+//        } catch (e: NoMatchingViewException) {
+//            e.printStackTrace()
+//        }
+//
+//        Thread.sleep(2000)
+//    }
 
     @Test
     @Throws(InterruptedException::class)

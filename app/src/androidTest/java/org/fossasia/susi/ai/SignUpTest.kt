@@ -64,42 +64,42 @@ class SignUpTest {
 
     }
 
-    @Test
-    fun testSignUp() {
-        Log.d(SignUpTest.TAG, "running SignUp test..")
-
-        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
-
-        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { passInput!!.setText("abcdef") }
-
-        val conpassInput = (mActivityRule.activity.findViewById(R.id.confirm_password) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { conpassInput!!.setText("abcdef") }
-
-        onView(withId(R.id.sign_up)).perform(ViewActions.click())
-    }
-
-    @Test
-    fun testPersonalServer() {
-        Log.d(SignUpTest.TAG, "running Personal Server test..")
-
-        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
-
-        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { passInput!!.setText("abcdef") }
-
-        val conpassInput = (mActivityRule.activity.findViewById(R.id.confirm_password) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { conpassInput!!.setText("abcdef") }
-
-        onView(withId(R.id.personal_server)).perform(ViewActions.click())
-
-        val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
-        InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }
-
-        onView(withId(R.id.sign_up)).perform(ViewActions.click())
-    }
+//    @Test
+//    fun testSignUp() {
+//        Log.d(SignUpTest.TAG, "running SignUp test..")
+//
+//        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
+//
+//        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { passInput!!.setText("abcdef") }
+//
+//        val conpassInput = (mActivityRule.activity.findViewById(R.id.confirm_password) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { conpassInput!!.setText("abcdef") }
+//
+//        onView(withId(R.id.sign_up)).perform(ViewActions.click())
+//    }
+//
+//    @Test
+//    fun testPersonalServer() {
+//        Log.d(SignUpTest.TAG, "running Personal Server test..")
+//
+//        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
+//
+//        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { passInput!!.setText("abcdef") }
+//
+//        val conpassInput = (mActivityRule.activity.findViewById(R.id.confirm_password) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { conpassInput!!.setText("abcdef") }
+//
+//        onView(withId(R.id.personal_server)).perform(ViewActions.click())
+//
+//        val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
+//        InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }
+//
+//        onView(withId(R.id.sign_up)).perform(ViewActions.click())
+//    }
 
     companion object {
         private val TAG = "SignUpTest"
