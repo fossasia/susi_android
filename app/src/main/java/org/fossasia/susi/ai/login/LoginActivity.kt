@@ -101,6 +101,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     fun addListeners() {
+        serverSwitch()
         showURL()
         hideURL()
         signUp()
@@ -111,12 +112,21 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         onEditorAction()
     }
 
+    fun serverSwitch() {
+        serverswitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+                showURL()
+            else
+                hideURL()
+        }
+    }
+
     fun showURL() {
-        personal_server.setOnClickListener { input_url.visibility = View.VISIBLE }
+        input_url.visibility = View.VISIBLE
     }
 
     fun hideURL() {
-        susi_default.setOnClickListener { input_url.visibility = View.GONE }
+        input_url.visibility = View.GONE
     }
 
     fun signUp() {
@@ -147,7 +157,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         password.error = null
         input_url.error = null
 
-        loginPresenter.login(stringEmail, stringPassword, susi_default.isChecked, stringURL)
+        loginPresenter.login(stringEmail, stringPassword, !serverswitch.isChecked, stringURL)
     }
 
     fun cancelLogin() {
@@ -172,7 +182,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, personal_server.isChecked)
+        outState.putBoolean(Constant.SERVER, serverswitch.isChecked)
     }
 
     override fun onDestroy() {
