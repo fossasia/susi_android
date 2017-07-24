@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import org.fossasia.susi.ai.activities.MainActivity;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -34,6 +35,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  *
  * Created by abhinavtyagi on 09/10/16.
  */
+
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -176,4 +178,5 @@ public class TestMainActivity {
         // checks if log out setting menu item is not present
         onView(withId(R.id.action_logout)).check(doesNotExist());
     }
+
 }
