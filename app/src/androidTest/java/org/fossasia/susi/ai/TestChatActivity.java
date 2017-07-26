@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 
-import org.fossasia.susi.ai.activities.MainActivity;
+import org.fossasia.susi.ai.chat.ChatActivity;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
@@ -37,12 +37,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class TestMainActivity {
+public class TestChatActivity {
 
-    private static final String TAG = TestMainActivity.class.getSimpleName();
+    private static final String TAG = TestChatActivity.class.getSimpleName();
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<ChatActivity> mActivityRule = new ActivityTestRule<>(ChatActivity.class);
 
     /**
      * Unlock screen.
@@ -54,7 +54,7 @@ public class TestMainActivity {
     public void unlockScreen() throws IOException, InterruptedException {
         Log.d(TAG,"running unlockScreen..");
 
-        final MainActivity activity = mActivityRule.getActivity();
+        final ChatActivity activity = mActivityRule.getActivity();
         Runnable wakeUpDevice = new Runnable() {
             public void run() {
                 activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
@@ -67,7 +67,7 @@ public class TestMainActivity {
     }
 
     /**
-     * Test activity_main items visibility on launch of app
+     * Test activity_chat items visibility on launch of app
      */
     @Test
     public void test01_UIViewsPresenceOnLoad() {

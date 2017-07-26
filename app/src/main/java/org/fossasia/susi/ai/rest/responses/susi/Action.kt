@@ -15,11 +15,11 @@ class Action {
 
     @SerializedName("expression")
     @Expose
-    val expression: String? = null
+    val expression: String = ""
 
     @SerializedName("type")
     @Expose
-    val type: String? = null
+    val type: String = "answer"
 
     @SerializedName("link")
     @Expose
@@ -31,7 +31,7 @@ class Action {
 
     @SerializedName("query")
     @Expose
-    val query: String? = null
+    val query: String = ""
 
     @SerializedName("latitude")
     @Expose

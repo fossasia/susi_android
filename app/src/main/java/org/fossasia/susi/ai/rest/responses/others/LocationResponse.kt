@@ -26,7 +26,7 @@ class LocationResponse {
     var country: String? = null
 
     @SerializedName("loc")
-    var loc: String? = null
+    var loc: String = ""
 
     @SerializedName("org")
     var org: String? = null

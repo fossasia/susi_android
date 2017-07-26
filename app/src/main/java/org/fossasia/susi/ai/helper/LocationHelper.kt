@@ -49,7 +49,7 @@ class LocationHelper
 
      * @return the source
      */
-    var source: String? = null
+    var source: String = "network"
         private set
 
     protected var locationManager: LocationManager? = null

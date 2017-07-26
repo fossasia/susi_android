@@ -13,7 +13,7 @@ class MemoryResponse {
 
     @SerializedName("cognitions")
     @Expose
-    var cognitionsList: List<SusiResponse>? = null
+    var cognitionsList: List<SusiResponse> = ArrayList()
 
     @SerializedName("session")
     @Expose
