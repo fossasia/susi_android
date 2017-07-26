@@ -9,7 +9,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import android.content.Intent
-import org.fossasia.susi.ai.activities.MainActivity
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
 
@@ -55,7 +55,7 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
 
     override fun onBackPressed() {
         super.finish()
-        val intent = Intent(this@SettingsActivity, MainActivity::class.java)
+        val intent = Intent(this@SettingsActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }

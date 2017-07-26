@@ -17,15 +17,15 @@ class SusiResponse {
 
     @SerializedName("query")
     @Expose
-    val query: String? = null
+    val query: String = ""
 
     @SerializedName("query_date")
     @Expose
-    val queryDate: String? = null
+    val queryDate: String = ""
 
     @SerializedName("answer_date")
     @Expose
-    val answerDate: String? = null
+    val answerDate: String = ""
 
     @SerializedName("answer_time")
     @Expose

@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.data.contract
 
+import android.graphics.drawable.Drawable
+import android.speech.SpeechRecognizer
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
@@ -21,4 +23,11 @@ interface IUtilModel {
     fun setServer(isSusiServer: Boolean)
     fun setCustomURL(url: String)
     fun getString(id: Int): String
+    fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean
+    fun putBooleanPref(prefName: String, value: Boolean)
+    fun checkMicInput(): Boolean
+    fun copyAssetstoSD()
+    fun decodeImage(previouslyChatImage: String): Drawable
+    fun permissionsToGet() : Array<String>
+    fun isArmDevice(): Boolean
 }

@@ -1,16 +1,15 @@
 package org.fossasia.susi.ai.data
 
 import android.Manifest
+import ai.kitt.snowboy.AppResCopy
 import android.content.Context
-import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
+import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import io.realm.Realm
 import org.fossasia.susi.ai.data.contract.IUtilModel
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.CredentialHelper
-import org.fossasia.susi.ai.helper.MediaUtil
-import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
@@ -111,5 +110,35 @@ class UtilModel(val context: Context): IUtilModel {
             PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
             return false
         }
+    }
+
+    override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
+        return PrefManager.getBoolean(prefName, defaultValue);
+    }
+
+    override fun putBooleanPref(prefName: String, value: Boolean) {
+        PrefManager.putBoolean(prefName, value)
+    }
+
+    override fun checkMicInput(): Boolean {
+        return MediaUtil.isAvailableForVoiceInput(context)
+    }
+
+    override fun copyAssetstoSD() {
+        AppResCopy.copyResFromAssetsToSD(context)
+    }
+
+    override fun decodeImage(previouslyChatImage: String): Drawable {
+        return ImageUtils.Companion.decodeImage(context,previouslyChatImage)
+    }
+
+    override fun permissionsToGet(): Array<String> {
+        return arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun isArmDevice(): Boolean {
+        return Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic")
     }
 }

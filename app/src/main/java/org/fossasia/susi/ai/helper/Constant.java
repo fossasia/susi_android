@@ -55,4 +55,13 @@ public class Constant {
     public static final String CONFIRM_PASSWORD = "confirm_password";
     public static final String THEME_KEY = "Theme_key";
     public static final String INPUT_URL = "input_url";
+
+    //Strings to get results from Database
+    public static final String ID = "id";
+    public static final String IS_DELIVERED = "isDelivered";
+    public static final String CONTENT = "content";
+
+    public static final String GPS = "gps";
+    public static final String NETWORK = "network";
+    public static final String IP = "ip";
 }

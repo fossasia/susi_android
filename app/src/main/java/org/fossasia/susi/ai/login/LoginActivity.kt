@@ -12,7 +12,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.signup.SignUpActivity
-import org.fossasia.susi.ai.activities.MainActivity
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.forgotPassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
@@ -55,7 +55,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     override fun onLoginSuccess(message: String?) {
         Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+        val intent = Intent(this@LoginActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(Constant.FIRST_TIME, true)
         startActivity(intent)
@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun skipLogin() {
-        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+        val intent = Intent(this@LoginActivity, ChatActivity::class.java)
         intent.putExtra(Constant.FIRST_TIME, false)
         startActivity(intent)
         finish()
@@ -86,7 +86,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun showProgress(boolean: Boolean) {
-        if (boolean) progressDialog.show() else progressDialog.hide()
+        if (boolean) progressDialog.show() else progressDialog.dismiss()
     }
 
     override fun onLoginError(title: String?, message: String?) {

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="org.fossasia.susi.ai.helper.SnackbarBehavior"
-        tools:context=".activities.MainActivity">
+        tools:context=".chat.ChatActivity">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_chat_feed"
