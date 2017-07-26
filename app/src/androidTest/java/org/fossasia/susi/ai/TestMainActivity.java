@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import org.fossasia.susi.ai.activities.MainActivity;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Rule;
