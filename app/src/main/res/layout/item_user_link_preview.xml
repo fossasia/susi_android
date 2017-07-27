@@ -39,7 +39,7 @@
                     android:maxWidth="@dimen/message_layout_max_width"
                     android:text="@string/hello_world"
                     android:textColor="@color/message_text_color"
-                    android:textColorLink="@color/md_white_1000"
+                    android:textColorLink="@color/link_text"
                     android:textSize="@dimen/message_text_size" />
 
                 <LinearLayout

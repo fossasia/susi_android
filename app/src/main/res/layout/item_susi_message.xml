@@ -32,7 +32,7 @@
                 android:text="@string/hello_world"
                 android:textColor="@color/message_text_color"
                 android:textSize="@dimen/message_text_size"
-                android:textColorLink="@color/message_text_color"/>
+                android:textColorLink="@color/link_text"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
