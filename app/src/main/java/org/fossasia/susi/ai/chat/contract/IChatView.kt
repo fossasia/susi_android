@@ -41,4 +41,5 @@ interface IChatView {
     fun modifyMenu(show: Boolean)
     fun searchMovement(position: Int)
     fun finishActivity()
+    fun setLogoutDialog(darkTheme: Boolean)
 }

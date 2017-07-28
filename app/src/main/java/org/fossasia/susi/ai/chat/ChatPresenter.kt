@@ -485,6 +485,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         chatView?.startLoginActivity()
     }
 
+    override fun setLogoutDialog() {
+        chatView?.setLogoutDialog(PrefManager.getString(Constant.THEME, Constant.LIGHT) == Constant.DARK)
+    }
+
     override fun exitChatActivity() {
         if (atHome) {
             if (backPressedOnce) {
