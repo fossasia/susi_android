@@ -67,7 +67,7 @@
                 android:id="@+id/link_preview_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/md_grey_50"
+                android:background="@color/susi_message_rss_link_preview_bg"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -77,7 +77,6 @@
                     android:layout_weight="0.1"
                     android:scaleType="centerInside"
                     android:adjustViewBounds="true"
-                    android:background="#aaffffff"
                     app:srcCompat="@drawable/ic_user" />
 
                 <LinearLayout
