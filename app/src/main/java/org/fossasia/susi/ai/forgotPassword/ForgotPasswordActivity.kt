@@ -49,6 +49,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         progressDialog.setCancelable(false)
         progressDialog.setMessage(getString(R.string.login))
 
+        switchServer()
         showUrl()
         hideUrl()
         cancelRequestPassword()
@@ -84,16 +85,21 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         reset_button.isEnabled = true
     }
 
-    fun showUrl() {
-        personal_server.setOnClickListener {
-            input_url.visibility = View.VISIBLE
+    fun switchServer() {
+        serverswitch.setOnCheckedChangeListener { buttonView, isChecked ->
+            if(isChecked)
+                showUrl()
+            else
+                hideUrl()
         }
     }
 
+    fun showUrl() {
+        input_url.visibility = View.VISIBLE
+    }
+
     fun hideUrl() {
-        susi_default.setOnClickListener {
-            input_url.visibility = View.GONE
-        }
+        input_url.visibility = View.GONE
     }
 
     fun cancelRequestPassword() {
@@ -105,7 +111,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     fun requestPassword() {
         reset_button.setOnClickListener {
             val email = forgot_email.editText?.text.toString()
-            val isPersonalServerChecked = personal_server.isChecked
+            val isPersonalServerChecked = serverswitch.isChecked
             val url = input_url.editText?.text.toString()
             forgot_email.error = null
             input_url.error = null
@@ -137,7 +143,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(forgot_email.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, personal_server.isChecked)
+        outState.putBoolean(Constant.SERVER, serverswitch.isChecked)
     }
 
     override fun onDestroy() {

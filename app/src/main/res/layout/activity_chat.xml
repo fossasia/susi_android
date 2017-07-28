@@ -54,7 +54,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/padding_large">
+                    android:padding="@dimen/padding_large"
+                    android:background="@color/md_white_1000">
 
                     <ImageView
                         android:id="@+id/cancel"
@@ -74,8 +75,10 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/margin_medium"
                             android:layout_marginRight="@dimen/margin_medium"
+                            android:textColor="@color/md_black_1000"
                             android:background="@android:color/transparent"
                             android:hint="@string/send_msg_hint"
+                            android:textColorHint="@color/md_blue_grey_200"
                             android:imeOptions="actionSend"
                             android:cursorVisible="true"
                             android:textCursorDrawable="@null"
@@ -91,8 +94,10 @@
                             android:layout_marginBottom="1dp"
                             android:layout_marginLeft="@dimen/margin_medium"
                             android:layout_marginRight="@dimen/margin_medium"
+                            android:textColor="@color/md_black_1000"
                             android:background="@android:color/transparent"
                             android:hint="@string/hint_voice_input"
+                            android:textColorHint="@color/md_blue_grey_200"
                             android:scrollbars="vertical"
                             android:textSize="18sp"
                             android:theme="@style/sendMessageEditTextTheme" />

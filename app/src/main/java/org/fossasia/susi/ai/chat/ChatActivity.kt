@@ -9,6 +9,7 @@ import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.net.ConnectivityManager
@@ -40,6 +41,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 
@@ -688,14 +690,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 return true
             }
             R.id.action_logout -> {
-                val d = AlertDialog.Builder(this)
-                d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
-                   chatPresenter.logout()
-                }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
-
-                val alert = d.create()
-                alert.setTitle(getString(R.string.logout))
-                alert.show()
+                chatPresenter.setLogoutDialog()
                 return true
             }
             R.id.action_login -> {
@@ -704,6 +699,27 @@ class ChatActivity: AppCompatActivity(), IChatView {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun setLogoutDialog(darkTheme: Boolean) {
+        val d = AlertDialog.Builder(this)
+        d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
+            chatPresenter.logout()
+        }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+
+        val alert = d.create()
+        alert.setTitle(getString(R.string.logout))
+        alert.show()
+        val nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE)
+        val pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE)
+        if(darkTheme) {
+            nbutton.setTextColor(Color.WHITE)
+            pbutton.setTextColor(Color.WHITE)
+        }
+        else {
+            nbutton.setTextColor(Color.BLUE)
+            pbutton.setTextColor(Color.BLUE)
+        }
     }
 
     fun selectBackground() {

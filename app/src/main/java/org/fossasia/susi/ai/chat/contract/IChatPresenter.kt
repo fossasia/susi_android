@@ -54,4 +54,5 @@ interface IChatPresenter {
     fun login()
     fun exitChatActivity()
     fun onDetach()
+    fun setLogoutDialog()
 }

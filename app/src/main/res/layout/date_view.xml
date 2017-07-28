@@ -12,7 +12,7 @@
         android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginTop="@dimen/message_layout_margin"
-        android:textColor="@color/timestamp_color"
-        android:background="@drawable/rounded_layout_cyan"
+        android:textColor="@color/date_color"
+        android:background="@drawable/rounded_layout_transparent"
         android:gravity="center" />
 </LinearLayout>

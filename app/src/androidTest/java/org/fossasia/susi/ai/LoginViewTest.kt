@@ -28,6 +28,7 @@ import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.v7.widget.SwitchCompat
 
 /**
  * Created by mayanktripathi on 17/07/17.
@@ -87,9 +88,8 @@ class LoginViewTest {
         // checks if forgot password button is present
         onView(withId(R.id.forgot_password)).check(matches(isDisplayed()))
 
-        // checks if radio buttons are present
-        onView(withId(R.id.susi_default)).check(matches(isDisplayed()))
-        onView(withId(R.id.personal_server)).check(matches(isDisplayed()))
+        // checks if switch button is present
+        onView(withId(R.id.serverswitch)).check(matches(isDisplayed()))
 
         // checks if sign up button is present
         onView(withId(R.id.sign_up)).perform(scrollTo())
@@ -110,8 +110,8 @@ class LoginViewTest {
         val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
         getInstrumentation().runOnMainSync { passInput!!.setText("qwertY12") }
 
-        val susiServer = mActivityRule.activity.findViewById(R.id.susi_default) as RadioButton
-        getInstrumentation().runOnMainSync { susiServer.isChecked = true }
+        val susiServer = mActivityRule.activity.findViewById(R.id.serverswitch) as SwitchCompat
+        getInstrumentation().runOnMainSync { susiServer.isChecked = false }
 
         onView(withId(R.id.log_in)).perform(click())
 

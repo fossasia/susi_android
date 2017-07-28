@@ -14,8 +14,7 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginRight="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        app:cardBackgroundColor="@color/user_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        app:cardBackgroundColor="@color/md_white_1000">
 
         <LinearLayout
             android:layout_width="@dimen/message_layout_max_width"
@@ -27,6 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:background="@color/user_message_bg"
+                android:padding="@dimen/standard_content_padding"
                 android:layout_weight="1">
 
                 <TextView
@@ -36,7 +37,6 @@
                     android:layout_gravity="start|left"
                     android:autoLink="all"
                     android:maxWidth="@dimen/message_layout_max_width"
-                    android:paddingBottom="@dimen/message_textview_bottom_padding"
                     android:text="@string/hello_world"
                     android:textColor="@color/message_text_color"
                     android:textColorLink="@color/link_text"
@@ -73,6 +73,7 @@
                 android:id="@+id/preview_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/standard_content_padding"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -96,10 +97,9 @@
                         android:id="@+id/link_preview_title"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/webpreview_headline_height"
-                        android:background="@color/user_message_link_preview_bg"
                         android:maxLines="1"
                         android:padding="@dimen/standard_content_padding"
-                        android:textColor="@color/md_grey_800"
+                        android:textColor="@color/md_blue_800"
                         tools:text="@string/sample_website_headline" />
 
                     <TextView
@@ -110,7 +110,7 @@
                         android:gravity="center_vertical"
                         android:maxLines="2"
                         android:padding="@dimen/standard_content_padding"
-                        android:textColor="@color/md_grey_600"
+                        android:textColor="@color/md_grey_900"
                         tools:text="@string/sample_website_description" />
 
                 </LinearLayout>
