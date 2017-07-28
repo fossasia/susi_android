@@ -8,7 +8,7 @@ package org.fossasia.susi.ai.rest.responses.others
 
 class WebSearch (
 
- var heading: String? = null,
+ var Heading: String? = null,
  var RelatedTopics: List<RelatedTopics>? = null
 
 )

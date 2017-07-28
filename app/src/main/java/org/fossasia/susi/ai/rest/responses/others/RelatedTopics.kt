@@ -8,11 +8,11 @@ package org.fossasia.susi.ai.rest.responses.others
 
 class RelatedTopics (
 
-    var url: String? = null,
+    var FirstURL: String? = null,
 
-    var text: String? = null,
+    var Text: String? = null,
 
     var icon: WebIcon? = null,
 
-    var result: String? = null
+    var Result: String? = null
 )

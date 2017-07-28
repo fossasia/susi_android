@@ -9,7 +9,7 @@ package org.fossasia.susi.ai.rest.responses.others
 
 class WebIcon (
 
- var url: String? = null
+ var URL: String? = null
 
 )
 
