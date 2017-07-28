@@ -42,7 +42,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.settings.SettingsActivity
 
-import java.util.HashMap
+import java.util.*
 
 /**
  * The Chat Activity. Does all the main processes including
@@ -285,7 +285,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     //Replies user with Speech
-     override fun voiceReply(reply: String) {
+     override fun voiceReply(reply: String, language: String) {
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
@@ -311,6 +311,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 val ttsParams = HashMap<String, String>()
                 ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
                         this@ChatActivity.packageName)
+                textToSpeech.language = Locale(language)
                 textToSpeech.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
                 audioFocus.abandonAudioFocus(afChangeListener)
             }

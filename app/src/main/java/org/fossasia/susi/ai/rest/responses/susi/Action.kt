@@ -49,4 +49,8 @@ class Action {
     @Expose
     val count: Int = 0
 
+    @SerializedName("language")
+    @Expose
+    val language: String = "en"
+
 }

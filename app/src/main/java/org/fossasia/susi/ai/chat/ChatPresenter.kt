@@ -367,7 +367,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                         if (psh.isHavingLink) {
                             speechReply = setMessage.substring(0, setMessage.indexOf("http"))
                         }
-                        chatView?.voiceReply(speechReply)
+                        chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
                     }
                     databaseRepository.updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date),
                             DateTimeHelper.getTime(date), false, psh.actionType, psh.mapData, psh.isHavingLink,

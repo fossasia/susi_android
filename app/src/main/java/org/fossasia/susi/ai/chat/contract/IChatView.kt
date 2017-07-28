@@ -20,7 +20,7 @@ interface IChatView {
     fun showVoiceDots()
     fun displayVoiceInput()
     fun hideVoiceInput()
-    fun voiceReply(reply: String)
+    fun voiceReply(reply: String, language: String)
     fun showRetrieveOldMessageProgress()
     fun hideRetrieveOldMessageProgress()
     fun showWaitingDots()
