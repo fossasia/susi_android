@@ -30,10 +30,6 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.map_image)
     public ImageView mapImage;
-    @BindView(R.id.location_pointer)
-    public ImageView pointer;
-    @BindView(R.id.background_layout)
-    public LinearLayout backgroundLayout;
 
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
 
@@ -57,14 +53,12 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(), model.getLongitude(), model.getZoom()));
-                pointer.setVisibility(View.GONE);
                 Log.v(TAG, mapHelper.getMapURL());
 
                 Picasso.with(currContext).load(mapHelper.getMapURL())
                         .into(mapImage, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
-                                pointer.setVisibility(View.VISIBLE);
                             }
 
                             @Override

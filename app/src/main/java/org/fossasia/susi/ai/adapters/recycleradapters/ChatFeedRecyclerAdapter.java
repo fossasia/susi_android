@@ -340,7 +340,6 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
      */
     private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
         mapViewHolder.setView(getData().get(position), currContext, this, position);
-        mapViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
     }
 
     /**
