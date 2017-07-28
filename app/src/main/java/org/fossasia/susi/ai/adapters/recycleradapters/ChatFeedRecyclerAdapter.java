@@ -320,20 +320,31 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         // Add something here when needed
     }
 
-    private void setBackGroundColor(RecyclerView.ViewHolder holder, boolean isSelected) {
+    private void setBackGroundColor(RecyclerView.ViewHolder holder, boolean isSelected, boolean isUserMessage) {
         if( holder instanceof ChatViewHolder ) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
-            chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected ? R.color.translucent_blue : android.R.color.transparent));
+            if(isUserMessage)
+                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
+            else
+                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected ? R.color.translucent_blue : android.R.color.transparent));
+            if(isUserMessage)
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
+            else
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout));
         }
     }
 
     @Override
     public boolean onItemLongClicked(final int position) {
         final RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(position);
-        setBackGroundColor(holder, true);
+        final int viewType = getItemViewType(position);
+        setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
 
         List<Pair<String, Drawable>> optionList = new ArrayList<>();
         optionList.add(new Pair<>("Copy",currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
@@ -347,7 +358,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         dialog.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setBackGroundColor(holder, false);
+                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
                 switch (which) {
                     case 0: setClipboard(getItem(position).getContent());
                         Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
@@ -363,7 +374,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                setBackGroundColor(holder, false);
+                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
             }
         });
 
