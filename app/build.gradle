@@ -89,6 +89,9 @@ dependencies {
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
 
+    //moshi Json converter
+    compile "com.squareup.retrofit2:converter-moshi:2.0.0"
+
     //realm adapter
     compile 'io.realm:android-adapters:1.3.0'
 

@@ -14,8 +14,6 @@ import java.util.ArrayList
  */
 
 class SusiBaseUrls : Parcelable {
-
-    @SerializedName("susi_service")
     var susiServices: List<String> = ArrayList()
 
     override fun describeContents(): Int {

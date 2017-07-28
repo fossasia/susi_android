@@ -29,7 +29,7 @@ class ParseSusiResponseHelper {
 
         when (actionType) {
             Constant.ANCHOR -> try {
-                answer = "<a href=\"" + susiResponse.answers[0].actions[i].anchorLink + "\">" + susiResponse.answers[0].actions[1].anchorText + "</a>"
+                answer = "<a href=\"" + susiResponse.answers[0].actions[i].link + "\">" + susiResponse.answers[0].actions[1].text + "</a>"
             } catch (e: Exception) {
                 answer = error
             }

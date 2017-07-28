@@ -185,15 +185,15 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun onRetrieveSuccess(response: Response<MemoryResponse>?) {
         if (response != null && response.isSuccessful && response.body() != null) {
-            val allMessages = response.body().cognitionsList
+            val allMessages = response.body().cognitions
             if (allMessages.isEmpty()) {
                 chatView?.showToast("No messages found")
             } else {
                 var c: Long
                 for (i in allMessages.size - 1 downTo 0) {
                     val query = allMessages[i].query
-                    val queryDate = allMessages[i].queryDate
-                    val answerDate = allMessages[i].answerDate
+                    val queryDate = allMessages[i].query_date
+                    val answerDate = allMessages[i].answer_date
 
                     val urlList = ParseSusiResponseHelper.extractUrls(query)
                     val isHavingLink = !urlList.isEmpty()
@@ -204,7 +204,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                         databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate),
                                 DateTimeHelper.getTime(queryDate), false, "", null, false, null, "", 0, this)
                     } else {
-                        val prevDate = DateTimeHelper.getDate(allMessages[i + 1].queryDate)
+                        val prevDate = DateTimeHelper.getDate(allMessages[i + 1].query_date)
 
                         if (DateTimeHelper.getDate(queryDate) != prevDate) {
                             databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate),
@@ -363,7 +363,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             val susiResponse = response.body()
 
             val actionSize = response.body().answers[0].actions.size
-            val date = response.body().answerDate
+            val date = response.body().answer_date
 
             for (i in 0..actionSize - 1) {
                 val delay = response.body().answers[0].actions[i].delay

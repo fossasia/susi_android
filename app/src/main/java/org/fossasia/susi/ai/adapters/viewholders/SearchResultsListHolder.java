@@ -77,7 +77,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                                 RealmList<WebSearchModel> searchResults = new RealmList<>();
                                 for (int i = 0; i < response.body().getRelatedTopics().size(); i++) {
                                     try {
-                                        String url = response.body().getRelatedTopics().get(i).getUrl();
+                                          String url = response.body().getRelatedTopics().get(i).getUrl();
                                         String text = response.body().getRelatedTopics().get(i).getText();
                                         String iconUrl = response.body().getRelatedTopics().get(i).getIcon().getUrl();
                                         String htmlText = response.body().getRelatedTopics().get(i).getResult();

@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.rest.clients;
 
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 /**
  * <h1>Class to get retrofit client to get location of user using his public ip address.</h1>
@@ -21,7 +21,7 @@ public class LocationClient {
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(MoshiConverterFactory.create())
                     .build();
         }
         return retrofit;

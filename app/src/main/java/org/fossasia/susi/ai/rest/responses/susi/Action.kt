@@ -1,52 +1,29 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-
 /**
  * <h1>Kotlin Data class to parse action types in retrofit response from susi client.</h1>
  */
 
-class Action {
+class Action (
 
-    @SerializedName("delay")
-    @Expose
-    val delay: Long = 0
+    val delay: Long = 0,
 
-    @SerializedName("expression")
-    @Expose
-    val expression: String = ""
+    val expression: String = "",
 
-    @SerializedName("type")
-    @Expose
-    val type: String = "answer"
+    val type: String = "answer",
 
-    @SerializedName("link")
-    @Expose
-    val anchorLink: String? = null
+    val link: String? = null,
 
-    @SerializedName("text")
-    @Expose
-    val anchorText: String? = null
+    val text: String? = null,
 
-    @SerializedName("query")
-    @Expose
-    val query: String = ""
+    val query: String = "",
 
-    @SerializedName("latitude")
-    @Expose
-    val latitude: Double = 0.toDouble()
+    val latitude: Double = 0.toDouble(),
 
-    @SerializedName("longitude")
-    @Expose
-    val longitude: Double = 0.toDouble()
+    val longitude: Double = 0.toDouble(),
 
-    @SerializedName("zoom")
-    @Expose
-    val zoom: Double = 0.toDouble()
+    val zoom: Double = 0.toDouble(),
 
-    @SerializedName("count")
-    @Expose
     val count: Int = 0
 
-}
+)
