@@ -28,4 +28,8 @@ class Settings {
     @SerializedName("theme")
     @Expose
     val theme: String ?= null
+
+    @SerializedName("hotword_detection")
+    @Expose
+    val hotwordDetection: String ?= null
 }
