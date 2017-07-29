@@ -27,8 +27,5 @@ interface IUtilModel {
     fun copyAssetstoSD()
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
-    fun setEnterSend(isEnterSend: Boolean)
-    fun setSpeechAlways(isSpeechAlways: Boolean)
-    fun setSpeechOutput(isSpeechOutput: Boolean)
 
 }

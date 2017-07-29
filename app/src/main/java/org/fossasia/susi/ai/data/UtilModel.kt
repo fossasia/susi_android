@@ -27,13 +27,13 @@ class UtilModel(val context: Context): IUtilModel {
         PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, isAnonymous)
     }
 
-    override fun getAnonymity(): Boolean{
+    override fun getAnonymity(): Boolean {
         return PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)
     }
 
     override fun saveEmail(email: String) {
         val savedEmails = mutableSetOf<String>()
-        if(PrefManager.getStringSet(Constant.SAVED_EMAIL) != null)
+        if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null)
             savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL))
         savedEmails.add(email)
         PrefManager.putStringSet(Constant.SAVED_EMAIL, savedEmails)
@@ -89,15 +89,4 @@ class UtilModel(val context: Context): IUtilModel {
         return Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic")
     }
 
-    override fun setEnterSend(isEnterSend: Boolean) {
-        PrefManager.putBoolean(Constant.ENTER_SEND, isEnterSend)
-    }
-
-    override fun setSpeechAlways(isSpeechAlways: Boolean) {
-        PrefManager.putBoolean(Constant.SPEECH_ALWAYS, isSpeechAlways)
-    }
-
-    override fun setSpeechOutput(isSpeechOutput: Boolean) {
-        PrefManager.putBoolean(Constant.SPEECH_OUTPUT, isSpeechOutput)
-    }
 }
