@@ -101,9 +101,8 @@ public interface SusiService {
     /**
      * Get User settings
      *
-     * @param accessToken
      * @return settings
      */
     @GET("/aaa/listUserSettings.json")
-    Call<UserSetting> getUserSetting(@Query("access_token") String accessToken);
+    Call<UserSetting> getUserSetting();
 }

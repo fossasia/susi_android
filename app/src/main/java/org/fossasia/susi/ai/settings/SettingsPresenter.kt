@@ -60,6 +60,7 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
         databaseRepository.deleteAllMessages()
         settingView?.startLoginActivity()
     }
+
     override fun onSuccess(response: Response<ChangeSettingResponse>) {
         settingView?.onSettingResponse(response.message())
     }
@@ -79,4 +80,5 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
     override fun getAnonymity(): Boolean{
         return utilModel.getAnonymity()
     }
+
 }

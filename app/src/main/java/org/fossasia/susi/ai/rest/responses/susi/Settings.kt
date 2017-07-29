@@ -11,25 +11,22 @@ class Settings {
 
     @SerializedName("speech_always")
     @Expose
-    val speechAlways: String ?= null
+    val speechAlways: Boolean = false
 
     @SerializedName("enter_send")
     @Expose
-    val enterSend: String ?= null
+    val enterSend: Boolean = false
 
     @SerializedName("speech_output")
     @Expose
-    val speechOutput: String ?= null
+    val speechOutput: Boolean = true
 
     @SerializedName("mic_input")
     @Expose
-    val micInput: String ?= null
+    val micInput: Boolean = true
 
     @SerializedName("theme")
     @Expose
-    val theme: String ?= null
+    val theme: String = "Light"
 
-    @SerializedName("hotword_detection")
-    @Expose
-    val hotwordDetection: String ?= null
 }

@@ -45,7 +45,7 @@ class LoginModel : ILoginModel {
 
     override fun getUserSetting(listener: ILoginModel.OnLoginFinishedListener) {
         userSettingResponseCall = ClientBuilder().susiApi
-                .getUserSetting(PrefManager.getToken())
+                .getUserSetting()
 
         userSettingResponseCall.enqueue(object : Callback<UserSetting> {
             override fun onFailure(call: Call<UserSetting>?, t: Throwable?) {

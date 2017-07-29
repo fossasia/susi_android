@@ -137,9 +137,11 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         if (response.isSuccessful && response.body() != null) {
             var settings: Settings ?= response.body().settings
 
-            utilModel.putBooleanPref(Constant.ENTER_SEND, (settings?.enterSend.toString()).toBoolean())
-            utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, (settings?.speechAlways.toString()).toBoolean())
-            utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, (settings?.speechOutput.toString()).toBoolean())
+            if(settings != null) {
+                utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
+                utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, settings.speechAlways)
+                utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, settings.speechOutput)
+            }
 
             loginView?.onLoginSuccess(message)
         }
