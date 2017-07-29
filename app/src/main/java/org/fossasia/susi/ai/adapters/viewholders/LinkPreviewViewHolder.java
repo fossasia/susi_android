@@ -2,17 +2,12 @@ package org.fossasia.susi.ai.adapters.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,12 +27,11 @@ import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebLink;
 
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+
+import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITHLINK;
 
 /**
  * <h1>Link preview view holder</h1>
@@ -84,11 +78,9 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
      *
      * @param model the ChatMessage object
      * @param currContext the Context
-     * @param highlightMessagePosition the highlighted message position
      * @param position the position
-     * @param query the query
      */
-    public void setView(final ChatMessage model, final Context currContext, final ChatFeedRecyclerAdapter recyclerAdapter, int highlightMessagePosition, final int position, String query) {
+    public void setView(final ChatMessage model, int viewType, final Context currContext, final ChatFeedRecyclerAdapter recyclerAdapter, final int position) {
         Spanned answerText;
         text.setLinksClickable(true);
         text.setMovementMethod(LinkMovementMethod.getInstance());
@@ -96,6 +88,13 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
             answerText = Html.fromHtml(model.getContent(), Html.FROM_HTML_MODE_COMPACT);
         } else {
             answerText = Html.fromHtml(model.getContent());
+        }
+
+        if (viewType == USER_WITHLINK) {
+            if (model.getIsDelivered())
+                receivedTick.setImageResource(R.drawable.ic_check);
+            else
+                receivedTick.setImageResource(R.drawable.ic_clock);
         }
 
         text.setText(answerText);
@@ -204,22 +203,10 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
             url = model.getWebLinkData().getUrl();
         }
 
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (recyclerAdapter.selectedItems.size() != 0)
-                    recyclerAdapter.toggleSelectedItem(position);
-            }
-        });
-
         previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (recyclerAdapter.actionMode == null) {
-                    recyclerAdapter.actionMode = ((AppCompatActivity) currContext).startSupportActionMode(recyclerAdapter.actionModeCallback);
-                }
-                recyclerAdapter.toggleSelectedItem(position);
-
+                //TODO : Add Dialog to display options here
                 return true;
             }
         });
@@ -227,12 +214,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
         text.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                if (recyclerAdapter.actionMode == null) {
-                    recyclerAdapter.actionMode = ((AppCompatActivity) currContext).startSupportActionMode(recyclerAdapter.actionModeCallback);
-                }
-
-                recyclerAdapter.toggleSelectedItem(position);
-
+                //TODO : Add Dialog to display options here
                 return true;
             }
         });
@@ -240,29 +222,12 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
         previewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(recyclerAdapter.selectedItems.size() == 0) {
-                    Uri webpage = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                    if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                        currContext.startActivity(intent);
-                    }
-                } else {
-                    recyclerAdapter.toggleSelectedItem(position);
+                Uri webpage = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                if (intent.resolveActivity(currContext.getPackageManager()) != null) {
+                    currContext.startActivity(intent);
                 }
             }
         });
-
-        if (highlightMessagePosition == position) {
-            String texts = text.getText().toString();
-            SpannableString modify = new SpannableString(texts);
-            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-            Matcher matcher = pattern.matcher(modify);
-            while (matcher.find()) {
-                int startIndex = matcher.start();
-                int endIndex = matcher.end();
-                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            text.setText(modify);
-        }
     }
 }

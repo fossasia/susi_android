@@ -1,14 +1,10 @@
 package org.fossasia.susi.ai.adapters.viewholders;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.text.style.BackgroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,9 +13,6 @@ import android.widget.TextView;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.data.model.ChatMessage;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,10 +69,8 @@ public class ChatViewHolder extends MessageViewHolder {
      *
      * @param model the ChatMessage object
      * @param viewType the viewType
-     * @param flag the flag
-     * @param query the query
      */
-    public void setView(ChatMessage model, int viewType, boolean flag, String query) {
+    public void setView(ChatMessage model, int viewType) {
         if (model != null) {
             try {
                 switch (viewType) {
@@ -92,19 +83,6 @@ public class ChatViewHolder extends MessageViewHolder {
                             receivedTick.setImageResource(R.drawable.ic_clock);
 
                         chatTextView.setTag(this);
-                        if (flag) {
-                            String text = chatTextView.getText().toString();
-                            SpannableString modify = new SpannableString(text);
-                            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-                            Matcher matcher = pattern.matcher(modify);
-                            while (matcher.find()) {
-                                int startIndex = matcher.start();
-                                int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-                            chatTextView.setText(modify);
-
-                        }
                         timeStamp.setTag(this);
                         receivedTick.setTag(this);
                         break;
@@ -125,19 +103,6 @@ public class ChatViewHolder extends MessageViewHolder {
                         chatTextView.setText(answerText);
                         timeStamp.setText(model.getTimeStamp());
                         chatTextView.setTag(this);
-                        if (flag) {
-                            String text = chatTextView.getText().toString();
-                            SpannableString modify = new SpannableString(text);
-                            Pattern pattern = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-                            Matcher matcher = pattern.matcher(modify);
-                            while (matcher.find()) {
-                                int startIndex = matcher.start();
-                                int endIndex = matcher.end();
-                                modify.setSpan(new BackgroundColorSpan(Color.parseColor("#ffff00")), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-                            chatTextView.setText(modify);
-
-                        }
                         timeStamp.setTag(this);
                         break;
                     case USER_IMAGE:

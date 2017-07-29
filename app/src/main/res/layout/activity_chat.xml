@@ -23,6 +23,16 @@
             android:scrollbars="vertical" />
 
         <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_settings_24dp"
+            app:fabSize="mini"
+            app:backgroundTint="@color/colorPrimaryDark"
+            android:layout_margin="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true" />
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnScrollToEnd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

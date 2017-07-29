@@ -12,7 +12,6 @@ interface IChatPresenter {
     fun retrieveOldMessages(firstRun: Boolean)
     fun getUndeliveredMessages()
     fun setUp()
-    fun onMenuCreated()
 
     //Preferences and permissions
     fun checkPreferences()
@@ -42,16 +41,7 @@ interface IChatPresenter {
     fun startSpeechInput()
     fun disableMicInput(boolean: Boolean)
 
-    //Search for messages
-    fun startSearch()
-    fun stopSearch()
-    fun onSearchQuerySearched(query: String)
-    fun searchUP()
-    fun searchDown()
-
-    //Login, Logout and detach
-    fun logout()
-    fun login()
+    //Detach and exit
     fun exitChatActivity()
     fun onDetach()
 }

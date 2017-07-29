@@ -49,7 +49,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
      * @param model the ChatMessage object
      * @param currContext the Context
      */
-    public void setView(final ChatMessage model, final Context currContext, final ChatFeedRecyclerAdapter recyclerAdapter, final int position) {
+    public void setView(final ChatMessage model, final Context currContext) {
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(), model.getLongitude(), model.getZoom()));

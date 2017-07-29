@@ -41,6 +41,7 @@ import java.util.regex.Matcher;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 import pl.tajchert.sample.DotsTextView;
 
@@ -52,7 +53,7 @@ import pl.tajchert.sample.DotsTextView;
  * --25/09/16 at
  * --9:49 PM
  */
-public class ChatFeedRecyclerAdapter extends SelectableAdapter implements MessageViewHolder.ClickListener {
+public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder> implements MessageViewHolder.ClickListener {
 
     public static final int USER_MESSAGE = 0;
     public static final int SUSI_MESSAGE = 1;
@@ -60,25 +61,20 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public static final int SUSI_IMAGE = 3;
     private static final int MAP = 4;
     private static final int PIECHART = 7;
-    private static final int USER_WITHLINK = 5;
+    public static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
     private static final int DOTS = 8;
     private static final int NULL_HOLDER = 9;
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
-    public int highlightMessagePosition = -1;
-    public String query = "";
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
-    private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
     private MessageViewHolder.ClickListener clickListener;
-    public ActionModeCallback actionModeCallback = new ActionModeCallback();
     public ActionMode actionMode;
     public SparseBooleanArray selectedItems;
-    private AppCompatActivity currActivity;
     // For typing dots from Susi
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
@@ -95,9 +91,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         super(context, data, autoUpdate);
         this.clickListener = this;
         currContext = context;
-        currActivity = (AppCompatActivity) context;
         lastMsgCount = getItemCount();
-        selectedItems = new SparseBooleanArray();
         RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
             @Override
             public void onChange(RealmResults elements) {
@@ -274,101 +268,28 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
-            handleItemEvents(chatViewHolder, position);
+            chatViewHolder.setView(getData().get(position), getItemViewType(position));
+            //chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
-            handleItemEvents(mapViewHolder, position);
+            mapViewHolder.setView(getData().get(position), currContext);
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
-            handleItemEvents(pieChartViewHolder, position);
+            pieChartViewHolder.setView(getData().get(position));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            handleItemEvents(linkPreviewViewHolder, position);
+            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext, this, position);
+            //linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
-            handleItemEvents(searchResultsListHolder, position,false);
+            searchResultsListHolder.setView(getData().get(position), false, currContext);
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH){
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
-            handleItemEvents(searchResultsListHolder, position, true);
+            searchResultsListHolder.setView(getData().get(position), true, currContext);
         } else if (holder instanceof DateViewHolder) {
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
-            handleItemEvents(dateViewHolder, position);
+            dateViewHolder.textDate.setText(getData().get(position).getDate());
         }
-    }
-
-    /**
-     * Method to handle date views
-     *
-     * @param dateViewHolder DateViewHolder
-     * @param position position of view
-     */
-    private void handleItemEvents(DateViewHolder dateViewHolder, int position){
-        dateViewHolder.textDate.setText(getData().get(position).getDate());
-    }
-
-    /**
-     * Method to handle Search Results holder for websearch and rss
-     *
-     * @param searchResultsListHolder Search result list holder
-     * @param position position of view
-     * @param isClientSearch boolean to check if action type is websearch or rss
-     */
-    private void handleItemEvents(final SearchResultsListHolder searchResultsListHolder,final int position, boolean isClientSearch) {
-        searchResultsListHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-        searchResultsListHolder.setView(getData().get(position), isClientSearch, currContext);
-    }
-
-    /**
-     * Method to handle text messages both of user's and susi's
-     *
-     * @param chatViewHolder Chat view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
-        boolean flag = false;
-        if(highlightMessagePosition == position)
-            flag = true;
-        chatViewHolder.setView(getData().get(position), getItemViewType(position), flag, query);
-        chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-    }
-
-    /**
-     * Method to handle Map view holder for map action type
-     *
-     * @param mapViewHolder Map view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
-        mapViewHolder.setView(getData().get(position), currContext, this, position);
-    }
-
-    /**
-     * Method to handle Link preview holder and fetching data from link.
-     *
-     * @param linkPreviewViewHolder Link preview view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
-        final ChatMessage model = getData().get(position);
-        linkPreviewViewHolder.setView(getData().get(position), currContext, this, highlightMessagePosition, position, query);
-        linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-        if (getItemViewType(position) == USER_WITHLINK) {
-            if (model.getIsDelivered())
-                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.ic_check);
-            else
-                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.ic_clock);
-        }
-    }
-
-    /**
-     * Method to handle Pie chart view holder for action type piechart
-     *
-     * @param pieChartViewHolder Pie chart view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
-        pieChartViewHolder.setView(getData().get(position));
-        pieChartViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
     }
 
     /**
@@ -391,158 +312,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
-    /**
-     * Toggle selection of view
-     *
-     * @param position position of message
-     */
-    public void  toggleSelectedItem(int position) {
-        toggleSelection(position);
-        int count = getSelectedItemCount();
-
-        Log.d(TAG, position + " " + isSelected(position));
-        if(isSelected(position))
-            selectedItems.put(position, isSelected(position));
-        else
-            selectedItems.delete(position);
-
-        if (count == 0) {
-            actionMode.finish();
-        } else {
-            actionMode.setTitle(String.valueOf(count));
-            actionMode.invalidate();
-        }
-    }
-
     @Override
     public void onItemClicked(int position) {
-        if (actionMode != null) {
-            toggleSelectedItem(position);
-        }
+        // Add something here when needed
     }
 
     @Override
     public boolean onItemLongClicked(int position) {
-        if (actionMode == null) {
-            actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
-        }
-        toggleSelectedItem(position);
+        //TODO : Display a dialog box here
         return true;
-    }
-
-    /**
-     * Action mode callback for action mode. Used for deleting, copying and sharing messages.
-     */
-    private class ActionModeCallback implements ActionMode.Callback {
-        @SuppressWarnings("unused")
-        private final String TAG = ChatFeedRecyclerAdapter.ActionModeCallback.class.getSimpleName();
-        private int statusBarColor;
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                statusBarColor = currActivity.getWindow().getStatusBarColor();
-                currActivity.getWindow().setStatusBarColor(ContextCompat.getColor(currContext, R.color.md_teal_500));
-            }
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-
-            menu.clear();
-            mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            int nSelected;
-
-            switch (item.getItemId()) {
-
-                case R.id.menu_item_copy:
-                    nSelected = getSelectedItems().size();
-                    if (nSelected == 1) {
-                        String copyText;
-                        int selected = getSelectedItems().get(0);
-                        copyText = getItem(selected).getContent();
-                        if (getItem(selected).getActionType() == null || getItem(selected).getActionType().equals(Constant.ANSWER)) {
-                            setClipboard(copyText);
-                        }
-                        setClipboard(copyText);
-                    } else {
-                        StringBuilder copyText = new StringBuilder();
-                        for (int i : getSelectedItems()) {
-                            ChatMessage message = getData().get(i);
-                            if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
-                                Log.d(TAG, message.toString());
-                                copyText.append("[").append(message.getTimeStamp()).append("]").append(" ");
-                                copyText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
-                            }
-                        }
-                        setClipboard(copyText.toString());
-                    }
-
-                    if (nSelected == 1){
-                        Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    }
-                    else {
-                        Toast toast = Toast.makeText(recyclerView.getContext(), nSelected + " " + "Messages copied" , Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    }
-                    actionMode.finish();
-                    return true;
-
-                case R.id.menu_item_share:
-                    nSelected = getSelectedItems().size();
-                    if (nSelected == 1) {
-                        int selected = getSelectedItems().get(0);
-                        if (getItem(selected).getActionType() == null || getItem(selected).getActionType().equals(Constant.ANSWER)) {
-                            shareMessage(getItem(selected).getContent());
-                        }
-                    } else {
-                        StringBuilder shareText = new StringBuilder();
-                        for (int i : getSelectedItems()) {
-                            ChatMessage message = getData().get(i);
-                            if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
-                                Log.d(TAG, message.toString());
-                                shareText.append("[").append(message.getTimeStamp()).append("]").append(" ");
-                                shareText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
-                            }
-                        }
-                        shareMessage(shareText.toString());
-                    }
-
-                    actionMode.finish();
-                    return true;
-
-                default:
-                    return false;
-            }
-        }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            clearSelection();
-            selectedItems.clear();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                currActivity.getWindow().setStatusBarColor(statusBarColor);
-            }
-            actionMode = null;
-        }
-
-        private void shareMessage(String message) {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, message);
-            sendIntent.setType("text/plain");
-            currContext.startActivity(sendIntent);
-        }
     }
 }

@@ -47,8 +47,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var source = Constant.IP
     var isDetectionOn = false
     var check = false
-    var offset = 1
-    var isEnabled = true
     var atHome = true
     var backPressedOnce = false
 
@@ -75,10 +73,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         micCheck = utilModel.getBooleanPref(Constant.MIC_INPUT, true)
         chatView?.checkMicPref(utilModel.getBooleanPref(Constant.MIC_INPUT, true))
         chatView?.checkEnterKeyPref(utilModel.getBooleanPref(Constant.ENTER_SEND, false))
-    }
-
-    override fun onMenuCreated() {
-        chatView?.enableLoginInMenu(utilModel.getAnonymity())
     }
 
     override fun micCheck(): Boolean {
@@ -405,50 +399,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         chatView?.databaseUpdated()
     }
 
-    //Search methods. Used when search is enabled
-    override fun startSearch() {
-        chatView?.displaySearchElements(true)
-        isEnabled = false
-    }
-
-    override fun stopSearch() {
-        chatView?.modifyMenu(false)
-        offset = 1
-        chatView?.displaySearchElements(false)
-    }
-
-    override fun onSearchQuerySearched(query: String) {
-        chatView?.displaySearchElements(true)
-        results = databaseRepository.getSearchResults(query)
-        offset = 1
-        if (results.size > 0) {
-            chatView?.modifyMenu(true)
-            chatView?.searchMovement(results[results.size - offset].id.toInt())
-        } else {
-            chatView?.showToast(utilModel.getString(R.string.not_found))
-        }
-    }
-
-    override fun searchUP() {
-        offset++
-        if (results.size - offset > -1) {
-            chatView?.searchMovement(results[results.size - offset].id.toInt())
-        } else {
-            chatView?.showToast(utilModel.getString(R.string.nothing_up_matches_your_query))
-            offset--
-        }
-    }
-
-    override fun searchDown() {
-        offset--
-        if (results.size - offset < results.size) {
-            chatView?.searchMovement(results[results.size - offset].id.toInt())
-        } else {
-            chatView?.showToast(utilModel.getString(R.string.nothing_down_matches_your_query))
-            offset++
-        }
-    }
-
     //Asks for permissions from user
     fun getPermissions() {
         val permissionsRequired = utilModel.permissionsToGet()
@@ -470,19 +420,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         if(!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
         }
-    }
-
-    override fun logout() {
-        utilModel.clearToken()
-        databaseRepository.deleteAllMessages()
-        chatView?.startLoginActivity()
-    }
-
-    override fun login() {
-        utilModel.clearToken()
-        utilModel.saveAnonymity(false)
-        databaseRepository.deleteAllMessages()
-        chatView?.startLoginActivity()
     }
 
     override fun exitChatActivity() {
