@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#0091ea</color>
-    <color name="colorPrimaryDark">#0064b7</color>
+    <color name="colorPrimaryDark">#4184f3</color>
     <color name="colorAccent">#ffffff</color>
 
     <!-- google's material design colours from http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
