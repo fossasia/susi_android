@@ -47,6 +47,7 @@ import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.ImageUtils
+import org.fossasia.susi.ai.settings.SettingsActivity
 
 import java.io.FileNotFoundException
 import java.util.HashMap
@@ -549,6 +550,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     fun scrollToEnd(view: View) {
         rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
+    }
+
+    fun openSettings(view: View) {
+        val i = Intent(this, SettingsActivity::class.java)
+        startActivity(i)
     }
 
     override fun showRetrieveOldMessageProgress() {

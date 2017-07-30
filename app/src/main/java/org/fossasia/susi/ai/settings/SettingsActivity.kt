@@ -26,6 +26,7 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
 
         if (PrefManager.getTheme() == Constant.DARK) {
             setTheme(R.style.PreferencesThemeDark)
@@ -54,7 +55,8 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
     }
 
     override fun onBackPressed() {
-        super.finish()
+        super.onBackPressed()
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
         val intent = Intent(this@SettingsActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)

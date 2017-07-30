@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_settings_24dp"
             app:fabSize="mini"
+            android:onClick="openSettings"
             app:backgroundTint="@color/colorPrimaryDark"
             android:layout_margin="10dp"
             android:layout_alignParentRight="true"
