@@ -1,12 +1,15 @@
 package org.fossasia.susi.ai.login
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
@@ -90,9 +93,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun onLoginError(title: String?, message: String?) {
+        progressDialog.dismiss()
         val notSuccessAlertboxHelper = AlertboxHelper(this@LoginActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
         notSuccessAlertboxHelper.showAlertBox()
         log_in.isEnabled = true
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
     }
 
     override fun attachEmails(savedEmails: MutableSet<String>?) {
