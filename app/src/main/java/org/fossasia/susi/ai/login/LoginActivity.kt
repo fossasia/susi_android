@@ -90,7 +90,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun onLoginError(title: String?, message: String?) {
-        val notSuccessAlertboxHelper = AlertboxHelper(this@LoginActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
+        val notSuccessAlertboxHelper = AlertboxHelper(this@LoginActivity, title, message, null, null, getString(R.string.ok), null)
         notSuccessAlertboxHelper.showAlertBox()
         log_in.isEnabled = true
     }

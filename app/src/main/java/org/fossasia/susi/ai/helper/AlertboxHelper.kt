@@ -27,9 +27,8 @@ class AlertboxHelper
  * *
  * @param negativeText        the negative text
  * *
- * @param colour              the colour
  */
-(private val activity: Activity, private val title: String?, private val message: String?, private val dialogPositiveClick: DialogInterface.OnClickListener?, private val dialogNegativeClick: DialogInterface.OnClickListener?, private val positiveText: String?, private val negativeText: String?, private val colour: Int) {
+(private val activity: Activity, private val title: String?, private val message: String?, private val dialogPositiveClick: DialogInterface.OnClickListener?, private val dialogNegativeClick: DialogInterface.OnClickListener?, private val positiveText: String?, private val negativeText: String?) {
 
     /**
      * Show alert box.
@@ -43,7 +42,5 @@ class AlertboxHelper
         alertDialog.setNeutralButton(negativeText, dialogNegativeClick)
         val alert = alertDialog.create()
         alert.show()
-        val ok = alert.getButton(DialogInterface.BUTTON_POSITIVE)
-        ok.setTextColor(colour)
     }
 }
