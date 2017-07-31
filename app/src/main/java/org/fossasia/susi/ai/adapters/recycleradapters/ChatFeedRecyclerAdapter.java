@@ -1,23 +1,22 @@
 package org.fossasia.susi.ai.adapters.recycleradapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.Pair;
 import android.util.Patterns;
-import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
@@ -73,8 +72,6 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private int lastMsgCount;
     private RecyclerView recyclerView;
     private MessageViewHolder.ClickListener clickListener;
-    public ActionMode actionMode;
-    public SparseBooleanArray selectedItems;
     // For typing dots from Susi
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
@@ -269,7 +266,6 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
             chatViewHolder.setView(getData().get(position), getItemViewType(position));
-            //chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             mapViewHolder.setView(getData().get(position), currContext);
@@ -279,7 +275,6 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext, this, position);
-            //linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), false, currContext);
@@ -303,6 +298,14 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         clipboard.setPrimaryClip(clip);
     }
 
+    private void shareMessage(String message) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+        sendIntent.setType("text/plain");
+        currContext.startActivity(sendIntent);
+    }
+
     /**
      * Scroll to bottom
      */
@@ -317,9 +320,60 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         // Add something here when needed
     }
 
+    private void setBackGroundColor(RecyclerView.ViewHolder holder, boolean isSelected) {
+        if( holder instanceof ChatViewHolder ) {
+            ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
+            chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected ? R.color.translucent_blue : android.R.color.transparent));
+        } else if (holder instanceof LinkPreviewViewHolder) {
+            LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
+            linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected ? R.color.translucent_blue : android.R.color.transparent));
+        }
+    }
+
     @Override
-    public boolean onItemLongClicked(int position) {
-        //TODO : Display a dialog box here
+    public boolean onItemLongClicked(final int position) {
+        final RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(position);
+        setBackGroundColor(holder, true);
+
+        List<Pair<String, Drawable>> optionList = new ArrayList<>();
+        optionList.add(new Pair<>("Copy",currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
+        optionList.add(new Pair<>("Share",currContext.getResources().getDrawable(R.drawable.ic_share_white_24dp)));
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(currContext);
+        final ArrayAdapter<Pair<String,Drawable>> arrayAdapter = new SelectionDialogListAdapter(currContext, optionList);
+
+        dialog.setCancelable(true);
+
+        dialog.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setBackGroundColor(holder, false);
+                switch (which) {
+                    case 0: setClipboard(getItem(position).getContent());
+                        Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                        break;
+                    case 1: shareMessage(getItem(position).getContent());
+                        break;
+                }
+            }
+        });
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                setBackGroundColor(holder, false);
+            }
+        });
+
+        AlertDialog alert = dialog.create();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(alert.getWindow().getAttributes());
+        lp.width = 500;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        alert.show();
+        alert.getWindow().setAttributes(lp);
         return true;
     }
 }

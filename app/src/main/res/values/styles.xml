@@ -14,6 +14,10 @@
         <item name="colorControlNormal">@color/edit_text_login_screen</item>
     </style>
 
+    <style name="Chat_Theme" parent="AppTheme">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
     <style name="SignUp_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
