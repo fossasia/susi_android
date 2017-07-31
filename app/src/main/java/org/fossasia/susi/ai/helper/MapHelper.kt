@@ -41,7 +41,7 @@ class MapHelper
             val latitude = mapData.latitude
             val longitude = mapData.longitude
             val zoom = mapData.zoom
-            mapURL = String.format(URL_SCHEME, latitude, longitude, zoom, size, size)
+            mapURL = String.format(URL_SCHEME, latitude, longitude, zoom, width, height)
             webLink = String.format(MAP_URL_SCHEME, zoom, latitude, longitude)
             isParseSuccessful = true
         }
@@ -52,7 +52,7 @@ class MapHelper
         private val URL_SCHEME = BASE_URL + "center=%f,%f&zoom=%f&size=%sx%s"
         private val MAP_URL = "https://www.openstreetmap.org/#map="
         private val MAP_URL_SCHEME = MAP_URL + "%f/%f/%f"
-        private val size = 300
+        private val width = 340
+        private val height = 170
     }
-
 }
