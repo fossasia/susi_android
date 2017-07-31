@@ -1,39 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/background_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/margin_very_small">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
-        android:layout_width="@dimen/message_layout_max_width"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/margin_card"
+        android:layout_marginLeft="@dimen/margin_card"
         android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        app:cardBackgroundColor="@color/susi_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        app:cardBackgroundColor="@color/susi_message_bg">
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="@dimen/map_view_height"
+            android:layout_marginBottom="@dimen/margin_large">
 
             <ImageView
                 android:id="@+id/map_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#aaffffff"
+                android:scaleType="centerCrop"
                 tools:src="@drawable/ic_susi" />
-
-            <ImageView
-                android:id="@+id/location_pointer"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_location_on_black_24dp" />
 
         </FrameLayout>
     </android.support.v7.widget.CardView>

@@ -7,14 +7,13 @@
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/margin_very_small">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        app:cardBackgroundColor="@color/susi_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        android:background="@drawable/rounded_layout">
 
         <LinearLayout
             android:layout_width="@dimen/message_layout_max_width"
@@ -26,15 +25,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:paddingTop="@dimen/padding_chatbubble_large"
+                android:paddingRight="@dimen/padding_chatbubble_large"
+                android:paddingLeft="@dimen/padding_chatbubble_large"
+                android:paddingBottom="@dimen/padding_chatbubble_small">
 
                 <TextView
                     android:id="@+id/text"
-                    android:layout_width="@dimen/message_layout_max_width"
+                    android:layout_width="@dimen/link_preview_max_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|left"
                     android:maxWidth="@dimen/message_layout_max_width"
                     android:paddingBottom="@dimen/message_textview_bottom_padding"
+                    android:autoLink="web"
                     android:textColorLink="@color/link_text"
                     android:text="@string/hello_world"
                     android:textColor="@color/message_text_color"
@@ -79,6 +83,7 @@
                     android:layout_height="@dimen/preview_layout_height"
                     android:layout_marginTop="@dimen/message_layout_margin"
                     android:layout_weight="0.8"
+                    android:layout_marginRight="1dp"
                     android:background="@color/susi_message_link_preview_bg"
                     android:orientation="vertical">
 
@@ -88,6 +93,7 @@
                         android:layout_height="@dimen/webpreview_headline_height"
                         android:background="@color/susi_message_link_preview_bg"
                         android:maxLines="1"
+                        android:gravity="center_vertical"
                         android:padding="@dimen/standard_content_padding"
                         android:textColor="@color/md_grey_800"
                         tools:text="@string/sample_website_headline" />
@@ -106,7 +112,7 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
 </LinearLayout>
 

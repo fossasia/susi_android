@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/background_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="right"
-              android:layout_marginTop="@dimen/margin_very_small">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:layout_marginTop="@dimen/margin_very_small">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginRight="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        app:cardBackgroundColor="@color/user_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        android:padding="@dimen/padding_chatbubble_large"
+        android:background="@drawable/rounded_layout_grey">
 
         <org.fossasia.susi.ai.helper.ChatBubbleLayout
             android:id="@+id/chat_bubble_item_container"
@@ -59,5 +59,5 @@
 
             </LinearLayout>
         </org.fossasia.susi.ai.helper.ChatBubbleLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </LinearLayout>
