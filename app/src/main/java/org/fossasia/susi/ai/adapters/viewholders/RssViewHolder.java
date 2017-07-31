@@ -16,16 +16,6 @@ import butterknife.ButterKnife;
  */
 
 public class RssViewHolder extends RecyclerView.ViewHolder {
-    @BindView(R.id.link_preview_image)
-    public ImageView linkPreviewImageView;
-    @BindView(R.id.link_preview_title)
-    public TextView linkTitleTextView;
-    @BindView(R.id.link_preview_description)
-    public TextView linkDescriptionTextView;
-    @BindView(R.id.link_preview_layout)
-    public LinearLayout linkPreviewLayout;
-    @BindView(R.id.link_preview_text_layout)
-    public LinearLayout previewTextLayout;
     @BindView(R.id.link)
     public TextView linkTextView;
     @BindView(R.id.title)
