@@ -40,6 +40,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
 
@@ -74,6 +75,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     val SELECT_PICTURE = 200
     val CROP_PICTURE = 400
     lateinit var chatPresenter: IChatPresenter
+    lateinit var imm: InputMethodManager
     val PERM_REQ_CODE = 1
     lateinit var toolbarImg: ImageView
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
@@ -97,6 +99,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
 
+        imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
         setUpUI()
@@ -119,7 +122,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter.checkPreferences()
         chatPresenter.setUpBackground()
         setToolbar()
-        setEditText()
+        keyboardInput()
+        speechInput()
     }
 
     // This method is used to call all other methods
@@ -144,6 +148,23 @@ class ChatActivity: AppCompatActivity(), IChatView {
         toolbarImg = supportActionBar?.customView?.findViewById(R.id.toolbar_img) as ImageView
     }
 
+    fun keyboardInput() {
+        keyboard.setOnClickListener({
+            bottomlayout.visibility = View.GONE
+            bottomcard.visibility = View.VISIBLE
+            speakframe.visibility = View.VISIBLE
+            imm.showSoftInput(currentFocus, 0)
+            et_message.requestFocus()
+            setEditText()
+        })
+    }
+
+    fun speechInput() {
+        mic.setOnClickListener {
+            chatPresenter.startSpeechInput()
+        }
+    }
+
     fun setEditText() {
         val watch = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -165,8 +186,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
                             et_message.setText("")
                         }
                     })
-                } else {
-                    btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
+                             } else {
+                    btnSpeak.setImageResource(R.drawable.ic_mic_white)
                     btnSpeak.setOnClickListener {
                         chatPresenter.startSpeechInput()
                     }
@@ -463,26 +484,25 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun hideVoiceInput() {
-        voice_input_text.text = ""
-        voice_input_text.visibility = View.GONE
-        cancel.visibility = View.GONE
         dots.hideAndStop()
         dots.visibility = View.GONE
-        et_message.visibility = View.VISIBLE
-        btnSpeak.visibility = View.VISIBLE
-        et_message.requestFocus()
+        bottomcard.visibility = View.GONE
+        speakframe.visibility = View.GONE
+        bottomlayout.visibility = View.VISIBLE
+        mic.visibility = View.VISIBLE
     }
 
     override fun displayVoiceInput() {
         dots.visibility = View.VISIBLE
-        voice_input_text.visibility = View.VISIBLE
-        cancel.visibility = View.VISIBLE
-        et_message.visibility = View.GONE
-        btnSpeak.visibility = View.GONE
+        bottomlayout.visibility = View.VISIBLE
+        mic.visibility = View.GONE
+        bottomcard.visibility = View.GONE
+        speakframe.visibility = View.GONE
+        imm.hideSoftInputFromWindow(currentFocus.windowToken, 0)
     }
 
     fun cancelSpeechInput() {
-        cancel.setOnClickListener {
+        dots.setOnClickListener {
             recognizer.cancel()
             recognizer.destroy()
             hideVoiceInput()
@@ -492,7 +512,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun displayPartialSTT(text: String) {
-        voice_input_text.text = text
     }
 
     override fun showVoiceDots() {
@@ -503,7 +522,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun checkMicPref(micCheck: Boolean) {
         if (micCheck) {
             chatPresenter.check(true)
-            btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
+            btnSpeak.setImageResource(R.drawable.ic_mic_white)
             btnSpeak.setOnClickListener({
                 chatPresenter.startSpeechInput()
             })
