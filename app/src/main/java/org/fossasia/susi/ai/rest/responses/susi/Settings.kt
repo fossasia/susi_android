@@ -25,8 +25,4 @@ class Settings {
     @Expose
     val micInput: Boolean = true
 
-    @SerializedName("theme")
-    @Expose
-    val theme: String = "Light"
-
 }

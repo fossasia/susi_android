@@ -89,7 +89,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
             true
         }
-
+        
         loginLogout.setOnPreferenceClickListener {
             if (!settingsPresenter.getAnonymity()) {
                 val d = AlertDialog.Builder(activity)
