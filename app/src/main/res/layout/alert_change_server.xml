@@ -16,14 +16,12 @@
             android:layout_height="wrap_content"
             android:id="@+id/susi_default"
             android:checked="true"
-            android:textColor="@color/md_white_1000"
             android:layout_marginBottom="5dp"/>
 
         <RadioButton
             android:text="Personal Server"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/md_white_1000"
             android:id="@+id/personal_server" />
     </RadioGroup>
     <android.support.design.widget.TextInputLayout
@@ -39,8 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter URL"
-            android:textColor="@color/md_white_1000"
-            android:inputType="textUri"
-            android:textColorHint="@color/md_white_1000" />
+            android:inputType="textUri" />
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>
