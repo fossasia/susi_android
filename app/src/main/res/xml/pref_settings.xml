@@ -39,15 +39,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_theme">
-        <ListPreference
-            android:key="@string/theme_setting_key"
-            android:title="@string/theme"
-            android:entries="@array/listentries"
-            android:entryValues="@array/listentries" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/settings_speech">
         <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
             android:id="@+id/speech_pref"

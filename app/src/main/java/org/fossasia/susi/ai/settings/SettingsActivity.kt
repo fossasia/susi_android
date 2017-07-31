@@ -27,13 +27,6 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
-
-        if (PrefManager.getTheme() == Constant.DARK) {
-            setTheme(R.style.PreferencesThemeDark)
-        } else {
-            setTheme(R.style.PreferencesThemeLight)
-        }
-
         setContentView(R.layout.activity_settings)
     }
 

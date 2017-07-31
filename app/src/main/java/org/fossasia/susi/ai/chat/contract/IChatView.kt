@@ -11,13 +11,11 @@ import org.fossasia.susi.ai.data.model.ChatMessage
  */
 interface IChatView {
 
-    fun setTheme(darkTheme: Boolean)
     fun checkPermission(permission: String): Boolean
     fun askForPermission(permissions: Array<String?>)
     fun checkMicPref(micCheck: Boolean)
     fun checkEnterKeyPref(isChecked: Boolean)
     fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>)
-    fun setChatBackground(bg: Drawable?)
     fun showToast(message: String)
     fun showVoiceDots()
     fun displayVoiceInput()
@@ -30,7 +28,6 @@ interface IChatView {
     fun databaseUpdated()
     fun displaySnackbar(message: String)
     fun displayPartialSTT(text: String)
-    fun openImagePickerActivity()
     fun startRecording()
     fun stopRecording()
     fun initHotword()

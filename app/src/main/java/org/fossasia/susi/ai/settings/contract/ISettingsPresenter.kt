@@ -14,10 +14,6 @@ interface ISettingsPresenter {
 
     fun deleteMsg()
 
-    fun getThemes(): String?
-
-    fun setTheme(string: String)
-
     fun enableMic(): Boolean
 
     fun enableHotword(): Boolean

@@ -25,14 +25,6 @@ class SettingsPresenter(fragmentActivity: FragmentActivity): ISettingsPresenter 
         utilModel.deleteAllMessages()
     }
 
-    override fun getThemes(): String? {
-        return utilModel.getTheme()
-    }
-
-    override fun setTheme(string: String) {
-        utilModel.setTheme(string)
-    }
-
     override fun enableMic(): Boolean {
         return utilModel.setEnableMic()
     }

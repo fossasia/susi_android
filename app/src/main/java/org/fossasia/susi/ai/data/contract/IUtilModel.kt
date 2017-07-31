@@ -27,7 +27,6 @@ interface IUtilModel {
     fun putBooleanPref(prefName: String, value: Boolean)
     fun checkMicInput(): Boolean
     fun copyAssetstoSD()
-    fun decodeImage(previouslyChatImage: String): Drawable
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
 }

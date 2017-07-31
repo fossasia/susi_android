@@ -8,11 +8,8 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.*
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -21,10 +18,7 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -46,10 +40,8 @@ import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.ImageUtils
 import org.fossasia.susi.ai.settings.SettingsActivity
 
-import java.io.FileNotFoundException
 import java.util.HashMap
 
 /**
@@ -63,8 +55,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     val TAG: String = ChatActivity::class.java.name
 
-    val SELECT_PICTURE = 200
-    val CROP_PICTURE = 400
     lateinit var chatPresenter: IChatPresenter
     val PERM_REQ_CODE = 1
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
@@ -106,7 +96,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
     fun setUpUI() {
         chatPresenter.setUp()
         chatPresenter.checkPreferences()
-        chatPresenter.setUpBackground()
         setEditText()
     }
 
@@ -209,18 +198,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 }
             }
         })
-    }
-
-    override fun setTheme(darkTheme: Boolean) {
-        AppCompatDelegate.setDefaultNightMode( if(darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-    }
-
-    override fun setChatBackground(bg: Drawable?) {
-        if(bg == null) {
-            window.decorView.setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg))
-        } else {
-            window.setBackgroundDrawable(bg)
-        }
     }
 
     fun compensateTTSDelay() {
@@ -390,57 +367,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
         recordingThread?.stopRecording()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val mHandler = Handler(Looper.getMainLooper())
-        when (requestCode) {
-            CROP_PICTURE -> {
-                if (resultCode == RESULT_OK && null != data) {
-                    mHandler.post {
-                        try {
-                            val thePic = data.extras.getParcelable<Bitmap>("data")
-                            val encodedImage = ImageUtils.Companion.cropImage(thePic)
-                            chatPresenter.cropPicture(encodedImage)
-                        } catch (e: NullPointerException) {
-                            Log.d(TAG, e.localizedMessage)
-                        }
-                    }
-                }
-            }
-            SELECT_PICTURE -> {
-                if (resultCode == RESULT_OK && null != data) {
-                    mHandler.post {
-                        val selectedImageUri = data.data
-                        try {
-                            cropCapturedImage(ImageUtils.Companion.getImageUrl(applicationContext, selectedImageUri))
-                        } catch (aNFE: ActivityNotFoundException) {
-                            //display an error message if user device doesn't support
-                            showToast(getString(R.string.error_crop_not_supported))
-                            try {
-                                chatPresenter.cropPicture(ImageUtils.Companion.encodeImage(applicationContext,selectedImageUri))
-                            } catch (e: FileNotFoundException) {
-                                e.printStackTrace()
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun cropCapturedImage(picUri: Uri?) {
-        val cropIntent = Intent("com.android.camera.action.CROP")
-        cropIntent.setDataAndType(picUri, "image/*")
-        cropIntent.putExtra("crop", "true")
-        cropIntent.putExtra("aspectX", 9)
-        cropIntent.putExtra("aspectY", 14)
-        cropIntent.putExtra("outputX", 256)
-        cropIntent.putExtra("outputY", 256)
-        cropIntent.putExtra("return-data", true)
-        startActivityForResult(cropIntent, CROP_PICTURE)
-    }
-
     override fun hideVoiceInput() {
         voice_input_text.text = ""
         voice_input_text.visibility = View.GONE
@@ -566,20 +492,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     override fun hideRetrieveOldMessageProgress() {
         progressDialog.dismiss()
-    }
-
-    fun selectBackground() {
-        val builder = AlertDialog.Builder(this@ChatActivity)
-        builder.setTitle(R.string.dialog_action_complete)
-        builder.setItems(R.array.dialog_complete_action_items) { _, which ->
-            chatPresenter.openSelectBackgroundDialog(which)
-        }
-        builder.create().show()
-    }
-
-    override fun openImagePickerActivity() {
-        val i = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(i, SELECT_PICTURE)
     }
 
     override fun onBackPressed() {

@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
         android:contentDescription="@string/activity_login_imageview_description"
-        app:srcCompat="@drawable/ic_susi_white" />
+        app:srcCompat="@drawable/ic_susi_blue" />
 
     <ScrollView
         android:layout_width="wrap_content"

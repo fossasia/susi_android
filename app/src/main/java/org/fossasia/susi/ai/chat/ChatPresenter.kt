@@ -55,8 +55,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun setUp() {
-        //set theme
-        chatView?.setTheme(PrefManager.getString(Constant.THEME, Constant.LIGHT) == Constant.DARK)
 
         //find total number of messages and find new message index
         newMessageIndex = databaseRepository.getMessageCount() + 1
@@ -81,35 +79,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun check(boolean: Boolean) {
         check = boolean
-    }
-
-    //Change Background Methods
-    override fun setUpBackground() {
-        val previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "")
-        if (previouslyChatImage.equals(utilModel.getString(R.string.background_no_wall), ignoreCase = true)) {
-            chatView?.setChatBackground(null)
-        } else if (!previouslyChatImage.equals("", ignoreCase = true)) {
-           chatView?.setChatBackground(utilModel.decodeImage(previouslyChatImage))
-        } else {
-            chatView?.setChatBackground(null)
-        }
-    }
-
-    override fun openSelectBackgroundDialog(which: Int) {
-        when (which) {
-            0 -> {
-                chatView?.openImagePickerActivity()
-            }
-            1 -> {
-                PrefManager.putString(Constant.IMAGE_DATA, utilModel.getString(R.string.background_no_wall))
-                setUpBackground()
-            }
-        }
-    }
-
-    override fun cropPicture(encodedImage: String) {
-        PrefManager.putString(Constant.IMAGE_DATA, encodedImage)
-        setUpBackground()
     }
 
     //initiates hotword detection

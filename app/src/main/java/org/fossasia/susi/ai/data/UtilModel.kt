@@ -34,14 +34,6 @@ class UtilModel(val context: Context): IUtilModel {
         })
     }
 
-    fun getTheme(): String {
-        return PrefManager.getTheme()
-    }
-
-    fun setTheme(string: String) {
-        PrefManager.putTheme(Constant.THEME, string)
-    }
-
     override fun saveAnonymity(isAnonymous: Boolean) {
         PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, isAnonymous)
     }
@@ -126,10 +118,6 @@ class UtilModel(val context: Context): IUtilModel {
 
     override fun copyAssetstoSD() {
         AppResCopy.copyResFromAssetsToSD(context)
-    }
-
-    override fun decodeImage(previouslyChatImage: String): Drawable {
-        return ImageUtils.Companion.decodeImage(context,previouslyChatImage)
     }
 
     override fun permissionsToGet(): Array<String> {

@@ -26,11 +26,6 @@ interface IChatPresenter {
     fun sendMessage(query: String, actual: String)
     fun startComputingThread()
 
-    //Setting background wallpaper
-    fun setUpBackground()
-    fun cropPicture(encodedImage: String)
-    fun openSelectBackgroundDialog(which: Int)
-
     //Hotword Detection
     fun initiateHotwordDetection()
     fun stopHotwordDetection()
