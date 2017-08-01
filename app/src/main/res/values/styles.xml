@@ -5,7 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+        <!--
         <item name="actionModeBackground">@color/md_teal_300</item>
         <item name="colorControlActivated">@color/edit_text_login_screen</item>
         <item name="colorControlHighlight">@color/edit_text_login_screen</item>
@@ -13,6 +14,7 @@
         <item name="android:textColorHint">@color/chat_screen_color</item>
         <item name="colorControlNormal">@color/edit_text_login_screen</item>
         <item name="android:colorBackground">@color/cardview_light_background</item>
+        -->
     </style>
 
     <style name="Chat_Theme" parent="AppTheme">
