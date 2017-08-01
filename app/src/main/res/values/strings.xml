@@ -137,6 +137,8 @@
     <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
     <string name="pref_rate_title">Rate Susi</string>
     <string name="pref_rate_summary">Rate Our App on Play Store</string>
+    <string name="pref_share_title">Share Susi</string>
+    <string name="pref_share_summary">Share SUSI App with your friends.</string>
 
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>

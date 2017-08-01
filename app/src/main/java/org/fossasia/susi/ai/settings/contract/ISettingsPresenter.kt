@@ -20,4 +20,10 @@ interface ISettingsPresenter {
 
     fun onDetach()
 
+    fun getAnonymity(): Boolean
+
+    fun login()
+
+    fun logout()
+
 }

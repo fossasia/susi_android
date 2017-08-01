@@ -66,4 +66,13 @@
         android:key="rate"
         android:summary="@string/pref_rate_summary" />
 
+    <PreferenceScreen
+        android:title="@string/pref_share_title"
+        android:key="share"
+        android:summary="@string/pref_share_summary" />
+
+    <PreferenceScreen
+        android:title="Login"
+        android:key="login_logout" />
+
 </PreferenceScreen>

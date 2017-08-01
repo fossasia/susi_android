@@ -9,7 +9,5 @@ import android.support.v4.app.FragmentActivity
  */
 
 interface ISettingsView {
-
-    fun showAlert(activity: FragmentActivity)
-
+    fun startLoginActivity()
 }

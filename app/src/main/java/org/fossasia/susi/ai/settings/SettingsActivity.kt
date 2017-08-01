@@ -21,31 +21,12 @@ import org.fossasia.susi.ai.settings.contract.ISettingsView
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsActivity : AppCompatActivity(), ISettingsView {
-
-    var settingsPresenter: ISettingsPresenter? = null
+class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_settings)
-    }
-
-    override fun showAlert(activity: FragmentActivity) {
-        val builder = AlertDialog.Builder(activity)
-        builder.setTitle(Constant.CHANGE_SERVER)
-        builder.setMessage(Constant.SERVER_CHANGE_PROMPT)
-                .setCancelable(false)
-                .setNegativeButton(Constant.CANCEL, null)
-                .setPositiveButton(activity.getString(R.string.ok)) { dialog, _ ->
-                    settingsPresenter?.deleteMsg()
-                    val intent = Intent(activity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    activity.startActivity(intent)
-                    dialog.dismiss()
-                }
-        val alert = builder.create()
-        alert.show()
     }
 
     fun exitActivity() {
@@ -62,9 +43,10 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            android.R.id.home -> { finish()
+            android.R.id.home -> {
+                finish()
                 exitActivity()
-                Log.v("chirag","chirag") }
+            }
         }
         return super.onOptionsItemSelected(item);
     }
