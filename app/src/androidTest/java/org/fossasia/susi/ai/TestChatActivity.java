@@ -84,26 +84,6 @@ public class TestChatActivity {
     }
 
     /**
-     * Test overflow items visibility on overflow icon click
-     */
-    @Test
-    public void test03_OverflowMenuItemsPresenceOnIconClick() {
-        Log.d(TAG,"running test03_OverflowMenuItemsPresenceOnIconClick..");
-
-        // open overflow menu
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-
-        // checks if setting menu item is present
-        onView(withText(R.string.action_settings)).check(matches(isDisplayed()));
-
-        // checks if wallpaper setting menu item is present
-        onView(withText(R.string.action_wall_settings)).check(matches(isDisplayed()));
-
-        // checks if log out/log in setting menu item is present
-        onView(withText(R.string.action_log_out)).check(matches(isDisplayed()));
-    }
-
-    /**
      * Test action bar items visibility on Search click
      */
     @Test

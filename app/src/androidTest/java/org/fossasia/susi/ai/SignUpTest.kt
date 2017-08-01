@@ -54,8 +54,7 @@ class SignUpTest {
         // checks if confirm password button is present
         onView(withId(R.id.confirm_password)).check(matches(isDisplayed()))
 
-        // checks if radio buttons are present
-        onView(withId(R.id.susi_default)).check(matches(isDisplayed()))
+        // checks if checkbox is present
         onView(withId(R.id.personal_server)).check(matches(isDisplayed()))
 
         // checks if sign up button is present
