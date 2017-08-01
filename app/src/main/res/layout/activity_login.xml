@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="@dimen/margin_bottom"
+            android:layout_marginBottom="60dp"
             android:contentDescription="@string/activity_login_imageview_description"
             app:srcCompat="@drawable/ic_susi_blue" />
 
@@ -44,7 +44,6 @@
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/message_layout_margin"
             app:passwordToggleEnabled="true"
             app:errorEnabled="true">
 

@@ -144,16 +144,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                         LinearLayoutManager.HORIZONTAL, false);
                 recyclerView.setLayoutManager(layoutManager);
                 SearchResultsAdapter resultsAdapter;
-                List<Datum> data = new ArrayList<>();
-                int count = model.getCount();
-                if (count == -1) {
-                    resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
-                } else {
-                    for (int i = 0; i < count; i++) {
-                        data.add(model.getDatumRealmList().get(i));
-                    }
-                    resultsAdapter = new SearchResultsAdapter(currContext, data);
-                }
+                resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
                 recyclerView.setAdapter(resultsAdapter);
             } else {
                 recyclerView.setAdapter(null);
