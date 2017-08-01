@@ -78,9 +78,8 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
      *
      * @param model the ChatMessage object
      * @param currContext the Context
-     * @param position the position
      */
-    public void setView(final ChatMessage model, int viewType, final Context currContext, final ChatFeedRecyclerAdapter recyclerAdapter, final int position) {
+    public void setView(final ChatMessage model, int viewType, final Context currContext) {
         Spanned answerText;
         text.setLinksClickable(true);
         text.setMovementMethod(LinkMovementMethod.getInstance());

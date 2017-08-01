@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.util.Patterns;
@@ -274,7 +273,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             pieChartViewHolder.setView(getData().get(position));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext.getApplicationContext(), this, position);
+            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext.getApplicationContext());
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), false, currContext);

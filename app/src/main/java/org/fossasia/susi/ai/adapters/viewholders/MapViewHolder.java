@@ -3,12 +3,10 @@ package org.fossasia.susi.ai.adapters.viewholders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -21,8 +19,6 @@ import org.fossasia.susi.ai.data.model.MapData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
 /**
  * <h1>Map view holder</h1>

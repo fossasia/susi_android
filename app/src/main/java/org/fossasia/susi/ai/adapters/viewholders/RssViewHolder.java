@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.adapters.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -12,6 +11,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
+ *
  * Created by meeera on 17/6/17.
  */
 

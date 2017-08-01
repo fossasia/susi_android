@@ -15,11 +15,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebSearchModel;
 import org.fossasia.susi.ai.rest.clients.WebSearchClient;
 import org.fossasia.susi.ai.rest.responses.others.WebSearch;
-import org.fossasia.susi.ai.rest.responses.susi.Datum;
 import org.fossasia.susi.ai.rest.services.WebSearchService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
