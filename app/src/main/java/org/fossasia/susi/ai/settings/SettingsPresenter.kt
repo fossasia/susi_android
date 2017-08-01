@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.settings
 
-import android.support.v4.app.FragmentActivity
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
@@ -14,18 +13,14 @@ import org.fossasia.susi.ai.settings.contract.ISettingsView
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(fragmentActivity: FragmentActivity): ISettingsPresenter {
+class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter {
 
     var settingView: ISettingsView? = null
-    var utilModel: UtilModel = UtilModel(fragmentActivity)
+    var utilModel: UtilModel = UtilModel(settingsActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
 
-    override fun onAttach(chatSettingsFragment: ChatSettingsFragment) {
-        this.settingView = settingView
-    }
-
-    override fun deleteMsg() {
-        utilModel.deleteAllMessages()
+    override fun onAttach(settingsView: ISettingsView) {
+        this.settingView = settingsView
     }
 
     override fun enableMic(): Boolean {
@@ -40,13 +35,7 @@ class SettingsPresenter(fragmentActivity: FragmentActivity): ISettingsPresenter 
         return utilModel.getAnonymity()
     }
 
-    override fun logout() {
-        utilModel.clearToken()
-        databaseRepository.deleteAllMessages()
-        settingView?.startLoginActivity()
-    }
-
-    override fun login() {
+    override fun loginLogout() {
         utilModel.clearToken()
         utilModel.saveAnonymity(false)
         databaseRepository.deleteAllMessages()

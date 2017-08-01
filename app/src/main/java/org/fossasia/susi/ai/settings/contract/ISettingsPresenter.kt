@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.settings.contract
 
-import org.fossasia.susi.ai.settings.ChatSettingsFragment
-
 /**
  * The interface for Settings Presenter
  *
@@ -10,9 +8,7 @@ import org.fossasia.susi.ai.settings.ChatSettingsFragment
 
 interface ISettingsPresenter {
 
-    fun onAttach(chatSettingsFragment: ChatSettingsFragment)
-
-    fun deleteMsg()
+    fun onAttach(settingsView: ISettingsView)
 
     fun enableMic(): Boolean
 
@@ -22,8 +18,6 @@ interface ISettingsPresenter {
 
     fun getAnonymity(): Boolean
 
-    fun login()
-
-    fun logout()
+    fun loginLogout()
 
 }

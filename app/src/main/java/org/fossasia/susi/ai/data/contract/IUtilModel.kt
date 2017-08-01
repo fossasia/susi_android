@@ -13,7 +13,6 @@ import retrofit2.Response
 interface IUtilModel {
 
     fun saveToken(response: Response<LoginResponse>)
-    fun deleteAllMessages()
     fun saveAnonymity(isAnonymous: Boolean)
     fun getAnonymity(): Boolean
     fun saveEmail(email: String)

@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.settings.contract
 
-import android.support.v4.app.FragmentActivity
-
 /**
  * The interface for Settings view
  *

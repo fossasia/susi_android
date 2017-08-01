@@ -31,12 +31,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     lateinit var loginLogout: Preference
-    lateinit var settingActivity: SettingsActivity
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
 
-        settingsPresenter = SettingsPresenter(activity)
+        settingsPresenter = SettingsPresenter(activity as SettingsActivity)
         settingsPresenter.onAttach(this)
 
         textToSpeech = preferenceManager.findPreference(Constant.LANG_SELECT)
@@ -46,7 +45,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
-        settingActivity = activity as SettingsActivity
 
         if(settingsPresenter.getAnonymity()) {
             loginLogout.title = "Login"
@@ -81,18 +79,18 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
-        rate.setOnPreferenceClickListener {
+        loginLogout.setOnPreferenceClickListener {
             if (!settingsPresenter.getAnonymity()) {
                 val d = AlertDialog.Builder(activity)
                 d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
-                    settingsPresenter.logout()
+                    settingsPresenter.loginLogout()
                 }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
 
                 val alert = d.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
-                settingsPresenter.login()
+                settingsPresenter.loginLogout()
             }
             true
         }
@@ -120,11 +118,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 .setCancelable(false)
                 .setNegativeButton(Constant.CANCEL, null)
                 .setPositiveButton(activity.getString(R.string.ok)) { dialog, _ ->
-                    settingsPresenter.deleteMsg()
-                    val intent = Intent(activity, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    activity.startActivity(intent)
                     dialog.dismiss()
+                    settingsPresenter.loginLogout()
+
                 }
         val alert = builder.create()
         alert.show()
@@ -134,7 +130,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         val intent = Intent(activity, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
-        activity.finish()
     }
 
     fun showToast(message: String) {

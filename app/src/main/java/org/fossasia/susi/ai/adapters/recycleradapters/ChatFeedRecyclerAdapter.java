@@ -274,7 +274,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             pieChartViewHolder.setView(getData().get(position));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext, this, position);
+            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext.getApplicationContext(), this, position);
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), false, currContext);

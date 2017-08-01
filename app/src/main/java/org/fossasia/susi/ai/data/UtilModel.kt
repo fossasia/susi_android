@@ -3,11 +3,9 @@ package org.fossasia.susi.ai.data
 import android.Manifest
 import ai.kitt.snowboy.AppResCopy
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
-import io.realm.Realm
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
@@ -25,13 +23,6 @@ class UtilModel(val context: Context): IUtilModel {
         PrefManager.putString(Constant.ACCESS_TOKEN, response.body().accessToken as String)
         val validity = System.currentTimeMillis() + response.body().validSeconds * 1000
         PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
-    }
-
-    override fun deleteAllMessages() {
-        val realm: Realm = Realm.getDefaultInstance()
-        realm.executeTransaction({ realm ->
-            realm.deleteAll()
-        })
     }
 
     override fun saveAnonymity(isAnonymous: Boolean) {

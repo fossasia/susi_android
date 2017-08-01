@@ -1,18 +1,11 @@
 package org.fossasia.susi.ai.settings
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.login.LoginActivity
 import android.content.Intent
-import android.util.Log
 import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
-import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
-import org.fossasia.susi.ai.settings.contract.ISettingsView
 
 /**
  * <h1>The Settings activity.</h1>
