@@ -696,6 +696,10 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 val alert = d.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
+                val pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE)
+                val nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE)
+                pbutton.setTextColor(resources.getColor(R.color.md_teal_400))
+                nbutton.setTextColor(resources.getColor(R.color.md_teal_400))
                 return true
             }
             R.id.action_login -> {

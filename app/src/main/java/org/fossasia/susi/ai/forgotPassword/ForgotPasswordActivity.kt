@@ -73,13 +73,13 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
             startActivity(intent)
             finish()
         }
-        val successAlertboxHelper = AlertboxHelper(this@ForgotPasswordActivity, title, message, dialogClickListener, null, resources.getString(R.string.Continue), null, Color.BLUE)
+        val successAlertboxHelper = AlertboxHelper(this@ForgotPasswordActivity, title, message, dialogClickListener, null, resources.getString(R.string.Continue), null)
         successAlertboxHelper.showAlertBox()
         reset_button.isEnabled = true
     }
 
     override fun failure(title: String?, message: String?, button: String?, color: Int) {
-        val notSuccessAlertboxHelper = AlertboxHelper(this@ForgotPasswordActivity, title, message, null, null, button, null, color)
+        val notSuccessAlertboxHelper = AlertboxHelper(this@ForgotPasswordActivity, title, message, null, null, button, null)
         notSuccessAlertboxHelper.showAlertBox()
         reset_button.isEnabled = true
     }

@@ -17,13 +17,13 @@
     <style name="SignUp_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorAccent">@color/md_grey_500</item>
+        <item name="colorAccent">@color/md_teal_400</item>
     </style>
 
     <style name="ForgetPass_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="colorAccent">@color/md_grey_500</item>
+        <item name="colorAccent">@color/md_teal_400</item>
     </style>
 
     <style name="PreferencesThemeDark" parent="PreferenceFixTheme">
@@ -42,6 +42,7 @@
     <style name="Login_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="colorAccent">@color/md_teal_400</item>
     </style>
 
     <style name="sendMessageEditTextTheme">

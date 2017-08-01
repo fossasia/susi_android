@@ -87,17 +87,13 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         alertDialog.setNegativeButton((R.string.no), null)
         val alert = alertDialog.create()
         alert.show()
-        val yes = alert.getButton(DialogInterface.BUTTON_POSITIVE)
-        val no = alert.getButton(DialogInterface.BUTTON_NEGATIVE)
-        yes.setTextColor(resources.getColor(R.color.md_blue_500))
-        no.setTextColor(resources.getColor(R.color.md_red_500))
     }
 
     override fun alertSuccess() {
         val dialogClickListener = DialogInterface.OnClickListener { _, _ -> finish() }
         val alertTitle = getString(R.string.signup)
         val alertMessage = getString(R.string.signup_msg)
-        val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, alertTitle, alertMessage, dialogClickListener, null, resources.getString(R.string.ok), null, resources.getColor(R.color.md_blue_500))
+        val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, alertTitle, alertMessage, dialogClickListener, null, resources.getString(R.string.ok), null)
         successAlertboxHelper.showAlertBox()
     }
 
@@ -115,7 +111,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         }
         val alertTitle = getString(R.string.error_email)
         val alertMessage = getString(R.string.error_msg)
-        val failureAlertboxHelper = AlertboxHelper(this@SignUpActivity, alertTitle, alertMessage, dialogClickListener, dialogClickListenern, resources.getString(R.string.ok), resources.getString(R.string.forgot_pass_activity), resources.getColor(R.color.md_blue_500))
+        val failureAlertboxHelper = AlertboxHelper(this@SignUpActivity, alertTitle, alertMessage, dialogClickListener, dialogClickListenern, resources.getString(R.string.ok), resources.getString(R.string.forgot_pass_activity))
         failureAlertboxHelper.showAlertBox()
     }
 
@@ -185,7 +181,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun onSignUpError(title: String?, message: String?) {
-        val notSuccessAlertboxHelper = AlertboxHelper(this@SignUpActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
+        val notSuccessAlertboxHelper = AlertboxHelper(this@SignUpActivity, title, message, null, null, getString(R.string.ok), null)
         notSuccessAlertboxHelper.showAlertBox()
         sign_up.isEnabled = true
     }
