@@ -85,7 +85,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     override fun initiateHotwordDetection() {
         if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
                 chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
-            if ( utilModel.isArmDevice() && utilModel.checkMicInput()) {
+            if ( utilModel.isArmDevice() && utilModel.checkMicInput() ) {
                 utilModel.copyAssetstoSD()
                 chatView?.initHotword()
                 startHotwordDetection()
@@ -104,14 +104,14 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun startHotwordDetection() {
         if (!isDetectionOn && utilModel.getBooleanPref(Constant.HOTWORD_DETECTION, false)) {
-            chatView?.stopRecording()
+            chatView?.startRecording()
             isDetectionOn = true
         }
     }
 
     override fun stopHotwordDetection() {
         if (isDetectionOn) {
-            chatView?.startRecording()
+            chatView?.stopRecording()
             isDetectionOn = false
         }
     }
@@ -301,6 +301,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun onSusiMessageReceivedFailure(t: Throwable) {
         chatView?.hideWaitingDots()
+
+        if(nonDeliveredMessages.isEmpty())
+            return
+
         val id = nonDeliveredMessages.first.second
         val query = nonDeliveredMessages.first.first
         nonDeliveredMessages.pop()
@@ -318,6 +322,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?) {
+
+        if(nonDeliveredMessages.isEmpty())
+            return
+
         val id = nonDeliveredMessages.first.second
         val query = nonDeliveredMessages.first.first
         nonDeliveredMessages.pop()

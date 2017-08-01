@@ -1,9 +1,12 @@
 package org.fossasia.susi.ai.settings
 
+import android.Manifest
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
@@ -124,6 +127,15 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 }
         val alert = builder.create()
         alert.show()
+    }
+
+    override fun micPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun hotWordPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun startLoginActivity() {

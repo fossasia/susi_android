@@ -65,36 +65,6 @@ class UtilModel(val context: Context): IUtilModel {
         return context.getString(id)
     }
 
-    fun setEnableMic(): Boolean {
-        if (ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
-            val voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(context)
-            if (!voiceInputAvailable)
-                PrefManager.putBoolean(Constant.MIC_INPUT, false)
-            return voiceInputAvailable
-        } else {
-            PrefManager.putBoolean(Constant.MIC_INPUT, false)
-            return false
-        }
-    }
-
-    fun setEnableHotword(): Boolean {
-        if (ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            val voiceInputAvailable = MediaUtil.isAvailableForVoiceInput(context)
-            if (!voiceInputAvailable || !Build.CPU_ABI.contains("arm") || Build.FINGERPRINT.contains("generic")) {
-                PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
-                return false
-            } else {
-                return true
-            }
-        } else {
-            PrefManager.putBoolean(Constant.HOTWORD_DETECTION, false)
-            return false
-        }
-    }
-
     override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
         return PrefManager.getBoolean(prefName, defaultValue);
     }

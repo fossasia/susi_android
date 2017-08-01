@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import org.fossasia.susi.ai.MainApplication;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
@@ -267,13 +268,13 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             chatViewHolder.setView(getData().get(position), getItemViewType(position));
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
-            mapViewHolder.setView(getData().get(position), currContext);
+            mapViewHolder.setView(getData().get(position), currContext.getApplicationContext());
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
             pieChartViewHolder.setView(getData().get(position));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext.getApplicationContext());
+            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), MainApplication.getInstance().getApplicationContext());
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), false, currContext);

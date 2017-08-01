@@ -8,4 +8,6 @@ package org.fossasia.susi.ai.settings.contract
 
 interface ISettingsView {
     fun startLoginActivity()
+    fun micPermission(): Boolean
+    fun hotWordPermission(): Boolean
 }

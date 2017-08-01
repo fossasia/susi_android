@@ -83,7 +83,7 @@
                     android:layout_height="@dimen/preview_layout_height"
                     android:layout_marginTop="@dimen/message_layout_margin"
                     android:layout_weight="0.8"
-                    android:layout_marginRight="1dp"
+                    android:layout_margin="1dp"
                     android:background="@color/susi_message_link_preview_bg"
                     android:orientation="vertical">
 

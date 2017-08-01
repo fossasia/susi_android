@@ -66,7 +66,7 @@ class LoginViewTest {
         onView(withId(R.id.forgot_password)).check(matches(isDisplayed()))
 
         // checks if checkbox is present
-        onView(withId(R.id.personal_server)).check(matches(isDisplayed()))
+        onView(withId(R.id.customer_server)).check(matches(isDisplayed()))
 
         // checks if sign up button is present
         onView(withId(R.id.sign_up)).perform(scrollTo())
@@ -90,36 +90,6 @@ class LoginViewTest {
         onView(withId(R.id.log_in)).perform(click())
 
         Thread.sleep(6000)
-    }
-
-    @Test
-    @Throws(InterruptedException::class)
-    fun testSkip() {
-        Log.d(TAG, "running skip login test")
-
-        onView(withId(R.id.skip)).perform(scrollTo())
-        onView(withId(R.id.skip)).perform(click())
-        Thread.sleep(3000)
-    }
-
-    @Test
-    @Throws(InterruptedException::class)
-    fun testSignUp() {
-        Log.d(TAG, "running signUp test")
-
-        onView(withId(R.id.sign_up)).perform(scrollTo())
-        onView(withId(R.id.sign_up)).perform(click())
-        Thread.sleep(3000)
-    }
-
-    @Test
-    @Throws(InterruptedException::class)
-    fun testForgetPass() {
-        Log.d(TAG, "running signUp test")
-
-        onView(withId(R.id.forgot_password)).perform(click())
-        Espresso.pressBack()
-        Thread.sleep(3000)
     }
 
     companion object {
