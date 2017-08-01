@@ -514,14 +514,16 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         )
 
-        chatPresenter.checkPreferences()
-
         if (recordingThread != null)
             chatPresenter.startHotwordDetection()
 
         if (et_message.text.toString().isNotEmpty()) {
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
+            et_message.setText("")
+            chatPresenter.micCheck(false)
         }
+
+        chatPresenter.checkPreferences()
     }
 
     override fun onPause() {

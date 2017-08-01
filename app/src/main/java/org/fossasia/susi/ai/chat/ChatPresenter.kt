@@ -77,6 +77,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         return micCheck
     }
 
+    override fun micCheck(boolean: Boolean) {
+        micCheck = boolean
+    }
+
     override fun check(boolean: Boolean) {
         check = boolean
     }

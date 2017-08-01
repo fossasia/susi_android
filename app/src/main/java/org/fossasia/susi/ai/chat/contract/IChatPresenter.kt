@@ -16,6 +16,7 @@ interface IChatPresenter {
     //Preferences and permissions
     fun checkPreferences()
     fun check(boolean: Boolean)
+    fun micCheck(boolean: Boolean)
     fun micCheck(): Boolean
 
     //Getting user location
