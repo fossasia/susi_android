@@ -481,6 +481,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     fun openSettings(view: View) {
         val i = Intent(this, SettingsActivity::class.java)
         startActivity(i)
+        finish()
     }
 
     override fun showRetrieveOldMessageProgress() {
@@ -540,6 +541,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         super.onDestroy()
         rv_chat_feed.clearOnScrollListeners()
 
+        textToSpeech.setOnUtteranceProgressListener(null)
         textToSpeech.shutdown()
         chatPresenter.onDetach()
     }

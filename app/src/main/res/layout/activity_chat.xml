@@ -19,8 +19,6 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/send_message_layout"
             android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/margin_very_small"
-            android:layout_marginTop="@dimen/margin_very_small"
             android:scrollbars="vertical" />
 
         <android.support.design.widget.FloatingActionButton

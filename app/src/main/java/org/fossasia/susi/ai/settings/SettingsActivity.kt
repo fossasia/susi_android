@@ -6,9 +6,10 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import android.content.Intent
+import android.util.Log
+import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
@@ -26,7 +27,7 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out);
+        overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_settings)
     }
 
@@ -47,11 +48,24 @@ class SettingsActivity : AppCompatActivity(), ISettingsView {
         alert.show()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out);
+    fun exitActivity() {
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(this@SettingsActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        exitActivity()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> { finish()
+                exitActivity()
+                Log.v("chirag","chirag") }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

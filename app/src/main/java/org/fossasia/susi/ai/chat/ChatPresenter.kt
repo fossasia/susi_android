@@ -111,7 +111,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun stopHotwordDetection() {
         if (isDetectionOn) {
-            chatView?.stopRecording()
+            chatView?.startRecording()
             isDetectionOn = false
         }
     }

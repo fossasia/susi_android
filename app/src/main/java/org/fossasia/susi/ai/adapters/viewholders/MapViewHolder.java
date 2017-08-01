@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.adapters.viewholders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,8 @@ import org.fossasia.susi.ai.data.model.MapData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+
 /**
  * <h1>Map view holder</h1>
  *
@@ -29,7 +32,7 @@ import butterknife.ButterKnife;
 public class MapViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.map_image)
-    public ImageView mapImage;
+    protected ImageView mapImage;
 
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
 
@@ -50,6 +53,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
      * @param currContext the Context
      */
     public void setView(final ChatMessage model, final Context currContext) {
+
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(), model.getLongitude(), model.getZoom()));
