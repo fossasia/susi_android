@@ -130,6 +130,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         val intent = Intent(activity, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
+        activity.finish()
     }
 
     fun showToast(message: String) {
