@@ -183,6 +183,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     databaseRepository.updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate),
                             DateTimeHelper.getTime(queryDate), true, "", null, isHavingLink, null, "", 0, this)
 
+                    if(allMessages[i].answers.isEmpty()) {
+                        databaseRepository.updateDatabase(c, utilModel.getString(R.string.error_internet_connectivity),
+                                false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
+                                Constant.ANSWER, null, false, null, "", -1, this)
+                        continue
+                    }
+
                     val actionSize = allMessages[i].answers[0].actions.size
 
                     for (j in 0..actionSize - 1) {
