@@ -344,6 +344,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         if (response != null && response.isSuccessful && response.body() != null) {
             val susiResponse = response.body()
 
+            if(response.body().answers.isEmpty()) {
+                databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
+                        false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
+                        Constant.ANSWER, null, false, null, "", -1, this)
+                return
+            }
+
             val actionSize = response.body().answers[0].actions.size
             val date = response.body().answerDate
 
