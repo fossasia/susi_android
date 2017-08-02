@@ -27,20 +27,20 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
 
     override fun onAttach(loginView: ILoginView) {
         this.loginView = loginView
+    }
 
+    override fun onStart() {
         if (utilModel.getAnonymity()) {
-            loginView.skipLogin()
+            loginView?.skipLogin()
             return
         }
 
         if(utilModel.isLoggedIn()) {
-            loginView.skipLogin()
+            loginView?.skipLogin()
             return
         }
-
-        loginView.attachEmails(utilModel.getSavedEmails())
+        loginView?.attachEmails(utilModel.getSavedEmails())
     }
-
     override fun skipLogin() {
         utilModel.clearToken()
         utilModel.saveAnonymity(true)

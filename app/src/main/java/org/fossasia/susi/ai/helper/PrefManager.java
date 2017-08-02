@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
+import org.fossasia.susi.ai.ContextProvider;
 import org.fossasia.susi.ai.MainApplication;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
@@ -25,8 +26,7 @@ public class PrefManager {
     private static Gson gson = new Gson();
 
     private static SharedPreferences getPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(MainApplication.getInstance()
-                .getApplicationContext());
+        return ContextProvider.context.getSharedPreferences("susi_pref", Context.MODE_PRIVATE);
     }
 
     /**

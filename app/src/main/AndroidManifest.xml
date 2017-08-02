@@ -19,6 +19,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <provider
+            android:name=".ContextProvider"
+            android:authorities="${applicationId}.org.fossasia.susi.ai"
+            android:exported="false"/>
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/settings_title"
