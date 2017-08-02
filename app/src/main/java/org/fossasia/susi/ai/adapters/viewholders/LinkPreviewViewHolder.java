@@ -143,7 +143,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
                                 link.setImageURL("");
                             } else {
                                 previewImageView.setVisibility(View.VISIBLE);
-                                Picasso.with(currContext).load(imageList.get(0))
+                                Picasso.with(currContext.getApplicationContext()).load(imageList.get(0))
                                         .fit().centerCrop()
                                         .into(previewImageView);
                                 link.setImageURL(imageList.get(0));
@@ -192,7 +192,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
 
             Log.i(TAG, model.getWebLinkData().getImageURL());
             if (!model.getWebLinkData().getImageURL().equals("")) {
-                Picasso.with(currContext).load(model.getWebLinkData().getImageURL())
+                Picasso.with(currContext.getApplicationContext()).load(model.getWebLinkData().getImageURL())
                         .fit().centerCrop()
                         .into(previewImageView);
             } else {
@@ -201,22 +201,6 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
 
             url = model.getWebLinkData().getUrl();
         }
-
-        previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                //TODO : Add Dialog to display options here
-                return true;
-            }
-        });
-
-        text.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                //TODO : Add Dialog to display options here
-                return true;
-            }
-        });
 
         previewLayout.setOnClickListener(new View.OnClickListener() {
             @Override

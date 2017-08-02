@@ -55,7 +55,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(), model.getLongitude(), model.getZoom()));
                 Log.v(TAG, mapHelper.getMapURL());
 
-                Picasso.with(currContext).load(mapHelper.getMapURL())
+                Picasso.with(currContext.getApplicationContext()).load(mapHelper.getMapURL())
                         .into(mapImage, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {

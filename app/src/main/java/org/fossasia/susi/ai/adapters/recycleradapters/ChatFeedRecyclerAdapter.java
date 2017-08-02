@@ -268,13 +268,14 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             chatViewHolder.setView(getData().get(position), getItemViewType(position));
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
-            mapViewHolder.setView(getData().get(position), currContext.getApplicationContext());
+            mapViewHolder.setView(getData().get(position), currContext);
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
             pieChartViewHolder.setView(getData().get(position));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), MainApplication.getInstance().getApplicationContext());
+            setOnLinkLongClickListener(position, linkPreviewViewHolder);
+            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext);
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), false, currContext);
@@ -285,6 +286,25 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
             dateViewHolder.textDate.setText(getData().get(position).getDate());
         }
+    }
+
+    private void setOnLinkLongClickListener(final int position, LinkPreviewViewHolder viewHolder) {
+
+        viewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClicked(position);
+                return true;
+            }
+        });
+
+        viewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClicked(position);
+                return true;
+            }
+        });
     }
 
     /**
