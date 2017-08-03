@@ -30,7 +30,6 @@ import java.util.List;
 public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
     public static final String TAG = SearchResultsAdapter.class.getSimpleName();
     private LayoutInflater inflater;
-    private Context context;
     private List<Datum> datumList;
 
     /**
@@ -40,7 +39,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
      * @param datumList the datum list
      */
     public SearchResultsAdapter(Context context, List<Datum> datumList) {
-        this.context = context;
         this.datumList = datumList;
         inflater = LayoutInflater.from(context);
     }
@@ -54,65 +52,13 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
     public void onBindViewHolder(final RssViewHolder holder, int position) {
         Datum datum = datumList.get(position);
         if (datum != null) {
-            if( datum.getTitle() == null || datum.getTitle().isEmpty()) {
-                holder.titleTextView.setVisibility(View.GONE);
-            } else {
-                holder.titleTextView.setVisibility(View.VISIBLE);
+            if( datum.getTitle() != null && !datum.getTitle().isEmpty()) {
                 holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
             }
-            if(datum.getDescription() == null || datum.getDescription().isEmpty()) {
-                holder.descriptionTextView.setVisibility(View.GONE);
-            } else {
-                holder.descriptionTextView.setVisibility(View.VISIBLE);
+            if(datum.getDescription() != null && !datum.getDescription().isEmpty()) {
                 holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
             }
             holder.linkTextView.setText(datum.getLink());
-            if (!TextUtils.isEmpty(datum.getLink())) {
-                LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
-                    @Override
-                    public void onPre() {
-                        holder.linkPreviewImageView.setVisibility(View.GONE);
-                        holder.linkDescriptionTextView.setVisibility(View.GONE);
-                        holder.linkTitleTextView.setVisibility(View.GONE);
-                        holder.linkPreviewLayout.setVisibility(View.GONE);
-                    }
-
-                    @Override
-                    public void onPos(final SourceContent sourceContent, boolean b) {
-                        holder.linkPreviewImageView.setVisibility(View.VISIBLE);
-                        holder.linkDescriptionTextView.setVisibility(View.VISIBLE);
-                        holder.linkTitleTextView.setVisibility(View.VISIBLE);
-                        holder.linkPreviewLayout.setVisibility(View.VISIBLE);
-                        holder.linkTitleTextView.setText(sourceContent.getTitle());
-                        holder.linkDescriptionTextView.setText(sourceContent.getDescription());
-                        final List<String> imageList = sourceContent.getImages();
-                        if (imageList == null || imageList.size() == 0) {
-                            holder.linkPreviewImageView.setVisibility(View.GONE);
-                        } else {
-                            Picasso.with(context).load(imageList.get(0))
-                                    .fit().centerCrop()
-                                    .into(holder.linkPreviewImageView);
-                        }
-
-                        holder.parentLayout.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Uri webpage = Uri.parse(sourceContent.getFinalUrl());
-                                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                                if (intent.resolveActivity(context.getPackageManager()) != null) {
-                                    context.startActivity(intent);
-                                }
-                            }
-                        });
-
-                    }
-                };
-                TextCrawler textCrawler = new TextCrawler();
-                textCrawler.makePreview(linkPreviewCallback, datum.getLink());
-            }
-        } else {
-            holder.titleTextView.setText(null);
-            holder.descriptionTextView.setText(null);
         }
     }
 

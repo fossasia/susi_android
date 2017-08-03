@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/default_bg"
     android:orientation="horizontal">
 
     <ImageView
@@ -14,9 +14,9 @@
         android:adjustViewBounds="true"
         android:padding="@dimen/padding_img"
         android:layout_gravity="center"
-        android:background="@color/colorPrimary"
+        android:background="@color/default_bg"
         android:contentDescription="@string/activity_login_imageview_description"
-        app:srcCompat="@drawable/ic_susi_white" />
+        app:srcCompat="@drawable/ic_susi_blue" />
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight=".5"
-            android:background="@color/colorPrimary"
+            android:background="@color/default_bg"
             android:orientation="vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
@@ -39,8 +39,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textColorHighlight="@color/md_white_1000"
-                android:textColorHint="@color/md_white_1000"
                 app:errorEnabled="true">
 
                 <AutoCompleteTextView
@@ -48,9 +46,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:id="@+id/email_input"
-                    android:inputType="textEmailAddress"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textColorHint="@color/edit_text_login_screen" />
+                    android:inputType="textEmailAddress"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -58,8 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:errorEnabled="true"
-                android:textColorHighlight="@color/md_white_1000"
-                android:textColorHint="@color/md_white_1000"
                 app:passwordToggleEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
@@ -68,59 +62,37 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:imeOptions="actionGo"
-                    android:inputType="textPassword"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textColorHint="@color/edit_text_login_screen" />
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
-            <RadioGroup
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/customer_server"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <RadioButton
-                    android:id="@+id/susi_default"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:checked="true"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:text="Susi AI Standard Server" />
-
-                <RadioButton
-                    android:id="@+id/personal_server"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:text="Personal Server" />
-            </RadioGroup>
+                android:layout_height="wrap_content"
+                android:text="Customer Server"
+                android:layout_marginBottom="5dp"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                android:textColorHighlight="@color/md_white_1000"
-                android:textColorHint="@color/md_white_1000"
                 app:errorEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter URL"
-                    android:inputType="textUri"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textColorHint="@color/edit_text_login_screen" />
+                    android:inputType="textUri" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/log_in"
-                android:layout_width="130dp"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/rounded_button"
-                android:text="@string/activity_login_log_in"
-                android:textColor="@color/colorPrimary" />
-
+                android:text="@string/activity_login_log_in" />
 
             <TextView
                 android:id="@+id/forgot_password"
@@ -130,7 +102,6 @@
                 android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
                 android:text="@string/activity_login_forgot_pass"
-                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:paddingLeft="48dp"
@@ -144,7 +115,6 @@
                 android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
                 android:text="@string/activity_login_skip"
-                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:typeface="monospace" />
@@ -159,7 +129,6 @@
                 android:background="?selectableItemBackground"
                 android:gravity="center"
                 android:text="@string/activity_login_sign_up"
-                android:textColor="?android:attr/textColorPrimary"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

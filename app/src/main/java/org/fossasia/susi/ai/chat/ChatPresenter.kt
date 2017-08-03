@@ -47,8 +47,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var source = Constant.IP
     var isDetectionOn = false
     var check = false
-    var offset = 1
-    var isEnabled = true
     var atHome = true
     var backPressedOnce = false
 
@@ -57,8 +55,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun setUp() {
-        //set theme
-        chatView?.setTheme(PrefManager.getString(Constant.THEME, Constant.LIGHT) == Constant.DARK)
 
         //find total number of messages and find new message index
         newMessageIndex = databaseRepository.getMessageCount() + 1
@@ -77,52 +73,23 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         chatView?.checkEnterKeyPref(utilModel.getBooleanPref(Constant.ENTER_SEND, false))
     }
 
-    override fun onMenuCreated() {
-        chatView?.enableLoginInMenu(utilModel.getAnonymity())
-    }
-
     override fun micCheck(): Boolean {
         return micCheck
+    }
+
+    override fun micCheck(boolean: Boolean) {
+        micCheck = boolean
     }
 
     override fun check(boolean: Boolean) {
         check = boolean
     }
 
-    //Change Background Methods
-    override fun setUpBackground() {
-        val previouslyChatImage = PrefManager.getString(Constant.IMAGE_DATA, "")
-        if (previouslyChatImage.equals(utilModel.getString(R.string.background_no_wall), ignoreCase = true)) {
-            chatView?.setChatBackground(null)
-        } else if (!previouslyChatImage.equals("", ignoreCase = true)) {
-           chatView?.setChatBackground(utilModel.decodeImage(previouslyChatImage))
-        } else {
-            chatView?.setChatBackground(null)
-        }
-    }
-
-    override fun openSelectBackgroundDialog(which: Int) {
-        when (which) {
-            0 -> {
-                chatView?.openImagePickerActivity()
-            }
-            1 -> {
-                PrefManager.putString(Constant.IMAGE_DATA, utilModel.getString(R.string.background_no_wall))
-                setUpBackground()
-            }
-        }
-    }
-
-    override fun cropPicture(encodedImage: String) {
-        PrefManager.putString(Constant.IMAGE_DATA, encodedImage)
-        setUpBackground()
-    }
-
     //initiates hotword detection
     override fun initiateHotwordDetection() {
         if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
                 chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
-            if ( utilModel.isArmDevice() && utilModel.checkMicInput()) {
+            if ( utilModel.isArmDevice() && utilModel.checkMicInput() ) {
                 utilModel.copyAssetstoSD()
                 chatView?.initHotword()
                 startHotwordDetection()
@@ -141,7 +108,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun startHotwordDetection() {
         if (!isDetectionOn && utilModel.getBooleanPref(Constant.HOTWORD_DETECTION, false)) {
-            chatView?.stopRecording()
+            chatView?.startRecording()
             isDetectionOn = true
         }
     }
@@ -215,6 +182,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     c = newMessageIndex
                     databaseRepository.updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate),
                             DateTimeHelper.getTime(queryDate), true, "", null, isHavingLink, null, "", 0, this)
+
+                    if(allMessages[i].answers.isEmpty()) {
+                        databaseRepository.updateDatabase(c, utilModel.getString(R.string.error_internet_connectivity),
+                                false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
+                                Constant.ANSWER, null, false, null, "", -1, this)
+                        continue
+                    }
 
                     val actionSize = allMessages[i].answers[0].actions.size
 
@@ -338,6 +312,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun onSusiMessageReceivedFailure(t: Throwable) {
         chatView?.hideWaitingDots()
+
+        if(nonDeliveredMessages.isEmpty())
+            return
+
         val id = nonDeliveredMessages.first.second
         val query = nonDeliveredMessages.first.first
         nonDeliveredMessages.pop()
@@ -355,12 +333,23 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?) {
+
+        if(nonDeliveredMessages.isEmpty())
+            return
+
         val id = nonDeliveredMessages.first.second
         val query = nonDeliveredMessages.first.first
         nonDeliveredMessages.pop()
 
         if (response != null && response.isSuccessful && response.body() != null) {
             val susiResponse = response.body()
+
+            if(response.body().answers.isEmpty()) {
+                databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
+                        false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
+                        Constant.ANSWER, null, false, null, "", -1, this)
+                return
+            }
 
             val actionSize = response.body().answers[0].actions.size
             val date = response.body().answerDate
@@ -405,50 +394,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         chatView?.databaseUpdated()
     }
 
-    //Search methods. Used when search is enabled
-    override fun startSearch() {
-        chatView?.displaySearchElements(true)
-        isEnabled = false
-    }
-
-    override fun stopSearch() {
-        chatView?.modifyMenu(false)
-        offset = 1
-        chatView?.displaySearchElements(false)
-    }
-
-    override fun onSearchQuerySearched(query: String) {
-        chatView?.displaySearchElements(true)
-        results = databaseRepository.getSearchResults(query)
-        offset = 1
-        if (results.size > 0) {
-            chatView?.modifyMenu(true)
-            chatView?.searchMovement(results[results.size - offset].id.toInt())
-        } else {
-            chatView?.showToast(utilModel.getString(R.string.not_found))
-        }
-    }
-
-    override fun searchUP() {
-        offset++
-        if (results.size - offset > -1) {
-            chatView?.searchMovement(results[results.size - offset].id.toInt())
-        } else {
-            chatView?.showToast(utilModel.getString(R.string.nothing_up_matches_your_query))
-            offset--
-        }
-    }
-
-    override fun searchDown() {
-        offset--
-        if (results.size - offset < results.size) {
-            chatView?.searchMovement(results[results.size - offset].id.toInt())
-        } else {
-            chatView?.showToast(utilModel.getString(R.string.nothing_down_matches_your_query))
-            offset++
-        }
-    }
-
     //Asks for permissions from user
     fun getPermissions() {
         val permissionsRequired = utilModel.permissionsToGet()
@@ -470,19 +415,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         if(!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
         }
-    }
-
-    override fun logout() {
-        utilModel.clearToken()
-        databaseRepository.deleteAllMessages()
-        chatView?.startLoginActivity()
-    }
-
-    override fun login() {
-        utilModel.clearToken()
-        utilModel.saveAnonymity(false)
-        databaseRepository.deleteAllMessages()
-        chatView?.startLoginActivity()
     }
 
     override fun exitChatActivity() {

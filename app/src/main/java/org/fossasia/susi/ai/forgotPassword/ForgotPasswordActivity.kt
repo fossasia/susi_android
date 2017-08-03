@@ -50,7 +50,6 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         progressDialog.setMessage(getString(R.string.login))
 
         showUrl()
-        hideUrl()
         cancelRequestPassword()
         requestPassword()
 
@@ -85,14 +84,8 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     }
 
     fun showUrl() {
-        personal_server.setOnClickListener {
-            input_url.visibility = View.VISIBLE
-        }
-    }
-
-    fun hideUrl() {
-        susi_default.setOnClickListener {
-            input_url.visibility = View.GONE
+        customer_server.setOnClickListener {
+            input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE
         }
     }
 
@@ -105,7 +98,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     fun requestPassword() {
         reset_button.setOnClickListener {
             val email = forgot_email.editText?.text.toString()
-            val isPersonalServerChecked = personal_server.isChecked
+            val isPersonalServerChecked = customer_server.isChecked
             val url = input_url.editText?.text.toString()
             forgot_email.error = null
             input_url.error = null
@@ -137,7 +130,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(forgot_email.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, personal_server.isChecked)
+        outState.putBoolean(Constant.SERVER, customer_server.isChecked)
     }
 
     override fun onDestroy() {

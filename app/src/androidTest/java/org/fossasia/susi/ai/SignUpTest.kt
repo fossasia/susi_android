@@ -54,9 +54,8 @@ class SignUpTest {
         // checks if confirm password button is present
         onView(withId(R.id.confirm_password)).check(matches(isDisplayed()))
 
-        // checks if radio buttons are present
-        onView(withId(R.id.susi_default)).check(matches(isDisplayed()))
-        onView(withId(R.id.personal_server)).check(matches(isDisplayed()))
+        // checks if checkbox is present
+        onView(withId(R.id.customer_server)).check(matches(isDisplayed()))
 
         // checks if sign up button is present
         onView(withId(R.id.sign_up)).perform(ViewActions.scrollTo())
@@ -93,7 +92,7 @@ class SignUpTest {
         val conpassInput = (mActivityRule.activity.findViewById(R.id.confirm_password) as TextInputLayout).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { conpassInput!!.setText("abcdef") }
 
-        onView(withId(R.id.personal_server)).perform(ViewActions.click())
+        onView(withId(R.id.customer_server)).perform(ViewActions.click())
 
         val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }

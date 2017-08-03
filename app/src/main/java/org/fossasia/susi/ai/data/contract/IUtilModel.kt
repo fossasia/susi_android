@@ -13,7 +13,6 @@ import retrofit2.Response
 interface IUtilModel {
 
     fun saveToken(response: Response<LoginResponse>)
-    fun deleteAllMessages()
     fun saveAnonymity(isAnonymous: Boolean)
     fun getAnonymity(): Boolean
     fun saveEmail(email: String)
@@ -27,7 +26,6 @@ interface IUtilModel {
     fun putBooleanPref(prefName: String, value: Boolean)
     fun checkMicInput(): Boolean
     fun copyAssetstoSD()
-    fun decodeImage(previouslyChatImage: String): Drawable
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
 }

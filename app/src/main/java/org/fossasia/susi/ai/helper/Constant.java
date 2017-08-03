@@ -19,10 +19,8 @@ public class Constant {
     public static final String SPEECH_OUTPUT = "Speech_output";
     public static final String SPEECH_ALWAYS = "Speech_always";
     public static final String HOTWORD_DETECTION = "hotword_detection";
-
-    public static final String THEME = "theme";
-    public static final String DARK = "Dark";
-    public static final String LIGHT = "Light";
+    public static final String SHARE = "share";
+    public static final String LOGIN_LOGOUT = "login_logout";
 
     public static final String SAVED_EMAIL="saved_email";
 

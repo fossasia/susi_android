@@ -15,11 +15,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebSearchModel;
 import org.fossasia.susi.ai.rest.clients.WebSearchClient;
 import org.fossasia.susi.ai.rest.responses.others.WebSearch;
-import org.fossasia.susi.ai.rest.responses.susi.Datum;
 import org.fossasia.susi.ai.rest.services.WebSearchService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,16 +140,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                         LinearLayoutManager.HORIZONTAL, false);
                 recyclerView.setLayoutManager(layoutManager);
                 SearchResultsAdapter resultsAdapter;
-                List<Datum> data = new ArrayList<>();
-                int count = model.getCount();
-                if (count == -1) {
-                    resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
-                } else {
-                    for (int i = 0; i < count; i++) {
-                        data.add(model.getDatumRealmList().get(i));
-                    }
-                    resultsAdapter = new SearchResultsAdapter(currContext, data);
-                }
+                resultsAdapter = new SearchResultsAdapter(currContext, model.getDatumRealmList());
                 recyclerView.setAdapter(resultsAdapter);
             } else {
                 recyclerView.setAdapter(null);

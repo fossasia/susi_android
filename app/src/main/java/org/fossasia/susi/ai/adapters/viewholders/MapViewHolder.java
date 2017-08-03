@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.squareup.picasso.Picasso;
 
@@ -29,7 +28,7 @@ import butterknife.ButterKnife;
 public class MapViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.map_image)
-    public ImageView mapImage;
+    protected ImageView mapImage;
 
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
 
@@ -49,13 +48,14 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
      * @param model the ChatMessage object
      * @param currContext the Context
      */
-    public void setView(final ChatMessage model, final Context currContext, final ChatFeedRecyclerAdapter recyclerAdapter, final int position) {
+    public void setView(final ChatMessage model, final Context currContext) {
+
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(), model.getLongitude(), model.getZoom()));
                 Log.v(TAG, mapHelper.getMapURL());
 
-                Picasso.with(currContext).load(mapHelper.getMapURL())
+                Picasso.with(currContext.getApplicationContext()).load(mapHelper.getMapURL())
                         .into(mapImage, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {

@@ -39,15 +39,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/settings_theme">
-        <ListPreference
-            android:key="@string/theme_setting_key"
-            android:title="@string/theme"
-            android:entries="@array/listentries"
-            android:entryValues="@array/listentries" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:title="@string/settings_speech">
         <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
             android:id="@+id/speech_pref"
@@ -55,24 +46,39 @@
             android:key="@string/settings_speechPreference_key"
             android:summary="@string/settings_speechPreference_summary"
             android:title="@string/settings_speechPreference_label" />
+
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/speech_always"
+            android:defaultValue="false"
+            android:key="@string/settings_speechAlways_key"
+            android:summary="@string/settings_speechAlwaysPreference_summary"
+            android:title="@string/settings_speechAlways_label" />
+
+        <PreferenceScreen
+            android:title="@string/Language"
+            android:key="Lang_Select"
+            android:summary="@string/action_select_language">
+        </PreferenceScreen>
     </PreferenceCategory>
 
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/speech_always"
-        android:defaultValue="false"
-        android:key="@string/settings_speechAlways_key"
-        android:summary="@string/settings_speechAlwaysPreference_summary"
-        android:title="@string/settings_speechAlways_label" />
+    <PreferenceCategory
+        android:title="@string/settings_misc">
 
-    <PreferenceScreen
-        android:title="@string/Language"
-        android:key="Lang_Select"
-        android:summary="@string/action_select_language">
-    </PreferenceScreen>
+        <PreferenceScreen
+            android:title="@string/pref_rate_title"
+            android:key="rate"
+            android:summary="@string/pref_rate_summary" />
 
-    <PreferenceScreen
-        android:title="@string/pref_rate_title"
-        android:key="rate"
-        android:summary="@string/pref_rate_summary" />
+        <PreferenceScreen
+            android:title="@string/pref_share_title"
+            android:key="share"
+            android:summary="@string/pref_share_summary" />
+
+        <PreferenceScreen
+            android:title="Login"
+            android:key="login_logout" />
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>

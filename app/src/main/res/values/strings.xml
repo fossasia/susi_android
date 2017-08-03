@@ -65,11 +65,6 @@
     <string name="tap_on_mic">Tap on mic to speak</string>
     <string name="know_more">Know more</string>
 
-    <string name="settings_theme">Theme Settings</string>
-    <string name="theme_setting_key">Theme_key</string>
-    <string name="theme">Select Theme</string>
-    <string name="selection_theme">Dark Theme</string>
-
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action!</string>
     <string name="error_occurred_try_again">An error occurred. please try again!</string>
@@ -109,6 +104,7 @@
     <string name="unknown_answer">I don\'t know.</string>
     <string name="settings_mic">Mic Settings</string>
     <string name="settings_speech">Speech Settings</string>
+    <string name="settings_misc">Miscellaneous</string>
     <string name="Language">Language</string>
     <string name="action_select_language">Select a Language</string>
 
@@ -133,7 +129,7 @@
     <string name="no">No</string>
 
     <string name="email_id_input">Enter your Email ID</string>
-    <string name="reset">Reset</string>
+    <string name="reset">Reset Password</string>
     <string name="reset_pass_activity">Reset Password</string>
     <string name="error_password_matching">Passwords do not match</string>
     <string name="pass_change_dialog">Changing your Password. Please Wait</string>
@@ -141,7 +137,9 @@
     <string name="email_pass_not_exists">Email doesn\'t Exists. Please make sure you have entered your email correctly.</string>
     <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
     <string name="pref_rate_title">Rate Susi</string>
-    <string name="pref_rate_summary">Rate Our App on Play Store</string>
+    <string name="pref_rate_summary">Rate SUSI App on Play Store</string>
+    <string name="pref_share_title">Share SUSI</string>
+    <string name="pref_share_summary">Share SUSI App with your friends.</string>
 
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>

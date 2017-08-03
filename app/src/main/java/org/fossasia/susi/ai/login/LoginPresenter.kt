@@ -4,6 +4,8 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.contract.ILoginModel
 import org.fossasia.susi.ai.data.LoginModel
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.db.DatabaseRepository
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
@@ -22,6 +24,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
 
     var loginModel: LoginModel = LoginModel()
     var utilModel: UtilModel = UtilModel(loginActivity)
+    var databaseRepository: IDatabaseRepository = DatabaseRepository()
     var loginView: ILoginView?= null
     lateinit var email: String
 
@@ -112,7 +115,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         if (response.isSuccessful && response.body() != null) {
 
             utilModel.saveToken(response)
-            utilModel.deleteAllMessages()
+            databaseRepository.deleteAllMessages()
             utilModel.saveEmail(email)
             utilModel.saveAnonymity(false)
 

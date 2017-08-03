@@ -1,16 +1,21 @@
 package org.fossasia.susi.ai.settings
 
+import android.Manifest
 import android.content.ComponentName
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.support.v7.preference.ListPreference
+import android.support.v4.app.ActivityCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.widget.Toast
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.settings.contract.ISettingsView
 
 /**
  * The Fragment for Settings Activity
@@ -18,78 +23,134 @@ import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
  * Created by mayanktripathi on 10/07/17.
  */
 
-class ChatSettingsFragment : PreferenceFragmentCompat() {
+class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
-    var settingsPresenter: ISettingsPresenter? = null
+    lateinit var settingsPresenter: ISettingsPresenter
 
-    var textToSpeech: Preference? = null
-    var rate: Preference? = null
-    var server: Preference? = null
-    var micSettings: Preference? = null
-    var theme: ListPreference? = null
-    var hotwordSettings: Preference? = null
-    var settingActivity: SettingsActivity? = null
-    var utilModel: UtilModel?= null
+    lateinit var textToSpeech: Preference
+    lateinit var rate: Preference
+    lateinit var server: Preference
+    lateinit var micSettings: Preference
+    lateinit var hotwordSettings: Preference
+    lateinit var share: Preference
+    lateinit var loginLogout: Preference
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
 
-        settingsPresenter = SettingsPresenter(activity)
-        utilModel = UtilModel(activity)
-        (settingsPresenter as SettingsPresenter).onAttach(this)
+        settingsPresenter = SettingsPresenter(activity as SettingsActivity)
+        settingsPresenter.onAttach(this)
 
         textToSpeech = preferenceManager.findPreference(Constant.LANG_SELECT)
         rate = preferenceManager.findPreference(Constant.RATE)
         server = preferenceManager.findPreference(Constant.SELECT_SERVER)
-        theme = preferenceManager.findPreference(Constant.THEME_KEY) as ListPreference
         micSettings = preferenceManager.findPreference(Constant.MIC_INPUT)
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
-        settingActivity = SettingsActivity()
+        share = preferenceManager.findPreference(Constant.SHARE)
+        loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
 
-        if (theme?.value == null)
-            theme?.setValueIndex(1)
+        if(settingsPresenter.getAnonymity()) {
+            loginLogout.title = "Login"
+        } else {
+            loginLogout.title = "Logout"
+        }
 
-        if (theme?.entry != null)
-            theme?.summary = theme?.entry.toString()
-
-        textToSpeech?.setOnPreferenceClickListener {
+        textToSpeech.setOnPreferenceClickListener {
             val intent = Intent()
             intent.component = ComponentName("com.android.settings", "com.android.settings.Settings\$TextToSpeechSettingsActivity")
             startActivity(intent)
             true
         }
 
-        rate?.setOnPreferenceClickListener {
+        rate.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context.packageName)))
             true
         }
 
-        if(utilModel?.getAnonymity()!!){
-            server?.isEnabled = true
-            server?.setOnPreferenceClickListener {
-                settingActivity?.showAlert(activity)
+        share.setOnPreferenceClickListener {
+            try {
+                val shareIntent = Intent()
+                shareIntent.action = Intent.ACTION_SEND
+                shareIntent.type = "text/plain"
+                shareIntent.putExtra(Intent.EXTRA_TEXT,
+                        String.format(getString(R.string.promo_msg_template),
+                                String.format(getString(R.string.app_share_url), activity.packageName)))
+                startActivity(shareIntent)
+            } catch (e: Exception) {
+                showToast(getString(R.string.error_msg_retry))
+            }
+            true
+        }
+
+        loginLogout.setOnPreferenceClickListener {
+            if (!settingsPresenter.getAnonymity()) {
+                val d = AlertDialog.Builder(activity)
+                d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
+                    settingsPresenter.loginLogout()
+                }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+
+                val alert = d.create()
+                alert.setTitle(getString(R.string.logout))
+                alert.show()
+            } else {
+                settingsPresenter.loginLogout()
+            }
+            true
+        }
+
+        if(settingsPresenter.getAnonymity()){
+            server.isEnabled = true
+            server.setOnPreferenceClickListener {
+                showAlert()
                 true
             }
         }
         else {
-            server?.isEnabled = false
+            server.isEnabled = false
         }
 
-        theme?.setOnPreferenceChangeListener({ preference, newValue ->
-            preference.summary = newValue.toString()
-            settingsPresenter?.setTheme(newValue.toString())
-            activity.recreate()
-            true
-        })
+        micSettings.isEnabled = settingsPresenter.enableMic()
 
-        micSettings?.isEnabled = settingsPresenter?.enableMic() as Boolean
+        hotwordSettings.isEnabled = settingsPresenter.enableHotword()
+    }
 
-        hotwordSettings?.isEnabled = settingsPresenter?.enableHotword() as Boolean
+    fun showAlert() {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle(Constant.CHANGE_SERVER)
+        builder.setMessage(Constant.SERVER_CHANGE_PROMPT)
+                .setCancelable(false)
+                .setNegativeButton(Constant.CANCEL, null)
+                .setPositiveButton(activity.getString(R.string.ok)) { dialog, _ ->
+                    dialog.dismiss()
+                    settingsPresenter.loginLogout()
+
+                }
+        val alert = builder.create()
+        alert.show()
+    }
+
+    override fun micPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun hotWordPermission(): Boolean {
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun startLoginActivity() {
+        val intent = Intent(activity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        activity.finish()
+    }
+
+    fun showToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        settingsPresenter?.onDetach()
+        settingsPresenter.onDetach()
     }
-
 }

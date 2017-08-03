@@ -17,6 +17,7 @@
         <activity
             android:name=".chat.ChatActivity"
             android:label="@string/app_name"
+            android:theme="@style/Chat_Theme"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
@@ -26,7 +27,7 @@
             android:theme="@style/PreferenceFixTheme.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.fossasia.susi.ai.activities.MainActivity" />
+                android:value="org.fossasia.susi.ai.chat.ChatActivity" />
         </activity>
         <activity
             android:name=".signup.SignUpActivity"

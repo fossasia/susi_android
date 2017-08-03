@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.settings.contract
 
-import android.support.v4.app.FragmentActivity
-
 /**
  * The interface for Settings view
  *
@@ -9,7 +7,7 @@ import android.support.v4.app.FragmentActivity
  */
 
 interface ISettingsView {
-
-    fun showAlert(activity: FragmentActivity)
-
+    fun startLoginActivity()
+    fun micPermission(): Boolean
+    fun hotWordPermission(): Boolean
 }

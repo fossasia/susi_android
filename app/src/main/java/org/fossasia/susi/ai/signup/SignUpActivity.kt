@@ -59,7 +59,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     fun addListeners() {
         showURL()
-        hideURL()
         signUp()
         cancelSignUp()
     }
@@ -76,7 +75,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirm_password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, personal_server.isChecked)
+        outState.putBoolean(Constant.SERVER, customer_server.isChecked)
     }
 
     override fun onBackPressed() {
@@ -87,10 +86,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         alertDialog.setNegativeButton((R.string.no), null)
         val alert = alertDialog.create()
         alert.show()
-        val yes = alert.getButton(DialogInterface.BUTTON_POSITIVE)
-        val no = alert.getButton(DialogInterface.BUTTON_NEGATIVE)
-        yes.setTextColor(resources.getColor(R.color.md_blue_500))
-        no.setTextColor(resources.getColor(R.color.md_red_500))
     }
 
     override fun alertSuccess() {
@@ -132,7 +127,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun showProgress(bool: Boolean) {
-        if (bool) progressDialog.show() else progressDialog.hide()
+        if (bool) progressDialog.show() else progressDialog.dismiss()
     }
 
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
@@ -158,15 +153,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     fun showURL() {
-        personal_server.setOnClickListener {
-            input_url?.visibility = View.VISIBLE
-        }
-    }
-
-    fun hideURL() {
-        susi_default.setOnClickListener {
-            input_url?.visibility = View.GONE
-        }
+        customer_server.setOnClickListener { input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE}
     }
 
     fun setupPasswordWatcher() {
@@ -204,7 +191,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val stringConPassword = confirm_password.editText?.text.toString()
             val stringURL = input_url.editText?.text.toString()
 
-            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, susi_default.isChecked, stringURL)
+            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, !customer_server.isChecked, stringURL)
         }
     }
 

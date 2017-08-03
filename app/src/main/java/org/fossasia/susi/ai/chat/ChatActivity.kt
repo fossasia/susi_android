@@ -8,11 +8,8 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.*
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
@@ -21,26 +18,16 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.MenuItemCompat
-import android.support.v7.app.ActionBar
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
 import android.text.Editable
 import android.text.InputType
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.widget.ImageView
 import android.widget.Toast
 
 import io.realm.RealmResults
@@ -53,11 +40,8 @@ import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.ImageUtils
-import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.settings.SettingsActivity
 
-import java.io.FileNotFoundException
 import java.util.HashMap
 
 /**
@@ -71,18 +55,13 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     val TAG: String = ChatActivity::class.java.name
 
-    val SELECT_PICTURE = 200
-    val CROP_PICTURE = 400
     lateinit var chatPresenter: IChatPresenter
     val PERM_REQ_CODE = 1
-    lateinit var toolbarImg: ImageView
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
     lateinit var textToSpeech: TextToSpeech
     var recordingThread: RecordingThread? = null
     lateinit var networkStateReceiver: BroadcastReceiver
     lateinit var recognizer: SpeechRecognizer
-    lateinit var searchView: SearchView
-    lateinit var menu: Menu
     lateinit var progressDialog: ProgressDialog
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
@@ -117,8 +96,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
     fun setUpUI() {
         chatPresenter.setUp()
         chatPresenter.checkPreferences()
-        chatPresenter.setUpBackground()
-        setToolbar()
         setEditText()
     }
 
@@ -133,15 +110,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter.initiateHotwordDetection()
         compensateTTSDelay()
         hideVoiceInput()
-    }
-
-    fun setToolbar() {
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar?.setCustomView(R.layout.toolbar)
-        supportActionBar?.title = ""
-        toolbarImg = supportActionBar?.customView?.findViewById(R.id.toolbar_img) as ImageView
     }
 
     fun setEditText() {
@@ -230,18 +198,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 }
             }
         })
-    }
-
-    override fun setTheme(darkTheme: Boolean) {
-        AppCompatDelegate.setDefaultNightMode( if(darkTheme) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
-    }
-
-    override fun setChatBackground(bg: Drawable?) {
-        if(bg == null) {
-            window.decorView.setBackgroundColor(ContextCompat.getColor(this, R.color.default_bg))
-        } else {
-            window.setBackgroundDrawable(bg)
-        }
     }
 
     fun compensateTTSDelay() {
@@ -411,57 +367,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
         recordingThread?.stopRecording()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        val mHandler = Handler(Looper.getMainLooper())
-        when (requestCode) {
-            CROP_PICTURE -> {
-                if (resultCode == RESULT_OK && null != data) {
-                    mHandler.post {
-                        try {
-                            val thePic = data.extras.getParcelable<Bitmap>("data")
-                            val encodedImage = ImageUtils.Companion.cropImage(thePic)
-                            chatPresenter.cropPicture(encodedImage)
-                        } catch (e: NullPointerException) {
-                            Log.d(TAG, e.localizedMessage)
-                        }
-                    }
-                }
-            }
-            SELECT_PICTURE -> {
-                if (resultCode == RESULT_OK && null != data) {
-                    mHandler.post {
-                        val selectedImageUri = data.data
-                        try {
-                            cropCapturedImage(ImageUtils.Companion.getImageUrl(applicationContext, selectedImageUri))
-                        } catch (aNFE: ActivityNotFoundException) {
-                            //display an error message if user device doesn't support
-                            showToast(getString(R.string.error_crop_not_supported))
-                            try {
-                                chatPresenter.cropPicture(ImageUtils.Companion.encodeImage(applicationContext,selectedImageUri))
-                            } catch (e: FileNotFoundException) {
-                                e.printStackTrace()
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    fun cropCapturedImage(picUri: Uri?) {
-        val cropIntent = Intent("com.android.camera.action.CROP")
-        cropIntent.setDataAndType(picUri, "image/*")
-        cropIntent.putExtra("crop", "true")
-        cropIntent.putExtra("aspectX", 9)
-        cropIntent.putExtra("aspectY", 14)
-        cropIntent.putExtra("outputX", 256)
-        cropIntent.putExtra("outputY", 256)
-        cropIntent.putExtra("return-data", true)
-        startActivityForResult(cropIntent, CROP_PICTURE)
-    }
-
     override fun hideVoiceInput() {
         voice_input_text.text = ""
         voice_input_text.visibility = View.GONE
@@ -573,6 +478,12 @@ class ChatActivity: AppCompatActivity(), IChatView {
         rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
     }
 
+    fun openSettings(view: View) {
+        val i = Intent(this, SettingsActivity::class.java)
+        startActivity(i)
+        finish()
+    }
+
     override fun showRetrieveOldMessageProgress() {
         progressDialog = ProgressDialog(this@ChatActivity)
         progressDialog.setCancelable(false)
@@ -584,160 +495,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         progressDialog.dismiss()
     }
 
-    override fun enableLoginInMenu(isVisible: Boolean) {
-        menu.findItem(R.id.action_logout).isVisible = !isVisible
-        menu.findItem(R.id.action_login).isVisible = isVisible
-    }
-
-    override fun displaySearchElements(isSearchEnabled: Boolean) {
-        toolbarImg.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
-        et_message.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
-        btnSpeak.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
-        send_message_layout.visibility = if(isSearchEnabled) View.GONE else View.VISIBLE
-    }
-
-    override fun modifyMenu(show: Boolean) {
-        menu.findItem(R.id.up_angle).isVisible = show
-        menu.findItem(R.id.down_angle).isVisible = show
-    }
-
-    override fun searchMovement(position: Int) {
-        rv_chat_feed.scrollToPosition(position)
-        recyclerAdapter.highlightMessagePosition = position
-        recyclerAdapter.notifyDataSetChanged()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        this.menu = menu
-        menuInflater.inflate(R.menu.menu_main, menu)
-        chatPresenter.onMenuCreated()
-
-        searchView = MenuItemCompat.getActionView(menu.findItem(R.id.action_search)) as SearchView
-        val editText = searchView.findViewById(R.id.search_src_text)
-
-        searchView.setOnSearchClickListener({
-            chatPresenter.startSearch()
-        })
-
-        searchView.setOnCloseListener({
-            recyclerAdapter.highlightMessagePosition = -1
-            recyclerAdapter.notifyDataSetChanged()
-            searchView.onActionViewCollapsed()
-            chatPresenter.stopSearch()
-            false
-        })
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                //Handle Search Query
-                chatPresenter.onSearchQuerySearched(query)
-                recyclerAdapter.query = query
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (TextUtils.isEmpty(newText)) {
-                    modifyMenu(false)
-                    recyclerAdapter.highlightMessagePosition = -1
-                    recyclerAdapter.notifyDataSetChanged()
-                    if (!editText.isFocused) {
-                        editText.requestFocus()
-                    }
-                } else {
-                    chatPresenter.onSearchQuerySearched(newText)
-                    recyclerAdapter.query = newText
-                }
-                return false
-            }
-        })
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.action_settings -> {
-                val i = Intent(this, SettingsActivity::class.java)
-                startActivity(i)
-                return true
-            }
-            R.id.wall_settings -> {
-                selectBackground()
-                return true
-            }
-            R.id.action_share -> {
-                try {
-                    val shareIntent = Intent()
-                    shareIntent.action = Intent.ACTION_SEND
-                    shareIntent.type = "text/plain"
-                    shareIntent.putExtra(Intent.EXTRA_TEXT,
-                            String.format(getString(R.string.promo_msg_template),
-                                    String.format(getString(R.string.app_share_url), packageName)))
-                    startActivity(shareIntent)
-                } catch (e: Exception) {
-                    showToast(getString(R.string.error_msg_retry))
-                }
-
-                return true
-            }
-            R.id.up_angle -> {
-                chatPresenter.searchUP()
-                return true
-            }
-            R.id.down_angle -> {
-                chatPresenter.searchDown()
-                return true
-            }
-            R.id.action_logout -> {
-                val d = AlertDialog.Builder(this)
-                d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
-                   chatPresenter.logout()
-                }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
-
-                val alert = d.create()
-                alert.setTitle(getString(R.string.logout))
-                alert.show()
-                return true
-            }
-            R.id.action_login -> {
-                chatPresenter.login()
-                return false
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    fun selectBackground() {
-        val builder = AlertDialog.Builder(this@ChatActivity)
-        builder.setTitle(R.string.dialog_action_complete)
-        builder.setItems(R.array.dialog_complete_action_items) { _, which ->
-            chatPresenter.openSelectBackgroundDialog(which)
-        }
-        builder.create().show()
-    }
-
-    override fun openImagePickerActivity() {
-        val i = Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(i, SELECT_PICTURE)
-    }
-
-    override fun startLoginActivity() {
-        val intent = Intent(this@ChatActivity, LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        finish()
-    }
-
     override fun onBackPressed() {
-        if (!searchView.isIconified) {
-
-            chatPresenter.stopSearch()
-            recyclerAdapter.highlightMessagePosition = -1
-            recyclerAdapter.notifyDataSetChanged()
-            searchView.onActionViewCollapsed()
-            recyclerAdapter.clearSelection()
-
-            return
-        }
         chatPresenter.exitChatActivity()
     }
 
@@ -756,14 +514,16 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         )
 
-        chatPresenter.checkPreferences()
-
         if (recordingThread != null)
             chatPresenter.startHotwordDetection()
 
         if (et_message.text.toString().isNotEmpty()) {
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
+            et_message.setText("")
+            chatPresenter.micCheck(false)
         }
+
+        chatPresenter.checkPreferences()
     }
 
     override fun onPause() {
@@ -783,6 +543,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         super.onDestroy()
         rv_chat_feed.clearOnScrollListeners()
 
+        textToSpeech.setOnUtteranceProgressListener(null)
         textToSpeech.shutdown()
         chatPresenter.onDetach()
     }

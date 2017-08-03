@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/background_layout"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_marginTop="@dimen/margin_very_small">
 
     <LinearLayout
+        android:id="@+id/background_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
@@ -83,7 +83,7 @@
                     android:layout_height="@dimen/preview_layout_height"
                     android:layout_marginTop="@dimen/message_layout_margin"
                     android:layout_weight="0.8"
-                    android:layout_marginRight="1dp"
+                    android:layout_margin="1dp"
                     android:background="@color/susi_message_link_preview_bg"
                     android:orientation="vertical">
 

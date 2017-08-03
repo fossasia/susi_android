@@ -92,7 +92,11 @@ public class ChatMessage extends RealmObject {
      * @param webLinkData the web link data
      */
     public void setWebLinkData(WebLink webLinkData) {
-        this.webLinkData = webLinkData;
+        try {
+            this.webLinkData = webLinkData;
+        } catch(IllegalStateException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

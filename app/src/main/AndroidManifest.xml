@@ -25,7 +25,7 @@
             android:theme="@style/PreferenceFixTheme.Light">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.fossasia.susi.ai.activities.MainActivity" />
+                android:value="org.fossasia.susi.ai.chat.ChatActivity" />
         </activity>
         <activity
             android:name=".signup.SignUpActivity"

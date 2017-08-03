@@ -51,9 +51,8 @@ class ForgetPassTest {
         // checks if reset button is present
         onView(withId(R.id.reset_button)).check(ViewAssertions.matches(isDisplayed()))
 
-        // checks if radio buttons are present
-        onView(withId(R.id.susi_default)).check(ViewAssertions.matches(isDisplayed()))
-        onView(withId(R.id.personal_server)).check(ViewAssertions.matches(isDisplayed()))
+        //checks if checkbox present
+        onView(withId(R.id.customer_server)).check(ViewAssertions.matches(isDisplayed()))
 
     }
 
@@ -75,7 +74,7 @@ class ForgetPassTest {
         val emailInput = (mActivityRule.activity.findViewById(R.id.forgot_email) as TextInputLayout).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
 
-        onView(withId(R.id.personal_server)).perform(click())
+        onView(withId(R.id.customer_server)).perform(click())
 
         val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }

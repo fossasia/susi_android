@@ -102,7 +102,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     fun addListeners() {
         showURL()
-        hideURL()
         signUp()
         forgotPassword()
         skip()
@@ -112,11 +111,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     fun showURL() {
-        personal_server.setOnClickListener { input_url.visibility = View.VISIBLE }
-    }
-
-    fun hideURL() {
-        susi_default.setOnClickListener { input_url.visibility = View.GONE }
+        customer_server.setOnClickListener { input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE}
     }
 
     fun signUp() {
@@ -147,7 +142,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         password.error = null
         input_url.error = null
 
-        loginPresenter.login(stringEmail, stringPassword, susi_default.isChecked, stringURL)
+        loginPresenter.login(stringEmail, stringPassword, !customer_server.isChecked, stringURL)
     }
 
     fun cancelLogin() {
@@ -172,7 +167,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, personal_server.isChecked)
+        outState.putBoolean(Constant.SERVER, customer_server.isChecked)
     }
 
     override fun onDestroy() {

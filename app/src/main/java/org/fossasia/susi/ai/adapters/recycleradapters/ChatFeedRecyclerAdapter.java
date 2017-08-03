@@ -1,25 +1,24 @@
 package org.fossasia.susi.ai.adapters.recycleradapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.util.Pair;
 import android.util.Patterns;
-import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import org.fossasia.susi.ai.MainApplication;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
@@ -41,6 +40,7 @@ import java.util.regex.Matcher;
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
+import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 import pl.tajchert.sample.DotsTextView;
 
@@ -52,7 +52,7 @@ import pl.tajchert.sample.DotsTextView;
  * --25/09/16 at
  * --9:49 PM
  */
-public class ChatFeedRecyclerAdapter extends SelectableAdapter implements MessageViewHolder.ClickListener {
+public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder> implements MessageViewHolder.ClickListener {
 
     public static final int USER_MESSAGE = 0;
     public static final int SUSI_MESSAGE = 1;
@@ -60,25 +60,18 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public static final int SUSI_IMAGE = 3;
     private static final int MAP = 4;
     private static final int PIECHART = 7;
-    private static final int USER_WITHLINK = 5;
+    public static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
     private static final int DOTS = 8;
     private static final int NULL_HOLDER = 9;
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
-    public int highlightMessagePosition = -1;
-    public String query = "";
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
-    private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private RecyclerView recyclerView;
     private MessageViewHolder.ClickListener clickListener;
-    public ActionModeCallback actionModeCallback = new ActionModeCallback();
-    public ActionMode actionMode;
-    public SparseBooleanArray selectedItems;
-    private AppCompatActivity currActivity;
     // For typing dots from Susi
     private TypingDotsHolder dotsHolder;
     private ZeroHeightHolder nullHolder;
@@ -95,9 +88,7 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         super(context, data, autoUpdate);
         this.clickListener = this;
         currContext = context;
-        currActivity = (AppCompatActivity) context;
         lastMsgCount = getItemCount();
-        selectedItems = new SparseBooleanArray();
         RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
             @Override
             public void onChange(RealmResults elements) {
@@ -274,101 +265,46 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
-            handleItemEvents(chatViewHolder, position);
+            chatViewHolder.setView(getData().get(position), getItemViewType(position));
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
-            handleItemEvents(mapViewHolder, position);
+            mapViewHolder.setView(getData().get(position), currContext);
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
-            handleItemEvents(pieChartViewHolder, position);
+            pieChartViewHolder.setView(getData().get(position));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            handleItemEvents(linkPreviewViewHolder, position);
+            setOnLinkLongClickListener(position, linkPreviewViewHolder);
+            linkPreviewViewHolder.setView(getData().get(position), getItemViewType(position), currContext);
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
-            handleItemEvents(searchResultsListHolder, position,false);
+            searchResultsListHolder.setView(getData().get(position), false, currContext);
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH){
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
-            handleItemEvents(searchResultsListHolder, position, true);
+            searchResultsListHolder.setView(getData().get(position), true, currContext);
         } else if (holder instanceof DateViewHolder) {
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
-            handleItemEvents(dateViewHolder, position);
+            dateViewHolder.textDate.setText(getData().get(position).getDate());
         }
     }
 
-    /**
-     * Method to handle date views
-     *
-     * @param dateViewHolder DateViewHolder
-     * @param position position of view
-     */
-    private void handleItemEvents(DateViewHolder dateViewHolder, int position){
-        dateViewHolder.textDate.setText(getData().get(position).getDate());
-    }
+    private void setOnLinkLongClickListener(final int position, LinkPreviewViewHolder viewHolder) {
 
-    /**
-     * Method to handle Search Results holder for websearch and rss
-     *
-     * @param searchResultsListHolder Search result list holder
-     * @param position position of view
-     * @param isClientSearch boolean to check if action type is websearch or rss
-     */
-    private void handleItemEvents(final SearchResultsListHolder searchResultsListHolder,final int position, boolean isClientSearch) {
-        searchResultsListHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-        searchResultsListHolder.setView(getData().get(position), isClientSearch, currContext);
-    }
+        viewHolder.previewLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClicked(position);
+                return true;
+            }
+        });
 
-    /**
-     * Method to handle text messages both of user's and susi's
-     *
-     * @param chatViewHolder Chat view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final ChatViewHolder chatViewHolder, final int position) {
-        boolean flag = false;
-        if(highlightMessagePosition == position)
-            flag = true;
-        chatViewHolder.setView(getData().get(position), getItemViewType(position), flag, query);
-        chatViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-    }
-
-    /**
-     * Method to handle Map view holder for map action type
-     *
-     * @param mapViewHolder Map view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final MapViewHolder mapViewHolder, final int position) {
-        mapViewHolder.setView(getData().get(position), currContext, this, position);
-    }
-
-    /**
-     * Method to handle Link preview holder and fetching data from link.
-     *
-     * @param linkPreviewViewHolder Link preview view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final LinkPreviewViewHolder linkPreviewViewHolder, final int position) {
-        final ChatMessage model = getData().get(position);
-        linkPreviewViewHolder.setView(getData().get(position), currContext, this, highlightMessagePosition, position, query);
-        linkPreviewViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
-        if (getItemViewType(position) == USER_WITHLINK) {
-            if (model.getIsDelivered())
-                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.ic_check);
-            else
-                linkPreviewViewHolder.receivedTick.setImageResource(R.drawable.ic_clock);
-        }
-    }
-
-    /**
-     * Method to handle Pie chart view holder for action type piechart
-     *
-     * @param pieChartViewHolder Pie chart view holder
-     * @param position position of view
-     */
-    private void handleItemEvents(final PieChartViewHolder pieChartViewHolder, final int position) {
-        pieChartViewHolder.setView(getData().get(position));
-        pieChartViewHolder.backgroundLayout.setBackgroundColor(ContextCompat.getColor(currContext, isSelected(position) ? R.color.translucent_blue : android.R.color.transparent));
+        viewHolder.text.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onItemLongClicked(position);
+                return true;
+            }
+        });
     }
 
     /**
@@ -382,6 +318,14 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         clipboard.setPrimaryClip(clip);
     }
 
+    private void shareMessage(String message) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, message);
+        sendIntent.setType("text/plain");
+        currContext.startActivity(sendIntent);
+    }
+
     /**
      * Scroll to bottom
      */
@@ -391,158 +335,76 @@ public class ChatFeedRecyclerAdapter extends SelectableAdapter implements Messag
         }
     }
 
-    /**
-     * Toggle selection of view
-     *
-     * @param position position of message
-     */
-    public void  toggleSelectedItem(int position) {
-        toggleSelection(position);
-        int count = getSelectedItemCount();
-
-        Log.d(TAG, position + " " + isSelected(position));
-        if(isSelected(position))
-            selectedItems.put(position, isSelected(position));
-        else
-            selectedItems.delete(position);
-
-        if (count == 0) {
-            actionMode.finish();
-        } else {
-            actionMode.setTitle(String.valueOf(count));
-            actionMode.invalidate();
-        }
-    }
-
     @Override
     public void onItemClicked(int position) {
-        if (actionMode != null) {
-            toggleSelectedItem(position);
+        // Add something here when needed
+    }
+
+    private void setBackGroundColor(RecyclerView.ViewHolder holder, boolean isSelected, boolean isUserMessage) {
+        if( holder instanceof ChatViewHolder ) {
+            ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
+            if(isUserMessage)
+                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
+            else
+                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout));
+        } else if (holder instanceof LinkPreviewViewHolder) {
+            LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
+            if(isUserMessage)
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
+            else
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout));
         }
     }
 
     @Override
-    public boolean onItemLongClicked(int position) {
-        if (actionMode == null) {
-            actionMode = ((AppCompatActivity) currContext).startSupportActionMode(actionModeCallback);
-        }
-        toggleSelectedItem(position);
-        return true;
-    }
+    public boolean onItemLongClicked(final int position) {
+        final RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(position);
+        final int viewType = getItemViewType(position);
+        setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
 
-    /**
-     * Action mode callback for action mode. Used for deleting, copying and sharing messages.
-     */
-    private class ActionModeCallback implements ActionMode.Callback {
-        @SuppressWarnings("unused")
-        private final String TAG = ChatFeedRecyclerAdapter.ActionModeCallback.class.getSimpleName();
-        private int statusBarColor;
+        List<Pair<String, Drawable>> optionList = new ArrayList<>();
+        optionList.add(new Pair<>("Copy",currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
+        optionList.add(new Pair<>("Share",currContext.getResources().getDrawable(R.drawable.ic_share_white_24dp)));
 
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
+        AlertDialog.Builder dialog = new AlertDialog.Builder(currContext);
+        final ArrayAdapter<Pair<String,Drawable>> arrayAdapter = new SelectionDialogListAdapter(currContext, optionList);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                statusBarColor = currActivity.getWindow().getStatusBarColor();
-                currActivity.getWindow().setStatusBarColor(ContextCompat.getColor(currContext, R.color.md_teal_500));
-            }
-            return true;
-        }
+        dialog.setCancelable(true);
 
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-
-            menu.clear();
-            mode.getMenuInflater().inflate(R.menu.menu_selection_mode, menu);
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            int nSelected;
-
-            switch (item.getItemId()) {
-
-                case R.id.menu_item_copy:
-                    nSelected = getSelectedItems().size();
-                    if (nSelected == 1) {
-                        String copyText;
-                        int selected = getSelectedItems().get(0);
-                        copyText = getItem(selected).getContent();
-                        if (getItem(selected).getActionType() == null || getItem(selected).getActionType().equals(Constant.ANSWER)) {
-                            setClipboard(copyText);
-                        }
-                        setClipboard(copyText);
-                    } else {
-                        StringBuilder copyText = new StringBuilder();
-                        for (int i : getSelectedItems()) {
-                            ChatMessage message = getData().get(i);
-                            if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
-                                Log.d(TAG, message.toString());
-                                copyText.append("[").append(message.getTimeStamp()).append("]").append(" ");
-                                copyText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
-                            }
-                        }
-                        setClipboard(copyText.toString());
-                    }
-
-                    if (nSelected == 1){
+        dialog.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
+                switch (which) {
+                    case 0: setClipboard(getItem(position).getContent());
                         Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
-                    }
-                    else {
-                        Toast toast = Toast.makeText(recyclerView.getContext(), nSelected + " " + "Messages copied" , Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                    }
-                    actionMode.finish();
-                    return true;
-
-                case R.id.menu_item_share:
-                    nSelected = getSelectedItems().size();
-                    if (nSelected == 1) {
-                        int selected = getSelectedItems().get(0);
-                        if (getItem(selected).getActionType() == null || getItem(selected).getActionType().equals(Constant.ANSWER)) {
-                            shareMessage(getItem(selected).getContent());
-                        }
-                    } else {
-                        StringBuilder shareText = new StringBuilder();
-                        for (int i : getSelectedItems()) {
-                            ChatMessage message = getData().get(i);
-                            if (message.getActionType()==null || message.getActionType().equals(Constant.ANSWER)) {
-                                Log.d(TAG, message.toString());
-                                shareText.append("[").append(message.getTimeStamp()).append("]").append(" ");
-                                shareText.append(message.isMine() ? "Me: " : "Susi: ").append(message.getContent()).append("\n");
-                            }
-                        }
-                        shareMessage(shareText.toString());
-                    }
-
-                    actionMode.finish();
-                    return true;
-
-                default:
-                    return false;
+                        break;
+                    case 1: shareMessage(getItem(position).getContent());
+                        break;
+                }
             }
-        }
+        });
 
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            clearSelection();
-            selectedItems.clear();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                currActivity.getWindow().setStatusBarColor(statusBarColor);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
             }
-            actionMode = null;
-        }
+        });
 
-        private void shareMessage(String message) {
-            Intent sendIntent = new Intent();
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, message);
-            sendIntent.setType("text/plain");
-            currContext.startActivity(sendIntent);
-        }
+        AlertDialog alert = dialog.create();
+        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
+        lp.copyFrom(alert.getWindow().getAttributes());
+        lp.width = 500;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        alert.show();
+        alert.getWindow().setAttributes(lp);
+        return true;
     }
 }
