@@ -252,9 +252,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", 0);
+                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", "");
                 }
-                return new ChatMessage(-405, "", "", false, false, false, "", null, "", 0);
+                return new ChatMessage(-405, "", "", false, false, false, "", null, "", "");
             }
             return getData().get(index);
         }
@@ -265,7 +265,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
-            chatViewHolder.setView(getData().get(position), getItemViewType(position));
+            chatViewHolder.setView(getData().get(position), getItemViewType(position), currContext);
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             mapViewHolder.setView(getData().get(position), currContext);

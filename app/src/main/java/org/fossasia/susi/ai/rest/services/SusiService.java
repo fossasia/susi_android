@@ -6,6 +6,7 @@ import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
+import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
@@ -15,7 +16,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-
 
 /**
  * <h1>Retrofit service to get susi response.</h1>
@@ -106,6 +106,23 @@ public interface SusiService {
      */
     @GET("/aaa/listUserSettings.json")
     Call<UserSetting> getUserSetting();
+
+    /**
+     *
+     * @param model Model of Skill
+     * @param group Group of Skill
+     * @param language Language of Skill
+     * @param skill Skill name
+     * @param rating Rating either positive or negative
+     * @return the Call
+     */
+    @POST("/cms/rateSkill.json")
+    Call<SkillRatingResponse> rateSkill(@Query("model") String model,
+                                        @Query("group") String group,
+                                        @Query("language") String language,
+                                        @Query("skill") String skill,
+                                        @Query("rating") String rating);
+
 
     /**
      * Reset Password call

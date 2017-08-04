@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
@@ -21,16 +22,25 @@ import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebLink;
+import org.fossasia.susi.ai.rest.ClientBuilder;
+import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 
 import java.util.List;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static android.os.SystemClock.sleep;
 import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITHLINK;
 
 /**
@@ -56,11 +66,17 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     public LinearLayout previewLayout;
     @Nullable @BindView(R.id.received_tick)
     public ImageView receivedTick;
+    @Nullable
+    @BindView(R.id.thumbs_up)
+    protected ImageView thumbsUp;
+    @Nullable
+    @BindView(R.id.thumbs_down)
+    protected ImageView thumbsDown;
 
     private Realm realm;
     private String url;
     private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
-
+    private ChatMessage model;
     /**
      * Instantiates a new Link preview view holder.
      *
@@ -80,6 +96,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
      * @param currContext the Context
      */
     public void setView(final ChatMessage model, int viewType, final Context currContext) {
+        this.model = model;
         Spanned answerText;
         text.setLinksClickable(true);
         text.setMovementMethod(LinkMovementMethod.getInstance());
@@ -95,6 +112,70 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
             else
                 receivedTick.setImageResource(R.drawable.ic_clock);
         }
+
+        if(model.getSkillLocation().isEmpty()){
+            thumbsUp.setVisibility(View.GONE);
+            thumbsDown.setVisibility(View.GONE);
+        } else {
+            thumbsUp.setVisibility(View.VISIBLE);
+            thumbsDown.setVisibility(View.VISIBLE);
+        }
+
+        if(model.isPositiveRated()){
+            thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+        } else {
+            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+        }
+
+        if(model.isNegativeRated()){
+            thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
+        } else {
+            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+        }
+
+        thumbsUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+                if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                    setRating(true, true);
+                } else if(!model.isPositiveRated() && model.isNegativeRated()) {
+                    setRating(false, false);
+                    thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                    sleep(500);
+                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                    setRating(true, true);
+                } else if (model.isPositiveRated() && !model.isNegativeRated()) {
+                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                    setRating(false, true);
+                    thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                }
+            }
+        });
+
+        thumbsDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
+                if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                    setRating(true, false);
+                } else if(model.isPositiveRated() && !model.isNegativeRated()) {
+                    setRating(false, true);
+                    thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                    sleep(500);
+                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                    setRating(true, false);
+                } else if (!model.isPositiveRated() && model.isNegativeRated()) {
+                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                    setRating(false, false);
+                    thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                }
+            }
+        });
 
         text.setText(answerText);
         timestampTextView.setText(model.getTimeStamp());
@@ -211,6 +292,64 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
                     currContext.startActivity(intent);
                 }
             }
+        });
+    }
+
+    private void setRating(boolean what, boolean which) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        if(which) {
+            model.setPositiveRated(what);
+        } else {
+            model.setNegativeRated(what);
+        }
+        realm.commitTransaction();
+    }
+
+    private void rateSusiSkill(final String polarity, String locationUrl, final Context context) {
+
+        final Map<String,String> susiLocation = ParseSusiResponseHelper.Companion.getSkillLocation(locationUrl);
+
+        if(susiLocation.size() == 0)
+            return;
+
+        Call<SkillRatingResponse> call = new ClientBuilder().getSusiApi().rateSkill(susiLocation.get("model"),
+                susiLocation.get("group"), susiLocation.get("language"), susiLocation.get("skill"), polarity);
+
+        call.enqueue(new Callback<SkillRatingResponse>() {
+            @Override
+            public void onResponse(Call<SkillRatingResponse> call, Response<SkillRatingResponse> response) {
+                if(!response.isSuccessful() || response.body() == null) {
+                    switch(polarity) {
+                        case Constant.POSITIVE:
+                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                            setRating(false, true);
+                            break;
+                        case Constant.NEGATIVE:
+                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                            setRating(false, false);
+                            break;
+                    }
+                    Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SkillRatingResponse> call, Throwable t) {
+                t.printStackTrace();
+                switch(polarity) {
+                    case Constant.POSITIVE:
+                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                        setRating(false, true);
+                        break;
+                    case Constant.NEGATIVE:
+                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                        setRating(false, false);
+                        break;
+                }
+                Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 }

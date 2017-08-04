@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_very_small">
+    android:layout_marginTop="@dimen/margin_very_small"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/background_layout"
@@ -13,14 +15,8 @@
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
         android:padding="@dimen/padding_chatbubble_large"
+        android:orientation="vertical"
         android:background="@drawable/rounded_layout">
-
-        <org.fossasia.susi.ai.helper.ChatBubbleLayout
-            android:id="@+id/chat_bubble_item_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/text"
@@ -38,8 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|right|bottom"
-                android:gravity="center"
-                android:paddingLeft="@dimen/timestamp_layout_padding">
+                android:gravity="center">
 
                 <TextView
                     android:id="@+id/timestamp"
@@ -50,7 +45,25 @@
                     android:textColor="@color/timestamp_color"
                     android:textSize="@dimen/timestamp_size" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginLeft="@dimen/margin_medium">
+
+                    <ImageView
+                        android:id="@+id/thumbs_up"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/thumbs_up_outline"
+                        android:layout_marginRight="@dimen/message_card_margin_small"/>
+
+                    <ImageView
+                        android:id="@+id/thumbs_down"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/thumbs_down_outline" />
+                </LinearLayout>
             </LinearLayout>
-        </org.fossasia.susi.ai.helper.ChatBubbleLayout>
     </LinearLayout>
 </LinearLayout>

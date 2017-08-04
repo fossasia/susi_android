@@ -26,5 +26,5 @@ interface IDatabaseRepository {
     fun closeDatabase()
     fun updateDatabase(prevId: Long, message: String, isDate: Boolean, date: String, timeStamp: String,
                        mine: Boolean, actionType: String, mapData: MapData?, isHavingLink: Boolean,
-                       datumList: List<Datum>?, webSearch: String, count: Int, listener: onDatabaseUpdateListener )
+                       datumList: List<Datum>?, webSearch: String, skillLocation: String, listener: onDatabaseUpdateListener )
 }

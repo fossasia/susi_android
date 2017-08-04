@@ -60,6 +60,26 @@
                         android:textColor="@color/timestamp_color"
                         android:textSize="@dimen/timestamp_size" />
 
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:layout_marginLeft="@dimen/margin_medium">
+
+                        <ImageView
+                            android:id="@+id/thumbs_up"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/thumbs_up_outline"
+                            android:layout_marginRight="@dimen/message_card_margin_small"/>
+
+                        <ImageView
+                            android:id="@+id/thumbs_down"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/thumbs_down_outline" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </org.fossasia.susi.ai.helper.ChatBubbleLayout>
 
