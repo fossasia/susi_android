@@ -7,25 +7,12 @@
     android:paddingLeft="16dp"
     android:paddingTop="10dp"
     android:paddingRight="15dp">
-    <RadioGroup
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/customer_server"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RadioButton
-            android:text="Susi AI Standard Server"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/susi_default"
-            android:checked="true"
-            android:textColor="@color/md_white_1000"
-            android:layout_marginBottom="5dp"/>
-
-        <RadioButton
-            android:text="Personal Server"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/md_white_1000"
-            android:id="@+id/personal_server" />
-    </RadioGroup>
+        android:layout_height="wrap_content"
+        android:text="Customer Server"
+        android:layout_marginBottom="5dp"/>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_url"
         android:layout_width="match_parent"
@@ -39,8 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter URL"
-            android:textColor="@color/md_white_1000"
-            android:inputType="textUri"
-            android:textColorHint="@color/md_white_1000" />
+            android:inputType="textUri" />
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>

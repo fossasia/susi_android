@@ -7,6 +7,10 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
+import org.fossasia.susi.ai.data.SettingModel
+import org.fossasia.susi.ai.data.contract.ISettingModel
+import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
+import retrofit2.Response
 
 /**
  * Presenter for Settings
@@ -15,8 +19,9 @@ import org.fossasia.susi.ai.settings.contract.ISettingsView
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter {
+class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter, ISettingModel.onSettingFinishListener {
 
+    var settingModel: SettingModel = SettingModel()
     var settingView: ISettingsView? = null
     var utilModel: UtilModel = UtilModel(settingsActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
@@ -50,50 +55,63 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter 
         }
     }
 
-    override fun getAnonymity(): Boolean {
-        return utilModel.getAnonymity()
-    }
-
     override fun loginLogout() {
         utilModel.clearToken()
         utilModel.saveAnonymity(false)
         databaseRepository.deleteAllMessages()
         settingView?.startLoginActivity()
     }
-
+    
     override fun resetPassword(password: String, newPassword: String, conPassword: String) {
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
             settingView?.invalidCredentials(true, Constant.PASSWORD)
             return
         }
 
-        if(newPassword.isEmpty()) {
+        if (newPassword.isEmpty()) {
             settingView?.invalidCredentials(true, Constant.NEWPASSWORD)
             return
         }
 
-        if(conPassword.isEmpty()) {
+        if (conPassword.isEmpty()) {
             settingView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
             return
         }
 
-        if(!CredentialHelper.isPasswordValid(password)) {
+        if (!CredentialHelper.isPasswordValid(password)) {
             settingView?.passwordInvalid(Constant.PASSWORD)
             return
         }
 
-        if(!CredentialHelper.isPasswordValid(newPassword)) {
+        if (!CredentialHelper.isPasswordValid(newPassword)) {
             settingView?.passwordInvalid(Constant.NEWPASSWORD)
             return
         }
 
-        if(newPassword != conPassword) {
+        if (newPassword != conPassword) {
             settingView?.invalidCredentials(false, Constant.NEWPASSWORD)
             return
         }
     }
 
+    override fun onSuccess(response: Response<ChangeSettingResponse>) {
+        settingView?.onSettingResponse(response.message())
+    }
+
+    override fun onFailure(throwable: Throwable) {
+        settingView?.onSettingResponse(throwable.message.toString())
+    }
+
     override fun onDetach() {
         settingView = null
     }
+
+    override fun sendSetting(key: String, value: String) {
+        settingModel.sendSetting(key, value, this)
+    }
+
+    override fun getAnonymity(): Boolean{
+        return utilModel.getAnonymity()
+    }
+
 }

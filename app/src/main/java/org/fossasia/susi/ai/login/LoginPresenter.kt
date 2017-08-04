@@ -11,6 +11,8 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
+import org.fossasia.susi.ai.rest.responses.susi.Settings
+import org.fossasia.susi.ai.rest.responses.susi.UserSetting
 import retrofit2.Response
 import java.net.UnknownHostException
 
@@ -27,6 +29,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
     var loginView: ILoginView?= null
     lateinit var email: String
+    lateinit var message: String
 
     override fun onAttach(loginView: ILoginView) {
         this.loginView = loginView
@@ -110,16 +113,15 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
 
     override fun onSuccess(response: Response<LoginResponse>) {
 
-        loginView?.showProgress(false)
-
         if (response.isSuccessful && response.body() != null) {
 
             utilModel.saveToken(response)
             databaseRepository.deleteAllMessages()
             utilModel.saveEmail(email)
             utilModel.saveAnonymity(false)
+            loginModel.getUserSetting(this)
 
-            loginView?.onLoginSuccess(response.body().message)
+            message = response.body().message.toString()
         } else if (response.code() == 422) {
             loginView?.onLoginError(utilModel.getString(R.string.password_invalid_title),
                     utilModel.getString(R.string.password_invalid))
@@ -127,6 +129,29 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
             loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error), response.message())
         }
     }
+
+    override fun onSuccessSetting(response: Response<UserSetting>) {
+
+        loginView?.showProgress(false)
+
+        if (response.isSuccessful && response.body() != null) {
+            var settings: Settings ?= response.body().settings
+
+            if(settings != null) {
+                utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
+                utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, settings.speechAlways)
+                utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, settings.speechOutput)
+            }
+
+            loginView?.onLoginSuccess(message)
+        }
+    }
+
+    override fun onErrorSetting() {
+        loginView?.showProgress(false)
+        loginView?.onLoginSuccess(message)
+    }
+
 
     override fun onDetach() {
         loginView = null

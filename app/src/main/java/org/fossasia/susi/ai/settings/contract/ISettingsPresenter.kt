@@ -8,17 +8,20 @@ package org.fossasia.susi.ai.settings.contract
 
 interface ISettingsPresenter {
 
-    fun onAttach(settingsView: ISettingsView)
-
     fun enableMic(): Boolean
 
     fun enableHotword(): Boolean
 
-    fun onDetach()
+    fun onAttach(settingView: ISettingsView)
 
-    fun getAnonymity(): Boolean
+    fun onDetach()
 
     fun loginLogout()
 
     fun resetPassword(password: String, newPassword: String, conPassword: String)
+
+    fun sendSetting(key: String, value: String)
+
+    fun getAnonymity(): Boolean
+
 }

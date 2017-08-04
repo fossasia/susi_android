@@ -12,4 +12,6 @@ interface ISettingsView {
     fun hotWordPermission(): Boolean
     fun passwordInvalid(what: String)
     fun invalidCredentials(isEmpty: Boolean, what: String)
+    fun onSettingResponse(message: String)
+
 }

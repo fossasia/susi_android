@@ -54,11 +54,11 @@
     <string name="settings_enterPreference_label">Enter As Send</string>
     <string name="setting_mic_input">Mic input</string>
     <string name="setting_hotword_detection">Hotword Detection (Beta)</string>
-    <string name="setting_mic_key" translatable="false">Mic_input</string>
+    <string name="setting_mic_key" translatable="false">mic_input</string>
     <string name="setting_hotword_key" translatable="false">hotword_detection</string>
-    <string name="settings_enterPreference_key" translatable="false">Enter_send</string>
-    <string name="settings_speechPreference_key" translatable="false">Speech_output</string>
-    <string name="settings_speechAlways_key" translatable="false">Speech_always</string>
+    <string name="settings_enterPreference_key" translatable="false">enter_send</string>
+    <string name="settings_speechPreference_key" translatable="false">speech_output</string>
+    <string name="settings_speechAlways_key" translatable="false">speech_always</string>
     <string name="hello_world">Hello world!</string>
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
