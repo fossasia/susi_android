@@ -4,8 +4,6 @@ import android.Manifest
 import ai.kitt.snowboy.AppResCopy
 import android.content.Context
 import android.os.Build
-import android.content.pm.PackageManager
-import android.support.v4.app.ActivityCompat
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
@@ -29,13 +27,13 @@ class UtilModel(val context: Context): IUtilModel {
         PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, isAnonymous)
     }
 
-    override fun getAnonymity(): Boolean{
+    override fun getAnonymity(): Boolean {
         return PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)
     }
 
     override fun saveEmail(email: String) {
         val savedEmails = mutableSetOf<String>()
-        if(PrefManager.getStringSet(Constant.SAVED_EMAIL) != null)
+        if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null)
             savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL))
         savedEmails.add(email)
         PrefManager.putStringSet(Constant.SAVED_EMAIL, savedEmails)
@@ -90,4 +88,5 @@ class UtilModel(val context: Context): IUtilModel {
     override fun isArmDevice(): Boolean {
         return Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic")
     }
+
 }

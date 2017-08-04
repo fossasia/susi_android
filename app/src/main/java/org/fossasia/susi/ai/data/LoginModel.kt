@@ -1,8 +1,10 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ILoginModel
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
+import org.fossasia.susi.ai.rest.responses.susi.UserSetting
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +20,7 @@ import retrofit2.Response
 class LoginModel : ILoginModel {
 
     lateinit var authResponseCall: Call<LoginResponse>
+    lateinit var userSettingResponseCall: Call<UserSetting>
 
     override fun login(email: String, password: String, listener: ILoginModel.OnLoginFinishedListener) {
 
@@ -39,4 +42,21 @@ class LoginModel : ILoginModel {
     override fun cancelLogin() {
         authResponseCall.cancel()
     }
+
+    override fun getUserSetting(listener: ILoginModel.OnLoginFinishedListener) {
+        userSettingResponseCall = ClientBuilder().susiApi
+                .getUserSetting()
+
+        userSettingResponseCall.enqueue(object : Callback<UserSetting> {
+            override fun onFailure(call: Call<UserSetting>?, t: Throwable?) {
+                listener.onErrorSetting()
+            }
+
+            override fun onResponse(call: Call<UserSetting>?, response: Response<UserSetting>) {
+                listener.onSuccessSetting(response)
+            }
+
+        })
+    }
+
 }

@@ -71,6 +71,15 @@ object CredentialHelper {
         return Patterns.WEB_URL.matcher(url).matches()
     }
 
+    fun isURLValid(inputLayout: TextInputLayout, context: Context): Boolean {
+        if(Patterns.WEB_URL.matcher(inputLayout.editText?.text.toString()).matches()) {
+            inputLayout.error = null
+            return true
+        } else {
+            inputLayout.error = context.getString(R.string.invalid_url)
+            return false
+        }
+    }
     /**
      * Gets valid url.
 

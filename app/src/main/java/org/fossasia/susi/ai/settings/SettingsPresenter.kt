@@ -6,6 +6,10 @@ import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
+import org.fossasia.susi.ai.data.SettingModel
+import org.fossasia.susi.ai.data.contract.ISettingModel
+import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
+import retrofit2.Response
 
 /**
  * Presenter for Settings
@@ -14,8 +18,9 @@ import org.fossasia.susi.ai.settings.contract.ISettingsView
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter {
+class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter, ISettingModel.onSettingFinishListener {
 
+    var settingModel: SettingModel = SettingModel()
     var settingView: ISettingsView? = null
     var utilModel: UtilModel = UtilModel(settingsActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
@@ -49,10 +54,6 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter 
         }
     }
 
-    override fun getAnonymity(): Boolean {
-        return utilModel.getAnonymity()
-    }
-
     override fun loginLogout() {
         utilModel.clearToken()
         utilModel.saveAnonymity(false)
@@ -60,7 +61,24 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter 
         settingView?.startLoginActivity()
     }
 
+    override fun onSuccess(response: Response<ChangeSettingResponse>) {
+        settingView?.onSettingResponse(response.message())
+    }
+
+    override fun onFailure(throwable: Throwable) {
+        settingView?.onSettingResponse(throwable.message.toString())
+    }
+
     override fun onDetach() {
         settingView = null
     }
+
+    override fun sendSetting(key: String, value: String) {
+        settingModel.sendSetting(key, value, this)
+    }
+
+    override fun getAnonymity(): Boolean{
+        return utilModel.getAnonymity()
+    }
+
 }

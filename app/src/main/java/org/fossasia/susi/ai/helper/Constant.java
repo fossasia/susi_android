@@ -9,15 +9,15 @@ public class Constant {
 
     public static final String IMAGE_DATA = "image_data";
 
-    public static final String ENTER_SEND = "Enter_send";
+    public static final String ENTER_SEND = "enter_send";
 
-    public static final String MIC_INPUT="Mic_input";
+    public static final String MIC_INPUT="mic_input";
 
     public static final String ACCESS_TOKEN = "access_token";
 
     public static final String TOKEN_VALIDITY = "token_validity";
-    public static final String SPEECH_OUTPUT = "Speech_output";
-    public static final String SPEECH_ALWAYS = "Speech_always";
+    public static final String SPEECH_OUTPUT = "speech_output";
+    public static final String SPEECH_ALWAYS = "speech_always";
     public static final String HOTWORD_DETECTION = "hotword_detection";
     public static final String SHARE = "share";
     public static final String LOGIN_LOGOUT = "login_logout";
