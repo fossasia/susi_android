@@ -42,10 +42,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var share: Preference
     lateinit var loginLogout: Preference
     lateinit var resetPassword: Preference
-    var resetPasswordView: View?= null
-    var password: TextInputLayout?= null
-    var newPassword: TextInputLayout?= null
-    var conPassword: TextInputLayout?= null
     lateinit var enterSend: Preference
     lateinit var speechAlways: Preference
     lateinit var speechOutput: Preference
@@ -118,22 +114,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
-        resetPassword.setOnPreferenceClickListener {
-            val builder = AlertDialog.Builder(activity)
-            resetPasswordView = activity.layoutInflater.inflate(R.layout.alert_reset_password, null)
-            password = resetPasswordView?.findViewById(R.id.password) as TextInputLayout
-            newPassword = resetPasswordView?.findViewById(R.id.newpassword) as TextInputLayout
-            conPassword = resetPasswordView?.findViewById(R.id.confirmpassword) as TextInputLayout
-            builder.setView(resetPasswordView)
-            builder.setTitle("")
-                    .setCancelable(false)
-                    .setNegativeButton(Constant.CANCEL, null)
-                    .setPositiveButton(activity.getString(R.string.ok), {dialog, _ ->
-                        settingsPresenter.resetPassword(password?.editText?.text.toString(), newPassword?.editText?.text.toString(), conPassword?.editText?.text.toString())
-                    })
-            true
-        }
-
         if (settingsPresenter.getAnonymity()) {
             server.isEnabled = true
             server.setOnPreferenceClickListener {
@@ -142,6 +122,35 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
         } else {
             server.isEnabled = false
+        }
+
+        if(!settingsPresenter.getAnonymity()) {
+            resetPassword.isEnabled = true
+            resetPassword.setOnPreferenceClickListener {
+                val builder = AlertDialog.Builder(activity)
+                val resetPasswordView = activity.layoutInflater.inflate(R.layout.alert_reset_password, null)
+                val password = resetPasswordView.findViewById(R.id.password) as TextInputLayout
+                val newPassword = resetPasswordView.findViewById(R.id.newpassword) as TextInputLayout
+                builder.setView(resetPasswordView)
+                builder.setTitle(Constant.CHANGE_PASSWORD)
+                        .setCancelable(false)
+                        .setNegativeButton(Constant.CANCEL, null)
+                        .setPositiveButton(getString(R.string.ok), null)
+                val alert = builder.create()
+                alert.show()
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                    if(!CredentialHelper.checkIfEmpty(password, activity) && !CredentialHelper.checkIfEmpty(newPassword, activity)) {
+                        if(CredentialHelper.isPasswordValid(password, activity) && CredentialHelper.isPasswordValid(newPassword, activity)) {
+                            settingsPresenter.resetPassword(password.editText?.text.toString(), newPassword.editText?.text.toString())
+                            alert.dismiss()
+                        }
+                    }
+
+                }
+                true
+            }
+        } else {
+            resetPassword.isEnabled = false
         }
 
         micSettings.isEnabled = settingsPresenter.enableMic()
@@ -233,39 +242,16 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         activity.finish()
     }
 
-    override fun passwordInvalid(what: String) {
-        invalidPassword(what)
-    }
-
-    override fun invalidCredentials(isEmpty: Boolean, what: String) {
-        credentialInvalid(isEmpty, what)
-    }
-
-    fun invalidPassword(what: String) {
-        when(what) {
-            Constant.PASSWORD -> password?.error =  getString(R.string.pass_validation_text)
-            Constant.NEWPASSWORD -> newPassword?.error =  getString(R.string.pass_validation_text)
-        }
-    }
-
-    fun credentialInvalid(isEmpty: Boolean, what: String) {
-        if(isEmpty) {
-            when(what) {
-                Constant.PASSWORD -> password?.error = getString(R.string.email_cannot_be_empty)
-                Constant.NEWPASSWORD -> newPassword?.error = getString(R.string.email_cannot_be_empty)
-                Constant.CONFIRM_PASSWORD -> conPassword?.error = getString(R.string.email_cannot_be_empty)
-            }
-        } else {
-            newPassword?.error = getString(R.string.error_password_matching)
-        }
-    }
-
     fun showToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSettingResponse(message: String) {
         Log.d("settingresponse", message)
+    }
+
+    override fun onResetPasswordResponse(message: String) {
+        showToast(message)
     }
 
     override fun onDestroyView() {

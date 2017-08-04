@@ -22,8 +22,10 @@ public class Constant {
     public static final String SHARE = "share";
     public static final String LOGIN_LOGOUT = "login_logout";
     public static final String RESET_PASSWORD = "reset_password";
+    public static final String CHANGE_PASSWORD = "Change Password";
 
     public static final String SAVED_EMAIL="saved_email";
+    public static final String SAVE_EMAIL="save_email";
 
     public static final String SUSI_SERVER="is_susi_server_selected";
     public static final String CUSTOM_SERVER="custom_server";

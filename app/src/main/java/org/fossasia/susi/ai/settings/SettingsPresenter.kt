@@ -4,12 +4,12 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
 import org.fossasia.susi.ai.data.SettingModel
 import org.fossasia.susi.ai.data.contract.ISettingModel
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
+import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
 import retrofit2.Response
 
 /**
@@ -61,37 +61,9 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
         databaseRepository.deleteAllMessages()
         settingView?.startLoginActivity()
     }
-    
-    override fun resetPassword(password: String, newPassword: String, conPassword: String) {
-        if (password.isEmpty()) {
-            settingView?.invalidCredentials(true, Constant.PASSWORD)
-            return
-        }
 
-        if (newPassword.isEmpty()) {
-            settingView?.invalidCredentials(true, Constant.NEWPASSWORD)
-            return
-        }
-
-        if (conPassword.isEmpty()) {
-            settingView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
-            return
-        }
-
-        if (!CredentialHelper.isPasswordValid(password)) {
-            settingView?.passwordInvalid(Constant.PASSWORD)
-            return
-        }
-
-        if (!CredentialHelper.isPasswordValid(newPassword)) {
-            settingView?.passwordInvalid(Constant.NEWPASSWORD)
-            return
-        }
-
-        if (newPassword != conPassword) {
-            settingView?.invalidCredentials(false, Constant.NEWPASSWORD)
-            return
-        }
+    override fun resetPassword(password: String, newPassword: String) {
+        settingModel.resetPassword(password,newPassword,this)
     }
 
     override fun onSuccess(response: Response<ChangeSettingResponse>) {
@@ -100,6 +72,10 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
 
     override fun onFailure(throwable: Throwable) {
         settingView?.onSettingResponse(throwable.message.toString())
+    }
+
+    override fun onResetPasswordSuccess(response: Response<ResetPasswordResponse>) {
+        settingView?.onResetPasswordResponse(response.body().message.toString())
     }
 
     override fun onDetach() {

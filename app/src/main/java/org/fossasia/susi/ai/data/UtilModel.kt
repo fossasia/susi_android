@@ -36,6 +36,7 @@ class UtilModel(val context: Context): IUtilModel {
         if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null)
             savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL))
         savedEmails.add(email)
+        PrefManager.putString(Constant.SAVE_EMAIL, email)
         PrefManager.putStringSet(Constant.SAVED_EMAIL, savedEmails)
     }
 

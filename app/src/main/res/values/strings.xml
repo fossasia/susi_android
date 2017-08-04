@@ -77,6 +77,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="new_password">New Password</string>
     <string name="sign_up">Sign Up</string>
     <string name="pass_validation_text">Enter a combination of at least six characters</string>
     <string name="log_in">Log in</string>

@@ -46,6 +46,15 @@ object CredentialHelper {
         return PASSWORD_PATTERN.matcher(password).matches()
     }
 
+    fun isPasswordValid(inputLayout: TextInputLayout, context: Context): Boolean {
+        if(PASSWORD_PATTERN.matcher(inputLayout.editText?.text.toString()).matches()) {
+            inputLayout.error = null
+            return true
+        } else {
+            inputLayout.error = context.getString(R.string.pass_validation_text)
+            return false
+        }
+    }
     /**
      * Clear fields.
 
