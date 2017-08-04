@@ -6,10 +6,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
+import android.view.View
 import android.widget.Toast
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
@@ -34,6 +36,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     lateinit var loginLogout: Preference
+    lateinit var resetPassword: Preference
+    var resetPasswordView: View?= null
+    var password: TextInputLayout?= null
+    var newPassword: TextInputLayout?= null
+    var conPassword: TextInputLayout?= null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
@@ -48,6 +55,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
+        resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
 
         if(settingsPresenter.getAnonymity()) {
             loginLogout.title = "Login"
@@ -98,6 +106,22 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
+        resetPassword.setOnPreferenceClickListener {
+            val builder = AlertDialog.Builder(activity)
+            resetPasswordView = activity.layoutInflater.inflate(R.layout.alert_reset_password, null)
+            password = resetPasswordView?.findViewById(R.id.password) as TextInputLayout
+            newPassword = resetPasswordView?.findViewById(R.id.newpassword) as TextInputLayout
+            conPassword = resetPasswordView?.findViewById(R.id.confirmpassword) as TextInputLayout
+            builder.setView(resetPasswordView)
+            builder.setTitle("")
+                    .setCancelable(false)
+                    .setNegativeButton(Constant.CANCEL, null)
+                    .setPositiveButton(activity.getString(R.string.ok), {dialog, _ ->
+                        settingsPresenter.resetPassword(password?.editText?.text.toString(), newPassword?.editText?.text.toString(), conPassword?.editText?.text.toString())
+                    })
+            true
+        }
+
         if(settingsPresenter.getAnonymity()){
             server.isEnabled = true
             server.setOnPreferenceClickListener {
@@ -143,6 +167,33 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         activity.finish()
+    }
+
+    override fun passwordInvalid(what: String) {
+        invalidPassword(what)
+    }
+
+    override fun invalidCredentials(isEmpty: Boolean, what: String) {
+        credentialInvalid(isEmpty, what)
+    }
+
+    fun invalidPassword(what: String) {
+        when(what) {
+            Constant.PASSWORD -> password?.error =  getString(R.string.pass_validation_text)
+            Constant.NEWPASSWORD -> newPassword?.error =  getString(R.string.pass_validation_text)
+        }
+    }
+
+    fun credentialInvalid(isEmpty: Boolean, what: String) {
+        if(isEmpty) {
+            when(what) {
+                Constant.PASSWORD -> password?.error = getString(R.string.email_cannot_be_empty)
+                Constant.NEWPASSWORD -> newPassword?.error = getString(R.string.email_cannot_be_empty)
+                Constant.CONFIRM_PASSWORD -> conPassword?.error = getString(R.string.email_cannot_be_empty)
+            }
+        } else {
+            newPassword?.error = getString(R.string.error_password_matching)
+        }
     }
 
     fun showToast(message: String) {

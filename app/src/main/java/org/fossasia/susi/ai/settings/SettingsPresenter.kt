@@ -4,6 +4,7 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
 
@@ -58,6 +59,38 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter 
         utilModel.saveAnonymity(false)
         databaseRepository.deleteAllMessages()
         settingView?.startLoginActivity()
+    }
+
+    override fun resetPassword(password: String, newPassword: String, conPassword: String) {
+        if(password.isEmpty()) {
+            settingView?.invalidCredentials(true, Constant.PASSWORD)
+            return
+        }
+
+        if(newPassword.isEmpty()) {
+            settingView?.invalidCredentials(true, Constant.NEWPASSWORD)
+            return
+        }
+
+        if(conPassword.isEmpty()) {
+            settingView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
+            return
+        }
+
+        if(!CredentialHelper.isPasswordValid(password)) {
+            settingView?.passwordInvalid(Constant.PASSWORD)
+            return
+        }
+
+        if(!CredentialHelper.isPasswordValid(newPassword)) {
+            settingView?.passwordInvalid(Constant.NEWPASSWORD)
+            return
+        }
+
+        if(newPassword != conPassword) {
+            settingView?.invalidCredentials(false, Constant.NEWPASSWORD)
+            return
+        }
     }
 
     override fun onDetach() {

@@ -10,4 +10,6 @@ interface ISettingsView {
     fun startLoginActivity()
     fun micPermission(): Boolean
     fun hotWordPermission(): Boolean
+    fun passwordInvalid(what: String)
+    fun invalidCredentials(isEmpty: Boolean, what: String)
 }
