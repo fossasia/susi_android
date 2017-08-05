@@ -21,5 +21,7 @@ then
 	git branch -m apk
 
 	git push origin apk --force --quiet > /dev/null
+
+	curl https://$APPETIZE_API_TOKEN@api.appetize.io/v1/apps/mbpprq4xj92c119j7nxdhttjm0 -H 'Content-Type: application/json' -d '{"url":"https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk", "note": "Update SUSI Preview"}'
 fi
 
