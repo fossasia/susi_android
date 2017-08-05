@@ -11,7 +11,7 @@ interface ISettingModel {
 
     interface onSettingFinishListener {
         fun onSuccess(response: Response<ChangeSettingResponse>)
-        fun onResetPasswordSuccess(response: Response<ResetPasswordResponse>)
+        fun onResetPasswordSuccess(response: Response<ResetPasswordResponse>?)
         fun onFailure(throwable: Throwable)
     }
 

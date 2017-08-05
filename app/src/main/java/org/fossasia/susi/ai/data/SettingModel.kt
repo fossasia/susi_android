@@ -37,7 +37,7 @@ class SettingModel: ISettingModel {
         resetPasswordResponseCall = ClientBuilder().susiApi
                 .resetPasswordResponse(email,password,newPassword)
         resetPasswordResponseCall.enqueue(object : Callback<ResetPasswordResponse> {
-            override fun onResponse(call: Call<ResetPasswordResponse>?, response: Response<ResetPasswordResponse>) {
+            override fun onResponse(call: Call<ResetPasswordResponse>?, response: Response<ResetPasswordResponse>?) {
                 listener.onResetPasswordSuccess(response)
             }
 

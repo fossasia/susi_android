@@ -53,7 +53,7 @@ public class Constant {
 
     public static final String EMAIL = "email";
     public static final String PASSWORD = "password";
-    public static final String NEWPASSWORD = "newpassword";
+    public static final String NEW_PASSWORD = "newpassword";
     public static final String CONFIRM_PASSWORD = "confirm_password";
     public static final String THEME_KEY = "Theme_key";
     public static final String INPUT_URL = "input_url";

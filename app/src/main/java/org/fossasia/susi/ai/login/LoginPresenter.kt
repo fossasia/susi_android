@@ -123,9 +123,11 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
 
             message = response.body().message.toString()
         } else if (response.code() == 422) {
+            loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.password_invalid_title),
                     utilModel.getString(R.string.password_invalid))
         } else {
+            loginView?.showProgress(false)
             loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error), response.message())
         }
     }

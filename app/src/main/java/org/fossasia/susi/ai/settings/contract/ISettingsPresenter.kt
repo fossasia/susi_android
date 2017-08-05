@@ -18,7 +18,9 @@ interface ISettingsPresenter {
 
     fun loginLogout()
 
-    fun resetPassword(password: String, newPassword: String)
+    fun resetPassword(password: String, newPassword: String, conPassword: String)
+
+    fun checkForPassword(password: String, what: String)
 
     fun sendSetting(key: String, value: String)
 
