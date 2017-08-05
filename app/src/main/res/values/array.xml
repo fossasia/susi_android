@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="listentries">
-        <item>Dark</item>
-        <item>Light</item>
+    <string-array name="languagentries">
+        <item>Default</item>
+        <item>English</item>
+        <item>German</item>
+        <item>Spanish</item>
+        <item>French</item>
+        <item>Italian</item>
+    </string-array>
+
+    <string-array name="languagentry">
+        <item>default</item>
+        <item>en</item>
+        <item>de</item>
+        <item>es</item>
+        <item>fr</item>
+        <item>it</item>
     </string-array>
 </resources>

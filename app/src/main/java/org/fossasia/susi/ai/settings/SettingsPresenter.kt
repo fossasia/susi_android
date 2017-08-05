@@ -118,4 +118,31 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
         return utilModel.getAnonymity()
     }
 
+    override fun setServer(isCustomServerChecked: Boolean, url: String) {
+        if(isCustomServerChecked) {
+            if (url.isEmpty()) {
+                settingView?.checkUrl(true)
+                return
+            }
+
+            if (!CredentialHelper.isURLValid(url)) {
+                settingView?.checkUrl(false)
+                return
+            }
+
+            if (CredentialHelper.getValidURL(url) != null) {
+                utilModel.setServer(false)
+                utilModel.setCustomURL(CredentialHelper.getValidURL(url).toString())
+            } else {
+                settingView?.checkUrl(false)
+                return
+            }
+        } else {
+            utilModel.putBooleanPref(Constant.SUSI_SERVER, true)
+        }
+        settingView?.setServerSuccessful()
+        return
+    }
+
+
 }

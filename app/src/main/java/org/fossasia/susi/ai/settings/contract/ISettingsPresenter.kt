@@ -26,4 +26,6 @@ interface ISettingsPresenter {
 
     fun getAnonymity(): Boolean
 
+    fun setServer(isCustomServerChecked: Boolean, url: String)
+
 }

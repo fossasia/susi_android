@@ -13,6 +13,8 @@ interface ISettingsView {
     fun onSettingResponse(message: String)
     fun passwordInvalid(what: String)
     fun invalidCredentials(isEmpty: Boolean, what: String)
+    fun checkUrl(isEmpty: Boolean)
     fun onResetPasswordResponse(message: String)
+    fun setServerSuccessful()
 
 }

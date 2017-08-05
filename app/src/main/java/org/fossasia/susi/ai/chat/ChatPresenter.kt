@@ -297,8 +297,9 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 val now = Date()
                 val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
                 val query = nonDeliveredMessages.first.first
+                val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT).equals(Constant.DEFAULT)) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
 
-                chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, Locale.getDefault().language, query, this)
+                chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, language, query, this)
 
             } else run {
                 chatView?.hideWaitingDots()

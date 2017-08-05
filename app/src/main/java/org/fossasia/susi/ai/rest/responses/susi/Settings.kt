@@ -25,4 +25,8 @@ class Settings {
     @Expose
     val micInput: Boolean = true
 
+    @SerializedName("language")
+    @Expose
+    val language: String = "default"
+
 }
