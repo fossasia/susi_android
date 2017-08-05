@@ -45,6 +45,7 @@ android {
         abortOnError false
         disable 'InvalidPackage'
     }
+
 }
 
 dependencies {
@@ -88,6 +89,8 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support.test:rules:0.5'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.8.9'
 
     //realm adapter
     compile 'io.realm:android-adapters:1.3.0'

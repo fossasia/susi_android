@@ -51,6 +51,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         addListeners()
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
+        loginPresenter.onStart()
     }
 
     override fun onLoginSuccess(message: String?) {

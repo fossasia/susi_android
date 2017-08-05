@@ -30,7 +30,7 @@ object CredentialHelper {
      * @return the boolean
      */
     fun isEmailValid(mail: String): Boolean {
-        Log.d(TAG, "isEmailValid: " + mail)
+//        Log.d(TAG, "isEmailValid: " + mail)
         val email = mail.trim { it <= ' ' }
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }

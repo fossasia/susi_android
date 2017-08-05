@@ -9,6 +9,8 @@ interface ILoginPresenter {
 
     fun onAttach(loginView: ILoginView)
 
+    fun onStart()
+
     fun login(email: String, password: String, isSusiServerSelected: Boolean, url: String)
 
     fun skipLogin()
