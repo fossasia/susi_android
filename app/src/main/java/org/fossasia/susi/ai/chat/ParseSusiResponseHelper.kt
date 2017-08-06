@@ -21,7 +21,6 @@ class ParseSusiResponseHelper {
     var mapData: MapData?= null
     var webSearch = ""
     var isHavingLink = false
-    var count = -1
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
@@ -61,7 +60,6 @@ class ParseSusiResponseHelper {
 
             Constant.RSS -> try {
                 datumList = susiResponse.answers[0].data
-                count = susiResponse.answers[0].actions[i].count
             } catch (e: Exception) {
                 datumList = null
             }
@@ -85,6 +83,21 @@ class ParseSusiResponseHelper {
                 links.add(url)
             }
             return links
+        }
+
+        fun getSkillLocation(locationUrl: String): Map<String,String> {
+            val susiLocation= mutableMapOf<String, String>()
+
+            try {
+                val locationArray = locationUrl.split("/")
+                susiLocation["model"] = locationArray[3]
+                susiLocation["group"] = locationArray[4]
+                susiLocation["language"] = locationArray[5]
+                susiLocation["skill"] = locationArray[6].split(".")[0]
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return susiLocation
         }
     }
 }

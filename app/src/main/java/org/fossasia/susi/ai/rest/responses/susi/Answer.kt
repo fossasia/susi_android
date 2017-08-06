@@ -24,4 +24,9 @@ class Answer {
     @SerializedName("actions")
     @Expose
     val actions: List<Action> = ArrayList()
+
+    @SerializedName("skills")
+    @Expose
+    val skills: List<String> = ArrayList()
+
 }

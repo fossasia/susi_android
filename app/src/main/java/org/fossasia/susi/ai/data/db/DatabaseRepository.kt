@@ -52,7 +52,7 @@ class DatabaseRepository: IDatabaseRepository {
 
     override fun updateDatabase(prevId: Long, message: String, isDate: Boolean, date: String,
                                 timeStamp: String, mine: Boolean, actionType: String, mapData: MapData?,
-                                isHavingLink: Boolean, datumList: List<Datum>?, webSearch: String, count: Int,
+                                isHavingLink: Boolean, datumList: List<Datum>?, webSearch: String, skillLocation: String,
                                 listener: IDatabaseRepository.onDatabaseUpdateListener) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
@@ -88,7 +88,7 @@ class DatabaseRepository: IDatabaseRepository {
                     }
                     chatMessage.datumRealmList = datumRealmList
                 }
-                chatMessage.count = count
+                chatMessage.skillLocation = skillLocation
             }
         }, {
             if (!mine) {

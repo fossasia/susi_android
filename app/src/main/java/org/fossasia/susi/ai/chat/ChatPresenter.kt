@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.chat
 
 import android.os.Handler
 
-import io.realm.RealmResults
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.db.DatabaseRepository
@@ -12,7 +11,6 @@ import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.ChatModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IChatModel
-import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
@@ -39,7 +37,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
     lateinit var locationHelper: LocationHelper
     val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
-    lateinit var results: RealmResults<ChatMessage>
     var newMessageIndex: Long = 0
     var micCheck = false
     var latitude: Double = 0.0
@@ -169,24 +166,24 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
                     if (newMessageIndex == 0L) {
                         databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate),
-                                DateTimeHelper.getTime(queryDate), false, "", null, false, null, "", 0, this)
+                                DateTimeHelper.getTime(queryDate), false, "", null, false, null, "", "", this)
                     } else {
                         val prevDate = DateTimeHelper.getDate(allMessages[i + 1].queryDate)
 
                         if (DateTimeHelper.getDate(queryDate) != prevDate) {
                             databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.getDate(queryDate),
-                                    DateTimeHelper.getTime(queryDate), false, "", null, false, null, "", 0, this)
+                                    DateTimeHelper.getTime(queryDate), false, "", null, false, null, "", "", this)
                         }
                     }
 
                     c = newMessageIndex
                     databaseRepository.updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate),
-                            DateTimeHelper.getTime(queryDate), true, "", null, isHavingLink, null, "", 0, this)
+                            DateTimeHelper.getTime(queryDate), true, "", null, isHavingLink, null, "", "", this)
 
                     if(allMessages[i].answers.isEmpty()) {
                         databaseRepository.updateDatabase(c, utilModel.getString(R.string.error_internet_connectivity),
                                 false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
-                                Constant.ANSWER, null, false, null, "", -1, this)
+                                Constant.ANSWER, null, false, null, "", "", this)
                         continue
                     }
 
@@ -197,7 +194,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                         psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
                         databaseRepository.updateDatabase(c, psh.answer, false, DateTimeHelper.getDate(answerDate),
                                 DateTimeHelper.getTime(answerDate), false, psh.actionType, psh.mapData, psh.isHavingLink,
-                                psh.datumList, psh.webSearch, psh.count, this)
+                                psh.datumList, psh.webSearch, allMessages[i].answers[0].skills[0], this)
                     }
                 }
             }
@@ -266,17 +263,17 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
         if (newMessageIndex == 0L) {
             databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
-                    DateTimeHelper.currentTime, false, "", null, false, null, "", 0, this)
+                    DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
         } else {
             val s = databaseRepository.getAMessage(newMessageIndex-1).date
             if (DateTimeHelper.date != s) {
                 databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
-                        DateTimeHelper.currentTime, false, "", null, false, null, "", 0, this)
+                        DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
             }
         }
         nonDeliveredMessages.add(Pair(query, newMessageIndex))
         databaseRepository.updateDatabase(newMessageIndex, actual, false, DateTimeHelper.date,
-                DateTimeHelper.currentTime, true, "", null, isHavingLink, null, "", 0, this)
+                DateTimeHelper.currentTime, true, "", null, isHavingLink, null, "", "", this)
         getLocationFromLocationService()
         computeThread().start()
     }
@@ -326,7 +323,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         } else {
             databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
                     false, DateTimeHelper.date, DateTimeHelper.currentTime, false, Constant.ANSWER,
-                    null, false, null, "", -1, this)
+                    null, false, null, "", "", this)
         }
         BaseUrl.updateBaseUrl(t)
         computeOtherMessage()
@@ -347,7 +344,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             if(response.body().answers.isEmpty()) {
                 databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
                         false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
-                        Constant.ANSWER, null, false, null, "", -1, this)
+                        Constant.ANSWER, null, false, null, "", "", this)
                 return
             }
 
@@ -371,7 +368,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     }
                     databaseRepository.updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date),
                             DateTimeHelper.getTime(date), false, psh.actionType, psh.mapData, psh.isHavingLink,
-                            psh.datumList, psh.webSearch, psh.count, this)
+                            psh.datumList, psh.webSearch, susiResponse.answers[0].skills[0], this)
                 }, delay)
             }
             chatView?.hideWaitingDots()
@@ -382,7 +379,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             } else {
                 databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
                         false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
-                        Constant.ANSWER, null, false, null, "", -1, this)
+                        Constant.ANSWER, null, false, null, "", "", this)
             }
             chatView?.hideWaitingDots()
         }

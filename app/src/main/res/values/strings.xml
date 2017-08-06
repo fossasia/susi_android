@@ -71,6 +71,7 @@
     <string name="error_invalid_token">Invalid Access Token!</string>
     <string name="error_internet_connectivity">Internet Connectivity Problem!</string>
     <string name="error_hotword">Sorry, Hotword detection is not supported on your phone.</string>
+    <string name="error_rating">Unable to rate skill. Some error occurred.</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>

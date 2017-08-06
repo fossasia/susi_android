@@ -15,13 +15,12 @@ public class ChatMessage extends RealmObject {
 
     @PrimaryKey
     private long id;
-    private String content, timeStamp, date, webquery, actionType;
+    private String content, timeStamp, date, webquery, actionType, skillLocation;
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
-    private boolean isDelivered, isHavingLink, isDate, isMine;
+    private boolean isDelivered, isHavingLink, isDate, isMine, isPositiveRated, isNegativeRated;
     private double latitude, longitude, zoom;
-    private int count;
 
     /**
      * Instantiates a new Chat message.
@@ -42,9 +41,11 @@ public class ChatMessage extends RealmObject {
      * @param timeStamp      the time stamp
      * @param datumRealmList the datum realm list for rss and piechart actiontype
      * @param webquery       the webquery of websearch action type
-     * @param count          the count of rss results
+     * @param skillLocation  the location of skill
      */
-    public ChatMessage(long id, String content, String date, boolean isDate, boolean isMine, boolean isHavingLink, String timeStamp, RealmList<Datum> datumRealmList, String webquery, int count) {
+    public ChatMessage(long id, String content, String date, boolean isDate, boolean isMine,
+                       boolean isHavingLink, String timeStamp, RealmList<Datum> datumRealmList,
+                       String webquery, String skillLocation) {
         this.id = id;
         this.content = content;
         this.date = date;
@@ -56,7 +57,7 @@ public class ChatMessage extends RealmObject {
         this.isMine = isMine;
         this.webLinkData = null;
         this.webSearchList = null;
-        this.count = count;
+        this.skillLocation = skillLocation;
     }
 
     /**
@@ -341,21 +342,27 @@ public class ChatMessage extends RealmObject {
         this.zoom = zoom;
     }
 
-    /**
-     * Gets count.
-     *
-     * @return the count
-     */
-    public int getCount() {
-        return count;
+    public String getSkillLocation() {
+        return skillLocation;
     }
 
-    /**
-     * Sets count
-     *
-     * @param count the count
-     */
-    public void setCount(int count) {
-        this.count = count;
+    public void setSkillLocation(String skillLocation) {
+        this.skillLocation = skillLocation;
+    }
+
+    public boolean isPositiveRated() {
+        return isPositiveRated;
+    }
+
+    public void setPositiveRated(boolean positiveRated) {
+        isPositiveRated = positiveRated;
+    }
+
+    public boolean isNegativeRated() {
+        return isNegativeRated;
+    }
+
+    public void setNegativeRated(boolean negativeRated) {
+        isNegativeRated = negativeRated;
     }
 }

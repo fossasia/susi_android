@@ -36,7 +36,6 @@ public class Constant {
     public static final String SELECT_SERVER="Server_Select";
     public static final String LANG_SELECT="Lang_Select";
     public static final String RATE="rate";
-    public static final String SERVER_CHANGE_PROMPT="Please login again to change susi server.";
 
     //action types
     public static final String ANSWER = "answer";
@@ -55,7 +54,6 @@ public class Constant {
     public static final String PASSWORD = "password";
     public static final String NEW_PASSWORD = "newpassword";
     public static final String CONFIRM_PASSWORD = "confirm_password";
-    public static final String THEME_KEY = "Theme_key";
     public static final String INPUT_URL = "input_url";
 
     //Strings to get results from Database
@@ -66,4 +64,7 @@ public class Constant {
     public static final String GPS = "gps";
     public static final String NETWORK = "network";
     public static final String IP = "ip";
+
+    public static final String POSITIVE = "positive";
+    public static final String NEGATIVE = "negative";
 }
