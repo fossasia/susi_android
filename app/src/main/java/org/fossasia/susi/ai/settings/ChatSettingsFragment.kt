@@ -41,9 +41,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     lateinit var loginLogout: Preference
+    lateinit var resetPassword: Preference
     lateinit var enterSend: Preference
     lateinit var speechAlways: Preference
     lateinit var speechOutput: Preference
+    var password: TextInputLayout?= null
+    var newPassword: TextInputLayout?= null
+    var conPassword: TextInputLayout?= null
+    var alert: AlertDialog?= null
     var flag = true
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -59,6 +64,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
+        resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(Constant.ENTER_SEND)
         speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
         speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
@@ -120,6 +126,16 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
         } else {
             server.isEnabled = false
+        }
+
+        if(!settingsPresenter.getAnonymity()) {
+            resetPassword.isEnabled = true
+            resetPassword.setOnPreferenceClickListener {
+                showResetPasswordAlert()
+                true
+            }
+        } else {
+            resetPassword.isEnabled = false
         }
 
         micSettings.isEnabled = settingsPresenter.enableMic()
@@ -195,6 +211,26 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         alert.show()
     }
 
+    fun showResetPasswordAlert() {
+        val builder = AlertDialog.Builder(activity)
+        val resetPasswordView = activity.layoutInflater.inflate(R.layout.alert_reset_password, null)
+        password = resetPasswordView.findViewById(R.id.password) as TextInputLayout
+        newPassword = resetPasswordView.findViewById(R.id.newpassword) as TextInputLayout
+        conPassword = resetPasswordView.findViewById(R.id.confirmpassword) as TextInputLayout
+        builder.setView(resetPasswordView)
+        builder.setTitle(Constant.CHANGE_PASSWORD)
+                .setCancelable(false)
+                .setNegativeButton(Constant.CANCEL, null)
+                .setPositiveButton(getString(R.string.ok), null)
+        alert = builder.create()
+        alert?.show()
+        setupPasswordWatcher()
+        alert?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+            settingsPresenter.resetPassword(password?.editText?.text.toString(), newPassword?.editText?.text.toString(), conPassword?.editText?.text.toString())
+        }
+        true
+    }
+
     override fun micPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
     }
@@ -219,6 +255,55 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         Log.d("settingresponse", message)
     }
 
+    override fun passwordInvalid(what: String) {
+        when(what) {
+            Constant.NEW_PASSWORD -> newPassword?.error = getString(R.string.pass_validation_text)
+            Constant.PASSWORD -> password?.error = getString(R.string.pass_validation_text)
+            Constant.CONFIRM_PASSWORD -> conPassword?.error = getString(R.string.pass_validation_text)
+        }
+    }
+
+    override fun invalidCredentials(isEmpty: Boolean, what: String) {
+        if(isEmpty) {
+            when(what) {
+                Constant.PASSWORD -> password?.error = getString(R.string.field_cannot_be_empty)
+                Constant.NEW_PASSWORD -> newPassword?.error = getString(R.string.field_cannot_be_empty)
+                Constant.CONFIRM_PASSWORD -> conPassword?.error = getString(R.string.field_cannot_be_empty)
+            }
+        } else {
+            conPassword?.error = getString(R.string.error_password_matching)
+        }
+    }
+
+    override fun onResetPasswordResponse(message: String) {
+        alert?.dismiss()
+        if(!message.equals("null")) {
+            showToast(message)
+        } else {
+            showToast(getString(R.string.wrong_password))
+            showResetPasswordAlert()
+        }
+    }
+
+    fun setupPasswordWatcher() {
+        password?.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            password?.error = null
+            if (!hasFocus)
+                settingsPresenter.checkForPassword(password?.editText?.text.toString(), Constant.PASSWORD)
+        }
+        newPassword?.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            newPassword?.error = null
+            if (!hasFocus)
+                settingsPresenter.checkForPassword(newPassword?.editText?.text.toString(), Constant.NEW_PASSWORD)
+        }
+
+        conPassword?.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            conPassword?.error = null
+            if (!hasFocus)
+                settingsPresenter.checkForPassword(conPassword?.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
+        }
+
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         settingsPresenter.onDetach()

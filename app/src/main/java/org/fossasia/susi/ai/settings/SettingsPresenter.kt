@@ -8,7 +8,9 @@ import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.settings.contract.ISettingsView
 import org.fossasia.susi.ai.data.SettingModel
 import org.fossasia.susi.ai.data.contract.ISettingModel
+import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
+import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
 import retrofit2.Response
 
 /**
@@ -61,6 +63,32 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
         settingView?.startLoginActivity()
     }
 
+    override fun resetPassword(password: String, newPassword: String, conPassword: String) {
+        if (password.isEmpty()) {
+            settingView?.invalidCredentials(true, Constant.PASSWORD)
+            return
+        }
+        if (newPassword.isEmpty()) {
+            settingView?.invalidCredentials(true, Constant.NEW_PASSWORD)
+            return
+        }
+        if (conPassword.isEmpty()) {
+            settingView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
+            return
+        }
+
+        if (!CredentialHelper.isPasswordValid(newPassword)) {
+            settingView?.passwordInvalid(Constant.NEW_PASSWORD)
+            return
+        }
+
+        if (newPassword != conPassword) {
+            settingView?.invalidCredentials(false, Constant.NEW_PASSWORD)
+            return
+        }
+        settingModel.resetPassword(password,newPassword,this)
+    }
+
     override fun onSuccess(response: Response<ChangeSettingResponse>) {
         settingView?.onSettingResponse(response.message())
     }
@@ -69,12 +97,21 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
         settingView?.onSettingResponse(throwable.message.toString())
     }
 
+    override fun onResetPasswordSuccess(response: Response<ResetPasswordResponse>?) {
+        settingView?.onResetPasswordResponse(response?.body()?.message.toString())
+    }
+
     override fun onDetach() {
         settingView = null
     }
 
     override fun sendSetting(key: String, value: String) {
         settingModel.sendSetting(key, value, this)
+    }
+
+    override fun checkForPassword(password: String, what: String) {
+        if (!CredentialHelper.isPasswordValid(password))
+            settingView?.passwordInvalid(what)
     }
 
     override fun getAnonymity(): Boolean{

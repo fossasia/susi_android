@@ -75,6 +75,10 @@
             android:summary="@string/pref_share_summary" />
 
         <PreferenceScreen
+            android:title="@string/reset"
+            android:key="reset_password"/>
+
+        <PreferenceScreen
             android:title="Login"
             android:key="login_logout" />
 

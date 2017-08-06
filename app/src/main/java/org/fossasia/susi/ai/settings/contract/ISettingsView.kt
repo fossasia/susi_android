@@ -11,5 +11,8 @@ interface ISettingsView {
     fun micPermission(): Boolean
     fun hotWordPermission(): Boolean
     fun onSettingResponse(message: String)
+    fun passwordInvalid(what: String)
+    fun invalidCredentials(isEmpty: Boolean, what: String)
+    fun onResetPasswordResponse(message: String)
 
 }

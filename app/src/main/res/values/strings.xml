@@ -77,6 +77,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="new_password">New Password</string>
+    <string name="current_password">Current Password</string>
     <string name="sign_up">Sign Up</string>
     <string name="pass_validation_text">Enter a combination of at least six characters</string>
     <string name="log_in">Log in</string>
@@ -131,6 +133,7 @@
     <string name="email_id_input">Enter your Email ID</string>
     <string name="reset">Reset Password</string>
     <string name="reset_pass_activity">Reset Password</string>
+    <string name="wrong_password">Failed.try again</string>
     <string name="error_password_matching">Passwords do not match</string>
     <string name="pass_change_dialog">Changing your Password. Please Wait</string>
     <string name="forgot_pass_activity">Forgot Password?</string>
