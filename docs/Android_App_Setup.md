@@ -1,8 +1,10 @@
-# Development Setup
+# Android App Setup
+
+## Development Setup
 
 Before you begin, you should already have the Android Studio SDK downloaded and set up correctly. You can find a guide on how to do this here: [Setting up Android Studio](http://developer.android.com/sdk/installing/index.html?pkg=studio)
 
-# Setting up the Android Project
+## Setting up the Android Project
 
 1. Download the _susi_android_ project source. You can do this either by forking and cloning the repository (recommended if you plan on pushing changes) or by downloading it as a ZIP file and extracting it.
 
@@ -20,7 +22,7 @@ Before you begin, you should already have the Android Studio SDK downloaded and 
 
 7. If the app was built successfully, you can test it by running it on either a real device or an emulated one by going to _Run>Run 'app'_ or pressing the Run icon in the toolbar.
 
-# Configuring the app
+## Configuring the app
 
 **Configuring App Theme / Localizations**
 
