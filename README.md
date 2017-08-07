@@ -24,17 +24,18 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
 
 ## Screenshots
 
-  <p align="center">
-    <img src="docs/images/login.png" height = "480" width="270">
-    <img src="docs/images/signup.png" height = "480" width="270">
-    <img src="docs/images/message.png" height = "480" width="270">
-  </p>
-
-  <p align="center">
-    <img src="docs/images/message_map.png" height = "480" width="270">
-    <img src="docs/images/message_select.png" height = "480" width="270">
-    <img src="docs/images/settings.png" height = "480" width="270">
-  </p>
+<table>
+  <tr>
+    <td><img src="docs/_static/login.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/signup.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/message.png" height = "480" width="270"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/_static/message_map.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/message_select.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/settings.png" height = "480" width="270"></td>
+  </tr>
+</table>
 
 ## Development
 
@@ -88,14 +89,10 @@ Lastly, each class should only perform one task, do it well, and be unit tested 
 ### Branch Policy
 
 We have the following branches
- * **development**
-	 All development goes on in this branch. If you're making a contribution,
-	 you are supposed to make a pull request to _development_.
-	 PRs to gh-pages must pass a build check and a unit-test check on Travis
- * **master**
-   This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
- * **apk**
-   This branch contains two apk's, that are automatically generated on merged pull request a) debug apk and b) release apk.
+
+ * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to gh-pages must pass a build check and a unit-test check on Travis.
+ * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
+ * **apk** This branch contains two apk's, that are automatically generated on merged pull request a) debug apk and b) release apk.
 
 ### Code practices
 
