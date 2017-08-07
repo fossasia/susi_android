@@ -105,8 +105,8 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
         settingView = null
     }
 
-    override fun sendSetting(key: String, value: String) {
-        settingModel.sendSetting(key, value, this)
+    override fun sendSetting(key: String, value: String, count: Int) {
+        settingModel.sendSetting(key, value, count, this)
     }
 
     override fun checkForPassword(password: String, what: String) {
@@ -141,7 +141,6 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
             utilModel.putBooleanPref(Constant.SUSI_SERVER, true)
         }
         settingView?.setServerSuccessful()
-        return
     }
 
 

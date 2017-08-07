@@ -82,7 +82,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             PrefManager.putString(Constant.LANGUAGE, newValue.toString())
             setLanguage()
             if(!settingsPresenter.getAnonymity()) {
-                settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString())
+                settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
             }
             true
         }
@@ -148,31 +148,30 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         if(!settingsPresenter.getAnonymity()) {
             micSettings.setOnPreferenceClickListener {
-                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString())
+                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
                 true
             }
 
             enterSend.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString())
+                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
                 true
             }
 
             speechAlways.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString())
+                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString(), 1)
                 true
             }
 
             speechOutput.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString())
+                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString(), 1)
                 true
             }
         }
     }
 
     fun setLanguage() {
-        if(querylanguage.value == null)
-            querylanguage.setValueIndex(0)
         val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
+        querylanguage.setValueIndex(index)
         querylanguage.summary = querylanguage.entries[index]
     }
 
