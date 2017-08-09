@@ -54,11 +54,11 @@
     <string name="settings_enterPreference_label">Enter As Send</string>
     <string name="setting_mic_input">Mic input</string>
     <string name="setting_hotword_detection">Hotword Detection (Beta)</string>
-    <string name="setting_mic_key" translatable="false">mic_input</string>
+    <string name="setting_mic_key" translatable="false">micInput</string>
     <string name="setting_hotword_key" translatable="false">hotword_detection</string>
-    <string name="settings_enterPreference_key" translatable="false">enter_send</string>
-    <string name="settings_speechPreference_key" translatable="false">speech_output</string>
-    <string name="settings_speechAlways_key" translatable="false">speech_always</string>
+    <string name="settings_enterPreference_key" translatable="false">enterAsSend</string>
+    <string name="settings_speechPreference_key" translatable="false">speechOutput</string>
+    <string name="settings_speechAlways_key" translatable="false">speechOutputAlways</string>
     <string name="hello_world">Hello world!</string>
     <string name="speech_prompt">Say something&#8230;</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
@@ -110,6 +110,9 @@
     <string name="settings_misc">Miscellaneous</string>
     <string name="Language">Language</string>
     <string name="action_select_language">Select a Language</string>
+    <string name="query_language">Query Language</string>
+    <string name="action_select_query_language">Select a query language</string>
+    <string name="action_select_tts_language">Select a text to speech engine language</string>
 
     <!-- Login Activity-->
     <string name="invalid_url">Invalid URL</string>

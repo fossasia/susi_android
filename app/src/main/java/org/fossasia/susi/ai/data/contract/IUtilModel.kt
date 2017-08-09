@@ -26,5 +26,6 @@ interface IUtilModel {
     fun copyAssetstoSD()
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
+    fun setLanguage(language: String)
 
 }

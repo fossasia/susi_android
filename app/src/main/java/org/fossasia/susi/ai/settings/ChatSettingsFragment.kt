@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.settings
 
 import android.Manifest
-import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -10,6 +9,7 @@ import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
+import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.support.v7.widget.AppCompatCheckBox
@@ -34,7 +34,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     lateinit var settingsPresenter: ISettingsPresenter
 
-    lateinit var textToSpeech: Preference
     lateinit var rate: Preference
     lateinit var server: Preference
     lateinit var micSettings: Preference
@@ -45,10 +44,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var enterSend: Preference
     lateinit var speechAlways: Preference
     lateinit var speechOutput: Preference
-    var password: TextInputLayout?= null
-    var newPassword: TextInputLayout?= null
-    var conPassword: TextInputLayout?= null
-    var alert: AlertDialog?= null
+    lateinit var password: TextInputLayout
+    lateinit var newPassword: TextInputLayout
+    lateinit var conPassword: TextInputLayout
+    lateinit var input_url: TextInputLayout
+    lateinit var resetPasswordAlert: AlertDialog
+    lateinit var setServerAlert: AlertDialog
+    lateinit var querylanguage: ListPreference
     var flag = true
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -57,7 +59,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         settingsPresenter = SettingsPresenter(activity as SettingsActivity)
         settingsPresenter.onAttach(this)
 
-        textToSpeech = preferenceManager.findPreference(Constant.LANG_SELECT)
         rate = preferenceManager.findPreference(Constant.RATE)
         server = preferenceManager.findPreference(Constant.SELECT_SERVER)
         micSettings = preferenceManager.findPreference(Constant.MIC_INPUT)
@@ -68,20 +69,23 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         enterSend = preferenceManager.findPreference(Constant.ENTER_SEND)
         speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
         speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
+        querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
 
+        setLanguage()
         if (settingsPresenter.getAnonymity()) {
             loginLogout.title = "Login"
         } else {
             loginLogout.title = "Logout"
         }
 
-        textToSpeech.setOnPreferenceClickListener {
-            val intent = Intent()
-            intent.component = ComponentName("com.android.settings", "com.android.settings.Settings\$TextToSpeechSettingsActivity")
-            startActivity(intent)
+        querylanguage.setOnPreferenceChangeListener { _, newValue ->
+            PrefManager.putString(Constant.LANGUAGE, newValue.toString())
+            setLanguage()
+            if(!settingsPresenter.getAnonymity()) {
+                settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
+            }
             true
         }
-
         rate.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context.packageName)))
             true
@@ -144,34 +148,40 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         if(!settingsPresenter.getAnonymity()) {
             micSettings.setOnPreferenceClickListener {
-                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString())
+                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
                 true
             }
 
             enterSend.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString())
+                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
                 true
             }
 
             speechAlways.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString())
+                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString(), 1)
                 true
             }
 
             speechOutput.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString())
+                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString(), 1)
                 true
             }
         }
     }
 
+    fun setLanguage() {
+        val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
+        querylanguage.setValueIndex(index)
+        querylanguage.summary = querylanguage.entries[index]
+    }
+
     fun showAlert() {
         val builder = AlertDialog.Builder(activity)
         val promptsView = activity.layoutInflater.inflate(R.layout.alert_change_server, null)
-        val input_url = promptsView.findViewById(R.id.input_url) as TextInputLayout
+        input_url = promptsView.findViewById(R.id.input_url) as TextInputLayout
         val input_url_text = promptsView.findViewById(R.id.input_url_text) as TextInputEditText
         val customer_server = promptsView.findViewById(R.id.customer_server) as AppCompatCheckBox
-        if (PrefManager.getBoolean(Constant.SUSI_SERVER, false)) {
+        if (PrefManager.getBoolean(Constant.SUSI_SERVER, true)) {
             input_url.visibility = View.GONE
             flag = false
         } else {
@@ -190,25 +200,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         builder.setTitle(Constant.CHANGE_SERVER)
                 .setCancelable(false)
                 .setNegativeButton(Constant.CANCEL, null)
-                .setPositiveButton(activity.getString(R.string.ok)) { dialog, _ ->
-                    if (customer_server.isChecked) {
-                        if (!CredentialHelper.checkIfEmpty(input_url, activity) && CredentialHelper.isURLValid(input_url, activity)) {
-                            if (CredentialHelper.getValidURL(input_url.editText?.text.toString()) != null) {
-                                PrefManager.putBoolean(Constant.SUSI_SERVER, false)
-                                PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(input_url.editText?.text.toString()))
-                                dialog.dismiss()
-                            } else {
-                                input_url.error = this.getString(R.string.invalid_url)
-                            }
-                        }
-                    } else {
-                        PrefManager.putBoolean(Constant.SUSI_SERVER, true)
-                        dialog.dismiss()
-                    }
-
-                }
-        val alert = builder.create()
-        alert.show()
+                .setPositiveButton(activity.getString(R.string.ok), null)
+        setServerAlert = builder.create()
+        setServerAlert.show()
+        setServerAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+            settingsPresenter.setServer(customer_server.isChecked, input_url.editText?.text.toString())
+        }
     }
 
     fun showResetPasswordAlert() {
@@ -222,13 +219,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 .setCancelable(false)
                 .setNegativeButton(Constant.CANCEL, null)
                 .setPositiveButton(getString(R.string.ok), null)
-        alert = builder.create()
-        alert?.show()
+        resetPasswordAlert = builder.create()
+        resetPasswordAlert.show()
         setupPasswordWatcher()
-        alert?.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            settingsPresenter.resetPassword(password?.editText?.text.toString(), newPassword?.editText?.text.toString(), conPassword?.editText?.text.toString())
+        resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
+            settingsPresenter.resetPassword(password.editText?.text.toString(), newPassword.editText?.text.toString(), conPassword.editText?.text.toString())
         }
-        true
     }
 
     override fun micPermission(): Boolean {
@@ -257,26 +253,26 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     override fun passwordInvalid(what: String) {
         when(what) {
-            Constant.NEW_PASSWORD -> newPassword?.error = getString(R.string.pass_validation_text)
-            Constant.PASSWORD -> password?.error = getString(R.string.pass_validation_text)
-            Constant.CONFIRM_PASSWORD -> conPassword?.error = getString(R.string.pass_validation_text)
+            Constant.NEW_PASSWORD -> newPassword.error = getString(R.string.pass_validation_text)
+            Constant.PASSWORD -> password.error = getString(R.string.pass_validation_text)
+            Constant.CONFIRM_PASSWORD -> conPassword.error = getString(R.string.pass_validation_text)
         }
     }
 
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
         if(isEmpty) {
             when(what) {
-                Constant.PASSWORD -> password?.error = getString(R.string.field_cannot_be_empty)
-                Constant.NEW_PASSWORD -> newPassword?.error = getString(R.string.field_cannot_be_empty)
-                Constant.CONFIRM_PASSWORD -> conPassword?.error = getString(R.string.field_cannot_be_empty)
+                Constant.PASSWORD -> password.error = getString(R.string.field_cannot_be_empty)
+                Constant.NEW_PASSWORD -> newPassword.error = getString(R.string.field_cannot_be_empty)
+                Constant.CONFIRM_PASSWORD -> conPassword.error = getString(R.string.field_cannot_be_empty)
             }
         } else {
-            conPassword?.error = getString(R.string.error_password_matching)
+            conPassword.error = getString(R.string.error_password_matching)
         }
     }
 
     override fun onResetPasswordResponse(message: String) {
-        alert?.dismiss()
+        resetPasswordAlert.dismiss()
         if(!message.equals("null")) {
             showToast(message)
         } else {
@@ -285,22 +281,34 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
     }
 
-    fun setupPasswordWatcher() {
-        password?.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            password?.error = null
-            if (!hasFocus)
-                settingsPresenter.checkForPassword(password?.editText?.text.toString(), Constant.PASSWORD)
+    override fun checkUrl(isEmpty: Boolean) {
+        if(isEmpty) {
+            input_url.error = getString(R.string.field_cannot_be_empty)
+        } else {
+            input_url.error = getString(R.string.invalid_url)
         }
-        newPassword?.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            newPassword?.error = null
+    }
+
+    override fun setServerSuccessful() {
+        setServerAlert.dismiss()
+    }
+
+    fun setupPasswordWatcher() {
+        password.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            password.error = null
             if (!hasFocus)
-                settingsPresenter.checkForPassword(newPassword?.editText?.text.toString(), Constant.NEW_PASSWORD)
+                settingsPresenter.checkForPassword(password.editText?.text.toString(), Constant.PASSWORD)
+        }
+        newPassword.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            newPassword.error = null
+            if (!hasFocus)
+                settingsPresenter.checkForPassword(newPassword.editText?.text.toString(), Constant.NEW_PASSWORD)
         }
 
-        conPassword?.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
-            conPassword?.error = null
+        conPassword.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            conPassword.error = null
             if (!hasFocus)
-                settingsPresenter.checkForPassword(conPassword?.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
+                settingsPresenter.checkForPassword(conPassword.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
         }
 
     }

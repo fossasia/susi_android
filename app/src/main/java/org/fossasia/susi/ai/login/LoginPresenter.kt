@@ -143,6 +143,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
                 utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
                 utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, settings.speechAlways)
                 utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, settings.speechOutput)
+                utilModel.setLanguage(settings.language)
             }
 
             loginView?.onLoginSuccess(message)

@@ -96,8 +96,9 @@ public interface SusiService {
      * @return the call
      */
     @POST("/aaa/changeUserSettings.json")
-    Call<ChangeSettingResponse> changeSettingResponse(@Query("key") String key,
-                                                      @Query("value") String value);
+    Call<ChangeSettingResponse> changeSettingResponse(@Query("key1") String key,
+                                                      @Query("value1") String value,
+                                                      @Query("count") int count);
 
     /**
      * Get User settings

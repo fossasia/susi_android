@@ -9,15 +9,15 @@ public class Constant {
 
     public static final String IMAGE_DATA = "image_data";
 
-    public static final String ENTER_SEND = "enter_send";
+    public static final String ENTER_SEND = "enterAsSend";
 
-    public static final String MIC_INPUT="mic_input";
+    public static final String MIC_INPUT="micInput";
 
     public static final String ACCESS_TOKEN = "access_token";
 
     public static final String TOKEN_VALIDITY = "token_validity";
-    public static final String SPEECH_OUTPUT = "speech_output";
-    public static final String SPEECH_ALWAYS = "speech_always";
+    public static final String SPEECH_OUTPUT = "speechOutput";
+    public static final String SPEECH_ALWAYS = "speechOutputAlways";
     public static final String HOTWORD_DETECTION = "hotword_detection";
     public static final String SHARE = "share";
     public static final String LOGIN_LOGOUT = "login_logout";
@@ -35,6 +35,8 @@ public class Constant {
     public static final String CHANGE_SERVER="Change Server";
     public static final String SELECT_SERVER="Server_Select";
     public static final String LANG_SELECT="Lang_Select";
+    public static final String LANGUAGE="prefLanguage";
+    public static final String DEFAULT="default";
     public static final String RATE="rate";
 
     //action types

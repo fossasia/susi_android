@@ -53,13 +53,14 @@
             android:key="@string/settings_speechAlways_key"
             android:summary="@string/settings_speechAlwaysPreference_summary"
             android:title="@string/settings_speechAlways_label" />
+    </PreferenceCategory>
 
-        <PreferenceScreen
+        <ListPreference
             android:title="@string/Language"
             android:key="Lang_Select"
-            android:summary="@string/action_select_language">
-        </PreferenceScreen>
-    </PreferenceCategory>
+            android:entries="@array/languagentries"
+            android:entryValues="@array/languagentry">
+        </ListPreference>
 
     <PreferenceCategory
         android:title="@string/settings_misc">

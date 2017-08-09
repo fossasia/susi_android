@@ -105,8 +105,8 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
         settingView = null
     }
 
-    override fun sendSetting(key: String, value: String) {
-        settingModel.sendSetting(key, value, this)
+    override fun sendSetting(key: String, value: String, count: Int) {
+        settingModel.sendSetting(key, value, count, this)
     }
 
     override fun checkForPassword(password: String, what: String) {
@@ -117,5 +117,31 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
     override fun getAnonymity(): Boolean{
         return utilModel.getAnonymity()
     }
+
+    override fun setServer(isCustomServerChecked: Boolean, url: String) {
+        if(isCustomServerChecked) {
+            if (url.isEmpty()) {
+                settingView?.checkUrl(true)
+                return
+            }
+
+            if (!CredentialHelper.isURLValid(url)) {
+                settingView?.checkUrl(false)
+                return
+            }
+
+            if (CredentialHelper.getValidURL(url) != null) {
+                utilModel.setServer(false)
+                utilModel.setCustomURL(CredentialHelper.getValidURL(url).toString())
+            } else {
+                settingView?.checkUrl(false)
+                return
+            }
+        } else {
+            utilModel.putBooleanPref(Constant.SUSI_SERVER, true)
+        }
+        settingView?.setServerSuccessful()
+    }
+
 
 }

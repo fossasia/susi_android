@@ -22,8 +22,10 @@ interface ISettingsPresenter {
 
     fun checkForPassword(password: String, what: String)
 
-    fun sendSetting(key: String, value: String)
+    fun sendSetting(key: String, value: String, count: Int)
 
     fun getAnonymity(): Boolean
+
+    fun setServer(isCustomServerChecked: Boolean, url: String)
 
 }

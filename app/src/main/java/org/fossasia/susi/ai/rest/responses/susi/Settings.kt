@@ -9,20 +9,24 @@ import com.google.gson.annotations.SerializedName
 
 class Settings {
 
-    @SerializedName("speech_always")
+    @SerializedName("speechOutputAlways")
     @Expose
     val speechAlways: Boolean = false
 
-    @SerializedName("enter_send")
+    @SerializedName("enterAsSend")
     @Expose
     val enterSend: Boolean = false
 
-    @SerializedName("speech_output")
+    @SerializedName("speechOutput")
     @Expose
     val speechOutput: Boolean = true
 
-    @SerializedName("mic_input")
+    @SerializedName("micInput")
     @Expose
     val micInput: Boolean = true
+
+    @SerializedName("prefLanguage")
+    @Expose
+    val language: String = "default"
 
 }
