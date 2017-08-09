@@ -102,7 +102,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         trainHotword.setOnPreferenceClickListener {
             val hotwordfrag = HotwordTrainingFragment()
-            this.fragmentManager.beginTransaction()
+            Log.v("chirag","this is getting called")
+            fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, hotwordfrag)
                     .addToBackStack(null)
                     .commit()
