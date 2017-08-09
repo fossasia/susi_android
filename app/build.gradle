@@ -27,7 +27,7 @@ android {
 
     defaultConfig {
         applicationId "ai.susi"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 6
         versionName "1.05"
@@ -41,7 +41,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
@@ -99,4 +98,6 @@ dependencies {
         transitive = true
     }
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    compile 'com.writingminds:FFmpegAndroid:0.3.2'
 }
