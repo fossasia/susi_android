@@ -24,6 +24,9 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.hotword.HotwordTrainingFragment
+import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.settings.contract.ISettingsView
 
 /**
  * The Fragment for Settings Activity
@@ -45,6 +48,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var enterSend: Preference
     lateinit var speechAlways: Preference
     lateinit var speechOutput: Preference
+    lateinit var trainHotword: Preference
     lateinit var password: TextInputLayout
     lateinit var newPassword: TextInputLayout
     lateinit var conPassword: TextInputLayout
@@ -74,6 +78,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
         speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
+        trainHotword = preferenceManager.findPreference(Constant.TRAIN_HOTWORD)
 
         setLanguage()
         if (settingsPresenter.getAnonymity()) {
@@ -92,6 +97,15 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
         rate.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context.packageName)))
+            true
+        }
+
+        trainHotword.setOnPreferenceClickListener {
+            val hotwordfrag = HotwordTrainingFragment()
+            this.fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, hotwordfrag)
+                    .addToBackStack(null)
+                    .commit()
             true
         }
 

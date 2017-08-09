@@ -149,6 +149,11 @@
     <string name="pref_rate_summary">Rate SUSI App on Play Store</string>
     <string name="pref_share_title">Share SUSI</string>
     <string name="pref_share_summary">Share SUSI App with your friends.</string>
+    <string name="susi_voice_model">SUSI Voice Model</string>
+    <string name="pref_train_model_title">Train Hotword Voice Model</string>
+    <string name="pref_train_model_summary">Say SUSI three times to train hotword for your voice.</string>
+    <string name="pref_delete_model_title">Delete Hotword Voice Model</string>
+    <string name="pref_delete_model_summary">Delete your hotword voice model and use default one.</string>
 
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
