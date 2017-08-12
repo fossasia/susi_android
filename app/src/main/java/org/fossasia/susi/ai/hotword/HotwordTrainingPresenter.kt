@@ -6,7 +6,7 @@ import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingView
 import org.fossasia.susi.ai.settings.SettingsActivity
 
 /**
- *
+ * 
  * Created by chiragw15 on 9/8/17.
  */
 class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrainingPresenter {
@@ -30,6 +30,7 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
     }
 
     override fun startHotwordTraining(index: Int) {
+        hotwordTrainingView?.visibilityWaitingCircles(false, index)
         hotwordTrainingView?.visibilityListeningTexts(true, index)
         hotwordTrainingView?.visibilityProgressSpinners(true, index)
         hotwordTrainingView?.startVoiceInput(index)
@@ -40,7 +41,7 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
             var c = 0
             for(conf in possibleSusiConf) {
                 if(result.toLowerCase() == conf.toLowerCase()) {
-                    hotwordTrainingView?.visibilityWaitingCircles(false, index)
+                    hotwordTrainingView?.visibilityProgressSpinners(false, index)
                     hotwordTrainingView?.visibilityTicks(true, index)
                     hotwordTrainingView?.setListeningText("Complete", index)
                     c++

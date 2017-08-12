@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.hotword
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.ContextThemeWrapper
@@ -15,7 +14,6 @@ import android.os.Build
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.util.Log
 import android.widget.*
 import kotlinx.android.synthetic.main.fragment_hotword_training.*
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingPresenter
@@ -60,11 +58,11 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         retryButtons = arrayOf(retryButton1, retryButton2, retryButton3)
         listeningTexts = arrayOf(listeningText1, listeningText2, listeningText3)
 
-        hotwordTrainingPresenter.setUpUI()
-        addStartListener()
         hotwordTrainingPresenter = HotwordTrainingPresenter(activity as SettingsActivity)
         hotwordTrainingPresenter.onAttach(this)
         recognizer = SpeechRecognizer.createSpeechRecognizer(activity.applicationContext)
+        hotwordTrainingPresenter.setUpUI()
+        addStartListener()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -110,7 +108,6 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
                 val voiceResults = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
 
                 hotwordTrainingPresenter.speechInputSuccess(voiceResults, index)
-                recognizer.destroy()
             }
 
             override fun onReadyForSpeech(params: Bundle) {
