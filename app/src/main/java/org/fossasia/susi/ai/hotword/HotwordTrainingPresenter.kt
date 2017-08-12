@@ -14,6 +14,7 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
     //var hotwordTrainingModel: HotwordTrainingModel = HotwordTrainingModel()
     var utilModel: UtilModel = UtilModel(settingsActivity)
     var hotwordTrainingView: IHotwordTrainingView?= null
+    var submitu
     val possibleSusiConf = arrayOf("SUSI", "SUZI", "SUSHI", "SUSIE", "SOOSI", "SOOZI", "SOOSHI", "SOOSIE")
 
     override fun onAttach(hotwordTrainingView: IHotwordTrainingView) {
@@ -30,7 +31,9 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
     }
 
     override fun startHotwordTraining(index: Int) {
+        hotwordTrainingView?.setListeningText("Listening... Say SUSI", index)
         hotwordTrainingView?.visibilityWaitingCircles(false, index)
+        hotwordTrainingView?.visibilityRetryButtons(false, index)
         hotwordTrainingView?.visibilityListeningTexts(true, index)
         hotwordTrainingView?.visibilityProgressSpinners(true, index)
         hotwordTrainingView?.startVoiceInput(index)
@@ -53,5 +56,15 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
         }
         if(index < 2)
             startHotwordTraining(index+1)
+        else {
+
+        }
+    }
+
+    override fun speechInputFailure(index: Int) {
+        hotwordTrainingView?.visibilityProgressSpinners(false, index)
+        hotwordTrainingView?.visibilityWaitingCircles(true, index)
+        hotwordTrainingView?.setListeningText("Didn't quite catch it. Try again.", index)
+        hotwordTrainingView?.visibilityRetryButtons(true, index)
     }
 }

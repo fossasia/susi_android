@@ -6,7 +6,8 @@ package org.fossasia.susi.ai.hotword.contract
  */
 interface IHotwordTrainingPresenter {
     fun onAttach(hotwordTrainingView: IHotwordTrainingView)
+    fun setUpUI()
     fun startHotwordTraining(index: Int)
     fun speechInputSuccess(voiceResults: ArrayList<String>, index: Int)
-    fun setUpUI()
+    fun speechInputFailure(index: Int)
 }

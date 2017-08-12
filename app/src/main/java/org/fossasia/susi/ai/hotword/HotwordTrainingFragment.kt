@@ -63,6 +63,7 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         recognizer = SpeechRecognizer.createSpeechRecognizer(activity.applicationContext)
         hotwordTrainingPresenter.setUpUI()
         addStartListener()
+        addRetryListener()
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -94,6 +95,12 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         startTrainingButton.setOnClickListener { hotwordTrainingPresenter.startHotwordTraining(0) }
     }
 
+    fun addRetryListener() {
+        for ( i in 0..2 ) {
+            retryButtons[i].setOnClickListener { hotwordTrainingPresenter.startHotwordTraining(i) }
+        }
+    }
+
     override fun startVoiceInput(index: Int) {
 
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
@@ -114,6 +121,7 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
             }
 
             override fun onError(error: Int) {
+                hotwordTrainingPresenter.speechInputFailure(index)
             }
 
             override fun onBeginningOfSpeech() {
