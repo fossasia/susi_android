@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.hotword
 
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingPresenter
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingView
 import org.fossasia.susi.ai.settings.SettingsActivity
@@ -10,7 +11,46 @@ import org.fossasia.susi.ai.settings.SettingsActivity
  */
 class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrainingPresenter {
 
-    override fun onAttach(hotwordTrainingView: IHotwordTrainingView) {
+    //var hotwordTrainingModel: HotwordTrainingModel = HotwordTrainingModel()
+    var utilModel: UtilModel = UtilModel(settingsActivity)
+    var hotwordTrainingView: IHotwordTrainingView?= null
+    val possibleSusiConf = arrayOf("SUSI", "SUZI", "SUSHI", "SUSIE", "SOOSI", "SOOZI", "SOOSHI", "SOOSIE")
 
+    override fun onAttach(hotwordTrainingView: IHotwordTrainingView) {
+        this.hotwordTrainingView = hotwordTrainingView
+    }
+
+    override fun setUpUI() {
+        for(i in 0..2) {
+            hotwordTrainingView?.visibilityProgressSpinners(false,i)
+            hotwordTrainingView?.visibilityRetryButtons(false,i)
+            hotwordTrainingView?.visibilityListeningTexts(false,i)
+            hotwordTrainingView?.visibilityTicks(false,i)
+        }
+    }
+
+    override fun startHotwordTraining(index: Int) {
+        hotwordTrainingView?.visibilityListeningTexts(true, index)
+        hotwordTrainingView?.visibilityProgressSpinners(true, index)
+        hotwordTrainingView?.startVoiceInput(index)
+    }
+
+    override fun speechInputSuccess(voiceResults: ArrayList<String>, index: Int) {
+        for (result in voiceResults) {
+            var c = 0
+            for(conf in possibleSusiConf) {
+                if(result.toLowerCase() == conf.toLowerCase()) {
+                    hotwordTrainingView?.visibilityWaitingCircles(false, index)
+                    hotwordTrainingView?.visibilityTicks(true, index)
+                    hotwordTrainingView?.setListeningText("Complete", index)
+                    c++
+                    break
+                }
+            }
+            if (c>0)
+                break
+        }
+        if(index < 2)
+            startHotwordTraining(index+1)
     }
 }
