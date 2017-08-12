@@ -70,75 +70,21 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
 
-        if(settingsPresenter.getAnonymity()) {
-            micSettings.setDefaultValue(PrefManager.getBoolean(Constant.ANONYMOUS_MIC_INPUT, true))
-            enterSend.setDefaultValue(PrefManager.getBoolean(Constant.ANONYMOUS_ENTER_SEND, true))
-            speechOutput.setDefaultValue(PrefManager.getBoolean(Constant.ANONYMOUS_SPEECH_OUTPUT, true))
-            speechAlways.setDefaultValue(PrefManager.getBoolean(Constant.ANONYMOUS_SPEECH_ALWAYS, false))
-
-            micSettings.setOnPreferenceChangeListener { _, newValue ->
-                PrefManager.putBoolean(Constant.ANONYMOUS_MIC_INPUT, newValue.toString().toBoolean())
-                true
-            }
-
-            enterSend.setOnPreferenceChangeListener { _, newValue ->
-                PrefManager.putBoolean(Constant.ANONYMOUS_ENTER_SEND, newValue.toString().toBoolean())
-                true
-            }
-
-            speechOutput.setOnPreferenceChangeListener { _, newValue ->
-                PrefManager.putBoolean(Constant.ANONYMOUS_SPEECH_OUTPUT, newValue.toString().toBoolean())
-                true
-            }
-
-            speechAlways.setOnPreferenceChangeListener { _, newValue ->
-                PrefManager.putBoolean(Constant.ANONYMOUS_SPEECH_ALWAYS, newValue.toString().toBoolean())
-                true
-            }
-
+        setLanguage()
+        if (settingsPresenter.getAnonymity()) {
             loginLogout.title = "Login"
-            resetPassword.isEnabled = false
-            server.isEnabled = true
-            server.setOnPreferenceClickListener {
-                showAlert()
-                true
-            }
         } else {
             loginLogout.title = "Logout"
-            server.isEnabled = false
-            resetPassword.isEnabled = true
-            resetPassword.setOnPreferenceClickListener {
-                showResetPasswordAlert()
-                true
-            }
-
-            micSettings.setOnPreferenceClickListener {
-                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
-                true
-            }
-
-            enterSend.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
-                true
-            }
-
-            speechAlways.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString(), 1)
-                true
-            }
-
-            speechOutput.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString(), 1)
-                true
-            }
         }
 
-        setLanguage()
         querylanguage.setOnPreferenceChangeListener { _, newValue ->
-            putLanguage(newValue.toString())
+            PrefManager.putString(Constant.LANGUAGE, newValue.toString())
+            setLanguage()
+            if(!settingsPresenter.getAnonymity()) {
+                settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
+            }
             true
         }
-
         rate.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context.packageName)))
             true
@@ -175,29 +121,55 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
+        if (settingsPresenter.getAnonymity()) {
+            server.isEnabled = true
+            server.setOnPreferenceClickListener {
+                showAlert()
+                true
+            }
+        } else {
+            server.isEnabled = false
+        }
+
+        if(!settingsPresenter.getAnonymity()) {
+            resetPassword.isEnabled = true
+            resetPassword.setOnPreferenceClickListener {
+                showResetPasswordAlert()
+                true
+            }
+        } else {
+            resetPassword.isEnabled = false
+        }
+
         micSettings.isEnabled = settingsPresenter.enableMic()
 
         hotwordSettings.isEnabled = settingsPresenter.enableHotword()
 
-    }
+        if(!settingsPresenter.getAnonymity()) {
+            micSettings.setOnPreferenceClickListener {
+                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
+                true
+            }
 
-    fun putLanguage(language: String) {
-        if(settingsPresenter.getAnonymity()) {
-            PrefManager.putString(Constant.ANONYMOUS_LANGUAGE, language)
-        } else {
-            PrefManager.putString(Constant.LANGUAGE, language)
-            settingsPresenter.sendSetting(Constant.LANGUAGE, language, 1)
+            enterSend.setOnPreferenceChangeListener { _, newValue ->
+                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
+                true
+            }
+
+            speechAlways.setOnPreferenceChangeListener { _, newValue ->
+                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString(), 1)
+                true
+            }
+
+            speechOutput.setOnPreferenceChangeListener { _, newValue ->
+                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString(), 1)
+                true
+            }
         }
-        setLanguage()
     }
 
     fun setLanguage() {
-        var index: Int ?= null
-        if(settingsPresenter.getAnonymity()) {
-            index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.ANONYMOUS_LANGUAGE, Constant.DEFAULT))
-        } else {
-            index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
-        }
+        val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
         querylanguage.setValueIndex(index)
         querylanguage.summary = querylanguage.entries[index]
     }

@@ -58,6 +58,7 @@ class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter,
 
     override fun loginLogout() {
         utilModel.clearToken()
+        utilModel.clearPrefs()
         utilModel.saveAnonymity(false)
         databaseRepository.deleteAllMessages()
         settingView?.startLoginActivity()
