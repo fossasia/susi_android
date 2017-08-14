@@ -26,7 +26,7 @@ android {
 
     defaultConfig {
         applicationId "org.fossasia.susi.ai"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -98,4 +98,6 @@ dependencies {
         transitive = true;
     }
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    compile 'com.writingminds:FFmpegAndroid:0.3.2'
 }

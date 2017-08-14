@@ -20,6 +20,15 @@ import kotlinx.android.synthetic.main.fragment_hotword_training.*
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingPresenter
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingView
 import org.fossasia.susi.ai.settings.SettingsActivity
+import android.content.ContentResolver
+import android.R.attr.data
+import android.app.Activity
+import android.media.MediaPlayer
+import android.net.Uri
+import android.util.Log
+import java.io.InputStream
+import java.lang.Thread.sleep
+
 
 /**
  *
@@ -121,45 +130,23 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 "com.domain.app")
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+        intent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/WAV")
+        intent.putExtra("android.speech.extra.GET_AUDIO", true)
 
-        val listener = object : RecognitionListener {
-            override fun onResults(results: Bundle) {
-                val voiceResults = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+        startActivityForResult(intent, index);
+    }
 
-                hotwordTrainingPresenter.speechInputSuccess(voiceResults, index)
-            }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
 
-            override fun onReadyForSpeech(params: Bundle) {
-            }
-
-            override fun onError(error: Int) {
-                hotwordTrainingPresenter.speechInputFailure(index)
-            }
-
-            override fun onBeginningOfSpeech() {
-            }
-
-            override fun onBufferReceived(buffer: ByteArray) {
-                hotwordTrainingPresenter.saveAudio(index, buffer)
-            }
-
-            override fun onEndOfSpeech() {
-                // This method is intentionally empty
-            }
-
-            override fun onEvent(eventType: Int, params: Bundle) {
-                // This method is intentionally empty
-            }
-
-            override fun onPartialResults(partialResults: Bundle) {
-            }
-
-            override fun onRmsChanged(rmsdB: Float) {
-                // This method is intentionally empty
-            }
+        if(resultCode == Activity.RESULT_OK) {
+            val audioUri = data.data
+            Log.v("chirag",audioUri.toString())
+            val bundle = data.extras
+            val matches = bundle.getStringArrayList(RecognizerIntent.EXTRA_RESULTS)
+            hotwordTrainingPresenter.speechInputSuccess(matches, requestCode, audioUri)
+        } else {
+            hotwordTrainingPresenter.speechInputFailure(requestCode)
         }
-        recognizer.setRecognitionListener(listener)
-        recognizer.startListening(intent)
     }
 
     override fun showProgress(boolean: Boolean) {

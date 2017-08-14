@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.hotword
 
+import android.net.Uri
+import android.util.Log
 import org.fossasia.susi.ai.data.HotwordTrainingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IHotwordTrainingModel
@@ -13,7 +15,7 @@ import org.fossasia.susi.ai.settings.SettingsActivity
  * Created by chiragw15 on 9/8/17.
  */
 class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrainingPresenter,
-        IHotwordTrainingModel.onHotwordTrainedFinishedListener{
+        IHotwordTrainingModel.onHotwordTrainedFinishedListener, IUtilModel.onFFmpegCommandFinishedListener{
 
     var hotwordTrainingModel: IHotwordTrainingModel = HotwordTrainingModel()
     var utilModel: IUtilModel = UtilModel(settingsActivity)
@@ -23,7 +25,8 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
     var AFTER_RECORDING = 2
     var currentState = 0
     val possibleSusiConf = arrayOf("SUSI", "SUZI", "SUSHI", "SUSIE", "SOOSI", "SOOZI", "SOOSHI", "SOOSIE")
-    val recordings = arrayOfNulls<String>(3)
+    val recordingsUri = arrayOfNulls<Uri>(3)
+    val recordingsEncodedString = arrayOfNulls<String>(3)
 
     override fun onAttach(hotwordTrainingView: IHotwordTrainingView) {
         this.hotwordTrainingView = hotwordTrainingView
@@ -49,7 +52,7 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
         hotwordTrainingView?.startVoiceInput(index)
     }
 
-    override fun speechInputSuccess(voiceResults: ArrayList<String>, index: Int) {
+    override fun speechInputSuccess(voiceResults: ArrayList<String>, index: Int, audioUri: Uri) {
         for (result in voiceResults) {
             var c = 0
             for(conf in possibleSusiConf) {
@@ -57,6 +60,7 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
                     hotwordTrainingView?.visibilityProgressSpinners(false, index)
                     hotwordTrainingView?.visibilityTicks(true, index)
                     hotwordTrainingView?.setListeningText("Complete", index)
+                    recordingsUri[index] = audioUri
                     c++
                     break
                 }
@@ -70,10 +74,6 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
             hotwordTrainingView?.setButtonText("Download Model")
             currentState = AFTER_RECORDING
         }
-    }
-
-    override fun saveAudio(index: Int, buffer: ByteArray) {
-        recordings[index] = utilModel.getEncodedString(buffer)
     }
 
     override fun speechInputFailure(index: Int) {
@@ -94,8 +94,28 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
             }
             AFTER_RECORDING -> {
                 hotwordTrainingView?.showProgress(true)
-                hotwordTrainingModel.downloadModel(recordings, this)
+
+                utilModel.initializeFFmpeg()
+
+                utilModel.copyAssetstoSD()
+
+                for(i in 0..2) {
+                    Log.v("chirag", recordingsUri[i].toString())
+                }
+
+                utilModel.convertAMRtoWAV(recordingsUri[0], 0, this)
             }
+        }
+    }
+
+    override fun onCommandFinished(index: Int) {
+        if(index+1 != 3) {
+            utilModel.convertAMRtoWAV(recordingsUri[index+1], index+1, this)
+        } else {
+            for(i in 0..2)
+                recordingsEncodedString[i] = utilModel.getEncodedString("recording$i")
+
+            hotwordTrainingModel.downloadModel(recordingsEncodedString, this)
         }
     }
 

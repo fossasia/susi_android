@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data.contract
 
+import android.net.Uri
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
@@ -9,6 +10,10 @@ import retrofit2.Response
  * Created by chiragw15 on 10/7/17.
  */
 interface IUtilModel {
+
+    interface onFFmpegCommandFinishedListener {
+        fun onCommandFinished(index: Int)
+    }
 
     fun saveToken(response: Response<LoginResponse>)
     fun saveAnonymity(isAnonymous: Boolean)
@@ -27,6 +32,9 @@ interface IUtilModel {
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
     fun setLanguage(language: String)
+    fun convertAMRtoWAV(audioUri: Uri?, index: Int, listener: IUtilModel.onFFmpegCommandFinishedListener)
+    fun getEncodedString(filename: String): String
+    fun initializeFFmpeg()
     fun getEncodedString(buffer: ByteArray): String
     fun clearPrefs()
 
