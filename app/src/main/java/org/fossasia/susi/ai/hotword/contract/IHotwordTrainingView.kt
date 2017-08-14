@@ -12,4 +12,8 @@ interface IHotwordTrainingView {
     fun visibilityListeningTexts(visibility: Boolean, index: Int)
     fun visibilityWaitingCircles(visibility: Boolean, index: Int)
     fun setListeningText(message: String, index: Int)
+    fun setButtonText(text: String)
+    fun exitFragment()
+    fun showProgress(boolean: Boolean)
+    fun showToast(message: String)
 }

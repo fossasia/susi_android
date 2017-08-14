@@ -10,4 +10,6 @@ interface IHotwordTrainingPresenter {
     fun startHotwordTraining(index: Int)
     fun speechInputSuccess(voiceResults: ArrayList<String>, index: Int)
     fun speechInputFailure(index: Int)
+    fun startButtonClicked()
+    fun saveAudio(index: Int, buffer: ByteArray)
 }

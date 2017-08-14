@@ -4,6 +4,7 @@ import android.Manifest
 import ai.kitt.snowboy.AppResCopy
 import android.content.Context
 import android.os.Build
+import android.util.Base64
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
@@ -92,6 +93,10 @@ class UtilModel(val context: Context): IUtilModel {
 
     override fun setLanguage(language: String) {
         PrefManager.putString(Constant.LANGUAGE, language)
+    }
+
+    override fun getEncodedString(buffer: ByteArray): String {
+        return Base64.encodeToString(buffer, Base64.DEFAULT)
     }
 
     override fun clearPrefs() {

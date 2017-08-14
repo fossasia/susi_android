@@ -27,6 +27,7 @@ interface IUtilModel {
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
     fun setLanguage(language: String)
+    fun getEncodedString(buffer: ByteArray): String
     fun clearPrefs()
 
 }

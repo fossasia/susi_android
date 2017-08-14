@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.hotword
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -33,7 +34,7 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
     lateinit var ticks: Array<ImageView>
     lateinit var retryButtons: Array<Button>
     lateinit var listeningTexts: Array<TextView>
-
+    lateinit var progressDialog: ProgressDialog
     lateinit var recognizer: SpeechRecognizer
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -62,6 +63,11 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         hotwordTrainingPresenter.onAttach(this)
         recognizer = SpeechRecognizer.createSpeechRecognizer(activity.applicationContext)
         hotwordTrainingPresenter.setUpUI()
+
+        progressDialog = ProgressDialog(activity)
+        progressDialog.setCancelable(false)
+        progressDialog.setMessage("Downloading Model")
+
         addStartListener()
         addRetryListener()
         super.onViewCreated(view, savedInstanceState)
@@ -92,7 +98,13 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
     }
 
     fun addStartListener() {
-        startTrainingButton.setOnClickListener { hotwordTrainingPresenter.startHotwordTraining(0) }
+        startTrainingButton.setOnClickListener {
+            hotwordTrainingPresenter.startButtonClicked()
+        }
+    }
+
+    override fun setButtonText(text: String) {
+        startTrainingButton.text = text
     }
 
     fun addRetryListener() {
@@ -128,7 +140,7 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
             }
 
             override fun onBufferReceived(buffer: ByteArray) {
-                // This method is intentionally empty
+                hotwordTrainingPresenter.saveAudio(index, buffer)
             }
 
             override fun onEndOfSpeech() {
@@ -148,5 +160,17 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         }
         recognizer.setRecognitionListener(listener)
         recognizer.startListening(intent)
+    }
+
+    override fun showProgress(boolean: Boolean) {
+        if (boolean) progressDialog.show() else progressDialog.dismiss()
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun exitFragment() {
+        activity.onBackPressed()
     }
 }
