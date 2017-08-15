@@ -35,12 +35,12 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_chat.*
 
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.settings.SettingsActivity
+import org.fossasia.susi.ai.skills.SkillsActivity
 
 import java.util.*
 
@@ -480,7 +480,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     fun openSettings(view: View) {
-        val i = Intent(this, SettingsActivity::class.java)
+        val i = Intent(this, SkillsActivity::class.java)
         startActivity(i)
         finish()
     }

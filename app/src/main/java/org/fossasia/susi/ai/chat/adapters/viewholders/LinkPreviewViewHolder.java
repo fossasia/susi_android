@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.viewholders;
+package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +21,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.PrefManager;
@@ -41,7 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.os.SystemClock.sleep;
-import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITHLINK;
+import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITHLINK;
 
 /**
  * <h1>Link preview view holder</h1>

@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.viewholders;
+package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.graphics.Color;
 import android.view.View;

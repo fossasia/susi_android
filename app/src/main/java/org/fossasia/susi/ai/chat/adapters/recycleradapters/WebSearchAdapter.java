@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.recycleradapters;
+package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.adapters.viewholders.SearchResultHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultHolder;
 import org.fossasia.susi.ai.data.model.WebSearchModel;
 
 import java.util.List;

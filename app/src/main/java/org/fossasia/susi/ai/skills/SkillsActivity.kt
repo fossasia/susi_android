@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.settings
+package org.fossasia.susi.ai.skills
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -8,13 +8,13 @@ import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
 
 /**
- * <h1>The Settings activity.</h1>
- * <h2>This activity is used to set Preferences into the app.</h2>
+ * <h1>The Skills activity.</h1>
+ * <h2>This activity is used to display SUSI Skills in the app.</h2>
  *
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsActivity : AppCompatActivity() {
+class SkillsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class SettingsActivity : AppCompatActivity() {
 
     fun exitActivity() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        val intent = Intent(this@SettingsActivity, ChatActivity::class.java)
+        val intent = Intent(this@SkillsActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }

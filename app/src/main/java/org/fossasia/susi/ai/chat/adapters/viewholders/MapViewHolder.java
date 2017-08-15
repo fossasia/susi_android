@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.viewholders;
+package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.helper.AndroidHelper;
 import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.data.model.ChatMessage;

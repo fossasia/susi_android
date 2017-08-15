@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.viewholders;
+package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter;
-import org.fossasia.susi.ai.adapters.recycleradapters.SearchResultsAdapter;
-import org.fossasia.susi.ai.adapters.recycleradapters.WebSearchAdapter;
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.SearchResultsAdapter;
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.WebSearchAdapter;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebSearchModel;
 import org.fossasia.susi.ai.rest.clients.WebSearchClient;

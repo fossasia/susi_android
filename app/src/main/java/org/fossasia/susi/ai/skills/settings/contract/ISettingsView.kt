@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.settings.contract
+package org.fossasia.susi.ai.skills.settings.contract
 
 /**
  * The interface for Settings view

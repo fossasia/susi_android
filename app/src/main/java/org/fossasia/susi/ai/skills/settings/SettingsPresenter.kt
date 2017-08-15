@@ -1,16 +1,17 @@
-package org.fossasia.susi.ai.settings
+package org.fossasia.susi.ai.skills.settings
 
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
-import org.fossasia.susi.ai.settings.contract.ISettingsView
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import org.fossasia.susi.ai.data.SettingModel
 import org.fossasia.susi.ai.data.contract.ISettingModel
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
+import org.fossasia.susi.ai.skills.SkillsActivity
 import retrofit2.Response
 
 /**
@@ -20,11 +21,11 @@ import retrofit2.Response
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(settingsActivity: SettingsActivity): ISettingsPresenter, ISettingModel.onSettingFinishListener {
+class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISettingModel.onSettingFinishListener {
 
     var settingModel: SettingModel = SettingModel()
     var settingView: ISettingsView? = null
-    var utilModel: UtilModel = UtilModel(settingsActivity)
+    var utilModel: UtilModel = UtilModel(skillsActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
 
     override fun onAttach(settingsView: ISettingsView) {

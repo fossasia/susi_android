@@ -22,7 +22,7 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".skills.SkillsActivity"
             android:label="@string/settings_title"
             android:theme="@style/PreferenceFixTheme.Light">
             <meta-data

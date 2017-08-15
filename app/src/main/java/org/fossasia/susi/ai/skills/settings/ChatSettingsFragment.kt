@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.settings
+package org.fossasia.susi.ai.skills.settings
 
 import android.Manifest
 import android.content.Intent
@@ -20,8 +20,9 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
-import org.fossasia.susi.ai.settings.contract.ISettingsView
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import org.fossasia.susi.ai.skills.SkillsActivity
 
 /**
  * The Fragment for Settings Activity
@@ -55,7 +56,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
 
-        settingsPresenter = SettingsPresenter(activity as SettingsActivity)
+        settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
 
         rate = preferenceManager.findPreference(Constant.RATE)

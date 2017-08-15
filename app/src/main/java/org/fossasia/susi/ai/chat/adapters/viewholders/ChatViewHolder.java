@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.viewholders;
+package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
 import android.os.Build;
@@ -29,10 +29,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.os.SystemClock.sleep;
-import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
-import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_MESSAGE;
-import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_IMAGE;
-import static org.fossasia.susi.ai.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_MESSAGE;
+import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
+import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_MESSAGE;
+import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_IMAGE;
+import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_MESSAGE;
 
 /**
  * <h1>Chat view holder</h1>

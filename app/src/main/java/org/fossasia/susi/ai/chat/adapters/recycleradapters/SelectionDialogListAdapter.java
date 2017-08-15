@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.recycleradapters;
+package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 
 import android.app.Activity;
 import android.content.Context;

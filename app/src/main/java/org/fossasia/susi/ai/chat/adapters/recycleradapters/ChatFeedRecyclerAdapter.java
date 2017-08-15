@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.adapters.recycleradapters;
+package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -18,17 +18,16 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import org.fossasia.susi.ai.MainApplication;
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.adapters.viewholders.ChatViewHolder;
-import org.fossasia.susi.ai.adapters.viewholders.DateViewHolder;
-import org.fossasia.susi.ai.adapters.viewholders.LinkPreviewViewHolder;
-import org.fossasia.susi.ai.adapters.viewholders.MapViewHolder;
-import org.fossasia.susi.ai.adapters.viewholders.MessageViewHolder;
-import org.fossasia.susi.ai.adapters.viewholders.PieChartViewHolder;
-import org.fossasia.susi.ai.adapters.viewholders.SearchResultsListHolder;
-import org.fossasia.susi.ai.adapters.viewholders.TypingDotsHolder;
-import org.fossasia.susi.ai.adapters.viewholders.ZeroHeightHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.ChatViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.DateViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.LinkPreviewViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.MapViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.MessageViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.PieChartViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultsListHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.ConstraintsHelper;
 import org.fossasia.susi.ai.data.model.ChatMessage;
