@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sample Group"
+        android:textSize="18sp"
+        android:typeface="serif"
+        android:textColor="@color/md_black_1000"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/skill_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
