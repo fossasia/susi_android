@@ -12,7 +12,6 @@ import org.fossasia.susi.ai.R
 import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
 import android.os.Build
-import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.widget.*
@@ -20,15 +19,8 @@ import kotlinx.android.synthetic.main.fragment_hotword_training.*
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingPresenter
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingView
 import org.fossasia.susi.ai.settings.SettingsActivity
-import android.content.ContentResolver
-import android.R.attr.data
 import android.app.Activity
-import android.media.MediaPlayer
-import android.net.Uri
 import android.util.Log
-import java.io.InputStream
-import java.lang.Thread.sleep
-
 
 /**
  *
@@ -130,7 +122,7 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 "com.domain.app")
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
-        intent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/WAV")
+        intent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/AMR")
         intent.putExtra("android.speech.extra.GET_AUDIO", true)
 
         startActivityForResult(intent, index);

@@ -9,6 +9,7 @@ import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingPresenter
 import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingView
 import org.fossasia.susi.ai.settings.SettingsActivity
+import java.lang.Thread.sleep
 
 /**
  * 
@@ -49,6 +50,7 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
         hotwordTrainingView?.visibilityRetryButtons(false, index)
         hotwordTrainingView?.visibilityListeningTexts(true, index)
         hotwordTrainingView?.visibilityProgressSpinners(true, index)
+        sleep(1000)
         hotwordTrainingView?.startVoiceInput(index)
     }
 
@@ -68,9 +70,9 @@ class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrai
             if (c>0)
                 break
         }
-        if(index < 2)
-            startHotwordTraining(index+1)
-        else {
+        if(index < 2) {
+            startHotwordTraining(index + 1)
+        } else {
             hotwordTrainingView?.setButtonText("Download Model")
             currentState = AFTER_RECORDING
         }
