@@ -18,7 +18,6 @@ import android.view.View
 import android.widget.Toast
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
