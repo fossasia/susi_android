@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skillListing
 
+import android.util.Log
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
@@ -44,7 +45,13 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>) {
-
+        skillsListingView?.visibilityProgressBar(false)
+        if (response.isSuccessful && response.body() != null) {
+            Log.v("chirag","Group " + response.body().group)
+            for (skill in response.body().skills.skillMap) {
+                Log.v("chirag",skill.key + ": " + skill.value.skillName)
+            }
+        }
     }
 
     override fun onSkillFetchFailure(t: Throwable) {

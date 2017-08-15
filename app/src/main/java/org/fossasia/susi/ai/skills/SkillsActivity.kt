@@ -7,6 +7,7 @@ import android.content.Intent
 import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
+import org.fossasia.susi.ai.skills.skillListing.SkillListingFragment
 
 /**
  * <h1>The Skills activity.</h1>
@@ -22,9 +23,9 @@ class SkillsActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
 
-        val settingsfrag = ChatSettingsFragment()
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, settingsfrag)
+        val skillFragment = SkillListingFragment()
+        fragmentManager.beginTransaction()
+            .add(R.id.fragment_container, skillFragment)
             .commit()
     }
 

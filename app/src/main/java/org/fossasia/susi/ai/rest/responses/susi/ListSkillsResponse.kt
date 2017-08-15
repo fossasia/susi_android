@@ -15,5 +15,5 @@ class ListSkillsResponse {
 
     @SerializedName("skills")
     @Expose
-    val skills: SkillMap ?= null
+    val skills: SkillMap = SkillMap()
 }
