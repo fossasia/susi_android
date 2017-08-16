@@ -17,7 +17,6 @@ interface IChatView {
     fun checkEnterKeyPref(isChecked: Boolean)
     fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>)
     fun showToast(message: String)
-    fun showVoiceDots()
     fun displayVoiceInput()
     fun hideVoiceInput()
     fun voiceReply(reply: String, language: String)

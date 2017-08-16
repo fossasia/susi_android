@@ -233,6 +233,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
                         Log.d(TAG, match)
                     }
                 }
+                if (speechprogress != null)
+                    speechprogress.onResultOrOnError();
                 chatPresenter.sendMessage(voiceResults[0], voiceResults[0])
                 recognizer.destroy()
                 hideVoiceInput()
@@ -242,12 +244,13 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
             override fun onReadyForSpeech(params: Bundle) {
                 Log.d(TAG, "Ready for speech")
-                showVoiceDots()
             }
 
             override fun onError(error: Int) {
                 Log.d(TAG, "Error listening for speech: " + error)
                 showToast("Could not recognize speech, try again.")
+                if (speechprogress != null)
+                    speechprogress.onResultOrOnError();
                 recognizer.destroy()
                 hideVoiceInput()
                 if(recordingThread != null)
@@ -256,6 +259,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
             override fun onBeginningOfSpeech() {
                 Log.d(TAG, "Speech starting")
+                if (speechprogress != null)
+                    speechprogress.onBeginningOfSpeech()
             }
 
             override fun onBufferReceived(buffer: ByteArray) {
@@ -263,7 +268,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
             }
 
             override fun onEndOfSpeech() {
-                // This method is intentionally empty
+                if (speechprogress != null)
+                    speechprogress.onEndOfSpeech()
             }
 
             override fun onEvent(eventType: Int, params: Bundle) {
@@ -277,7 +283,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
             }
 
             override fun onRmsChanged(rmsdB: Float) {
-                // This method is intentionally empty
+                if (speechprogress != null)
+                    speechprogress.onRmsChanged(rmsdB)
             }
         }
         recognizer.setRecognitionListener(listener)
@@ -369,20 +376,14 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun hideVoiceInput() {
-        voice_input_text.text = ""
-        voice_input_text.visibility = View.GONE
-        cancel.visibility = View.GONE
-        dots.hideAndStop()
-        dots.visibility = View.GONE
+        speechlinearlayout.visibility = View.GONE
         et_message.visibility = View.VISIBLE
         btnSpeak.visibility = View.VISIBLE
         et_message.requestFocus()
     }
 
     override fun displayVoiceInput() {
-        dots.visibility = View.VISIBLE
-        voice_input_text.visibility = View.VISIBLE
-        cancel.visibility = View.VISIBLE
+        speechlinearlayout.visibility = View.VISIBLE
         et_message.visibility = View.GONE
         btnSpeak.visibility = View.GONE
     }
@@ -398,12 +399,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun displayPartialSTT(text: String) {
-        voice_input_text.text = text
-    }
-
-    override fun showVoiceDots() {
-        dots.show()
-        dots.start()
+      //  voice_input_text.text = text
     }
 
     override fun checkMicPref(micCheck: Boolean) {
