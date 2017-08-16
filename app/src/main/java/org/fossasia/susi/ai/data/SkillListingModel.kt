@@ -40,7 +40,7 @@ class SkillListingModel: ISkillListingModel {
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
             override fun onResponse(call: Call<ListSkillsResponse>, response: Response<ListSkillsResponse>) {
-                listener.onSkillFetchSuccess(response)
+                listener.onSkillFetchSuccess(response, group)
             }
 
             override fun onFailure(call: Call<ListSkillsResponse>, t: Throwable) {

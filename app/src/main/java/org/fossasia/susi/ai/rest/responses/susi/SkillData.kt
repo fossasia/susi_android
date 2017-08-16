@@ -43,7 +43,7 @@ class SkillData {
 
     @SerializedName("descriptions")
     @Expose
-    val desciption: String = ""
+    val descriptions: String = ""
 
     @SerializedName("skill_rating")
     @Expose

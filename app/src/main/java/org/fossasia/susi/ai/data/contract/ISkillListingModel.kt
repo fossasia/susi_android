@@ -15,7 +15,7 @@ interface ISkillListingModel {
     }
 
     interface onFetchSkillsFinishedListener {
-        fun onSkillFetchSuccess(response: Response<ListSkillsResponse>)
+        fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String)
         fun onSkillFetchFailure(t: Throwable)
     }
 
