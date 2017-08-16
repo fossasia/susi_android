@@ -13,7 +13,7 @@ import android.support.v7.widget.LinearLayoutManager
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillGroupAdapter(val context: Context, val skills: MutableList<Pair<String, Map<String, SkillData>>>)
+class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>)
         :RecyclerView.Adapter<GroupViewHolder>() {
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {

@@ -38,7 +38,7 @@ class SkillListingFragment: Fragment(), ISkillListingView {
         if(boolean) skillWait.visibility = View.VISIBLE else skillWait.visibility = View.GONE
     }
 
-    override fun setAdapter(skills: MutableList<Pair<String, Map<String, SkillData>>>) {
+    override fun setAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
         val mLayoutManager = LinearLayoutManager(activity)
         skillGroups.layoutManager = mLayoutManager
         skillGroups.adapter = SkillGroupAdapter(activity, skills)

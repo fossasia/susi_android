@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skillListing
 
+import android.os.Handler
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
@@ -24,7 +25,7 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
     var utilModel: IUtilModel = UtilModel(skillsActivity)
     var skillListingView: ISkillListingView ?= null
     var count = 0
-    var skills: MutableList<Pair<String, Map<String, SkillData>>> = ArrayList()
+    var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     var groupsCount = 0
 
     override fun onAttach(skillListingView: ISkillListingView) {
@@ -41,8 +42,14 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
             groupsCount = response.body().groups.size
 
             for(group in response.body().groups) {
-                skillListingModel.fetchSkills(group, this)
-                sleep(500)
+                val handler = Handler()
+                val runnable = object : Runnable {
+                    override fun run() {
+                        skillListingModel.fetchSkills(group, this@SkillListingPresenter)
+                        handler.postDelayed(this, 1000)
+                    }
+                }
+                runnable.run()
             }
         }
     }
@@ -55,7 +62,7 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
 
-            skills[count] = Pair(group, response.body().skillMap)
+            skills.add(Pair(group, response.body().skillMap))
             count++
 
             if(count == groupsCount) {
