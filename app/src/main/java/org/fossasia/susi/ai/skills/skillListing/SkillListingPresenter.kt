@@ -41,16 +41,33 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
         if (response.isSuccessful && response.body() != null) {
             groupsCount = response.body().groups.size
 
-            for(group in response.body().groups) {
+            /*for(group in response.body().groups) {
                 val handler = Handler()
                 val runnable = object : Runnable {
                     override fun run() {
-                        skillListingModel.fetchSkills(group, this@SkillListingPresenter)
+                        skillListingModel.fetchSkills(group, this)
                         handler.postDelayed(this, 1000)
                     }
                 }
                 runnable.run()
-            }
+
+            }*/
+
+            //val thread = object : Thread() {
+              //  override fun run() {
+                //    try {
+                  //      for(group in response.body().groups) {
+                    //        Thread.sleep(1000)
+                            skillListingModel.fetchSkills(response.body().groups[1], this@SkillListingPresenter)
+                      //  }
+                    //} catch (e: InterruptedException) {
+                     //   e.printStackTrace()
+                   // }
+
+                //}
+            //}
+
+            //thread.start()
         }
     }
 
@@ -65,8 +82,8 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
             skills.add(Pair(group, response.body().skillMap))
             count++
 
-            if(count == groupsCount) {
-                skillListingView?.setAdapter(skills)
+            if(count == 1) {
+                skillListingView?.updateAdapter(skills)
             }
         }
     }

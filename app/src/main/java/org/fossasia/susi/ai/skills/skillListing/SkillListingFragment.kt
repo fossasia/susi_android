@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills.skillListing
 import android.app.Fragment
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,8 @@ import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
 class SkillListingFragment: Fragment(), ISkillListingView {
 
     lateinit var skillListingPresenter: ISkillListingPresenter
+    var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
+    lateinit var skillGroupAdapter: SkillGroupAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
@@ -31,17 +34,34 @@ class SkillListingFragment: Fragment(), ISkillListingView {
         skillListingPresenter = SkillListingPresenter(activity as SkillsActivity)
         skillListingPresenter.onAttach(this)
         skillListingPresenter.getGroups()
+        setUPAdapter()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    fun setUPAdapter() {
+        val mLayoutManager = LinearLayoutManager(activity)
+        skillGroups.layoutManager = mLayoutManager
+        skillGroupAdapter = SkillGroupAdapter(activity, skills)
+        skillGroups.adapter = skillGroupAdapter
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
         if(boolean) skillWait.visibility = View.VISIBLE else skillWait.visibility = View.GONE
     }
 
-    override fun setAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
-        val mLayoutManager = LinearLayoutManager(activity)
-        skillGroups.layoutManager = mLayoutManager
-        skillGroups.adapter = SkillGroupAdapter(activity, skills)
+    override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
+
+        this.skills.clear()
+        this.skills.addAll(skills)
+        skillGroupAdapter.notifyDataSetChanged()
+
+        for((first, second) in skills) {
+            Log.v("chirag","group: "+ first)
+            for(skillData in second) {
+                Log.v("chirag",skillData.key + " " + skillData.value.skillName)
+            }
+        }
+
     }
 
 }

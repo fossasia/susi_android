@@ -17,10 +17,11 @@ class SkillListAdapter(val context: Context, val skillDetails: Map<String, Skill
     : RecyclerView.Adapter<SkillViewHolder>() {
 
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
-        holder.skillPreviewTitle?.text = skillDetails.values.toTypedArray()[position].skillName
-        holder.skillPreviewDescription?.text = skillDetails.values.toTypedArray()[position].descriptions
-        holder.skillPreviewExample?.text = skillDetails.values.toTypedArray()[position].examples[0]
-        Picasso.with(context.applicationContext).load(skillDetails.values.toTypedArray()[position].image)
+        val skillData = skillDetails.values.toTypedArray()[position]
+        holder.skillPreviewTitle?.text = skillData.skillName
+        holder.skillPreviewDescription?.text = skillData.descriptions
+        holder.skillPreviewExample?.text = skillData.examples[0]
+        Picasso.with(context.applicationContext).load(skillData.image)
                 .fit().centerCrop()
                 .into(holder.previewImageView)
     }

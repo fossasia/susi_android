@@ -8,6 +8,7 @@ import org.fossasia.susi.ai.skills.skillListing.adapters.viewHolders.GroupViewHo
 import android.view.LayoutInflater
 import org.fossasia.susi.ai.R
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 
 /**
  *
@@ -17,6 +18,7 @@ class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String,
         :RecyclerView.Adapter<GroupViewHolder>() {
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
+        Log.v("chirag",skills[position].first + " " + position + "group adapter")
         holder.groupName?.text = skills[position].first
         val mLayoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
         holder.skillList?.layoutManager = mLayoutManager

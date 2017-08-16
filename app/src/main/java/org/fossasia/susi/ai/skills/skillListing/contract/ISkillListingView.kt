@@ -8,5 +8,5 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
  */
 interface ISkillListingView {
     fun visibilityProgressBar(boolean: Boolean)
-    fun setAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>)
+    fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>)
 }
