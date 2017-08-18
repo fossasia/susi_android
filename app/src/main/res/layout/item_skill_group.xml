@@ -4,7 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
     android:background="@color/default_bg">
 
     <TextView
@@ -13,14 +12,15 @@
         android:layout_height="wrap_content"
         android:text="Sample Group"
         android:textSize="18sp"
+        android:padding="8dp"
         android:typeface="serif"
         android:textColor="@color/md_black_1000"
         android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="6dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/skill_list"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

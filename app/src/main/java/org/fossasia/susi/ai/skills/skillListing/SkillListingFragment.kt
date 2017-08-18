@@ -33,13 +33,14 @@ class SkillListingFragment: Fragment(), ISkillListingView {
 
         skillListingPresenter = SkillListingPresenter(activity as SkillsActivity)
         skillListingPresenter.onAttach(this)
-        skillListingPresenter.getGroups()
         setUPAdapter()
+        skillListingPresenter.getGroups()
         super.onViewCreated(view, savedInstanceState)
     }
 
     fun setUPAdapter() {
         val mLayoutManager = LinearLayoutManager(activity)
+        mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         skillGroups.layoutManager = mLayoutManager
         skillGroupAdapter = SkillGroupAdapter(activity, skills)
         skillGroups.adapter = skillGroupAdapter
@@ -54,13 +55,6 @@ class SkillListingFragment: Fragment(), ISkillListingView {
         this.skills.clear()
         this.skills.addAll(skills)
         skillGroupAdapter.notifyDataSetChanged()
-
-        for((first, second) in skills) {
-            Log.v("chirag","group: "+ first)
-            for(skillData in second) {
-                Log.v("chirag",skillData.key + " " + skillData.value.skillName)
-            }
-        }
 
     }
 

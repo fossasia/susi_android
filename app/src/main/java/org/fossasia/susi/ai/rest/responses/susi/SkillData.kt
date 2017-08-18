@@ -11,41 +11,41 @@ class SkillData {
 
     @SerializedName("image")
     @Expose
-    val image: String = ""
+    var image: String = ""
 
     @SerializedName("author_url")
     @Expose
-    val authorUrl: String = ""
+    var authorUrl: String = ""
 
     @SerializedName("examples")
     @Expose
-    val examples: List<String> = ArrayList()
+    var examples: List<String> = ArrayList()
 
     @SerializedName("developer_privacy_policy")
     @Expose
-    val developerPrivacyPolicy: String ?= null
+    var developerPrivacyPolicy: String ?= null
 
     @SerializedName("author")
     @Expose
-    val author: String = ""
+    var author: String = ""
 
     @SerializedName("skill_name")
     @Expose
-    val skillName: String = ""
+    var skillName: String = ""
 
     @SerializedName("dynamic_content")
     @Expose
-    val dynamicContent: Boolean = false
+    var dynamicContent: Boolean = false
 
     @SerializedName("terms_of_use")
     @Expose
-    val termsOfUse: String ?= null
+    var termsOfUse: String ?= null
 
     @SerializedName("descriptions")
     @Expose
-    val descriptions: String = ""
+    var descriptions: String = ""
 
     @SerializedName("skill_rating")
     @Expose
-    val skillRating: Int ?= null
+    var skillRating: Int ?= null
 }
