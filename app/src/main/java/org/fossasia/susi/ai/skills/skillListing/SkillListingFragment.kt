@@ -3,7 +3,6 @@ package org.fossasia.susi.ai.skills.skillListing
 import android.app.Fragment
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,6 @@ class SkillListingFragment: Fragment(), ISkillListingView {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-
         skillListingPresenter = SkillListingPresenter(activity as SkillsActivity)
         skillListingPresenter.onAttach(this)
         setUPAdapter()
@@ -51,11 +49,8 @@ class SkillListingFragment: Fragment(), ISkillListingView {
     }
 
     override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
-
         this.skills.clear()
         this.skills.addAll(skills)
         skillGroupAdapter.notifyDataSetChanged()
-
     }
-
 }

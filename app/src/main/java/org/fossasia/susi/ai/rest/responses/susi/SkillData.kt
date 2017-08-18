@@ -47,5 +47,5 @@ class SkillData {
 
     @SerializedName("skill_rating")
     @Expose
-    var skillRating: Int ?= null
+    var skillRating: SkillRating ?= null
 }

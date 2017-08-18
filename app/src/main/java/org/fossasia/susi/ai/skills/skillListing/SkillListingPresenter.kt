@@ -1,6 +1,6 @@
 package org.fossasia.susi.ai.skills.skillListing
 
-import android.os.Handler
+import android.util.Log
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
@@ -12,13 +12,15 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
 import retrofit2.Response
-import java.lang.Thread.sleep
+import com.google.android.youtube.player.internal.i
+
+
 
 /**
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresenter,
+class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPresenter,
         ISkillListingModel.onFetchGroupsFinishedListener, ISkillListingModel.onFetchSkillsFinishedListener {
 
     var skillListingModel: ISkillListingModel = SkillListingModel()
@@ -41,33 +43,19 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
         if (response.isSuccessful && response.body() != null) {
             groupsCount = response.body().groups.size
 
-            /*for(group in response.body().groups) {
-                val handler = Handler()
-                val runnable = object : Runnable {
-                    override fun run() {
-                        skillListingModel.fetchSkills(group, this)
-                        handler.postDelayed(this, 1000)
+            val thread = object : Thread() {
+                override fun run() {
+                    try {
+                        for(group in response.body().groups) {
+                            Thread.sleep(300)
+                            skillListingModel.fetchSkills(group, this@SkillListingPresenter)
+                        }
+                    } catch (e: InterruptedException) {
+                        e.printStackTrace()
                     }
                 }
-                runnable.run()
-
-            }*/
-
-            //val thread = object : Thread() {
-              //  override fun run() {
-                //    try {
-                  //      for(group in response.body().groups) {
-                    //        Thread.sleep(1000)
-                            skillListingModel.fetchSkills(response.body().groups[1], this@SkillListingPresenter)
-                      //  }
-                    //} catch (e: InterruptedException) {
-                     //   e.printStackTrace()
-                   // }
-
-                //}
-            //}
-
-            //thread.start()
+            }
+            thread.start()
         }
     }
 
@@ -76,20 +64,20 @@ class SkillListingPresenter(skillsActivity: SkillsActivity): ISkillListingPresen
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
-        skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
-
-            skills.add(Pair(group, response.body().skillMap))
-            count++
-
-            if(count == 1) {
-                skillListingView?.updateAdapter(skills)
-            }
+            skillsActivity.runOnUiThread({
+                skills.add(Pair(group, response.body().skillMap))
+                count++
+                Log.v("chirag","$count")
+                if(count == groupsCount) {
+                    skillListingView?.visibilityProgressBar(false)
+                    skillListingView?.updateAdapter(skills)
+                }
+            })
         }
     }
 
     override fun onSkillFetchFailure(t: Throwable) {
 
     }
-
 }
