@@ -12,9 +12,6 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
 import retrofit2.Response
-import com.google.android.youtube.player.internal.i
-
-
 
 /**
  *
@@ -29,6 +26,7 @@ class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPr
     var count = 0
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     var groupsCount = 0
+    var groups:  List<String> = ArrayList()
 
     override fun onAttach(skillListingView: ISkillListingView) {
         this.skillListingView = skillListingView
@@ -42,21 +40,22 @@ class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPr
     override fun onGroupFetchSuccess(response: Response<ListGroupsResponse>) {
         if (response.isSuccessful && response.body() != null) {
             groupsCount = response.body().groups.size
+            groups = response.body().groups
+            fetchSkills(0)
+        }
+    }
 
-            val thread = object : Thread() {
-                override fun run() {
-                    try {
-                        for(group in response.body().groups) {
-                            Thread.sleep(300)
-                            skillListingModel.fetchSkills(group, this@SkillListingPresenter)
-                        }
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                    }
+    fun fetchSkills(index: Int) {
+        val thread = object : Thread() {
+            override fun run() {
+                try {
+                    skillListingModel.fetchSkills(groups[index], this@SkillListingPresenter)
+                } catch (e: InterruptedException) {
+                    e.printStackTrace()
                 }
             }
-            thread.start()
         }
+        thread.start()
     }
 
     override fun onGroupFetchFailure(t: Throwable) {
@@ -65,6 +64,9 @@ class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPr
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
         if (response.isSuccessful && response.body() != null) {
+            if(count<groupsCount-1)
+                fetchSkills(count+1)
+
             skillsActivity.runOnUiThread({
                 skills.add(Pair(group, response.body().skillMap))
                 count++

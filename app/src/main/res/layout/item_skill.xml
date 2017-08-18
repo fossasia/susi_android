@@ -80,7 +80,7 @@
                     android:gravity="center_vertical"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:minHeight="52dp"
+                    android:minHeight="55dp"
                     android:padding="10dp"
                     android:textColor="@color/md_grey_800"
                     tools:text="@string/sample_website_description" />
