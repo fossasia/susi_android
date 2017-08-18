@@ -28,6 +28,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 
 import io.realm.RealmResults
@@ -383,6 +384,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun displayVoiceInput() {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
         speechlinearlayout.visibility = View.VISIBLE
         et_message.visibility = View.GONE
         btnSpeak.visibility = View.GONE
