@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.skills.skillListing
 
-import android.util.Log
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
@@ -14,6 +13,7 @@ import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
 import retrofit2.Response
 
 /**
+ * Skill Listing Presenter
  *
  * Created by chiragw15 on 15/8/17.
  */
@@ -41,45 +41,32 @@ class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPr
         if (response.isSuccessful && response.body() != null) {
             groupsCount = response.body().groups.size
             groups = response.body().groups
-            fetchSkills(0)
+            skillListingModel.fetchSkills(groups[0], this)
+        } else {
+            skillListingView?.displayErrorDialog()
         }
-    }
-
-    fun fetchSkills(index: Int) {
-        val thread = object : Thread() {
-            override fun run() {
-                try {
-                    skillListingModel.fetchSkills(groups[index], this@SkillListingPresenter)
-                } catch (e: InterruptedException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        thread.start()
     }
 
     override fun onGroupFetchFailure(t: Throwable) {
-
+        skillListingView?.displayErrorDialog()
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
         if (response.isSuccessful && response.body() != null) {
-            if(count<groupsCount-1)
-                fetchSkills(count+1)
-
-            skillsActivity.runOnUiThread({
-                skills.add(Pair(group, response.body().skillMap))
-                count++
-                Log.v("chirag","$count")
-                if(count == groupsCount) {
-                    skillListingView?.visibilityProgressBar(false)
-                    skillListingView?.updateAdapter(skills)
-                }
-            })
+            skills.add(Pair(group, response.body().skillMap))
+            count++
+            if(count == groupsCount) {
+                skillListingView?.visibilityProgressBar(false)
+                skillListingView?.updateAdapter(skills)
+            } else {
+                skillListingModel.fetchSkills(groups[count], this)
+            }
+        } else {
+            skillListingView?.displayErrorDialog()
         }
     }
 
     override fun onSkillFetchFailure(t: Throwable) {
-
+        skillListingView?.displayErrorDialog()
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.fossasia.susi.ai.R
 import android.content.Intent
+import android.view.Menu
 import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
@@ -18,6 +19,9 @@ import org.fossasia.susi.ai.skills.skillListing.SkillListingFragment
 
 class SkillsActivity : AppCompatActivity() {
 
+    val TAG_SEtTINGS_FRAGMENT = "SettingsFragment"
+    val TAG_SKILLS_FRAGMENT = "SkillsFragment"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
@@ -25,8 +29,14 @@ class SkillsActivity : AppCompatActivity() {
 
         val skillFragment = SkillListingFragment()
         fragmentManager.beginTransaction()
-            .add(R.id.fragment_container, skillFragment)
+            .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
             .commit()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val menuInflater = menuInflater
+        menuInflater.inflate(R.menu.skills_activity_menu, menu)
+        return true
     }
 
     fun exitActivity() {
@@ -38,14 +48,42 @@ class SkillsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        exitActivity()
+        val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
+        if (fragment != null && fragment.isVisible()) {
+            finish()
+            exitActivity()
+        } else {
+            val skillFragment = SkillListingFragment()
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                    .commit()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
-                exitActivity()
+                val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
+                if (fragment != null && fragment.isVisible()) {
+                    finish()
+                    exitActivity()
+                } else {
+                    val skillFragment = SkillListingFragment()
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                            .commit()
+                }
+            }
+
+            R.id.menu_settings -> {
+                val settingsFragment = ChatSettingsFragment()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, settingsFragment, TAG_SEtTINGS_FRAGMENT)
+                        .commit()
+            }
+
+            R.id.menu_about -> {
+                //TODO : Add code for about section
             }
         }
         return super.onOptionsItemSelected(item);

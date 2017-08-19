@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skillListing
 
 import android.app.Fragment
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +47,18 @@ class SkillListingFragment: Fragment(), ISkillListingView {
 
     override fun visibilityProgressBar(boolean: Boolean) {
         if(boolean) skillWait.visibility = View.VISIBLE else skillWait.visibility = View.GONE
+    }
+
+    override fun displayErrorDialog() {
+        val d = AlertDialog.Builder(activity)
+        d.setMessage("Something went wrong. Please try again later.").setCancelable(false).setPositiveButton("Okay") { dialog, _ ->
+            activity.onBackPressed()
+            dialog.cancel()
+        }
+
+        val alert = d.create()
+        alert.setTitle("Error")
+        alert.show()
     }
 
     override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {

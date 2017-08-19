@@ -11,12 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sample Group"
-        android:textSize="18sp"
-        android:padding="8dp"
+        android:textSize="@dimen/skill_title"
+        android:padding="@dimen/margin_card"
         android:typeface="serif"
         android:textColor="@color/md_black_1000"
         android:textStyle="bold"
-        android:layout_marginBottom="6dp"/>
+        android:layout_marginBottom="@dimen/message_card_margin_medium"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/skill_list"

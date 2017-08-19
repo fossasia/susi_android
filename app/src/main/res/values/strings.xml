@@ -155,4 +155,6 @@
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="logout">Logout</string>
+    <string name="skills">Skills</string>
+    <string name="skill_title">Skill Title</string>
 </resources>
