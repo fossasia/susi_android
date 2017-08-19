@@ -157,4 +157,5 @@
     <string name="logout">Logout</string>
     <string name="skills">Skills</string>
     <string name="skill_title">Skill Title</string>
+    <string name="skills_activity">SUSI.AI Skills</string>
 </resources>

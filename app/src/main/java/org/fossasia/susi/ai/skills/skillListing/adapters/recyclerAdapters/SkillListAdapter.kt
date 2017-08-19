@@ -43,7 +43,7 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
             holder?.previewImageView?.setImageResource(R.drawable.ic_susi)
         } else {
             Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
-                    .append(skillDetails.first).append("/en/").append(skillData.image).toString())
+                    .append(skillDetails.first.replace(" ","%20")).append("/en/").append(skillData.image).toString())
                     .fit().centerCrop()
                     .into(holder?.previewImageView)
         }

@@ -22,4 +22,6 @@ interface ISkillListingModel {
     fun fetchGroups(listener: onFetchGroupsFinishedListener)
 
     fun fetchSkills(group: String, listener: onFetchSkillsFinishedListener)
+
+    fun cancelFetch()
 }

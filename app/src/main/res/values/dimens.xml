@@ -48,7 +48,7 @@
     <dimen name="toolbar_logo_height">22dp</dimen>
     <dimen name="skill_title">18sp</dimen>
     <dimen name="skill_description">16sp</dimen>
-    <dimen name="skill_min_height">58dp</dimen>
+    <dimen name="skill_min_height">60dp</dimen>
     <dimen name="skill_example">14sp</dimen>
 
 </resources>

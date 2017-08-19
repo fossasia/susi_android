@@ -29,7 +29,7 @@ class SkillsActivity : AppCompatActivity() {
 
         val skillFragment = SkillListingFragment()
         fragmentManager.beginTransaction()
-            .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+            .replace(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
             .commit()
     }
 
@@ -49,7 +49,7 @@ class SkillsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
-        if (fragment != null && fragment.isVisible()) {
+        if (fragment != null && fragment.isVisible) {
             finish()
             exitActivity()
         } else {

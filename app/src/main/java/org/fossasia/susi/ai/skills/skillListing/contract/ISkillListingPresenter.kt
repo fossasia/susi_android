@@ -7,4 +7,5 @@ package org.fossasia.susi.ai.skills.skillListing.contract
 interface ISkillListingPresenter {
     fun onAttach(skillListingView: ISkillListingView)
     fun getGroups()
+    fun onDetach()
 }

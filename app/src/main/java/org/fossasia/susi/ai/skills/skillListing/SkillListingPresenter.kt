@@ -69,4 +69,9 @@ class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPr
     override fun onSkillFetchFailure(t: Throwable) {
         skillListingView?.displayErrorDialog()
     }
+
+    override fun onDetach() {
+        skillListingModel.cancelFetch()
+        skillListingView = null
+    }
 }
