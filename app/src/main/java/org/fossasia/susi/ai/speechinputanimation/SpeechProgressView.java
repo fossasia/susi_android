@@ -40,11 +40,11 @@ public class SpeechProgressView extends View {
     private int barColor = -1;
 
     private int[] barColors = {
-            Color.parseColor("#000000"),
+            Color.parseColor("#4184f3"),
             Color.parseColor("#BDBDBD"),
-            Color.parseColor("#000000"),
-            Color.parseColor("#FF5722"),
-            Color.parseColor("#EF5350")
+            Color.parseColor("#1E88E5"),
+            Color.parseColor("#78909C"),
+            Color.parseColor("#00ACC1")
     };
 
     private int[] barMaxHeights = {40, 48, 38, 50, 34};

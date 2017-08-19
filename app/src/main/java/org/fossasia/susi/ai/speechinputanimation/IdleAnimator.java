@@ -6,7 +6,7 @@ import org.fossasia.susi.ai.speechinputanimation.SpeechBar;
 
 public class IdleAnimator implements BarParamsAnimator {
 
-    private static final long IDLE_DURATION = 1500;
+    private static final long IDLE_DURATION = 1000;
 
     private long startTimestamp;
     private boolean isPlaying;
