@@ -22,6 +22,7 @@
 
             <LinearLayout
                 android:id="@+id/link_preview_text_layout"
+                android:background="@color/md_white_1000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -32,7 +33,7 @@
                     android:layout_height="@dimen/skill_image_size"
                     android:scaleType="centerInside"
                     android:adjustViewBounds="true"
-                    android:background="@color/default_bg"
+                    android:background="@color/md_white_1000"
                     app:srcCompat="@drawable/ic_user"
                     android:padding="@dimen/margin_card" />
 
@@ -47,6 +48,7 @@
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:padding="@dimen/standard_content_padding"
+                    android:background="@color/md_white_1000"
                     android:textColor="@color/md_grey_800"
                     android:typeface="monospace"
                     tools:text="@string/sample_website_description" />
