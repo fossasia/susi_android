@@ -14,6 +14,7 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import android.support.v7.widget.AppCompatCheckBox
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.Toast
 import org.fossasia.susi.ai.R
@@ -58,8 +59,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
-        
-        setHasOptionsMenu(false)
+
+        setHasOptionsMenu(true)
 
         rate = preferenceManager.findPreference(Constant.RATE)
         server = preferenceManager.findPreference(Constant.SELECT_SERVER)
@@ -169,6 +170,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 true
             }
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val item = menu.findItem(R.id.menu_settings)
+        item.isVisible = false
+        super.onPrepareOptionsMenu(menu)
     }
 
     fun setLanguage() {

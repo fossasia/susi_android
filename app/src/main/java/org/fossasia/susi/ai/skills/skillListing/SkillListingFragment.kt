@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.skills.skillListing
 
-import android.annotation.TargetApi
 import android.app.Fragment
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skillListing.adapters.recyclerAdapters.SkillGroupAdapter
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
@@ -31,7 +29,7 @@ class SkillListingFragment: Fragment(), ISkillListingView {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        skillListingPresenter = SkillListingPresenter(activity as SkillsActivity)
+        skillListingPresenter = SkillListingPresenter()
         skillListingPresenter.onAttach(this)
         setUPAdapter()
         skillListingPresenter.getGroups()
@@ -53,7 +51,7 @@ class SkillListingFragment: Fragment(), ISkillListingView {
     override fun displayErrorDialog() {
         if(activity != null) {
             val d = AlertDialog.Builder(activity)
-            d.setMessage("Something went wrong. Please try again later.").setCancelable(false).setPositiveButton("Okay") { dialog, _ ->
+            d.setMessage(getString(R.string.error_skill_listing)).setCancelable(false).setPositiveButton("Okay") { dialog, _ ->
                 activity.onBackPressed()
                 dialog.cancel()
             }

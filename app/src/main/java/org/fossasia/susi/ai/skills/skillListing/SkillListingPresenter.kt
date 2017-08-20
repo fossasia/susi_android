@@ -1,13 +1,10 @@
 package org.fossasia.susi.ai.skills.skillListing
 
 import org.fossasia.susi.ai.data.SkillListingModel
-import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
-import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
 import retrofit2.Response
@@ -17,11 +14,10 @@ import retrofit2.Response
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPresenter,
+class SkillListingPresenter: ISkillListingPresenter,
         ISkillListingModel.onFetchGroupsFinishedListener, ISkillListingModel.onFetchSkillsFinishedListener {
 
     var skillListingModel: ISkillListingModel = SkillListingModel()
-    var utilModel: IUtilModel = UtilModel(skillsActivity)
     var skillListingView: ISkillListingView ?= null
     var count = 0
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()

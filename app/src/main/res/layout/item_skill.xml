@@ -32,9 +32,9 @@
                     android:layout_height="@dimen/skill_image_size"
                     android:scaleType="centerInside"
                     android:adjustViewBounds="true"
-                    android:background="#aaffffff"
+                    android:background="@color/default_bg"
                     app:srcCompat="@drawable/ic_user"
-                    android:padding="@dimen/margin_card"/>
+                    android:padding="@dimen/margin_card" />
 
                 <TextView
                     android:id="@+id/skill_preview_example"

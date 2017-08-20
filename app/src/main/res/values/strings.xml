@@ -157,5 +157,6 @@
     <string name="logout">Logout</string>
     <string name="skills">Skills</string>
     <string name="skill_title">Skill Title</string>
-    <string name="skills_activity">SUSI.AI Skills</string>
+    <string name="skills_activity">SUSI.AI</string>
+    <string name="error_skill_listing">Something went wrong. Please try again later.</string>
 </resources>

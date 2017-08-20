@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.skills.skillListing.adapters.recyclerAdapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
@@ -20,7 +19,6 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
 
     override fun onBindViewHolder(holder: SkillViewHolder?, position: Int) {
         val skillData = skillDetails.second.values.toTypedArray()[position]
-        Log.v("chirag","skillListAdapter : " + skillData.skillName + " " + skillData.descriptions + " ")
 
         if(skillData.skillName == null || skillData.skillName.isEmpty()){
             holder?.skillPreviewTitle?.text = context.getString(R.string.no_skill_name)
