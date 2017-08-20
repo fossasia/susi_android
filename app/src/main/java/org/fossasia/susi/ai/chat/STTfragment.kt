@@ -37,10 +37,6 @@ class STTfragment : Fragment(){
     }
 
     private fun promptSpeechInput() {
-        if ( (activity as ChatActivity).recordingThread != null) {
-            chatPresenter.stopHotwordDetection()
-        }
-
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -49,7 +45,7 @@ class STTfragment : Fragment(){
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
 
         recognizer = SpeechRecognizer
-                .createSpeechRecognizer(activity.getApplicationContext())
+                .createSpeechRecognizer(activity.applicationContext)
         val listener = object : RecognitionListener {
             override fun onResults(results: Bundle) {
                 val voiceResults = results
@@ -80,7 +76,7 @@ class STTfragment : Fragment(){
             override fun onError(error: Int) {
                 Log.d("fragment",
                         "Error listening for speech: " + error)
-                Toast.makeText(activity.getApplicationContext(), "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
                 if (speechprogress != null)
                     speechprogress.onResultOrOnError()
                 recognizer.destroy()
@@ -124,9 +120,6 @@ class STTfragment : Fragment(){
 
     override fun onPause() {
         super.onPause()
-        if ( (activity as ChatActivity).recordingThread != null) {
-            chatPresenter.stopHotwordDetection()
-        }
         (activity as ChatActivity).fabsetting.show()
         recognizer.cancel()
         recognizer.destroy()

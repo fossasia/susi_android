@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TransformAnimator implements BarParamsAnimator {
 
-    private static final long DURATION = 300;
+    private static final long DURATION = 100;
 
     private long startTimestamp;
     private boolean isPlaying;

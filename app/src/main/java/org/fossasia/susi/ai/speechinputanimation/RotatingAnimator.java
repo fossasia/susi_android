@@ -10,9 +10,9 @@ import org.fossasia.susi.ai.speechinputanimation.SpeechBar;
 
 public class RotatingAnimator implements BarParamsAnimator {
 
-    private static final long DURATION = 2000;
-    private static final long ACCELERATE_ROTATION_DURATION = 1000;
-    private static final long DECELERATE_ROTATION_DURATION = 1000;
+    private static final long DURATION = 1000;
+    private static final long ACCELERATE_ROTATION_DURATION = 500;
+    private static final long DECELERATE_ROTATION_DURATION = 500;
     private static final float ROTATION_DEGREES = 720f;
     private static final float ACCELERATION_ROTATION_DEGREES = 40f;
 

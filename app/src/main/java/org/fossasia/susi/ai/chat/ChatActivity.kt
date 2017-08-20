@@ -206,6 +206,9 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     //Take user's speech as input and send the message
     override fun promptSpeechInput() {
+        if ( recordingThread != null) {
+            chatPresenter.stopHotwordDetection()
+        }
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.sttframe, STTfragment())
