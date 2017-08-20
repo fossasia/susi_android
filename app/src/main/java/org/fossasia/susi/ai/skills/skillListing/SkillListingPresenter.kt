@@ -43,11 +43,13 @@ class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPr
             groups = response.body().groups
             skillListingModel.fetchSkills(groups[0], this)
         } else {
+            skillListingView?.visibilityProgressBar(false)
             skillListingView?.displayErrorDialog()
         }
     }
 
     override fun onGroupFetchFailure(t: Throwable) {
+        skillListingView?.visibilityProgressBar(false)
         skillListingView?.displayErrorDialog()
     }
 
@@ -62,11 +64,13 @@ class SkillListingPresenter(val skillsActivity: SkillsActivity): ISkillListingPr
                 skillListingModel.fetchSkills(groups[count], this)
             }
         } else {
+            skillListingView?.visibilityProgressBar(false)
             skillListingView?.displayErrorDialog()
         }
     }
 
     override fun onSkillFetchFailure(t: Throwable) {
+        skillListingView?.visibilityProgressBar(false)
         skillListingView?.displayErrorDialog()
     }
 

@@ -51,9 +51,11 @@ class SkillListingModel: ISkillListingModel {
     }
 
     override fun cancelFetch() {
-        if(authResponseCallGroups != null)
+        try {
             authResponseCallGroups.cancel()
-        if(authResponseCallSkills != null)
             authResponseCallSkills.cancel()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }

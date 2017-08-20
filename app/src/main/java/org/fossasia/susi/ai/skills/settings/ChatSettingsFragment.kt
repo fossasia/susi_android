@@ -58,6 +58,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
+        
+        setHasOptionsMenu(false)
 
         rate = preferenceManager.findPreference(Constant.RATE)
         server = preferenceManager.findPreference(Constant.SELECT_SERVER)

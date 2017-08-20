@@ -1,11 +1,14 @@
 package org.fossasia.susi.ai.skills
 
+import android.app.FragmentManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.fossasia.susi.ai.R
 import android.content.Intent
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Window
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.skillListing.SkillListingFragment
@@ -49,6 +52,9 @@ class SkillsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
+
+        Log.v("chirag",fragment.isVisible.toString() + "chirag")
+
         if (fragment != null && fragment.isVisible) {
             finish()
             exitActivity()
@@ -64,7 +70,7 @@ class SkillsActivity : AppCompatActivity() {
         when (item.itemId) {
             android.R.id.home -> {
                 val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
-                if (fragment != null && fragment.isVisible()) {
+                if (fragment != null && fragment.isVisible) {
                     finish()
                     exitActivity()
                 } else {
