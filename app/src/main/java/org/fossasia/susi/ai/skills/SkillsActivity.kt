@@ -8,7 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
-import org.fossasia.susi.ai.skills.skillListing.SkillListingFragment
+import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
 /**
  * <h1>The Skills activity.</h1>

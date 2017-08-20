@@ -12,7 +12,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.util.Log
 import android.view.WindowManager
-import org.fossasia.susi.ai.forgotPassword.ForgotPasswordActivity
+import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

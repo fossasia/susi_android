@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.skills.skillListing.contract
+package org.fossasia.susi.ai.skills.skilllisting.contract
 
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 

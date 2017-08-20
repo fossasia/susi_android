@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.skills.skillListing
+package org.fossasia.susi.ai.skills.skilllisting
 
 import android.app.Fragment
 import android.os.Bundle
@@ -10,9 +10,9 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.skillListing.adapters.recyclerAdapters.SkillGroupAdapter
-import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingPresenter
-import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
+import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillGroupAdapter
+import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
+import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
 
 /**
  *

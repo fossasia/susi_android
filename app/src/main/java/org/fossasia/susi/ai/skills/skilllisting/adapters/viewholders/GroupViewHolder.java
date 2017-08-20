@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.skills.skillListing.adapters.viewHolders;
+package org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

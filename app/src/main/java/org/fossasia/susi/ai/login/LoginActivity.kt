@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.chat.ChatActivity
-import org.fossasia.susi.ai.forgotPassword.ForgotPasswordActivity
+import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.contract.ILoginPresenter

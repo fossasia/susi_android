@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.forgotPassword.contract
+package org.fossasia.susi.ai.forgotpassword.contract
 
 /**
  * The interface for ForgotPassword Presenter

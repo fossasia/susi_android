@@ -1,12 +1,12 @@
-package org.fossasia.susi.ai.forgotPassword
+package org.fossasia.susi.ai.forgotpassword
 
 import android.graphics.Color
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.ForgotPasswordModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
-import org.fossasia.susi.ai.forgotPassword.contract.IForgotPasswordPresenter
-import org.fossasia.susi.ai.forgotPassword.contract.IForgotPasswordView
+import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordPresenter
+import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordView
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse

@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.forgotPassword
+package org.fossasia.susi.ai.forgotpassword
 
 import android.app.ProgressDialog
 import android.content.DialogInterface
@@ -10,8 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_forgot_password.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.forgotPassword.contract.IForgotPasswordPresenter
-import org.fossasia.susi.ai.forgotPassword.contract.IForgotPasswordView
+import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordPresenter
+import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordView
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.LoginActivity

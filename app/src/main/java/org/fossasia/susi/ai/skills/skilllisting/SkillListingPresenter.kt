@@ -1,12 +1,12 @@
-package org.fossasia.susi.ai.skills.skillListing
+package org.fossasia.susi.ai.skills.skilllisting
 
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingPresenter
-import org.fossasia.susi.ai.skills.skillListing.contract.ISkillListingView
+import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
+import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
 import retrofit2.Response
 
 /**
