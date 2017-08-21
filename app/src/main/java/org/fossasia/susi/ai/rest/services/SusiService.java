@@ -3,6 +3,8 @@ package org.fossasia.susi.ai.rest.services;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
@@ -137,5 +139,16 @@ public interface SusiService {
     Call<ResetPasswordResponse> resetPasswordResponse(@Query("changepassword") String email,
                                                       @Query("password") String password,
                                                       @Query("newpassword") String newPassword);
+
+    /**
+     *
+     * @return list of groups
+     */
+    @GET("/cms/getGroups.json")
+    Call<ListGroupsResponse> fetchListGroups();
+
+
+    @GET("/cms/getSkillList.json")
+    Call<ListSkillsResponse> fetchListSkills(@Query("group") String groups);
 
 }

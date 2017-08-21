@@ -22,9 +22,10 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
-            android:label="@string/settings_title"
-            android:theme="@style/PreferenceFixTheme.Light">
+            android:name=".skills.SkillsActivity"
+            android:label="@string/skills_activity"
+            android:theme="@style/PreferencesThemeLight"
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.chat.ChatActivity" />
