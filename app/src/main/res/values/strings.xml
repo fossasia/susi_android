@@ -72,6 +72,8 @@
     <string name="error_internet_connectivity">Internet Connectivity Problem!</string>
     <string name="error_hotword">Sorry, Hotword detection is not supported on your phone.</string>
     <string name="error_rating">Unable to rate skill. Some error occurred.</string>
+    <string name="no_skill_name">Name not Available</string>
+    <string name="no_skill_description">No description available</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
@@ -153,4 +155,8 @@
     <string name="error_msg_retry">Please Retry Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="logout">Logout</string>
+    <string name="skills">Skills</string>
+    <string name="skill_title">Skill Title</string>
+    <string name="skills_activity">SUSI.AI Skills</string>
+    <string name="error_skill_listing">Something went wrong. Please try again later.</string>
 </resources>

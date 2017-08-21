@@ -25,7 +25,7 @@
             android:id="@+id/fabsetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_settings_24dp"
+            app:srcCompat="@drawable/letter_s"
             app:fabSize="mini"
             android:onClick="openSettings"
             app:backgroundTint="@color/colorPrimaryDark"
