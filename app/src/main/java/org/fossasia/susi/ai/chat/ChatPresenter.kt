@@ -99,7 +99,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun hotwordDetected() {
-        chatView?.displayVoiceInput()
         chatView?.promptSpeechInput()
     }
 
@@ -119,7 +118,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun startSpeechInput() {
         check = true
-        chatView?.displayVoiceInput()
         chatView?.promptSpeechInput()
     }
 
