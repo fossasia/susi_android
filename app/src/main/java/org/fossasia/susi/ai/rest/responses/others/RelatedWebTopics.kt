@@ -14,3 +14,12 @@ class RelatedTopics (
     var icon: WebIcon? = null,
     var result: String? = null
 )
+
+class WebIcon ( var url: String? = null )
+
+class WebSearch (
+
+        var heading: String? = null,
+        var relatedTopics: List<RelatedTopics>? = null
+
+)
