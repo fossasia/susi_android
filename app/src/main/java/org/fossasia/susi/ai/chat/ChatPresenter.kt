@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.chat
 
 import android.os.Handler
+import android.util.Log
 
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
@@ -260,6 +261,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     //sends message to susi
     override fun sendMessage(query: String, actual: String) {
+        addToNonDeliveredList(query, actual)
+        computeThread().start()
+    }
+
+    override fun addToNonDeliveredList(query: String, actual: String) {
         val urlList = ParseSusiResponseHelper.extractUrls(query)
         val isHavingLink = !urlList.isEmpty()
 
@@ -279,7 +285,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         databaseRepository.updateDatabase(newMessageIndex, actual, false, DateTimeHelper.date,
                 DateTimeHelper.currentTime, true, "", null, isHavingLink, null, "", "", this)
         getLocationFromLocationService()
-        computeThread().start()
     }
 
     override fun startComputingThread() {
@@ -293,7 +298,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     @Synchronized
-    fun computeOtherMessage() {
+    fun computeOtherMessage() { Log.v("chirag","chirag run")
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
                 chatView?.showWaitingDots()

@@ -2,12 +2,13 @@ package org.fossasia.susi.ai.rest.responses.susi
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  *
  * Created by chiragw15 on 16/8/17.
  */
-class SkillData {
+class SkillData: Serializable {
 
     @SerializedName("image")
     @Expose
@@ -23,7 +24,7 @@ class SkillData {
 
     @SerializedName("developer_privacy_policy")
     @Expose
-    var developerPrivacyPolicy: String ?= null
+    var developerPrivacyPolicy: String = ""
 
     @SerializedName("author")
     @Expose
@@ -35,11 +36,11 @@ class SkillData {
 
     @SerializedName("dynamic_content")
     @Expose
-    var dynamicContent: Boolean = false
+    var dynamicContent: Boolean ?= null
 
     @SerializedName("terms_of_use")
     @Expose
-    var termsOfUse: String ?= null
+    var termsOfUse: String = ""
 
     @SerializedName("descriptions")
     @Expose

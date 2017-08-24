@@ -25,6 +25,7 @@ interface IChatPresenter {
 
     //Interaction with susi
     fun sendMessage(query: String, actual: String)
+    fun addToNonDeliveredList(query:String, actual: String)
     fun startComputingThread()
 
     //Hotword Detection

@@ -59,6 +59,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     var recordingThread: RecordingThread? = null
     lateinit var networkStateReceiver: BroadcastReceiver
     lateinit var progressDialog: ProgressDialog
+    var example: String = ""
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
@@ -74,15 +75,21 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
+
         setUpUI()
         initializationMethod(firstRun)
+
+        if(intent.getStringExtra("example") != null) {
+            example = intent.getStringExtra("example")
+        } else {
+            example = ""
+        }
 
         networkStateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 chatPresenter.startComputingThread()
             }
         }
-        registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
     }
 
     // This method is used to set up the UI components
@@ -145,6 +152,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         et_message.setHorizontallyScrolling(false)
 
         et_message.addTextChangedListener(watch)
+
         et_message.setOnEditorActionListener({ _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
@@ -405,6 +413,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun onResume() {
         super.onResume()
         chatPresenter.getUndeliveredMessages()
+
+        if(!example.isEmpty()) {
+            chatPresenter.addToNonDeliveredList(example, example)
+            example = ""
+        }
 
         registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
 
