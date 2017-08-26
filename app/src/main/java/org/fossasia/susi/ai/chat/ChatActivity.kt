@@ -11,6 +11,9 @@ import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.net.ConnectivityManager
 import android.os.*
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
@@ -21,10 +24,10 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 
 import io.realm.RealmResults
@@ -58,6 +61,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     lateinit var textToSpeech: TextToSpeech
     var recordingThread: RecordingThread? = null
     lateinit var networkStateReceiver: BroadcastReceiver
+    lateinit var recognizer: SpeechRecognizer
     lateinit var progressDialog: ProgressDialog
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
@@ -76,6 +80,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter.onAttach(this)
         setUpUI()
         initializationMethod(firstRun)
+        cancelSpeechInput()
 
         networkStateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -83,6 +88,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
             }
         }
         registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+        recognizer = SpeechRecognizer.createSpeechRecognizer(applicationContext)
     }
 
     // This method is used to set up the UI components
@@ -103,6 +109,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter.getUndeliveredMessages()
         chatPresenter.initiateHotwordDetection()
         compensateTTSDelay()
+        hideVoiceInput()
     }
 
     fun setEditText() {
@@ -206,14 +213,75 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     //Take user's speech as input and send the message
     override fun promptSpeechInput() {
-        if ( recordingThread != null) {
+        if(recordingThread != null)
             chatPresenter.stopHotwordDetection()
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                "com.domain.app")
+        intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+
+        val listener = object : RecognitionListener {
+            override fun onResults(results: Bundle) {
+                val voiceResults = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                if (voiceResults == null) {
+                    Log.e(TAG, "No voice results")
+                } else {
+                    Log.d(TAG, "Printing matches: ")
+                    for (match in voiceResults) {
+                        Log.d(TAG, match)
+                    }
+                }
+                chatPresenter.sendMessage(voiceResults[0], voiceResults[0])
+                recognizer.destroy()
+                hideVoiceInput()
+                if(recordingThread != null)
+                    chatPresenter.startHotwordDetection()
+            }
+
+            override fun onReadyForSpeech(params: Bundle) {
+                Log.d(TAG, "Ready for speech")
+                showVoiceDots()
+            }
+
+            override fun onError(error: Int) {
+                Log.d(TAG, "Error listening for speech: " + error)
+                showToast("Could not recognize speech, try again.")
+                recognizer.destroy()
+                hideVoiceInput()
+                if(recordingThread != null)
+                chatPresenter.startHotwordDetection()
+            }
+
+            override fun onBeginningOfSpeech() {
+                Log.d(TAG, "Speech starting")
+            }
+
+            override fun onBufferReceived(buffer: ByteArray) {
+                // This method is intentionally empty
+            }
+
+            override fun onEndOfSpeech() {
+                // This method is intentionally empty
+            }
+
+            override fun onEvent(eventType: Int, params: Bundle) {
+                // This method is intentionally empty
+            }
+
+            override fun onPartialResults(partialResults: Bundle) {
+                val partial = partialResults
+                        .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
+                displayPartialSTT(partial[0])
+            }
+
+            override fun onRmsChanged(rmsdB: Float) {
+                // This method is intentionally empty
+            }
         }
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.sttframe, STTfragment())
-        ft.addToBackStack(null)
-        ft.commit()
+        recognizer.setRecognitionListener(listener)
+        recognizer.startListening(intent)
     }
 
     //Replies user with Speech
@@ -298,6 +366,44 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     override fun stopRecording() {
         recordingThread?.stopRecording()
+    }
+
+    override fun hideVoiceInput() {
+        voice_input_text.text = ""
+        voice_input_text.visibility = View.GONE
+        cancel.visibility = View.GONE
+        dots.hideAndStop()
+        dots.visibility = View.GONE
+        et_message.visibility = View.VISIBLE
+        btnSpeak.visibility = View.VISIBLE
+        et_message.requestFocus()
+    }
+
+    override fun displayVoiceInput() {
+        dots.visibility = View.VISIBLE
+        voice_input_text.visibility = View.VISIBLE
+        cancel.visibility = View.VISIBLE
+        et_message.visibility = View.GONE
+        btnSpeak.visibility = View.GONE
+    }
+
+    fun cancelSpeechInput() {
+        cancel.setOnClickListener {
+            recognizer.cancel()
+            recognizer.destroy()
+            hideVoiceInput()
+            if (recordingThread != null)
+                chatPresenter.startHotwordDetection()
+        }
+    }
+
+    override fun displayPartialSTT(text: String) {
+        voice_input_text.text = text
+    }
+
+    override fun showVoiceDots() {
+        dots.show()
+        dots.start()
     }
 
     override fun checkMicPref(micCheck: Boolean) {
@@ -391,11 +497,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 0) {
-            chatPresenter.exitChatActivity()
-        } else {
-            supportFragmentManager.popBackStackImmediate()
-        }
+        chatPresenter.exitChatActivity()
     }
 
     override fun finishActivity() {
@@ -404,6 +506,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     override fun onResume() {
         super.onResume()
+
         chatPresenter.getUndeliveredMessages()
 
         registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
@@ -424,13 +527,13 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter.checkPreferences()
     }
 
-    fun setText(msg: String?) {
-        chatPresenter.sendMessage(msg.toString(), msg.toString())
-    }
-
     override fun onPause() {
         unregisterReceiver(networkStateReceiver)
         super.onPause()
+        recognizer.cancel()
+        recognizer.destroy()
+
+        hideVoiceInput()
 
         if (recordingThread != null)
             chatPresenter.stopHotwordDetection()
