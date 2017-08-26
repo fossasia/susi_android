@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.chat.contract
 
+import android.graphics.drawable.Drawable
 import io.realm.RealmResults
 import org.fossasia.susi.ai.data.model.ChatMessage
 
@@ -16,6 +17,9 @@ interface IChatView {
     fun checkEnterKeyPref(isChecked: Boolean)
     fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>)
     fun showToast(message: String)
+    fun showVoiceDots()
+    fun displayVoiceInput()
+    fun hideVoiceInput()
     fun voiceReply(reply: String, language: String)
     fun showRetrieveOldMessageProgress()
     fun hideRetrieveOldMessageProgress()
@@ -23,6 +27,7 @@ interface IChatView {
     fun hideWaitingDots()
     fun databaseUpdated()
     fun displaySnackbar(message: String)
+    fun displayPartialSTT(text: String)
     fun startRecording()
     fun stopRecording()
     fun initHotword()
