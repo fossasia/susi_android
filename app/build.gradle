@@ -1,3 +1,8 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'realm-android'
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -7,9 +12,7 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+
 //apply plugin: 'io.fabric'
 
 repositories {
@@ -17,8 +20,6 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'android-apt'
-apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
@@ -64,7 +65,7 @@ dependencies {
 
     //butterknife
     compile 'com.jakewharton:butterknife:8.4.0'
-    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    kapt 'com.jakewharton:butterknife-compiler:8.4.0'
 
     compile "com.android.support:support-v4:$support_lib_version"
 
@@ -95,7 +96,7 @@ dependencies {
     //waiting dots
     compile 'com.github.tajchert:WaitingDots:0.3.2'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
-        transitive = true;
+        transitive = true
     }
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }

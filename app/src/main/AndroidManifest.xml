@@ -19,9 +19,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <activity android:name=".login.WelcomeActivity"
+                  android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".skills.SkillsActivity"
-            android:label="@string/skills_activity"
             android:theme="@style/PreferencesThemeLight"
             android:configChanges="orientation|screenSize">
             <meta-data
@@ -37,11 +43,6 @@
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".forgotpassword.ForgotPasswordActivity"
