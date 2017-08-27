@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/margin_very_small">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="@dimen/websearch_card_width"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/message_card_margin_small"
+        android:layout_marginLeft="@dimen/margin_card"
+        android:layout_marginTop="@dimen/message_card_margin_small"
+        app:cardBackgroundColor="@color/susi_message_bg">
+
+        <LinearLayout
+            android:id="@+id/preview_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/link_preview_text_layout"
+                android:background="@color/md_white_1000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/skill_preview_image"
+                    android:layout_width="@dimen/skill_image_size"
+                    android:layout_height="@dimen/skill_image_size"
+                    android:scaleType="centerInside"
+                    android:adjustViewBounds="true"
+                    android:background="@color/md_white_1000"
+                    app:srcCompat="@drawable/ic_user"
+                    android:padding="@dimen/margin_card" />
+
+                <TextView
+                    android:id="@+id/skill_preview_example"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/skill_image_size"
+                    android:textSize="@dimen/skill_example"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:padding="@dimen/standard_content_padding"
+                    android:background="@color/md_white_1000"
+                    android:textColor="@color/md_grey_800"
+                    android:typeface="monospace"
+                    tools:text="@string/sample_website_description" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/default_bg">
+
+                <TextView
+                    android:id="@+id/skill_preview_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/skill_title"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/skill_title"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/cmv_padding"
+                    android:paddingRight="@dimen/cmv_padding"
+                    android:paddingTop="@dimen/cmv_padding"/>
+
+                <TextView
+                    android:id="@+id/skill_preview_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/skill_description"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:minHeight="@dimen/skill_min_height"
+                    android:padding="@dimen/cmv_padding"
+                    android:textColor="@color/md_grey_800"
+                    tools:text="@string/sample_website_description" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

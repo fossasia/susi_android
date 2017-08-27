@@ -24,6 +24,9 @@
     <dimen name="padding_chatbubble_small">5dp</dimen>
     <dimen name="link_preview_max_width">220dp</dimen>
     <dimen name="map_view_height">180dp</dimen>
+    <dimen name="progress_bar_size">50dp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="skill_image_size">80dp</dimen>
 
     <dimen name="margin_small">5dp</dimen>
     <dimen name="message_card_margin_small">4dp</dimen>
@@ -43,5 +46,9 @@
     <dimen name="padding_img">40dp</dimen>
     <dimen name="toolbar_logo_width">110dp</dimen>
     <dimen name="toolbar_logo_height">22dp</dimen>
+    <dimen name="skill_title">18sp</dimen>
+    <dimen name="skill_description">16sp</dimen>
+    <dimen name="skill_min_height">60dp</dimen>
+    <dimen name="skill_example">14sp</dimen>
 
 </resources>

@@ -27,5 +27,6 @@ interface IUtilModel {
     fun permissionsToGet() : Array<String>
     fun isArmDevice(): Boolean
     fun setLanguage(language: String)
+    fun clearPrefs()
 
 }

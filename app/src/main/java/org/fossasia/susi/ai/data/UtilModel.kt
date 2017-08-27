@@ -94,4 +94,8 @@ class UtilModel(val context: Context): IUtilModel {
         PrefManager.putString(Constant.LANGUAGE, language)
     }
 
+    override fun clearPrefs() {
+        PrefManager.clearPrefs()
+    }
+
 }
