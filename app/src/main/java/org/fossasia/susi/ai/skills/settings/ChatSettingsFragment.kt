@@ -57,6 +57,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
 
+        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
 

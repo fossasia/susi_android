@@ -23,7 +23,6 @@
         </activity>
         <activity
             android:name=".skills.SkillsActivity"
-            android:label="@string/skills_activity"
             android:theme="@style/PreferencesThemeLight"
             android:configChanges="orientation|screenSize">
             <meta-data
