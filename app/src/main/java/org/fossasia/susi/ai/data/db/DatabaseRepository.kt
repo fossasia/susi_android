@@ -5,8 +5,7 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
-import org.fossasia.susi.ai.data.model.ChatMessage
-import org.fossasia.susi.ai.data.model.MapData
+import org.fossasia.susi.ai.data.model.*
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.Datum
@@ -52,7 +51,7 @@ class DatabaseRepository: IDatabaseRepository {
 
     override fun updateDatabase(prevId: Long, message: String, isDate: Boolean, date: String,
                                 timeStamp: String, mine: Boolean, actionType: String, mapData: MapData?,
-                                isHavingLink: Boolean, datumList: List<Datum>?, webSearch: String, skillLocation: String,
+                                isHavingLink: Boolean, datumList: List<Datum>?, webSearch: String, tableData: TableDatas?, skillLocation: String,
                                 listener: IDatabaseRepository.onDatabaseUpdateListener) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
@@ -77,6 +76,23 @@ class DatabaseRepository: IDatabaseRepository {
                     chatMessage.longitude = mapData.longitude
                     chatMessage.zoom = mapData.zoom
                 }
+                if(tableData!=null) {
+                    val columnRealmList = RealmList<TableColumn>()
+                    val tabledataRealmList = RealmList<TableData>()
+                    for(column in tableData.columns) {
+                        val realmColumn = bgRealm.createObject(TableColumn::class.java)
+                        realmColumn.columnName = column
+                        columnRealmList.add(realmColumn)
+                    }
+                    chatMessage.tableColumns = columnRealmList
+                    for(tableData in tableData.tableData) {
+                        val realmData = bgRealm.createObject(TableData::class.java)
+                        realmData.tableData = tableData
+                        tabledataRealmList.add(realmData)
+                    }
+                    chatMessage.tableDatas = tabledataRealmList
+                }
+
                 if (datumList != null) {
                     val datumRealmList = RealmList<Datum>()
                     for (datum in datumList) {

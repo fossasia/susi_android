@@ -1,0 +1,26 @@
+package org.fossasia.susi.ai.rest.responses.susi
+
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+import java.util.ArrayList
+
+/**
+ * Created by meeera on 20/8/17.
+ */
+class TableAnswer {
+    @SerializedName("data")
+    @Expose
+    var data: List<Map<String, Any>>? = null
+    @SerializedName("metadata")
+    @Expose
+    val metadata: Metadata? = null
+
+    @SerializedName("actions")
+    @Expose
+    val actions: List<TableAction> = ArrayList()
+
+    @SerializedName("skills")
+    @Expose
+    val skills: List<String> = ArrayList()
+
+}
