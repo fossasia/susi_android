@@ -19,8 +19,8 @@ public class ChatMessage extends RealmObject {
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
-    RealmList<TableColumn> tableColumns;
-    RealmList<TableData> tableDatas;
+    private RealmList<TableColumn> tableColumns;
+    private RealmList<TableData> tableDatas;
     private boolean isDelivered, isHavingLink, isDate, isMine, isPositiveRated, isNegativeRated;
     private double latitude, longitude, zoom;
 

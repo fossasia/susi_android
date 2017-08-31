@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.data.model;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
