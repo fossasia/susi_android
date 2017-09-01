@@ -25,7 +25,6 @@ class ParseTableSusiResponseHelper {
                     val set = map?.entries
                     val iterator = set?.iterator()
                     while (iterator?.hasNext().toString().toBoolean()) {
-
                         val entry = iterator?.next()
                         listColumn.add(entry?.key.toString())
                     }
@@ -34,8 +33,8 @@ class ParseTableSusiResponseHelper {
                 val iterator2 = map2?.iterator()
                 while (iterator2?.hasNext().toString().toBoolean()) {
                     val entry2 = iterator2?.next()
-                    for (ad in 0..listColumn.size-1) {
-                        val obj = listColumn.get(ad)
+                    for (count in 0..listColumn.size-1) {
+                        val obj = listColumn.get(count)
                         listTableData.add(entry2?.get(obj).toString())
                     }
                 }

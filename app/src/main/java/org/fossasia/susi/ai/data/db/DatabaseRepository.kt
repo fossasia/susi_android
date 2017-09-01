@@ -76,9 +76,10 @@ class DatabaseRepository: IDatabaseRepository {
                     chatMessage.longitude = mapData.longitude
                     chatMessage.zoom = mapData.zoom
                 }
+
                 if(tableData!=null) {
                     val columnRealmList = RealmList<TableColumn>()
-                    val tabledataRealmList = RealmList<TableData>()
+                    val tableDataRealmList = RealmList<TableData>()
                     for(column in tableData.columns) {
                         val realmColumn = bgRealm.createObject(TableColumn::class.java)
                         realmColumn.columnName = column
@@ -88,9 +89,9 @@ class DatabaseRepository: IDatabaseRepository {
                     for(tableData in tableData.tableData) {
                         val realmData = bgRealm.createObject(TableData::class.java)
                         realmData.tableData = tableData
-                        tabledataRealmList.add(realmData)
+                        tableDataRealmList.add(realmData)
                     }
-                    chatMessage.tableDatas = tabledataRealmList
+                    chatMessage.tableDatas = tableDataRealmList
                 }
 
                 if (datumList != null) {
