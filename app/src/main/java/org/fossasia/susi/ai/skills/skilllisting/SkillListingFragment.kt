@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillGroupAdapter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
@@ -29,6 +30,7 @@ class SkillListingFragment: Fragment(), ISkillListingView {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.skills_activity)
         skillListingPresenter = SkillListingPresenter()
         skillListingPresenter.onAttach(this)
         setUPAdapter()
