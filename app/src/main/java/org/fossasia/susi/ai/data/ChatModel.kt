@@ -7,6 +7,7 @@ import org.fossasia.susi.ai.rest.clients.LocationClient
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+import org.fossasia.susi.ai.rest.responses.susi.TableSusiResponse
 import org.fossasia.susi.ai.rest.services.LocationService
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,6 +70,26 @@ class ChatModel : IChatModel {
                             Log.d(TAG, "An error occurred", t)
                         }
                         listener.onSusiMessageReceivedFailure(t)
+                    }
+                })
+    }
+
+    override fun getTableSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
+                                     language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
+
+        clientBuilder.susiApi.getTableSusiResponse(timezoneOffset, longitude, latitude, source, language, query).enqueue(
+                object : Callback<TableSusiResponse> {
+                    override fun onResponse(call: Call<TableSusiResponse>, response: Response<TableSusiResponse>?) {
+                        listener.onTableSusiMessageReceivedSuccess(response)
+                    }
+
+                    override fun onFailure(call: Call<TableSusiResponse>, t: Throwable) {
+                        if (t.localizedMessage != null) {
+                            Log.d(TAG, t.localizedMessage)
+                        } else {
+                            Log.d(TAG, "An error occurred", t)
+                        }
+                        // listener.onSusiMessageReceivedFailure(t)
                     }
                 })
     }

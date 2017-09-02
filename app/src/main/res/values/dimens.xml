@@ -50,5 +50,6 @@
     <dimen name="skill_description">16sp</dimen>
     <dimen name="skill_min_height">60dp</dimen>
     <dimen name="skill_example">14sp</dimen>
+    <dimen name="table_bottom_margin">30dp</dimen>
 
 </resources>

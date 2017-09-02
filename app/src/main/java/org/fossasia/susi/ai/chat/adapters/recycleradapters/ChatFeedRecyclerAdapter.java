@@ -26,6 +26,7 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultsListHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.TableViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.Constant;
@@ -59,6 +60,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     public static final int SUSI_IMAGE = 3;
     private static final int MAP = 4;
     private static final int PIECHART = 7;
+    private static final int TABLE = 13;
     public static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
     private static final int DOTS = 8;
@@ -185,6 +187,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             case PIECHART:
                 view = inflater.inflate(R.layout.item_susi_piechart, viewGroup, false);
                 return new PieChartViewHolder(view, clickListener);
+            case TABLE:
+                view = inflater.inflate(R.layout.susi_table, viewGroup, false);
+                return new TableViewHolder(view, clickListener);
             case SEARCH_RESULT:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder searchResultsListHolder = new SearchResultsListHolder(view);
@@ -232,6 +237,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 return SEARCH_RESULT;
             case  Constant.PIECHART :
                 return PIECHART;
+            case Constant.TABLE:
+                return TABLE;
             default:
                 return SUSI_MESSAGE;
         }
@@ -271,6 +278,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
             pieChartViewHolder.setView(getData().get(position));
+        } else if(holder instanceof TableViewHolder) {
+            TableViewHolder tableViewHolder = (TableViewHolder) holder;
+            tableViewHolder.setView(getData().get(position), currContext);
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             setOnLinkLongClickListener(position, linkPreviewViewHolder);

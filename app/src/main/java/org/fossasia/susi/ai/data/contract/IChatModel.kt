@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.data.contract
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+import org.fossasia.susi.ai.rest.responses.susi.TableSusiResponse
 import retrofit2.Response
 
 /**
@@ -23,11 +24,14 @@ interface IChatModel {
 
     interface OnMessageFromSusiReceivedListener {
         fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?)
+        fun onTableSusiMessageReceivedSuccess(response: Response<TableSusiResponse>?)
         fun onSusiMessageReceivedFailure(t: Throwable)
     }
 
     fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
                        language: String, query: String, listener: OnMessageFromSusiReceivedListener)
+    fun getTableSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
+                            language: String, query: String, listener: OnMessageFromSusiReceivedListener)
     fun retrieveOldMessages(listener: OnRetrievingMessagesFinishedListener)
     fun getLocationFromIP(listener: OnLocationFromIPReceivedListener)
 }
