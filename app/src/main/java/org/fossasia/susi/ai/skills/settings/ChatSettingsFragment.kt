@@ -24,9 +24,7 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import org.fossasia.susi.ai.skills.SkillsActivity
-import org.fossasia.susi.ai.hotword.HotwordTrainingFragment
-import org.fossasia.susi.ai.settings.contract.ISettingsPresenter
-import org.fossasia.susi.ai.settings.contract.ISettingsView
+import org.fossasia.susi.ai.skills.hotword.HotwordTrainingFragment
 
 /**
  * The Fragment for Settings Activity
@@ -103,7 +101,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         trainHotword.setOnPreferenceClickListener {
             val hotwordfrag = HotwordTrainingFragment()
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, hotwordfrag)
+                    .add(R.id.fragment_container, hotwordfrag)
                     .addToBackStack(null)
                     .commit()
             true
@@ -214,7 +212,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
         customer_server.isChecked = flag
         input_url_text.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null))
-        customer_server.setOnCheckedChangeListener { buttonView, isChecked ->
+        customer_server.setOnCheckedChangeListener { _, isChecked ->
             if(isChecked)
                 input_url.visibility = View.VISIBLE
             if(!isChecked)

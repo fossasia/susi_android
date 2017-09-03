@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.hotword
+package org.fossasia.susi.ai.skills.hotword
 
 import android.net.Uri
 import android.util.Log
@@ -6,20 +6,20 @@ import org.fossasia.susi.ai.data.HotwordTrainingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IHotwordTrainingModel
 import org.fossasia.susi.ai.data.contract.IUtilModel
-import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingPresenter
-import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingView
-import org.fossasia.susi.ai.settings.SettingsActivity
+import org.fossasia.susi.ai.skills.hotword.contract.IHotwordTrainingPresenter
+import org.fossasia.susi.ai.skills.hotword.contract.IHotwordTrainingView
+import org.fossasia.susi.ai.skills.SkillsActivity
 import java.lang.Thread.sleep
 
 /**
  * 
  * Created by chiragw15 on 9/8/17.
  */
-class HotwordTrainingPresenter(settingsActivity: SettingsActivity): IHotwordTrainingPresenter,
+class HotwordTrainingPresenter(skillsActivity: SkillsActivity): IHotwordTrainingPresenter,
         IHotwordTrainingModel.onHotwordTrainedFinishedListener, IUtilModel.onFFmpegCommandFinishedListener{
 
     var hotwordTrainingModel: IHotwordTrainingModel = HotwordTrainingModel()
-    var utilModel: IUtilModel = UtilModel(settingsActivity)
+    var utilModel: IUtilModel = UtilModel(skillsActivity)
     var hotwordTrainingView: IHotwordTrainingView?= null
     var BEFORE_RECORDING = 0
     var DURING_RECORDING = 1

@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.hotword
+package org.fossasia.susi.ai.skills.hotword
 
 import android.app.ProgressDialog
 import android.content.Intent
@@ -16,11 +16,11 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.widget.*
 import kotlinx.android.synthetic.main.fragment_hotword_training.*
-import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingPresenter
-import org.fossasia.susi.ai.hotword.contract.IHotwordTrainingView
-import org.fossasia.susi.ai.settings.SettingsActivity
+import org.fossasia.susi.ai.skills.hotword.contract.IHotwordTrainingPresenter
+import org.fossasia.susi.ai.skills.hotword.contract.IHotwordTrainingView
 import android.app.Activity
 import android.util.Log
+import org.fossasia.susi.ai.skills.SkillsActivity
 
 /**
  *
@@ -60,7 +60,7 @@ class HotwordTrainingFragment: Fragment(), IHotwordTrainingView {
         retryButtons = arrayOf(retryButton1, retryButton2, retryButton3)
         listeningTexts = arrayOf(listeningText1, listeningText2, listeningText3)
 
-        hotwordTrainingPresenter = HotwordTrainingPresenter(activity as SettingsActivity)
+        hotwordTrainingPresenter = HotwordTrainingPresenter(activity as SkillsActivity)
         hotwordTrainingPresenter.onAttach(this)
         recognizer = SpeechRecognizer.createSpeechRecognizer(activity.applicationContext)
         hotwordTrainingPresenter.setUpUI()

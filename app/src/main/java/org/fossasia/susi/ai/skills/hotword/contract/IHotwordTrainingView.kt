@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.hotword.contract
+package org.fossasia.susi.ai.skills.hotword.contract
 
 /**
  *
