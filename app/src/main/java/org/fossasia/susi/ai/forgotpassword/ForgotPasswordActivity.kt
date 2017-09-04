@@ -47,7 +47,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
 
         progressDialog = ProgressDialog(this)
         progressDialog.setCancelable(false)
-        progressDialog.setMessage(getString(R.string.login))
+        progressDialog.setMessage(getString(R.string.reset_password_message))
 
         showUrl()
         cancelRequestPassword()
