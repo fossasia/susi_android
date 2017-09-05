@@ -76,6 +76,9 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     debugCompile "com.squareup.okhttp3:logging-interceptor:3.3.1"
 
+    //Moshi Json Converter
+    compile "com.squareup.retrofit2:converter-moshi:2.0.0"
+
     //For Link Previews
     compile 'org.jsoup:jsoup:1.8.3' // required
     compile 'com.leocardz:link-preview:1.2.1@aar'
