@@ -161,4 +161,17 @@
     <string name="error_skill_listing">Unable to fetch skills. Something went wrong. Please try again later.</string>
     <string name="no_skill_author">Skill Author not found</string>
     <string name="reset_password_message">Resetting Password..</string>
+
+    <!-- Intro Strings -->
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="slide_1_title">Login</string>
+    <string name="slide_1_desc">Login into the app using SUSI AI account or else signup to create new account or just skip login.</string>
+    <string name="slide_2_title">Chat Interface</string>
+    <string name="slide_2_desc">Interact with SUSI AI asking queries. Use microphone button for voice interaction.</string>
+    <string name="slide_3_title">Skill Listing</string>
+    <string name="slide_3_desc">Browse and try your favorite SUSI AI Skill</string>
+    <string name="slide_4_title">Chat Settings</string>
+    <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
 </resources>
