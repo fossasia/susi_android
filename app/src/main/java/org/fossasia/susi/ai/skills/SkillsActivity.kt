@@ -48,6 +48,7 @@ class SkillsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
 
         if (fragment != null && fragment.isVisible) {
@@ -56,7 +57,7 @@ class SkillsActivity : AppCompatActivity() {
         } else {
             val skillFragment = SkillListingFragment()
             fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                    .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                     .commit()
         }
     }
@@ -71,7 +72,7 @@ class SkillsActivity : AppCompatActivity() {
                 } else {
                     val skillFragment = SkillListingFragment()
                     fragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                            .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                             .commit()
                 }
             }
@@ -79,13 +80,13 @@ class SkillsActivity : AppCompatActivity() {
             R.id.menu_settings -> {
                 val settingsFragment = ChatSettingsFragment()
                 supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
+                        .add(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
                         .commit()
             }
 
-            R.id.menu_about -> {
+            //R.id.menu_about -> {
                 //TODO : Add code for about section
-            }
+            //}
         }
         return super.onOptionsItemSelected(item);
     }
