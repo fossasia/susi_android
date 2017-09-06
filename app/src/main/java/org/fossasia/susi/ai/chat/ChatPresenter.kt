@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.chat
 
 import android.os.Handler
+import android.util.Log
 
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
@@ -99,7 +100,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun hotwordDetected() {
-        chatView?.displayVoiceInput()
         chatView?.promptSpeechInput()
     }
 
@@ -119,7 +119,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun startSpeechInput() {
         check = true
-        chatView?.displayVoiceInput()
         chatView?.promptSpeechInput()
     }
 
@@ -192,9 +191,15 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     for (j in 0..actionSize - 1) {
                         val psh = ParseSusiResponseHelper()
                         psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
-                        databaseRepository.updateDatabase(c, psh.answer, false, DateTimeHelper.getDate(answerDate),
-                                DateTimeHelper.getTime(answerDate), false, psh.actionType, psh.mapData, psh.isHavingLink,
-                                psh.datumList, psh.webSearch, allMessages[i].answers[0].skills[0], this)
+                        try {
+                            databaseRepository.updateDatabase(c, psh.answer, false, DateTimeHelper.getDate(answerDate),
+                                    DateTimeHelper.getTime(answerDate), false, psh.actionType, psh.mapData, psh.isHavingLink,
+                                    psh.datumList, psh.webSearch, allMessages[i].answers[0].skills[0], this)
+                        } catch (e: Exception) {
+                            databaseRepository.updateDatabase(c, utilModel.getString(R.string.error_internet_connectivity),
+                                    false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
+                                    Constant.ANSWER, null, false, null, "", "", this)
+                        }
                     }
                 }
             }
@@ -256,6 +261,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     //sends message to susi
     override fun sendMessage(query: String, actual: String) {
+        addToNonDeliveredList(query, actual)
+        computeThread().start()
+    }
+
+    override fun addToNonDeliveredList(query: String, actual: String) {
         val urlList = ParseSusiResponseHelper.extractUrls(query)
         val isHavingLink = !urlList.isEmpty()
 
@@ -275,7 +285,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         databaseRepository.updateDatabase(newMessageIndex, actual, false, DateTimeHelper.date,
                 DateTimeHelper.currentTime, true, "", null, isHavingLink, null, "", "", this)
         getLocationFromLocationService()
-        computeThread().start()
     }
 
     override fun startComputingThread() {
@@ -289,7 +298,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     @Synchronized
-    fun computeOtherMessage() {
+    fun computeOtherMessage() { Log.v("chirag","chirag run")
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
                 chatView?.showWaitingDots()
@@ -367,9 +376,15 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                         }
                         chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
                     }
-                    databaseRepository.updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date),
-                            DateTimeHelper.getTime(date), false, psh.actionType, psh.mapData, psh.isHavingLink,
-                            psh.datumList, psh.webSearch, susiResponse.answers[0].skills[0], this)
+                    try {
+                        databaseRepository.updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date),
+                                DateTimeHelper.getTime(date), false, psh.actionType, psh.mapData, psh.isHavingLink,
+                                psh.datumList, psh.webSearch, susiResponse.answers[0].skills[0], this)
+                    } catch (e: Exception) {
+                        databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
+                                false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
+                                Constant.ANSWER, null, false, null, "", "", this)
+                    }
                 }, delay)
             }
             chatView?.hideWaitingDots()

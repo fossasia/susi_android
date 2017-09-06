@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by chiragw15 on 18/8/17.
  */
 
-public class SkillViewHolder extends RecyclerView.ViewHolder {
+public class SkillViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     @BindView(R.id.skill_preview_image)
     public ImageView previewImageView;
@@ -26,8 +26,23 @@ public class SkillViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.skill_preview_example)
     public TextView skillPreviewExample;
 
-    public SkillViewHolder(View itemView) {
+    private ClickListener listener;
+
+    public SkillViewHolder(View itemView, ClickListener clickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        this.listener = clickListener;
+        itemView.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (listener != null) {
+            listener.onItemClicked(getAdapterPosition());
+        }
+    }
+
+    public interface ClickListener {
+        void onItemClicked(int position);
     }
 }
