@@ -40,34 +40,33 @@ class SkillListingPresenter: ISkillListingPresenter,
             skillListingModel.fetchSkills(groups[0], this)
         } else {
             skillListingView?.visibilityProgressBar(false)
-            skillListingView?.displayErrorDialog()
+            skillListingView?.displayError()
         }
     }
 
     override fun onGroupFetchFailure(t: Throwable) {
         skillListingView?.visibilityProgressBar(false)
-        skillListingView?.displayErrorDialog()
+        skillListingView?.displayError()
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
+        skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
             skills.add(Pair(group, response.body().skillMap))
+            skillListingView?.updateAdapter(skills)
             count++
-            if(count == groupsCount) {
-                skillListingView?.visibilityProgressBar(false)
-                skillListingView?.updateAdapter(skills)
-            } else {
+            if(count != groupsCount) {
                 skillListingModel.fetchSkills(groups[count], this)
             }
         } else {
             skillListingView?.visibilityProgressBar(false)
-            skillListingView?.displayErrorDialog()
+            skillListingView?.displayError()
         }
     }
 
     override fun onSkillFetchFailure(t: Throwable) {
         skillListingView?.visibilityProgressBar(false)
-        skillListingView?.displayErrorDialog()
+        skillListingView?.displayError()
     }
 
     override fun onDetach() {

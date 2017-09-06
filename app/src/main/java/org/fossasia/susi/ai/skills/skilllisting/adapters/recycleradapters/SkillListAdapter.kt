@@ -7,15 +7,19 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
 /**
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map<String, SkillData>>) : RecyclerView.Adapter<SkillViewHolder>() {
+class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map<String, SkillData>>) : RecyclerView.Adapter<SkillViewHolder>(),
+        SkillViewHolder.ClickListener {
 
     val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+    val clickListener: SkillViewHolder.ClickListener = this
 
     override fun onBindViewHolder(holder: SkillViewHolder?, position: Int) {
         val skillData = skillDetails.second.values.toTypedArray()[position]
@@ -51,9 +55,22 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
         return skillDetails.second.size
     }
 
+    override fun onItemClicked(position: Int) {
+        val skillData = skillDetails.second.values.toTypedArray()[position]
+        val skillGroup = skillDetails.first.replace(" ","%20")
+        showSkillDetailFragment(skillData, skillGroup)
+    }
+
+    fun showSkillDetailFragment(skillData: SkillData, skillGroup: String) {
+        val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData,skillGroup)
+        (context as SkillsActivity).fragmentManager.beginTransaction()
+                .add(R.id.fragment_container, skillDetailsFragment)
+                .commit()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SkillViewHolder {
         val itemView = LayoutInflater.from(parent?.context)
                 .inflate(R.layout.item_skill, parent, false)
-        return SkillViewHolder(itemView)
+        return SkillViewHolder(itemView, clickListener)
     }
 }

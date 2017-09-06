@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_white_1000"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/skill_detail_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                app:srcCompat="@drawable/ic_susi"
+                android:background="@color/md_white_1000"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="16dp"
+                android:background="@color/md_white_1000">
+
+                <TextView
+                    android:id="@+id/skill_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Skill Name"
+                    android:textSize="24sp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/md_black_1000"
+                    android:background="@color/md_white_1000"/>
+
+                <TextView
+                    android:id="@+id/skill_detail_author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Author : Author name"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/md_white_1000"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:background="@color/md_white_1000">
+
+            <Button
+                android:id="@+id/skill_detail_try_button"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="Try it"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/md_white_1000"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="22dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/md_black_1000" />
+
+            <TextView
+                android:id="@+id/skill_detail_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"
+                android:text="Description long"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Examples"
+                android:layout_marginTop="16dp"
+                android:textSize="22dp"
+                android:textColor="@color/md_black_1000"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/skill_detail_examples"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rating"
+                android:textSize="22dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/md_black_1000" />
+
+            <TextView
+                android:id="@+id/skill_detail_rating_positive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Positive : 50"
+                android:layout_marginTop="8dp"/>
+
+            <TextView
+                android:id="@+id/skill_detail_rating_negative"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Negative : 50"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/skill_detail_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Content Type : Dynamic"
+                android:layout_marginTop="16dp"
+                android:textSize="18dp"
+                android:textColor="@color/md_black_1000"/>
+
+            <TextView
+                android:id="@+id/skill_detail_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Developers Privacy Policy"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/skill_detail_terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Terms of use"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

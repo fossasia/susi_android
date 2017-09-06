@@ -22,6 +22,7 @@
             android:scrollbars="vertical" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabsetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/letter_s"
@@ -69,13 +70,6 @@
                     android:padding="8dp"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/cancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_close_24dp"
-                        android:layout_gravity="center_vertical"/>
-
                     <FrameLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -97,20 +91,6 @@
                             android:inputType="text"
                             android:scrollbars="vertical"
                             android:theme="@style/sendMessageEditTextTheme" />
-
-                        <TextView
-                            android:id="@+id/voice_input_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginBottom="1dp"
-                            android:layout_marginLeft="@dimen/margin_medium"
-                            android:layout_marginRight="@dimen/margin_medium"
-                            android:background="@android:color/transparent"
-                            android:hint="@string/hint_voice_input"
-                            android:scrollbars="vertical"
-                            android:textSize="18sp"
-                            android:theme="@style/sendMessageEditTextTheme" />
                     </FrameLayout>
 
                     <FrameLayout
@@ -130,21 +110,13 @@
                             android:paddingTop="2dp"
                             app:srcCompat="@drawable/ic_mic_24dp" />
 
-                        <pl.tajchert.sample.DotsTextView
-                            android:id="@+id/dots"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginBottom="5dp"
-                            android:paddingRight="5dp"
-                            android:textColor="@color/colorPrimary"
-                            android:textSize="20sp"
-                            android:textStyle="normal|bold"
-                            app:autoplay="false"
-                            app:period="1200" />
                     </FrameLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/sttframe"></FrameLayout>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
