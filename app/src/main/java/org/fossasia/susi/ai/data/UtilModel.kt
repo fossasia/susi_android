@@ -90,4 +90,12 @@ class UtilModel(val context: Context): IUtilModel {
         return Build.CPU_ABI.contains("arm") && !Build.FINGERPRINT.contains("generic")
     }
 
+    override fun setLanguage(language: String) {
+        PrefManager.putString(Constant.LANGUAGE, language)
+    }
+
+    override fun clearPrefs() {
+        PrefManager.clearPrefs()
+    }
+
 }

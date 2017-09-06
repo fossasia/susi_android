@@ -75,7 +75,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
 
         this.email = email
         signUpView?.showProgress(true)
-        signUpModel?.signUp(email.trim({ it <= ' ' }).toLowerCase(), password, this)
+        signUpModel.signUp(email.trim({ it <= ' ' }).toLowerCase(), password, this)
 
     }
 
@@ -112,7 +112,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
     }
 
     override fun cancelSignUp() {
-        signUpModel?.cancelSignUp()
+        signUpModel.cancelSignUp()
     }
 
     override fun onDetach() {

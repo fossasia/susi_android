@@ -17,9 +17,9 @@ class SettingModel: ISettingModel {
 
     lateinit var settingResponseCall: Call<ChangeSettingResponse>
     lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
-    override fun sendSetting(key: String, value: String, listener: ISettingModel.onSettingFinishListener) {
+    override fun sendSetting(key: String, value: String, count: Int, listener: ISettingModel.onSettingFinishListener) {
         settingResponseCall = ClientBuilder().susiApi
-                .changeSettingResponse(key, value)
+                .changeSettingResponse(key, value, count)
         settingResponseCall.enqueue(object : Callback<ChangeSettingResponse> {
             override fun onFailure(call: Call<ChangeSettingResponse>?, t: Throwable) {
                 listener.onFailure(t)

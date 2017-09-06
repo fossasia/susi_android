@@ -56,7 +56,7 @@ class ChatModel : IChatModel {
     override fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
                                 language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        clientBuilder.susiApi.getSusiResponse(timezoneOffset, longitude, latitude, source, Locale.getDefault().language, query).enqueue(
+        clientBuilder.susiApi.getSusiResponse(timezoneOffset, longitude, latitude, source, language, query).enqueue(
                 object : Callback<SusiResponse> {
                     override fun onResponse(call: Call<SusiResponse>, response: Response<SusiResponse>?) {
                         listener.onSusiMessageReceivedSuccess(response)
