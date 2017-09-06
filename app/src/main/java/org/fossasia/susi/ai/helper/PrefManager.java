@@ -18,7 +18,6 @@ import java.util.Set;
  * @author Rajan Maurya
  */
 public class PrefManager {
-
     private static final String SUSI_BASE_URLS = "preferences_base_urls";
     private static final String SUSI_RUNNING_BASE_URL = "preferences_running_base_url";
 
