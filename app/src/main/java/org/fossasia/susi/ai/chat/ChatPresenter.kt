@@ -15,7 +15,6 @@ import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
-import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 
 import retrofit2.Response

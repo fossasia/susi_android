@@ -10,9 +10,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
-import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import org.fossasia.susi.ai.rest.responses.susi.Settings
-import org.fossasia.susi.ai.rest.responses.susi.UserSetting
 import retrofit2.Response
 import java.net.UnknownHostException
 

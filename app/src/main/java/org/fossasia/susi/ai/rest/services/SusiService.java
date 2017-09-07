@@ -1,18 +1,7 @@
 package org.fossasia.susi.ai.rest.services;
 
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
-import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse;
-import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
-import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse;
-import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
-import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
-import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
-import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
-import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
-import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
-import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
-import org.fossasia.susi.ai.rest.responses.susi.UserSetting;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

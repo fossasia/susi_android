@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
 import org.fossasia.susi.ai.rest.ClientBuilder
-import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
