@@ -136,3 +136,4 @@ If you are a tester and want to test the app, you have two ways to do that:
 ## License
 
 This project is currently licensed under the Apache License Version 2.0. A copy of [LICENSE.md](https://github.com/fossasia/susi_android/blob/master/LICENSE) should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
+
