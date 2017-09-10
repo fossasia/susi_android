@@ -1,6 +1,6 @@
 <resources>
     <!--General Strings-->
-    <string name="app_name" translatable="false">Susi</string>
+    <string name="app_name">Susi</string>
     <string name="send_msg_hint">Ask Susi Something..</string>
     <string name="action_settings">Settings</string>
     <string name="action_wall_settings">Wallpaper</string>
@@ -18,7 +18,7 @@
     <string name="id">id</string>
     <string name="no_internet_connection">Internet Connection Not Available!!</string>
     <string name="updated_successfully">updated successfully!</string>
-    <string name="content" translatable="false">content</string>
+    <string name="content">content</string>
     <string name="not_found">Not Found</string>
     <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
     <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
