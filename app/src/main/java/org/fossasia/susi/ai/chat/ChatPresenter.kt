@@ -47,6 +47,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var check = false
     var atHome = true
     var backPressedOnce = false
+    var queueExecuting = false
 
     override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
@@ -293,7 +294,9 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     private inner class computeThread : Thread() {
         override fun run() {
-            computeOtherMessage()
+            if(!queueExecuting) {
+                computeOtherMessage()
+            }
         }
     }
 
@@ -301,6 +304,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     fun computeOtherMessage() { Log.v("chirag","chirag run")
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
+                queueExecuting = true
                 chatView?.showWaitingDots()
                 val tz = TimeZone.getDefault()
                 val now = Date()
@@ -314,6 +318,9 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 chatView?.hideWaitingDots()
                 chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
             }
+        }
+        else {
+            queueExecuting = false
         }
     }
 
@@ -399,8 +406,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             }
             chatView?.hideWaitingDots()
         }
-        if (!NetworkUtils.isNetworkConnected())
-            computeOtherMessage()
+        computeOtherMessage()
     }
 
     override fun onDatabaseUpdateSuccess() {
