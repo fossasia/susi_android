@@ -1,6 +1,6 @@
 <resources>
     <!--General Strings-->
-    <string name="app_name" translatable="false">Susi</string>
+    <string name="app_name">Susi</string>
     <string name="send_msg_hint">Pergunte Algo a Susi..</string>
     <string name="action_settings">Configurações</string>
     <string name="action_wall_settings">Papel de Parede</string>
@@ -16,7 +16,7 @@
     <string name="id">id</string>
     <string name="no_internet_connection">Conexão de Internet Indisponível!!</string>
     <string name="updated_successfully">atualizado com sucesso!</string>
-    <string name="content" translatable="false">conteúdo</string>
+    <string name="content">conteúdo</string>
     <string name="not_found">Não Encontrado</string>
     <string name="nothing_up_matches_your_query">Nada acima corresponde a sua pesquisa</string>
     <string name="nothing_down_matches_your_query">Nada abaixo corresponde a sua pesquisa</string>
@@ -58,12 +58,7 @@
     <string name="tap_on_mic">Toque no microfone para falar</string>
     <string name="know_more">Saiba mais</string>
 
-    <string name="settings_theme">Configurações do Tema</string>
-    <string name="theme">Selecionar Tema</string>
-    <string name="selection_theme"></string>
-
     <!--Error Messages-->
-    <string name="error_crop_not_supported">Desculpe - seu dispositivo não suporta a ação de cortar!</string>
     <string name="error_occurred_try_again">Ocorreu um erro, tente novamente!</string>
     <string name="error_invalid_token">Chave de Acesso Inválida!</string>
     <string name="error_internet_connectivity">Problema de Conexão!</string>
