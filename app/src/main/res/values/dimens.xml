@@ -51,4 +51,21 @@
     <dimen name="skill_min_height">60dp</dimen>
     <dimen name="skill_example">14sp</dimen>
 
+    <!-- intro dimensions -->
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="img_width_height">120dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">16dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+    <dimen name="mobile_image_size">342dp</dimen>
+    <dimen name="intro_header_margin_top">40dp</dimen>
+    <dimen name="intro_header_margin_bottom">10dp</dimen>
+    <dimen name="intro_image_margin_top">1dp</dimen>
+    <dimen name="intro_image_margin_bottom">10dp</dimen>
+    <dimen name="intro_desc_padding">10dp</dimen>
+    <dimen name="intro_desc_textsize">14sp</dimen>
+    <dimen name="intro_desc_textsize2">16sp</dimen>
+
 </resources>
