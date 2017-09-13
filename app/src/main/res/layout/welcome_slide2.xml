@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:layout_height="match_parent"
+              android:background="@color/colorPrimary"
+              android:weightSum="1">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/intro_header_margin_top"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/intro_header_margin_bottom"
+        android:gravity="center"
+        android:text="@string/slide_2_title"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/slide_title"
+        android:textStyle="normal"/>
+
+    <ImageView
+        android:id="@+id/connect_jmi"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mobile_image_size"
+        android:src="@drawable/intro2"
+        android:layout_marginTop="@dimen/intro_image_margin_top"
+        android:layout_marginBottom="@dimen/intro_image_margin_bottom"
+        android:layout_weight="0.44"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="@dimen/intro_desc_padding"
+        android:text="@string/slide_2_desc"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/intro_desc_textsize"
+        android:textStyle="normal"/>
+
+</LinearLayout>

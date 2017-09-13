@@ -20,6 +20,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import retrofit2.Response
 
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Presentation Layer for Chat View.
@@ -46,6 +47,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var check = false
     var atHome = true
     var backPressedOnce = false
+    @Volatile var queueExecuting = AtomicBoolean(false)
 
     override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
@@ -292,7 +294,9 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     private inner class computeThread : Thread() {
         override fun run() {
-            computeOtherMessage()
+            if(queueExecuting.compareAndSet(false,true)) {
+                computeOtherMessage()
+            }
         }
     }
 
@@ -310,9 +314,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, language, query, this)
 
             } else run {
+                queueExecuting.set(false)
                 chatView?.hideWaitingDots()
                 chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
             }
+        }
+        else {
+            queueExecuting.set(false)
         }
     }
 
@@ -398,8 +406,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             }
             chatView?.hideWaitingDots()
         }
-        if (!NetworkUtils.isNetworkConnected())
-            computeOtherMessage()
+        computeOtherMessage()
     }
 
     override fun onDatabaseUpdateSuccess() {
