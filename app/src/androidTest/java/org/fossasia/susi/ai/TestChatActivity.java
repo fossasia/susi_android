@@ -82,26 +82,4 @@ public class TestChatActivity {
         // checks if microphone button is present
         onView(withId(R.id.btnSpeak)).check(matches(isDisplayed()));
     }
-
-    /**
-     * Test action bar items visibility on Search click
-     */
-    @Test
-    public void test04_SearchButtonClickUIChanges() {
-        Log.d(TAG,"running test04_SearchButtonClickUIChanges..");
-
-        // enter text to chat
-        onView(withId(R.id.et_message)).perform(click());
-
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        onView(withId(R.id.et_message)).perform(click()).perform(typeText("Hi! I am Unit Test"));
-
-        // click send button
-        onView(withId(R.id.btnSpeak)).perform(click());
-
-    }
 }
