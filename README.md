@@ -55,11 +55,11 @@ Please find info about the set up of the Android app in your development environ
 - Tajchert Waiting Dots [Docs](https://github.com/tajchert/WaitingDots)
 - Picasso [Docs](http://square.github.io/picasso/)
 - LeakCanary [Docs](https://github.com/square/leakcanary)
-- LeonardoCardoso/Android-Link-Preview
+- LeonardoCardoso/Android-Link-Preview [Docs](https://github.com/LeonardoCardoso/Android-Link-Preview)
 - Gericop/Android-Support-Preference-V7-Fix [Docs](https://github.com/Gericop/Android-Support-Preference-V7-Fix)
 - Snowboy Hotword Detection [Docs](http://docs.kitt.ai/snowboy/)
 - zagum/SpeechRecognitionView [Docs](https://github.com/zagum/SpeechRecognitionView)
- [Docs](https://github.com/LeonardoCardoso/Android-Link-Preview)
+
 
 ### Project Conventions
 
