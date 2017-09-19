@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.fossasia.susi.ai.R
 import android.content.Intent
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
+import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
 /**
@@ -49,34 +51,26 @@ class SkillsActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
+        val fragment = fragmentManager.findFragmentById(R.id.fragment_container)
 
-        if (fragment != null && fragment.isVisible) {
-            finish()
-            exitActivity()
-        } else {
-            val skillFragment = SkillListingFragment()
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
-                    .commit()
+        when(fragment){
+            is SkillDetailsFragment ->  {
+                fragmentManager.popBackStack()
+                title = getString(R.string.skills_activity)
+            }
+            else -> {
+               finish()
+               exitActivity()
+            }
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                val fragment = fragmentManager.findFragmentByTag(TAG_SKILLS_FRAGMENT)
-                if (fragment != null && fragment.isVisible) {
-                    finish()
-                    exitActivity()
-                } else {
-                    val skillFragment = SkillListingFragment()
-                    fragmentManager.beginTransaction()
-                            .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
-                            .commit()
-                }
+               onBackPressed()
+                return true
             }
 
             R.id.menu_settings -> {
