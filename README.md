@@ -13,9 +13,9 @@ The main feature of the app is to provide a conversational interface to provide 
 
 Planned features & enhancements are:
 - Hotword Detection training
-- Full Screen Voice interaction
-- Feedback for skills.
-- Displaying SUSI skills 
+- ~~Full Screen Voice interaction~~
+- ~~Feedback for skills.~~
+- ~~Displaying SUSI skills~~ 
 
 ## Communication
 
