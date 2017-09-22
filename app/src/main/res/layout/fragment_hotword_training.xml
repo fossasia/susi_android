@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Toolbar
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/colorPrimary"
+       tools:targetApi="lollipop">
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Let's train SUSI Hotword"
+           android:textSize="18sp"
+           android:layout_marginLeft="32dp"
+           android:textColor="@color/md_white_1000"/>
+    </Toolbar>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:layout_margin="32dp"
+        android:text="To help the app respond to you better, you can teach SUSI the sound of your voice."/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Just say SUSI three times"
+        android:textStyle="bold"
+        android:textColor="@color/md_black_1000"
+        android:layout_marginLeft="32dp"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/ic_mic_24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:id="@+id/waitCircle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grey_circle"
+            android:layout_marginLeft="32dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="32dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/tick1"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="32dp"
+            app:srcCompat="@drawable/blue_tick"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/listeningText1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listening... Say SUSI"
+            android:textColor="@color/md_black_1000"
+            android:layout_marginLeft="64dp"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"/>
+
+        <Button
+            android:id="@+id/retryButton1"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="retry"
+            android:layout_marginRight="4dp"
+            android:layout_gravity="end"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:id="@+id/waitCircle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grey_circle"
+            android:layout_marginLeft="32dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="32dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/tick2"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="32dp"
+            app:srcCompat="@drawable/blue_tick"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/listeningText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listening... Say SUSI"
+            android:textColor="@color/md_black_1000"
+            android:layout_marginLeft="64dp"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"/>
+
+        <Button
+            android:id="@+id/retryButton2"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="retry"
+            android:layout_marginRight="4dp"
+            android:layout_gravity="end"/>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/waitCircle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/grey_circle"
+            android:layout_marginLeft="32dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="32dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/tick3"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="32dp"
+            app:srcCompat="@drawable/blue_tick"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/listeningText3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listening... Say SUSI"
+            android:textColor="@color/md_black_1000"
+            android:layout_marginLeft="64dp"
+            android:textSize="16sp"
+            android:layout_gravity="center_vertical"/>
+
+        <Button
+            android:id="@+id/retryButton3"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="retry"
+            android:layout_marginRight="4dp"
+            android:layout_gravity="end"/>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+
+        <Button
+            android:id="@+id/startTrainingButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_alignParentBottom="true"
+            android:text="start"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -2,12 +2,23 @@ package org.fossasia.susi.ai.data
 
 import android.Manifest
 import ai.kitt.snowboy.AppResCopy
+import ai.kitt.snowboy.Constants
 import android.content.Context
+import android.net.Uri
 import android.os.Build
+import android.util.Base64
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegNotSupportedException
+import com.github.hiteshsondhi88.libffmpeg.LoadBinaryResponseHandler
+import com.github.hiteshsondhi88.libffmpeg.FFmpeg
+import com.github.hiteshsondhi88.libffmpeg.exceptions.FFmpegCommandAlreadyRunningException
+import com.github.hiteshsondhi88.libffmpeg.ExecuteBinaryResponseHandler
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
 
 /**
  * Util Model class used for utilities like preferences, etc
@@ -92,6 +103,75 @@ class UtilModel(val context: Context): IUtilModel {
 
     override fun setLanguage(language: String) {
         PrefManager.putString(Constant.LANGUAGE, language)
+    }
+
+    override fun initializeFFmpeg() {
+        val ffmpeg = FFmpeg.getInstance(context)
+        try {
+            ffmpeg.loadBinary(object : LoadBinaryResponseHandler() {
+
+                override fun onStart() {}
+
+                override fun onFailure() {}
+
+                override fun onSuccess() {}
+
+                override fun onFinish() {}
+            })
+        } catch (e: FFmpegNotSupportedException) {
+            // Handle if FFmpeg is not supported by device
+        }
+    }
+
+    override fun convertAMRtoWAV(audioUri: Uri?, index: Int, listener: IUtilModel.onFFmpegCommandFinishedListener) {
+        val ffmpeg = FFmpeg.getInstance(context)
+        val pathToSave = Constants.DEFAULT_WORK_SPACE
+        val filename = "recording$index.wav"
+        val cmd: Array<String> = ("-i " + audioUri.toString() + " " + pathToSave + filename).split(" ").toTypedArray<String>()
+        try {
+            // to execute "ffmpeg -version" command you just need to pass "-version"
+            ffmpeg.execute(cmd, object : ExecuteBinaryResponseHandler() {
+
+                override fun onStart() {}
+
+                override fun onProgress(message: String?) {}
+
+                override fun onFailure(message: String?) {}
+
+                override fun onSuccess(message: String?) {
+                    listener.onCommandFinished(index)
+                }
+
+                override fun onFinish() {}
+            })
+        } catch (e: FFmpegCommandAlreadyRunningException) {
+            // Handle if FFmpeg is already running
+        }
+    }
+
+    fun convertUriToByteArray(filename: String): ByteArray {
+        val audioUri: Uri = Uri.parse(Constants.DEFAULT_WORK_SPACE + "/" + filename)
+
+        val baos = ByteArrayOutputStream()
+        val fileInputStream: FileInputStream
+        try {
+            fileInputStream = FileInputStream(File(audioUri.path))
+            val buf: ByteArray = ByteArray(1024)
+            var n: Int
+            while (-1 != (fileInputStream.read(buf))) {
+                n = fileInputStream.read(buf)
+                baos.write(buf, 0, n)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        val bbytes = baos.toByteArray()
+
+        return bbytes
+    }
+
+    override fun getEncodedString(filename: String): String {
+        return Base64.encodeToString(convertUriToByteArray(filename), Base64.DEFAULT)
     }
 
     override fun clearPrefs() {
