@@ -17,6 +17,7 @@ Planned features & enhancements are:
 - Feedback for skills.
 - Displaying SUSI skills
 
+
 ## Communication
 
 Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/susiai
