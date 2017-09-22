@@ -3,6 +3,7 @@
     <string name="app_name">Susi</string>
     <string name="send_msg_hint">Ask Susi Something..</string>
     <string name="action_settings">Settings</string>
+    <string name="action_about_us">About Us</string>
     <string name="action_wall_settings">Wallpaper</string>
     <string name="action_share">Share</string>
     <string name="action_log_out">Log out</string>
@@ -161,8 +162,19 @@
     <string name="error_skill_listing">Unable to fetch skills. Something went wrong. Please try again later.</string>
     <string name="no_skill_author">Skill Author not found</string>
     <string name="reset_password_message">Resetting Password..</string>
-
-    <!-- Intro Strings -->
+    
+    <!--About Us String-->
+    <string name="susi_about"><a href="http://www.stackoverflow.com">Susi AI</a> is an intelligent Open Source personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of Susi AI.</string>
+    <string name="susi_contributors">Contributors</string>
+    <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors">Contributors</a>.</string>
+    <string name="susi_skill_cms">SUSI Skill Cms</string>
+    <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai">skills.susi.ai</a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
+    <string name="susi_report_issues">Report Issues</string>
+    <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues">Github Repository Issue Tracker</a>.</string>
+    <string name="susi_license_information">License</string>
+    <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. A copy of <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
+  
+  <!-- Intro Strings -->
     <string name="next">NEXT</string>
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
@@ -174,4 +186,5 @@
     <string name="slide_3_desc">Browse and try your favorite SUSI AI Skill</string>
     <string name="slide_4_title">Chat Settings</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
+
 </resources>

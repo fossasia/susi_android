@@ -79,7 +79,7 @@ dependencies {
 
     //For Link Previews
     compile 'org.jsoup:jsoup:1.8.3' // required
-    compile 'com.leocardz:link-preview:1.2.1@aar'
+    compile 'com.leocardz:link-preview:2.0.0@aar'
 
     //preference UI
     compile 'com.takisoft.fix:preference-v7:25.0.1.0'

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.view.Menu
 import android.view.MenuItem
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
@@ -21,6 +22,7 @@ class SkillsActivity : AppCompatActivity() {
 
     val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
     val TAG_SKILLS_FRAGMENT = "SkillsFragment"
+    val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +31,8 @@ class SkillsActivity : AppCompatActivity() {
 
         val skillFragment = SkillListingFragment()
         fragmentManager.beginTransaction()
-            .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
-            .commit()
+                .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -84,9 +86,12 @@ class SkillsActivity : AppCompatActivity() {
                         .commit()
             }
 
-            //R.id.menu_about -> {
-                //TODO : Add code for about section
-            //}
+            R.id.menu_about -> {
+                val aboutFragment = AboutUsFragment()
+                supportFragmentManager.beginTransaction()
+                        .add(R.id.fragment_container,aboutFragment,TAG_ABOUT_FRAGMENT)
+                        .commit()
+            }
         }
         return super.onOptionsItemSelected(item);
     }
