@@ -23,5 +23,6 @@ test:
         - ./gradlew connectedCheck
        # - cd exec
        # - ls
+        - bash exec/prep-key.sh
         - chmod +x exec/apk-gen.sh
         - ./exec/apk-gen.sh
