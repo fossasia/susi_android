@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/background_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="right">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:layout_marginTop="@dimen/margin_very_small">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
+        android:id="@+id/background_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginRight="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        app:cardBackgroundColor="@color/user_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        android:padding="@dimen/padding_chatbubble_large"
+        android:background="@drawable/rounded_layout_grey">
 
-        <org.fossasia.susi.ai.ChatBubbleLayout
+        <org.fossasia.susi.ai.helper.ChatBubbleLayout
             android:id="@+id/chat_bubble_item_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -27,7 +28,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|left"
-                android:autoLink="all"
                 android:maxWidth="@dimen/message_layout_max_width"
                 android:paddingBottom="@dimen/message_textview_bottom_padding"
                 android:text="@string/sample_website_description"
@@ -41,13 +41,13 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/timestamp_layout_padding">
 
-
                 <TextView
                     android:id="@+id/timestamp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="bottom"
                     android:text="9:00 AM"
+                    android:textColor="@color/timestamp_color"
                     android:textSize="@dimen/timestamp_size" />
 
                 <ImageView
@@ -55,9 +55,9 @@
                     android:layout_width="@dimen/timestamp_size"
                     android:layout_height="@dimen/timestamp_size"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:src="@drawable/clock" />
+                    app:srcCompat="@drawable/ic_clock" />
 
             </LinearLayout>
-        </org.fossasia.susi.ai.ChatBubbleLayout>
-    </android.support.v7.widget.CardView>
+        </org.fossasia.susi.ai.helper.ChatBubbleLayout>
+    </LinearLayout>
 </LinearLayout>

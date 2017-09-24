@@ -4,99 +4,134 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_bg"
     android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_weight=".5"
         android:adjustViewBounds="true"
-        android:background="@color/colorPrimary"
+        android:padding="@dimen/padding_img"
+        android:layout_gravity="center"
+        android:background="@color/default_bg"
         android:contentDescription="@string/activity_login_imageview_description"
-        android:src="@drawable/susi" />
+        app:srcCompat="@drawable/ic_susi_blue" />
 
-    <LinearLayout
-        android:id="@+id/activity_login"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight=".5"
-        android:background="@color/colorPrimary"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:weightSum="1"
-        tools:context="org.fossasia.susi.ai.activities.LoginActivity">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/email"
+        <LinearLayout
+            android:id="@+id/activity_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:errorEnabled="true">
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:background="@color/default_bg"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:weightSum="1"
+            tools:context="org.fossasia.susi.ai.login.LoginActivity">
 
-            <android.support.design.widget.TextInputEditText
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/edit_text_login_screen"
-                android:textColorHint="@color/edit_text_login_screen" />
-        </android.support.design.widget.TextInputLayout>
+                android:layout_marginTop="8dp"
+                app:errorEnabled="true">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:errorEnabled="true">
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:id="@+id/email_input"
+                    android:inputType="textEmailAddress"/>
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/password_input"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:imeOptions="actionGo"
-                android:inputType="textPassword"
-                android:textColor="@color/edit_text_login_screen"
-                android:textColorHint="@color/edit_text_login_screen" />
-        </android.support.design.widget.TextInputLayout>
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true">
 
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/password_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password"
+                    android:imeOptions="actionGo"
+                    android:inputType="textPassword" />
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/log_in"
-            android:layout_width="@dimen/button_width"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="12dp"
-            android:text="@string/activity_login_log_in"
-            android:textColor="@color/colorPrimary" />
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/customer_server"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer Server"
+                android:layout_marginBottom="5dp"/>
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:errorEnabled="true">
 
-        <TextView
-            android:id="@+id/forgot_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:background="?selectableItemBackground"
-            android:text="@string/activity_login_forgot_pass"
-            android:textColor="@color/md_grey_400"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter URL"
+                    android:inputType="textUri" />
+            </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20sp"
-            android:background="?selectableItemBackground"
-            android:gravity="center"
-            android:text="@string/activity_login_sign_up"
-            android:textColor="@color/md_grey_400"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/log_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_button"
+                android:text="@string/activity_login_log_in" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="?selectableItemBackground"
+                android:text="@string/activity_login_forgot_pass"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:paddingLeft="48dp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/skip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:background="?selectableItemBackground"
+                android:text="@string/activity_login_skip"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10sp"
+                android:background="?selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/activity_login_sign_up"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
