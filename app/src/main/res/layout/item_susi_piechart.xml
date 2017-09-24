@@ -3,7 +3,8 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/background_layout"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/margin_very_small">
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <org.fossasia.susi.ai.ChatBubbleLayout
+            <org.fossasia.susi.ai.helper.ChatBubbleLayout
                 android:id="@+id/chat_bubble_item_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,10 +29,9 @@
 
                 <TextView
                     android:id="@+id/text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/message_layout_max_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|left"
-                    android:autoLink="all"
                     android:maxWidth="@dimen/message_layout_max_width"
                     android:paddingBottom="@dimen/message_textview_bottom_padding"
                     android:text="@string/hello_world"
@@ -55,7 +55,7 @@
                         android:textSize="@dimen/timestamp_size" />
 
                 </LinearLayout>
-            </org.fossasia.susi.ai.ChatBubbleLayout>
+            </org.fossasia.susi.ai.helper.ChatBubbleLayout>
 
             <LinearLayout
                 android:id="@+id/ll_pie"

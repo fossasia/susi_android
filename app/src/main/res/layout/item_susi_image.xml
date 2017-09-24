@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<me.himanshusoni.chatmessageview.ChatMessageView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/chatMessageView"
+    android:id="@+id/background_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/message_layout_margin"
-    android:layout_marginTop="@dimen/message_layout_margin"
-    app:cmv_arrowGravity="start"
-    app:cmv_arrowPosition="left"
-    app:cmv_backgroundColor="@color/susi_message_bg"
-    app:cmv_backgroundColorPressed="@color/susi_message_pressed_bg"
-    app:cmv_contentPadding="3dp"
-    app:cmv_cornerRadius="3dp"
-    app:cmv_showArrow="true">
+    android:layout_height="wrap_content">
 
-    <ImageView
+    <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#aaffffff"
-        app:srcCompat="@drawable/ic_susi" />
-</me.himanshusoni.chatmessageview.ChatMessageView>
+        android:layout_marginBottom="@dimen/message_card_margin_small"
+        android:layout_marginLeft="@dimen/message_card_margin_medium"
+        android:layout_marginTop="@dimen/message_card_margin_small"
+        app:cardBackgroundColor="@color/susi_message_bg"
+        app:contentPadding="@dimen/standard_content_padding">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_susi" />
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

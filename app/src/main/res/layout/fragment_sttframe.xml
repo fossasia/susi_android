@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:text="How can I help you?"
+        android:textSize="40sp"
+        android:textColor="@color/md_black_1000"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearlayout"
+        android:layout_margin="@dimen/activity_vertical_margin">
+        <org.fossasia.susi.ai.speechinputanimation.SpeechProgressView
+            android:id="@+id/speechprogress"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/txtchat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/linearlayout"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:textSize="15dp"
+        android:textColor="@color/md_black_1000"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
