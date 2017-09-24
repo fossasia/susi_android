@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/background_layout"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_very_small">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        app:cardBackgroundColor="@color/susi_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        android:paddingRight="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_large"
+        android:paddingLeft="@dimen/padding_small"
+        android:background="@drawable/rounded_layout">
 
         <pl.tajchert.sample.DotsTextView
             android:id="@+id/dots"
             android:layout_width="@dimen/messagelayout_minwidth"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
+            android:gravity="center_horizontal"
             android:textColor="@color/md_black_1000"
             android:textSize="@dimen/message_text_size"
             android:textStyle="normal|bold"
             app:autoplay="false"
             app:period="1200" />
 
-    </android.support.v7.widget.CardView>
-
+    </LinearLayout>
 </LinearLayout>
-

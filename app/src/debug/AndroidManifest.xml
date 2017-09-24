@@ -11,36 +11,39 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <activity android:name=".login.WelcomeActivity"
+                  android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".chat.ChatActivity"
             android:label="@string/app_name"
+            android:theme="@style/Chat_Theme"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:label="@string/settings_title"
-            android:theme="@style/PreferenceFixTheme">
+            android:name=".skills.SkillsActivity"
+            android:theme="@style/PreferencesThemeLight"
+            android:configChanges="orientation|screenSize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.fossasia.susi.ai.activities.MainActivity" />
+                android:value="org.fossasia.susi.ai.chat.ChatActivity" />
         </activity>
         <activity
-            android:name=".activities.SignUpActivity"
+            android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
     </application>
 

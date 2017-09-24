@@ -1,54 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
 
     <PreferenceCategory
+        android:title="@string/server_settings_title">
+        <PreferenceScreen
+            android:title="@string/server_pref"
+            android:key="Server_Select"
+            android:summary="@string/server_select_summary">
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/settings_title">
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/enter_key_pref"
-        android:defaultValue="true"
-        android:key="@string/settings_enterPreference_key"
-        android:summary="@string/settings_enterPreference_summary"
-        android:title="@string/settings_enterPreference_label" />
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/enter_key_pref"
+            android:defaultValue="true"
+            android:key="@string/settings_enterPreference_key"
+            android:summary="@string/settings_enterPreference_summary"
+            android:title="@string/settings_enterPreference_label" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/settings_mic">
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/mic_input"
-        android:defaultValue="true"
-        android:key="@string/setting_mic_key"
-        android:summary="@string/settings_micPreference_summary"
-        android:title="@string/setting_mic_input"/>
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/mic_input"
+            android:defaultValue="true"
+            android:key="@string/setting_mic_key"
+            android:summary="@string/settings_micPreference_summary"
+            android:title="@string/setting_mic_input"/>
+
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/hotword_detection"
+            android:defaultValue="false"
+            android:key="@string/setting_hotword_key"
+            android:summary="@string/settings_hotwordPreference_summary"
+            android:title="@string/setting_hotword_detection"/>
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/settings_speech">
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/speech_pref"
-        android:defaultValue="true"
-        android:key="@string/settings_speechPreference_key"
-        android:summary="@string/settings_speechPreference_summary"
-        android:title="@string/settings_speechPreference_label" />
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/speech_pref"
+            android:defaultValue="true"
+            android:key="@string/settings_speechPreference_key"
+            android:summary="@string/settings_speechPreference_summary"
+            android:title="@string/settings_speechPreference_label" />
+
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/speech_always"
+            android:defaultValue="false"
+            android:key="@string/settings_speechAlways_key"
+            android:summary="@string/settings_speechAlwaysPreference_summary"
+            android:title="@string/settings_speechAlways_label" />
     </PreferenceCategory>
 
-    <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
-        android:id="@+id/speech_always"
-        android:defaultValue="false"
-        android:key="@string/settings_speechAlways_key"
-        android:summary="@string/settings_speechAlwaysPreference_summary"
-        android:title="@string/settings_speechAlways_label" />
+        <ListPreference
+            android:title="@string/Language"
+            android:key="Lang_Select"
+            android:entries="@array/languagentries"
+            android:entryValues="@array/languagentry">
+        </ListPreference>
 
-    <PreferenceScreen
-        android:title="@string/Language"
-        android:key="Lang_Select"
-        android:summary="@string/action_select_language">
-    </PreferenceScreen>
+    <PreferenceCategory
+        android:title="@string/settings_misc">
 
-    <PreferenceScreen
-        android:title="@string/pref_rate_title"
-        android:key="rate"
-        android:summary="@string/pref_rate_summary" />
+        <PreferenceScreen
+            android:title="@string/pref_rate_title"
+            android:key="rate"
+            android:summary="@string/pref_rate_summary" />
+
+        <PreferenceScreen
+            android:title="@string/pref_share_title"
+            android:key="share"
+            android:summary="@string/pref_share_summary" />
+
+        <PreferenceScreen
+            android:title="@string/reset"
+            android:key="reset_password"/>
+
+        <PreferenceScreen
+            android:title="Login"
+            android:key="login_logout" />
+
+    </PreferenceCategory>
+
 
 </PreferenceScreen>
