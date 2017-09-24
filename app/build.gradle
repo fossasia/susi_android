@@ -29,8 +29,8 @@ android {
         applicationId "org.fossasia.susi.ai"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "1.04"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
