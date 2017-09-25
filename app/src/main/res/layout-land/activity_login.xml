@@ -46,6 +46,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
                     android:id="@+id/email_input"
+                    android:drawableLeft="@drawable/ic_email_black_24px"
+                    android:drawableStart="@drawable/ic_email_black_24px"
+                    android:drawablePadding="7dp"
                     android:inputType="textEmailAddress"/>
             </android.support.design.widget.TextInputLayout>
 
@@ -62,6 +65,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:imeOptions="actionGo"
+                    android:drawableLeft="@drawable/ic_lock_black_24px"
+                    android:drawableStart="@drawable/ic_lock_black_24px"
+                    android:drawablePadding="7dp"
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
