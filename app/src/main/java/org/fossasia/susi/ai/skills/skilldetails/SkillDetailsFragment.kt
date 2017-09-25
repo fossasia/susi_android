@@ -75,6 +75,7 @@ class SkillDetailsFragment: Fragment() {
         if(skillData.image != null && !skillData.image.isEmpty()){
             Picasso.with(activity.applicationContext).load(StringBuilder(imageLink)
                     .append(skillGroup).append("/en/").append(skillData.image).toString())
+                    .error(R.drawable.ic_susi)
                     .fit().centerCrop()
                     .into(skill_detail_image)
         }
