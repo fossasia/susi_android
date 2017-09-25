@@ -1,6 +1,11 @@
 # Android App for Susi
 
-[![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)
+| Branch Name | Status |
+|-------------|--------|
+| Master      |[![CircleCI](https://circleci.com/gh/fossasia/susi_android/tree/master.svg?style=svg)](https://circleci.com/gh/fossasia/susi_android/tree/master)|
+| Development |[![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)|
+
+
 [![Gitter](https://badges.gitter.im/fossasia/susi_android.svg)](https://gitter.im/fossasia/susi_android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ec0032213274fa0a07574919928c6a6)](https://www.codacy.com/app/harshithdwivedi/susi_android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/susi_android&amp;utm_campaign=Badge_Grade)
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0)
