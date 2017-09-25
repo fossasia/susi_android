@@ -136,6 +136,9 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 } else {
                     btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
                     btnSpeak.setOnClickListener {
+                        if(textToSpeech.isSpeaking){
+                            textToSpeech.stop()
+                        }
                         chatPresenter.startSpeechInput()
                     }
                 }
@@ -313,6 +316,9 @@ class ChatActivity: AppCompatActivity(), IChatView {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
+                if(textToSpeech.isSpeaking){
+                    textToSpeech.stop()
+                }
                 chatPresenter.startSpeechInput()
             })
         } else {
