@@ -38,7 +38,7 @@ then
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
 		echo "Publishing app to Play Store"
 		gem install fastlane
-		fastlane supply --apk test-app-release.apk --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
+		fastlane supply --apk susi-release-signed.apk --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
 	fi
 fi
 
