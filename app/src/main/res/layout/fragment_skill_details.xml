@@ -56,13 +56,15 @@
             android:gravity="right"
             android:background="@color/md_white_1000">
 
+
+
             <Button
                 android:id="@+id/skill_detail_try_button"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:text="Try it"
                 android:layout_marginTop="8dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/button_skill_design"
                 android:textColor="@color/md_white_1000"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"/>
@@ -77,76 +79,109 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description"
-                android:textSize="22dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/md_black_1000" />
+                android:text="Description"
+                android:textColor="@color/md_black_1000"
+                android:textSize="22dp" />
 
             <TextView
                 android:id="@+id/skill_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginTop="8dp"
-                android:text="Description long"/>
+                android:text="Description long"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Examples"
                 android:layout_marginTop="16dp"
-                android:textSize="22dp"
-                android:textColor="@color/md_black_1000"/>
+                android:text="Examples"
+                android:textColor="@color/md_black_1000"
+                android:textSize="22dp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/skill_detail_examples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rating"
-                android:textSize="22dp"
                 android:layout_marginTop="16dp"
-                android:textColor="@color/md_black_1000" />
+                android:text="Rating"
+                android:textColor="@color/md_black_1000"
+                android:textSize="22dp" />
 
-            <TextView
-                android:id="@+id/skill_detail_rating_positive"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Positive : 50"
-                android:layout_marginTop="8dp"/>
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/skill_detail_rating_negative"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Negative : 50"
-                android:layout_marginTop="4dp"/>
+                <ImageView
+                    android:id="@+id/likebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/like" />
+
+                <TextView
+                    android:id="@+id/skill_detail_rating_positive"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Positive : 50"
+
+                    android:layout_above="@+id/skill_detail_rating_negative"
+                    android:layout_alignRight="@+id/skill_detail_rating_negative"
+                    android:layout_alignEnd="@+id/skill_detail_rating_negative" />
+
+
+                <ImageView
+                    android:id="@+id/dislikebtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/dislike"
+                    android:layout_below="@+id/likebtn"/>
+
+
+                <TextView
+                    android:id="@+id/skill_detail_rating_negative"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Negative : 50"
+                    android:layout_alignBottom="@+id/dislikebtn"
+                    android:layout_toRightOf="@+id/dislikebtn"
+                    android:layout_toEndOf="@+id/dislikebtn"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginStart="13dp" />
+
+
+
+            </RelativeLayout>
+
+
 
             <TextView
                 android:id="@+id/skill_detail_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Content Type : Dynamic"
                 android:layout_marginTop="16dp"
-                android:textSize="18dp"
-                android:textColor="@color/md_black_1000"/>
+                android:text="Content Type : Dynamic"
+                android:textColor="@color/md_black_1000"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/skill_detail_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Developers Privacy Policy"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:text="Developers Privacy Policy" />
 
             <TextView
                 android:id="@+id/skill_detail_terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Terms of use"/>
+                android:text="Terms of use" />
 
         </LinearLayout>
     </LinearLayout>
