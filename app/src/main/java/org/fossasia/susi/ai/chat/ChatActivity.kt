@@ -454,6 +454,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
         if (recordingThread != null)
             chatPresenter.stopHotwordDetection()
 
+        textToSpeech.stop()
+
     }
 
     override fun onDestroy() {
