@@ -108,6 +108,11 @@ We have the following branches
 
  * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to gh-pages must pass a build check and a unit-test check on Travis.
  * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
+ 	- Please Note that :- 
+		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
+
+	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
+	 - _versionName_ : **String** : User visible version of the app. To be changed following [symantic versioning](http://semver.org/)
  * **apk** This branch contains two apk's, that are automatically generated on merged pull request a) debug apk and b) release apk.
 
 ### Code practices
