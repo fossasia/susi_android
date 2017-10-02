@@ -26,7 +26,7 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "org.fossasia.susi.ai"
+        applicationId "ai.susi"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 5
