@@ -5,7 +5,6 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
-import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

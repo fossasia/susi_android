@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.data.contract
 
-import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
-import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import retrofit2.Response
 
 /**

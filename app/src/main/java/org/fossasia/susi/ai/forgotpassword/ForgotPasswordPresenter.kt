@@ -9,7 +9,6 @@ import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordPresenter
 import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordView
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
-import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
 import retrofit2.Response
 import java.net.UnknownHostException
 

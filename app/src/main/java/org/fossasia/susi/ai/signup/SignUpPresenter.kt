@@ -6,7 +6,6 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISignUpModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
-import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 import retrofit2.Response

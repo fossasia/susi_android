@@ -28,7 +28,6 @@ import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebLink;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 
 import java.util.List;
 import java.util.Map;

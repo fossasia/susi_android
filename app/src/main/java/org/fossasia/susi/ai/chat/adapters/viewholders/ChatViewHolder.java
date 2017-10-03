@@ -17,7 +17,6 @@ import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 
 import java.util.Map;
 

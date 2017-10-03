@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.data.contract
 
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
-import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
 import retrofit2.Response
 
 /**
