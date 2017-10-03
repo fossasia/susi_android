@@ -10,6 +10,7 @@
         android:layout_width="@dimen/websearch_card_width"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_marginLeft="@dimen/margin_card"
         android:layout_marginTop="@dimen/message_card_margin_small"
         app:cardBackgroundColor="@color/susi_message_bg">

@@ -26,11 +26,11 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        applicationId "org.fossasia.susi.ai"
+        applicationId "ai.susi"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 5
-        versionName "1.04"
+        versionCode 6
+        versionName "1.05"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
