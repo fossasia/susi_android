@@ -1,6 +1,11 @@
 # Android App for Susi
 
-[![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)
+| Branch Name | Status |
+|-------------|--------|
+| Master      |[![CircleCI](https://circleci.com/gh/fossasia/susi_android/tree/master.svg?style=svg)](https://circleci.com/gh/fossasia/susi_android/tree/master)|
+| Development |[![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)|
+
+
 [![Gitter](https://badges.gitter.im/fossasia/susi_android.svg)](https://gitter.im/fossasia/susi_android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ec0032213274fa0a07574919928c6a6)](https://www.codacy.com/app/harshithdwivedi/susi_android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/susi_android&amp;utm_campaign=Badge_Grade)
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0)
@@ -103,6 +108,11 @@ We have the following branches
 
  * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to gh-pages must pass a build check and a unit-test check on Travis.
  * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
+ 	- Please Note that :- 
+		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
+
+	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
+	 - _versionName_ : **String** : User visible version of the app. To be changed following [symantic versioning](http://semver.org/)
  * **apk** This branch contains two apk's, that are automatically generated on merged pull request a) debug apk and b) release apk.
 
 ### Code practices

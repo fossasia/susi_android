@@ -1,6 +1,6 @@
 <resources>
     <!--General Strings-->
-    <string name="app_name">Susi</string>
+    <string name="app_name">SUSI AI</string>
     <string name="send_msg_hint">Ask Susi Something..</string>
     <string name="action_settings">Settings</string>
     <string name="action_about_us">About Us</string>
@@ -164,7 +164,7 @@
     <string name="reset_password_message">Resetting Password..</string>
     
     <!--About Us String-->
-    <string name="susi_about"><a href="http://www.stackoverflow.com">Susi AI</a> is an intelligent Open Source personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of Susi AI.</string>
+    <string name="susi_about"><a href="https://chat.susi.ai/overview">Susi AI</a> is an intelligent Open Source personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of Susi AI.</string>
     <string name="susi_contributors">Contributors</string>
     <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors">Contributors</a>.</string>
     <string name="susi_skill_cms">SUSI Skill Cms</string>
