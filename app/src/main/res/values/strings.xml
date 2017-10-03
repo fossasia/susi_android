@@ -30,7 +30,7 @@
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">We have sent an email to the address you provided. Please use the
-        confirmation link to activate your account and sign in to susi.</string>
+        confirmation link to activate your account and sign in to SUSI AI.</string>
     <string name="email_invalid">The email you entered doesn\'t appear to belong to an account.
         Please check your email and try again.</string>
     <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
@@ -42,14 +42,14 @@
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
-    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
+    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the SUSI AI app without an account.</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
     <string name="settings_micPreference_summary">Enable mic to give voice input</string>
     <string name="settings_speechPreference_summary">Enable speech output only for speech input</string>
     <string name="settings_speechAlwaysPreference_summary">Enable speech output regardless of input type</string>
-    <string name="settings_hotwordPreference_summary">Enable Hotword Detection to interact with Susi in Hands-Free mode</string>
+    <string name="settings_hotwordPreference_summary">Enable Hotword Detection to interact with SUSI AI in Hands-Free mode</string>
     <string name="settings_speechPreference_label">Speech output</string>
     <string name="settings_speechAlways_label">Speech Output always ON</string>
     <string name="settings_enterPreference_label">Enter As Send</string>
@@ -106,7 +106,7 @@
     <string name="activity_login_forgot_pass">Forgot Password?</string>
     <string name="activity_login_sign_up">Sign up for SUSI</string>
     <string name="activity_login_skip">Skip</string>
-    <string name="activity_login_imageview_description" translatable="false">SUSI Logo</string>
+    <string name="activity_login_imageview_description" translatable="false">SUSI AI Logo</string>
     <string name="unknown_answer">I don\'t know.</string>
     <string name="settings_mic">Mic Settings</string>
     <string name="settings_speech">Speech Settings</string>
@@ -146,10 +146,10 @@
     <string name="forgot_pass_activity">Forgot Password?</string>
     <string name="email_pass_not_exists">Email doesn\'t Exists. Please make sure you have entered your email correctly.</string>
     <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
-    <string name="pref_rate_title">Rate Susi</string>
-    <string name="pref_rate_summary">Rate SUSI App on Play Store</string>
-    <string name="pref_share_title">Share SUSI</string>
-    <string name="pref_share_summary">Share SUSI App with your friends.</string>
+    <string name="pref_rate_title">Rate SUSI AI</string>
+    <string name="pref_rate_summary">Rate SUSI AI App on Play Store</string>
+    <string name="pref_share_title">Share SUSI AI</string>
+    <string name="pref_share_summary">Share SUSI AI App with your friends.</string>
 
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
@@ -164,11 +164,11 @@
     <string name="reset_password_message">Resetting Password..</string>
     
     <!--About Us String-->
-    <string name="susi_about"><a href="https://chat.susi.ai/overview">Susi AI</a> is an intelligent Open Source personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of Susi AI.</string>
+    <string name="susi_about"><a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent Open Source personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. SUSI AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the SUSI AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
     <string name="susi_contributors">Contributors</string>
     <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors">Contributors</a>.</string>
-    <string name="susi_skill_cms">SUSI Skill Cms</string>
-    <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai">skills.susi.ai</a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
+    <string name="susi_skill_cms">SUSI AI Skill Cms</string>
+    <string name="susi_skill_cms_desc">SUSI AI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai">skills.susi.ai</a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
     <string name="susi_report_issues">Report Issues</string>
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues">Github Repository Issue Tracker</a>.</string>
     <string name="susi_license_information">License</string>
