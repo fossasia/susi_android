@@ -9,6 +9,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
+import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
 /**
@@ -47,6 +48,7 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
             Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
                     .append(skillDetails.first.replace(" ","%20")).append("/en/").append(skillData.image).toString())
                     .fit().centerCrop()
+                    .error(R.drawable.ic_susi)
                     .into(holder?.previewImageView)
         }
     }
@@ -65,6 +67,7 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData,skillGroup)
         (context as SkillsActivity).fragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillDetailsFragment)
+                .addToBackStack(SkillListingFragment().toString())
                 .commit()
     }
 
