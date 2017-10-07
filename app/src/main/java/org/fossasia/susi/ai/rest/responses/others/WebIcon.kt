@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.rest.responses.others
 
 import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 
 /**
  * <h1>Kotlin Data class to parse web icon object in retrofit response from websearch client.</h1>
@@ -11,7 +10,7 @@ import com.google.gson.annotations.SerializedName
 
 class WebIcon {
 
-@SerializedName("URL")
+
  @Expose
  var url: String? = null
 

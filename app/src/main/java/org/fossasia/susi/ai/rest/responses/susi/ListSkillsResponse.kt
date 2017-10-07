@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
 import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 
 /**
  *
@@ -9,11 +8,11 @@ import com.google.gson.annotations.SerializedName
  */
 class ListSkillsResponse {
 
-    @SerializedName("group")
+
     @Expose
     val group: String = "Knowledge"
 
-    @SerializedName("skills")
+
     @Expose
     val skillMap: Map<String, SkillData> = HashMap()
 }

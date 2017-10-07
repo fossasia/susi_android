@@ -11,11 +11,11 @@ import com.google.gson.annotations.SerializedName
 
 class SignUpResponse {
 
-    @SerializedName("message")
+
     @Expose
     val message: String? = null
 
-    @SerializedName("session")
+
     @Expose
     val session: Session? = null
 
