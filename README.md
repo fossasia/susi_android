@@ -12,13 +12,13 @@
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:susiai@googlegroups.com)
 [![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
-The main feature of the app is to provide a conversational interface to provide intelligent answers using the loklak/AskSusi infrastructure. The app also offers login functionalities to connect to other services and stored personal data. Additionally the application uses data provided by the user's phone to improve Susi answers. Geolocation information for example helps to offer better answers related to questions about "things nearby".
+The main feature of the app is to provide a conversational interface to provide intelligent answers using the loklak/AskSusi infrastructure. The app also offers login functionalities to connect to other services and stored personal data. Additionally, the application uses data provided by the user's phone to improve Susi answers. Geolocation information, for example, helps to offer better answers related to questions about "things nearby".
 
 ## Roadmap
 
 Planned features & enhancements are:
 - Hotword Detection training
-- Full Screen Voice interaction
+- Full-Screen Voice interaction
 - Feedback for skills.
 - Displaying SUSI skills
 
@@ -74,14 +74,14 @@ Please find info about the set up of the Android app in your development environ
 
 ### Project Conventions
 
-There is certain conventions we follow in the project, we recommend that you become familiar with these so that the development process is uniform for everyone:
+There are certain conventions we follow in the project, we recommend that you become familiar with these so that the development process is uniform for everyone:
 
 #### MVP
 
 The project follows Model-View-Presenter design pattern and requires schematic interfaces for each component to be written first as contracts and then implemented.   
 All the interactions are done using interfaces only. This means any model, view or presenter will only be referenced by its interface. We do so it is easy to mock and test them and there is no discrepancy in the callable methods of the concrete class and the interface.  
 We realize that MVP is opinionated and there is no strict boundary between the responsibility of each component, but we recommend following this style:
-- `View` is passive and dumb, there is no logic to be exercised in View, only the ability to show data provided by the presenter through contract is present in the View. This makes it easy to unit test and remove the dependence on Android APIs, thus making the need of instrumentation tests scarce
+- `View` is passive and dumb, there is no logic to be exercised in View, only the ability to show data provided by the presenter through contract is present in the View. This makes it easy to unit test and remove the dependence on Android APIs, thus making the need for instrumentation tests scarce
 - `Presenter` is responsible for most of the business logic, manipulation of data and organising it for the view to present. All logic for the app is present here and it is devoid of ANY Android related code, making it 100% unit testable. We have created wrapper around common Android APIs in form of models so that they can be mocked and presenter stays clean. The responsibility of presenter includes the fetching of data from external source, observing changes and providing the view with the latest data. It also needs to handle all View interactions that require any logic, such as UI triggers causing complex interactions. Notable exception for this is launching of an Activity on click of a button. There is no logic required in the action and is completely dependent on Android APIs. Lastly, presenter should always clean up after the view is detached to prevent memory leaks
 - `Model` has the responsibility to hold the data, load it intelligently from appropriate source, be it disk or network, monitor the changes and notify presenter about those, be self sufficient; meaning to update data accordingly as needed without any external trigger (saving the data in disk after updating from network and providing the saved data from next time on), but be configurable (presenter may be able to ask for fresh data from network). The presenter should not worry about the data loading and syncing conditions (like network connectivity, failed update, scheduling jobs, etc) as it is the job of model itself.
 
@@ -91,14 +91,14 @@ Around 50% of the App is written in [Kotlin](https://kotlinlang.org/). Kotlin is
 
 #### Project Structure
 
-Generally, projects are created using package by layer approach where packages are names by layers like `ui`, `activity`, `fragment`, etc but it quickly becomes unscalable in large projects where large number of unrelated classes are crammed in one layer and it becomes difficult to navigate through them.  
-Instead, we follow package by feature, which at the cost of flatness of our project, provides us packages of isolated functioning related classes which are likely to be a complete self sufficient component of the application. Each package all related classes of view, presenter, their implementations like Activities anf Fragments.  
+Generally, projects are created using package by layer approach where packages are names by layers like `ui`, `activity`, `fragment`, etc but it quickly becomes unscalable in large projects where a large number of unrelated classes are crammed in one layer and it becomes difficult to navigate through them.  
+Instead, we follow package by feature, which at the cost of flatness of our project, provides us packages of isolated functioning related classes which are likely to be a complete self-sufficient component of the application. Each package all related classes of view, presenter, their implementations like Activities and Fragments.  
 A notable exception to this is the `helper` module and data classes like Models and Repositories as they are used in a cross component way.  
 ***Note:** The interface contract for Presenter and View is present in `contract` package in each module`*
 
 #### Separation of concerns
 
-Lastly, each class should only perform one task, do it well, and be unit tested for it. For example, if a presenter is doing more than it should, i.e., parsing dates or implementing search logic, better move it in its own class. There can be exceptions for this practice, but if the functionality can be generalised and reused, it should most definitely be transferred in its own class and unit tested.
+Lastly, each class should only perform one task, do it well, and be unit tested for it. For example, if a presenter is doing more than it should, i.e., parsing dates or implementing search logic, better move it in its own class. There can be exceptions to this practice, but if the functionality can be generalised and reused, it should most definitely be transferred in its own class and unit tested.
 
 ## Contributions Best Practices
 
@@ -107,13 +107,13 @@ Lastly, each class should only perform one task, do it well, and be unit tested 
 We have the following branches
 
  * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to gh-pages must pass a build check and a unit-test check on Travis.
- * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update, and make a release.
+ * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update and make a release.
  	- Please Note that :- 
 		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
 
 	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
 	 - _versionName_ : **String** : User visible version of the app. To be changed following [symantic versioning](http://semver.org/)
- * **apk** This branch contains two apk's, that are automatically generated on merged pull request a) debug apk and b) release apk.
+ * **apk** This branch contains two apk's, that are automatically generated on the merged pull request a) debug apk and b) release apk.
 
 ### Code practices
 
@@ -151,8 +151,8 @@ Replace the fabric_api_key with your actual Fabric API Secret.
 
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:
-1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/susi-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/susi-release.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will be always be latest one.
-2. **Testing on [appetize.io](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0):** If you don't want to download the APKs, you can simply go on [this](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0) link and use the App on an online simulator. You will always find latest version of App on that link because it is updated after each PR merge.
+1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/susi-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/susi-release.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will always be the latest one.
+2. **Testing on [appetize.io](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0):** If you don't want to download the APKs, you can simply go on [this](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0) link and use the App on an online simulator. You will always find the latest version of App on that link because it is updated after each PR merge.
 
 ## License
 
