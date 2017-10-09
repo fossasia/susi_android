@@ -65,9 +65,9 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
 
     fun showSkillDetailFragment(skillData: SkillData, skillGroup: String) {
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData,skillGroup)
-        (context as SkillsActivity).fragmentManager.beginTransaction()
+        (context as SkillsActivity).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillDetailsFragment)
-                .addToBackStack(SkillListingFragment().toString())
+                .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }
 

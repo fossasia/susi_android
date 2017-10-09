@@ -55,7 +55,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     lateinit var chatPresenter: IChatPresenter
     val PERM_REQ_CODE = 1
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
-    lateinit var textToSpeech: TextToSpeech
+    var textToSpeech: TextToSpeech? = null
     var recordingThread: RecordingThread? = null
     lateinit var networkStateReceiver: BroadcastReceiver
     lateinit var progressDialog: ProgressDialog
@@ -63,7 +63,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-            textToSpeech.stop()
+            textToSpeech?.stop()
         }
     }
 
@@ -136,9 +136,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 } else {
                     btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
                     btnSpeak.setOnClickListener {
-                        if(textToSpeech.isSpeaking){
-                            textToSpeech.stop()
-                        }
+                        textToSpeech?.stop()
                         chatPresenter.startSpeechInput()
                     }
                 }
@@ -208,8 +206,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
         Handler().post {
             textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
                 if (status != TextToSpeech.ERROR) {
-                    val locale = textToSpeech.getLanguage()
-                    textToSpeech.language = locale
+                    val locale = textToSpeech?.getLanguage()
+                    textToSpeech?.language = locale
                 }
             })
         }
@@ -234,7 +232,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         handler.post {
             val result = audioFocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onStart(s: String) {
                         if (recordingThread != null)
                             chatPresenter.stopHotwordDetection()
@@ -254,8 +252,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 val ttsParams = HashMap<String, String>()
                 ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
                         this@ChatActivity.packageName)
-                textToSpeech.language = Locale(language)
-                textToSpeech.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
+                textToSpeech?.language = Locale(language)
+                textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
                 audioFocus.abandonAudioFocus(afChangeListener)
             }
         }
@@ -316,9 +314,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
-                if(textToSpeech.isSpeaking){
-                    textToSpeech.stop()
-                }
+                textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
             })
         } else {
@@ -454,7 +450,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         if (recordingThread != null)
             chatPresenter.stopHotwordDetection()
 
-        textToSpeech.stop()
+        textToSpeech?.stop()
 
     }
 
@@ -462,8 +458,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
         super.onDestroy()
         rv_chat_feed.clearOnScrollListeners()
 
-        textToSpeech.setOnUtteranceProgressListener(null)
-        textToSpeech.shutdown()
+        textToSpeech?.setOnUtteranceProgressListener(null)
+        textToSpeech?.shutdown()
         chatPresenter.onDetach()
     }
 }
