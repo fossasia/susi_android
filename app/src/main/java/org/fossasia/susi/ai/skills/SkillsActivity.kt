@@ -32,8 +32,9 @@ class SkillsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_skills)
 
         val skillFragment = SkillListingFragment()
-        fragmentManager.beginTransaction()
+        supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
     }
 
@@ -52,24 +53,18 @@ class SkillsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        val fragment = fragmentManager.findFragmentById(R.id.fragment_container)
-
-        when(fragment){
-            is SkillDetailsFragment ->  {
-                fragmentManager.popBackStack()
-                title = getString(R.string.skills_activity)
-            }
-            else -> {
-               finish()
-               exitActivity()
-            }
+        if (supportFragmentManager.popBackStackImmediate(TAG_SKILLS_FRAGMENT, 0)) {
+            title = getString(R.string.skills_activity)
+        } else {
+            finish()
+            exitActivity()
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-               onBackPressed()
+                onBackPressed()
                 return true
             }
 
@@ -77,13 +72,15 @@ class SkillsActivity : AppCompatActivity() {
                 val settingsFragment = ChatSettingsFragment()
                 supportFragmentManager.beginTransaction()
                         .add(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
+                        .addToBackStack(TAG_SETTINGS_FRAGMENT)
                         .commit()
             }
 
             R.id.menu_about -> {
                 val aboutFragment = AboutUsFragment()
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container,aboutFragment,TAG_ABOUT_FRAGMENT)
+                        .add(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
+                        .addToBackStack(TAG_ABOUT_FRAGMENT)
                         .commit()
             }
         }
