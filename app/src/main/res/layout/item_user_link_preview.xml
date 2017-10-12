@@ -9,48 +9,38 @@
 
     <LinearLayout
         android:id="@+id/background_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/message_layout_max_width"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginRight="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
         android:background="@drawable/rounded_layout_grey">
 
-        <LinearLayout
-            android:layout_width="@dimen/message_layout_max_width"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <org.fossasia.susi.ai.helper.ChatBubbleLayout
-                android:id="@+id/chat_bubble_item_container"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_weight="1"
+                android:gravity="end"
+                android:layout_gravity="end"
+                android:autoLink="all"
+                android:maxWidth="@dimen/message_layout_max_width"
                 android:paddingTop="@dimen/padding_chatbubble_large"
                 android:paddingRight="@dimen/padding_chatbubble_large"
                 android:paddingLeft="@dimen/padding_chatbubble_large"
-                android:paddingBottom="@dimen/padding_chatbubble_small">
+                android:paddingBottom="@dimen/padding_chatbubble_small"
+                android:text="@string/hello_world"
+                android:textColor="@color/message_text_color"
+                android:textColorLink="@color/link_text"
+                android:textSize="@dimen/message_text_size" />
 
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="@dimen/link_preview_max_width"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|left"
-                    android:autoLink="all"
-                    android:maxWidth="@dimen/message_layout_max_width"
-                    android:paddingBottom="@dimen/message_textview_bottom_padding"
-                    android:text="@string/hello_world"
-                    android:textColor="@color/message_text_color"
-                    android:textColorLink="@color/link_text"
-                    android:textSize="@dimen/message_text_size" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end|right|bottom"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/timestamp_layout_padding">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/timestamp_layout_padding"
+                android:paddingRight="@dimen/padding_chatbubble_large">
 
                     <TextView
                         android:id="@+id/timestamp"
@@ -70,7 +60,6 @@
                         app:srcCompat="@drawable/ic_clock" />
 
                 </LinearLayout>
-            </org.fossasia.susi.ai.helper.ChatBubbleLayout>
 
             <LinearLayout
                 android:id="@+id/preview_layout"
@@ -120,7 +109,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
 </LinearLayout>
 
