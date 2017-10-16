@@ -18,6 +18,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
+import android.net.Uri
 
 /**
  *
@@ -27,16 +28,19 @@ class SkillDetailsFragment: Fragment() {
 
     lateinit var skillData: SkillData
     lateinit var skillGroup: String
+    lateinit var skillTag: String
     val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
     companion object {
         val SKILL_KEY = "skill_key"
+        val SKILL_TAG = "skill_tag"
         val SKILL_GROUP = "skill_group"
-        fun newInstance(skillData: SkillData, skillGroup: String): SkillDetailsFragment {
+        fun newInstance(skillData: SkillData, skillGroup: String, skillTag: String): SkillDetailsFragment {
             val fragment = SkillDetailsFragment()
             val bundle = Bundle()
             bundle.putSerializable(SKILL_KEY, skillData as Serializable)
             bundle.putString(SKILL_GROUP, skillGroup)
+            bundle.putString(SKILL_TAG, skillTag)
             fragment.arguments = bundle
 
             return fragment
@@ -47,6 +51,7 @@ class SkillDetailsFragment: Fragment() {
         skillData = arguments.getSerializable(
                 SKILL_KEY) as SkillData
         skillGroup = arguments.getString(SKILL_GROUP)
+        skillTag = arguments.getString(SKILL_TAG)
         return inflater.inflate(R.layout.fragment_skill_details, container, false)
     }
 
@@ -62,6 +67,7 @@ class SkillDetailsFragment: Fragment() {
         setName()
         setAuthor()
         setTryButton()
+        setShareButton()
         setDescription()
         setExamples()
         setRating()
@@ -119,6 +125,27 @@ class SkillDetailsFragment: Fragment() {
                 intent.putExtra("example","")
             startActivity(intent)
             activity.finish()
+        }
+    }
+
+    fun setShareButton() {
+        if(skillTag == null || skillTag.isEmpty()) {
+            skill_detail_share_button.visibility = View.GONE
+            return
+        }
+
+        skill_detail_share_button.setOnClickListener {
+            val shareUriBuilder = Uri.Builder()
+            shareUriBuilder.scheme("https")
+                    .authority("skills.susi.ai")
+                    .appendPath(skillGroup)
+                    .appendPath(skillTag)
+                    .appendPath("en")
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareUriBuilder.build().toString())
+            sendIntent.type = "text/plain"
+            context.startActivity(sendIntent)
         }
     }
 
