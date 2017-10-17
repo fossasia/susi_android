@@ -124,10 +124,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
                     btnSpeak.setOnClickListener ({
                         chatPresenter.check(false)
                         val chat_message = et_message.text.toString().trim({ it <= ' ' })
-                        val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-                        var message = ""
-                        for (split in splits)
-                            message = message + split + " "
+                        val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
+                        val message = splits.joinToString(" ")
                         if (!chat_message.isEmpty()) {
                             chatPresenter.sendMessage(message, et_message.text.toString())
                             et_message.setText("")
