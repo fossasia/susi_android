@@ -66,6 +66,20 @@
                 android:textColor="@color/md_white_1000"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"/>
+            <Button
+                android:id="@+id/skill_detail_share_button"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="@string/action_share"
+                android:drawableLeft="@drawable/ic_share_white_24dp"
+                android:drawableStart="@drawable/ic_share_white_24dp"
+                android:drawableTint="@color/md_white_1000"
+                android:padding="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/md_white_1000"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"/>
         </LinearLayout>
 
         <LinearLayout
