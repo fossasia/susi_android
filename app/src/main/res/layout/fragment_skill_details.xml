@@ -62,7 +62,7 @@
                 android:layout_height="40dp"
                 android:text="Try it"
                 android:layout_marginTop="8dp"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/round_button"
                 android:textColor="@color/md_white_1000"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"/>
@@ -131,6 +131,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Positive : 50"
+                android:drawableLeft="@drawable/thumbs_up_solid"
+                android:drawablePadding="7dp"
                 android:layout_marginTop="8dp"/>
 
             <TextView
@@ -138,6 +140,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Negative : 50"
+                android:drawableLeft="@drawable/thumbs_down_solid"
+                android:drawablePadding="7dp"
                 android:layout_marginTop="4dp"/>
 
             <TextView
