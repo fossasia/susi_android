@@ -10,7 +10,7 @@
         android:id="@+id/groupName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sample Group"
+        android:text="@string/sample_group"
         android:textSize="@dimen/skill_title"
         android:padding="@dimen/margin_card"
         android:typeface="serif"

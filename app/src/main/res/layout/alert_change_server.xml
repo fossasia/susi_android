@@ -11,7 +11,7 @@
         android:id="@+id/customer_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Customer Server"
+        android:text="@string/customer_server"
         android:layout_marginBottom="5dp"/>
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_url"
@@ -25,7 +25,7 @@
             android:id="@+id/input_url_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter URL"
+            android:hint="@string/url_input"
             android:inputType="textUri" />
     </android.support.design.widget.TextInputLayout>
 </LinearLayout>
