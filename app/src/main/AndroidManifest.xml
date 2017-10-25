@@ -28,6 +28,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".chat.ChatActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Chat_Theme"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
+        </activity>
+        <activity
             android:name=".skills.SkillsActivity"
             android:theme="@style/PreferencesThemeLight"
             android:configChanges="orientation|screenSize">

@@ -9,6 +9,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
+import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
 /**
@@ -47,6 +48,7 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
             Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
                     .append(skillDetails.first.replace(" ","%20")).append("/en/").append(skillData.image).toString())
                     .fit().centerCrop()
+                    .error(R.drawable.ic_susi)
                     .into(holder?.previewImageView)
         }
     }
@@ -56,15 +58,17 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
     }
 
     override fun onItemClicked(position: Int) {
+        val skillTag = skillDetails.second.keys.toTypedArray()[position]
         val skillData = skillDetails.second.values.toTypedArray()[position]
         val skillGroup = skillDetails.first.replace(" ","%20")
-        showSkillDetailFragment(skillData, skillGroup)
+        showSkillDetailFragment(skillData, skillGroup, skillTag)
     }
 
-    fun showSkillDetailFragment(skillData: SkillData, skillGroup: String) {
-        val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData,skillGroup)
-        (context as SkillsActivity).fragmentManager.beginTransaction()
+    fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+        val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
+        (context as SkillsActivity).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillDetailsFragment)
+                .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }
 

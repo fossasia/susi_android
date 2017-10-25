@@ -21,12 +21,12 @@ import com.leocardz.link.preview.library.TextCrawler;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
-import org.fossasia.susi.ai.helper.Constant;
-import org.fossasia.susi.ai.helper.PrefManager;
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebLink;
+import org.fossasia.susi.ai.helper.Constant;
+import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 
@@ -113,69 +113,72 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
                 receivedTick.setImageResource(R.drawable.ic_clock);
         }
 
-        if(model.getSkillLocation().isEmpty()){
-            thumbsUp.setVisibility(View.GONE);
-            thumbsDown.setVisibility(View.GONE);
-        } else {
-            thumbsUp.setVisibility(View.VISIBLE);
-            thumbsDown.setVisibility(View.VISIBLE);
-        }
+        if (viewType != USER_WITHLINK) {
+            if(model.getSkillLocation().isEmpty()){
+                thumbsUp.setVisibility(View.GONE);
+                thumbsDown.setVisibility(View.GONE);
+            } else {
+                thumbsUp.setVisibility(View.VISIBLE);
+                thumbsDown.setVisibility(View.VISIBLE);
+            }
 
-        if(model.isPositiveRated()){
-            thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
-        } else {
-            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-        }
-
-        if(model.isNegativeRated()){
-            thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
-        } else {
-            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-        }
-
-        thumbsUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            if(model.isPositiveRated()){
                 thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
-                if(!model.isPositiveRated() && !model.isNegativeRated()) {
-                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
-                    setRating(true, true);
-                } else if(!model.isPositiveRated() && model.isNegativeRated()) {
-                    setRating(false, false);
-                    thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
-                    sleep(500);
-                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
-                    setRating(true, true);
-                } else if (model.isPositiveRated() && !model.isNegativeRated()) {
-                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-                    setRating(false, true);
-                    thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                }
+            } else {
+                thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
             }
-        });
 
-        thumbsDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+            if(model.isNegativeRated()){
                 thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
-                if(!model.isPositiveRated() && !model.isNegativeRated()) {
-                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-                    setRating(true, false);
-                } else if(model.isPositiveRated() && !model.isNegativeRated()) {
-                    setRating(false, true);
-                    thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-                    sleep(500);
-                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-                    setRating(true, false);
-                } else if (!model.isPositiveRated() && model.isNegativeRated()) {
-                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
-                    setRating(false, false);
-                    thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                }
+            } else {
+                thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
             }
-        });
+
+            thumbsUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+                    if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                        rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                        setRating(true, true);
+                    } else if(!model.isPositiveRated() && model.isNegativeRated()) {
+                        setRating(false, false);
+                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                        rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                        sleep(500);
+                        rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                        setRating(true, true);
+                    } else if (model.isPositiveRated() && !model.isNegativeRated()) {
+                        rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                        setRating(false, true);
+                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                    }
+                }
+            });
+
+            thumbsDown.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
+                    if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                        rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                        setRating(true, false);
+                    } else if(model.isPositiveRated() && !model.isNegativeRated()) {
+                        setRating(false, true);
+                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                        rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                        sleep(500);
+                        rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+                        setRating(true, false);
+                    } else if (!model.isPositiveRated() && model.isNegativeRated()) {
+                        rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+                        setRating(false, false);
+                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                    }
+                }
+            });
+
+        }
 
         text.setText(answerText);
         timestampTextView.setText(model.getTimeStamp());

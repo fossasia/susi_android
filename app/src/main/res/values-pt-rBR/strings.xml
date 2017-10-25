@@ -1,6 +1,6 @@
 <resources>
     <!--General Strings-->
-    <string name="app_name">Susi</string>
+    <string name="app_name">SUSI AI</string>
     <string name="send_msg_hint">Pergunte Algo a Susi..</string>
     <string name="action_settings">Configurações</string>
     <string name="action_wall_settings">Papel de Parede</string>

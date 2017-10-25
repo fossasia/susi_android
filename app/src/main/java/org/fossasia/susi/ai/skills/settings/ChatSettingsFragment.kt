@@ -174,8 +174,10 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
-        val item = menu.findItem(R.id.menu_settings)
-        item.isVisible = false
+        val itemSettings = menu.findItem(R.id.menu_settings)
+        itemSettings.isVisible = false
+        val itemAbout = menu.findItem(R.id.menu_about)
+        itemAbout.isVisible = true
         super.onPrepareOptionsMenu(menu)
     }
 

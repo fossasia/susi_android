@@ -52,8 +52,11 @@ class SkillListingPresenter: ISkillListingPresenter,
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
-            skills.add(Pair(group, response.body().skillMap))
-            skillListingView?.updateAdapter(skills)
+            val responseSkillMap = response.body().skillMap
+            if(responseSkillMap.isNotEmpty()) {
+                skills.add(Pair(group, responseSkillMap))
+                skillListingView?.updateAdapter(skills)
+            }
             count++
             if(count != groupsCount) {
                 skillListingModel.fetchSkills(groups[count], this)
