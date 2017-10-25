@@ -47,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="bottom"
-                        android:text="9:00 AM"
+                        android:text="@string/time_9am"
                         android:textColor="@color/timestamp_color"
                         android:textSize="@dimen/timestamp_size" />
 

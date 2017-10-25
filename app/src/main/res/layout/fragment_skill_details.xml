@@ -33,7 +33,7 @@
                     android:id="@+id/skill_detail_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Skill Name"
+                    android:text="@string/skill_name"
                     android:textSize="24sp"
                     android:layout_marginTop="8dp"
                     android:textColor="@color/md_black_1000"
@@ -43,7 +43,7 @@
                     android:id="@+id/skill_detail_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Author : Author name"
+                    android:text="@string/author_name"
                     android:layout_marginTop="8dp"
                     android:background="@color/md_white_1000"/>
             </LinearLayout>
@@ -60,7 +60,7 @@
                 android:id="@+id/skill_detail_try_button"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:text="Try it"
+                android:text="@string/try_it"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
                 android:textColor="@color/md_white_1000"
@@ -91,7 +91,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description"
+                android:text="@string/description"
                 android:textSize="22dp"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/md_black_1000" />
@@ -102,12 +102,12 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="8dp"
-                android:text="Description long"/>
+                android:text="@string/description_long"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Examples"
+                android:text="@string/examples"
                 android:layout_marginTop="16dp"
                 android:textSize="22dp"
                 android:textColor="@color/md_black_1000"/>
@@ -121,7 +121,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rating"
+                android:text="@string/rating"
                 android:textSize="22dp"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/md_black_1000" />
@@ -130,21 +130,21 @@
                 android:id="@+id/skill_detail_rating_positive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Positive : 50"
+                android:text="@string/positive_50"
                 android:layout_marginTop="8dp"/>
 
             <TextView
                 android:id="@+id/skill_detail_rating_negative"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Negative : 50"
+                android:text="@string/negative_50"
                 android:layout_marginTop="4dp"/>
 
             <TextView
                 android:id="@+id/skill_detail_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Content Type : Dynamic"
+                android:text="@string/content_type_dynamic"
                 android:layout_marginTop="16dp"
                 android:textSize="18dp"
                 android:textColor="@color/md_black_1000"/>
@@ -153,14 +153,14 @@
                 android:id="@+id/skill_detail_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Developers Privacy Policy"
+                android:text="@string/developer_privacy_policy"
                 android:layout_marginTop="16dp"/>
 
             <TextView
                 android:id="@+id/skill_detail_terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Terms of use"/>
+                android:text="@string/terms_of_use"/>
 
         </LinearLayout>
     </LinearLayout>
