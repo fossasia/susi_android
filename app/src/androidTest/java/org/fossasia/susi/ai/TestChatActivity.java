@@ -1,7 +1,9 @@
 package org.fossasia.susi.ai;
 
+import android.Manifest;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
+import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 import android.view.WindowManager;
@@ -16,15 +18,10 @@ import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 /**
  * <h1>Unit Test for testing main activity.</h1>
@@ -37,6 +34,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class TestChatActivity {
 
     private static final String TAG = TestChatActivity.class.getSimpleName();
+
+    @Rule
+    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    );
 
     @Rule
     public ActivityTestRule<ChatActivity> mActivityRule = new ActivityTestRule<>(ChatActivity.class);

@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.test;
 
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.test.espresso.core.deps.guava.annotations.VisibleForTesting;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 import android.widget.LinearLayout;

@@ -86,9 +86,9 @@ dependencies {
 
     //unit test
     androidTestCompile "com.android.support:support-annotations:$support_lib_version"
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile 'com.android.support.test:rules:0.5'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test:runner:1.0.1'
+    androidTestCompile 'com.android.support.test:rules:1.0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
 
     //realm adapter
     compile 'io.realm:android-adapters:1.3.0'
