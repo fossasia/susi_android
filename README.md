@@ -102,6 +102,10 @@ Lastly, each class should only perform one task, do it well, and be unit tested 
 
 ## Contributions Best Practices
 
+### For first time Contributors
+
+First time contributors can visit ContributionHelp.md file for help regarding creating issues and sending pull requests
+
 ### Branch Policy
 
 We have the following branches
