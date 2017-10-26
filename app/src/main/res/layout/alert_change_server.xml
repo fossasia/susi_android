@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="16dp"
+    android:paddingStart="16dp"
     android:paddingTop="10dp"
-    android:paddingRight="15dp">
+    android:paddingRight="15dp"
+    android:paddingEnd="15dp">
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/customer_server"
         android:layout_width="match_parent"
