@@ -31,6 +31,7 @@
             app:backgroundTint="@color/colorPrimaryDark"
             android:layout_margin="10dp"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true" />
 
         <android.support.design.widget.FloatingActionButton
