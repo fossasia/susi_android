@@ -186,5 +186,24 @@
     <string name="slide_3_desc">Browse and try your favorite SUSI AI Skill</string>
     <string name="slide_4_title">Chat Settings</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
+    <string name="customer_server">Customer Server</string>
+    <string name="url_input">Enter URL</string>
+    <string name="skill_name">Skill Name</string>
+    <string name="author_name">Author : Author name</string>
+    <string name="try_it">Try It</string>
+    <string name="description">Description</string>
+    <string name="description_long">Description long</string>
+    <string name="examples">Examples</string>
+    <string name="rating">Rating</string>
+    <string name="positive_50">Positive : 50</string>
+    <string name="negative_50">Negative : 50</string>
+    <string name="content_type_dynamic">Content Type : Dynamic</string>
+    <string name="developer_privacy_policy">Developers Privacy Policy</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="how_can_i_help">How can I help you?</string>
+    <string name="option">Option</string>
+    <string name="sample_group">Sample Group</string>
+    <string name="time_9am">9:00 AM</string>
+    <string name="rss_item_link">www.link_here.com</string>
 
 </resources>
