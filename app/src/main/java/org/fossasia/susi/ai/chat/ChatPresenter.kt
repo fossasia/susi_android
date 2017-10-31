@@ -2,24 +2,21 @@ package org.fossasia.susi.ai.chat
 
 import android.os.Handler
 import android.util.Log
-
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.db.DatabaseRepository
-import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.ChatModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IChatModel
+import org.fossasia.susi.ai.data.db.DatabaseRepository
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
-
 import retrofit2.Response
-
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -95,8 +92,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 startHotwordDetection()
             }
             else {
-                chatView?.showToast(utilModel.getString(R.string.error_hotword))
                 utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
+                if(utilModel.getBooleanPref(Constant.NOTIFY_USER, true)){
+                    chatView?.showToast(utilModel.getString(R.string.error_hotword))
+                    utilModel.putBooleanPref(Constant.NOTIFY_USER, false)
+                }
             }
         }
     }
