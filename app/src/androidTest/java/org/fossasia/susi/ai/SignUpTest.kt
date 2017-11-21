@@ -3,10 +3,11 @@ package org.fossasia.susi.ai
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso.*
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
-import android.support.test.espresso.assertion.ViewAssertions.*
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
@@ -67,13 +68,16 @@ class SignUpTest {
     fun testSignUp() {
         Log.d(SignUpTest.TAG, "running SignUp test..")
 
-        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as TextInputEditText?
+        val emailInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.email)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
 
-        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
+        val passInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.password)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { passInput!!.setText("abcdef") }
 
-        val conpassInput = (mActivityRule.activity.findViewById(R.id.confirm_password) as TextInputLayout).editText as TextInputEditText?
+        val conpassInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.confirm_password)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { conpassInput!!.setText("abcdef") }
 
         onView(withId(R.id.sign_up)).perform(ViewActions.click())
@@ -83,18 +87,22 @@ class SignUpTest {
     fun testPersonalServer() {
         Log.d(SignUpTest.TAG, "running Personal Server test..")
 
-        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as TextInputEditText?
+        val emailInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.email)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
 
-        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
+        val passInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.password)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { passInput!!.setText("abcdef") }
 
-        val conpassInput = (mActivityRule.activity.findViewById(R.id.confirm_password) as TextInputLayout).editText as TextInputEditText?
+        val conpassInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.confirm_password)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { conpassInput!!.setText("abcdef") }
 
         onView(withId(R.id.customer_server)).perform(ViewActions.click())
 
-        val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
+        val serverInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.input_url)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }
 
         onView(withId(R.id.sign_up)).perform(ViewActions.click())

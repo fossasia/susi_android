@@ -85,9 +85,11 @@ class LoginViewTest {
     @Throws(InterruptedException::class)
     fun testSignIn() {
         Log.d(TAG, "running Sign in test")
-        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as AutoCompleteTextView?
+        val emailInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.email)).editText as AutoCompleteTextView?
         getInstrumentation().runOnMainSync { emailInput!!.setText("singhalsaurabh95@gmail.com") }
-        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
+        val passInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.password)).editText as TextInputEditText?
         getInstrumentation().runOnMainSync { passInput!!.setText("qwertY12") }
 
         onView(withId(R.id.log_in)).perform(click())

@@ -6,9 +6,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -66,12 +66,12 @@ public class PieChartViewHolder extends MessageViewHolder {
                 pieChart.setRotationAngle(0);
                 pieChart.setDragDecelerationFrictionCoef(0.001f);
                 pieChart.getLegend().setEnabled(false);
-                pieChart.setDescription("");
+                pieChart.getDescription().setEnabled(false);
                 RealmList<Datum> datumList = model.getDatumRealmList();
-                final ArrayList<Entry> yVals = new ArrayList<>();
+                final ArrayList<PieEntry> yVals = new ArrayList<>();
                 final ArrayList<String> xVals = new ArrayList<>();
                 for (int i = 0; i < datumList.size(); i++) {
-                    yVals.add(new Entry(datumList.get(i).getPercent(), i));
+                    yVals.add(new PieEntry(datumList.get(i).getPercent(), i));
                     xVals.add(datumList.get(i).getPresident());
                 }
                 pieChart.setClickable(false);
@@ -91,7 +91,7 @@ public class PieChartViewHolder extends MessageViewHolder {
                 for (int c : ColorTemplate.PASTEL_COLORS)
                     colors.add(c);
                 dataSet.setColors(colors);
-                PieData data = new PieData(xVals, dataSet);
+                PieData data = new PieData(dataSet);
                 data.setValueFormatter(new PercentFormatter());
                 data.setValueTextSize(11f);
                 data.setValueTextColor(Color.GRAY);

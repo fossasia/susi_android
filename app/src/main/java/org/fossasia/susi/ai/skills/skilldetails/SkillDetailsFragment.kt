@@ -1,9 +1,10 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
-import android.support.v4.app.Fragment
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -11,14 +12,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_skill_details.*
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_author
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_content
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_description
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_examples
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_image
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_policy
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_rating_negative
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_rating_positive
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_share_button
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_terms
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_title
+import kotlinx.android.synthetic.main.fragment_skill_details.skill_detail_try_button
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
-import android.net.Uri
 
 /**
  *
@@ -48,14 +59,14 @@ class SkillDetailsFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        skillData = arguments.getSerializable(
+        skillData = arguments!!.getSerializable(
                 SKILL_KEY) as SkillData
-        skillGroup = arguments.getString(SKILL_GROUP)
-        skillTag = arguments.getString(SKILL_TAG)
+        skillGroup = arguments!!.getString(SKILL_GROUP)
+        skillTag = arguments!!.getString(SKILL_TAG)
         return inflater.inflate(R.layout.fragment_skill_details, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if(skillData.skillName != null && !skillData.skillName.isEmpty())
             (activity as SkillsActivity).title = skillData.skillName
         setupUI()
@@ -79,7 +90,7 @@ class SkillDetailsFragment: Fragment() {
     fun setImage() {
         skill_detail_image.setImageResource(R.drawable.ic_susi)
         if(skillData.image != null && !skillData.image.isEmpty()){
-            Picasso.with(activity.applicationContext).load(StringBuilder(imageLink)
+            Picasso.with(activity!!.applicationContext).load(StringBuilder(imageLink)
                     .append(skillGroup).append("/en/").append(skillData.image).toString())
                     .error(R.drawable.ic_susi)
                     .fit().centerCrop()
@@ -88,14 +99,14 @@ class SkillDetailsFragment: Fragment() {
     }
 
     fun setName() {
-        skill_detail_title.text = activity.getString(R.string.no_skill_name)
+        skill_detail_title.text = activity!!.getString(R.string.no_skill_name)
         if(skillData.skillName != null && !skillData.skillName.isEmpty()){
             skill_detail_title.text = skillData.skillName
         }
     }
 
     fun setAuthor() {
-        skill_detail_author.text = "Author : ${activity.getString(R.string.no_skill_author)}"
+        skill_detail_author.text = "Author : ${activity!!.getString(R.string.no_skill_author)}"
         if(skillData.author != null && !skillData.author.isEmpty()){
             if(skillData.authorUrl == null || skillData.authorUrl.isEmpty())
                 skill_detail_author.text = "Author : ${skillData.skillName}"
@@ -116,7 +127,7 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_try_button.visibility = View.GONE
 
         skill_detail_try_button.setOnClickListener {
-            activity.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            activity!!.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(activity, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             if(skillData.examples != null && skillData.examples.isNotEmpty())
@@ -124,7 +135,7 @@ class SkillDetailsFragment: Fragment() {
             else
                 intent.putExtra("example","")
             startActivity(intent)
-            activity.finish()
+            activity!!.finish()
         }
     }
 
@@ -145,12 +156,12 @@ class SkillDetailsFragment: Fragment() {
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(Intent.EXTRA_TEXT, shareUriBuilder.build().toString())
             sendIntent.type = "text/plain"
-            context.startActivity(sendIntent)
+            context!!.startActivity(sendIntent)
         }
     }
 
     fun setDescription() {
-        skill_detail_description.text = activity.getString(R.string.no_skill_description)
+        skill_detail_description.text = activity!!.getString(R.string.no_skill_description)
         if( skillData.descriptions != null && !skillData.descriptions.isEmpty()){
             skill_detail_description.text = skillData.descriptions
         }
@@ -161,7 +172,7 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_examples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skill_detail_examples.layoutManager = mLayoutManager
-            skill_detail_examples.adapter = SkillExamplesAdapter(activity, skillData.examples)
+            skill_detail_examples.adapter = SkillExamplesAdapter(activity!!, skillData.examples)
         }
     }
 
@@ -215,7 +226,4 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }

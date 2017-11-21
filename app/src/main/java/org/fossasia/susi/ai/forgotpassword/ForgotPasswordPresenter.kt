@@ -82,7 +82,8 @@ class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : 
     override fun onSuccess(response: Response<ForgotPasswordResponse>) {
         forgotPasswordView?.showProgress(false)
         if (response.isSuccessful && response.body() != null) {
-            forgotPasswordView?.success(utilModel.getString(R.string.forgot_password_mail_sent), response.body().message)
+            forgotPasswordView?.success(utilModel.getString(R.string.forgot_password_mail_sent),
+                    response.body()!!.message)
         } else if (response.code() == 422) {
             forgotPasswordView?.failure(utilModel.getString(R.string.email_invalid_title), utilModel.getString(R.string.email_invalid), utilModel.getString(R.string.retry), Color.RED)
         } else {

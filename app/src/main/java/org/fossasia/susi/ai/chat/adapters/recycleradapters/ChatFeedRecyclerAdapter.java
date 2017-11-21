@@ -28,9 +28,9 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultsListHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder;
+import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.ConstraintsHelper;
-import org.fossasia.susi.ai.data.model.ChatMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +41,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
-import pl.tajchert.sample.DotsTextView;
+import pl.tajchert.waitingdots.DotsTextView;
 
 /**
  * <h1>Main adapter to display chat feed as a recycler view.</h1>
@@ -57,9 +57,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     public static final int SUSI_MESSAGE = 1;
     public static final int USER_IMAGE = 2;
     public static final int SUSI_IMAGE = 3;
+    public static final int USER_WITHLINK = 5;
     private static final int MAP = 4;
     private static final int PIECHART = 7;
-    public static final int USER_WITHLINK = 5;
     private static final int SUSI_WITHLINK = 6;
     private static final int DOTS = 8;
     private static final int NULL_HOLDER = 9;

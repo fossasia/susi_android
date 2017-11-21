@@ -3,10 +3,11 @@ package org.fossasia.susi.ai
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.test.InstrumentationRegistry
-import android.support.test.espresso.Espresso.*
-import android.support.test.espresso.action.ViewActions.*
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
@@ -60,7 +61,7 @@ class ForgetPassTest {
     fun testReset() {
         Log.d(ForgetPassTest.TAG, "running resetPassword test..")
 
-        val emailInput = (mActivityRule.activity.findViewById(R.id.forgot_email) as TextInputLayout).editText as TextInputEditText?
+        val emailInput = (mActivityRule.activity.findViewById<TextInputLayout>(R.id.forgot_email)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
 
         onView(withId(R.id.reset_button)).perform(click())
@@ -71,12 +72,14 @@ class ForgetPassTest {
     fun testPersonalServer() {
         Log.d(ForgetPassTest.TAG, "running resetPassword test on personal server..")
 
-        val emailInput = (mActivityRule.activity.findViewById(R.id.forgot_email) as TextInputLayout).editText as TextInputEditText?
+        val emailInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.forgot_email)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { emailInput!!.setText("mayank.trp@gmail.com") }
 
         onView(withId(R.id.customer_server)).perform(click())
 
-        val serverInput = (mActivityRule.activity.findViewById(R.id.input_url) as TextInputLayout).editText as TextInputEditText?
+        val serverInput = (mActivityRule.activity
+                .findViewById<TextInputLayout>(R.id.input_url)).editText as TextInputEditText?
         InstrumentationRegistry.getInstrumentation().runOnMainSync { serverInput!!.setText("http://104.198.32.176/") }
 
         onView(withId(R.id.reset_button)).perform(click())
