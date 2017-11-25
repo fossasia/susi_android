@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:text="www.link_here.com"
+                    android:text="@string/rss_item_link"
                     android:clickable="true"
                     android:linksClickable="true"
                     android:longClickable="true"
