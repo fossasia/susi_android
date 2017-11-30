@@ -104,7 +104,8 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
 
         if (throwable is UnknownHostException) {
-            loginView?.onLoginError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
+            loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
+                    utilModel.getString(R.string.no_internet_connection))
         } else {
             loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
                     utilModel.getString(R.string.no_internet_connection))
