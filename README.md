@@ -131,7 +131,7 @@ Please help us follow the best practice to make it easy for the reviewer as well
 * If you would like to work on an issue, drop in a comment at the issue. If it is already assigned to someone, but there is no sign of any work being done, please free to drop in a comment so that the issue can be assigned to you if the previous assignee has dropped it entirely.
 
 ## For Developers: Adding Fabric API KEY
-1. Go to AndroidFest.xml
+1. Go to AndroidManifest.xml
 Replace the fabric_api_key with the Real Fabric API Key
 Add: <meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
 
