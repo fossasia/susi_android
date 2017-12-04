@@ -1,12 +1,14 @@
 package org.fossasia.susi.ai.skills.skilllisting
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_skill_listing.*
+import kotlinx.android.synthetic.main.fragment_skill_listing.error_skill_fetch
+import kotlinx.android.synthetic.main.fragment_skill_listing.skillGroups
+import kotlinx.android.synthetic.main.fragment_skill_listing.skillWait
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
@@ -28,7 +30,7 @@ class SkillListingFragment: Fragment(), ISkillListingView {
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.skills_activity)
         skillListingPresenter = SkillListingPresenter()
         skillListingPresenter.onAttach(this)
@@ -41,7 +43,7 @@ class SkillListingFragment: Fragment(), ISkillListingView {
         val mLayoutManager = LinearLayoutManager(activity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         skillGroups.layoutManager = mLayoutManager
-        skillGroupAdapter = SkillGroupAdapter(activity, skills)
+        skillGroupAdapter = SkillGroupAdapter(activity!!, skills)
         skillGroups.adapter = skillGroupAdapter
     }
 

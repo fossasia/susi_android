@@ -13,13 +13,13 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        android:paddingRight="@dimen/padding_large"
-        android:paddingTop="@dimen/padding_large"
+        android:background="@drawable/rounded_layout"
         android:paddingBottom="@dimen/padding_large"
         android:paddingLeft="@dimen/padding_small"
-        android:background="@drawable/rounded_layout">
+        android:paddingRight="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_large">
 
-        <pl.tajchert.sample.DotsTextView
+        <pl.tajchert.waitingdots.DotsTextView
             android:id="@+id/dots"
             android:layout_width="@dimen/messagelayout_minwidth"
             android:layout_height="wrap_content"

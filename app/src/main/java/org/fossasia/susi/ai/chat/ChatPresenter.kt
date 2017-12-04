@@ -11,7 +11,11 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
-import org.fossasia.susi.ai.helper.*
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.DateTimeHelper
+import org.fossasia.susi.ai.helper.LocationHelper
+import org.fossasia.susi.ai.helper.NetworkUtils
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
@@ -150,7 +154,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun onRetrieveSuccess(response: Response<MemoryResponse>?) {
         if (response != null && response.isSuccessful && response.body() != null) {
-            val allMessages = response.body().cognitionsList
+            val allMessages = response.body()!!.cognitionsList
             if (allMessages.isEmpty()) {
                 chatView?.showToast("No messages found")
             } else {
@@ -226,7 +230,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     override fun onLocationSuccess(response: Response<LocationResponse>) {
         if (response.isSuccessful && response.body() != null) {
             try {
-                val loc = response.body().loc
+                val loc = response.body()!!.loc
                 val s = loc.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 latitude = s[0].toDouble()
                 longitude = s[1].toDouble()
@@ -357,20 +361,20 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         nonDeliveredMessages.pop()
 
         if (response != null && response.isSuccessful && response.body() != null) {
-            val susiResponse = response.body()
+            val susiResponse = response.body()!!
 
-            if(response.body().answers.isEmpty()) {
+            if (response.body()!!.answers.isEmpty()) {
                 databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
                         false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
                         Constant.ANSWER, null, false, null, "", "", this)
                 return
             }
 
-            val actionSize = response.body().answers[0].actions.size
-            val date = response.body().answerDate
+            val actionSize = response.body()!!.answers[0].actions.size
+            val date = response.body()!!.answerDate
 
             for (i in 0..actionSize - 1) {
-                val delay = response.body().answers[0].actions[i].delay
+                val delay = response.body()!!.answers[0].actions[i].delay
                 val actionNo = i
                 val handler = Handler()
                 handler.postDelayed({

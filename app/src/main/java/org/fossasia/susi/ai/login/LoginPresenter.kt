@@ -1,9 +1,9 @@
 package org.fossasia.susi.ai.login
 
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.contract.ILoginModel
 import org.fossasia.susi.ai.data.LoginModel
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.contract.ILoginModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
@@ -121,7 +121,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
             utilModel.saveAnonymity(false)
             loginModel.getUserSetting(this)
 
-            message = response.body().message.toString()
+            message = response.body()!!.message.toString()
         } else if (response.code() == 422) {
             loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.password_invalid_title),
@@ -137,7 +137,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
 
         if (response.isSuccessful && response.body() != null) {
-            var settings: Settings ?= response.body().settings
+            var settings: Settings? = response.body()!!.settings
 
             if(settings != null) {
                 utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)

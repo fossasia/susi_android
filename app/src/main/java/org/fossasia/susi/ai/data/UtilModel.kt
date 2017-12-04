@@ -1,11 +1,14 @@
 package org.fossasia.susi.ai.data
 
-import android.Manifest
 import ai.kitt.snowboy.AppResCopy
+import android.Manifest
 import android.content.Context
 import android.os.Build
 import org.fossasia.susi.ai.data.contract.IUtilModel
-import org.fossasia.susi.ai.helper.*
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.MediaUtil
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
@@ -18,8 +21,8 @@ import retrofit2.Response
 class UtilModel(val context: Context): IUtilModel {
 
     override fun saveToken(response: Response<LoginResponse>) {
-        PrefManager.putString(Constant.ACCESS_TOKEN, response.body().accessToken as String)
-        val validity = System.currentTimeMillis() + response.body().validSeconds * 1000
+        PrefManager.putString(Constant.ACCESS_TOKEN, response.body()!!.accessToken as String)
+        val validity = System.currentTimeMillis() + response.body()!!.validSeconds * 1000
         PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
     }
 
@@ -65,7 +68,7 @@ class UtilModel(val context: Context): IUtilModel {
     }
 
     override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
-        return PrefManager.getBoolean(prefName, defaultValue);
+        return PrefManager.getBoolean(prefName, defaultValue)
     }
 
     override fun putBooleanPref(prefName: String, value: Boolean) {
