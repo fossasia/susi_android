@@ -62,6 +62,21 @@
             android:entryValues="@array/languagentry">
         </ListPreference>
 
+
+    <PreferenceCategory
+        android:title="@string/susi_voice_model">
+
+        <PreferenceScreen
+            android:title="@string/pref_train_model_title"
+            android:key="train_hotword"
+            android:summary="@string/pref_train_model_summary" />
+
+        <PreferenceScreen
+            android:title="@string/pref_delete_model_title"
+            android:key="delete"
+            android:summary="@string/pref_delete_model_summary" />
+
+    </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/settings_misc">
 
