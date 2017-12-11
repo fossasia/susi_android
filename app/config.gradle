@@ -1,0 +1,26 @@
+ext {
+    compileSdkVersion = 25
+    buildToolsVersion = "25.0.2"
+    minSdkVersion = 15
+    targetSdkVersion = 25
+
+    //Libraries
+    playServicesVersion = '10.2.0'
+    supportLibraryVersion = '25.4.0'
+    leakCanaryVersion = '1.5.1'
+    mpAndroidChartVersion = 'v2.2.5'
+    butterKnifeVersion = '8.4.0'
+    retrofitVersion = '2.1.0'
+    okHttpVersion = '3.3.1'
+    linkPreviewVersion = '2.0.0@aar'
+    jsoupVersion = '1.8.3'
+    preferenceVersion = '25.0.1.0'
+    crashlyticsVersion = '2.6.5@aar'
+    fabricVersion = '1.+'
+    realmVersion = '1.3.0'
+    waitingDotsVersion = '0.3.2'
+    espressoVersion = '3.0.1'
+    testVersion = '1.0.1'
+    kotlinVersion = '1.1.3'
+    picassoVersion = '2.5.2'
+}
