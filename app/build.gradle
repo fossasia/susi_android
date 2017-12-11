@@ -1,3 +1,6 @@
+def rootConfiguration = {}
+apply from: project(':app').file('config.gradle'), to: rootConfiguration
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -9,7 +12,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
+        classpath "io.fabric.tools:gradle:1.+"
     }
 }
 
@@ -22,13 +25,13 @@ repositories {
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    compileSdkVersion rootConfiguration.compileSdkVersion
+    buildToolsVersion rootConfiguration.buildToolsVersion
 
     defaultConfig {
         applicationId "ai.susi"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion rootConfiguration.minSdkVersion
+        targetSdkVersion rootConfiguration.targetSdkVersion
         versionCode 6
         versionName "1.05"
         vectorDrawables.useSupportLibrary = true
@@ -50,53 +53,52 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:$support_lib_version"
-    compile "com.android.support:recyclerview-v7:$support_lib_version"
-    compile "com.android.support:design:$support_lib_version"
-    compile "com.android.support:cardview-v7:$support_lib_version"
+    compile "com.android.support:appcompat-v7:${rootConfiguration.supportLibraryVersion}"
+    compile "com.android.support:recyclerview-v7:${rootConfiguration.supportLibraryVersion}"
+    compile "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
+    compile "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
+    compile "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
 
     //piechart
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
+    compile "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
 
     //Leak Canary
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    debugCompile "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
+    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
 
     //butterknife
-    compile 'com.jakewharton:butterknife:8.4.0'
-    kapt 'com.jakewharton:butterknife-compiler:8.4.0'
-
-    compile "com.android.support:support-v4:$support_lib_version"
+    compile "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"
+    kapt "com.jakewharton:butterknife-compiler:${rootConfiguration.butterKnifeVersion}"
 
     //For Picasso
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile "com.squareup.picasso:picasso:${rootConfiguration.picassoVersion}"
 
     //Retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    debugCompile "com.squareup.okhttp3:logging-interceptor:3.3.1"
+    compile "com.squareup.retrofit2:retrofit:${rootConfiguration.retrofitVersion}"
+    compile "com.squareup.retrofit2:converter-gson:${rootConfiguration.retrofitVersion}"
+    debugCompile "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
 
     //For Link Previews
-    compile 'org.jsoup:jsoup:1.8.3' // required
-    compile 'com.leocardz:link-preview:2.0.0@aar'
+    compile "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required
+    compile "com.leocardz:link-preview:${rootConfiguration.linkPreviewVersion}"
 
     //preference UI
-    compile 'com.takisoft.fix:preference-v7:25.0.1.0'
+    compile "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
 
     //unit test
-    androidTestCompile "com.android.support:support-annotations:$support_lib_version"
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile 'com.android.support.test:rules:1.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestCompile "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
+    androidTestCompile "com.android.support.test:runner:${rootConfiguration.testVersion}"
+    androidTestCompile "com.android.support.test:rules:${rootConfiguration.testVersion}"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
 
     //realm adapter
-    compile 'io.realm:android-adapters:1.3.0'
+    compile "io.realm:android-adapters:${rootConfiguration.realmVersion}"
 
     //waiting dots
-    compile 'com.github.tajchert:WaitingDots:0.3.2'
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+    compile "com.github.tajchert:WaitingDots:${rootConfiguration.waitingDotsVersion}"
+    compile("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
         transitive = true
     }
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:${rootConfiguration.kotlinVersion}"
 }
