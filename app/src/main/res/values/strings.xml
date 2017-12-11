@@ -179,7 +179,7 @@
     <string name="skip">SKIP</string>
     <string name="start">GOT IT</string>
     <string name="slide_1_title">Login</string>
-    <string name="slide_1_desc">Login into the app using SUSI AI account or else signup to create new account or just skip login.</string>
+    <string name="slide_1_desc">Login into the app using SUSI AI account or else signup to create a new account or just skip login.</string>
     <string name="slide_2_title">Chat Interface</string>
     <string name="slide_2_desc">Interact with SUSI AI asking queries. Use microphone button for voice interaction.</string>
     <string name="slide_3_title">Skill Listing</string>
