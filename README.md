@@ -112,7 +112,7 @@ We have the following branches
 		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
 
 	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
-	 - _versionName_ : **String** : User visible version of the app. To be changed following [symantic versioning](http://semver.org/)
+	 - _versionName_ : **String** : User visible version of the app. To be changed following [semantic versioning](http://semver.org/)
  * **apk** This branch contains two apk's, that are automatically generated on the merged pull request a) debug apk and b) release apk.
 
 ### Code practices
@@ -131,7 +131,7 @@ Please help us follow the best practice to make it easy for the reviewer as well
 * If you would like to work on an issue, drop in a comment at the issue. If it is already assigned to someone, but there is no sign of any work being done, please free to drop in a comment so that the issue can be assigned to you if the previous assignee has dropped it entirely.
 
 ## For Developers: Adding Fabric API KEY
-1. Go to AndroidFest.xml
+1. Go to AndroidManifest.xml
 Replace the fabric_api_key with the Real Fabric API Key
 Add: <meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
 
