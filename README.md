@@ -112,7 +112,7 @@ We have the following branches
 		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
 
 	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
-	 - _versionName_ : **String** : User visible version of the app. To be changed following [symantic versioning](http://semver.org/)
+	 - _versionName_ : **String** : User visible version of the app. To be changed following [semantic versioning](http://semver.org/)
  * **apk** This branch contains two apk's, that are automatically generated on the merged pull request a) debug apk and b) release apk.
 
 ### Code practices
