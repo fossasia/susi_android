@@ -94,13 +94,17 @@ Around 50% of the App is written in [Kotlin](https://kotlinlang.org/). Kotlin is
 Generally, projects are created using package by layer approach where packages are names by layers like `ui`, `activity`, `fragment`, etc but it quickly becomes unscalable in large projects where a large number of unrelated classes are crammed in one layer and it becomes difficult to navigate through them.  
 Instead, we follow package by feature, which at the cost of flatness of our project, provides us packages of isolated functioning related classes which are likely to be a complete self-sufficient component of the application. Each package all related classes of view, presenter, their implementations like Activities and Fragments.  
 A notable exception to this is the `helper` module and data classes like Models and Repositories as they are used in a cross component way.  
-***Note:** The interface contract for Presenter and View is present in `contract` package in each module`*
+***Note:** The interface contract for Presenter and View is present in `contract` package in each module
 
 #### Separation of concerns
 
 Lastly, each class should only perform one task, do it well, and be unit tested for it. For example, if a presenter is doing more than it should, i.e., parsing dates or implementing search logic, better move it in its own class. There can be exceptions to this practice, but if the functionality can be generalised and reused, it should most definitely be transferred in its own class and unit tested.
 
 ## Contributions Best Practices
+
+### For first time Contributor
+
+First time contributors can read [ContributionHelp.md](docs/ContributionHelp.md) file for help regarding creating issues and sending pull requests.
 
 ### Branch Policy
 
