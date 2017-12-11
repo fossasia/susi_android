@@ -2,6 +2,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings_title">
 
+
+    <PreferenceCategory
+        android:title="Login email">
+        <PreferenceScreen
+            android:title="test email"
+            android:key="display_email">
+        </PreferenceScreen>
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:title="@string/server_settings_title">
         <PreferenceScreen
