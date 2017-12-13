@@ -1,7 +1,7 @@
 <resources>
     <!--General Strings-->
     <string name="app_name">SUSI AI</string>
-    <string name="send_msg_hint">Ask Susi Something..</string>
+    <string name="send_msg_hint">Ask SUSI something…</string>
     <string name="action_settings">Settings</string>
     <string name="action_about_us">About Us</string>
     <string name="action_wall_settings">Wallpaper</string>
@@ -16,43 +16,43 @@
     <string name="select_background">Select background</string>
     <string name="background_no_wall">no_wall</string>
     <string name="enter_send" translatable="false">Enter_send</string>
-    <string name="id">id</string>
-    <string name="no_internet_connection">Internet Connection Not Available!!</string>
-    <string name="updated_successfully">updated successfully!</string>
+    <string name="id">ID</string>
+    <string name="no_internet_connection">Internet Connection Not Available.</string>
+    <string name="updated_successfully">updated.</string>
     <string name="content">content</string>
     <string name="not_found">Not Found</string>
-    <string name="nothing_up_matches_your_query">Nothing Up that matches your Query</string>
-    <string name="nothing_down_matches_your_query">Nothing Down that matches your Query</string>
+    <string name="nothing_up_matches_your_query">Nothing above matching your query</string>
+    <string name="nothing_down_matches_your_query">Nothing below matching your query</string>
     <string name="send_message">Sending the message</string>
-    <string name="hint_voice_input">Say Something...</string>
-    <string name="dialog_retrieve_messages_title">Retrieving old Messages...</string>
+    <string name="hint_voice_input">Say Something…</string>
+    <string name="dialog_retrieve_messages_title">Retrieving old messages…</string>
     <string name="hotword_success">Hotword detected</string>
 
     <string name="signup">Thank you for Signing Up</string>
-    <string name="signup_msg">We have sent an email to the address you provided. Please use the
-        confirmation link to activate your account and sign in to susi.</string>
-    <string name="email_invalid">The email you entered doesn\'t appear to belong to an account.
-        Please check your email and try again.</string>
+    <string name="signup_msg">An e-mail has been sent to the provided address. Please use the
+        confirmation link to activate your account and sign in to SUSI.</string>
+    <string name="email_invalid">The e-mail address you entered doesn\'t belong to an account.
+        Please check your e-mail and try again.</string>
     <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
-    <string name="forgot_password_mail_sent">Email sent</string>
+    <string name="forgot_password_mail_sent">E-mail sent</string>
 
     <string name="websearchnull">No Result Found</string>
-    <string name="error_email">Email address already exists</string>
-    <string name="error_msg">Please use the forgot password option, if you do not remember your password</string>
+    <string name="error_email">E-mail address already exists</string>
+    <string name="error_msg">Please use the \"Forgot password?\" option to reset your password</string>
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
-    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the sign up process? You will not be able to use the Susi app without an account.</string>
+    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
-    <string name="settings_enterPreference_summary">Send message by clicking Enter button on keyboard</string>
+    <string name="settings_enterPreference_summary">Send message by clicking ↵ on the keyboard</string>
     <string name="settings_micPreference_summary">Enable mic to give voice input</string>
     <string name="settings_speechPreference_summary">Enable speech output only for speech input</string>
     <string name="settings_speechAlwaysPreference_summary">Enable speech output regardless of input type</string>
-    <string name="settings_hotwordPreference_summary">Enable Hotword Detection to interact with Susi in Hands-Free mode</string>
+    <string name="settings_hotwordPreference_summary">Enable \"Hotword Detection\" to interact with SUSI in hands-free mode</string>
     <string name="settings_speechPreference_label">Speech output</string>
-    <string name="settings_speechAlways_label">Speech Output always ON</string>
-    <string name="settings_enterPreference_label">Enter As Send</string>
+    <string name="settings_speechAlways_label">Speech output always on</string>
+    <string name="settings_enterPreference_label">↵ to send</string>
     <string name="setting_mic_input">Mic input</string>
     <string name="setting_hotword_detection">Hotword Detection (Beta)</string>
     <string name="setting_mic_key" translatable="false">micInput</string>
@@ -62,23 +62,23 @@
     <string name="settings_speechAlways_key" translatable="false">speechOutputAlways</string>
     <string name="hello_world">Hello world!</string>
     <string name="speech_prompt">Say something&#8230;</string>
-    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
-    <string name="tap_on_mic">Tap on mic to speak</string>
+    <string name="speech_not_supported">Sorry, your device doesn\'t support speech input</string>
+    <string name="tap_on_mic">Tap the mic icon to speak</string>
     <string name="know_more">Know more</string>
 
     <!--Error Messages-->
-    <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action!</string>
-    <string name="error_occurred_try_again">An error occurred. please try again!</string>
-    <string name="error_invalid_token">Invalid Access Token!</string>
-    <string name="error_internet_connectivity">Internet Connectivity Problem!</string>
-    <string name="error_hotword">Sorry, Hotword detection is not supported on your phone.</string>
-    <string name="error_rating">Unable to rate skill. Some error occurred.</string>
+    <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action.</string>
+    <string name="error_occurred_try_again">An error occurred. please try again.</string>
+    <string name="error_invalid_token">Invalid Access Token.</string>
+    <string name="error_internet_connectivity">Internet Connectivity Problem.</string>
+    <string name="error_hotword">Sorry, hotword detection is not supported on your device.</string>
+    <string name="error_rating">Unable to rate skill. An error occurred.</string>
     <string name="no_skill_name">Name not Available</string>
     <string name="no_skill_description">No description available</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
-    <string name="email">Email</string>
+    <string name="email">E-mail address</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="new_password">New Password</string>
@@ -87,7 +87,7 @@
     <string name="pass_validation_text">Enter a combination of at least six characters</string>
     <string name="log_in">Log in</string>
     <string name="field_cannot_be_empty">This field cannot be empty</string>
-    <string name="email_cannot_be_empty">Email cannot be empty</string>
+    <string name="email_cannot_be_empty">E-mail address cannot be empty</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
     <string name="url_cannot_be_empty">URL cannot be empty</string>
     <string name="copy_items">Copy</string>
@@ -101,7 +101,7 @@
     </string-array>
 
     <!-- Login Screen-->
-    <string name="activity_login_log_in">Login</string>
+    <string name="activity_login_log_in">Log in</string>
     <string name="activity_login_sing_up">Sign Up</string>
     <string name="activity_login_forgot_pass">Forgot Password?</string>
     <string name="activity_login_sign_up">Sign up for SUSI</string>
@@ -121,83 +121,83 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="unknown_host_exception">Unknown Host Exception</string>
     <string name="internet_connection_prompt">Please check your internet connection</string>
-    <string name="login">Logging in...</string>
-    <string name="signing_up">Signing up...</string>
-    <string name="first_time">FIRST_TIME</string>
+    <string name="login">Logging in…</string>
+    <string name="signing_up">Signing up…</string>
+    <string name="first_time">First time</string>
     <string name="ok">OK</string>
-    <string name="invalid_email">Invalid Email</string>
-    <string name="email_invalid_title">Incorrect Email</string>
+    <string name="invalid_email">Invalid e-mail addresss</string>
+    <string name="email_invalid_title">Incorrect e-mail address</string>
 
     <!-- Settings Activity-->
-    <string name="server_change_prompt">Please login again to change susi server</string>
-    <string name="loading">Loading...</string>
+    <string name="server_change_prompt">Please login again to change SUSI server</string>
+    <string name="loading">Loading…</string>
     <string name="Continue">Continue</string>
     <string name="retry">Retry</string>
     <string name="error">Error</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="email_id_input">Enter your Email ID</string>
+    <string name="email_id_input">Enter your e-mail ID</string>
     <string name="reset">Reset Password</string>
     <string name="reset_pass_activity">Reset Password</string>
-    <string name="wrong_password">Failed.try again</string>
+    <string name="wrong_password">Failed. Try again</string>
     <string name="error_password_matching">Passwords do not match</string>
-    <string name="pass_change_dialog">Changing your Password. Please Wait</string>
+    <string name="pass_change_dialog">Changing your password. Please wait</string>
     <string name="forgot_pass_activity">Forgot Password?</string>
-    <string name="email_pass_not_exists">Email doesn\'t Exists. Please make sure you have entered your email correctly.</string>
-    <string name="email_token_string_message">Please Enter the valid access token that was sent to your email id.</string>
-    <string name="pref_rate_title">Rate Susi</string>
-    <string name="pref_rate_summary">Rate SUSI App on Play Store</string>
+    <string name="email_pass_not_exists">E-mail address does not exist. Please make sure you have entered it correctly.</string>
+    <string name="email_token_string_message">Please enter the valid access token that was sent to your e-mail address.</string>
+    <string name="pref_rate_title">Rate SUSI</string>
+    <string name="pref_rate_summary">Rate the SUSI App on the Google Play store</string>
     <string name="pref_share_title">Share SUSI</string>
-    <string name="pref_share_summary">Share SUSI App with your friends.</string>
+    <string name="pref_share_summary">Share the SUSI app with your friends.</string>
 
     <!--Share App strings-->
-    <string name="promo_msg_template">Hey, try this up! - %s . You will love it!</string>
-    <string name="error_msg_retry">Please Retry Again</string>
+    <string name="promo_msg_template">Hey, try this. - %s . You will love it.</string>
+    <string name="error_msg_retry">Please Try Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Log out</string>
     <string name="skills">Skills</string>
     <string name="skill_title">Skill Title</string>
     <string name="skills_activity">SUSI.AI Skills</string>
-    <string name="error_skill_listing">Unable to fetch skills. Something went wrong. Please try again later.</string>
+    <string name="error_skill_listing">Unable to fetch skills. Please try again later.</string>
     <string name="no_skill_author">Skill Author not found</string>
-    <string name="reset_password_message">Resetting Password..</string>
+    <string name="reset_password_message">Resetting Password…</string>
     
     <!--About Us String-->
-    <string name="susi_about"><a href="https://chat.susi.ai/overview">Susi AI</a> is an intelligent Open Source personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of Susi AI.</string>
+    <string name="susi_about"><a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
     <string name="susi_contributors">Contributors</string>
     <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors">Contributors</a>.</string>
-    <string name="susi_skill_cms">SUSI Skill Cms</string>
+    <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai">skills.susi.ai</a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
     <string name="susi_report_issues">Report Issues</string>
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues">Github Repository Issue Tracker</a>.</string>
     <string name="susi_license_information">License</string>
-    <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. A copy of <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
+    <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. As per the <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
   
   <!-- Intro Strings -->
-    <string name="next">NEXT</string>
-    <string name="skip">SKIP</string>
-    <string name="start">GOT IT</string>
-    <string name="slide_1_title">Login</string>
-    <string name="slide_1_desc">Login into the app using SUSI AI account or else signup to create a new account or just skip login.</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="start">Got it</string>
+    <string name="slide_1_title">Log in</string>
+    <string name="slide_1_desc">Log in on the app using a SUSI AI account, sign up to create a new account or just skip logging in alltogether.</string>
     <string name="slide_2_title">Chat Interface</string>
-    <string name="slide_2_desc">Interact with SUSI AI asking queries. Use microphone button for voice interaction.</string>
-    <string name="slide_3_title">Skill Listing</string>
-    <string name="slide_3_desc">Browse and try your favorite SUSI AI Skill</string>
+    <string name="slide_2_desc">Interact with SUSI AI by asking questions. Use the microphone button for voice interaction.</string>
+    <string name="slide_3_title">Skill List</string>
+    <string name="slide_3_desc">Browse and try your favorite SUSI AI skill</string>
     <string name="slide_4_title">Chat Settings</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
     <string name="customer_server">Customer Server</string>
     <string name="url_input">Enter URL</string>
     <string name="skill_name">Skill Name</string>
-    <string name="author_name">Author : Author name</string>
+    <string name="author_name">Author: Author name</string>
     <string name="try_it">Try It</string>
     <string name="description">Description</string>
     <string name="description_long">Description long</string>
     <string name="examples">Examples</string>
     <string name="rating">Rating</string>
-    <string name="positive_50">Positive : 50</string>
-    <string name="negative_50">Negative : 50</string>
-    <string name="content_type_dynamic">Content Type : Dynamic</string>
+    <string name="positive_50">Positive: 50</string>
+    <string name="negative_50">Negative: 50</string>
+    <string name="content_type_dynamic">Content Type: Dynamic</string>
     <string name="developer_privacy_policy">Developers Privacy Policy</string>
     <string name="terms_of_use">Terms of use</string>
     <string name="how_can_i_help">How can I help you?</string>
