@@ -52,53 +52,53 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:${rootConfiguration.supportLibraryVersion}"
-    compile "com.android.support:recyclerview-v7:${rootConfiguration.supportLibraryVersion}"
-    compile "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
-    compile "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
-    compile "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.android.support:recyclerview-v7:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
 
     //piechart
-    compile "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
+    implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
 
     //Leak Canary
-    debugCompile "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
-    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
-    testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
+    releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
 
     //butterknife
-    compile "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"
+    implementation "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"
     kapt "com.jakewharton:butterknife-compiler:${rootConfiguration.butterKnifeVersion}"
 
     //For Picasso
-    compile "com.squareup.picasso:picasso:${rootConfiguration.picassoVersion}"
+    implementation "com.squareup.picasso:picasso:${rootConfiguration.picassoVersion}"
 
     //Retrofit
-    compile "com.squareup.retrofit2:retrofit:${rootConfiguration.retrofitVersion}"
-    compile "com.squareup.retrofit2:converter-gson:${rootConfiguration.retrofitVersion}"
-    debugCompile "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
+    implementation "com.squareup.retrofit2:retrofit:${rootConfiguration.retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${rootConfiguration.retrofitVersion}"
+    debugImplementation "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
 
     //For Link Previews
-    compile "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required
-    compile "com.leocardz:link-preview:${rootConfiguration.linkPreviewVersion}"
+    implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required
+    implementation "com.leocardz:link-preview:${rootConfiguration.linkPreviewVersion}"
 
     //preference UI
-    compile "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
+    implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
 
     //unit test
-    androidTestCompile "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
-    androidTestCompile "com.android.support.test:runner:${rootConfiguration.testVersion}"
-    androidTestCompile "com.android.support.test:rules:${rootConfiguration.testVersion}"
-    androidTestCompile "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
+    androidTestImplementation "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
+    androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
+    androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
 
     //realm adapter
-    compile "io.realm:android-adapters:${rootConfiguration.realmVersion}"
+    implementation "io.realm:android-adapters:${rootConfiguration.realmVersion}"
 
     //waiting dots
-    compile "com.github.tajchert:WaitingDots:${rootConfiguration.waitingDotsVersion}"
-    compile("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
+    implementation "com.github.tajchert:WaitingDots:${rootConfiguration.waitingDotsVersion}"
+    implementation("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
         transitive = true
     }
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:${rootConfiguration.kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${rootConfiguration.kotlinVersion}"
 }
