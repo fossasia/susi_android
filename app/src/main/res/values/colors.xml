@@ -218,7 +218,7 @@
     <color name="md_amber_50">#FFF8E1</color>
     <color name="md_amber_100">#FFECB3</color>
     <color name="md_amber_200">#FFE082</color>
-    <color name="md_amber_300">#FFD54F</color>
+    <color name="md_amber_300">#ffd54f</color>
     <color name="md_amber_400">#FFCA28</color>
     <color name="md_amber_500">#FFC107</color>
     <color name="md_amber_600">#FFB300</color>

@@ -10,17 +10,21 @@ import android.content.*
 import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.*
+import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -37,6 +41,7 @@ import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.services.ChatBubbleService
 import org.fossasia.susi.ai.skills.SkillsActivity
 
 import java.util.*
@@ -48,17 +53,19 @@ import java.util.*
  * The V in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatActivity: AppCompatActivity(), IChatView {
+class ChatActivity : AppCompatActivity(), IChatView {
 
     val TAG: String = ChatActivity::class.java.name
 
     lateinit var chatPresenter: IChatPresenter
+    val OVERLAY_PERMISSION_REQ_CODE = 2
     val PERM_REQ_CODE = 1
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
     var textToSpeech: TextToSpeech? = null
     var recordingThread: RecordingThread? = null
     lateinit var networkStateReceiver: BroadcastReceiver
     lateinit var progressDialog: ProgressDialog
+    var serviceIntent: Intent? = null
     var example: String = ""
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
@@ -76,10 +83,22 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
 
+        // Method to check for the overlay permission for android version greater than M
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                // Intent for getting the overlay permission
+                val permIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.packageName))
+                startActivityForResult(permIntent, OVERLAY_PERMISSION_REQ_CODE)
+            }
+        } else {
+            // Doesn't for intent for lower android version than M
+            Log.d("Overlay permission", "Already present")
+        }
+
         setUpUI()
         initializationMethod(firstRun)
 
-        if(intent.getStringExtra("example") != null) {
+        if (intent.getStringExtra("example") != null) {
             example = intent.getStringExtra("example")
         } else {
             example = ""
@@ -112,6 +131,27 @@ class ChatActivity: AppCompatActivity(), IChatView {
         compensateTTSDelay()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // Permission request for the overlay window over other apps
+        if (resultCode == OVERLAY_PERMISSION_REQ_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!Settings.canDrawOverlays(this)) {
+                    Toast.makeText(this, "Unable to give permission", Toast.LENGTH_SHORT).show()
+                } else {
+                    initService()
+                }
+            } else {
+
+            }
+        }
+    }
+
+    // Initialize service intent for the chat Widget
+    private fun initService() {
+        serviceIntent = Intent(this, ChatBubbleService::class.java)
+        startService(serviceIntent)
+    }
+
     fun setEditText() {
         val watch = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -121,7 +161,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 if (charSequence.toString().trim { it <= ' ' }.isNotEmpty() || !chatPresenter.micCheck()) {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
-                    btnSpeak.setOnClickListener ({
+                    btnSpeak.setOnClickListener({
                         chatPresenter.check(false)
                         val chat_message = et_message.text.toString().trim({ it <= ' ' })
                         val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
@@ -213,7 +253,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     //Take user's speech as input and send the message
     override fun promptSpeechInput() {
-        if ( recordingThread != null) {
+        if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
         }
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
@@ -224,7 +264,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     //Replies user with Speech
-     override fun voiceReply(reply: String, language: String) {
+    override fun voiceReply(reply: String, language: String) {
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
@@ -367,6 +407,12 @@ class ChatActivity: AppCompatActivity(), IChatView {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE -> if (grantResults.size >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
                             chatPresenter.initiateHotwordDetection()
                         }
+
+                        Manifest.permission.SYSTEM_ALERT_WINDOW -> {
+                            if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                                startService(Intent(applicationContext, ChatBubbleService::class.java))
+                            }
+                        }
                     }
                 }
             }
@@ -399,7 +445,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 0) {
+        if (supportFragmentManager.backStackEntryCount == 0) {
             chatPresenter.exitChatActivity()
         } else {
             supportFragmentManager.popBackStackImmediate()
@@ -414,7 +460,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
         super.onResume()
         chatPresenter.getUndeliveredMessages()
 
-        if(!example.isEmpty()) {
+        if (serviceIntent != null) {
+            stopService(serviceIntent)
+        }
+
+        if (!example.isEmpty()) {
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
         }
@@ -441,9 +491,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter.sendMessage(msg.toString(), msg.toString())
     }
 
+
     override fun onPause() {
         unregisterReceiver(networkStateReceiver)
         super.onPause()
+        initService()
 
         if (recordingThread != null)
             chatPresenter.stopHotwordDetection()
@@ -455,6 +507,10 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun onDestroy() {
         super.onDestroy()
         rv_chat_feed.clearOnScrollListeners()
+
+        if (serviceIntent != null) {
+            stopService(serviceIntent)
+        }
 
         textToSpeech?.setOnUtteranceProgressListener(null)
         textToSpeech?.shutdown()

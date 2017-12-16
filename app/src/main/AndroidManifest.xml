@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.fossasia.susi.ai">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -63,6 +64,10 @@
             android:name="io.fabric.ApiKey"
             android:value="fabric_api_key" />
         -->
+
+        <service android:name=".services.ChatBubbleService"
+            android:enabled="true"
+            android:exported="false"/>
 
     </application>
 
