@@ -168,11 +168,57 @@ class SkillDetailsFragment: Fragment() {
     fun setRating() {
         if(skillData.skillRating == null) {
             skill_detail_rating_positive.text = "Skill not rated yet"
+            val params = skill_detail_rating_positive.layoutParams
+            params.width = 344
+            skill_detail_rating_positive.layoutParams = params
             skill_detail_rating_negative.visibility = View.GONE
+            skill_detail_rating_thumbs_up.visibility = View.GONE
+            skill_detail_rating_thumbs_down.visibility = View.GONE
         } else {
             skill_detail_rating_positive.text = "Positive: " + skillData.skillRating?.positive
             skill_detail_rating_negative.text = "Negative: " + skillData.skillRating?.negative
+
+            val positiveColor = getRatedColor(skillData.skillRating?.positive, "Positive")
+            val negativeColor = getRatedColor(skillData.skillRating?.negative, "Negative")
+
+            skill_detail_rating_thumbs_up.setColorFilter(positiveColor)
+            skill_detail_rating_thumbs_down.setColorFilter(negativeColor)
         }
+    }
+
+    private fun getRatedColor(rating: Int?, s: String?): Int {
+        var resId = R.color.colorAccent
+        if (rating != null) {
+            when (s) {
+                "Positive" ->
+                        if (rating < 10)
+                            resId = R.color.md_red_100
+                        else if (rating in 10..19)
+                            resId = R.color.md_red_200
+                        else if (rating in 20..29)
+                            resId = R.color.md_red_300
+                        else if (rating in 30..39)
+                            resId = R.color.md_red_300
+                        else if (rating in 40..49)
+                            resId = R.color.md_red_300
+                        else
+                            resId = R.color.md_red_400
+                "Negative" ->
+                    if (rating < 10)
+                        resId = R.color.md_blue_100
+                    else if (rating in 10..19)
+                        resId = R.color.md_blue_200
+                    else if (rating in 20..29)
+                        resId = R.color.md_blue_300
+                    else if (rating in 30..39)
+                        resId = R.color.md_blue_300
+                    else if (rating in 40..49)
+                        resId = R.color.md_blue_300
+                    else
+                        resId = R.color.md_blue_400
+            }
+        }
+        return resources.getColor(resId)
     }
 
     fun setDynamicContent() {
