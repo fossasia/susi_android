@@ -126,20 +126,71 @@
                 android:layout_marginTop="16dp"
                 android:textColor="@color/md_black_1000" />
 
-            <TextView
-                android:id="@+id/skill_detail_rating_positive"
+            <android.support.v7.widget.CardView
+                android:id="@+id/skill_detail_card_positive"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/positive_50"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="6dp">
 
-            <TextView
-                android:id="@+id/skill_detail_rating_negative"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="@android:color/transparent"
+                        android:id="@+id/skill_detail_rating_positive"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/positive_50"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="4dp"/>
+
+                    <ImageView
+                        android:id="@+id/skill_detail_rating_thumbs_up"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/thumbs_up_solid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/skill_detail_card_negative"
+                android:layout_marginTop="6dp"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/negative_50"
-                android:layout_marginTop="4dp"/>
+                android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/skill_detail_rating_negative"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/negative_50"
+                        android:background="@android:color/transparent"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="4dp"/>
+
+                    <ImageView
+                        android:id="@+id/skill_detail_rating_thumbs_down"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/thumbs_down_solid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
             <TextView
                 android:id="@+id/skill_detail_content"
                 android:layout_width="wrap_content"

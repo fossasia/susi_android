@@ -17,7 +17,9 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.PrefManager
@@ -45,6 +47,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var enterSend: Preference
     lateinit var speechAlways: Preference
     lateinit var speechOutput: Preference
+    lateinit var displayEmail: Preference
     lateinit var password: TextInputLayout
     lateinit var newPassword: TextInputLayout
     lateinit var conPassword: TextInputLayout
@@ -53,6 +56,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var setServerAlert: AlertDialog
     lateinit var querylanguage: ListPreference
     var flag = true
+
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
@@ -73,7 +77,15 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         enterSend = preferenceManager.findPreference(Constant.ENTER_SEND)
         speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
         speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
+        displayEmail = preferenceManager.findPreference("display_email")
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
+
+        // Display login email
+        var utilModel: UtilModel = UtilModel(activity as SkillsActivity)
+        if (utilModel.isLoggedIn() == false)
+            displayEmail.title = "Not logged in"
+        else
+            displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString()
 
         setLanguage()
         if (settingsPresenter.getAnonymity()) {
