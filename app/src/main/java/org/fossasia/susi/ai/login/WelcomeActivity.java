@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -14,8 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.helper.PrefManager;
+
 /**
  * Created by Arshil on 21/08/17.
  */
@@ -28,15 +28,12 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences pref = getSharedPreferences("First_Time_Launched", Context.MODE_PRIVATE);
-        if(pref.getBoolean("activity_executed", false)){
+        if(PrefManager.getBoolean("activity_executed",false)){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
         } else {
-            SharedPreferences.Editor ed = pref.edit();
-            ed.putBoolean("activity_executed", true);
-            ed.apply();
+            PrefManager.putBoolean("activity_executed",true);
         }
 
         if (Build.VERSION.SDK_INT >= 21) {
