@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skilllisting
 
 import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListingFragment: Fragment(), ISkillListingView {
+class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
 
     lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
@@ -32,6 +33,7 @@ class SkillListingFragment: Fragment(), ISkillListingView {
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.skills_activity)
         skillListingPresenter = SkillListingPresenter()
         skillListingPresenter.onAttach(this)
+        swipe_refresh_layout.setOnRefreshListener(this)
         setUPAdapter()
         skillListingPresenter.getGroups()
         super.onViewCreated(view, savedInstanceState)
@@ -51,14 +53,21 @@ class SkillListingFragment: Fragment(), ISkillListingView {
 
     override fun displayError() {
         if(activity != null) {
+            swipe_refresh_layout.isRefreshing = false
             error_skill_fetch.visibility = View.VISIBLE
         }
     }
 
     override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
+        swipe_refresh_layout.isRefreshing = false
         this.skills.clear()
         this.skills.addAll(skills)
         skillGroupAdapter.notifyDataSetChanged()
+    }
+
+    override fun onRefresh() {
+        setUPAdapter()
+        skillListingPresenter.getGroups()
     }
 
     override fun onDestroyView() {
