@@ -331,7 +331,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun checkEnterKeyPref(isChecked: Boolean) {
         if (isChecked) {
             et_message.imeOptions = EditorInfo.IME_ACTION_SEND
-            et_message.inputType = InputType.TYPE_CLASS_TEXT
         } else {
             et_message.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }

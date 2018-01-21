@@ -89,7 +89,7 @@
                             android:imeOptions="actionSend"
                             android:cursorVisible="true"
                             android:textCursorDrawable="@null"
-                            android:inputType="text"
+                            android:inputType="textCapSentences"
                             android:scrollbars="vertical"
                             android:theme="@style/sendMessageEditTextTheme" />
                     </FrameLayout>
