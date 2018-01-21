@@ -4,11 +4,13 @@ import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillGroupAdapter
@@ -21,6 +23,7 @@ import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
  */
 class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
 
+    lateinit var skillAdapterSnapHelper : SnapHelper
     lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     lateinit var skillGroupAdapter: SkillGroupAdapter
@@ -40,11 +43,14 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
     }
 
     fun setUPAdapter() {
+        skillAdapterSnapHelper = StartSnapHelper()
         val mLayoutManager = LinearLayoutManager(activity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         skillGroups.layoutManager = mLayoutManager
         skillGroupAdapter = SkillGroupAdapter(activity, skills)
         skillGroups.adapter = skillGroupAdapter
+        skillGroups.setOnFlingListener(null)
+        skillAdapterSnapHelper.attachToRecyclerView(skillGroups)
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
