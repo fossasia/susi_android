@@ -205,5 +205,7 @@
     <string name="sample_group">Sample Group</string>
     <string name="time_9am">9:00 AM</string>
     <string name="rss_item_link">www.link_here.com</string>
+    <string name="Sharingmessage"><![CDATA[Fossasia\'s susi android app is an intelligent Open source personal assistant .It is fully customizable and developed by a community of developers. It is capable of chat and voice interaction by using APIS to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real-time information.Download this personal assistant now:https://play.google.com/store/apps/details?id=org.fossasia.susi.ai&hl=en]]></string>
+    <string name="Sharingsubject">Download the fossasia susi android app:</string>
 
 </resources>
