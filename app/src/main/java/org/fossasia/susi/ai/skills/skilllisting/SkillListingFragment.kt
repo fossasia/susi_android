@@ -60,6 +60,7 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
     override fun displayError() {
         if(activity != null) {
             swipe_refresh_layout.isRefreshing = false
+            skillGroups.visibility = View.GONE;
             error_skill_fetch.visibility = View.VISIBLE
         }
     }
