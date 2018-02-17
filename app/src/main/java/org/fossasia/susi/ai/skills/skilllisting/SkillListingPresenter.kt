@@ -59,7 +59,8 @@ class SkillListingPresenter: ISkillListingPresenter,
                 skills.add(Pair(group, responseSkillMap))
                 skillListingView?.updateAdapter(skills)
             }
-            //TODO issue incrementing count before using it that is why it was going out of index exception an dit was never getting the 0th index of the group
+            //TODO issue incrementing count before using it that
+            // is why it was going out of index exception an dit was never getting the 0th index of the group
 //            count++
             if(count != groupsCount) {
                //TODO Fixed variable count
