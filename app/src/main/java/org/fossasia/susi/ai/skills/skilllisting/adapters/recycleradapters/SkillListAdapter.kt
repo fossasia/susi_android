@@ -58,16 +58,17 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
     }
 
     override fun onItemClicked(position: Int) {
+        val skillTag = skillDetails.second.keys.toTypedArray()[position]
         val skillData = skillDetails.second.values.toTypedArray()[position]
         val skillGroup = skillDetails.first.replace(" ","%20")
-        showSkillDetailFragment(skillData, skillGroup)
+        showSkillDetailFragment(skillData, skillGroup, skillTag)
     }
 
-    fun showSkillDetailFragment(skillData: SkillData, skillGroup: String) {
-        val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData,skillGroup)
-        (context as SkillsActivity).fragmentManager.beginTransaction()
+    fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+        val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
+        (context as SkillsActivity).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillDetailsFragment)
-                .addToBackStack(SkillListingFragment().toString())
+                .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }
 

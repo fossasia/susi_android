@@ -1,6 +1,6 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
-import android.app.Fragment
+import android.support.v4.app.Fragment
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +18,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
+import android.net.Uri
 
 /**
  *
@@ -27,16 +28,19 @@ class SkillDetailsFragment: Fragment() {
 
     lateinit var skillData: SkillData
     lateinit var skillGroup: String
+    lateinit var skillTag: String
     val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
     companion object {
         val SKILL_KEY = "skill_key"
+        val SKILL_TAG = "skill_tag"
         val SKILL_GROUP = "skill_group"
-        fun newInstance(skillData: SkillData, skillGroup: String): SkillDetailsFragment {
+        fun newInstance(skillData: SkillData, skillGroup: String, skillTag: String): SkillDetailsFragment {
             val fragment = SkillDetailsFragment()
             val bundle = Bundle()
             bundle.putSerializable(SKILL_KEY, skillData as Serializable)
             bundle.putString(SKILL_GROUP, skillGroup)
+            bundle.putString(SKILL_TAG, skillTag)
             fragment.arguments = bundle
 
             return fragment
@@ -47,6 +51,7 @@ class SkillDetailsFragment: Fragment() {
         skillData = arguments.getSerializable(
                 SKILL_KEY) as SkillData
         skillGroup = arguments.getString(SKILL_GROUP)
+        skillTag = arguments.getString(SKILL_TAG)
         return inflater.inflate(R.layout.fragment_skill_details, container, false)
     }
 
@@ -62,6 +67,7 @@ class SkillDetailsFragment: Fragment() {
         setName()
         setAuthor()
         setTryButton()
+        setShareButton()
         setDescription()
         setExamples()
         setRating()
@@ -122,6 +128,27 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
+    fun setShareButton() {
+        if(skillTag == null || skillTag.isEmpty()) {
+            skill_detail_share_button.visibility = View.GONE
+            return
+        }
+
+        skill_detail_share_button.setOnClickListener {
+            val shareUriBuilder = Uri.Builder()
+            shareUriBuilder.scheme("https")
+                    .authority("skills.susi.ai")
+                    .appendPath(skillGroup)
+                    .appendPath(skillTag)
+                    .appendPath("en")
+            val sendIntent = Intent()
+            sendIntent.action = Intent.ACTION_SEND
+            sendIntent.putExtra(Intent.EXTRA_TEXT, shareUriBuilder.build().toString())
+            sendIntent.type = "text/plain"
+            context.startActivity(sendIntent)
+        }
+    }
+
     fun setDescription() {
         skill_detail_description.text = activity.getString(R.string.no_skill_description)
         if( skillData.descriptions != null && !skillData.descriptions.isEmpty()){
@@ -141,11 +168,57 @@ class SkillDetailsFragment: Fragment() {
     fun setRating() {
         if(skillData.skillRating == null) {
             skill_detail_rating_positive.text = "Skill not rated yet"
+            val params = skill_detail_rating_positive.layoutParams
+            params.width = 344
+            skill_detail_rating_positive.layoutParams = params
             skill_detail_rating_negative.visibility = View.GONE
+            skill_detail_rating_thumbs_up.visibility = View.GONE
+            skill_detail_rating_thumbs_down.visibility = View.GONE
         } else {
             skill_detail_rating_positive.text = "Positive: " + skillData.skillRating?.positive
             skill_detail_rating_negative.text = "Negative: " + skillData.skillRating?.negative
+
+            val positiveColor = getRatedColor(skillData.skillRating?.positive, "Positive")
+            val negativeColor = getRatedColor(skillData.skillRating?.negative, "Negative")
+
+            skill_detail_rating_thumbs_up.setColorFilter(positiveColor)
+            skill_detail_rating_thumbs_down.setColorFilter(negativeColor)
         }
+    }
+
+    private fun getRatedColor(rating: Int?, s: String?): Int {
+        var resId = R.color.colorAccent
+        if (rating != null) {
+            when (s) {
+                "Positive" ->
+                        if (rating < 10)
+                            resId = R.color.md_red_100
+                        else if (rating in 10..19)
+                            resId = R.color.md_red_200
+                        else if (rating in 20..29)
+                            resId = R.color.md_red_300
+                        else if (rating in 30..39)
+                            resId = R.color.md_red_300
+                        else if (rating in 40..49)
+                            resId = R.color.md_red_300
+                        else
+                            resId = R.color.md_red_400
+                "Negative" ->
+                    if (rating < 10)
+                        resId = R.color.md_blue_100
+                    else if (rating in 10..19)
+                        resId = R.color.md_blue_200
+                    else if (rating in 20..29)
+                        resId = R.color.md_blue_300
+                    else if (rating in 30..39)
+                        resId = R.color.md_blue_300
+                    else if (rating in 40..49)
+                        resId = R.color.md_blue_300
+                    else
+                        resId = R.color.md_blue_400
+            }
+        }
+        return resources.getColor(resId)
     }
 
     fun setDynamicContent() {

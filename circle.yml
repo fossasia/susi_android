@@ -3,7 +3,7 @@
 dependencies:
     override:
         - ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter "tools,platform-tools,android-25,extra-google-m2repository,extra-android-m2repository,extra-android-support,extra-google-google_play_services"
-        - echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"
+        - echo y | android update sdk --no-ui --all --filter "build-tools-26.0.2"
         - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
 #Pull any submodules
@@ -17,12 +17,24 @@ test:
         - emulator -avd circleci-android22 -no-audio -no-window:
             background: true
             parallel: true
-        # wait for it to have booted
+        
+        # Wait for it to have booted
         - circle-android wait-for-boot
-        # run tests  against the emulator.
+        
+        # Tun tests  against the emulator.
         - ./gradlew connectedCheck
-       # - cd exec
-       # - ls
+        
+        # Run Lint
+        - ./gradlew lint
+        
+        # Copy lint report
+        - mkdir $CIRCLE_TEST_REPORTS/Lint
+        - cp app/build/reports/lint-results.* $CIRCLE_TEST_REPORTS/Lint
+
+        # Copy tests report
+        - mkdir $CIRCLE_TEST_REPORTS/AndroidTests
+        - cp -r app/build/reports/androidTests/connected/* $CIRCLE_TEST_REPORTS/AndroidTests
+
         - bash exec/prep-key.sh
         - chmod +x exec/apk-gen.sh
         - ./exec/apk-gen.sh
