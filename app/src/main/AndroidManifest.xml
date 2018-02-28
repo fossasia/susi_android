@@ -20,12 +20,14 @@
         android:label="@string/app_name"
         android:vmSafeMode="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".login.WelcomeActivity"
-                  android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".login.WelcomeActivity"
+                  android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
         </activity>
         <activity
             android:name=".chat.ChatActivity"
@@ -56,6 +58,7 @@
             android:name=".forgotpassword.ForgotPasswordActivity"
             android:theme="@style/ForgetPass_Theme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
