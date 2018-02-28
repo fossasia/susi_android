@@ -16,10 +16,15 @@
         android:theme="@style/AppTheme">
         <activity android:name=".login.WelcomeActivity"
                   android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
-            <intent-filter>
+        <!--
+
+        <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+        </intent-filter>
+
+             for fixing two apps icon issue while adding splash
+         -->
         </activity>
         <activity
             android:name=".chat.ChatActivity"
