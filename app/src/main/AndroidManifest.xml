@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
+
         android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -53,9 +54,10 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
         </activity>
         <activity
+            android:windowSoftInputMode="stateVisible"
             android:name=".forgotpassword.ForgotPasswordActivity"
             android:theme="@style/ForgetPass_Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+             />
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
