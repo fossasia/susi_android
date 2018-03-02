@@ -45,7 +45,7 @@
         <activity
             android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:windowSoftInputMode="stateVisible|adjustResize"
             tools:replace="android:theme" />
         <activity
             android:name=".login.LoginActivity"
