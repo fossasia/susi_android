@@ -190,7 +190,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             return
         }
         this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
         Handler().postDelayed(object:Runnable {
             public override fun run() {
                 doubleBackToExitPressedOnce = false
