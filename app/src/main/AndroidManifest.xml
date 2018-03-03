@@ -55,7 +55,7 @@
         <activity
             android:name=".forgotpassword.ForgotPasswordActivity"
             android:theme="@style/ForgetPass_Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY

@@ -57,9 +57,9 @@ class SkillListingPresenter: ISkillListingPresenter,
                 skills.add(Pair(group, responseSkillMap))
                 skillListingView?.updateAdapter(skills)
             }
-            count++
             if(count != groupsCount) {
                 skillListingModel.fetchSkills(groups[count], this)
+                count++
             }
         } else {
             skillListingView?.visibilityProgressBar(false)
