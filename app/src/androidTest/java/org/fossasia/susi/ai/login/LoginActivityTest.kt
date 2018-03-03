@@ -74,11 +74,9 @@ class LoginActivityTest {
         onView(withId(R.id.customer_server)).check(matches(isDisplayed()))
 
         // checks if sign up button is present
-        onView(withId(R.id.sign_up)).perform(scrollTo())
         onView(withId(R.id.sign_up)).check(matches(isDisplayed()))
 
         // checks if skip button is present
-        onView(withId(R.id.skip)).perform(scrollTo())
         onView(withId(R.id.skip)).check(matches(isDisplayed()))
     }
 
