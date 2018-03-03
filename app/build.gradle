@@ -101,4 +101,5 @@ dependencies {
         transitive = true
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${rootConfiguration.kotlinVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 }

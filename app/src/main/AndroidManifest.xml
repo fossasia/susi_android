@@ -11,36 +11,28 @@
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:vmSafeMode="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".login.WelcomeActivity"
-                  android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        android:theme="@style/AppTheme"
+        android:vmSafeMode="true">
         <activity
             android:name=".chat.ChatActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Chat_Theme"
-            android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
         <activity
             android:name=".skills.SkillsActivity"
-            android:theme="@style/PreferencesThemeLight"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/PreferencesThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.fossasia.susi.ai.chat.ChatActivity" />
+                android:value="org.fossasia.susi.ai.chat.ChatActivity"/>
         </activity>
         <activity
             android:name=".signup.SignUpActivity"
@@ -50,12 +42,11 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".forgotpassword.ForgotPasswordActivity"
             android:theme="@style/ForgetPass_Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
@@ -64,6 +55,14 @@
             android:value="fabric_api_key" />
         -->
 
+        <activity android:name=".login.WelcomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
