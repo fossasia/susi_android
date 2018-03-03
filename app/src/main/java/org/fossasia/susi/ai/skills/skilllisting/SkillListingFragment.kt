@@ -68,6 +68,9 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
 
     override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
         swipe_refresh_layout.isRefreshing = false
+        if(error_skill_fetch.visibility == View.VISIBLE){
+            error_skill_fetch.visibility = View.GONE
+        }
         this.skills.clear()
         this.skills.addAll(skills)
         skillGroupAdapter.notifyDataSetChanged()
