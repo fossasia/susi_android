@@ -72,7 +72,7 @@
             android:id="@+id/customer_server"
             android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
-            android:text="Customer Server"
+            android:text="@string/customer_server"
             android:layout_marginBottom="5dp"/>
 
         <android.support.design.widget.TextInputLayout
@@ -85,7 +85,7 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter URL"
+                android:hint="@string/url_input"
                 android:inputType="textUri"/>
         </android.support.design.widget.TextInputLayout>
 
