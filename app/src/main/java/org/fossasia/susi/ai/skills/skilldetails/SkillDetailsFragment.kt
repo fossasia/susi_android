@@ -190,7 +190,7 @@ class SkillDetailsFragment: Fragment() {
         var resId = R.color.colorAccent
         if (rating != null) {
             when (s) {
-                "Positive" ->
+                "Negative" ->
                         if (rating < 10)
                             resId = R.color.md_red_100
                         else if (rating in 10..19)
@@ -203,7 +203,7 @@ class SkillDetailsFragment: Fragment() {
                             resId = R.color.md_red_300
                         else
                             resId = R.color.md_red_400
-                "Negative" ->
+                "Positive" ->
                     if (rating < 10)
                         resId = R.color.md_blue_100
                     else if (rating in 10..19)

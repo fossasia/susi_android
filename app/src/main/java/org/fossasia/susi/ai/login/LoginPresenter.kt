@@ -8,6 +8,7 @@ import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
@@ -104,7 +105,12 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
 
         if (throwable is UnknownHostException) {
-            loginView?.onLoginError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
+            if(NetworkUtils.isNetworkConnected()){
+                loginView?.onLoginError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
+            }else{
+                loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
+                        utilModel.getString(R.string.no_internet_connection))
+            }
         } else {
             loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
                     utilModel.getString(R.string.no_internet_connection))
