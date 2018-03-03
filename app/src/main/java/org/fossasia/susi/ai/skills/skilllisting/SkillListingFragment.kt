@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
@@ -60,6 +61,7 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
     override fun displayError() {
         if(activity != null) {
             swipe_refresh_layout.isRefreshing = false
+            skillGroups.visibility = GONE;
             error_skill_fetch.visibility = View.VISIBLE
         }
     }
