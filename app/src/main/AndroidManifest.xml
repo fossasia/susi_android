@@ -50,7 +50,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateVisible|adjustResize">
         </activity>
         <activity
             android:name=".forgotpassword.ForgotPasswordActivity"
