@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilllisting
 
+import android.util.Log
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
@@ -53,13 +54,17 @@ class SkillListingPresenter: ISkillListingPresenter,
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
             val responseSkillMap = response.body().skillMap
+            print(response.body().skillMap.size)
             if(responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
                 skillListingView?.updateAdapter(skills)
             }
-            count++
+            //TODO issue incrementing count before using it that
+            // is why it was going out of index exception an dit was never getting the 0th index of the group
+//            count++
             if(count != groupsCount) {
-                skillListingModel.fetchSkills(groups[count], this)
+               //TODO Fixed variable count
+                skillListingModel.fetchSkills(groups[count++], this)
             }
         } else {
             skillListingView?.visibilityProgressBar(false)
