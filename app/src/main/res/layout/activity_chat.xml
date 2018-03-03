@@ -29,7 +29,7 @@
             app:fabSize="mini"
             android:onClick="openSettings"
             app:backgroundTint="@color/colorPrimaryDark"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/margin_large"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true" />
@@ -43,7 +43,7 @@
             app:backgroundTint="@color/md_white_1000"
             app:srcCompat="@drawable/ic_scroll_to_end"
             app:fabSize="mini"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/margin_large"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/rv_chat_feed" />
@@ -68,7 +68,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="8dp"
+                    android:padding="@dimen/padding_medium"
                     android:orientation="horizontal">
 
                     <FrameLayout
@@ -108,7 +108,7 @@
                             android:layout_width="30dp"
                             android:layout_height="36dp"
                             android:layout_gravity="center"
-                            android:paddingTop="2dp"
+                            android:paddingTop="@dimen/padding_very_small"
                             app:srcCompat="@drawable/ic_mic_24dp" />
 
                     </FrameLayout>
