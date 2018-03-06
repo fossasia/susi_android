@@ -16,6 +16,7 @@ import android.support.v7.widget.AppCompatCheckBox
 import android.util.Log
 import android.view.Menu
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
@@ -245,6 +246,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 .setPositiveButton(getString(R.string.ok), null)
         resetPasswordAlert = builder.create()
         resetPasswordAlert.show()
+        resetPasswordAlert.getWindow()!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
+                .LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        resetPasswordAlert.getWindow()!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         setupPasswordWatcher()
         resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             settingsPresenter.resetPassword(password.editText?.text.toString(), newPassword.editText?.text.toString(), conPassword.editText?.text.toString())
