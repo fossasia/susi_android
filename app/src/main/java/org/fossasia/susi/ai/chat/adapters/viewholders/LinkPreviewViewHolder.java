@@ -1,13 +1,19 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Browser;
 import android.support.annotation.Nullable;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.method.TransformationMethod;
+import android.text.style.URLSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -181,6 +187,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
         }
 
         text.setText(answerText);
+        text.setTransformationMethod(new LinkTransformationMethod());
         timestampTextView.setText(model.getTimeStamp());
         if (model.getWebLinkData() == null) {
             LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
@@ -354,5 +361,52 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
             }
 
         });
+    }
+
+    private class CustomTabsURLSpan extends URLSpan {
+
+        private CustomTabsURLSpan(String url) {
+            super(url);
+        }
+
+        @Override
+        public void onClick(View widget) {
+            String url = getURL();
+            Context context = widget.getContext();
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            intent.putExtra(Browser.EXTRA_CREATE_NEW_TAB, true);
+            try {
+                context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                Log.w("URLSpan", "Activity was not found for intent, " + intent.toString());
+            }
+        }
+    }
+
+    private class LinkTransformationMethod implements TransformationMethod {
+
+        @Override
+        public CharSequence getTransformation(CharSequence source, View view) {
+            if (view instanceof TextView) {
+                TextView textView = (TextView) view;
+                Spannable text = (Spannable) textView.getText();
+                URLSpan[] spans = text.getSpans(0, textView.length(), URLSpan.class);
+                for (int i = spans.length - 1; i >= 0; i--) {
+                    URLSpan oldSpan = spans[i];
+                    int start = text.getSpanStart(oldSpan);
+                    int end = text.getSpanEnd(oldSpan);
+                    String url = oldSpan.getURL();
+                    text.removeSpan(oldSpan);
+                    text.setSpan(new CustomTabsURLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                return text;
+            }
+            return source;
+        }
+
+        @Override
+        public void onFocusChanged(View view, CharSequence sourceText, boolean focused, int direction, Rect previouslyFocusedRect) {
+
+        }
     }
 }
