@@ -42,7 +42,7 @@
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
-    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
+    <string name="error_cancelling_signUp_process_text">Are you sure that you want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking ↵ on the keyboard</string>
@@ -68,12 +68,12 @@
 
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action.</string>
-    <string name="error_occurred_try_again">An error occurred. please try again.</string>
+    <string name="error_occurred_try_again">An error occurred. Please try again.</string>
     <string name="error_invalid_token">Invalid Access Token.</string>
     <string name="error_internet_connectivity">Internet Connectivity Problem.</string>
     <string name="error_hotword">Sorry, hotword detection is not supported on your device.</string>
     <string name="error_rating">Unable to rate skill. An error occurred.</string>
-    <string name="no_skill_name">Name not Available</string>
+    <string name="no_skill_name">Name not available</string>
     <string name="no_skill_description">No description available</string>
 
     <!--Material Dialog-->
@@ -162,7 +162,7 @@
     <string name="error_skill_listing">Unable to fetch skills. Please try again later.</string>
     <string name="no_skill_author">Skill Author not found</string>
     <string name="reset_password_message">Resetting Password…</string>
-    
+
     <!--About Us String-->
     <string name="susi_about"><a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
     <string name="susi_contributors">Contributors</string>
@@ -173,17 +173,17 @@
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues">Github Repository Issue Tracker</a>.</string>
     <string name="susi_license_information">License</string>
     <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. As per the <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
-  
-  <!-- Intro Strings -->
+
+    <!-- Intro Strings -->
     <string name="next">Next</string>
     <string name="skip">Skip</string>
     <string name="start">Got it</string>
     <string name="slide_1_title">Log in</string>
-    <string name="slide_1_desc">Log in on the app using a SUSI AI account, sign up to create a new account or just skip logging in alltogether.</string>
+    <string name="slide_1_desc">Log in to the app using a SUSI AI account, sign up to create a new account or just skip logging in altogether.</string>
     <string name="slide_2_title">Chat Interface</string>
     <string name="slide_2_desc">Interact with SUSI AI by asking questions. Use the microphone button for voice interaction.</string>
     <string name="slide_3_title">Skill List</string>
-    <string name="slide_3_desc">Browse and try your favorite SUSI AI skill</string>
+    <string name="slide_3_desc">Browse and try your favorite SUSI AI Skill</string>
     <string name="slide_4_title">Chat Settings</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
     <string name="customer_server">Customer Server</string>
