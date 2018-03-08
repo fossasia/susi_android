@@ -60,7 +60,16 @@ class SkillsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
+        val sharebtn = findViewById(R.id.share)
+        sharebtn?.setOnClickListener {
+            val sharingIntent = Intent(android.content.Intent.ACTION_SEND)
+            sharingIntent.type = "text/plain"
+            val shareBody = getString(R.string.Sharingmessage)
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.Sharingsubject))
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody)
+            startActivity(Intent.createChooser(sharingIntent, "Share via")) }
         menuInflater.inflate(R.menu.skills_activity_menu, menu)
+
         return true
     }
 
