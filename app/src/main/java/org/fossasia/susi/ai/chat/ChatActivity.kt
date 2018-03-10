@@ -123,10 +123,10 @@ class ChatActivity: AppCompatActivity(), IChatView {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
                     btnSpeak.setOnClickListener ({
                         chatPresenter.check(false)
-                        val chat_message = et_message.text.toString().trim({ it <= ' ' })
-                        val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
+                        val chatMessage = et_message.text.toString().trim({ it <= ' ' })
+                        val splits = chatMessage.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
                         val message = splits.joinToString(" ")
-                        if (!chat_message.isEmpty()) {
+                        if (!chatMessage.isEmpty()) {
                             chatPresenter.sendMessage(message, et_message.text.toString())
                             et_message.setText("")
                         }
