@@ -165,6 +165,8 @@
     <string name="unknown_answer">I don\'t know.</string>
 
     <!-- Login Activity-->
+    <string name="continue_sign_up">Continue Registration</string>
+
     <string name="email_invalid_title">Incorrect e-mail address</string>
 
     <string name="first_time">First time</string>
