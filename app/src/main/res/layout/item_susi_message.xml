@@ -11,6 +11,7 @@
         android:id="@+id/background_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_width_message"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
@@ -19,7 +20,8 @@
         android:paddingLeft="@dimen/padding_chatbubble_large"
         android:paddingRight="@dimen/padding_chatbubble_large"
         android:orientation="vertical"
-        android:background="@drawable/rounded_layout">
+        android:background="@drawable/rounded_layout"
+        android:layout_marginStart="@dimen/message_card_margin_medium">
 
             <TextView
                 android:id="@+id/text"

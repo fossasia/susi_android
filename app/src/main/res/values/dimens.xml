@@ -4,6 +4,8 @@
     <dimen name="activity_landscape_width">300dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="min_width_message">130dp</dimen>
+
     <dimen name="button_width">250dp</dimen>
 
     <dimen name="cmv_corner_radius">15dp</dimen>
