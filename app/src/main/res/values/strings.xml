@@ -1,7 +1,7 @@
 <resources>
     <!--General Strings-->
     <string name="app_name">SUSI AI</string>
-    <string name="send_msg_hint">Ask SUSI something…</string>
+    <string name="send_msg_hint">Say something…</string>
     <string name="action_settings">Settings</string>
     <string name="action_about_us">About Us</string>
     <string name="action_wall_settings">Wallpaper</string>
@@ -205,5 +205,6 @@
     <string name="sample_group">Sample Group</string>
     <string name="time_9am">9:00 AM</string>
     <string name="rss_item_link">www.link_here.com</string>
+    <string name="date_text">Mar 11, 2018</string>
 
 </resources>

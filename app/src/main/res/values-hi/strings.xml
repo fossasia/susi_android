@@ -1,7 +1,7 @@
 <resources>
     <!--General Strings-->
     <string name="app_name">सुसी एआई</string>
-    <string name="send_msg_hint">सुसी से कुछ पूछों..</string>
+    <string name="send_msg_hint">कुछ कहें..</string>
     <string name="action_settings">सेटिंग्स</string>
     <string name="action_about_us">हमारे बारे में</string>
     <string name="action_wall_settings">वॉलपेपर</string>

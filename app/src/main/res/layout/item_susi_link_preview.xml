@@ -13,7 +13,8 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        android:background="@drawable/rounded_layout">
+        android:background="@drawable/rounded_layout"
+        android:layout_marginStart="@dimen/message_card_margin_medium">
 
         <LinearLayout
             android:layout_width="@dimen/message_layout_max_width"
@@ -23,7 +24,7 @@
             <org.fossasia.susi.ai.helper.ChatBubbleLayout
                 android:id="@+id/chat_bubble_item_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="right"
                 android:layout_weight="1"
                 android:paddingTop="@dimen/padding_chatbubble_large"
@@ -41,7 +42,7 @@
                     android:autoLink="web"
                     android:textColorLink="@color/link_text"
                     android:text="@string/hello_world"
-                    android:textColor="@color/message_text_color"
+                    android:textColor="@color/dark_message_text_color"
                     android:textSize="@dimen/message_text_size" />
 
                 <LinearLayout
@@ -57,7 +58,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="bottom"
                         android:text="9:00 AM"
-                        android:textColor="@color/timestamp_color"
+                        android:textColor="@color/timestamp_color_dark"
                         android:textSize="@dimen/timestamp_size" />
 
                     <LinearLayout

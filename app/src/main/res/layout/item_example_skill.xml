@@ -17,7 +17,7 @@
         android:paddingBottom="@dimen/message_textview_bottom_padding"
         android:text="@string/hello_world"
         android:background="@color/md_white_1000"
-        android:textColor="@color/message_text_color"
+        android:textColor="@color/dark_message_text_color"
         android:textSize="@dimen/message_text_size" />
 
 </LinearLayout>

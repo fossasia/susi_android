@@ -15,7 +15,8 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginRight="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        android:background="@drawable/rounded_layout_grey">
+        android:background="@drawable/rounded_layout_blue"
+        android:layout_marginEnd="@dimen/message_card_margin_medium">
 
             <TextView
                 android:id="@+id/text"
@@ -30,7 +31,7 @@
                 android:paddingLeft="@dimen/padding_chatbubble_large"
                 android:paddingBottom="@dimen/padding_chatbubble_small"
                 android:text="@string/hello_world"
-                android:textColor="@color/message_text_color"
+                android:textColor="@color/white_message_text_color"
                 android:textColorLink="@color/link_text"
                 android:textSize="@dimen/message_text_size" />
 
@@ -48,15 +49,16 @@
                         android:layout_height="wrap_content"
                         android:gravity="bottom"
                         android:text="@string/time_9am"
-                        android:textColor="@color/timestamp_color"
+                        android:textColor="@color/timestamp_color_light"
                         android:textSize="@dimen/timestamp_size" />
 
                     <ImageView
                         android:id="@+id/received_tick"
                         android:layout_width="@dimen/timestamp_size"
                         android:layout_height="@dimen/timestamp_size"
+                        android:tint="@color/timestamp_color_light"
                         android:layout_marginLeft="@dimen/margin_small"
-                        android:textColor="@color/timestamp_color"
+                        android:textColor="@color/timestamp_color_dark"
                         app:srcCompat="@drawable/ic_clock" />
 
                 </LinearLayout>

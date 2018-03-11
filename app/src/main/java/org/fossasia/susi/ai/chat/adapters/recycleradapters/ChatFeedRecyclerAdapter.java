@@ -344,7 +344,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
             if(isUserMessage)
                 chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
-                        currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout_blue));
             else
                 chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout));
@@ -352,7 +352,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             if(isUserMessage)
                 linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
-                        currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
+                        currContext.getResources().getDrawable(R.drawable.rounded_layout_blue));
             else
                 linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout));
