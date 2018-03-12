@@ -16,24 +16,6 @@
     <dimen name="date_layout_width">100dp</dimen>
     <dimen name="date_text_size">12sp</dimen>
 
-    <dimen name="desc_padding">40dp</dimen>
-
-    <dimen name="dots_height">30dp</dimen>
-    <dimen name="dots_margin_bottom">20dp</dimen>
-
-    <!-- intro dimensions -->
-    <dimen name="fab_margin">16dp</dimen>
-
-    <dimen name="img_width_height">120dp</dimen>
-
-    <dimen name="intro_desc_padding">10dp</dimen>
-    <dimen name="intro_desc_textsize">14sp</dimen>
-    <dimen name="intro_desc_textsize2">16sp</dimen>
-    <dimen name="intro_header_margin_bottom">10dp</dimen>
-    <dimen name="intro_header_margin_top">40dp</dimen>
-    <dimen name="intro_image_margin_bottom">10dp</dimen>
-    <dimen name="intro_image_margin_top">1dp</dimen>
-
     <dimen name="layout_width_forgot_password">250dp</dimen>
     <dimen name="layout_width_item_selection_dialog_iv">35dp</dimen>
 
@@ -59,7 +41,7 @@
     <dimen name="margin_very_large">16dp</dimen>
     <dimen name="margin_very_small">2dp</dimen>
     <dimen name="margin_very_very_small">1dp</dimen>
-
+    
     <dimen name="message_card_margin_medium">6dp</dimen>
     <dimen name="message_card_margin_small">4dp</dimen>
     <dimen name="message_layout_margin">4dp</dimen>
@@ -82,7 +64,7 @@
     <dimen name="padding_small">5dp</dimen>
     <dimen name="padding_very_large">16dp</dimen>
     <dimen name="padding_very_small">2dp</dimen>
-
+    
     <dimen name="piechart_layout_height">300dp</dimen>
 
     <dimen name="preview_layout_height">95dp</dimen>
@@ -94,7 +76,25 @@
     <dimen name="skill_image_size">80dp</dimen>
     <dimen name="skill_min_height">60dp</dimen>
     <dimen name="skill_title">18sp</dimen>
+    
+    <!-- intro dimensions -->
+    <dimen name="desc_padding">40dp</dimen>
 
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="img_width_height">120dp</dimen>
+
+    <dimen name="intro_desc_padding">10dp</dimen>
+    <dimen name="intro_desc_textsize">14sp</dimen>
+    <dimen name="intro_desc_textsize2">16sp</dimen>
+    <dimen name="intro_header_margin_bottom">10dp</dimen>
+    <dimen name="intro_header_margin_top">40dp</dimen>
+    <dimen name="intro_image_margin_bottom">10dp</dimen>
+    <dimen name="intro_image_margin_top">1dp</dimen>
+    
     <dimen name="slide_desc">16dp</dimen>
     <dimen name="slide_title">30dp</dimen>
 

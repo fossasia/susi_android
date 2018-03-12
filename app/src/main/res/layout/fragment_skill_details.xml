@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,8 +19,8 @@
                 android:id="@+id/skill_detail_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                app:srcCompat="@drawable/ic_susi"
-                android:background="@color/md_white_1000"/>
+                android:background="@color/md_white_1000"
+                app:srcCompat="@drawable/ic_susi" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -33,19 +33,19 @@
                     android:id="@+id/skill_detail_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/skill_name"
                     android:textSize="@dimen/text_size_skill_detail_title"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:textColor="@color/md_black_1000"
-                    android:background="@color/md_white_1000"/>
+                    android:background="@color/md_white_1000"
+                    android:text="@string/skill_name"
+                    android:textColor="@color/md_black_1000"/>
 
                 <TextView
                     android:id="@+id/skill_detail_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/author_name"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:background="@color/md_white_1000"/>
+                    android:background="@color/md_white_1000"
+                    android:text="@string/author_name" />
             </LinearLayout>
 
         </LinearLayout>
@@ -53,33 +53,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:background="@color/md_white_1000">
+            android:background="@color/md_white_1000"
+            android:gravity="right">
 
             <Button
                 android:id="@+id/skill_detail_try_button"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:text="@string/try_it"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:background="@color/colorPrimary"
-                android:textColor="@color/md_white_1000"
                 android:layout_marginRight="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/margin_large"/>
+                android:layout_marginBottom="@dimen/margin_large"
+                android:text="@string/try_it"
+                android:textColor="@color/md_white_1000" />
+
             <Button
                 android:id="@+id/skill_detail_share_button"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:text="@string/action_share"
+                android:background="@color/colorPrimary"
                 android:drawableLeft="@drawable/ic_share_white_24dp"
                 android:drawableStart="@drawable/ic_share_white_24dp"
                 android:drawableTint="@color/md_white_1000"
                 android:padding="@dimen/padding_large"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/md_white_1000"
                 android:layout_marginRight="@dimen/margin_very_large"
-                android:layout_marginBottom="@dimen/margin_very_large"/>
+                android:layout_marginBottom="@dimen/margin_very_large"
+                android:text="@string/action_share"
+                android:textColor="@color/md_white_1000" />
         </LinearLayout>
 
         <LinearLayout
@@ -91,10 +92,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/description"
                 android:textSize="@dimen/text_size_skill_detail_description_title"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:textColor="@color/md_black_1000" />
+                android:text="@string/description"
+                android:textColor="@color/md_black_1000"/>
 
             <TextView
                 android:id="@+id/skill_detail_description"
@@ -107,9 +108,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/examples"
                 android:layout_marginTop="@dimen/margin_very_large"
                 android:textSize="@dimen/text_size_skill_details_examples_title"
+                android:text="@string/examples"
                 android:textColor="@color/md_black_1000"/>
 
             <android.support.v7.widget.RecyclerView
@@ -121,24 +122,33 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/rating"
                 android:textSize="@dimen/text_size_skill_details_ratings_title"
                 android:layout_marginTop="@dimen/margin_very_large"
-                android:textColor="@color/md_black_1000" />
+                android:text="@string/rating"
+                android:textColor="@color/md_black_1000"/>
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/skill_detail_card_positive"
-                android:foreground="?attr/selectableItemBackground"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_skill_detail_cv_top">
+                android:layout_marginTop="@dimen/margin_skill_detail_cv_top"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                <android.support.v7.widget.CardView
+                    android:id="@+id/skill_detail_card_positive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:foreground="?attr/selectableItemBackground">
+                    
+                   <LinearLayout
+                      android:orientation="horizontal"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content">
 
-                    <TextView
+                      <TextView
                         android:background="@android:color/transparent"
                         android:id="@+id/skill_detail_rating_positive"
                         android:layout_width="90dp"
@@ -147,7 +157,7 @@
                         android:layout_margin="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_skill_detail_rating_tv_top"/>
 
-                    <ImageView
+                      <ImageView
                         android:id="@+id/skill_detail_rating_thumbs_up"
                         android:layout_marginRight="@dimen/margin_medium"
                         android:layout_gravity="center"
@@ -155,7 +165,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                </LinearLayout>
+                  </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -188,30 +198,32 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
-                </LinearLayout>
+                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+               </android.support.v7.widget.CardView>
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/skill_detail_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/content_type_dynamic"
                 android:layout_marginTop="@dimen/margin_very_large"
                 android:textSize="@dimen/text_size_content_type_tv"
+                android:text="@string/content_type_dynamic"
                 android:textColor="@color/md_black_1000"/>
 
             <TextView
                 android:id="@+id/skill_detail_policy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/developer_privacy_policy"
-                android:layout_marginTop="@dimen/margin_very_large"/>
+                android:layout_marginTop="@dimen/margin_very_large"
+                android:text="@string/developer_privacy_policy" />
 
             <TextView
                 android:id="@+id/skill_detail_terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/terms_of_use"/>
+                android:text="@string/terms_of_use" />
 
         </LinearLayout>
     </LinearLayout>

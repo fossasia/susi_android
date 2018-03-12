@@ -4,6 +4,8 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -173,5 +175,26 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun onDestroy() {
         loginPresenter.onDetach()
         super.onDestroy()
+    }
+
+/**
+ * To confirm before exiting the app.
+ * Created by ujjwalagr on 02/03/18.
+ */
+
+    var doubleBackToExitPressedOnce = false
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce)
+        {
+            super.onBackPressed()
+            return
+        }
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
+        Handler().postDelayed(object:Runnable {
+            public override fun run() {
+                doubleBackToExitPressedOnce = false
+            }
+        }, 2000)
     }
 }
