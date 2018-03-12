@@ -26,8 +26,8 @@
         android:layout_gravity="center"
         android:gravity="center_horizontal"
         android:text="@string/error_skill_listing"
-        android:textSize="18sp"
-        android:padding="16dp"
+        android:textSize="@dimen/text_size_error_skill_fetch_tv"
+        android:padding="@dimen/padding_very_large"
         android:textColor="@color/colorPrimary"
         android:visibility="gone"/>
 </FrameLayout>
