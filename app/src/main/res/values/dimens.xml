@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
@@ -15,18 +16,32 @@
     <dimen name="date_layout_width">100dp</dimen>
     <dimen name="date_text_size">12sp</dimen>
 
+    <dimen name="layout_width_forgot_password">250dp</dimen>
+    <dimen name="layout_width_item_selection_dialog_iv">35dp</dimen>
+
     <dimen name="link_preview_max_width">220dp</dimen>
 
     <dimen name="map_view_height">180dp</dimen>
 
     <dimen name="margin_bottom">40dp</dimen>
+    <dimen name="margin_button_large">16dp</dimen>
     <dimen name="margin_card">8dp</dimen>
+    <dimen name="margin_forgot_password_tv_top">15dp</dimen>
     <dimen name="margin_large">10dp</dimen>
+    <dimen name="margin_link_preview_iv">4dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_signup_tv_top">40dp</dimen>
+    <dimen name="margin_skill_detail_cv_top">6dp</dimen>
+    <dimen name="margin_skill_detail_rating_tv_top">4dp</dimen>
+    <dimen name="margin_skip_tv_top">15dp</dimen>
     <dimen name="margin_small">5dp</dimen>
+    <dimen name="margin_susi_logo_bottom">60dp</dimen>
+    <dimen name="margin_susi_logo_top">24dp</dimen>
     <dimen name="margin_top">60dp</dimen>
+    <dimen name="margin_very_large">16dp</dimen>
     <dimen name="margin_very_small">2dp</dimen>
-
+    <dimen name="margin_very_very_small">1dp</dimen>
+    
     <dimen name="message_card_margin_medium">6dp</dimen>
     <dimen name="message_card_margin_small">4dp</dimen>
     <dimen name="message_layout_margin">4dp</dimen>
@@ -36,12 +51,20 @@
 
     <dimen name="messagelayout_minwidth">40dp</dimen>
 
+    <dimen name="mobile_image_size">342dp</dimen>
+
+    <dimen name="padding_alert_change_server_right">15dp</dimen>
     <dimen name="padding_chatbubble_large">15dp</dimen>
     <dimen name="padding_chatbubble_small">5dp</dimen>
+    <dimen name="padding_forgot_password_landscape_left">48dp</dimen>
     <dimen name="padding_img">40dp</dimen>
+    <dimen name="padding_item_selection_dialog">4dp</dimen>
     <dimen name="padding_large">10dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
     <dimen name="padding_small">5dp</dimen>
-
+    <dimen name="padding_very_large">16dp</dimen>
+    <dimen name="padding_very_small">2dp</dimen>
+    
     <dimen name="piechart_layout_height">300dp</dimen>
 
     <dimen name="preview_layout_height">95dp</dimen>
@@ -53,23 +76,7 @@
     <dimen name="skill_image_size">80dp</dimen>
     <dimen name="skill_min_height">60dp</dimen>
     <dimen name="skill_title">18sp</dimen>
-
-    <dimen name="standard_content_padding">5dp</dimen>
-
-    <dimen name="text_size_large">20sp</dimen>
-
-    <dimen name="timestamp_layout_padding">8dp</dimen>
-    <dimen name="timestamp_size">10sp</dimen>
-
-    <dimen name="toolbar_logo_height">22dp</dimen>
-    <dimen name="toolbar_logo_width">110dp</dimen>
-
-    <dimen name="webpreview_content_height">63dp</dimen>
-    <dimen name="webpreview_headline_height">32dp</dimen>
-    <dimen name="webpreview_layout_height">95dp</dimen>
-
-    <dimen name="websearch_card_width">225dp</dimen>
-
+    
     <!-- intro dimensions -->
     <dimen name="desc_padding">40dp</dimen>
 
@@ -87,10 +94,38 @@
     <dimen name="intro_header_margin_top">40dp</dimen>
     <dimen name="intro_image_margin_bottom">10dp</dimen>
     <dimen name="intro_image_margin_top">1dp</dimen>
-
-    <dimen name="mobile_image_size">342dp</dimen>
-
+    
     <dimen name="slide_desc">16dp</dimen>
     <dimen name="slide_title">30dp</dimen>
 
+    <dimen name="standard_content_padding">5dp</dimen>
+
+    <dimen name="text_size_content_type_tv">18sp</dimen>
+    <dimen name="text_size_error_skill_fetch_tv">18sp</dimen>
+    <dimen name="text_size_how_can_i_help_you">40sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_link_preview_description_tv">15sp</dimen>
+    <dimen name="text_size_link_preview_title_tv">16sp</dimen>
+    <dimen name="text_size_rss_item_description_tv">15sp</dimen>
+    <dimen name="text_size_rss_item_link_tv">15sp</dimen>
+    <dimen name="text_size_rss_item_title_tv">16sp</dimen>
+    <dimen name="text_size_sign_up_tv">18sp</dimen>
+    <dimen name="text_size_skill_detail_description">16sp</dimen>
+    <dimen name="text_size_skill_detail_description_title">22sp</dimen>
+    <dimen name="text_size_skill_detail_title">24sp</dimen>
+    <dimen name="text_size_skill_details_examples_title">22sp</dimen>
+    <dimen name="text_size_skill_details_ratings_title">22sp</dimen>
+    <dimen name="text_size_text_chat">15sp</dimen>
+
+    <dimen name="timestamp_layout_padding">8dp</dimen>
+    <dimen name="timestamp_size">10sp</dimen>
+
+    <dimen name="toolbar_logo_height">22dp</dimen>
+    <dimen name="toolbar_logo_width">110dp</dimen>
+
+    <dimen name="webpreview_content_height">63dp</dimen>
+    <dimen name="webpreview_headline_height">32dp</dimen>
+    <dimen name="webpreview_layout_height">95dp</dimen>
+
+    <dimen name="websearch_card_width">225dp</dimen>
 </resources>

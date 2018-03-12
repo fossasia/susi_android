@@ -49,7 +49,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end|right|bottom"
                     android:gravity="center"
-                    android:paddingLeft="8dp">
+                    android:paddingLeft="@dimen/margin_medium">
 
                     <TextView
                         android:id="@+id/timestamp"
@@ -103,7 +103,7 @@
                     android:layout_height="@dimen/preview_layout_height"
                     android:layout_marginTop="@dimen/message_layout_margin"
                     android:layout_weight="0.8"
-                    android:layout_margin="1dp"
+                    android:layout_margin="@dimen/margin_very_very_small"
                     android:background="@color/susi_message_link_preview_bg"
                     android:orientation="vertical">
 

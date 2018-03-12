@@ -4,16 +4,16 @@
     android:orientation="horizontal"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="4dp">
+    android:padding="@dimen/padding_item_selection_dialog">
 
     <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="@dimen/layout_width_item_selection_dialog_iv"
         android:id="@+id/icon"
         app:srcCompat="@drawable/ic_share_white_24dp"
         android:scaleType="centerInside"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp" />
+        android:layout_marginRight="@dimen/margin_very_large"
+        android:layout_marginLeft="@dimen/margin_very_large" />
 
     <TextView
         android:layout_width="wrap_content"

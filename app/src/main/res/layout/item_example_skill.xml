@@ -6,7 +6,7 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        android:padding="10dp"
+        android:padding="@dimen/padding_large"
         android:background="@drawable/rounded_layout">
 
     <TextView

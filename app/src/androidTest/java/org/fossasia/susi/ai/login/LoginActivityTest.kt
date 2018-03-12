@@ -59,18 +59,23 @@ class LoginActivityTest {
         Log.d(TAG, "running testUIViewsPresenceOnLoad..")
 
         // checks if email input field is present
+        onView(withId(R.id.email)).perform(scrollTo())
         onView(withId(R.id.email)).check(matches(isDisplayed()))
 
         // checks if password input field is present
+        onView(withId(R.id.password)).perform(scrollTo())
         onView(withId(R.id.password)).check(matches(isDisplayed()))
 
         // checks if login button is present
+        onView(withId(R.id.log_in)).perform(scrollTo())
         onView(withId(R.id.log_in)).check(matches(isDisplayed()))
 
         // checks if forgot password button is present
+        onView(withId(R.id.forgot_password)).perform(scrollTo())
         onView(withId(R.id.forgot_password)).check(matches(isDisplayed()))
 
         // checks if checkbox is present
+        onView(withId(R.id.customer_server)).perform(scrollTo())
         onView(withId(R.id.customer_server)).check(matches(isDisplayed()))
 
         // checks if sign up button is present

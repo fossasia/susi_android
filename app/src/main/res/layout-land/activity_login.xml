@@ -38,7 +38,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_medium"
                 app:errorEnabled="true">
 
                 <AutoCompleteTextView
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Customer Server"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="@dimen/margin_small"/>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_url"
@@ -96,15 +96,15 @@
 
             <TextView
                 android:id="@+id/forgot_password"
-                android:layout_width="250dp"
+                android:layout_width="@dimen/layout_width_forgot_password"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_large"
                 android:background="?selectableItemBackground"
                 android:text="@string/activity_login_forgot_pass"
-                android:textSize="16sp"
+                android:textSize="@dimen/message_text_size"
                 android:textStyle="bold"
-                android:paddingLeft="48dp"
+                android:paddingLeft="@dimen/padding_forgot_password_landscape_left"
                 android:typeface="monospace" />
 
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
                 android:text="@string/activity_login_skip"
-                android:textSize="16sp"
+                android:textSize="@dimen/message_text_size"
                 android:textStyle="bold"
                 android:typeface="monospace" />
 
@@ -124,12 +124,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10sp"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_large"
                 android:background="?selectableItemBackground"
                 android:gravity="center"
                 android:text="@string/activity_login_sign_up"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_sign_up_tv"
                 android:textStyle="bold" />
 
         </LinearLayout>

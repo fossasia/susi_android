@@ -71,7 +71,7 @@
                     android:id="@+id/link_preview_image"
                     android:layout_width="@dimen/webpreview_layout_height"
                     android:layout_height="@dimen/preview_layout_height"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="@dimen/margin_link_preview_iv"
                     android:layout_weight="0.2"
                     android:background="#aaffffff"
                     app:srcCompat="@drawable/ic_user" />
