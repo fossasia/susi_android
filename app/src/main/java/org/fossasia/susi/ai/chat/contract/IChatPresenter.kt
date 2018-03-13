@@ -38,7 +38,6 @@ interface IChatPresenter {
     fun startSpeechInput()
     fun disableMicInput(boolean: Boolean)
 
-    //Detach and exit
-    fun exitChatActivity()
+    //Detach
     fun onDetach()
 }

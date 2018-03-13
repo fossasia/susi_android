@@ -176,25 +176,4 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         loginPresenter.onDetach()
         super.onDestroy()
     }
-
-/**
- * To confirm before exiting the app.
- * Created by ujjwalagr on 02/03/18.
- */
-
-    var doubleBackToExitPressedOnce = false
-    override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce)
-        {
-            super.onBackPressed()
-            return
-        }
-        this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
-        Handler().postDelayed(object:Runnable {
-            public override fun run() {
-                doubleBackToExitPressedOnce = false
-            }
-        }, 2000)
-    }
 }
