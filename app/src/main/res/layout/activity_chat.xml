@@ -55,10 +55,10 @@
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/md_grey_300"/>
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/md_grey_300"/>-->
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"

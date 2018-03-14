@@ -19,6 +19,7 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
 import android.net.Uri
+import android.view.Menu
 
 /**
  *
@@ -52,6 +53,8 @@ class SkillDetailsFragment: Fragment() {
                 SKILL_KEY) as SkillData
         skillGroup = arguments.getString(SKILL_GROUP)
         skillTag = arguments.getString(SKILL_TAG)
+
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_skill_details, container, false)
     }
 
@@ -60,6 +63,16 @@ class SkillDetailsFragment: Fragment() {
             (activity as SkillsActivity).title = skillData.skillName
         setupUI()
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val itemAbout = menu.findItem(R.id.menu_about)
+        itemAbout.isVisible = true
+        val itemSettings = menu.findItem(R.id.menu_settings)
+        itemSettings.isVisible= true
+        val searchoption = menu.findItem(R.id.action_search)
+        searchoption.isVisible = false
+        super.onPrepareOptionsMenu(menu)
     }
 
     fun setupUI() {
