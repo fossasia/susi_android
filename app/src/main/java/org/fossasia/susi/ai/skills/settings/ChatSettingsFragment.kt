@@ -191,6 +191,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         itemSettings.isVisible = false
         val itemAbout = menu.findItem(R.id.menu_about)
         itemAbout.isVisible = true
+        var searchoption = menu.findItem(R.id.action_search)
+        searchoption.isVisible = false
         super.onPrepareOptionsMenu(menu)
     }
 
