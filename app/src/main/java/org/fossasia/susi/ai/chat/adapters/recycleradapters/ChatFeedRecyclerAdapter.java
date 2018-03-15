@@ -83,7 +83,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
      * @param data       the data
      * @param autoUpdate the auto update
      */
-    public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
+    public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data,
+                                   boolean autoUpdate) {
         super(context, data, autoUpdate);
         this.clickListener = this;
         currContext = context;
@@ -98,10 +99,12 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 lastMsgCount = getItemCount();
             }
         };
+
         if (data instanceof RealmResults) {
             RealmResults realmResults = (RealmResults) data;
             realmResults.addChangeListener(listener);
         }
+
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_waiting_dots, null);
         dotsHolder = new TypingDotsHolder(view);
@@ -251,9 +254,11 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", "");
+                    return new ChatMessage(-404, "", "", false, false,
+                            false, "", null, "", "");
                 }
-                return new ChatMessage(-405, "", "", false, false, false, "", null, "", "");
+                return new ChatMessage(-405, "", "", false, false,
+                        false, "", null, "", "");
             }
             return getData().get(index);
         }
