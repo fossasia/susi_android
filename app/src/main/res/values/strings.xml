@@ -186,7 +186,7 @@
     <string name="slide_3_desc">Browse and try your favorite SUSI AI Skill</string>
     <string name="slide_4_title">Chat Settings</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
-    <string name="customer_server">Customer Server</string>
+    <string name="custom_server">Custom Server</string>
     <string name="url_input">Enter URL</string>
     <string name="skill_name">Skill Name</string>
     <string name="author_name">Author: Author name</string>
