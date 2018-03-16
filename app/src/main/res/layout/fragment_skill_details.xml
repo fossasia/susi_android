@@ -17,13 +17,13 @@
 
             <ImageView
                 android:id="@+id/skill_detail_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 app:srcCompat="@drawable/ic_susi"
                 android:background="@color/md_white_1000"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginLeft="16dp"
@@ -34,8 +34,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/skill_name"
-                    android:textSize="24sp"
-                    android:layout_marginTop="8dp"
+                    android:textSize="20sp"
+                    android:layout_marginTop="4dp"
                     android:textColor="@color/md_black_1000"
                     android:background="@color/md_white_1000"/>
 
@@ -44,43 +44,47 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/author_name"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="4dp"
                     android:background="@color/md_white_1000"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:background="@color/md_white_1000">
+
+                        <Button
+                            android:id="@+id/skill_detail_try_button"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:text="@string/try_it"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/rounded_button_skilldetails"
+                            android:textColor="@color/md_blue_A400"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"/>
+                        <Button
+                            android:id="@+id/skill_detail_share_button"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:text="@string/action_share"
+                            android:textSize="14sp"
+                            android:drawableLeft="@drawable/ic_share_white_24dp"
+                            android:drawableStart="@drawable/ic_share_white_24dp"
+                            android:drawableTint="@color/md_blue_A400"
+                            android:padding="10dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/rounded_button_skilldetails"
+                            android:textColor="@color/md_blue_A400"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"/>
+                    </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:background="@color/md_white_1000">
-
-            <Button
-                android:id="@+id/skill_detail_try_button"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:text="@string/try_it"
-                android:layout_marginTop="8dp"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/md_white_1000"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"/>
-            <Button
-                android:id="@+id/skill_detail_share_button"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:text="@string/action_share"
-                android:drawableLeft="@drawable/ic_share_white_24dp"
-                android:drawableStart="@drawable/ic_share_white_24dp"
-                android:drawableTint="@color/md_white_1000"
-                android:padding="10dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/colorPrimary"
-                android:textColor="@color/md_white_1000"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="16dp"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/description"
-                android:textSize="22dp"
+                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:textColor="@color/md_black_1000" />
 
@@ -100,7 +104,7 @@
                 android:id="@+id/skill_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:text="@string/description_long"/>
 
@@ -109,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/examples"
                 android:layout_marginTop="16dp"
-                android:textSize="22dp"
+                android:textSize="14sp"
                 android:textColor="@color/md_black_1000"/>
 
             <android.support.v7.widget.RecyclerView
@@ -122,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rating"
-                android:textSize="22dp"
+                android:textSize="14sp"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/md_black_1000" />
 
@@ -144,6 +148,7 @@
                         android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:text="@string/positive_50"
+                        android:textSize="14sp"
                         android:layout_margin="8dp"
                         android:layout_marginTop="4dp"/>
 
@@ -176,6 +181,7 @@
                         android:layout_width="90dp"
                         android:layout_height="wrap_content"
                         android:text="@string/negative_50"
+                        android:textSize="14sp"
                         android:background="@android:color/transparent"
                         android:layout_margin="8dp"
                         android:layout_marginTop="4dp"/>
@@ -197,7 +203,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/content_type_dynamic"
                 android:layout_marginTop="16dp"
-                android:textSize="18dp"
+                android:textSize="14sp"
                 android:textColor="@color/md_black_1000"/>
 
             <TextView
