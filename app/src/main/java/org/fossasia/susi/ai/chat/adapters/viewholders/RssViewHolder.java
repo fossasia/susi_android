@@ -23,7 +23,7 @@ public class RssViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.description)
     public TextView descriptionTextView;
     @BindView(R.id.parent_layout)
-    public LinearLayout parentLayout;
+    LinearLayout parentLayout;
 
     public RssViewHolder(View itemView) {
         super(itemView);

@@ -59,8 +59,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     public static final int SUSI_IMAGE = 3;
     private static final int MAP = 4;
     private static final int PIECHART = 7;
-    public static final int USER_WITHLINK = 5;
-    private static final int SUSI_WITHLINK = 6;
+    public static final int USER_WITH_LINK = 5;
+    private static final int SUSI_WITH_LINK = 6;
     private static final int DOTS = 8;
     private static final int NULL_HOLDER = 9;
     private static final int SEARCH_RESULT = 10;
@@ -166,23 +166,23 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         switch (viewType) {
             case USER_MESSAGE:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
-                return new ChatViewHolder(view, clickListener, USER_MESSAGE);
+                return new ChatViewHolder(view, clickListener);
             case SUSI_MESSAGE:
                 view = inflater.inflate(R.layout.item_susi_message, viewGroup, false);
-                return new ChatViewHolder(view, clickListener, SUSI_MESSAGE);
+                return new ChatViewHolder(view, clickListener);
             case USER_IMAGE:
                 view = inflater.inflate(R.layout.item_user_image, viewGroup, false);
-                return new ChatViewHolder(view, clickListener, USER_IMAGE);
+                return new ChatViewHolder(view, clickListener);
             case SUSI_IMAGE:
                 view = inflater.inflate(R.layout.item_susi_image, viewGroup, false);
-                return new ChatViewHolder(view, clickListener, SUSI_IMAGE);
+                return new ChatViewHolder(view, clickListener);
             case MAP:
                 view = inflater.inflate(R.layout.item_susi_map, viewGroup, false);
                 return new MapViewHolder(view);
-            case USER_WITHLINK:
+            case USER_WITH_LINK:
                 view = inflater.inflate(R.layout.item_user_link_preview, viewGroup, false);
                 return new LinkPreviewViewHolder(view, clickListener);
-            case SUSI_WITHLINK:
+            case SUSI_WITH_LINK:
                 view = inflater.inflate(R.layout.item_susi_link_preview, viewGroup, false);
                 return new LinkPreviewViewHolder(view, clickListener);
             case PIECHART:
@@ -207,7 +207,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 return nullHolder;
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
-                return new ChatViewHolder(view, clickListener, USER_MESSAGE);
+                return new ChatViewHolder(view, clickListener);
         }
     }
 
@@ -218,8 +218,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isDate()) return DATE_VIEW;
-        else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
-        else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
+        else if (item.isMine() && item.isHavingLink()) return USER_WITH_LINK;
+        else if (!item.isMine() && item.isHavingLink()) return SUSI_WITH_LINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
 
         switch(item.getActionType()) {
@@ -368,7 +368,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     public boolean onItemLongClicked(final int position) {
         final RecyclerView.ViewHolder holder = recyclerView.findViewHolderForAdapterPosition(position);
         final int viewType = getItemViewType(position);
-        setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
+        setBackGroundColor(holder, true, viewType == USER_WITH_LINK || viewType == USER_MESSAGE);
 
         List<Pair<String, Drawable>> optionList = new ArrayList<>();
         optionList.add(new Pair<>("Copy",currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
@@ -382,7 +382,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         dialog.setAdapter(arrayAdapter, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
+                setBackGroundColor(holder, false, viewType == USER_WITH_LINK || viewType == USER_MESSAGE);
                 switch (which) {
                     case 0: setClipboard(getItem(position).getContent());
                         Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
@@ -398,7 +398,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialogInterface) {
-                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
+                setBackGroundColor(holder, false, viewType == USER_WITH_LINK || viewType == USER_MESSAGE);
             }
         });
 

@@ -61,25 +61,16 @@ public class ChatViewHolder extends MessageViewHolder {
     protected ImageView thumbsDown;
 
     private ChatMessage model;
+
     /**
      * Instantiates a new Chat view holder.
      *
      * @param view          the view
      * @param clickListener the click listener
-     * @param myMessage     the my message
      */
-    public ChatViewHolder(View view, ClickListener clickListener, int myMessage) {
+    public ChatViewHolder(View view, ClickListener clickListener) {
         super(view, clickListener);
         ButterKnife.bind(this, view);
-        switch (myMessage) {
-            case USER_MESSAGE:
-                break;
-            case SUSI_MESSAGE:
-                break;
-            case USER_IMAGE:
-            case SUSI_IMAGE:
-            default:
-        }
     }
 
     /**
@@ -105,21 +96,24 @@ public class ChatViewHolder extends MessageViewHolder {
                         timeStamp.setTag(this);
                         receivedTick.setTag(this);
                         break;
+
                     case SUSI_MESSAGE:
                         Spanned answerText;
+
                         if(model.getActionType().equals(Constant.ANCHOR)) {
                             chatTextView.setLinksClickable(true);
                             chatTextView.setMovementMethod(LinkMovementMethod.getInstance());
                         } else {
                             chatTextView.setLinksClickable(false);
                         }
+
                         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                             answerText = Html.fromHtml(model.getContent(), Html.FROM_HTML_MODE_COMPACT);
                         } else {
                             answerText = Html.fromHtml(model.getContent());
                         }
 
-                        if(model.getSkillLocation().isEmpty()){
+                        if(model.getSkillLocation().isEmpty()) {
                             thumbsUp.setVisibility(View.GONE);
                             thumbsDown.setVisibility(View.GONE);
                         } else {
@@ -127,13 +121,13 @@ public class ChatViewHolder extends MessageViewHolder {
                             thumbsDown.setVisibility(View.VISIBLE);
                         }
 
-                        if(model.isPositiveRated()){
+                        if(model.isPositiveRated()) {
                             thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
                         } else {
                             thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
                         }
 
-                        if(model.isNegativeRated()){
+                        if(model.isNegativeRated()) {
                             thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
                         } else {
                             thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
@@ -190,7 +184,9 @@ public class ChatViewHolder extends MessageViewHolder {
 
                         break;
                     case USER_IMAGE:
+                        break;
                     case SUSI_IMAGE:
+                        break;
                     default:
                 }
             } catch (Exception e) {

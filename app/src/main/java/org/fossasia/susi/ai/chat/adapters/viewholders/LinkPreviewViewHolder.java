@@ -41,7 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.os.SystemClock.sleep;
-import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITHLINK;
+import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITH_LINK;
 
 /**
  * <h1>Link preview view holder</h1>
@@ -55,23 +55,23 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     @BindView(R.id.background_layout)
     public LinearLayout backgroundLayout;
     @BindView(R.id.link_preview_image)
-    public ImageView previewImageView;
+    ImageView previewImageView;
     @BindView(R.id.link_preview_title)
-    public TextView titleTextView;
+    TextView titleTextView;
     @BindView(R.id.link_preview_description)
-    public TextView descriptionTextView;
+    TextView descriptionTextView;
     @BindView(R.id.timestamp)
-    public TextView timestampTextView;
+    TextView timestampTextView;
     @BindView(R.id.preview_layout)
     public LinearLayout previewLayout;
     @Nullable @BindView(R.id.received_tick)
-    public ImageView receivedTick;
+    ImageView receivedTick;
     @Nullable
     @BindView(R.id.thumbs_up)
-    protected ImageView thumbsUp;
+    ImageView thumbsUp;
     @Nullable
     @BindView(R.id.thumbs_down)
-    protected ImageView thumbsDown;
+    ImageView thumbsDown;
 
     private Realm realm;
     private String url;
@@ -106,14 +106,14 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
             answerText = Html.fromHtml(model.getContent());
         }
 
-        if (viewType == USER_WITHLINK) {
+        if (viewType == USER_WITH_LINK) {
             if (model.getIsDelivered())
                 receivedTick.setImageResource(R.drawable.ic_check);
             else
                 receivedTick.setImageResource(R.drawable.ic_clock);
         }
 
-        if (viewType != USER_WITHLINK) {
+        if (viewType != USER_WITH_LINK) {
             if(model.getSkillLocation().isEmpty()){
                 thumbsUp.setVisibility(View.GONE);
                 thumbsDown.setVisibility(View.GONE);
