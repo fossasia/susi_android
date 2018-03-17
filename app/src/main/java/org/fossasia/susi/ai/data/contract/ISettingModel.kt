@@ -2,9 +2,12 @@ package org.fossasia.susi.ai.data.contract
 
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
+
 import retrofit2.Response
 
 /**
+ * The interface for Setting Model
+ *
  * Created by meeera on 14/7/17.
  */
 interface ISettingModel {
