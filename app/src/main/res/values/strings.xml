@@ -140,6 +140,7 @@
     <string name="email_id_input">Enter your e-mail ID</string>
     <string name="reset">Reset Password</string>
     <string name="reset_pass_activity">Reset Password</string>
+    <string name="clear_chat">Clear chat history</string>
     <string name="wrong_password">Failed. Try again</string>
     <string name="error_password_matching">Passwords do not match</string>
     <string name="pass_change_dialog">Changing your password. Please wait</string>
@@ -156,6 +157,7 @@
     <string name="error_msg_retry">Please Try Again</string>
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="logout">Log out</string>
+    <string name="delete_chat">Delete chat history</string>
     <string name="skills">Skills</string>
     <string name="skill_title">Skill Title</string>
     <string name="skills_activity">SUSI.AI Skills</string>

@@ -65,6 +65,12 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
         settingView?.startLoginActivity()
     }
 
+    //This is for deleting the chat history
+    override fun deleteChat() {
+        databaseRepository.deleteAllMessages()
+        settingView?.startChatActivity()
+    }
+
     override fun resetPassword(password: String, newPassword: String, conPassword: String) {
         if (password.isEmpty()) {
             settingView?.invalidCredentials(true, Constant.PASSWORD)

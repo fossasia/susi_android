@@ -89,6 +89,10 @@
             android:key="reset_password"/>
 
         <PreferenceScreen
+            android:title="@string/clear_chat"
+            android:key="delete_chat"/>
+
+        <PreferenceScreen
             android:title="Login"
             android:key="login_logout" />
 
