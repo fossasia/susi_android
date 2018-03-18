@@ -49,9 +49,14 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
     }
 
     override fun skipLogin() {
-        utilModel.clearToken()
-        utilModel.saveAnonymity(true)
-        loginView?.skipLogin()
+        if(NetworkUtils.isNetworkConnected()) {
+            utilModel.clearToken()
+            utilModel.saveAnonymity(true)
+            loginView?.skipLogin()
+        } else {
+            loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
+                    utilModel.getString(R.string.no_internet_connection))
+        }
     }
 
     override fun login(email: String, password: String, isSusiServerSelected: Boolean, url: String) {
