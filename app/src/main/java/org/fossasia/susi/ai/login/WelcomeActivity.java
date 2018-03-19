@@ -16,7 +16,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import org.fossasia.susi.ai.R;
+
 /**
+ *
  * Created by Arshil on 21/08/17.
  */
 public class WelcomeActivity extends AppCompatActivity {
@@ -29,7 +31,8 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences pref = getSharedPreferences("First_Time_Launched", Context.MODE_PRIVATE);
-        if(pref.getBoolean("activity_executed", false)){
+
+        if(pref.getBoolean("activity_executed", false)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
@@ -42,8 +45,8 @@ public class WelcomeActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_welcome);
 
         ImageViewPager = (ViewPager) findViewById(R.id.pager);
@@ -51,11 +54,11 @@ public class WelcomeActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(ImageViewPager, true);
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
-        layouts = new int[]{
+        layouts = new int[] {
                 R.layout.welcome_slide1,
                 R.layout.welcome_slide2,
                 R.layout.welcome_slide3,
-                R.layout.welcome_slide4};
+                R.layout.welcome_slide4 };
 
         MyViewPagerAdapter myViewPagerAdapter = new MyViewPagerAdapter();
         ImageViewPager.setAdapter(myViewPagerAdapter);
@@ -72,7 +75,7 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // checking for last page
                 // if last page home screen will be launched
-                int current = getItem(1);
+                int current = getItem();
                 if (current < layouts.length) {
                     //  to next screen
                     ImageViewPager.setCurrentItem(current);
@@ -82,14 +85,16 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
     }
-    private int getItem(int i) {
-        return ImageViewPager.getCurrentItem() + i;
+
+    private int getItem() {
+        return ImageViewPager.getCurrentItem() + 1;
     }
 
     private void launchHomeScreen() {
         startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         finish();
     }
+
     private ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
@@ -113,6 +118,7 @@ public class WelcomeActivity extends AppCompatActivity {
             //empty body
         }
     };
+
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 

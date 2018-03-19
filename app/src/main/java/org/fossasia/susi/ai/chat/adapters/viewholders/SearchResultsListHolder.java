@@ -71,6 +71,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                             if (response.body() != null) {
                                 realm.beginTransaction();
                                 RealmList<WebSearchModel> searchResults = new RealmList<>();
+
                                 for (int i = 0; i < response.body().getRelatedTopics().size(); i++) {
                                     try {
                                         String url = response.body().getRelatedTopics().get(i).getUrl();
@@ -95,6 +96,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                                         Log.v(TAG, e.getLocalizedMessage());
                                     }
                                 }
+
                                 if (searchResults.size() == 0) {
                                     Realm realm = Realm.getDefaultInstance();
                                     final WebSearchModel webSearch = realm.createObject(WebSearchModel.class);
@@ -104,6 +106,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                                     webSearch.setUrl(null);
                                     searchResults.add(webSearch);
                                 }
+
                                 LinearLayoutManager layoutManager = new LinearLayoutManager(currContext,
                                         LinearLayoutManager.HORIZONTAL, false);
                                 recyclerView.setLayoutManager(layoutManager);

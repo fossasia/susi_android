@@ -14,7 +14,7 @@ import java.net.SocketTimeoutException;
  */
 public class BaseUrl {
 
-    public static final String PROTOCOL_HTTP = "https://";
+    private static final String PROTOCOL_HTTP = "https://";
     public static final String SUSI_DEFAULT_BASE_URL = "https://api.susi.ai";
     public static final String SUSI_SERVICES_URL = "https://config.asksusi.com";
 

@@ -6,17 +6,23 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 /**
+ * Model of Settings
+ * The M in MVP
+ * Stores all business logic
+ *
  * Created by meeera on 14/7/17.
  */
+
 class SettingModel: ISettingModel {
 
-    lateinit var settingResponseCall: Call<ChangeSettingResponse>
-    lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
+    private lateinit var settingResponseCall: Call<ChangeSettingResponse>
+    private lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
     override fun sendSetting(key: String, value: String, count: Int, listener: ISettingModel.onSettingFinishListener) {
         settingResponseCall = ClientBuilder().susiApi
                 .changeSettingResponse(key, value, count)
@@ -37,6 +43,7 @@ class SettingModel: ISettingModel {
         resetPasswordResponseCall = ClientBuilder().susiApi
                 .resetPasswordResponse(email,password,newPassword)
         resetPasswordResponseCall.enqueue(object : Callback<ResetPasswordResponse> {
+
             override fun onResponse(call: Call<ResetPasswordResponse>?, response: Response<ResetPasswordResponse>?) {
                 listener.onResetPasswordSuccess(response)
             }
@@ -47,5 +54,4 @@ class SettingModel: ISettingModel {
 
         } )
     }
-
 }

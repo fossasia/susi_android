@@ -16,19 +16,15 @@ import java.lang.ref.WeakReference
 
 /**
  * <h1>Helper class to get location of using network and GPS.</h1>
-
+ * Instantiates a new Location helper.
+ * @param context the context
+ *
  * Created by chiragw15 on 10/12/16.
  */
-class LocationHelper
-/**
- * Instantiates a new Location helper.
-
- * @param context the context
- */
-(context: Context) : Service(), LocationListener {
+class LocationHelper (context: Context) : Service(), LocationListener {
 
     private var canGetLocation = false
-    private val weakContext: WeakReference<Context>
+    private val weakContext: WeakReference<Context> = WeakReference(context)
 
     /**
      * Gets latitude.
@@ -37,6 +33,7 @@ class LocationHelper
      */
     var latitude: Double = 0.toDouble()
         private set
+
     /**
      * Gets longitude.
 
@@ -44,6 +41,7 @@ class LocationHelper
      */
     var longitude: Double = 0.toDouble()
         private set
+
     /**
      * Gets source.
 
@@ -54,10 +52,6 @@ class LocationHelper
 
     protected var locationManager: LocationManager? = null
 
-    init {
-        weakContext = WeakReference(context)
-    }
-
     /**
      * Gets location.
      */
@@ -67,6 +61,7 @@ class LocationHelper
         if (mContext == null) {
             return
         }
+
         try {
             locationManager = mContext
                     .getSystemService(Context.LOCATION_SERVICE) as LocationManager

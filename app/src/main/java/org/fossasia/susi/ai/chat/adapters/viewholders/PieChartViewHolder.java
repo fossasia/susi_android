@@ -30,12 +30,11 @@ public class PieChartViewHolder extends MessageViewHolder {
     @BindView(R.id.background_layout)
     public LinearLayout backgroundLayout;
     @BindView(R.id.text)
-    public TextView chatTextView;
+    TextView chatTextView;
     @BindView(R.id.piechart)
-    public PieChart pieChart;
+    PieChart pieChart;
     @BindView(R.id.timestamp)
-    public TextView timeStamp;
-
+    TextView timeStamp;
 
     /**
      * Instantiates a new Pie chart view holder.
@@ -70,10 +69,12 @@ public class PieChartViewHolder extends MessageViewHolder {
                 RealmList<Datum> datumList = model.getDatumRealmList();
                 final ArrayList<Entry> yVals = new ArrayList<>();
                 final ArrayList<String> xVals = new ArrayList<>();
+
                 for (int i = 0; i < datumList.size(); i++) {
                     yVals.add(new Entry(datumList.get(i).getPercent(), i));
                     xVals.add(datumList.get(i).getPresident());
                 }
+
                 pieChart.setClickable(false);
                 pieChart.setHighlightPerTapEnabled(false);
                 PieDataSet dataSet = new PieDataSet(yVals, "");

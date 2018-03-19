@@ -9,18 +9,13 @@ import android.view.ViewGroup
 
 /**
  * <h1>Helper class for snackbar behaviour.</h1>
-
+ * Instantiates a new Snackbar behavior.
+ * @param context the context
+ * @param attrs   the attrs
+ *
  * Created by rajdeep1008 on 17/10/16.
  */
-class SnackbarBehavior
-/**
- * Instantiates a new Snackbar behavior.
-
- * @param context the context
- * *
- * @param attrs   the attrs
- */
-(context: Context, attrs: AttributeSet) : CoordinatorLayout.Behavior<ViewGroup>(context, attrs) {
+class SnackbarBehavior (context: Context, attrs: AttributeSet) : CoordinatorLayout.Behavior<ViewGroup>(context, attrs) {
 
     override fun layoutDependsOn(parent: CoordinatorLayout?, child: ViewGroup?, dependency: View?): Boolean {
         return dependency is Snackbar.SnackbarLayout

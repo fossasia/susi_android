@@ -19,7 +19,7 @@ public abstract class MessageViewHolder extends RecyclerView.ViewHolder implemen
      * @param itemView      the item view
      * @param clickListener the click listener
      */
-    public MessageViewHolder(View itemView , ClickListener clickListener) {
+    MessageViewHolder(View itemView, ClickListener clickListener) {
         super(itemView);
         this.listener = clickListener;
         itemView.setOnClickListener(this);

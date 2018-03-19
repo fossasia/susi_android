@@ -12,5 +12,4 @@ class Metadata {
     @SerializedName("count")
     @Expose
     val count: Int = 0
-
 }

@@ -5,6 +5,7 @@ import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
@@ -19,7 +20,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
@@ -39,7 +39,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.skills.SkillsActivity
 
-import java.util.*
+import java.util.Locale
 
 /**
  * The Chat Activity. Does all the main processes including
@@ -53,15 +53,15 @@ class ChatActivity: AppCompatActivity(), IChatView {
     val TAG: String = ChatActivity::class.java.name
 
     lateinit var chatPresenter: IChatPresenter
-    val PERM_REQ_CODE = 1
-    lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
+    private val PERM_REQ_CODE = 1
+    private lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
     var textToSpeech: TextToSpeech? = null
     var recordingThread: RecordingThread? = null
-    lateinit var networkStateReceiver: BroadcastReceiver
-    lateinit var progressDialog: ProgressDialog
-    var example: String = ""
+    private lateinit var networkStateReceiver: BroadcastReceiver
+    private lateinit var progressDialog: ProgressDialog
+    private var example: String = ""
 
-    val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+    private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             textToSpeech?.stop()
         }
@@ -94,7 +94,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     // This method is used to set up the UI components
     // of Chat Activity like Adapter, Toolbar, Background, Theme, etc
-    fun setUpUI() {
+    private fun setUpUI() {
         chatPresenter.setUp()
         chatPresenter.checkPreferences()
         setEditText()
@@ -103,7 +103,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     // This method is used to call all other methods
     // which should run every time when the Chat Activity is started
     // like getting user location, initialization of TTS and hotword etc
-    fun initializationMethod(firstRun: Boolean) {
+    private fun initializationMethod(firstRun: Boolean) {
         chatPresenter.retrieveOldMessages(firstRun)
         chatPresenter.getLocationFromIP()
         chatPresenter.getLocationFromLocationService()
@@ -112,7 +112,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         compensateTTSDelay()
     }
 
-    fun setEditText() {
+    private fun setEditText() {
         val watch = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 //do whatever you want to do before text change in input edit text
@@ -200,7 +200,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         })
     }
 
-    fun compensateTTSDelay() {
+    private fun compensateTTSDelay() {
         Handler().post {
             textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
                 if (status != TextToSpeech.ERROR) {
@@ -213,9 +213,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     //Take user's speech as input and send the message
     override fun promptSpeechInput() {
+
         if ( recordingThread != null) {
             chatPresenter.stopHotwordDetection()
         }
+
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.sttframe, STTfragment())
@@ -255,7 +257,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 audioFocus.abandonAudioFocus(afChangeListener)
             }
         }
-
     }
 
     override fun showWaitingDots() {
@@ -278,7 +279,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     //Initiates hotword detection
     override fun initHotword() {
-        recordingThread = RecordingThread(object : Handler() {
+        recordingThread = RecordingThread(@SuppressLint("HandlerLeak")
+        object : Handler() {
             override fun handleMessage(msg: Message) {
                 val message = MsgEnum.getMsgEnum(msg.what)
                 when (message) {
@@ -398,7 +400,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed();
+        super.onBackPressed()
     }
 
     override fun finishActivity() {

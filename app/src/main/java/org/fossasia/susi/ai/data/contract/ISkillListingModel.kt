@@ -2,13 +2,16 @@ package org.fossasia.susi.ai.data.contract
 
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
+
 import retrofit2.Response
 
 /**
+ * Interface for Skill Listing Model
  *
  * Created by chiragw15 on 16/8/17.
  */
 interface ISkillListingModel {
+
     interface onFetchGroupsFinishedListener {
         fun onGroupFetchSuccess(response: Response<ListGroupsResponse>)
         fun onGroupFetchFailure(t: Throwable)

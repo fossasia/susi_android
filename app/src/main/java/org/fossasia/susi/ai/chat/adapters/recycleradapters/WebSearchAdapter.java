@@ -56,16 +56,16 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
             String title = webSearch.getHeadline();
             String text = webSearch.getBody();
             String iconUrl = webSearch.getImageURL();
-            final String linkurl = webSearch.getUrl();
+            final String linkUrl = webSearch.getUrl();
 
-            if(text!=null) {
+            if(text != null) {
                 holder.descriptionTextView.setText(text);
                 holder.descriptionTextView.setVisibility(View.VISIBLE);
             } else {
                 holder.descriptionTextView.setVisibility(View.GONE);
             }
 
-            if(title!=null) {
+            if(title != null) {
                 holder.titleTextView.setText(title);
                 holder.titleTextView.setVisibility(View.VISIBLE);
             } else {
@@ -79,7 +79,7 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
                         .into(holder.previewImageView, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
-                                Log.d("Sucess","image loaded successfully");
+                                Log.d("Success","image loaded successfully");
                             }
 
                             @Override
@@ -95,10 +95,10 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
             holder.previewLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (linkurl != null) {
-                        Uri webpage = Uri.parse(linkurl);
+                    if (linkUrl != null) {
+                        Uri webPage = Uri.parse(linkUrl);
 
-                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
                         if (intent.resolveActivity(context.getPackageManager()) != null) {
                             context.startActivity(intent);
                         }

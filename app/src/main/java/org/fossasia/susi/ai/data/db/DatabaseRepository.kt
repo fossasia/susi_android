@@ -4,6 +4,7 @@ import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
+
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.data.model.MapData
@@ -66,6 +67,7 @@ class DatabaseRepository: IDatabaseRepository {
             chatMessage.setIsMine(mine)
             chatMessage.timeStamp = timeStamp
             chatMessage.isHavingLink = isHavingLink
+
             if (mine)
                 chatMessage.isDelivered = false
             else {
@@ -95,11 +97,11 @@ class DatabaseRepository: IDatabaseRepository {
                 val prId = prevId
                 realm.executeTransactionAsync { bgRealm ->
                     try {
-                        val previouschatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prId).findFirst()
-                        if (previouschatMessage != null && previouschatMessage.isMine) {
-                            previouschatMessage.isDelivered = true
-                            previouschatMessage.date = date
-                            previouschatMessage.timeStamp = timeStamp
+                        val previousChatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prId).findFirst()
+                        if (previousChatMessage != null && previousChatMessage.isMine) {
+                            previousChatMessage.isDelivered = true
+                            previousChatMessage.date = date
+                            previousChatMessage.timeStamp = timeStamp
                         }
                     } catch (e: Exception) {
                         e.printStackTrace()

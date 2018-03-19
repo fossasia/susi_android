@@ -9,7 +9,9 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
+
 import kotlinx.android.synthetic.main.activity_sign_up.*
+
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.login.LoginActivity
@@ -28,8 +30,8 @@ import org.fossasia.susi.ai.signup.contract.ISignUpView
 
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
-    lateinit var signUpPresenter: ISignUpPresenter
-    lateinit var progressDialog: ProgressDialog
+    private lateinit var signUpPresenter: ISignUpPresenter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +59,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     }
 
-    fun addListeners() {
+    private fun addListeners() {
         showURL()
         signUp()
         cancelSignUp()
@@ -152,11 +154,11 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         sign_up.isEnabled = true
     }
 
-    fun showURL() {
+    private fun showURL() {
         customer_server.setOnClickListener { input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE}
     }
 
-    fun setupPasswordWatcher() {
+    private fun setupPasswordWatcher() {
         password.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             password.error = null
             if (!hasFocus)
@@ -164,7 +166,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         }
     }
 
-    fun cancelSignUp() {
+    private fun cancelSignUp() {
         progressDialog.setOnCancelListener({
             signUpPresenter.cancelSignUp()
             sign_up.isEnabled = true
@@ -177,7 +179,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         sign_up.isEnabled = true
     }
 
-    fun signUp() {
+    private fun signUp() {
 
         sign_up.setOnClickListener {
 

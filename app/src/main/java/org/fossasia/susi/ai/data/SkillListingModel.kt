@@ -4,21 +4,24 @@ import org.fossasia.susi.ai.data.contract.ISkillListingModel
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
-import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 /**
+ * Model of Skill Listing
+ * The M in MVP
+ * Stores all business logic
  *
  * Created by chiragw15 on 16/8/17.
  */
 class SkillListingModel: ISkillListingModel {
 
-    lateinit var authResponseCallGroups: Call<ListGroupsResponse>
-    lateinit var authResponseCallSkills: Call<ListSkillsResponse>
+    private lateinit var authResponseCallGroups: Call<ListGroupsResponse>
+    private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
 
-    var clientBuilder: ClientBuilder = ClientBuilder()
+    private var clientBuilder: ClientBuilder = ClientBuilder()
 
     override fun fetchGroups(listener: ISkillListingModel.onFetchGroupsFinishedListener) {
 

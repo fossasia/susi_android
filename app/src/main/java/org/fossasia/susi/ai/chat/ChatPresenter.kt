@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.chat
 
 import android.os.Handler
-import android.util.Log
+
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -16,8 +16,13 @@ import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+
 import retrofit2.Response
-import java.util.*
+
+import java.util.LinkedList
+import java.util.Locale
+import java.util.Date
+import java.util.TimeZone
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
@@ -30,21 +35,20 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.onDatabaseUpdateListener{
 
-    var chatView: IChatView?= null
+    private var chatView: IChatView?= null
     var chatModel: IChatModel = ChatModel()
-    var utilModel: UtilModel = UtilModel(chatActivity)
-    var databaseRepository: IDatabaseRepository = DatabaseRepository()
-    lateinit var locationHelper: LocationHelper
-    val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
-    var newMessageIndex: Long = 0
-    var micCheck = false
+    private var utilModel: UtilModel = UtilModel(chatActivity)
+    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
+    private lateinit var locationHelper: LocationHelper
+    private val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
+    private var newMessageIndex: Long = 0
+    private var micCheck = false
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var source = Constant.IP
-    var isDetectionOn = false
+    private var isDetectionOn = false
     var check = false
-    var atHome = true
-    var backPressedOnce = false
+
     @Volatile var queueExecuting = AtomicBoolean(false)
 
     override fun onAttach(chatView: IChatView) {
@@ -61,7 +65,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         chatView?.setupAdapter(databaseRepository.getAllMessages())
 
         getPermissions()
-
     }
 
     override fun checkPreferences() {
@@ -190,7 +193,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
                     val actionSize = allMessages[i].answers[0].actions.size
 
-                    for (j in 0..actionSize - 1) {
+                    for (j in 0 until actionSize) {
                         val psh = ParseSusiResponseHelper()
                         psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
                         try {
@@ -243,7 +246,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         getLocation()
     }
 
-    fun getLocation() {
+    private fun getLocation() {
         locationHelper.getLocation()
         if (locationHelper.canGetLocation()) {
             latitude = locationHelper.latitude
@@ -255,9 +258,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     //get undelivered messages from database
     override fun getUndeliveredMessages() {
         nonDeliveredMessages.clear()
-
         val nonDelivered = databaseRepository.getUndeliveredMessages()
-
         nonDelivered.mapTo(nonDeliveredMessages) { Pair(it.content, it.id) }
     }
 
@@ -283,6 +284,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                         DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
             }
         }
+
         nonDeliveredMessages.add(Pair(query, newMessageIndex))
         databaseRepository.updateDatabase(newMessageIndex, actual, false, DateTimeHelper.date,
                 DateTimeHelper.currentTime, true, "", null, isHavingLink, null, "", "", this)
@@ -302,7 +304,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     @Synchronized
-    fun computeOtherMessage() { Log.v("chirag","chirag run")
+    fun computeOtherMessage() {
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
                 chatView?.showWaitingDots()
@@ -343,6 +345,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     false, DateTimeHelper.date, DateTimeHelper.currentTime, false, Constant.ANSWER,
                     null, false, null, "", "", this)
         }
+
         BaseUrl.updateBaseUrl(t)
         computeOtherMessage()
     }
@@ -369,13 +372,12 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             val actionSize = response.body().answers[0].actions.size
             val date = response.body().answerDate
 
-            for (i in 0..actionSize - 1) {
+            for (i in 0 until actionSize) {
                 val delay = response.body().answers[0].actions[i].delay
-                val actionNo = i
                 val handler = Handler()
                 handler.postDelayed({
                     val psh = ParseSusiResponseHelper()
-                    psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
+                    psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
                     val setMessage = psh.answer
                     if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())){
                         var speechReply = setMessage
@@ -415,7 +417,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     //Asks for permissions from user
-    fun getPermissions() {
+    private fun getPermissions() {
         val permissionsRequired = utilModel.permissionsToGet()
 
         val permissionsGranted = arrayOfNulls<String>(3)

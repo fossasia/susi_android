@@ -1,11 +1,14 @@
 package org.fossasia.susi.ai.chat
 
 import android.util.Patterns
+
 import io.realm.RealmList
+
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+
 import java.util.ArrayList
 
 /**

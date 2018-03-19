@@ -39,7 +39,7 @@ class SkillExamplesAdapter(val context: Context, val examples: List<String>): Re
         (context as Activity).overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        if(examples != null && examples.size !=0 && examples[position] != null)
+        if(examples != null && examples.isNotEmpty() && examples[position] != null)
             intent.putExtra("example", examples[position])
         else
             intent.putExtra("example","")
