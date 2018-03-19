@@ -7,6 +7,7 @@ package org.fossasia.susi.ai.skills.settings.contract
  */
 
 interface ISettingsView {
+
     fun startLoginActivity()
     fun micPermission(): Boolean
     fun hotWordPermission(): Boolean
@@ -16,5 +17,4 @@ interface ISettingsView {
     fun checkUrl(isEmpty: Boolean)
     fun onResetPasswordResponse(message: String)
     fun setServerSuccessful()
-
 }

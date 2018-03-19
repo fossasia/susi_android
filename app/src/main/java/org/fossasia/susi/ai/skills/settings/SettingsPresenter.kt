@@ -12,6 +12,7 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
 import org.fossasia.susi.ai.skills.SkillsActivity
+
 import retrofit2.Response
 
 /**
@@ -23,17 +24,17 @@ import retrofit2.Response
 
 class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISettingModel.onSettingFinishListener {
 
-    var settingModel: SettingModel = SettingModel()
-    var settingView: ISettingsView? = null
-    var utilModel: UtilModel = UtilModel(skillsActivity)
-    var databaseRepository: IDatabaseRepository = DatabaseRepository()
+    private var settingModel: SettingModel = SettingModel()
+    private var settingsView: ISettingsView? = null
+    private var utilModel: UtilModel = UtilModel(skillsActivity)
+    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
 
     override fun onAttach(settingsView: ISettingsView) {
-        this.settingView = settingsView
+        this.settingsView = settingsView
     }
 
     override fun enableMic(): Boolean {
-        if((settingView?.micPermission()) as Boolean) {
+        if((settingsView?.micPermission()) as Boolean) {
             if(!utilModel.checkMicInput())
                 utilModel.putBooleanPref(Constant.MIC_INPUT, false)
             return utilModel.checkMicInput()
@@ -44,7 +45,7 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
     }
 
     override fun enableHotword(): Boolean {
-        if(settingView?.hotWordPermission() as Boolean) {
+        if(settingsView?.hotWordPermission() as Boolean) {
             if(utilModel.checkMicInput() && utilModel.isArmDevice()) {
                 return true
             } else {
@@ -62,49 +63,48 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
         utilModel.clearPrefs()
         utilModel.saveAnonymity(false)
         databaseRepository.deleteAllMessages()
-        settingView?.startLoginActivity()
+        settingsView?.startLoginActivity()
     }
 
     override fun resetPassword(password: String, newPassword: String, conPassword: String) {
         if (password.isEmpty()) {
-            settingView?.invalidCredentials(true, Constant.PASSWORD)
+            settingsView?.invalidCredentials(true, Constant.PASSWORD)
             return
         }
+
         if (newPassword.isEmpty()) {
-            settingView?.invalidCredentials(true, Constant.NEW_PASSWORD)
+            settingsView?.invalidCredentials(true, Constant.NEW_PASSWORD)
             return
         }
+
         if (conPassword.isEmpty()) {
-            settingView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
+            settingsView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
             return
         }
 
         if (!CredentialHelper.isPasswordValid(newPassword)) {
-            settingView?.passwordInvalid(Constant.NEW_PASSWORD)
+            settingsView?.passwordInvalid(Constant.NEW_PASSWORD)
             return
         }
 
         if (newPassword != conPassword) {
-            settingView?.invalidCredentials(false, Constant.NEW_PASSWORD)
+            settingsView?.invalidCredentials(false, Constant.NEW_PASSWORD)
             return
         }
+
         settingModel.resetPassword(password,newPassword,this)
     }
 
     override fun onSuccess(response: Response<ChangeSettingResponse>) {
-        settingView?.onSettingResponse(response.message())
+        settingsView?.onSettingResponse(response.message())
     }
 
     override fun onFailure(throwable: Throwable) {
-        settingView?.onSettingResponse(throwable.message.toString())
+        settingsView?.onSettingResponse(throwable.message.toString())
     }
 
     override fun onResetPasswordSuccess(response: Response<ResetPasswordResponse>?) {
-        settingView?.onResetPasswordResponse(response?.body()?.message.toString())
-    }
-
-    override fun onDetach() {
-        settingView = null
+        settingsView?.onResetPasswordResponse(response?.body()?.message.toString())
     }
 
     override fun sendSetting(key: String, value: String, count: Int) {
@@ -113,7 +113,7 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
 
     override fun checkForPassword(password: String, what: String) {
         if (!CredentialHelper.isPasswordValid(password))
-            settingView?.passwordInvalid(what)
+            settingsView?.passwordInvalid(what)
     }
 
     override fun getAnonymity(): Boolean{
@@ -123,12 +123,12 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
     override fun setServer(isCustomServerChecked: Boolean, url: String) {
         if(isCustomServerChecked) {
             if (url.isEmpty()) {
-                settingView?.checkUrl(true)
+                settingsView?.checkUrl(true)
                 return
             }
 
             if (!CredentialHelper.isURLValid(url)) {
-                settingView?.checkUrl(false)
+                settingsView?.checkUrl(false)
                 return
             }
 
@@ -136,14 +136,16 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
                 utilModel.setServer(false)
                 utilModel.setCustomURL(CredentialHelper.getValidURL(url).toString())
             } else {
-                settingView?.checkUrl(false)
+                settingsView?.checkUrl(false)
                 return
             }
         } else {
             utilModel.putBooleanPref(Constant.SUSI_SERVER, true)
         }
-        settingView?.setServerSuccessful()
+        settingsView?.setServerSuccessful()
     }
 
-
+    override fun onDetach() {
+        settingsView = null
+    }
 }

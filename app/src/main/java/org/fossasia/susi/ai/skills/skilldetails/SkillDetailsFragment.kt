@@ -10,14 +10,19 @@ import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import com.squareup.picasso.Picasso
+
 import kotlinx.android.synthetic.main.fragment_skill_details.*
+
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
+
 import java.io.Serializable
+
 import android.net.Uri
 
 /**
@@ -29,7 +34,7 @@ class SkillDetailsFragment: Fragment() {
     lateinit var skillData: SkillData
     lateinit var skillGroup: String
     lateinit var skillTag: String
-    val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+    private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
     companion object {
         val SKILL_KEY = "skill_key"
@@ -87,14 +92,14 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    fun setName() {
+    private fun setName() {
         skill_detail_title.text = activity.getString(R.string.no_skill_name)
         if(skillData.skillName != null && !skillData.skillName.isEmpty()){
             skill_detail_title.text = skillData.skillName
         }
     }
 
-    fun setAuthor() {
+    private fun setAuthor() {
         skill_detail_author.text = "Author : ${activity.getString(R.string.no_skill_author)}"
         if(skillData.author != null && !skillData.author.isEmpty()){
             if(skillData.authorUrl == null || skillData.authorUrl.isEmpty())
@@ -111,7 +116,7 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    fun setTryButton() {
+    private fun setTryButton() {
         if(skillData.examples == null || skillData.examples.isEmpty())
             skill_detail_try_button.visibility = View.GONE
 
@@ -128,7 +133,7 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    fun setShareButton() {
+    private fun setShareButton() {
         if(skillTag == null || skillTag.isEmpty()) {
             skill_detail_share_button.visibility = View.GONE
             return
@@ -149,14 +154,14 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    fun setDescription() {
+    private fun setDescription() {
         skill_detail_description.text = activity.getString(R.string.no_skill_description)
         if( skillData.descriptions != null && !skillData.descriptions.isEmpty()){
             skill_detail_description.text = skillData.descriptions
         }
     }
 
-    fun setExamples() {
+    private fun setExamples() {
         if(skillData.examples != null) {
             skill_detail_examples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -165,7 +170,7 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    fun setRating() {
+    private fun setRating() {
         if(skillData.skillRating == null) {
             skill_detail_rating_positive.text = "Skill not rated yet"
             val params = skill_detail_rating_positive.layoutParams
@@ -221,7 +226,7 @@ class SkillDetailsFragment: Fragment() {
         return resources.getColor(resId)
     }
 
-    fun setDynamicContent() {
+    private fun setDynamicContent() {
         if(skillData.dynamicContent == null) {
             skill_detail_content.visibility = View.GONE
         } else {
@@ -233,7 +238,7 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    fun setPolicy() {
+    private fun setPolicy() {
         if(skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
             skill_detail_policy.visibility = View.GONE
         } else {
@@ -247,7 +252,7 @@ class SkillDetailsFragment: Fragment() {
         }
     }
 
-    fun setTerms() {
+    private fun setTerms() {
         if(skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
             skill_detail_terms.visibility = View.GONE
         } else {

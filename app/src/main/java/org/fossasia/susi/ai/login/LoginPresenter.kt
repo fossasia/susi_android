@@ -14,7 +14,9 @@ import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import org.fossasia.susi.ai.rest.responses.susi.Settings
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
+
 import retrofit2.Response
+
 import java.net.UnknownHostException
 
 /**
@@ -25,10 +27,10 @@ import java.net.UnknownHostException
  */
 class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel.OnLoginFinishedListener {
 
-    var loginModel: LoginModel = LoginModel()
-    var utilModel: UtilModel = UtilModel(loginActivity)
-    var databaseRepository: IDatabaseRepository = DatabaseRepository()
-    var loginView: ILoginView?= null
+    private var loginModel: LoginModel = LoginModel()
+    private var utilModel: UtilModel = UtilModel(loginActivity)
+    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
+    private var loginView: ILoginView?= null
     lateinit var email: String
     lateinit var message: String
 
@@ -105,9 +107,9 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
 
         if (throwable is UnknownHostException) {
-            if(NetworkUtils.isNetworkConnected()){
+            if(NetworkUtils.isNetworkConnected()) {
                 loginView?.onLoginError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
-            }else{
+            } else{
                 loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
                         utilModel.getString(R.string.no_internet_connection))
             }
@@ -120,14 +122,13 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
     override fun onSuccess(response: Response<LoginResponse>) {
 
         if (response.isSuccessful && response.body() != null) {
-
             utilModel.saveToken(response)
             databaseRepository.deleteAllMessages()
             utilModel.saveEmail(email)
             utilModel.saveAnonymity(false)
             loginModel.getUserSetting(this)
-
             message = response.body().message.toString()
+
         } else if (response.code() == 422) {
             loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.password_invalid_title),
@@ -143,7 +144,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
 
         if (response.isSuccessful && response.body() != null) {
-            var settings: Settings ?= response.body().settings
+            val settings: Settings ?= response.body().settings
 
             if(settings != null) {
                 utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
@@ -160,7 +161,6 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
         loginView?.onLoginSuccess(message)
     }
-
 
     override fun onDetach() {
         loginView = null

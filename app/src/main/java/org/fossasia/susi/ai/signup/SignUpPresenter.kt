@@ -10,7 +10,9 @@ import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
+
 import retrofit2.Response
+
 import java.net.UnknownHostException
 
 /**
@@ -37,26 +39,32 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
             signUpView?.invalidCredentials(true, Constant.EMAIL)
             return
         }
+
         if (password.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.PASSWORD)
             return
         }
+
         if (conpass.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
             return
         }
+
         if (!CredentialHelper.isEmailValid(email)) {
             signUpView?.invalidCredentials(false, Constant.EMAIL)
             return
         }
+
         if (!CredentialHelper.isPasswordValid(password)) {
             signUpView?.passwordInvalid()
             return
         }
+
         if (password != conpass) {
             signUpView?.invalidCredentials(false, Constant.PASSWORD)
             return
         }
+
         if (!isSusiServerSelected) {
             if (!url.isEmpty() && CredentialHelper.isURLValid(url)) {
                 if (CredentialHelper.getValidURL(url) != null) {
@@ -98,6 +106,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
 
     override fun onSuccess(response: Response<SignUpResponse>) {
         signUpView?.showProgress(false)
+
         if (response.isSuccessful && response.body() != null) {
             signUpView?.alertSuccess()
             signUpView?.clearField()
@@ -109,6 +118,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
                 signUpView?.onSignUpError("${response.code()} " + utilModel.getString(R.string.error), response.message())
             }
         }
+
         signUpView?.showProgress(false)
     }
 

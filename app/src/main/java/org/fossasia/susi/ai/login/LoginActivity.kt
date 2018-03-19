@@ -4,14 +4,14 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Toast
+
 import kotlinx.android.synthetic.main.activity_login.*
+
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -29,8 +29,8 @@ import org.fossasia.susi.ai.login.contract.ILoginView
  */
 class LoginActivity : AppCompatActivity(), ILoginView {
 
-    lateinit var loginPresenter: ILoginPresenter
-    lateinit var progressDialog: ProgressDialog
+    private lateinit var loginPresenter: ILoginPresenter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             email_input.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }
 
-    fun addListeners() {
+    private fun addListeners() {
         showURL()
         signUp()
         forgotPassword()
@@ -112,29 +112,29 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         onEditorAction()
     }
 
-    fun showURL() {
+    private fun showURL() {
         customer_server.setOnClickListener { input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE}
     }
 
-    fun signUp() {
+    private fun signUp() {
         sign_up.setOnClickListener { startActivity(Intent(this@LoginActivity, SignUpActivity::class.java)) }
     }
 
-    fun forgotPassword() {
+    private fun forgotPassword() {
         forgot_password.setOnClickListener { startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java)) }
     }
 
-    fun skip() {
+    private fun skip() {
         skip.setOnClickListener { loginPresenter.skipLogin() }
     }
 
-    fun logIn() {
+    private fun logIn() {
         log_in.setOnClickListener {
             startLogin()
         }
     }
 
-    fun startLogin() {
+    private fun startLogin() {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
         val stringURL = input_url.editText?.text.toString()
@@ -147,14 +147,14 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         loginPresenter.login(stringEmail, stringPassword, !customer_server.isChecked, stringURL)
     }
 
-    fun cancelLogin() {
+    private fun cancelLogin() {
         progressDialog.setOnCancelListener({
             loginPresenter.cancelLogin()
             log_in.isEnabled = true
         })
     }
 
-    fun onEditorAction(){
+    private fun onEditorAction(){
         password_input.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_GO) {

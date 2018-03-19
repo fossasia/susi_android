@@ -13,39 +13,51 @@ public class Datum extends RealmObject {
     @SerializedName("0")
     @Expose
     private String _0;
+
     @SerializedName("1")
     @Expose
     private String _1;
+
     @SerializedName("answer")
     @Expose
     private String answer;
+
     @SerializedName("query")
     @Expose
     private String query;
+
     @SerializedName("lon")
     @Expose
     private double lon;
+
     @SerializedName("place")
     @Expose
     private String place;
+
     @SerializedName("lat")
     @Expose
     private double lat;
+
     @SerializedName("population")
     @Expose
     private int population;
+
     @SerializedName("percent")
     @Expose
     private float percent;
+
     @SerializedName("president")
     @Expose
     private String president;
+
     @SerializedName("title")
     @Expose
     private String title;
+
     @SerializedName("description")
     @Expose
     private String description;
+
     @SerializedName("link")
     @Expose
     private String link;

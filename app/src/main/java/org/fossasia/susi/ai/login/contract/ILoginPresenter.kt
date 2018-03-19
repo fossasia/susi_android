@@ -8,12 +8,8 @@ package org.fossasia.susi.ai.login.contract
 interface ILoginPresenter {
 
     fun onAttach(loginView: ILoginView)
-
     fun login(email: String, password: String, isSusiServerSelected: Boolean, url: String)
-
     fun skipLogin()
-
     fun cancelLogin()
-
     fun onDetach()
 }
