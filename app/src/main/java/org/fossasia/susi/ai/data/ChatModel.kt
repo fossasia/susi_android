@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.data
 
 import android.util.Log
+
 import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.clients.LocationClient
@@ -8,10 +9,10 @@ import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import org.fossasia.susi.ai.rest.services.LocationService
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 /**
  * The Model of Chat Activity.
@@ -23,7 +24,7 @@ class ChatModel : IChatModel {
 
     val TAG: String = ChatModel::class.java.name
 
-    var clientBuilder: ClientBuilder = ClientBuilder()
+    private var clientBuilder: ClientBuilder = ClientBuilder()
 
     override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
         val call = clientBuilder.susiApi.chatHistory

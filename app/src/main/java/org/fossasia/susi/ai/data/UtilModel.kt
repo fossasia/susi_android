@@ -1,12 +1,15 @@
 package org.fossasia.susi.ai.data
 
 import android.Manifest
-import ai.kitt.snowboy.AppResCopy
 import android.content.Context
 import android.os.Build
+
+import ai.kitt.snowboy.AppResCopy
+
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
+
 import retrofit2.Response
 
 /**

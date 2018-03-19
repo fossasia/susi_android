@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.data
 import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +17,7 @@ import retrofit2.Response
  */
 class ForgotPasswordModel : IForgotPasswordModel {
 
-    lateinit var authResponseCall: Call<ForgotPasswordResponse>
+    private lateinit var authResponseCall: Call<ForgotPasswordResponse>
     override fun requestPassword(email: String, listener: IForgotPasswordModel.onFinishListener) {
         authResponseCall = ClientBuilder().susiApi.forgotPassword(email)
 
