@@ -4,6 +4,7 @@ import io.realm.Case
 import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
+
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.data.model.MapData
@@ -66,6 +67,7 @@ class DatabaseRepository: IDatabaseRepository {
             chatMessage.setIsMine(mine)
             chatMessage.timeStamp = timeStamp
             chatMessage.isHavingLink = isHavingLink
+
             if (mine)
                 chatMessage.isDelivered = false
             else {
