@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.forgotpassword
 
 import android.graphics.Color
+
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.ForgotPasswordModel
 import org.fossasia.susi.ai.data.UtilModel
@@ -10,7 +11,9 @@ import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordView
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
+
 import retrofit2.Response
+
 import java.net.UnknownHostException
 
 /**
@@ -22,9 +25,9 @@ import java.net.UnknownHostException
 class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : IForgotPasswordPresenter, IForgotPasswordModel.onFinishListener {
 
     lateinit var email: String
-    var forgotPasswordView: IForgotPasswordView?= null
-    var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
-    var utilModel: UtilModel = UtilModel(forgotPasswordActivity)
+    private var forgotPasswordView: IForgotPasswordView ?= null
+    private var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
+    private var utilModel: UtilModel = UtilModel(forgotPasswordActivity)
 
     override fun onAttach(forgotPasswordView: IForgotPasswordView) {
         this.forgotPasswordView = forgotPasswordView
@@ -50,6 +53,7 @@ class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : 
                 forgotPasswordView?.invalidCredentials(true, Constant.INPUT_URL)
                 return
             }
+
             if ( CredentialHelper.isURLValid(url)) {
                 if (CredentialHelper.getValidURL(url) != null) {
                     utilModel.setServer(false)
@@ -65,6 +69,7 @@ class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : 
         } else {
             utilModel.setServer(true)
         }
+
         this.email = email
         forgotPasswordView?.showProgress(true)
         forgotPasswordModel.requestPassword(email.trim({ it <= ' ' }), this)

@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.helper
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.text.Layout
 import android.util.AttributeSet
@@ -17,45 +16,24 @@ class ChatBubbleLayout : FrameLayout {
 
     /**
      * Instantiates a new Chat bubble layout.
-
      * @param context the context
      */
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
     /**
      * Instantiates a new Chat bubble layout.
-
      * @param context the context
-     * *
      * @param attrs   the attrs
      */
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
 
     /**
      * Instantiates a new Chat bubble layout.
-
      * @param context      the context
-     * *
      * @param attrs        the attrs
-     * *
      * @param defStyleAttr the def style attr
      */
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
-
-    /**
-     * Instantiates a new Chat bubble layout.
-
-     * @param context      the context
-     * *
-     * @param attrs        the attrs
-     * *
-     * @param defStyleAttr the def style attr
-     * *
-     * @param defStyleRes  the def style res
-     */
-    @TargetApi(21)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
-    }
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -79,7 +57,7 @@ class ChatBubbleLayout : FrameLayout {
         val lastLineWidth = Layout.getDesiredWidth(childTextView.text.subSequence(lastLineStart,
                 lastLineEnd), childTextView.paint).toInt()
 
-        var finalFramelayoutWidth = 0
+        var finalFrameLayoutWidth = 0
         var finalFrameLayoutHeight = 0
         val viewPaddingLeftNRight = paddingLeft + paddingRight
         val finalFrameLayoutRequiredWidth = lastLineWidth + textViewPadding + dateViewWidth + viewPaddingLeftNRight
@@ -88,11 +66,11 @@ class ChatBubbleLayout : FrameLayout {
         val bottomMargin = lineHeight - dateViewHeight / 2
 
         if (childTextView.measuredWidth + viewPaddingLeftNRight >= view_width || finalFrameLayoutRequiredWidth >= view_width) {
-            finalFramelayoutWidth = view_width
+            finalFrameLayoutWidth = view_width
             finalFrameLayoutHeight = measuredHeight
             if (finalFrameLayoutRequiredWidth >= view_width) {
                 finalFrameLayoutHeight += dateViewHeight
-                finalFramelayoutWidth = childTextView.measuredWidth + viewPaddingLeftNRight
+                finalFrameLayoutWidth = childTextView.measuredWidth + viewPaddingLeftNRight
 
                 (childDateView.layoutParams as FrameLayout.LayoutParams).bottomMargin = 0
             } else {
@@ -100,15 +78,15 @@ class ChatBubbleLayout : FrameLayout {
             }
 
         } else {
-            finalFramelayoutWidth = Math.max(finalFrameLayoutRequiredWidth,
+            finalFrameLayoutWidth = Math.max(finalFrameLayoutRequiredWidth,
                     childTextView.measuredWidth + viewPaddingLeftNRight)
             finalFrameLayoutHeight = measuredHeight
             (childDateView.layoutParams as FrameLayout.LayoutParams).bottomMargin = bottomMargin
         }
 
-        if (finalFramelayoutWidth > view_width)
-            finalFramelayoutWidth = view_width
+        if (finalFrameLayoutWidth > view_width)
+            finalFrameLayoutWidth = view_width
 
-        setMeasuredDimension(finalFramelayoutWidth, finalFrameLayoutHeight)
+        setMeasuredDimension(finalFrameLayoutWidth, finalFrameLayoutHeight)
     }
 }

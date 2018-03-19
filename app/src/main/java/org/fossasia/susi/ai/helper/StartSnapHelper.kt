@@ -7,10 +7,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 
 /**
+ * 
  * Created by robinkamboj on 04/01/18.
  */
-
-
 class StartSnapHelper : LinearSnapHelper() {
 
     private var mVerticalHelper: OrientationHelper? = null

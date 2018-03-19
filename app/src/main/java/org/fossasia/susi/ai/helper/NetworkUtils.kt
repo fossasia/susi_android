@@ -5,6 +5,8 @@ import android.net.ConnectivityManager
 import org.fossasia.susi.ai.MainApplication
 
 /**
+ * Util class to check internet connectivity of user
+ *
  * Created by chiragw15 on 10/7/17.
  */
 class NetworkUtils {

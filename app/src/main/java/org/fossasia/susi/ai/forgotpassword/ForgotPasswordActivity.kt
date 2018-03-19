@@ -8,7 +8,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
+
 import kotlinx.android.synthetic.main.activity_forgot_password.*
+
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordPresenter
 import org.fossasia.susi.ai.forgotpassword.contract.IForgotPasswordView
@@ -24,8 +26,8 @@ import org.fossasia.susi.ai.login.LoginActivity
  */
 class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
 
-    lateinit var forgotPasswordPresenter: IForgotPasswordPresenter
-    lateinit var progressDialog: ProgressDialog
+    private lateinit var forgotPasswordPresenter: IForgotPasswordPresenter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,19 +85,20 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         reset_button.isEnabled = true
     }
 
-    fun showUrl() {
+    private fun showUrl() {
         customer_server.setOnClickListener {
             input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE
         }
     }
 
-    fun cancelRequestPassword() {
+    private fun cancelRequestPassword() {
         progressDialog.setOnCancelListener {
             forgotPasswordPresenter.cancelSignup()
             reset_button.isEnabled = true
         }
     }
-    fun requestPassword() {
+
+    private fun requestPassword() {
         reset_button.setOnClickListener {
             val email = forgot_email.editText?.text.toString()
             val isPersonalServerChecked = customer_server.isChecked
