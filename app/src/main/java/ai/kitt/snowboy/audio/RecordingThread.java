@@ -20,7 +20,6 @@ public class RecordingThread {
     private static final String TAG = RecordingThread.class.getSimpleName();
 
     private static final String ACTIVE_RES = Constants.ACTIVE_RES;
-    //private static final String ACTIVE_UMDL = Constants.ACTIVE_UMDL;
     private static final String ACTIVE_PMDL = Constants.ACTIVE_PMDL;
     
     private boolean shouldContinue;
