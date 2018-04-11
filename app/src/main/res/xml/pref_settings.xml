@@ -23,6 +23,14 @@
             android:key="@string/settings_enterPreference_key"
             android:summary="@string/settings_enterPreference_summary"
             android:title="@string/settings_enterPreference_label" />
+
+        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+            android:id="@+id/theme_pref"
+            android:defaultValue="false"
+            android:key="@string/settings_dark_theme_key"
+            android:summary="Enable dark theme"
+            android:title="Dark Theme" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_mic">

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="SUSIImage" format="reference" />
+    <attr name="SUSIButtonColor" format="color" />
+    <attr name="ChatBG" format="color" />
+    <attr name="UserMessageBG" format="color" />
+    <attr name="SUSIMessageBG" format="color" />
+    <attr name="MessageTextColor" format="color" />
+    <attr name="TimeStampColor" format="color" />
+</resources>

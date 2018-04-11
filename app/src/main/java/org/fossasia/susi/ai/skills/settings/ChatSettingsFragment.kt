@@ -50,7 +50,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var speechAlways: Preference
     private lateinit var speechOutput: Preference
     private lateinit var displayEmail: Preference
-    lateinit var password: TextInputLayout
+    private lateinit var password: TextInputLayout
     private lateinit var newPassword: TextInputLayout
     private lateinit var conPassword: TextInputLayout
     private lateinit var inputUrl: TextInputLayout
@@ -64,6 +64,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
+
+        activity.setTheme(R.style.AppTheme_Dark)
 
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
@@ -79,6 +81,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(Constant.ENTER_SEND)
+        darkTheme = preferenceManager.findPreference(Constant.DARK_THEME)
         speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
         speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
         displayEmail = preferenceManager.findPreference("display_email")
@@ -192,6 +195,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
             enterSend.setOnPreferenceChangeListener { _, newValue ->
                 settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
+                true
+            }
+
+            darkTheme.setOnPreferenceChangeListener { _, newValue ->
+                settingsPresenter.sendSetting(Constant.DARK_THEME, newValue.toString(), 1)
                 true
             }
 

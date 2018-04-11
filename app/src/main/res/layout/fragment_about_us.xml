@@ -4,31 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="org.fossasia.susi.ai.skills.aboutus.AboutUsFragment">
+    tools:context="org.fossasia.susi.ai.skills.aboutus.AboutUsFragment"
+    android:background="?attr/ChatBG">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/ChatBG">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="?attr/ChatBG">
 
             <!--About Susi -->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                app:cardBackgroundColor="?attr/SUSIMessageBG">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="?attr/SUSIMessageBG">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -56,19 +59,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                app:cardBackgroundColor="?attr/SUSIMessageBG" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="?attr/SUSIMessageBG">
 
                     <TextView
                         android:id="@+id/about_contributors"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
+                        android:background="?attr/SUSIMessageBG"
+                        android:textColor="?attr/MessageTextColor"
+                        android:textStyle="bold"
                         android:text="@string/susi_contributors"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
@@ -76,7 +84,7 @@
 
                     <TextView
                         android:id="@+id/contributors_desc"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_contributors_desc"
@@ -92,19 +100,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                app:cardBackgroundColor="?attr/SUSIMessageBG">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="?attr/SUSIMessageBG">
 
                     <TextView
                         android:id="@+id/about_susi_skill_cms"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
+                        android:background="?attr/SUSIMessageBG"
+                        android:textColor="?attr/MessageTextColor"
+                        android:textStyle="bold"
                         android:text="@string/susi_skill_cms"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
@@ -128,19 +141,24 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                app:cardBackgroundColor="?attr/SUSIMessageBG" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="?attr/SUSIMessageBG">
 
                     <TextView
                         android:id="@+id/about_susi_report_issues"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
+                        android:background="?attr/SUSIMessageBG"
+                        android:textColor="?attr/MessageTextColor"
+                        android:textStyle="bold"
                         android:text="@string/susi_report_issues"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
@@ -165,23 +183,26 @@
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_small"
                 android:clickable="true"
+                android:foreground="?attr/selectableItemBackground"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                app:cardBackgroundColor="?attr/SUSIMessageBG" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="?attr/SUSIMessageBG">
 
                     <TextView
                         android:id="@+id/about_susi_license_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
+                        android:textStyle="bold"
                         android:text="@string/susi_license_information"
-                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:background="?attr/SUSIMessageBG"
+                        android:textColor="?attr/MessageTextColor"/>
 
                     <TextView
                         android:id="@+id/susi_license_info_desc"

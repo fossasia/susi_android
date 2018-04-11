@@ -267,6 +267,9 @@ public class PrefManager {
     public static boolean checkMicInput(Context context) {
         return MediaUtil.INSTANCE.isAvailableForVoiceInput(context);
     }
+
+    public static boolean isDarkThemeEnabled(Context context) {
+        return PrefManager.getBoolean(Constant.DARK_THEME, false);
+    }
+
 }
-
-

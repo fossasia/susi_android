@@ -12,9 +12,9 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/margin_card"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        android:foreground="?attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/susi_message_bg"
-        android:layout_marginStart="@dimen/margin_card">
+        app:cardBackgroundColor="?attr/SUSIMessageBG"
+        android:layout_marginStart="@dimen/margin_card"
+        android:foreground="?attr/selectableItemBackground">
 
         <LinearLayout
             android:id="@+id/preview_layout"

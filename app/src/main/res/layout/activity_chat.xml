@@ -4,7 +4,7 @@
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg">
+    android:background="?attr/ChatBG">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,14 +24,14 @@
             android:id="@+id/fabsetting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:onClick="openSettings"
-            app:backgroundTint="@color/colorPrimaryDark"
+            app:srcCompat="?attr/SUSIImage"
             app:fabSize="mini"
-            app:srcCompat="@drawable/letter_s" />
+            android:onClick="openSettings"
+            app:backgroundTint="?attr/SUSIButtonColor"
+            android:layout_margin="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnScrollToEnd"
