@@ -33,10 +33,6 @@ public class WelcomeActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-        } else {
-            SharedPreferences.Editor ed = pref.edit();
-            ed.putBoolean("activity_executed", true);
-            ed.apply();
         }
 
         if (Build.VERSION.SDK_INT >= 21) {
