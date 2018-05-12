@@ -398,11 +398,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 0) {
-            chatPresenter.exitChatActivity()
-        } else {
-            supportFragmentManager.popBackStackImmediate()
-        }
+        super.onBackPressed();
     }
 
     override fun finishActivity() {
