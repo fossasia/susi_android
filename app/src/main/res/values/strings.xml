@@ -42,7 +42,9 @@
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
-    <string name="error_cancelling_signUp_process_text">Are you sure that you want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
+    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking ↵ on the keyboard</string>
@@ -75,6 +77,7 @@
     <string name="error_rating">Unable to rate skill. An error occurred.</string>
     <string name="no_skill_name">Name not available</string>
     <string name="no_skill_description">No description available</string>
+    <string name="skill_unrated">Skill not rated yet</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
@@ -198,6 +201,7 @@
     <string name="positive_50">Positive: 50</string>
     <string name="negative_50">Negative: 50</string>
     <string name="content_type_dynamic">Content Type: Dynamic</string>
+    <string name="content_type_static">Content Type: Static</string>
     <string name="developer_privacy_policy">Developers Privacy Policy</string>
     <string name="terms_of_use">Terms of use</string>
     <string name="how_can_i_help">How can I help you?</string>
