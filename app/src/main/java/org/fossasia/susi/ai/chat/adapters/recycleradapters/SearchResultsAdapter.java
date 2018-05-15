@@ -43,13 +43,25 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
     public void onBindViewHolder(final RssViewHolder holder, int position) {
         Datum datum = datumList.get(position);
         if (datum != null) {
-            if( datum.getTitle() != null && !datum.getTitle().isEmpty()) {
-                holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
+            if(datum.getLink()!=null && !datum.getLink().isEmpty()) {
+                if( datum.getTitle() != null && !datum.getTitle().isEmpty()) {
+                    holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
+                }
+                if(datum.getDescription() != null && !datum.getDescription().isEmpty()) {
+                    holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
+                }
+                holder.linkTextView.setText(datum.getLink());
+            } else {
+                if( datum.getName()!=null && !datum.getName().isEmpty()) {
+                    holder.titleTextView.setText(Html.fromHtml(datum.getName()));
+                }
+                if(datum.getJerseyNumber()!=null && !datum.getJerseyNumber().isEmpty()) {
+                    holder.descriptionTextView.setText(Html.fromHtml(datum.getJerseyNumber()));
+                }
+                if(datum.getPosition()!=null && !datum.getPosition().isEmpty()) {
+                    holder.linkTextView.setText(Html.fromHtml(datum.getPosition()));
+                }
             }
-            if(datum.getDescription() != null && !datum.getDescription().isEmpty()) {
-                holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
-            }
-            holder.linkTextView.setText(datum.getLink());
         }
     }
 
