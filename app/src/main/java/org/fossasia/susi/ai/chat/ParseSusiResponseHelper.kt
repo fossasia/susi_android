@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.chat
 
-import android.util.Log
 import android.util.Patterns
 import io.realm.RealmList
 import org.fossasia.susi.ai.helper.Constant
@@ -25,9 +24,7 @@ class ParseSusiResponseHelper {
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
-       // Log.d("Action Type : ",actionType);
         actionType = susiResponse.answers[0].actions[i].type
-        Log.d("Action Type : ",actionType);
 
         when (actionType) {
             Constant.ANCHOR -> try {
