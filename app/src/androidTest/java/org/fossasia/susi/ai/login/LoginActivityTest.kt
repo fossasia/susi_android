@@ -1,15 +1,23 @@
 package org.fossasia.susi.ai.login
 
 import android.Manifest
+import android.app.Instrumentation
+import android.os.Build
+import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.MediumTest
+import android.support.test.filters.SdkSuppress
 import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.GrantPermissionRule
 import android.support.test.runner.AndroidJUnit4
+import android.support.test.uiautomator.UiDevice
+import android.support.test.uiautomator.UiObject
+import android.support.test.uiautomator.UiObjectNotFoundException
+import android.support.test.uiautomator.UiSelector
 import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
@@ -28,13 +36,14 @@ import java.io.IOException
 @MediumTest
 class LoginActivityTest {
 
+
     @Rule
     @JvmField
     val permissionRule: TestRule = GrantPermissionRule.grant(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.RECORD_AUDIO,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     @Rule
     @JvmField
@@ -54,9 +63,29 @@ class LoginActivityTest {
         activity.runOnUiThread(wakeUpDevice)
     }
 
+    fun allowPermissionsIfNeeded() {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            val instr : Instrumentation  = InstrumentationRegistry.getInstrumentation()
+
+            val mDevice = UiDevice.getInstance(instr)
+            val allowPermissions : UiObject = mDevice.findObject(UiSelector().text("Allow"))
+            if (allowPermissions.exists()) {
+                try {
+                    allowPermissions.click()
+                } catch (e : UiObjectNotFoundException) {
+                    Log.e(TAG,"There is no permissions dialog to interact with ", e)
+                }
+
+            }
+        }
+    }
+
     @Test
     fun testUIViewsPresenceOnLoad() {
         Log.d(TAG, "running testUIViewsPresenceOnLoad..")
+
+        allowPermissionsIfNeeded()
 
         // checks if email input field is present
         onView(withId(R.id.email)).check(matches(isDisplayed()))

@@ -26,7 +26,6 @@ repositories {
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
-    buildToolsVersion rootConfiguration.buildToolsVersion
 
     defaultConfig {
         applicationId "ai.susi"
@@ -48,6 +47,12 @@ android {
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
+    }
+    buildToolsVersion '27.0.3'
+    sourceSets {
+        main {
+            manifest.srcFile 'src/androidTest/AndroidManifest.xml'
+        }
     }
 }
 
@@ -87,6 +92,7 @@ dependencies {
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
 
     //unit test
+    testImplementation "junit:junit:4.12"
     androidTestImplementation "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
@@ -101,4 +107,6 @@ dependencies {
         transitive = true
     }
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${rootConfiguration.kotlinVersion}"
+
+    androidTestImplementation 'com.android.support.test.uiautomator:uiautomator-v18:2.1.3'
 }
