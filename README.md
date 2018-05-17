@@ -136,22 +136,30 @@ Please help us follow the best practice to make it easy for the reviewer as well
 
 ## For Developers: Adding Fabric API KEY
 1. Go to AndroidManifest.xml
-Replace the fabric_api_key with the Real Fabric API Key
-Add: <meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
+	Replace the fabric_api_key with the Real Fabric API Key by adding :
+	```
+	<meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
+	```
 
 2. Open the app/fabric.properties:
-Replace the fabric_api_key with your actual Fabric API Secret.
+	Replace the fabric_api_key with your actual Fabric API Secret.
 
 3. Open MainApplication.java,
-	a) After adding the API KEYS and API Secret
-	Uncomment the line: Fabric.with(this, new Crashlytics())
+	a) After adding the API KEYS and API Secret uncomment the line :
+		```
+		Fabric.with(this, new Crashlytics())
+		```
 
 	b) Add imports :
+		```
 		import com.crashlytics.android.Crashlytics;
 		import io.fabric.sdk.android.Fabric;
+		```
 
-4. Uncomment the line in the app/gradle
-	Line: apply plugin: 'io.fabric'
+4. Uncomment the line in the ```app/gradle```: 
+	```
+	apply plugin: 'io.fabric'
+	```
 
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:
