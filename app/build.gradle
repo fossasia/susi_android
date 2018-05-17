@@ -99,7 +99,7 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-inline:2.8.9'
-    androidTestCompile 'org.mockito:mockito-android:2.8.9'
+    androidTestImplementation 'org.mockito:mockito-android:2.8.9'
 
 
 
