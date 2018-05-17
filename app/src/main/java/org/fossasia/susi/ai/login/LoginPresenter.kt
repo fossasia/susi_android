@@ -27,7 +27,6 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
 
     var loginModel: LoginModel = LoginModel()
     var utilModel: UtilModel = UtilModel(loginActivity)
-    var databaseRepository: IDatabaseRepository = DatabaseRepository()
     var loginView: ILoginView?= null
     lateinit var email: String
     lateinit var message: String
@@ -120,7 +119,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
     override fun onSuccess(response: Response<LoginResponse>) {
 
         if (response.isSuccessful && response.body() != null) {
-
+            var databaseRepository: IDatabaseRepository = DatabaseRepository()
             utilModel.saveToken(response)
             databaseRepository.deleteAllMessages()
             utilModel.saveEmail(email)

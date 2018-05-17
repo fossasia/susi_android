@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.Presenter;
 
 import org.fossasia.susi.ai.data.UtilModel;
 import org.fossasia.susi.ai.data.contract.ILoginModel;
+import org.fossasia.susi.ai.data.db.DatabaseRepository;
 import org.fossasia.susi.ai.login.LoginActivity;
 import org.fossasia.susi.ai.login.LoginPresenter;
 import org.fossasia.susi.ai.login.contract.ILoginView;
@@ -23,6 +24,7 @@ public class LoginPresenterTest {
     @Mock private ILoginModel loginModel;
     @Mock private ILoginView iLoginView;
     @Mock private UtilModel model;
+    @Mock private DatabaseRepository repository;
     @Mock private LoginActivity loginActivity;
 
     private LoginPresenter loginPresenter;
@@ -36,9 +38,7 @@ public class LoginPresenterTest {
     @Before
     public void setUp() {
         loginPresenter = new LoginPresenter(loginActivity);
-        loginPresenter.getMessage();
         loginPresenter.login(EMAIL,PASSWORD,SERVERCONNECTED,URL);
-
     }
 
     @Test
