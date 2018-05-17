@@ -167,7 +167,7 @@ class SkillDetailsFragment: Fragment() {
 
     fun setRating() {
         if(skillData.skillRating == null) {
-            skill_detail_rating_positive.text = "Skill not rated yet"
+            skill_detail_rating_positive.text = context.getString(R.string.skill_unrated)
             val params = skill_detail_rating_positive.layoutParams
             params.width = 344
             skill_detail_rating_positive.layoutParams = params
@@ -175,11 +175,13 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_rating_thumbs_up.visibility = View.GONE
             skill_detail_rating_thumbs_down.visibility = View.GONE
         } else {
-            skill_detail_rating_positive.text = "Positive: " + skillData.skillRating?.positive
-            skill_detail_rating_negative.text = "Negative: " + skillData.skillRating?.negative
+            skill_detail_rating_positive.text = context.getString(R.string.positive)
+            skill_detail_rating_positive.append(": " + skillData.skillRating?.positive)
+            skill_detail_rating_negative.text = context.getString(R.string.negative)
+            skill_detail_rating_negative.append(": " + skillData.skillRating?.negative)
 
-            val positiveColor = getRatedColor(skillData.skillRating?.positive, "Positive")
-            val negativeColor = getRatedColor(skillData.skillRating?.negative, "Negative")
+            val positiveColor = getRatedColor(skillData.skillRating?.positive, context.getString(R.string.positive))
+            val negativeColor = getRatedColor(skillData.skillRating?.negative, context.getString(R.string.negative))
 
             skill_detail_rating_thumbs_up.setColorFilter(positiveColor)
             skill_detail_rating_thumbs_down.setColorFilter(negativeColor)
@@ -190,7 +192,7 @@ class SkillDetailsFragment: Fragment() {
         var resId = R.color.colorAccent
         if (rating != null) {
             when (s) {
-                "Positive" ->
+                context.getString(R.string.negative) ->
                         if (rating < 10)
                             resId = R.color.md_red_100
                         else if (rating in 10..19)
@@ -203,7 +205,7 @@ class SkillDetailsFragment: Fragment() {
                             resId = R.color.md_red_300
                         else
                             resId = R.color.md_red_400
-                "Negative" ->
+                context.getString(R.string.positive) ->
                     if (rating < 10)
                         resId = R.color.md_blue_100
                     else if (rating in 10..19)
@@ -226,9 +228,9 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_content.visibility = View.GONE
         } else {
             if(skillData.dynamicContent!!) {
-                skill_detail_content.text = "Content type: Dynamic"
+                skill_detail_content.text = context.getString(R.string.content_type_dynamic)
             } else {
-                skill_detail_content.text = "Content type: Static"
+                skill_detail_content.text = context.getString(R.string.content_type_static)
             }
         }
     }

@@ -6,6 +6,7 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISignUpModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
@@ -83,7 +84,12 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         signUpView?.showProgress(false)
 
         if (throwable is UnknownHostException) {
-            signUpView?.onSignUpError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
+            if(NetworkUtils.isNetworkConnected()){
+                signUpView?.onSignUpError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
+            }else{
+                signUpView?.onSignUpError(utilModel.getString(R.string.error_internet_connectivity),
+                        utilModel.getString(R.string.no_internet_connection))
+            }
         } else {
             signUpView?.onSignUpError(utilModel.getString(R.string.error_internet_connectivity),
                     utilModel.getString(R.string.no_internet_connection))
