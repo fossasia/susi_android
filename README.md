@@ -12,7 +12,7 @@
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:susiai@googlegroups.com)
 [![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
-The main feature of the app is to provide a conversational interface to provide intelligent answers using the loklak/AskSusi infrastructure. The app also offers login functionalities to connect to other services and stored personal data. Additionally, the application uses data provided by the user's phone to improve Susi answers. Geolocation information, for example, helps to offer better answers related to questions about "things nearby".
+The main feature of the app is to provide a conversational interface to provide intelligent answers using the loklak/AskSusi infrastructure. The app also offers login functionalities to connect to other services and store personal data. Additionally, the application uses data provided by the user's phone to improve Susi answers. Geolocation information, for example, helps to offer better answers related to questions about "things nearby".
 
 ## Roadmap
 
@@ -81,20 +81,20 @@ There are certain conventions we follow in the project, we recommend that you be
 The project follows Model-View-Presenter design pattern and requires schematic interfaces for each component to be written first as contracts and then implemented.   
 All the interactions are done using interfaces only. This means any model, view or presenter will only be referenced by its interface. We do so it is easy to mock and test them and there is no discrepancy in the callable methods of the concrete class and the interface.  
 We realize that MVP is opinionated and there is no strict boundary between the responsibility of each component, but we recommend following this style:
-- `View` is passive and dumb, there is no logic to be exercised in View, only the ability to show data provided by the presenter through contract is present in the View. This makes it easy to unit test and remove the dependence on Android APIs, thus making the need for instrumentation tests scarce
-- `Presenter` is responsible for most of the business logic, manipulation of data and organising it for the view to present. All logic for the app is present here and it is devoid of ANY Android related code, making it 100% unit testable. We have created wrapper around common Android APIs in form of models so that they can be mocked and presenter stays clean. The responsibility of presenter includes the fetching of data from external source, observing changes and providing the view with the latest data. It also needs to handle all View interactions that require any logic, such as UI triggers causing complex interactions. Notable exception for this is launching of an Activity on click of a button. There is no logic required in the action and is completely dependent on Android APIs. Lastly, presenter should always clean up after the view is detached to prevent memory leaks
+- `View` is passive and dumb, there is no logic to be exercised in View, only the ability to show data provided by the presenter through contract is present in the View. This makes it easy to unit test and remove the dependence on Android APIs, thus making the need for instrumentation tests scarce.
+- `Presenter` is responsible for most of the business logic, manipulation of data and organising it for the view to present. All logic for the app is present here and it is devoid of ANY Android related code, making it 100% unit testable. We have created wrapper around common Android APIs in form of models so that they can be mocked and presenter stays clean. The responsibility of presenter includes the fetching of data from external source, observing changes and providing the view with the latest data. It also needs to handle all View interactions that require any logic, such as UI triggers causing complex interactions. Notable exception for this is launching of an Activity on click of a button. There is no logic required in the action and is completely dependent on Android APIs. Lastly, presenter should always clean up after the view is detached to prevent memory leaks.
 - `Model` has the responsibility to hold the data, load it intelligently from appropriate source, be it disk or network, monitor the changes and notify presenter about those, be self sufficient; meaning to update data accordingly as needed without any external trigger (saving the data in disk after updating from network and providing the saved data from next time on), but be configurable (presenter may be able to ask for fresh data from network). The presenter should not worry about the data loading and syncing conditions (like network connectivity, failed update, scheduling jobs, etc) as it is the job of model itself.
 
 #### Use of Kotlin
 
-Around 50% of the App is written in [Kotlin](https://kotlinlang.org/). Kotlin is a very similar language to Java but with much more advantages then Java. It is easy to adapt and learn. So, you need not worry if you don't have prior experience with it. Follow [these](https://kotlinlang.org/docs/reference/) docs for syntax reference. The latest Android Canary Version has in built support for Kotlin but if you don't have the Canary version, you can add Kotlin Plugin in your Android Studio. Follow [this](https://android.jlelse.eu/setup-kotlin-for-android-studio-1bffdf1362e8) link to see how to do that.
+Around 50% of the App is written in [Kotlin](https://kotlinlang.org/). Kotlin is a very similar language to Java but with much more advantages than Java. It is easy to adapt and learn. So, you need not worry if you don't have prior experience with it. Follow [these](https://kotlinlang.org/docs/reference/) docs for syntax reference. The latest Android Canary Version has in built support for Kotlin but if you don't have the Canary version, you can add Kotlin Plugin in your Android Studio. Follow [this](https://android.jlelse.eu/setup-kotlin-for-android-studio-1bffdf1362e8) link to see how to do that.
 
 #### Project Structure
 
 Generally, projects are created using package by layer approach where packages are names by layers like `ui`, `activity`, `fragment`, etc but it quickly becomes unscalable in large projects where a large number of unrelated classes are crammed in one layer and it becomes difficult to navigate through them.  
-Instead, we follow package by feature, which at the cost of flatness of our project, provides us packages of isolated functioning related classes which are likely to be a complete self-sufficient component of the application. Each package all related classes of view, presenter, their implementations like Activities and Fragments.  
+Instead, we follow package by feature, which at the cost of flatness of our project, provides us packages of isolated functioning related classes which are likely to be a complete self-sufficient component of the application. Each package contains all related classes of view, presenter, their implementations like Activities and Fragments.  
 A notable exception to this is the `helper` module and data classes like Models and Repositories as they are used in a cross component way.  
-***Note:** The interface contract for Presenter and View is present in `contract` package in each module`*
+***Note:** The interface contract for Presenter and View is present in `contract` package in each module*
 
 #### Separation of concerns
 
@@ -102,13 +102,17 @@ Lastly, each class should only perform one task, do it well, and be unit tested 
 
 ## Contributions Best Practices
 
+### For first time Contributor
+
+First time contributors can read [ContributionHelp.md](docs/ContributionHelp.md) file for help regarding creating issues and sending pull requests.
+
 ### Branch Policy
 
 We have the following branches
 
  * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to gh-pages must pass a build check and a unit-test check on Travis.
  * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update and make a release.
- 	- Please Note that :- 
+ 	- Please Note that :-
 		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
 
 	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
@@ -132,22 +136,30 @@ Please help us follow the best practice to make it easy for the reviewer as well
 
 ## For Developers: Adding Fabric API KEY
 1. Go to AndroidManifest.xml
-Replace the fabric_api_key with the Real Fabric API Key
-Add: <meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
+	Replace the fabric_api_key with the Real Fabric API Key by adding :
+	```
+	<meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
+	```
 
 2. Open the app/fabric.properties:
-Replace the fabric_api_key with your actual Fabric API Secret.
+	Replace the fabric_api_key with your actual Fabric API Secret.
 
 3. Open MainApplication.java,
-	a) After adding the API KEYS and API Secret
-	Uncomment the line: Fabric.with(this, new Crashlytics())
+	a) After adding the API KEYS and API Secret uncomment the line :
+		```
+		Fabric.with(this, new Crashlytics())
+		```
 
 	b) Add imports :
+		```
 		import com.crashlytics.android.Crashlytics;
 		import io.fabric.sdk.android.Fabric;
+		```
 
-4. Uncomment the line in the app/gradle
-	Line: apply plugin: 'io.fabric'
+4. Uncomment the line in the ```app/gradle```: 
+	```
+	apply plugin: 'io.fabric'
+	```
 
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:
