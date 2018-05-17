@@ -437,20 +437,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         }
     }
 
-    override fun exitChatActivity() {
-        if (atHome) {
-            if (backPressedOnce) {
-                chatView?.finishActivity()
-                return
-            }
-            backPressedOnce = true
-            chatView?.showToast(utilModel.getString(R.string.exit))
-            Handler().postDelayed({ backPressedOnce = false }, 2000)
-        } else if (!atHome) {
-            atHome = true
-        }
-    }
-
     override fun onDetach() {
         locationHelper.removeListener()
         databaseRepository.closeDatabase()
