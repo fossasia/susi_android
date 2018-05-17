@@ -49,6 +49,12 @@ android {
         abortOnError false
         disable 'InvalidPackage'
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -91,6 +97,11 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-inline:2.8.9'
+    androidTestCompile 'org.mockito:mockito-android:2.8.9'
+
+
 
     //realm adapter
     implementation "io.realm:android-adapters:${rootConfiguration.realmVersion}"

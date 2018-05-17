@@ -39,11 +39,11 @@
         <activity
             android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" >
         </activity>
     </application>
 
