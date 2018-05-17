@@ -9,13 +9,13 @@ import retrofit2.Response
  */
 interface ISettingModel {
 
-    interface onSettingFinishListener {
+    interface OnSettingFinishListener {
         fun onSuccess(response: Response<ChangeSettingResponse>)
         fun onResetPasswordSuccess(response: Response<ResetPasswordResponse>?)
         fun onFailure(throwable: Throwable)
     }
 
-    fun sendSetting(key: String, value: String, count: Int, listener: onSettingFinishListener)
+    fun sendSetting(key: String, value: String, count: Int, listener: OnSettingFinishListener)
 
-    fun resetPassword(password: String, newPassword: String, listener: onSettingFinishListener)
+    fun resetPassword(password: String, newPassword: String, listener: OnSettingFinishListener)
 }

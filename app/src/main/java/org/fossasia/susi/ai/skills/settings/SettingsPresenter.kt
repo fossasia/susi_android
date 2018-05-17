@@ -21,7 +21,7 @@ import retrofit2.Response
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISettingModel.onSettingFinishListener {
+class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISettingModel.OnSettingFinishListener {
 
     var settingModel: SettingModel = SettingModel()
     var settingView: ISettingsView? = null
