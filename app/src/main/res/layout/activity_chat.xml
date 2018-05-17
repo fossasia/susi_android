@@ -81,6 +81,7 @@
                             android:id="@+id/et_message"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/margin_medium"
                             android:layout_marginRight="@dimen/margin_medium"

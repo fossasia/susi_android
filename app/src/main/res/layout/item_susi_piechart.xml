@@ -35,7 +35,7 @@
                     android:maxWidth="@dimen/message_layout_max_width"
                     android:paddingBottom="@dimen/message_textview_bottom_padding"
                     android:text="@string/hello_world"
-                    android:textColor="@color/message_text_color"
+                    android:textColor="@color/dark_message_text_color"
                     android:textSize="@dimen/message_text_size" />
 
                 <LinearLayout
@@ -51,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
                         android:text="@string/time_9am"
-                        android:textColor="@color/timestamp_color"
+                        android:textColor="@color/timestamp_color_dark"
                         android:textSize="@dimen/timestamp_size" />
 
                 </LinearLayout>

@@ -301,7 +301,7 @@
     <color name="md_blue_grey_900">#263238</color>
 
     <!--Chat bubble colors for android-->
-    <color name="user_message_bg">#e0e0e0</color>
+    <color name="user_message_bg">#1E88E5</color>
     <color name="susi_message_bg">#FFFFFF</color>
     <color name="user_message_pressed_bg">#9DE1FE</color>
     <color name="susi_message_pressed_bg">#9DE1FE</color>
@@ -321,8 +321,10 @@
 
     <color name="edit_text_login_screen">#000000</color>
     <color name="chat_screen_color">#000000</color>
-    <color name="message_text_color">#0d0d0d</color>
-    <color name="timestamp_color">#000</color>
+    <color name="dark_message_text_color">#323232</color>
+    <color name="white_message_text_color">#fff</color>
+    <color name="timestamp_color_dark">#323232</color>
+    <color name="timestamp_color_light">#fff</color>
 
     <!--Thumbs down color-->
     <color name="thumbs_down">#d1462f</color>

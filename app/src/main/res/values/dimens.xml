@@ -4,12 +4,14 @@
     <dimen name="activity_landscape_width">300dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <dimen name="min_width_message">130dp</dimen>
+
     <dimen name="button_width">250dp</dimen>
 
     <dimen name="cmv_corner_radius">15dp</dimen>
     <dimen name="cmv_padding">10dp</dimen>
 
-    <dimen name="corner_radius">15dp</dimen>
+    <dimen name="corner_radius">6dp</dimen>
 
     <dimen name="date_layout_height">30dp</dimen>
     <dimen name="date_layout_width">100dp</dimen>
@@ -36,7 +38,7 @@
 
     <dimen name="messagelayout_minwidth">40dp</dimen>
 
-    <dimen name="padding_chatbubble_large">15dp</dimen>
+    <dimen name="padding_chatbubble_large">10dp</dimen>
     <dimen name="padding_chatbubble_small">5dp</dimen>
     <dimen name="padding_img">40dp</dimen>
     <dimen name="padding_large">10dp</dimen>
