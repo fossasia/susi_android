@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
-        IDatabaseRepository.onDatabaseUpdateListener{
+        IDatabaseRepository.OnDatabaseUpdateListener{
 
     var chatView: IChatView?= null
     var chatModel: IChatModel = ChatModel()
@@ -264,7 +264,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     //sends message to susi
     override fun sendMessage(query: String, actual: String) {
         addToNonDeliveredList(query, actual)
-        computeThread().start()
+        ComputeThread().start()
     }
 
     override fun addToNonDeliveredList(query: String, actual: String) {
@@ -290,10 +290,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun startComputingThread() {
-        computeThread().start()
+        ComputeThread().start()
     }
 
-    private inner class computeThread : Thread() {
+    private inner class ComputeThread : Thread() {
         override fun run() {
             if(queueExecuting.compareAndSet(false,true)) {
                 computeOtherMessage()
@@ -433,20 +433,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
         if(!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
-        }
-    }
-
-    override fun exitChatActivity() {
-        if (atHome) {
-            if (backPressedOnce) {
-                chatView?.finishActivity()
-                return
-            }
-            backPressedOnce = true
-            chatView?.showToast(utilModel.getString(R.string.exit))
-            Handler().postDelayed({ backPressedOnce = false }, 2000)
-        } else if (!atHome) {
-            atHome = true
         }
     }
 

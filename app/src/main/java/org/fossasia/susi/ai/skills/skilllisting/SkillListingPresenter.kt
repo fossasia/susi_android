@@ -15,7 +15,7 @@ import retrofit2.Response
  * Created by chiragw15 on 15/8/17.
  */
 class SkillListingPresenter: ISkillListingPresenter,
-        ISkillListingModel.onFetchGroupsFinishedListener, ISkillListingModel.onFetchSkillsFinishedListener {
+        ISkillListingModel.OnFetchGroupsFinishedListener, ISkillListingModel.OnFetchSkillsFinishedListener {
 
     var skillListingModel: ISkillListingModel = SkillListingModel()
     var skillListingView: ISkillListingView ?= null
@@ -57,9 +57,9 @@ class SkillListingPresenter: ISkillListingPresenter,
                 skills.add(Pair(group, responseSkillMap))
                 skillListingView?.updateAdapter(skills)
             }
-            count++
             if(count != groupsCount) {
                 skillListingModel.fetchSkills(groups[count], this)
+                count++
             }
         } else {
             skillListingView?.visibilityProgressBar(false)

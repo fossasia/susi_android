@@ -8,6 +8,7 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.ConnectivityManager
 import android.net.Uri
@@ -67,6 +68,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     lateinit var progressDialog: ProgressDialog
     var serviceIntent: Intent? = null
     var example: String = ""
+    var isConfigurationChanged = false
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
@@ -163,10 +165,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
                     btnSpeak.setOnClickListener({
                         chatPresenter.check(false)
-                        val chat_message = et_message.text.toString().trim({ it <= ' ' })
-                        val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
+                        val chatMessage = et_message.text.toString().trim({ it <= ' ' })
+                        val splits = chatMessage.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
                         val message = splits.joinToString(" ")
-                        if (!chat_message.isEmpty()) {
+                        if (!chatMessage.isEmpty()) {
                             chatPresenter.sendMessage(message, et_message.text.toString())
                             et_message.setText("")
                         }
@@ -206,6 +208,11 @@ class ChatActivity : AppCompatActivity(), IChatView {
         })
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        isConfigurationChanged = true
+    }
+
     override fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>) {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true
@@ -216,12 +223,16 @@ class ChatActivity : AppCompatActivity(), IChatView {
         rv_chat_feed.adapter = recyclerAdapter
 
         rv_chat_feed.addOnLayoutChangeListener({ _, _, _, _, bottom, _, _, _, oldBottom ->
-            if (bottom < oldBottom) {
-                rv_chat_feed.postDelayed({
-                    var scrollTo = rv_chat_feed.adapter.itemCount - 1
-                    scrollTo = if (scrollTo >= 0) scrollTo else 0
-                    rv_chat_feed.scrollToPosition(scrollTo)
-                }, 10)
+            if (isConfigurationChanged) {
+                isConfigurationChanged = false
+            } else {
+                if (bottom < oldBottom) {
+                    rv_chat_feed.postDelayed({
+                        var scrollTo = rv_chat_feed.adapter.itemCount - 1
+                        scrollTo = if (scrollTo >= 0) scrollTo else 0
+                        rv_chat_feed.scrollToPosition(scrollTo)
+                    }, 10)
+                }
             }
         })
 
@@ -371,7 +382,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun checkEnterKeyPref(isChecked: Boolean) {
         if (isChecked) {
             et_message.imeOptions = EditorInfo.IME_ACTION_SEND
-            et_message.inputType = InputType.TYPE_CLASS_TEXT
         } else {
             et_message.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }
@@ -445,11 +455,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount == 0) {
-            chatPresenter.exitChatActivity()
-        } else {
-            supportFragmentManager.popBackStackImmediate()
-        }
+        super.onBackPressed();
     }
 
     override fun finishActivity() {

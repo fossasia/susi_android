@@ -323,4 +323,7 @@
     <color name="chat_screen_color">#000000</color>
     <color name="message_text_color">#0d0d0d</color>
     <color name="timestamp_color">#000</color>
+
+    <!--Thumbs down color-->
+    <color name="thumbs_down">#d1462f</color>
 </resources>

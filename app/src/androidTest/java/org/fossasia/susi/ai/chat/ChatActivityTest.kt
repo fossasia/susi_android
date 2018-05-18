@@ -84,7 +84,6 @@ class ChatActivityTest {
     }
 
     companion object {
-
         private val TAG = "ChatActivityTest"
     }
 }
