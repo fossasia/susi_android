@@ -1,6 +1,10 @@
 package org.fossasia.susi.ai.chat
 
 import android.Manifest
+import android.app.Instrumentation
+import android.os.Build
+import android.support.test.InstrumentationRegistry
+import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -9,9 +13,12 @@ import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.GrantPermissionRule
 import android.support.test.runner.AndroidJUnit4
+import android.support.test.uiautomator.UiDevice
 import android.util.Log
 import android.view.WindowManager
+import org.fossasia.susi.ai.PermissionGranter
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.login.WelcomeActivityTest
 import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Rule
@@ -26,17 +33,22 @@ import java.io.IOException
  */
 
 @RunWith(AndroidJUnit4::class)
-@LargeTest
+//@LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ChatActivityTest {
 
+    /*
     @Rule
     @JvmField
     val permissionRule: TestRule = GrantPermissionRule.grant(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                //android.Manifest.permission_group.LOCATION,
+                android.Manifest.permission.RECORD_AUDIO,
+                //android.Manifest.permission_group.MICROPHONE,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                //android.Manifest.permission_group.STORAGE
+    )
+    */
 
 
     @Rule
@@ -63,12 +75,19 @@ class ChatActivityTest {
         activity.runOnUiThread(wakeUpDevice)
     }
 
+
     /**
      * Test activity_chat items visibility on launch of app
      */
     @Test
     fun test01_UIViewsPresenceOnLoad() {
         Log.d(TAG, "running test01_UIViewsPresenceOnLoad..")
+
+
+        PermissionGranter.allowPermissionsIfNeeded(android.Manifest.permission.ACCESS_FINE_LOCATION)
+        PermissionGranter.allowPermissionsIfNeeded(android.Manifest.permission.RECORD_AUDIO)
+        PermissionGranter.allowPermissionsIfNeeded(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
 
         // checks if recycler view is present
         onView(withId(R.id.rv_chat_feed)).check(matches(isDisplayed()))
