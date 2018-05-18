@@ -9,19 +9,19 @@ import retrofit2.Response
  * Created by chiragw15 on 16/8/17.
  */
 interface ISkillListingModel {
-    interface onFetchGroupsFinishedListener {
+    interface OnFetchGroupsFinishedListener {
         fun onGroupFetchSuccess(response: Response<ListGroupsResponse>)
         fun onGroupFetchFailure(t: Throwable)
     }
 
-    interface onFetchSkillsFinishedListener {
+    interface OnFetchSkillsFinishedListener {
         fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String)
         fun onSkillFetchFailure(t: Throwable)
     }
 
-    fun fetchGroups(listener: onFetchGroupsFinishedListener)
+    fun fetchGroups(listener: OnFetchGroupsFinishedListener)
 
-    fun fetchSkills(group: String, listener: onFetchSkillsFinishedListener)
+    fun fetchSkills(group: String, listener: OnFetchSkillsFinishedListener)
 
     fun cancelFetch()
 }
