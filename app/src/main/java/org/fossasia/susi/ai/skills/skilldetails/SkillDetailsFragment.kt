@@ -145,7 +145,7 @@ class SkillDetailsFragment: Fragment() {
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(Intent.EXTRA_TEXT, shareUriBuilder.build().toString())
             sendIntent.type = "text/plain"
-            context.startActivity(sendIntent)
+            context.startActivity(Intent.createChooser(sendIntent, getString(R.string.share_skill)));
         }
     }
 

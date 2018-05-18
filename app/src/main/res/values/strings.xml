@@ -165,6 +165,8 @@
     <string name="error_skill_listing">Unable to fetch skills. Please try again later.</string>
     <string name="no_skill_author">Skill Author not found</string>
     <string name="reset_password_message">Resetting Password…</string>
+    <string name="share_message">Share Message</string>
+    <string name="share_skill">Share Skill</string>
 
     <!--About Us String-->
     <string name="susi_about"><a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
