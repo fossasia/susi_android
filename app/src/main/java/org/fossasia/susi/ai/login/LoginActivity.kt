@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        PrefManager.putBoolean("activity_executed",true)
+        PrefManager.putBoolean("activity_executed", true)
 
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
