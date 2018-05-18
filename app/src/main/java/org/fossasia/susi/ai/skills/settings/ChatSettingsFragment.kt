@@ -52,7 +52,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var password: TextInputLayout
     lateinit var newPassword: TextInputLayout
     lateinit var conPassword: TextInputLayout
-    lateinit var input_url: TextInputLayout
+    lateinit var inputUrl: TextInputLayout
     lateinit var resetPasswordAlert: AlertDialog
     lateinit var setServerAlert: AlertDialog
     lateinit var querylanguage: ListPreference
@@ -203,23 +203,23 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     fun showAlert() {
         val builder = AlertDialog.Builder(activity)
         val promptsView = activity.layoutInflater.inflate(R.layout.alert_change_server, null)
-        input_url = promptsView.findViewById(R.id.input_url) as TextInputLayout
-        val input_url_text = promptsView.findViewById(R.id.input_url_text) as TextInputEditText
-        val customer_server = promptsView.findViewById(R.id.customer_server) as AppCompatCheckBox
+        inputUrl = promptsView.findViewById(R.id.input_url) as TextInputLayout
+        val inputUrlText = promptsView.findViewById(R.id.input_url_text) as TextInputEditText
+        val customerServer = promptsView.findViewById(R.id.customer_server) as AppCompatCheckBox
         if (PrefManager.getBoolean(Constant.SUSI_SERVER, true)) {
-            input_url.visibility = View.GONE
+            inputUrl.visibility = View.GONE
             flag = false
         } else {
-            input_url.visibility = View.VISIBLE
+            inputUrl.visibility = View.VISIBLE
             flag = true
         }
-        customer_server.isChecked = flag
-        input_url_text.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null))
-        customer_server.setOnCheckedChangeListener { buttonView, isChecked ->
+        customerServer.isChecked = flag
+        inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null))
+        customerServer.setOnCheckedChangeListener { buttonView, isChecked ->
             if(isChecked)
-                input_url.visibility = View.VISIBLE
+                inputUrl.visibility = View.VISIBLE
             if(!isChecked)
-                input_url.visibility = View.GONE
+                inputUrl.visibility = View.GONE
         }
         builder.setView(promptsView)
         builder.setTitle(Constant.CHANGE_SERVER)
@@ -229,7 +229,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setServerAlert = builder.create()
         setServerAlert.show()
         setServerAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            settingsPresenter.setServer(customer_server.isChecked, input_url.editText?.text.toString())
+            settingsPresenter.setServer(customerServer.isChecked, inputUrl.editText?.text.toString())
         }
     }
 
@@ -311,9 +311,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     override fun checkUrl(isEmpty: Boolean) {
         if(isEmpty) {
-            input_url.error = getString(R.string.field_cannot_be_empty)
+            inputUrl.error = getString(R.string.field_cannot_be_empty)
         } else {
-            input_url.error = getString(R.string.invalid_url)
+            inputUrl.error = getString(R.string.invalid_url)
         }
     }
 
