@@ -19,11 +19,9 @@ test:
             parallel: true
         
         # Wait for it to have booted
-        - circle-android wait-for-boot
-        
+
         # Tun tests  against the emulator.
-        - ./gradlew connectedCheck
-        
+
         # Run Lint
         - ./gradlew lint
         
