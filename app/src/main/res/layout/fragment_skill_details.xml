@@ -17,13 +17,13 @@
 
             <ImageView
                 android:id="@+id/skill_detail_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:background="@color/md_white_1000"
-                app:srcCompat="@drawable/ic_susi" />
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                app:srcCompat="@drawable/ic_susi"
+                android:background="@color/md_white_1000"/>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:background="@color/md_white_1000"
@@ -33,6 +33,9 @@
                     android:id="@+id/skill_detail_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@string/skill_name"
+                    android:textSize="20sp"
+                    android:layout_marginTop="4dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/md_white_1000"
                     android:text="@string/skill_name"
@@ -43,9 +46,43 @@
                     android:id="@+id/skill_detail_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/md_white_1000"
-                    android:text="@string/author_name" />
+                    android:text="@string/author_name"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/md_white_1000"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:background="@color/md_white_1000">
+
+                        <Button
+                            android:id="@+id/skill_detail_try_button"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:text="@string/try_it"
+                            android:textSize="14sp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/rounded_button_skilldetails"
+                            android:textColor="@color/md_blue_A400"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"/>
+                        <Button
+                            android:id="@+id/skill_detail_share_button"
+                            android:layout_width="100dp"
+                            android:layout_height="40dp"
+                            android:text="@string/action_share"
+                            android:textSize="14sp"
+                            android:drawableLeft="@drawable/ic_share_white_24dp"
+                            android:drawableStart="@drawable/ic_share_white_24dp"
+                            android:drawableTint="@color/md_blue_A400"
+                            android:padding="10dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/rounded_button_skilldetails"
+                            android:textColor="@color/md_blue_A400"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="8dp"/>
+                    </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -92,6 +129,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:text="@string/description"
                 android:textColor="@color/md_black_1000"
@@ -101,6 +140,7 @@
                 android:id="@+id/skill_detail_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:text="@string/description_long"
                 android:textSize="16sp" />
@@ -109,6 +149,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_black_1000"/>
                 android:text="@string/examples"
                 android:textColor="@color/md_black_1000"
                 android:textSize="22dp" />
@@ -122,6 +164,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/rating"
+                android:textSize="14sp"
                 android:layout_marginTop="16dp"
                 android:text="@string/rating"
                 android:textColor="@color/md_black_1000"
@@ -142,9 +186,37 @@
                     android:layout_weight="1"
                     android:foreground="?attr/selectableItemBackground">
 
+                    <TextView
+                        android:background="@android:color/transparent"
+                        android:id="@+id/skill_detail_rating_positive"
+                        android:layout_width="90dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/positive_50"
+                        android:textSize="14sp"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="4dp"/>
+
+                    <ImageView
+                        android:id="@+id/skill_detail_rating_thumbs_up"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/thumbs_up_solid"
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/negative_50"
+                        android:textSize="14sp"
+                        android:background="@android:color/transparent"
+                        android:layout_margin="8dp"
+                        android:layout_marginTop="4dp"/>
+
+                    <ImageView
+                        android:id="@+id/skill_detail_rating_thumbs_down"
+                        android:layout_marginRight="8dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/thumbs_down_solid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                         android:layout_gravity="center_horizontal"
                         android:background="?attr/selectableItemBackground"
                         android:orientation="horizontal">
@@ -214,6 +286,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:textSize="14sp"
+                android:textColor="@color/md_black_1000"/>
                 android:text="@string/content_type_dynamic"
                 android:textColor="@color/md_black_1000"
                 android:textSize="18dp" />
