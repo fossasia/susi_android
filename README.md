@@ -110,7 +110,7 @@ First time contributors can read [ContributionHelp.md](docs/ContributionHelp.md)
 
 We have the following branches
 
- * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to gh-pages must pass a build check and a unit-test check on Travis.
+ * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to development branch must pass a build check and a unit-test check on Circle CI.
  * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update and make a release.
  	- Please Note that :-
 		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
@@ -136,22 +136,30 @@ Please help us follow the best practice to make it easy for the reviewer as well
 
 ## For Developers: Adding Fabric API KEY
 1. Go to AndroidManifest.xml
-Replace the fabric_api_key with the Real Fabric API Key
-Add: <meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
+	Replace the fabric_api_key with the Real Fabric API Key by adding :
+	```
+	<meta-data android:name="io.fabric.ApiKey" android:value="fabric_api_key" />
+	```
 
 2. Open the app/fabric.properties:
-Replace the fabric_api_key with your actual Fabric API Secret.
+	Replace the fabric_api_key with your actual Fabric API Secret.
 
 3. Open MainApplication.java,
-	a) After adding the API KEYS and API Secret
-	Uncomment the line: Fabric.with(this, new Crashlytics())
+	a) After adding the API KEYS and API Secret uncomment the line :
+		```
+		Fabric.with(this, new Crashlytics())
+		```
 
 	b) Add imports :
+		```
 		import com.crashlytics.android.Crashlytics;
 		import io.fabric.sdk.android.Fabric;
+		```
 
-4. Uncomment the line in the app/gradle
-	Line: apply plugin: 'io.fabric'
+4. Uncomment the line in the ```app/gradle```: 
+	```
+	apply plugin: 'io.fabric'
+	```
 
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:

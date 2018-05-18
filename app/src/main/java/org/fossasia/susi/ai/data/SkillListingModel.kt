@@ -20,7 +20,7 @@ class SkillListingModel: ISkillListingModel {
 
     var clientBuilder: ClientBuilder = ClientBuilder()
 
-    override fun fetchGroups(listener: ISkillListingModel.onFetchGroupsFinishedListener) {
+    override fun fetchGroups(listener: ISkillListingModel.OnFetchGroupsFinishedListener) {
 
         authResponseCallGroups = clientBuilder.susiApi.fetchListGroups()
 
@@ -36,7 +36,7 @@ class SkillListingModel: ISkillListingModel {
         })
     }
 
-    override fun fetchSkills(group: String, listener: ISkillListingModel.onFetchSkillsFinishedListener) {
+    override fun fetchSkills(group: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
 
         authResponseCallSkills = clientBuilder.susiApi.fetchListSkills(group)
 

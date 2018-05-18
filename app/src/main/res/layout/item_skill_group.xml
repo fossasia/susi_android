@@ -11,9 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sample_group"
+        android:textAllCaps="true"
         android:textSize="@dimen/skill_title"
         android:padding="@dimen/margin_card"
-        android:typeface="serif"
         android:textColor="@color/md_black_1000"
         android:textStyle="bold"
         android:layout_marginBottom="@dimen/message_card_margin_medium"/>
