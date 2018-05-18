@@ -28,7 +28,7 @@ class SkillListingPresenter: ISkillListingPresenter,
         this.skillListingView = skillListingView
     }
 
-    override fun getGroups(swipeToRefreshActive:Boolean) {
+    override fun getGroups(swipeToRefreshActive: Boolean) {
         skillListingView?.visibilityProgressBar(true)
         skillListingModel.fetchGroups(this)
     }
