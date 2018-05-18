@@ -21,6 +21,6 @@ ext {
     waitingDotsVersion = '0.3.2'
     espressoVersion = '3.0.1'
     testVersion = '1.0.1'
-    kotlinVersion = '1.1.51'
+    kotlinVersion = '1.2.41'
     picassoVersion = '2.5.2'
 }
