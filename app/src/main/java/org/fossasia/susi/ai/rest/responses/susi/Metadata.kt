@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 
 class Metadata {
 
-    @SerializedName("count")
+
     @Expose
     val count: Int = 0
 
