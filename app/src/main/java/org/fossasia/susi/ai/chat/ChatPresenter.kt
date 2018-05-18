@@ -277,7 +277,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                     DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
         } else {
-            val s = databaseRepository.getAMessage(newMessageIndex-1).date
+            val s = databaseRepository.getAMessage(newMessageIndex-1)?.date
             if (DateTimeHelper.date != s) {
                 databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                         DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
