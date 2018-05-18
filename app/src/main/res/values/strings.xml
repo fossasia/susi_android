@@ -78,6 +78,7 @@
     <string name="no_skill_name">Name not available</string>
     <string name="no_skill_description">No description available</string>
     <string name="skill_unrated">Skill not rated yet</string>
+    <string name="skill_not_found">No skill found yet</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
