@@ -20,6 +20,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.LoginActivity
@@ -44,6 +45,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     lateinit var loginLogout: Preference
+    lateinit var deleteChat: Preference
     lateinit var resetPassword: Preference
     lateinit var enterSend: Preference
     lateinit var speechAlways: Preference
@@ -74,6 +76,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
+        deleteChat = preferenceManager.findPreference(Constant.DELETE_CHAT)
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(Constant.ENTER_SEND)
         speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
@@ -136,6 +139,18 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             } else {
                 settingsPresenter.loginLogout()
             }
+            true
+        }
+
+        deleteChat.setOnPreferenceClickListener {
+            val d= AlertDialog.Builder(activity)
+            d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
+                settingsPresenter.deleteChat()
+            }.setNegativeButton("No") {dialog, _ -> dialog.cancel()}
+
+            val alert = d.create()
+            alert.setTitle(getString(R.string.delete_chat))
+            alert.show()
             true
         }
 
@@ -266,6 +281,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     override fun startLoginActivity() {
         val intent = Intent(activity, LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        activity.finish()
+    }
+
+    override fun startChatActivity() {
+        val intent = Intent(activity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         activity.finish()

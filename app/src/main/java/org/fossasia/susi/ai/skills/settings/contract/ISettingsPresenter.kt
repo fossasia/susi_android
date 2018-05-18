@@ -18,6 +18,8 @@ interface ISettingsPresenter {
 
     fun loginLogout()
 
+    fun deleteChat()
+
     fun resetPassword(password: String, newPassword: String, conPassword: String)
 
     fun checkForPassword(password: String, what: String)

@@ -21,6 +21,7 @@ public class Constant {
     public static final String HOTWORD_DETECTION = "hotword_detection";
     public static final String SHARE = "share";
     public static final String LOGIN_LOGOUT = "login_logout";
+    public static final String DELETE_CHAT = "delete_chat";
     public static final String RESET_PASSWORD = "reset_password";
     public static final String CHANGE_PASSWORD = "Change Password";
 

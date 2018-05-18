@@ -8,6 +8,7 @@ package org.fossasia.susi.ai.skills.settings.contract
 
 interface ISettingsView {
     fun startLoginActivity()
+    fun startChatActivity()
     fun micPermission(): Boolean
     fun hotWordPermission(): Boolean
     fun onSettingResponse(message: String)
