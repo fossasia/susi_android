@@ -184,7 +184,7 @@ class SkillsActivity : AppCompatActivity() {
             pos++
         }
 
-        Toast.makeText(this,R.string.skill_not_found,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
