@@ -42,7 +42,9 @@
     <string name="password_invalid_title">Invalid Password</string>
     <string name="exit">Press again to exit</string>
     <string name="message_copied">Message copied</string>
-    <string name="error_cancelling_signUp_process_text">Are you sure that you want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
+    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Send message by clicking ↵ on the keyboard</string>
@@ -75,6 +77,8 @@
     <string name="error_rating">Unable to rate skill. An error occurred.</string>
     <string name="no_skill_name">Name not available</string>
     <string name="no_skill_description">No description available</string>
+    <string name="skill_unrated">Skill not rated yet</string>
+    <string name="skill_not_found">No skill found yet</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete Action Using</string>
@@ -162,6 +166,8 @@
     <string name="error_skill_listing">Unable to fetch skills. Please try again later.</string>
     <string name="no_skill_author">Skill Author not found</string>
     <string name="reset_password_message">Resetting Password…</string>
+    <string name="share_message">Share Message</string>
+    <string name="share_skill">Share Skill</string>
 
     <!--About Us String-->
     <string name="susi_about"><a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
@@ -198,6 +204,7 @@
     <string name="positive_50">Positive: 50</string>
     <string name="negative_50">Negative: 50</string>
     <string name="content_type_dynamic">Content Type: Dynamic</string>
+    <string name="content_type_static">Content Type: Static</string>
     <string name="developer_privacy_policy">Developers Privacy Policy</string>
     <string name="terms_of_use">Terms of use</string>
     <string name="how_can_i_help">How can I help you?</string>

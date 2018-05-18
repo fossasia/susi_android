@@ -80,7 +80,6 @@ class LoginActivityTest {
         // checks if skip button is present
         onView(withId(R.id.skip)).perform(scrollTo())
         onView(withId(R.id.skip)).check(matches(isDisplayed()))
-
     }
 
     companion object {

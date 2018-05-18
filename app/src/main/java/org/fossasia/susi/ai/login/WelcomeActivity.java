@@ -16,6 +16,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.helper.PrefManager;
+
 /**
  * Created by Arshil on 21/08/17.
  */
@@ -28,12 +30,12 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences pref = getSharedPreferences("First_Time_Launched", Context.MODE_PRIVATE);
-        if(pref.getBoolean("activity_executed", false)){
+
+        if(PrefManager.getBoolean("activity_executed", false)){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-        }
+        } 
 
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
