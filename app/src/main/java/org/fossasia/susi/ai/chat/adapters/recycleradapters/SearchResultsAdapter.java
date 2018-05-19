@@ -59,7 +59,7 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
                 if (TextUtils.isEmpty(datum.getJerseyNumber())) {
                     holder.descriptionTextView.setText(Html.fromHtml(datum.getJerseyNumber()));
                 }
-                if (datum.getPosition()!= null && !datum.getPosition().isEmpty()) {
+                if (TextUtils.isEmpty(datum.getPosition())) {
                     holder.linkTextView.setText(Html.fromHtml(datum.getPosition()));
                 }
             }
