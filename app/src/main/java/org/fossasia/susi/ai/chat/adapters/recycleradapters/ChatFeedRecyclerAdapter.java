@@ -191,7 +191,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 SearchResultsListHolder searchResultsListHolder = new SearchResultsListHolder(view);
                 searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 return searchResultsListHolder;
-            case LIST_RESULT :
+            case LIST_RESULT:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder listResultHolder = new SearchResultsListHolder(view);
                 listResultHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));

@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -44,21 +45,21 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
         Datum datum = datumList.get(position);
         if (datum != null) {
             if(datum.getLink()!=null && !datum.getLink().isEmpty()) {
-                if( datum.getTitle() != null && !datum.getTitle().isEmpty()) {
+                if (TextUtils.isEmpty(datum.getLink())) {
                     holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
                 }
-                if(datum.getDescription() != null && !datum.getDescription().isEmpty()) {
+                if (TextUtils.isEmpty(datum.getDescription())) {
                     holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
                 }
                 holder.linkTextView.setText(datum.getLink());
             } else {
-                if( datum.getName()!=null && !datum.getName().isEmpty()) {
+                if (TextUtils.isEmpty(datum.getName())) {
                     holder.titleTextView.setText(Html.fromHtml(datum.getName()));
                 }
-                if(datum.getJerseyNumber()!=null && !datum.getJerseyNumber().isEmpty()) {
+                if (TextUtils.isEmpty(datum.getJerseyNumber())) {
                     holder.descriptionTextView.setText(Html.fromHtml(datum.getJerseyNumber()));
                 }
-                if(datum.getPosition()!=null && !datum.getPosition().isEmpty()) {
+                if (datum.getPosition()!= null && !datum.getPosition().isEmpty()) {
                     holder.linkTextView.setText(Html.fromHtml(datum.getPosition()));
                 }
             }

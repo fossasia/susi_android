@@ -60,9 +60,6 @@ class ParseSusiResponseHelper {
 
             Constant.RSS -> try {
                 datumList = susiResponse.answers[0].data
-                for (datum in datumList!!) {
-
-                }
             } catch (e: Exception) {
                 datumList = null
             }
