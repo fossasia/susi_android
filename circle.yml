@@ -22,7 +22,7 @@ jobs:
           command: ./gradlew lint
       - run:
           name: Test Coverage
-          command: ./gradlew testDebugUnitTestCoverage
+          command: ./gradlew build
       - store_artifacts:
           path: app/build/reports
           destination: reports
