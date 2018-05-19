@@ -18,10 +18,10 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Run Tests
+          name: lint check
           command: ./gradlew lint
       - run:
-          name: Test Coverage
+          name: Run Tests
           command: ./gradlew build
       - store_artifacts:
           path: app/build/reports
@@ -31,3 +31,7 @@ jobs:
           destination: outputs
       - store_test_results:
           path: app/build/test-results
+      - run:
+          command: bash exec/prep-key.sh
+          command: chmod +x exec/apk-gen.sh
+          command: ./exec/apk-gen.sh
