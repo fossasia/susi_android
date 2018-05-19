@@ -15,7 +15,7 @@ import retrofit2.Response
  * Created by chiragw15 on 15/8/17.
  */
 class SkillListingPresenter: ISkillListingPresenter,
-        ISkillListingModel.onFetchGroupsFinishedListener, ISkillListingModel.onFetchSkillsFinishedListener {
+        ISkillListingModel.OnFetchGroupsFinishedListener, ISkillListingModel.OnFetchSkillsFinishedListener {
 
     var skillListingModel: ISkillListingModel = SkillListingModel()
     var skillListingView: ISkillListingView ?= null
@@ -28,7 +28,7 @@ class SkillListingPresenter: ISkillListingPresenter,
         this.skillListingView = skillListingView
     }
 
-    override fun getGroups() {
+    override fun getGroups(swipeToRefreshActive: Boolean) {
         skillListingView?.visibilityProgressBar(true)
         skillListingModel.fetchGroups(this)
     }
