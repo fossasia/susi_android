@@ -330,7 +330,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, message);
         sendIntent.setType("text/plain");
-        currContext.startActivity(sendIntent);
+        currContext.startActivity(Intent.createChooser(sendIntent, currContext.getString(R.string.share_message) ));
     }
 
     /**

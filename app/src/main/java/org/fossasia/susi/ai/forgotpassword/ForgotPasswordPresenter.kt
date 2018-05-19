@@ -19,7 +19,7 @@ import java.net.UnknownHostException
  *
  * Created by meeera on 6/7/17.
  */
-class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : IForgotPasswordPresenter, IForgotPasswordModel.onFinishListener {
+class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : IForgotPasswordPresenter, IForgotPasswordModel.OnFinishListener {
 
     lateinit var email: String
     var forgotPasswordView: IForgotPasswordView?= null

@@ -39,7 +39,7 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
         skillListingPresenter.onAttach(this)
         swipe_refresh_layout.setOnRefreshListener(this)
         setUPAdapter()
-        skillListingPresenter.getGroups()
+        skillListingPresenter.getGroups(swipe_refresh_layout.isRefreshing)
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -78,7 +78,7 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
 
     override fun onRefresh() {
         setUPAdapter()
-        skillListingPresenter.getGroups()
+        skillListingPresenter.getGroups(swipe_refresh_layout.isRefreshing)
     }
 
     override fun onDestroyView() {
