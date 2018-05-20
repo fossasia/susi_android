@@ -72,6 +72,11 @@
 
     <string name="know_more">Know more</string>
 
+    <string name="setting_mic_input">Mic input</string>
+    <string name="setting_hotword_detection">Hotword Detection (Beta)</string>
+    <string name="setting_mic_key" translatable="false">micInput</string>
+    <string name="setting_hotword_key" translatable="false">hotword_detection</string>
+
     <string name="settings_enterPreference_key" translatable="false">enterAsSend</string>
     <string name="settings_enterPreference_label">↵ to send</string>
     <string name="settings_enterPreference_summary">Send message by clicking ↵ on the keyboard</string>
