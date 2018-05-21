@@ -96,7 +96,7 @@
     <string name="error_invalid_token">Invalid Access Token.</string>
     <string name="error_occurred_try_again">An error occurred. please try again.</string>
     <string name="error_rating">Unable to rate skill. An error occurred.</string>
-
+    <string name="no_skill_name">Name not available</string>
     <string name="no_skill_description">No description available</string>
     <string name="skill_unrated">Skill not rated yet</string>
     <string name="skill_not_found">No skill found yet</string>
