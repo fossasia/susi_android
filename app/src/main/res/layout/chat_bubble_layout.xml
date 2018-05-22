@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_chat_bubble"
+        android:clickable="true"
+        android:layout_margin="2dp"
+        android:focusable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:backgroundTint="@color/md_amber_300"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/ic_susi_blue" />
+
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        android:padding="8dp"
+        android:background="@drawable/rounded_layout"
+        android:orientation="vertical"
+        android:id="@+id/expandable_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="250dp"
+            android:layout_height="300dp"/>
+
+        <LinearLayout
+            android:weightSum="4"
+            android:padding="3dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:theme="@style/sendMessageEditTextTheme"
+                android:textCursorDrawable="@null"
+                android:scrollbars="vertical"
+                android:imeOptions="actionSend"
+                android:id="@+id/et_chat_widget_query"
+                android:layout_weight="3"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:hint="Ask SUSI Something..."
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <ImageButton
+                android:id="@+id/ibtn_chat_widget_submit"
+                android:layout_weight="1"
+                android:src="@drawable/ic_send_fab"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

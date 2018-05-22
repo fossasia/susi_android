@@ -359,23 +359,22 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         if (response != null && response.isSuccessful && response.body() != null) {
             val susiResponse = response.body()
 
-            if(response.body().answers.isEmpty()) {
+            if(susiResponse.answers.isEmpty()) {
                 databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
                         false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
                         Constant.ANSWER, null, false, null, "", "", this)
                 return
             }
 
-            val actionSize = response.body().answers[0].actions.size
-            val date = response.body().answerDate
+            val actionSize = susiResponse.answers[0].actions.size
+            val date = susiResponse.answerDate
 
-            for (i in 0..actionSize - 1) {
-                val delay = response.body().answers[0].actions[i].delay
-                val actionNo = i
+            for (i in 0 until actionSize) {
+                val delay = susiResponse.answers[0].actions[i].delay
                 val handler = Handler()
                 handler.postDelayed({
                     val psh = ParseSusiResponseHelper()
-                    psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
+                    psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
                     val setMessage = psh.answer
                     if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())){
                         var speechReply = setMessage
@@ -418,7 +417,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     fun getPermissions() {
         val permissionsRequired = utilModel.permissionsToGet()
 
-        val permissionsGranted = arrayOfNulls<String>(3)
+        val permissionsGranted = arrayOfNulls<String>(permissionsRequired.size)
         var c = 0
 
         for(permission in permissionsRequired) {
