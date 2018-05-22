@@ -25,7 +25,7 @@ jobs:
           command: ./gradlew build
       - run:
           command:
-            bash exec/prep-key.sh
+            bash exec/apk-gen.sh
       - run:
           command:
             chmod +x exec/apk-gen.sh
