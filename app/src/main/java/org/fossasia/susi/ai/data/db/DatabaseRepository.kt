@@ -29,7 +29,7 @@ class DatabaseRepository: IDatabaseRepository {
             return temp as Long
     }
 
-    override fun getAMessage(index: Long): ChatMessage {
+    override fun getAMessage(index: Long): ChatMessage? {
         return realm.where(ChatMessage::class.java).equalTo("id", index).findFirst()
     }
 
