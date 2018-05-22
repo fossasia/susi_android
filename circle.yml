@@ -26,7 +26,11 @@ jobs:
       - run:
           command:
             bash exec/prep-key.sh
+      - run:
+          command:
             chmod +x exec/apk-gen.sh
+      - run:
+          command:
             ./exec/apk-gen.sh
       - store_artifacts:
           path: app/build/reports
