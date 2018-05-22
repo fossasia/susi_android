@@ -18,7 +18,7 @@ interface IDatabaseRepository {
     }
 
     fun getMessageCount() : Long
-    fun getAMessage(index: Long): ChatMessage
+    fun getAMessage(index: Long): ChatMessage?
     fun deleteAllMessages()
     fun getUndeliveredMessages() : RealmResults<ChatMessage>
     fun getAllMessages(): RealmResults<ChatMessage>

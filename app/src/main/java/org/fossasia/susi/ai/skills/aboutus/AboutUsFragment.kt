@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.aboutus
 
 
 import android.os.Bundle
+import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
@@ -15,10 +16,11 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 
 class AboutUsFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+    @NonNull
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_about_us)
-        var rootView = inflater!!.inflate(R.layout.fragment_about_us, container, false)
+        var rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         setHasOptionsMenu(true)
         return rootView
     }
@@ -33,7 +35,8 @@ class AboutUsFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    @NonNull
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         about_susi.movementMethod = LinkMovementMethod.getInstance()
         contributors_desc.movementMethod = LinkMovementMethod.getInstance()
         susi_skill_cms_desc.movementMethod = LinkMovementMethod.getInstance()
