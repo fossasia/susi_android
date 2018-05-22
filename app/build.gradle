@@ -27,6 +27,7 @@ repositories {
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
+    buildToolsVersion rootConfiguration.buildToolsVersion
 
     defaultConfig {
         applicationId "ai.susi"
