@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.R.id.speechprogress
+import org.fossasia.susi.ai.R.id.txtchat
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 
 /**
@@ -29,8 +32,9 @@ class STTfragment : Fragment(){
         chatPresenter = ChatPresenter(activity as ChatActivity)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var rootView = inflater?.inflate(R.layout.fragment_sttframe, container, false)
+    @NonNull
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        var rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
         (activity as ChatActivity).fabsetting.hide()
         promptSpeechInput()
         return rootView
@@ -45,7 +49,7 @@ class STTfragment : Fragment(){
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
 
         recognizer = SpeechRecognizer
-                .createSpeechRecognizer(activity.applicationContext)
+                .createSpeechRecognizer(activity?.applicationContext)
         val listener = object : RecognitionListener {
             override fun onResults(results: Bundle) {
                 val voiceResults = results
@@ -66,7 +70,7 @@ class STTfragment : Fragment(){
                     chatPresenter.startHotwordDetection()
                 }
                 (activity as ChatActivity).fabsetting.show()
-                activity.supportFragmentManager.popBackStackImmediate()
+                activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
             override fun onReadyForSpeech(params: Bundle) {
@@ -76,12 +80,12 @@ class STTfragment : Fragment(){
             override fun onError(error: Int) {
                 Log.d("fragment",
                         "Error listening for speech: " + error)
-                Toast.makeText(activity.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
                 if (speechprogress != null)
                     speechprogress.onResultOrOnError()
                 recognizer.destroy()
-                (activity as ChatActivity).fabsetting.show()
-                activity.supportFragmentManager.popBackStackImmediate()
+                activity?.fabsetting?.show()
+                activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
             override fun onBeginningOfSpeech() {
