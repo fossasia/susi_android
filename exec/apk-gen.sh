@@ -5,21 +5,23 @@ if [[ $CIRCLE_BRANCH != pull* ]]
 then
 	export PUBLISH_BRANCH=${PUBLISH_BRANCH:-master}
 
-	git config --global user.name "the-dagger"
-	git config --global user.email "harshithdwivedi@gmail.com"
+	git config --global user.name "Travis CI"
+	git config --global user.email "noreply+travis@fossasia.org"
 
-	git clone --quiet --branch=apk https://the-dagger:$GITHUB_API_KEY@github.com/fossasia/susi_android apk > /dev/null
+	git clone --quiet --branch=apk https://fossasia:$GITHUB_API_KEY@github.com/fossasia/susi_android apk > /dev/null
 	ls
-	cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/app-debug.apk apk/susi-debug.apk
-	cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/app-release-unsigned.apk apk/susi-release.apk
 	cd apk
+	/bin/rm -f *
+	\cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/*/**.apk .
+	\cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/debug/output.json debug-output.json
+	\cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/release/output.json release-output.json
 
 	# Signing App
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
 		echo "Push to master branch detected, signing the app..."
-		\cp susi-release.apk susi-release-unaligned.apk
-		jarsigner -verbose -tsa http://timestamp.comodoca.com/rfc3161 -sigalg SHA1withRSA -digestalg SHA1 -keystore ../exec/key.jks -storepass $STORE_PASS -keypass $KEY_PASS susi-release-unaligned.apk $ALIAS
-		${ANDROID_HOME}/build-tools/27.0.3/zipalign -vfp 4 susi-release-unaligned.apk susi-release-signed.apk
+		\cp app-release-unsigned.apk app-release-unaligned.apk
+		jarsigner -verbose -tsa http://timestamp.comodoca.com/rfc3161 -sigalg SHA1withRSA -digestalg SHA1 -keystore ../exec/key.jks -storepass $STORE_PASS -keypass $KEY_PASS app-release-unaligned.apk $ALIAS
+		${ANDROID_HOME}/build-tools/27.0.3/zipalign -vfp 4 app-release-unaligned.apk app-release.apk
 	fi
 
 	git checkout --orphan workaround
@@ -32,13 +34,13 @@ then
 
 	git push origin apk --force --quiet > /dev/null
 
-	curl https://$APPETIZE_API_TOKEN@api.appetize.io/v1/apps/mbpprq4xj92c119j7nxdhttjm0 -H 'Content-Type: application/json' -d '{"url":"https://github.com/fossasia/susi_android/raw/apk/susi-debug.apk", "note": "Update SUSI Preview"}'
+	curl https://$APPETIZE_API_TOKEN@api.appetize.io/v1/apps/mbpprq4xj92c119j7nxdhttjm0 -H 'Content-Type: application/json' -d '{"url":"https://github.com/fossasia/susi_android/raw/apk/app-debug.apk", "note": "Update SUSI Preview"}'
 
 	# Publish App to Play Store
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
 		echo "Publishing app to Play Store"
 		gem install fastlane
-		fastlane supply --apk susi-release-signed.apk --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
+		fastlane supply --apk app-release.apk --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
 	fi
 fi
 
