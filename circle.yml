@@ -25,11 +25,10 @@ jobs:
           command: ./gradlew build
       - run:
           command:
-            bash exec/apk-gen.sh
+            bash exec/prep-key.sh
       - run:
           command:
-            chmod +x exec/apk-gen.sh
-            ./exec/apk-gen.sh
+            bash exec/apk-gen.sh
       - store_artifacts:
           path: app/build/reports
           destination: reports
