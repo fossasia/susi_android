@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
-        IDatabaseRepository.onDatabaseUpdateListener{
+        IDatabaseRepository.OnDatabaseUpdateListener{
 
     var chatView: IChatView?= null
     var chatModel: IChatModel = ChatModel()
@@ -264,7 +264,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     //sends message to susi
     override fun sendMessage(query: String, actual: String) {
         addToNonDeliveredList(query, actual)
-        computeThread().start()
+        ComputeThread().start()
     }
 
     override fun addToNonDeliveredList(query: String, actual: String) {
@@ -277,7 +277,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                     DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
         } else {
-            val s = databaseRepository.getAMessage(newMessageIndex-1).date
+            val s = databaseRepository.getAMessage(newMessageIndex-1)?.date
             if (DateTimeHelper.date != s) {
                 databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                         DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
@@ -290,10 +290,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun startComputingThread() {
-        computeThread().start()
+        ComputeThread().start()
     }
 
-    private inner class computeThread : Thread() {
+    private inner class ComputeThread : Thread() {
         override fun run() {
             if(queueExecuting.compareAndSet(false,true)) {
                 computeOtherMessage()

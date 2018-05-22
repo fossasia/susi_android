@@ -19,6 +19,8 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
 import android.net.Uri
+import android.support.annotation.NonNull
+import org.fossasia.susi.ai.R.id.*
 
 /**
  *
@@ -48,14 +50,15 @@ class SkillDetailsFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        skillData = arguments.getSerializable(
+        skillData = arguments?.getSerializable(
                 SKILL_KEY) as SkillData
-        skillGroup = arguments.getString(SKILL_GROUP)
-        skillTag = arguments.getString(SKILL_TAG)
+        skillGroup = (arguments as Bundle).getString(SKILL_GROUP)
+        skillTag = (arguments as Bundle).getString(SKILL_TAG)
         return inflater.inflate(R.layout.fragment_skill_details, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    @NonNull
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         if(skillData.skillName != null && !skillData.skillName.isEmpty())
             (activity as SkillsActivity).title = skillData.skillName
         setupUI()
@@ -79,7 +82,7 @@ class SkillDetailsFragment: Fragment() {
     fun setImage() {
         skill_detail_image.setImageResource(R.drawable.ic_susi)
         if(skillData.image != null && !skillData.image.isEmpty()){
-            Picasso.with(activity.applicationContext).load(StringBuilder(imageLink)
+            Picasso.with(activity?.applicationContext).load(StringBuilder(imageLink)
                     .append(skillGroup).append("/en/").append(skillData.image).toString())
                     .error(R.drawable.ic_susi)
                     .fit().centerCrop()
@@ -88,14 +91,14 @@ class SkillDetailsFragment: Fragment() {
     }
 
     fun setName() {
-        skill_detail_title.text = activity.getString(R.string.no_skill_name)
+        skill_detail_title.text = activity?.getString(R.string.no_skill_name)
         if(skillData.skillName != null && !skillData.skillName.isEmpty()){
             skill_detail_title.text = skillData.skillName
         }
     }
 
     fun setAuthor() {
-        skill_detail_author.text = "Author : ${activity.getString(R.string.no_skill_author)}"
+        skill_detail_author.text = "Author : ${activity?.getString(R.string.no_skill_author)}"
         if(skillData.author != null && !skillData.author.isEmpty()){
             if(skillData.authorUrl == null || skillData.authorUrl.isEmpty())
                 skill_detail_author.text = "Author : ${skillData.skillName}"
@@ -116,7 +119,7 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_try_button.visibility = View.GONE
 
         skill_detail_try_button.setOnClickListener {
-            activity.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            activity?.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(activity, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             if(skillData.examples != null && skillData.examples.isNotEmpty())
@@ -124,7 +127,7 @@ class SkillDetailsFragment: Fragment() {
             else
                 intent.putExtra("example","")
             startActivity(intent)
-            activity.finish()
+            activity?.finish()
         }
     }
 
@@ -145,12 +148,12 @@ class SkillDetailsFragment: Fragment() {
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(Intent.EXTRA_TEXT, shareUriBuilder.build().toString())
             sendIntent.type = "text/plain"
-            context.startActivity(sendIntent)
+            context?.startActivity(Intent.createChooser(sendIntent, getString(R.string.share_skill)));
         }
     }
 
     fun setDescription() {
-        skill_detail_description.text = activity.getString(R.string.no_skill_description)
+        skill_detail_description.text = activity?.getString(R.string.no_skill_description)
         if( skillData.descriptions != null && !skillData.descriptions.isEmpty()){
             skill_detail_description.text = skillData.descriptions
         }
@@ -161,13 +164,13 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_examples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skill_detail_examples.layoutManager = mLayoutManager
-            skill_detail_examples.adapter = SkillExamplesAdapter(activity, skillData.examples)
+            skill_detail_examples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
         }
     }
 
     fun setRating() {
         if(skillData.skillRating == null) {
-            skill_detail_rating_positive.text = "Skill not rated yet"
+            skill_detail_rating_positive.text = context?.getString(R.string.skill_unrated)
             val params = skill_detail_rating_positive.layoutParams
             params.width = 344
             skill_detail_rating_positive.layoutParams = params
@@ -175,11 +178,13 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_rating_thumbs_up.visibility = View.GONE
             skill_detail_rating_thumbs_down.visibility = View.GONE
         } else {
-            skill_detail_rating_positive.text = "Positive: " + skillData.skillRating?.positive
-            skill_detail_rating_negative.text = "Negative: " + skillData.skillRating?.negative
+            skill_detail_rating_positive.text = context?.getString(R.string.positive)
+            skill_detail_rating_positive.append(": " + skillData.skillRating?.positive)
+            skill_detail_rating_negative.text = context?.getString(R.string.negative)
+            skill_detail_rating_negative.append(": " + skillData.skillRating?.negative)
 
-            val positiveColor = getRatedColor(skillData.skillRating?.positive, "Positive")
-            val negativeColor = getRatedColor(skillData.skillRating?.negative, "Negative")
+            val positiveColor = getRatedColor(skillData.skillRating?.positive, context?.getString(R.string.positive))
+            val negativeColor = getRatedColor(skillData.skillRating?.negative, context?.getString(R.string.negative))
 
             skill_detail_rating_thumbs_up.setColorFilter(positiveColor)
             skill_detail_rating_thumbs_down.setColorFilter(negativeColor)
@@ -190,7 +195,7 @@ class SkillDetailsFragment: Fragment() {
         var resId = R.color.colorAccent
         if (rating != null) {
             when (s) {
-                "Negative" ->
+                context?.getString(R.string.negative) ->
                         if (rating < 10)
                             resId = R.color.md_red_100
                         else if (rating in 10..19)
@@ -203,7 +208,7 @@ class SkillDetailsFragment: Fragment() {
                             resId = R.color.md_red_300
                         else
                             resId = R.color.md_red_400
-                "Positive" ->
+                context?.getString(R.string.positive) ->
                     if (rating < 10)
                         resId = R.color.md_blue_100
                     else if (rating in 10..19)
@@ -226,9 +231,9 @@ class SkillDetailsFragment: Fragment() {
             skill_detail_content.visibility = View.GONE
         } else {
             if(skillData.dynamicContent!!) {
-                skill_detail_content.text = "Content type: Dynamic"
+                skill_detail_content.text = context?.getString(R.string.content_type_dynamic)
             } else {
-                skill_detail_content.text = "Content type: Static"
+                skill_detail_content.text = context?.getString(R.string.content_type_static)
             }
         }
     }

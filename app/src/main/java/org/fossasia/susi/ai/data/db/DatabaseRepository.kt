@@ -29,7 +29,7 @@ class DatabaseRepository: IDatabaseRepository {
             return temp as Long
     }
 
-    override fun getAMessage(index: Long): ChatMessage {
+    override fun getAMessage(index: Long): ChatMessage? {
         return realm.where(ChatMessage::class.java).equalTo("id", index).findFirst()
     }
 
@@ -53,7 +53,7 @@ class DatabaseRepository: IDatabaseRepository {
     override fun updateDatabase(prevId: Long, message: String, isDate: Boolean, date: String,
                                 timeStamp: String, mine: Boolean, actionType: String, mapData: MapData?,
                                 isHavingLink: Boolean, datumList: List<Datum>?, webSearch: String, skillLocation: String,
-                                listener: IDatabaseRepository.onDatabaseUpdateListener) {
+                                listener: IDatabaseRepository.OnDatabaseUpdateListener) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
         listener.updateMessageCount()

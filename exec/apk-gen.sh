@@ -19,7 +19,7 @@ then
 		echo "Push to master branch detected, signing the app..."
 		\cp susi-release.apk susi-release-unaligned.apk
 		jarsigner -verbose -tsa http://timestamp.comodoca.com/rfc3161 -sigalg SHA1withRSA -digestalg SHA1 -keystore ../exec/key.jks -storepass $STORE_PASS -keypass $KEY_PASS susi-release-unaligned.apk $ALIAS
-		${ANDROID_HOME}/build-tools/25.0.2/zipalign -vfp 4 susi-release-unaligned.apk susi-release-signed.apk
+		${ANDROID_HOME}/build-tools/27.0.3/zipalign -vfp 4 susi-release-unaligned.apk susi-release-signed.apk
 	fi
 
 	git checkout --orphan workaround

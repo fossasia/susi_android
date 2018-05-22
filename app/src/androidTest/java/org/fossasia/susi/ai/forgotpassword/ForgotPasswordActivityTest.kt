@@ -52,6 +52,8 @@ class ForgotPasswordActivityTest {
     fun testUIViewsPresenceOnLoad() {
         Log.d(TAG, "running testUIViewsPresenceOnLoad..")
 
+        onView(withId(R.id.activity_forgot_password)).check(matches(isDisplayed()))
+
         // checks if email input field is present
         onView(withId(R.id.forgot_email)).check(matches(isDisplayed()))
 

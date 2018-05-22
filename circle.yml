@@ -1,40 +1,39 @@
-#Install android build tools, platforms
-#Supported versions here https://circleci.com/docs/android
-dependencies:
-    override:
-        - ( sleep 5 && while [ 1 ]; do sleep 1; echo y; done ) | android update sdk --no-ui --all --filter "tools,platform-tools,android-25,extra-google-m2repository,extra-android-m2repository,extra-android-support,extra-google-google_play_services"
-        - echo y | android update sdk --no-ui --all --filter "build-tools-26.0.2"
-        - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
-
-#Pull any submodules
-#-PdisablePreDex is a must else gradle just dies due to memory limit
-#Replace
-test:
-    override:
-        - (./gradlew assemble -PdisablePreDex):
-            timeout: 360
-        - cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/ $CIRCLE_ARTIFACTS
-        - emulator -avd circleci-android22 -no-audio -no-window:
-            background: true
-            parallel: true
-        
-        # Wait for it to have booted
-        - circle-android wait-for-boot
-        
-        # Tun tests  against the emulator.
-        - ./gradlew connectedCheck
-        
-        # Run Lint
-        - ./gradlew lint
-        
-        # Copy lint report
-        - mkdir $CIRCLE_TEST_REPORTS/Lint
-        - cp app/build/reports/lint-results.* $CIRCLE_TEST_REPORTS/Lint
-
-        # Copy tests report
-        - mkdir $CIRCLE_TEST_REPORTS/AndroidTests
-        - cp -r app/build/reports/androidTests/connected/* $CIRCLE_TEST_REPORTS/AndroidTests
-
-        - bash exec/prep-key.sh
-        - chmod +x exec/apk-gen.sh
-        - ./exec/apk-gen.sh
+version: 2
+jobs:
+  build:
+    working_directory: ~/code
+    docker:
+      - image: circleci/android:api-27-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: lint check
+          command: ./gradlew lint
+      - run:
+          name: Run Tests
+          command: ./gradlew build
+      - run:
+          command:
+            bash exec/prep-key.sh
+      - run:
+          command:
+            bash exec/apk-gen.sh
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_artifacts:
+          path: app/build/outputs
+          destination: outputs
+      - store_test_results:
+          path: app/build/test-results

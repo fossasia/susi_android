@@ -4,6 +4,7 @@ apply from: project(':app').file('config.gradle'), to: rootConfiguration
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 buildscript {
@@ -12,7 +13,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "io.fabric.tools:gradle:1.+"
+        classpath "io.fabric.tools:gradle:1.25.4"
     }
 }
 
@@ -26,7 +27,6 @@ repositories {
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
-    buildToolsVersion rootConfiguration.buildToolsVersion
 
     defaultConfig {
         applicationId "ai.susi"
@@ -100,5 +100,5 @@ dependencies {
     implementation("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
         transitive = true
     }
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${rootConfiguration.kotlinVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
 }
