@@ -12,9 +12,9 @@ then
 	ls
 	cd apk
 	/bin/rm -f *
-	\cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/*/**.apk .
-	\cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/debug/output.json debug-output.json
-	\cp -r ${HOME}/${CIRCLE_PROJECT_REPONAME}/app/build/outputs/apk/release/output.json release-output.json
+	\cp -r ../app/build/outputs/apk/*/**.apk .
+	\cp -r ../app/build/outputs/apk/debug/output.json debug-output.json
+	\cp -r ../app/build/outputs/apk/release/output.json release-output.json
 
 	# Signing App
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
@@ -43,4 +43,3 @@ then
 		fastlane supply --apk app-release.apk --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
 	fi
 fi
-
