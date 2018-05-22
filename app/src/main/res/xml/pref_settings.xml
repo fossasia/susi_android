@@ -17,7 +17,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_title">
-        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        <SwitchPreference
             android:id="@+id/enter_key_pref"
             android:defaultValue="true"
             android:key="@string/settings_enterPreference_key"
@@ -26,14 +26,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_mic">
-        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        <SwitchPreference
             android:id="@+id/mic_input"
             android:defaultValue="true"
             android:key="@string/setting_mic_key"
             android:summary="@string/settings_micPreference_summary"
             android:title="@string/setting_mic_input" />
 
-        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        <SwitchPreference
             android:id="@+id/hotword_detection"
             android:defaultValue="false"
             android:key="@string/setting_hotword_key"
@@ -42,14 +42,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_speech">
-        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        <SwitchPreference
             android:id="@+id/speech_pref"
             android:defaultValue="true"
             android:key="@string/settings_speechPreference_key"
             android:summary="@string/settings_speechPreference_summary"
             android:title="@string/settings_speechPreference_label" />
 
-        <com.takisoft.fix.support.v7.preference.SwitchPreferenceCompat
+        <SwitchPreference
             android:id="@+id/speech_always"
             android:defaultValue="false"
             android:key="@string/settings_speechAlways_key"
@@ -62,6 +62,7 @@
         android:entryValues="@array/languagentry"
         android:key="Lang_Select"
         android:title="@string/Language"></ListPreference>
+
     <PreferenceCategory android:title="@string/settings_devices">
 
         <PreferenceScreen
@@ -74,6 +75,7 @@
             android:summary="@string/settings_devices_setup" />
 
     </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/settings_misc">
 
         <PreferenceScreen

@@ -24,6 +24,7 @@ import android.widget.TextView
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
+import org.fossasia.susi.ai.R.id.skillGroups
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 
 

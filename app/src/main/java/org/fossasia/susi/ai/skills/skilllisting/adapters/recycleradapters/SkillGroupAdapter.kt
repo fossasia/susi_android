@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters
 
 import android.content.Context
+import android.support.annotation.NonNull
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SnapHelper
@@ -21,25 +22,27 @@ class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String,
 
     lateinit var skillAdapterSnapHelper : SnapHelper
 
-    override fun onBindViewHolder(holder: GroupViewHolder?, position: Int) {
+    @NonNull
+    override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         if(skills[position].first != null)
-            holder?.groupName?.text = skills[position].first
+            holder.groupName?.text = skills[position].first
 
         skillAdapterSnapHelper = StartSnapHelper()
-        holder?.skillList?.setHasFixedSize(true)
+        holder.skillList?.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        holder?.skillList?.layoutManager = mLayoutManager
-        holder?.skillList?.adapter = SkillListAdapter(context, skills[position])
-        holder?.skillList?.setOnFlingListener(null)
-        skillAdapterSnapHelper.attachToRecyclerView(holder?.skillList)
+        holder.skillList?.layoutManager = mLayoutManager
+        holder.skillList?.adapter = SkillListAdapter(context, skills[position])
+        holder.skillList?.setOnFlingListener(null)
+        skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
     }
 
     override fun getItemCount(): Int {
         return skills.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): GroupViewHolder {
-        val itemView = LayoutInflater.from(parent?.context)
+    @NonNull
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_skill_group, parent, false)
         return GroupViewHolder(itemView)
     }

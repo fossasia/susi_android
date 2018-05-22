@@ -5,13 +5,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.support.annotation.NonNull
+import android.support.annotation.Nullable
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
 import android.support.v7.widget.AppCompatCheckBox
 import android.util.Log
 import android.view.Menu
@@ -29,6 +31,8 @@ import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import org.fossasia.susi.ai.skills.SkillsActivity
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
+import org.fossasia.susi.ai.rest.responses.susi.Skills
 
 /**
  * The Fragment for Settings Activity
@@ -62,8 +66,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var setupDevice: Preference
     var flag = true
 
-
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
 
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_settings)
@@ -110,7 +113,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
         rate.setOnPreferenceClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context.packageName)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context?.packageName)))
             true
         }
 
@@ -121,7 +124,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_TEXT,
                         String.format(getString(R.string.promo_msg_template),
-                                String.format(getString(R.string.app_share_url), activity.packageName)))
+                                String.format(getString(R.string.app_share_url), (activity as SkillsActivity).packageName)))
                 startActivity(shareIntent)
             } catch (e: Exception) {
                 showToast(getString(R.string.error_msg_retry))
@@ -131,7 +134,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         loginLogout.setOnPreferenceClickListener {
             if (!settingsPresenter.getAnonymity()) {
-                val d = AlertDialog.Builder(activity)
+                val d = AlertDialog.Builder(activity as SkillsActivity)
                 d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
                     settingsPresenter.loginLogout()
                 }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
@@ -214,9 +217,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     fun showAlert() {
-        val builder = AlertDialog.Builder(activity)
-        val promptsView = activity.layoutInflater.inflate(R.layout.alert_change_server, null)
-        inputUrl = promptsView.findViewById(R.id.input_url) as TextInputLayout
+        val builder = AlertDialog.Builder(requireContext())
+        val promptsView = activity?.layoutInflater?.inflate(R.layout.alert_change_server, null)
+        inputUrl = promptsView?.findViewById(R.id.input_url) as TextInputLayout
         val inputUrlText = promptsView.findViewById(R.id.input_url_text) as TextInputEditText
         val customerServer = promptsView.findViewById(R.id.customer_server) as AppCompatCheckBox
         if (PrefManager.getBoolean(Constant.SUSI_SERVER, true)) {
@@ -238,7 +241,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         builder.setTitle(Constant.CHANGE_SERVER)
                 .setCancelable(false)
                 .setNegativeButton(Constant.CANCEL, null)
-                .setPositiveButton(activity.getString(R.string.ok), null)
+                .setPositiveButton(activity?.getString(R.string.ok), null)
         setServerAlert = builder.create()
         setServerAlert.show()
         setServerAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
@@ -247,9 +250,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     fun showResetPasswordAlert() {
-        val builder = AlertDialog.Builder(activity)
-        val resetPasswordView = activity.layoutInflater.inflate(R.layout.alert_reset_password, null)
-        password = resetPasswordView.findViewById(R.id.password) as TextInputLayout
+        val builder = AlertDialog.Builder(requireContext())
+        val resetPasswordView = activity?.layoutInflater?.inflate(R.layout.alert_reset_password, null)
+        password = resetPasswordView?.findViewById(R.id.password) as TextInputLayout
         newPassword = resetPasswordView.findViewById(R.id.newpassword) as TextInputLayout
         conPassword = resetPasswordView.findViewById(R.id.confirmpassword) as TextInputLayout
         builder.setView(resetPasswordView)
@@ -269,19 +272,19 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     override fun micPermission(): Boolean {
-        return ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun hotWordPermission(): Boolean {
-        return ActivityCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+        return ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun startLoginActivity() {
         val intent = Intent(activity, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
-        activity.finish()
+        activity?.finish()
     }
 
     fun showToast(message: String) {
