@@ -20,7 +20,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
@@ -387,11 +386,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun scrollToEnd(view: View) {
+    fun scrollToEnd() {
         rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
     }
 
-    fun openSettings(view: View) {
+    fun openSettings() {
         val i = Intent(this, SkillsActivity::class.java)
         startActivity(i)
         finish()
@@ -406,10 +405,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     override fun hideRetrieveOldMessageProgress() {
         progressDialog.dismiss()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed();
     }
 
     override fun finishActivity() {
