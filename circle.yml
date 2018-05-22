@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-26-alpha
+      - image: circleci/android:api-27-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -26,8 +26,9 @@ jobs:
       - run:
           command:
             bash exec/prep-key.sh
-            chmod +x exec/apk-gen.sh
-            ./exec/apk-gen.sh
+      - run:
+          command:
+            bash exec/apk-gen.sh
       - store_artifacts:
           path: app/build/reports
           destination: reports

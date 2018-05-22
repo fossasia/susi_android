@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skilllisting
 
 import android.support.v4.app.Fragment
 import android.os.Bundle
+import android.support.annotation.NonNull
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SnapHelper
@@ -33,7 +34,8 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    @NonNull
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.skills_activity)
         skillListingPresenter = SkillListingPresenter()
         skillListingPresenter.onAttach(this)
@@ -48,7 +50,7 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
         val mLayoutManager = LinearLayoutManager(activity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         skillGroups.layoutManager = mLayoutManager
-        skillGroupAdapter = SkillGroupAdapter(activity, skills)
+        skillGroupAdapter = SkillGroupAdapter(requireContext(), skills)
         skillGroups.adapter = skillGroupAdapter
         skillGroups.setOnFlingListener(null)
         skillAdapterSnapHelper.attachToRecyclerView(skillGroups)
