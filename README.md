@@ -110,7 +110,7 @@ First time contributors can read [ContributionHelp.md](docs/ContributionHelp.md)
 
 We have the following branches
 
- * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to gh-pages must pass a build check and a unit-test check on Travis.
+ * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to development branch must pass a build check and a unit-test check on Circle CI.
  * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update and make a release.
  	- Please Note that :-
 		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
