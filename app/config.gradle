@@ -5,7 +5,6 @@ ext {
 
     //Libraries
     playServicesVersion = '10.2.0'
-    buildToolsVersion = "27.0.3"
     supportLibraryVersion = '27.1.1'
     leakCanaryVersion = '1.5.4'
     mpAndroidChartVersion = 'v2.2.5'
