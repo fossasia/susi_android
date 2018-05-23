@@ -44,22 +44,22 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
     public void onBindViewHolder(final RssViewHolder holder, int position) {
         Datum datum = datumList.get(position);
         if (datum != null) {
-            if (TextUtils.isEmpty(datum.getLink())) {
-                if (TextUtils.isEmpty(datum.getTitle())) {
+            if (!TextUtils.isEmpty(datum.getLink())) {
+                if (!TextUtils.isEmpty(datum.getTitle())) {
                     holder.titleTextView.setText(Html.fromHtml(datum.getTitle()));
                 }
-                if (TextUtils.isEmpty(datum.getDescription())) {
+                if (!TextUtils.isEmpty(datum.getDescription())) {
                     holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
                 }
                 holder.linkTextView.setText(datum.getLink());
             } else {
-                if (TextUtils.isEmpty(datum.getName())) {
+                if (!TextUtils.isEmpty(datum.getName())) {
                     holder.titleTextView.setText(Html.fromHtml(datum.getName()));
                 }
-                if (TextUtils.isEmpty(datum.getJerseyNumber())) {
+                if (!TextUtils.isEmpty(datum.getJerseyNumber())) {
                     holder.descriptionTextView.setText(Html.fromHtml(datum.getJerseyNumber()));
                 }
-                if (TextUtils.isEmpty(datum.getPosition())) {
+                if (!TextUtils.isEmpty(datum.getPosition())) {
                     holder.linkTextView.setText(Html.fromHtml(datum.getPosition()));
                 }
             }
