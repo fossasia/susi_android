@@ -37,7 +37,7 @@ class AlertboxHelper
     fun showAlertBox() {
         val alertDialog = AlertDialog.Builder(activity)
         alertDialog.setTitle(title)
-        alertDialog.setCancelable(false)
+        alertDialog.setCancelable(true)
         alertDialog.setMessage(message)
         alertDialog.setPositiveButton(positiveText, dialogPositiveClick)
         alertDialog.setNeutralButton(negativeText, dialogNegativeClick)
