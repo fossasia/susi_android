@@ -406,6 +406,10 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun hideRetrieveOldMessageProgress() {
         progressDialog.dismiss()
     }
+    
+    override fun onBackPressed() {
+        super.onBackPressed();
+    }
 
     override fun finishActivity() {
         finish()
