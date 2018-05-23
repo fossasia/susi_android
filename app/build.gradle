@@ -63,6 +63,7 @@ dependencies {
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
 
     //Leak Canary
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
@@ -100,5 +101,6 @@ dependencies {
     implementation("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
         transitive = true
     }
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
 }
