@@ -8,6 +8,7 @@ import android.Manifest
 import android.app.ProgressDialog
 import android.content.*
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.ConnectivityManager
 import android.os.*
@@ -19,7 +20,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
@@ -55,15 +55,16 @@ class ChatActivity: AppCompatActivity(), IChatView {
     lateinit var chatPresenter: IChatPresenter
     val PERM_REQ_CODE = 1
     lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
-    lateinit var textToSpeech: TextToSpeech
+    var textToSpeech: TextToSpeech? = null
     var recordingThread: RecordingThread? = null
     lateinit var networkStateReceiver: BroadcastReceiver
     lateinit var progressDialog: ProgressDialog
     var example: String = ""
+    var isConfigurationChanged = false
 
     val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-            textToSpeech.stop()
+            textToSpeech?.stop()
         }
     }
 
@@ -123,12 +124,10 @@ class ChatActivity: AppCompatActivity(), IChatView {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
                     btnSpeak.setOnClickListener ({
                         chatPresenter.check(false)
-                        val chat_message = et_message.text.toString().trim({ it <= ' ' })
-                        val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-                        var message = ""
-                        for (split in splits)
-                            message = message + split + " "
-                        if (!chat_message.isEmpty()) {
+                        val chatMessage = et_message.text.toString().trim({ it <= ' ' })
+                        val splits = chatMessage.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
+                        val message = splits.joinToString(" ")
+                        if (!chatMessage.isEmpty()) {
                             chatPresenter.sendMessage(message, et_message.text.toString())
                             et_message.setText("")
                         }
@@ -136,9 +135,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 } else {
                     btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
                     btnSpeak.setOnClickListener {
-                        if(textToSpeech.isSpeaking){
-                            textToSpeech.stop()
-                        }
+                        textToSpeech?.stop()
                         chatPresenter.startSpeechInput()
                     }
                 }
@@ -170,6 +167,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
         })
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        isConfigurationChanged = true
+    }
+
     override fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>) {
         val linearLayoutManager = LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true
@@ -180,12 +182,16 @@ class ChatActivity: AppCompatActivity(), IChatView {
         rv_chat_feed.adapter = recyclerAdapter
 
         rv_chat_feed.addOnLayoutChangeListener({ _, _, _, _, bottom, _, _, _, oldBottom ->
-            if (bottom < oldBottom) {
-                rv_chat_feed.postDelayed({
-                    var scrollTo = rv_chat_feed.adapter.itemCount - 1
-                    scrollTo = if (scrollTo >= 0) scrollTo else 0
-                    rv_chat_feed.scrollToPosition(scrollTo)
-                }, 10)
+            if (isConfigurationChanged) {
+                isConfigurationChanged = false
+            } else {
+                if (bottom < oldBottom) {
+                    rv_chat_feed.postDelayed({
+                        var scrollTo = rv_chat_feed.adapter.itemCount - 1
+                        scrollTo = if (scrollTo >= 0) scrollTo else 0
+                        rv_chat_feed.scrollToPosition(scrollTo)
+                    }, 10)
+                }
             }
         })
 
@@ -208,8 +214,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
         Handler().post {
             textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
                 if (status != TextToSpeech.ERROR) {
-                    val locale = textToSpeech.getLanguage()
-                    textToSpeech.language = locale
+                    val locale = textToSpeech?.getLanguage()
+                    textToSpeech?.language = locale
                 }
             })
         }
@@ -234,7 +240,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         handler.post {
             val result = audioFocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-                textToSpeech.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onStart(s: String) {
                         if (recordingThread != null)
                             chatPresenter.stopHotwordDetection()
@@ -254,8 +260,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 val ttsParams = HashMap<String, String>()
                 ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
                         this@ChatActivity.packageName)
-                textToSpeech.language = Locale(language)
-                textToSpeech.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
+                textToSpeech?.language = Locale(language)
+                textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
                 audioFocus.abandonAudioFocus(afChangeListener)
             }
         }
@@ -316,9 +322,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
-                if(textToSpeech.isSpeaking){
-                    textToSpeech.stop()
-                }
+                textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
             })
         } else {
@@ -337,7 +341,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun checkEnterKeyPref(isChecked: Boolean) {
         if (isChecked) {
             et_message.imeOptions = EditorInfo.IME_ACTION_SEND
-            et_message.inputType = InputType.TYPE_CLASS_TEXT
         } else {
             et_message.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }
@@ -403,13 +406,9 @@ class ChatActivity: AppCompatActivity(), IChatView {
     override fun hideRetrieveOldMessageProgress() {
         progressDialog.dismiss()
     }
-
+    
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 0) {
-            chatPresenter.exitChatActivity()
-        } else {
-            supportFragmentManager.popBackStackImmediate()
-        }
+        super.onBackPressed();
     }
 
     override fun finishActivity() {
@@ -454,7 +453,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         if (recordingThread != null)
             chatPresenter.stopHotwordDetection()
 
-        textToSpeech.stop()
+        textToSpeech?.stop()
 
     }
 
@@ -462,8 +461,8 @@ class ChatActivity: AppCompatActivity(), IChatView {
         super.onDestroy()
         rv_chat_feed.clearOnScrollListeners()
 
-        textToSpeech.setOnUtteranceProgressListener(null)
-        textToSpeech.shutdown()
+        textToSpeech?.setOnUtteranceProgressListener(null)
+        textToSpeech?.shutdown()
         chatPresenter.onDetach()
     }
 }

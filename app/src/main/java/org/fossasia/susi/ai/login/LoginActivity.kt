@@ -1,9 +1,12 @@
 package org.fossasia.susi.ai.login
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -16,6 +19,7 @@ import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 
@@ -33,6 +37,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        PrefManager.putBoolean("activity_executed", true)
 
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())

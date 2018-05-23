@@ -1,0 +1,208 @@
+<resources>
+    <!--General Strings-->
+    <string name="app_name">सुसी एआई</string>
+    <string name="send_msg_hint">सुसी से कुछ पूछों..</string>
+    <string name="action_settings">सेटिंग्स</string>
+    <string name="action_about_us">हमारे बारे में</string>
+    <string name="action_wall_settings">वॉलपेपर</string>
+    <string name="action_share">शेयर</string>
+    <string name="action_log_out">लोग आउट</string>
+    <string name="action_login">लॉग इन करें</string>
+    <string name="settings_title">चैट सेटिंग्स</string>
+    <string name="server_settings_title">सर्वर सेटिंग्स</string>
+    <string name="server_pref">सर्वर का चयन करें</string>
+    <string name="server_select_summary">एप के लिए बैकएंड सर्वर का चयन करें</string>
+    <string name="search">खोज</string>
+    <string name="select_background">पृष्ठभूमि का चयन करें</string>
+    <string name="background_no_wall">नहीं पृष्ठभूमि</string>
+    <string name="enter_send" translatable="false">भेजें दर्ज करें</string>
+    <string name="id">आईडी</string>
+    <string name="no_internet_connection">इंटरनेट कनेक्शन उपलब्ध नहीं है !!</string>
+    <string name="updated_successfully">अद्यतन सफलतापूर्ण हो गया!</string>
+    <string name="content">सामग्री</string>
+    <string name="not_found">नहीं मिला</string>
+    <string name="nothing_up_matches_your_query">आपकी क्वेरी से मेल खाने वाली कुछ भी नहीं</string>
+    <string name="nothing_down_matches_your_query">आपकी क्वेरी से कुछ भी नीचे नहीं मिला</string>
+    <string name="send_message">संदेश भेज रहा है</string>
+    <string name="hint_voice_input">कुछ कहें...</string>
+    <string name="dialog_retrieve_messages_title">पुराना संदेश पुनर्प्राप्त करना ...</string>
+    <string name="hotword_success">हॉटवर्ड का पता चला</string>
+
+    <string name="signup">साइन अप करने के लिए आभार</string>
+    <string name="signup_msg">हमने आपके द्वारा प्रदान किए गए पते पर एक ईमेल भेजा है। कृपया का उपयोग करें
+        अपने खाते को सक्रिय करने और ससनी में प्रवेश करने के लिए पुष्टिकरण लिंक</string>
+    <string name="email_invalid">आपके द्वारा दर्ज ईमेल एक खाते से संबंधित नहीं है। कृपया अपना ईमेल जांचें और पुनः प्रयास करें।</string>
+    <string name="password_invalid">आपके द्वारा दर्ज किया गया पासवर्ड गलत है। कृपया पुन: प्रयास करें।</string>
+    <string name="forgot_password_mail_sent">ईमेल भेजा</string>
+
+    <string name="websearchnull">कोई परिणाम नहीं मिला</string>
+    <string name="error_email">ईमेल पता पहले से ही मौजूद है</string>
+    <string name="error_msg">भूल गए पासवर्ड विकल्प का उपयोग करें, अगर आपको अपना पासवर्ड याद नहीं है</string>
+    <string name="password_invalid_title">अवैध पासवर्ड</string>
+    <string name="exit">बाहर निकलने के लिए फिर से दबाएं</string>
+    <string name="message_copied">संदेश कॉपी किया गया</string>
+    <string name="error_cancelling_signUp_process_text">क्या आप निश्चित हैं, आप साइन अप की प्रक्रिया को रोकना चाहते हैं? आप बिना किसी खाते के सुशी ऐप का उपयोग करने में सक्षम नहीं होंगे।</string>
+
+    <!-- Strings for Using Enter as Send Preference and Speech Output-->
+    <string name="settings_enterPreference_summary">कीबोर्ड पर एन्टर बटन पर क्लिक करके संदेश भेजें</string>
+    <string name="settings_micPreference_summary">ध्वनि इनपुट देने के लिए माइक सक्षम करें</string>
+    <string name="settings_speechPreference_summary">भाषण इनपुट के लिए केवल वाक् आउटपुट सक्षम करें</string>
+    <string name="settings_speechAlwaysPreference_summary">इनपुट प्रकार की परवाह किए बिना भाषण आउटपुट को सक्षम करें</string>
+    <string name="settings_hotwordPreference_summary">हेस-फ्री मोड में सुशी के साथ इंटरैक्ट करने के लिए हॉटवर्ड डिटेक्शन सक्षम करें</string>
+    <string name="settings_speechPreference_label">भाषण आउटपुट</string>
+    <string name="settings_speechAlways_label">वाक् आउटपुट हमेशा चालू है</string>
+    <string name="settings_enterPreference_label">भेजें के रूप में दर्ज करें</string>
+    <string name="setting_mic_input">माइक्र इनपुट</string>
+    <string name="setting_hotword_detection">हॉटवर्ड डिटेक्शन (बीटा)</string>
+    <string name="setting_mic_key" translatable="false">माइक्र इनपुट</string>
+    <string name="setting_hotword_key" translatable="false">हॉटवर्ड डिटेक्शन</string>
+    <string name="settings_enterPreference_key" translatable="false">भेजें के रूप में दर्ज करें</string>
+    <string name="settings_speechPreference_key" translatable="false">भाषण आउटपुट</string>
+    <string name="settings_speechAlways_key" translatable="false">भाषण आउटपुट हमेशा</string>
+    <string name="hello_world">नमस्ते दुनिया!</string>
+    <string name="speech_prompt">कुछ कहो # 8230;</string>
+    <string name="speech_not_supported">माफ़ कीजिये! आपका उपकरण भाषण इनपुट का समर्थन नहीं करता है</string>
+    <string name="tap_on_mic">बोलने के लिए माइक पर टैप करें</string>
+    <string name="know_more">अधिक जानिए</string>
+
+    <!--Error Messages-->
+    <string name="error_crop_not_supported">क्षमा करें - आपका उपकरण इस कार्रवाई का समर्थन नहीं करता!</string>
+    <string name="error_occurred_try_again">एक त्रुटि पाई गई। कृपया पुन: प्रयास करें!</string>
+    <string name="error_invalid_token">अमान्य प्रवेश टोकन!</string>
+    <string name="error_internet_connectivity">इंटरनेट कनेक्टिविटी समस्या!</string>
+    <string name="error_hotword">क्षमा करें,हॉटवर्ड पहचान आपके फ़ोन पर समर्थित नहीं है</string>
+    <string name="error_rating">कौशल को रेट करने में असमर्थ कुछ त्रुटि हुई</string>
+    <string name="no_skill_name">नाम उपलब्ध नहीं</string>
+    <string name="no_skill_description">कोई वर्णन उपलब्ध नहीं</string>
+
+    <!--Material Dialog-->
+    <string name="dialog_action_complete">का उपयोग करते हुए कार्रवाई पूरी करें</string>
+    <string name="email">ईमेल</string>
+    <string name="password">पासवर्ड</string>
+    <string name="confirm_password">पासवर्ड की पुष्टि कीजिये</string>
+    <string name="new_password">नया पासवर्ड</string>
+    <string name="current_password">वर्तमान पासवर्ड</string>
+    <string name="sign_up">साइन अप करें</string>
+    <string name="pass_validation_text">कम से कम छह वर्णों का संयोजन दर्ज करें</string>
+    <string name="log_in">लॉग इन करें</string>
+    <string name="field_cannot_be_empty">यह स्थान खाली नहीं रह सकता</string>
+    <string name="email_cannot_be_empty">ईमेल खाली नहीं हो सकता</string>
+    <string name="password_cannot_be_empty">पासवर्ड रिक्त नहीं हो सकता</string>
+    <string name="url_cannot_be_empty">URL रिक्त नहीं हो सकता</string>
+    <string name="copy_items">प्रतिलिपि</string>
+    <string name="share_items">शेयर</string>
+    <string name="sample_website_description">एक वेबसाइट से नमूना पाठ निकाला</string>
+    <string name="sample_website_headline">वेबसाइट नमूना शीर्षक</string>
+    <string name="sample_website_link">वेबसाइट की लिंक</string>
+    <string-array name="dialog_complete_action_items">
+        <item>1. गेलरी</item>
+        <item>2. कोई वॉलपेपर नहीं</item>
+    </string-array>
+
+    <!-- Login Screen-->
+    <string name="activity_login_log_in">लॉग इन करें</string>
+    <string name="activity_login_sing_up">साइन अप करें</string>
+    <string name="activity_login_forgot_pass">पासवर्ड भूल गए?</string>
+    <string name="activity_login_sign_up">सुसी के लिए साइन अप करें</string>
+    <string name="activity_login_skip">छोड़ें</string>
+    <string name="activity_login_imageview_description" translatable="false">सुसी प्रतीक चिन्ह</string>
+    <string name="unknown_answer">मुझे नहीं पता।</string>
+    <string name="settings_mic">माइक सेटिंग्स</string>
+    <string name="settings_speech">भाषण सेटिंग</string>
+    <string name="settings_misc">कई तरह का</string>
+    <string name="Language">भाषा</string>
+    <string name="action_select_language">भाषा चुनें</string>
+    <string name="query_language">पूछताछ भाषा</string>
+    <string name="action_select_query_language">एक क्वेरी भाषा चुनें</string>
+    <string name="action_select_tts_language">भाषण इंजन भाषा के लिए एक पाठ का चयन करें</string>
+
+    <!-- Login Activity-->
+    <string name="invalid_url">अवैध यूआरएल</string>
+    <string name="unknown_host_exception">अज्ञात होस्ट अपवाद</string>
+    <string name="internet_connection_prompt">कृपया अपने इंटरनेट कनेक्शन की जाँच करें</string>
+    <string name="login">प्रवेश किया...</string>
+    <string name="signing_up">साइन उप हो रहा है...</string>
+    <string name="first_time">पहली बार</string>
+    <string name="ok">ठीक</string>
+    <string name="invalid_email">अवैध ईमेल</string>
+    <string name="email_invalid_title">गलत ईमेल</string>
+
+    <!-- Settings Activity-->
+    <string name="server_change_prompt">कृपया ससुए सर्वर बदलने के लिए फिर से लॉगिन करें</string>
+    <string name="loading">लोड हो रहा है...</string>
+    <string name="Continue">जारी रहना</string>
+    <string name="retry">पुन: प्रयास करें</string>
+    <string name="error">त्रुटि</string>
+    <string name="yes">हाँ</string>
+    <string name="no">नहीं</string>
+
+    <string name="email_id_input">अपना ईमेल आईडी दर्ज करें</string>
+    <string name="reset">पासवर्ड रीसेट</string>
+    <string name="reset_pass_activity">पासवर्ड रीसेट</string>
+    <string name="wrong_password">फिर से</string>
+    <string name="error_password_matching">पासवर्ड मेल नहीं खाते</string>
+    <string name="pass_change_dialog">आपके पासवर्ड में बदलाव। कृपया प्रतीक्षा करें</string>
+    <string name="forgot_pass_activity">पासवर्ड भूल गए?</string>
+    <string name="email_pass_not_exists">ईमेल मौजूद नहीं है कृपया सुनिश्चित करें कि आपने अपना ईमेल सही तरीके से दर्ज किया है</string>
+    <string name="email_token_string_message">कृपया अपने ईमेल आईडी पर भेजा गया मान्य प्रवेश टोकन दर्ज करें</string>
+    <string name="pref_rate_title">रेट एसयूसीआई</string>
+    <string name="pref_rate_summary">प्ले स्टोर पर एसयूसीआई एप्लिकेशन को रेट करें</string>
+    <string name="pref_share_title">शेयर एसयूसीआई</string>
+    <string name="pref_share_summary">अपने दोस्तों के साथ SUSI ऐप साझा करें</string>
+
+    <!--Share App strings-->
+    <string name="promo_msg_template">हे, कोशिश करो! -% s आप इसे प्यार करेंगे!</string>
+    <string name="error_msg_retry">कृपया फिर से प्रयास करें</string>
+    <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
+    <string name="logout">लोग आउट</string>
+    <string name="skills">कौशल</string>
+    <string name="skill_title">कौशल शीर्षक</string>
+    <string name="skills_activity">SUSI.AI कौशल</string>
+    <string name="error_skill_listing">कौशल लाने में असमर्थ कुछ गलत हो गया। बाद में पुन: प्रयास करें।</string>
+    <string name="no_skill_author">कौशल लेखक नहीं मिला</string>
+    <string name="reset_password_message">पासवर्ड रीसेट करना ..</string>
+
+    <!--About Us String-->
+    <string name="susi_about"><a href="https://chat.susi.ai/overview">सुसी एआई</a> एक बुद्धिमान ओपन सोर्स व्यक्तिगत सहायक है यह म्यूजिक प्लेबैक, टू-डू सूचियों बनाने, अलार्म सेट करने, पॉडकास्ट स्ट्रीमिंग, ऑडीओबूक चलाने और मौसम, ट्रैफ़िक और अन्य वास्तविक समय की जानकारी प्रदान करने के लिए एपीआई का उपयोग करके चैट और आवाज बातचीत करने में सक्षम है। बाहरी एपीआई का उपयोग कर कंसोल सेवाओं के रूप में अतिरिक्त कार्यशीलताओं को जोड़ा जा सकता है सुशी एआई सवालों के जवाब देने में सक्षम है और संदर्भ के आधार पर वांछित परिणामों को पूरा करने के लिए अतिरिक्त जानकारी मांगेगा। सहायक का मुख्य सुशी एआई सर्वर है जो सूसी एआई के "इंटेलिजेंस" और "व्यक्तित्व" रखता है।</string>
+    <string name="susi_contributors">योगदानकर्ता</string>
+    <string name="susi_contributors_desc">द्वारा विकसित <a href="https://github.com/fossasia/susi_android/graphs/contributors">द्वारा विकसित</a>.</string>
+    <string name="susi_skill_cms">एसयूएसआई कौशल सेमी</string>
+    <string name="susi_skill_cms_desc">SUSI में कई कौशल हैं आप कौशल के संग्रह को देख सकते हैं<a href="http://www.skills.susi.ai">skills.susi.ai</a>। एसयूएसआई कौशल विकास आसान और मजेदार है आप मौजूदा कौशल को संपादित कर सकते हैं या अपना स्वयं का बना सकते हैं।</string>
+    <string name="susi_report_issues">रिपोर्ट के मुद्दे</string>
+    <string name="susi_report_issues_desc">कृपया सभी मुद्दों की रिपोर्ट करें <a href="https://github.com/fossasia/susi_android/issues">जिथुब रिपोजिटरी इश्यू ट्रैकर</a>.</string>
+    <string name="susi_license_information">लाइसेंस</string>
+    <string name="susi_license_information_desc">यह परियोजना वर्तमान में अपाचे लाइसेंस संस्करण 2.0 के तहत लाइसेंस प्राप्त है। एक प्रतिलिप <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
+
+    <!-- Intro Strings -->
+    <string name="next">आगामी</string>
+    <string name="skip">छोड़ें</string>
+    <string name="start">समझ गया</string>
+    <string name="slide_1_title">लॉग इन करें</string>
+    <string name="slide_1_desc">LLUGIN SUSI AI खाते का उपयोग कर ऐप में या फिर नया खाता बनाने के लिए साइन अप करें या सिर्फ लॉगिन छोड़ दें</string>
+    <string name="slide_2_title">चैट इंटरफ़ेस</string>
+    <string name="slide_2_desc">SUSI AI से पूछताछ के साथ बातचीत करें ध्वनि संपर्क के लिए माइक्रोफ़ोन बटन का उपयोग करें।</string>
+    <string name="slide_3_title">कौशल लिस्टिंग</string>
+    <string name="slide_3_desc">ब्राउज़ करें और अपने पसंदीदा एसयूएसआई एआई कौशल की कोशिश करें</string>
+    <string name="slide_4_title">चैट सेटिंग्स</string>
+    <string name="slide_4_desc">बेहतर अनुभव के लिए अपनी चैट सेटिंग्स को निजीकृत करें</string>
+    <string name="customer_server">ग्राहक सर्वर</string>
+    <string name="url_input">यू आर एल दर्ज करो</string>
+    <string name="skill_name">कौशल का नाम</string>
+    <string name="author_name">लेखक: लेखक का नाम</string>
+    <string name="try_it">कोशिश करो</string>
+    <string name="description">विवरण</string>
+    <string name="description_long">विवरण लंबा</string>
+    <string name="examples">उदाहरण</string>
+    <string name="rating">रेटिंग</string>
+    <string name="positive_50">सकारात्मक: 50</string>
+    <string name="negative_50">नकारात्मक: 50</string>
+    <string name="content_type_dynamic">सामग्री प्रकार: गतिशील</string>
+    <string name="developer_privacy_policy">डेवलपर्स गोपनीयता नीति</string>
+    <string name="terms_of_use">उपयोग की शर्तें</string>
+    <string name="how_can_i_help">में आपकी कैसे मदद कर सकता हूं?</string>
+    <string name="option">विकल्प</string>
+    <string name="sample_group">नमूना समूह</string>
+    <string name="time_9am">सुबह के 9 बजे</string>
+    <string name="rss_item_link">www.link_here.com</string>
+
+</resources>

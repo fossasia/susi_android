@@ -2,24 +2,21 @@ package org.fossasia.susi.ai.chat
 
 import android.os.Handler
 import android.util.Log
-
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.db.DatabaseRepository
-import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.ChatModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IChatModel
+import org.fossasia.susi.ai.data.db.DatabaseRepository
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
-
 import retrofit2.Response
-
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -31,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
-        IDatabaseRepository.onDatabaseUpdateListener{
+        IDatabaseRepository.OnDatabaseUpdateListener{
 
     var chatView: IChatView?= null
     var chatModel: IChatModel = ChatModel()
@@ -95,8 +92,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 startHotwordDetection()
             }
             else {
-                chatView?.showToast(utilModel.getString(R.string.error_hotword))
                 utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
+                if(utilModel.getBooleanPref(Constant.NOTIFY_USER, true)){
+                    chatView?.showToast(utilModel.getString(R.string.error_hotword))
+                    utilModel.putBooleanPref(Constant.NOTIFY_USER, false)
+                }
             }
         }
     }
@@ -264,7 +264,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     //sends message to susi
     override fun sendMessage(query: String, actual: String) {
         addToNonDeliveredList(query, actual)
-        computeThread().start()
+        ComputeThread().start()
     }
 
     override fun addToNonDeliveredList(query: String, actual: String) {
@@ -277,7 +277,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                     DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
         } else {
-            val s = databaseRepository.getAMessage(newMessageIndex-1).date
+            val s = databaseRepository.getAMessage(newMessageIndex-1)?.date
             if (DateTimeHelper.date != s) {
                 databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                         DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
@@ -290,10 +290,10 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun startComputingThread() {
-        computeThread().start()
+        ComputeThread().start()
     }
 
-    private inner class computeThread : Thread() {
+    private inner class ComputeThread : Thread() {
         override fun run() {
             if(queueExecuting.compareAndSet(false,true)) {
                 computeOtherMessage()
@@ -434,20 +434,6 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
         if(!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
-        }
-    }
-
-    override fun exitChatActivity() {
-        if (atHome) {
-            if (backPressedOnce) {
-                chatView?.finishActivity()
-                return
-            }
-            backPressedOnce = true
-            chatView?.showToast(utilModel.getString(R.string.exit))
-            Handler().postDelayed({ backPressedOnce = false }, 2000)
-        } else if (!atHome) {
-            atHome = true
         }
     }
 

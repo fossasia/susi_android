@@ -45,6 +45,7 @@ public class Constant {
     public static final String ANCHOR = "anchor";
     public static final String WEBSEARCH = "websearch";
     public static final String RSS = "rss";
+    public static final String TABLE = "table";
     public static final String PIECHART = "piechart";
 
     public static final String MESSAGE_COUNT = "message_count";
@@ -69,4 +70,6 @@ public class Constant {
 
     public static final String POSITIVE = "positive";
     public static final String NEGATIVE = "negative";
+    public static final String NOTIFY_USER = "notify_user";
+
 }

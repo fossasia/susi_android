@@ -1,45 +1,50 @@
-package org.fossasia.susi.ai
+package org.fossasia.susi.ai.login
 
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
-import android.support.test.espresso.NoMatchingViewException
-import android.support.test.filters.MediumTest
-import android.support.test.rule.ActivityTestRule
-import android.support.test.runner.AndroidJUnit4
-import android.util.Log
-import android.view.WindowManager
-import android.widget.AutoCompleteTextView
-import android.widget.RadioButton
-
-import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.login.LoginActivity
-import org.junit.Before
-import org.junit.Rule
-import org.junit.Test
-import org.junit.runner.RunWith
-
-import android.support.test.InstrumentationRegistry.getInstrumentation
-import android.support.test.espresso.Espresso
+import android.Manifest
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.filters.MediumTest
+import android.support.test.rule.ActivityTestRule
+import android.support.test.rule.GrantPermissionRule
+import android.support.test.runner.AndroidJUnit4
+import android.util.Log
+import android.view.WindowManager
+import org.fossasia.susi.ai.R
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import org.junit.rules.TestRule
+import org.junit.runner.RunWith
+import java.io.IOException
 
 /**
- * Created by mayanktripathi on 17/07/17.
+ * Created by collinx on 22-10-2017.
  */
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
-class LoginViewTest {
+class LoginActivityTest {
 
-    @Rule @JvmField
+    @Rule
+    @JvmField
+    val permissionRule: TestRule = GrantPermissionRule.grant(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+
+    @Rule
+    @JvmField
     val mActivityRule = ActivityTestRule(LoginActivity::class.java)
 
     @Before
+    @Throws(IOException::class, InterruptedException::class)
     fun unlockScreen() {
+        Log.d(TAG, "running unlockScreen..")
+
         val activity = mActivityRule.activity
         val wakeUpDevice = Runnable {
             activity.window.addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
@@ -75,24 +80,9 @@ class LoginViewTest {
         // checks if skip button is present
         onView(withId(R.id.skip)).perform(scrollTo())
         onView(withId(R.id.skip)).check(matches(isDisplayed()))
-
-    }
-
-    @Test
-    @Throws(InterruptedException::class)
-    fun testSignIn() {
-        Log.d(TAG, "running Sign in test")
-        val emailInput = (mActivityRule.activity.findViewById(R.id.email) as TextInputLayout).editText as AutoCompleteTextView?
-        getInstrumentation().runOnMainSync { emailInput!!.setText("singhalsaurabh95@gmail.com") }
-        val passInput = (mActivityRule.activity.findViewById(R.id.password) as TextInputLayout).editText as TextInputEditText?
-        getInstrumentation().runOnMainSync { passInput!!.setText("qwertY12") }
-
-        onView(withId(R.id.log_in)).perform(click())
-
-        Thread.sleep(6000)
     }
 
     companion object {
-        private val TAG = "LoginViewTest"
+        private val TAG = "LoginActivityTest"
     }
 }
