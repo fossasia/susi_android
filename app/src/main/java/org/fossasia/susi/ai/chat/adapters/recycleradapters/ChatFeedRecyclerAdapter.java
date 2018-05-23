@@ -66,6 +66,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
+    private static final int LIST_RESULT = 13;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -190,6 +191,11 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 SearchResultsListHolder searchResultsListHolder = new SearchResultsListHolder(view);
                 searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 return searchResultsListHolder;
+            case LIST_RESULT:
+                view = inflater.inflate(R.layout.search_list, viewGroup, false);
+                SearchResultsListHolder listResultHolder = new SearchResultsListHolder(view);
+                listResultHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
+                return listResultHolder;
             case WEB_SEARCH:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder webResultsListHolder = new SearchResultsListHolder(view);
@@ -229,6 +235,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             case  Constant.WEBSEARCH :
                 return WEB_SEARCH;
             case Constant.RSS :
+                return SEARCH_RESULT;
+            case Constant.TABLE :
                 return SEARCH_RESULT;
             case  Constant.PIECHART :
                 return PIECHART;
