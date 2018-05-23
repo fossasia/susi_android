@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:text="@string/how_can_i_help"
-        android:textSize="40sp"
+        android:textSize="@dimen/text_size_how_can_i_help_you"
         android:textColor="@color/md_black_1000"/>
 
     <LinearLayout
@@ -21,7 +21,7 @@
             android:id="@+id/speechprogress"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_margin="8dp"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_gravity="center"/>
     </LinearLayout>
     <TextView
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/linearlayout"
         android:layout_margin="@dimen/activity_vertical_margin"
-        android:textSize="15dp"
+        android:textSize="@dimen/text_size_text_chat"
         android:textColor="@color/md_black_1000"
         android:layout_centerInParent="true"/>
 </RelativeLayout>
