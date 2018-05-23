@@ -84,6 +84,9 @@ class DatabaseRepository: IDatabaseRepository {
                         realmDatum.description = datum.description
                         realmDatum.link = datum.link
                         realmDatum.title = datum.title
+                        realmDatum.jerseyNumber = datum.jerseyNumber
+                        realmDatum.name = datum.name
+                        realmDatum.position = datum.position
                         datumRealmList.add(realmDatum)
                     }
                     chatMessage.datumRealmList = datumRealmList

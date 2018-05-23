@@ -49,7 +49,39 @@ public class Datum extends RealmObject {
     @SerializedName("link")
     @Expose
     private String link;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("position")
+    @Expose
+    private String position;
+    @SerializedName("jerseyNumber")
+    @Expose
+    private String jerseyNumber;
 
+    public String getJerseyNumber() {
+        return jerseyNumber;
+    }
+
+    public void setJerseyNumber(String jerseyNumber) {
+        this.jerseyNumber = jerseyNumber;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
     /**
      * Gets 0.
      *
