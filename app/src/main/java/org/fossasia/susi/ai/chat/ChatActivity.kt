@@ -386,11 +386,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun scrollToEnd() {
+    fun scrollToEnd(view: View) {
         rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
     }
 
-    fun openSettings() {
+    fun openSettings(view: View) {
         val i = Intent(this, SkillsActivity::class.java)
         startActivity(i)
         finish()
@@ -405,6 +405,10 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     override fun hideRetrieveOldMessageProgress() {
         progressDialog.dismiss()
+    }
+    
+    override fun onBackPressed() {
+        super.onBackPressed();
     }
 
     override fun finishActivity() {
