@@ -38,6 +38,8 @@ public class Constant {
     public static final String LANGUAGE="prefLanguage";
     public static final String DEFAULT="default";
     public static final String RATE="rate";
+    public static final String DEVICE="device";
+    public static final String DEVICE_SETUP="setup";
 
     //action types
     public static final String ANSWER = "answer";

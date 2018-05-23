@@ -88,6 +88,7 @@
     <string name="settings_speechPreference_key" translatable="false">speechOutput</string>
     <string name="settings_speechPreference_label">Speech output</string>
     <string name="settings_speechPreference_summary">Enable speech output only for speech input</string>
+    <string name="settings_devices_setup">Click here to setup a device</string>
 
     <string name="speech_not_supported">Sorry, your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say something…</string>
@@ -161,7 +162,7 @@
     <string name="settings_mic">Mic Settings</string>
     <string name="settings_misc">Miscellaneous</string>
     <string name="settings_speech">Speech Settings</string>
-
+    <string name="settings_devices">Devices</string>
     <string name="unknown_answer">I don\'t know.</string>
 
     <!-- Login Activity-->
@@ -206,6 +207,8 @@
     <string name="pref_rate_title">Rate SUSI</string>
     <string name="pref_share_summary">Share the SUSI app with your friends.</string>
     <string name="pref_share_title">Share SUSI</string>
+
+    <string name="pref_devices_not_connected">No connected device</string>
 
     <string name="reset">Reset Password</string>
     <string name="reset_pass_activity">Reset Password</string>

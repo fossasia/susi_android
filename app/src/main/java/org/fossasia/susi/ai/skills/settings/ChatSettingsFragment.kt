@@ -23,9 +23,11 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import org.fossasia.susi.ai.skills.SkillsActivity
@@ -60,6 +62,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var resetPasswordAlert: AlertDialog
     lateinit var setServerAlert: AlertDialog
     lateinit var querylanguage: ListPreference
+    lateinit var deviceName: Preference
+    lateinit var setupDevice: Preference
     var flag = true
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
@@ -83,6 +87,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
         displayEmail = preferenceManager.findPreference("display_email")
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
+        deviceName = preferenceManager.findPreference(Constant.DEVICE)
+        setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
 
         // Display login email
         var utilModel: UtilModel = UtilModel(activity as SkillsActivity)
@@ -101,7 +107,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         querylanguage.setOnPreferenceChangeListener { _, newValue ->
             PrefManager.putString(Constant.LANGUAGE, newValue.toString())
             setLanguage()
-            if(!settingsPresenter.getAnonymity()) {
+            if (!settingsPresenter.getAnonymity()) {
                 settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
             }
             true
@@ -142,6 +148,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
+        setupDevice.setOnPreferenceClickListener {
+
+            val intent = Intent(activity, DeviceActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
         if (settingsPresenter.getAnonymity()) {
             server.isEnabled = true
             server.setOnPreferenceClickListener {
@@ -152,7 +165,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             server.isEnabled = false
         }
 
-        if(!settingsPresenter.getAnonymity()) {
+        if (!settingsPresenter.getAnonymity()) {
             resetPassword.isEnabled = true
             resetPassword.setOnPreferenceClickListener {
                 showResetPasswordAlert()
@@ -166,7 +179,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         hotwordSettings.isEnabled = settingsPresenter.enableHotword()
 
-        if(!settingsPresenter.getAnonymity()) {
+        if (!settingsPresenter.getAnonymity()) {
             micSettings.setOnPreferenceClickListener {
                 settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
                 true
@@ -219,9 +232,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         customerServer.isChecked = flag
         inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null))
         customerServer.setOnCheckedChangeListener { buttonView, isChecked ->
-            if(isChecked)
+            if (isChecked)
                 inputUrl.visibility = View.VISIBLE
-            if(!isChecked)
+            if (!isChecked)
                 inputUrl.visibility = View.GONE
         }
         builder.setView(promptsView)
@@ -283,7 +296,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     override fun passwordInvalid(what: String) {
-        when(what) {
+        when (what) {
             Constant.NEW_PASSWORD -> newPassword.error = getString(R.string.pass_validation_text)
             Constant.PASSWORD -> password.error = getString(R.string.pass_validation_text)
             Constant.CONFIRM_PASSWORD -> conPassword.error = getString(R.string.pass_validation_text)
@@ -291,8 +304,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
-        if(isEmpty) {
-            when(what) {
+        if (isEmpty) {
+            when (what) {
                 Constant.PASSWORD -> password.error = getString(R.string.field_cannot_be_empty)
                 Constant.NEW_PASSWORD -> newPassword.error = getString(R.string.field_cannot_be_empty)
                 Constant.CONFIRM_PASSWORD -> conPassword.error = getString(R.string.field_cannot_be_empty)
@@ -304,7 +317,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     override fun onResetPasswordResponse(message: String) {
         resetPasswordAlert.dismiss()
-        if(!message.equals("null")) {
+        if (!message.equals("null")) {
             showToast(message)
         } else {
             showToast(getString(R.string.wrong_password))
@@ -313,7 +326,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     override fun checkUrl(isEmpty: Boolean) {
-        if(isEmpty) {
+        if (isEmpty) {
             inputUrl.error = getString(R.string.field_cannot_be_empty)
         } else {
             inputUrl.error = getString(R.string.invalid_url)
@@ -343,6 +356,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         settingsPresenter.onDetach()
