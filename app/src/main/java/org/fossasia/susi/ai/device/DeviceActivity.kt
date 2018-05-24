@@ -67,9 +67,9 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         }
 
         builder.setNegativeButton("CANCEL") { dialog, which ->
+            dialog.dismiss()
         }
 
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
+        builder.create().show()
     }
 }
