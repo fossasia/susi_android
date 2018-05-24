@@ -10,11 +10,10 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.contract.IDeviceView
 import android.content.Intent
 import android.content.ComponentName
+import android.widget.Toast
 
 
-
-
-class DeviceActivity : AppCompatActivity(),IDeviceView {
+class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     val TAG: String = DeviceActivity::class.java.name
     lateinit var devicePresenter: DevicePresenter
@@ -44,15 +43,13 @@ class DeviceActivity : AppCompatActivity(),IDeviceView {
     }
 
     override fun onDeviceConnectedSuccess() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Toast.makeText(this, R.string.connect_success, Toast.LENGTH_SHORT).show()
     }
 
     override fun showProgress() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onDeviceConnectionError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun chooseWifi(view: View) {
@@ -60,7 +57,7 @@ class DeviceActivity : AppCompatActivity(),IDeviceView {
 
         builder.setTitle(R.string.device_hosted_connection)
         builder.setMessage(R.string.choose_wifi)
-        builder.setPositiveButton("OK"){dialog, which ->
+        builder.setPositiveButton("OK") { dialog, which ->
             val intent = Intent(Intent.ACTION_MAIN, null)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
             val cn = ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings")
@@ -69,7 +66,7 @@ class DeviceActivity : AppCompatActivity(),IDeviceView {
             startActivity(intent)
         }
 
-        builder.setNegativeButton("CANCEL"){dialog,which ->
+        builder.setNegativeButton("CANCEL") { dialog, which ->
         }
 
         val dialog: AlertDialog = builder.create()
