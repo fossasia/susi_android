@@ -242,6 +242,8 @@
     <!-- Devices String-->
     <string name="device_title">Devices</string>
     <string name="device_not_add">You haven\'t added any devices yet</string>
+    <string name="choose_wifi">Please make sure you have turned on your device. You will be directed to the wifi settings page where you will choose your device\'s connection.</string>
+    <string name="device_hosted_connection">Connect to your device</string>
 
     <!--About Us String-->
     <string name="susi_about">
