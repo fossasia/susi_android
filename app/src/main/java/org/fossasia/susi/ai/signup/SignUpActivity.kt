@@ -75,7 +75,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirm_password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, customer_server.isChecked)
+        outState.putBoolean(Constant.SERVER, custom_server.isChecked)
     }
 
     override fun onBackPressed() {
@@ -152,7 +152,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     fun showURL() {
-        customer_server.setOnClickListener { input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE}
+        custom_server.setOnClickListener { input_url.visibility = if(custom_server.isChecked) View.VISIBLE else View.GONE}
     }
 
     fun setupPasswordWatcher() {
@@ -190,7 +190,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val stringConPassword = confirm_password.editText?.text.toString()
             val stringURL = input_url.editText?.text.toString()
 
-            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, !customer_server.isChecked, stringURL)
+            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, !custom_server.isChecked, stringURL)
         }
     }
 

@@ -84,8 +84,8 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     }
 
     fun showUrl() {
-        customer_server.setOnClickListener {
-            input_url.visibility = if(customer_server.isChecked) View.VISIBLE else View.GONE
+        custom_server.setOnClickListener {
+            input_url.visibility = if(custom_server.isChecked) View.VISIBLE else View.GONE
         }
     }
 
@@ -98,7 +98,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     fun requestPassword() {
         reset_button.setOnClickListener {
             val email = forgot_email.editText?.text.toString()
-            val isPersonalServerChecked = customer_server.isChecked
+            val isPersonalServerChecked = custom_server.isChecked
             val url = input_url.editText?.text.toString()
             forgot_email.error = null
             input_url.error = null
@@ -130,7 +130,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(forgot_email.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, customer_server.isChecked)
+        outState.putBoolean(Constant.SERVER, custom_server.isChecked)
     }
 
     override fun onDestroy() {

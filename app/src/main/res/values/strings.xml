@@ -266,7 +266,7 @@
     <string name="content_type_dynamic">Content Type: Dynamic</string>
     <string name="content_type_static">Content Type: Static</string>
 
-    <string name="customer_server">Customer Server</string>
+    <string name="custom_server">Custom Server</string>
 
     <string name="description">Description</string>
     <string name="description_long">Description long</string>

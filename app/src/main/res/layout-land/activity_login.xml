@@ -66,10 +66,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/customer_server"
+                android:id="@+id/custom_server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/customer_server"
+                android:text="@string/custom_server"
                 android:layout_marginBottom="5dp"/>
 
             <android.support.design.widget.TextInputLayout
