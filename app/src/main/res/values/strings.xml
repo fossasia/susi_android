@@ -88,11 +88,8 @@
     <string name="settings_speechPreference_key" translatable="false">speechOutput</string>
     <string name="settings_speechPreference_label">Speech output</string>
     <string name="settings_speechPreference_summary">Enable speech output only for speech input</string>
-    <string name="settings_devices_setup">Click here to setup a device</string>
-
     <string name="speech_not_supported">Sorry, your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say something…</string>
-
     <string name="tap_on_mic">Tap the mic icon to speak</string>
 
     <!--Error Messages-->
@@ -209,7 +206,7 @@
     <string name="pref_share_title">Share SUSI</string>
 
     <string name="pref_devices_not_connected">No connected device</string>
-
+    <string name="settings_devices_setup">Click here to move to device setup screen</string>
     <string name="reset">Reset Password</string>
     <string name="reset_pass_activity">Reset Password</string>
 
@@ -242,7 +239,8 @@
     <string name="skills">Skills</string>
     <string name="skills_activity">SUSI.AI Skills</string>
 
-    <!-- -->
+    <!-- Devices String-->
+    <string name="device_title">Devices</string>
     <string name="device_not_add">You haven\'t added any devices yet</string>
 
     <!--About Us String-->
