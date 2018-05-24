@@ -8,5 +8,5 @@ if [ "$CIRCLE_PROJECT_USERNAME" != "fossasia" -o "$CIRCLE_BRANCH" != "$DEPLOY_BR
     exit 0
 fi
 
-openssl aes-256-cbc -d -in ./exec/secrets.tar.enc -out ./exec/secrets.tar -k $ENCRYPT_KEY
+openssl aes-256-cbc -d -md sha256 -in ./exec/secrets.tar.enc -out ./exec/secrets.tar -k $ENCRYPT_KEY
 tar xvf ./exec/secrets.tar -C exec/
