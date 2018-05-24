@@ -65,7 +65,6 @@
         -->
 
         <activity android:name=".device.DeviceActivity"
-            android:configChanges="orientation|screenSize"
             android:label="@string/device_title"
             android:theme="@style/PreferencesThemeLight">
             <meta-data
