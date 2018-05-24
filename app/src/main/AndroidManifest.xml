@@ -64,7 +64,9 @@
             android:value="fabric_api_key" />
         -->
 
-        <activity android:name=".device.DeviceActivity"></activity>
+        <activity android:name=".device.DeviceActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/PreferencesThemeLight"></activity>
     </application>
 
 </manifest>
