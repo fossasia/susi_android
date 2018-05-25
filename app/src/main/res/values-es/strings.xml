@@ -26,6 +26,7 @@
     <string name="hint_voice_input">Di algo...</string>
     <string name="dialog_retrieve_messages_title">Recuperar mensajes antiguos...</string>
     <string name="hotword_success">Hotword detectado</string>
+    <string name="custom_server">servidor personalizado</string>
 
     <string name="signup">Gracias por registrarte</string>
     <string name="signup_msg">Hemos enviado un correo electrónico a la dirección que proporcionó. Por favor, utilice el
