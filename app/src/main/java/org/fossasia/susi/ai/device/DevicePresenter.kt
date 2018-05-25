@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.device
 import org.fossasia.susi.ai.device.contract.IDevicePresenter
 import org.fossasia.susi.ai.device.contract.IDeviceView
 
-class DevicePresenter:IDevicePresenter {
+class DevicePresenter : IDevicePresenter {
 
     var deviceView: IDeviceView?= null
 
