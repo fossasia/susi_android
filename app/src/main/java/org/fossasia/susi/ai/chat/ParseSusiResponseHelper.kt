@@ -18,8 +18,9 @@ class ParseSusiResponseHelper {
     var answer: String = ""
     var actionType: String = Constant.ANSWER
     var datumList: RealmList<Datum>? = null
-    var mapData: MapData?= null
+    var mapData: MapData? = null
     var webSearch = ""
+    var stop = "Stopped"
     var isHavingLink = false
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
@@ -76,6 +77,12 @@ class ParseSusiResponseHelper {
                 webSearch = ""
             }
 
+            Constant.STOP -> try {
+                stop = susiResponse.answers[0].actions[1].type
+            } catch (e: Exception) {
+
+            }
+
             else -> answer = error
         }
     }
@@ -91,8 +98,8 @@ class ParseSusiResponseHelper {
             return links
         }
 
-        fun getSkillLocation(locationUrl: String): Map<String,String> {
-            val susiLocation= mutableMapOf<String, String>()
+        fun getSkillLocation(locationUrl: String): Map<String, String> {
+            val susiLocation = mutableMapOf<String, String>()
 
             try {
                 val locationArray = locationUrl.split("/")
