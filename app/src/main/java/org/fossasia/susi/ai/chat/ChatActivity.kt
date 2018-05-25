@@ -48,7 +48,7 @@ import java.util.*
  * The V in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatActivity : AppCompatActivity(), IChatView {
+class ChatActivity: AppCompatActivity(), IChatView {
 
     val TAG: String = ChatActivity::class.java.name
 
