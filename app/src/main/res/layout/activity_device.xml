@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,30 +7,32 @@
     tools:context="org.fossasia.susi.ai.device.DeviceActivity">
 
     <TextView
+        android:id="@+id/connected_device"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/md_green_50"
         android:textAppearance="?android:textAppearanceLarge"
-        android:id="@+id/connected_device"
-        />
+        android:textColor="@color/md_green_50" />
 
     <TextView
+        android:id="@+id/no_device_connected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/device_not_add"
         android:textAppearance="?android:textAppearanceLarge"
-        android:gravity="center"
-        android:id="@+id/no_device_connected"
         android:textColor="#ccccc0"
-        android:layout_centerInParent="true"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_margin="10dp"
         android:onClick="chooseWifi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

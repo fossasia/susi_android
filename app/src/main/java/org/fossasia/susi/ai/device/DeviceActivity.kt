@@ -57,16 +57,16 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
 
         builder.setTitle(R.string.device_hosted_connection)
         builder.setMessage(R.string.choose_wifi)
-        builder.setPositiveButton("OK") { dialog, which ->
+        builder.setPositiveButton(R.string.ok) { dialog, which ->
             val intent = Intent(Intent.ACTION_MAIN, null)
             intent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val cn = ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings")
-            intent.component = cn
+            val componentName = ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings")
+            intent.component = componentName
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
 
-        builder.setNegativeButton("CANCEL") { dialog, which ->
+        builder.setNegativeButton(R.string.cancel) { dialog, which ->
             dialog.dismiss()
         }
 
