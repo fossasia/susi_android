@@ -10,12 +10,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight=".5"
         android:adjustViewBounds="true"
-        android:padding="@dimen/padding_img"
-        android:layout_gravity="center"
         android:background="@color/default_bg"
         android:contentDescription="@string/activity_login_imageview_description"
+        android:padding="@dimen/padding_img"
         app:srcCompat="@drawable/ic_susi_blue" />
 
     <ScrollView
@@ -42,11 +42,11 @@
                 app:errorEnabled="true">
 
                 <AutoCompleteTextView
+                    android:id="@+id/email_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    android:id="@+id/email_input"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -69,8 +69,8 @@
                 android:id="@+id/custom_server"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/custom_server"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:text="@string/custom_server" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_url"
@@ -101,10 +101,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
+                android:paddingLeft="48dp"
                 android:text="@string/activity_login_forgot_pass"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:paddingLeft="48dp"
                 android:typeface="monospace" />
 
             <TextView

@@ -64,7 +64,8 @@
             android:value="fabric_api_key" />
         -->
 
-        <activity android:name=".device.DeviceActivity"
+        <activity
+            android:name=".device.DeviceActivity"
             android:label="@string/device_title"
             android:theme="@style/PreferencesThemeLight">
             <meta-data

@@ -11,7 +11,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- *
  * Created by meeera on 17/6/17.
  */
 
@@ -27,6 +26,6 @@ public class RssViewHolder extends RecyclerView.ViewHolder {
 
     public RssViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
     }
 }

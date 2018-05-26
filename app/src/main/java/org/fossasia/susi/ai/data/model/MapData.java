@@ -2,7 +2,7 @@ package org.fossasia.susi.ai.data.model;
 
 /**
  * <h1>Class to store data in case of map action type.</h1>
- *
+ * <p>
  * Created by chiragw15 on 9/6/17.
  */
 public class MapData {

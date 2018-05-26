@@ -14,24 +14,24 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".login.WelcomeActivity"
-                  android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
+        <activity
+            android:name=".login.WelcomeActivity"
+            android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".chat.ChatActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Chat_Theme"
-            android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
         <activity
             android:name=".skills.SkillsActivity"
-            android:theme="@style/PreferencesThemeLight"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/PreferencesThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.chat.ChatActivity" />
@@ -43,8 +43,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
-        </activity>
+            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
     </application>
 
 </manifest>

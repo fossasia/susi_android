@@ -29,7 +29,7 @@ class AboutUsFragment : Fragment() {
         val itemAbout = menu.findItem(R.id.menu_about)
         itemAbout.isVisible = false
         val itemSettings = menu.findItem(R.id.menu_settings)
-        itemSettings.isVisible= false
+        itemSettings.isVisible = false
         var searchoption = menu.findItem(R.id.action_search)
         searchoption.isVisible = false;
         super.onPrepareOptionsMenu(menu)

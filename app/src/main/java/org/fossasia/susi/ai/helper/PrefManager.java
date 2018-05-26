@@ -167,9 +167,9 @@ public class PrefManager {
      *
      * @return String Running Susi Base Url
      */
-    public static String getSusiRunningBaseUrl(){
+    public static String getSusiRunningBaseUrl() {
 
-        if(getBoolean("is_susi_server_selected", true)){
+        if (getBoolean("is_susi_server_selected", true)) {
             return getString(SUSI_RUNNING_BASE_URL, BaseUrl.SUSI_DEFAULT_BASE_URL);
         }
         return getString("custom_server", "null");

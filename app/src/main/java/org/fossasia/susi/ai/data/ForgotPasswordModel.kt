@@ -20,7 +20,7 @@ class ForgotPasswordModel : IForgotPasswordModel {
     override fun requestPassword(email: String, listener: IForgotPasswordModel.OnFinishListener) {
         authResponseCall = ClientBuilder().susiApi.forgotPassword(email)
 
-        authResponseCall.enqueue(object: Callback<ForgotPasswordResponse>{
+        authResponseCall.enqueue(object : Callback<ForgotPasswordResponse> {
             override fun onFailure(call: Call<ForgotPasswordResponse>?, t: Throwable) {
                 listener.onError(t)
             }

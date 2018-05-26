@@ -8,7 +8,7 @@ import java.io.Serializable
  *
  * Created by chiragw15 on 16/8/17.
  */
-class SkillData: Serializable {
+class SkillData : Serializable {
 
     @SerializedName("image")
     @Expose
@@ -36,7 +36,7 @@ class SkillData: Serializable {
 
     @SerializedName("dynamic_content")
     @Expose
-    var dynamicContent: Boolean ?= null
+    var dynamicContent: Boolean? = null
 
     @SerializedName("terms_of_use")
     @Expose
@@ -48,5 +48,5 @@ class SkillData: Serializable {
 
     @SerializedName("skill_rating")
     @Expose
-    var skillRating: SkillRating ?= null
+    var skillRating: SkillRating? = null
 }

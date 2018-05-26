@@ -18,13 +18,13 @@ import java.util.List;
 
 /**
  * Adapter for displaying list of actions in a dialog box when message is long pressed.
- *
+ * <p>
  * Created by chiragw15 on 31/7/17.
  */
 
-public class SelectionDialogListAdapter extends ArrayAdapter<Pair<String,Drawable>> {
+public class SelectionDialogListAdapter extends ArrayAdapter<Pair<String, Drawable>> {
 
-    private final List<Pair<String,Drawable>> list;
+    private final List<Pair<String, Drawable>> list;
     private final Activity context;
 
     static class ViewHolder {
@@ -32,7 +32,7 @@ public class SelectionDialogListAdapter extends ArrayAdapter<Pair<String,Drawabl
         ImageView icon;
     }
 
-    public SelectionDialogListAdapter(Context context, List<Pair<String,Drawable>> list) {
+    public SelectionDialogListAdapter(Context context, List<Pair<String, Drawable>> list) {
         super(context, R.layout.item_selection_dialog_list, list);
         this.context = (Activity) context;
         this.list = list;

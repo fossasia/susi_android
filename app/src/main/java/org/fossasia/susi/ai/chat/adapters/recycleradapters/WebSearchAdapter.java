@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * <h1>Adapter to display horizontal list of web search results.</h1>
- *
+ * <p>
  * Created by chiragw15 on 2/6/17.
  */
 public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
@@ -58,14 +58,14 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
             String iconUrl = webSearch.getImageURL();
             final String linkurl = webSearch.getUrl();
 
-            if(text!=null) {
+            if (text != null) {
                 holder.descriptionTextView.setText(text);
                 holder.descriptionTextView.setVisibility(View.VISIBLE);
             } else {
                 holder.descriptionTextView.setVisibility(View.GONE);
             }
 
-            if(title!=null) {
+            if (title != null) {
                 holder.titleTextView.setText(title);
                 holder.titleTextView.setVisibility(View.VISIBLE);
             } else {
@@ -74,12 +74,12 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
 
             if (iconUrl != null && !iconUrl.isEmpty()) {
                 holder.previewImageView.setVisibility(View.VISIBLE);
-                Log.v(TAG , iconUrl);
+                Log.v(TAG, iconUrl);
                 Picasso.with(context).load(iconUrl)
                         .into(holder.previewImageView, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
-                                Log.d("Sucess","image loaded successfully");
+                                Log.d("Sucess", "image loaded successfully");
                             }
 
                             @Override

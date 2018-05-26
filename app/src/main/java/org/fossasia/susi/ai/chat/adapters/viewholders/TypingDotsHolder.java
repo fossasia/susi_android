@@ -12,7 +12,7 @@ import pl.tajchert.sample.DotsTextView;
 
 /**
  * <h1>Typing dots view holder</h1>
- *
+ * <p>
  * Created by mejariamol on 10/21/2016.
  */
 public class TypingDotsHolder extends RecyclerView.ViewHolder {

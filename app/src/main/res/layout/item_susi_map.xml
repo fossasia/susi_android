@@ -9,9 +9,9 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/margin_card"
-        android:layout_marginLeft="@dimen/margin_card"
         android:layout_marginBottom="@dimen/message_card_margin_small"
+        android:layout_marginLeft="@dimen/margin_card"
+        android:layout_marginRight="@dimen/margin_card"
         android:layout_marginTop="@dimen/message_card_margin_small"
         app:cardBackgroundColor="@color/susi_message_bg">
 
