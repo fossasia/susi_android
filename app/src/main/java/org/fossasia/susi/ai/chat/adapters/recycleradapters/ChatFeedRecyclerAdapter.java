@@ -203,7 +203,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 webResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 return webResultsListHolder;
             case DATE_VIEW:
-                view = inflater.inflate(R.layout.date_view, viewGroup,false);
+                view = inflater.inflate(R.layout.date_view,viewGroup, false);
                 return new DateViewHolder(view);
             case DOTS:
                 return dotsHolder;
@@ -228,20 +228,20 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
 
-        switch (item.getActionType()) {
+        switch(item.getActionType()) {
             case Constant.ANCHOR :
                 return SUSI_MESSAGE;
             case Constant.ANSWER :
                 return SUSI_MESSAGE;
             case Constant.MAP :
                 return MAP;
-            case Constant.WEBSEARCH :
+            case  Constant.WEBSEARCH :
                 return WEB_SEARCH;
             case Constant.RSS :
                 return SEARCH_RESULT;
             case Constant.TABLE :
                 return SEARCH_RESULT;
-            case Constant.PIECHART :
+            case  Constant.PIECHART :
                 return PIECHART;
             default:
                 return SUSI_MESSAGE;
@@ -351,13 +351,13 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     }
 
     private void setBackGroundColor(RecyclerView.ViewHolder holder, boolean isSelected, boolean isUserMessage) {
-        if( holder instanceof ChatViewHolder) {
+        if( holder instanceof ChatViewHolder ) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
             if(isUserMessage)
-                chatViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
             else
-                chatViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
@@ -391,12 +391,11 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
                 switch (which) {
                     case 0: setClipboard(getItem(position).getContent());
-                        Toast toast = Toast.makeText(recyclerView.getContext(), R.string.message_copied, Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                         break;
-                    case 1:
-                        shareMessage(getItem(position).getContent());
+                    case 1: shareMessage(getItem(position).getContent());
                         break;
                 }
             }

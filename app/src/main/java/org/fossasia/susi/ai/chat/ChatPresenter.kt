@@ -86,14 +86,14 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     override fun initiateHotwordDetection() {
         if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
                 chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
-            if ( utilModel.isArmDevice() && utilModel.checkMicInput()) {
+            if ( utilModel.isArmDevice() && utilModel.checkMicInput() ) {
                 utilModel.copyAssetstoSD()
                 chatView?.initHotword()
                 startHotwordDetection()
             }
             else {
                 utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
-                if(utilModel.getBooleanPref(Constant.NOTIFY_USER, true)) {
+                if(utilModel.getBooleanPref(Constant.NOTIFY_USER, true)){
                     chatView?.showToast(utilModel.getString(R.string.error_hotword))
                     utilModel.putBooleanPref(Constant.NOTIFY_USER, false)
                 }
@@ -295,14 +295,14 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     private inner class ComputeThread : Thread() {
         override fun run() {
-            if(queueExecuting.compareAndSet(false, true)) {
+            if(queueExecuting.compareAndSet(false,true)) {
                 computeOtherMessage()
             }
         }
     }
 
     @Synchronized
-    fun computeOtherMessage() { Log.v("chirag", "chirag run")
+    fun computeOtherMessage() { Log.v("chirag","chirag run")
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
                 chatView?.showWaitingDots()

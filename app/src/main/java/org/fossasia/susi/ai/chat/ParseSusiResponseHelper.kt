@@ -98,7 +98,7 @@ class ParseSusiResponseHelper {
             return links
         }
 
-        fun getSkillLocation(locationUrl: String): Map<String, String> {
+        fun getSkillLocation(locationUrl: String): Map<String,String> {
             val susiLocation= mutableMapOf<String, String>()
 
             try {
