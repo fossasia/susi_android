@@ -80,7 +80,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         setUpUI()
         initializationMethod(firstRun)
 
-        if (intent.getStringExtra("example") != null) {
+        if(intent.getStringExtra("example") != null) {
             example = intent.getStringExtra("example")
         } else {
             example = ""
@@ -122,7 +122,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 if (charSequence.toString().trim { it <= ' ' }.isNotEmpty() || !chatPresenter.micCheck()) {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
-                    btnSpeak.setOnClickListener({
+                    btnSpeak.setOnClickListener ({
                         chatPresenter.check(false)
                         val chatMessage = et_message.text.toString().trim({ it <= ' ' })
                         val splits = chatMessage.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
@@ -223,7 +223,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     //Take user's speech as input and send the message
     override fun promptSpeechInput() {
-        if (recordingThread != null) {
+        if ( recordingThread != null) {
             chatPresenter.stopHotwordDetection()
         }
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
@@ -234,7 +234,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     //Replies user with Speech
-    override fun voiceReply(reply: String, language: String) {
+     override fun voiceReply(reply: String, language: String) {
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
@@ -419,7 +419,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         super.onResume()
         chatPresenter.getUndeliveredMessages()
 
-        if (!example.isEmpty()) {
+        if(!example.isEmpty()) {
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
         }
