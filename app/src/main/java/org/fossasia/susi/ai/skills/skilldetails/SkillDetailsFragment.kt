@@ -6,12 +6,22 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
+import android.widget.TextView
+import android.widget.Toast
+import com.github.mikephil.charting.charts.HorizontalBarChart
+import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
@@ -20,6 +30,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
+import java.util.*
 
 /**
  *
@@ -31,6 +42,10 @@ class SkillDetailsFragment : Fragment() {
     lateinit var skillGroup: String
     lateinit var skillTag: String
     val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+
+    lateinit var fiveStarSkillRatingBar : RatingBar
+    lateinit var fiveStarSkillRatingScaleTextView : TextView
+    lateinit var skillRatingChart: HorizontalBarChart
 
     companion object {
         val SKILL_KEY = "skill_key"
@@ -167,62 +182,126 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
+    /**
+     * Set up the rating section.
+     *
+     * Display 5 star rating bar.
+     *
+     * Display horizontal bar chart to display the percentage of users for each rating on a
+     * scale of one to five stars.
+     */
     fun setRating() {
-        if (skillData.skillRating == null) {
-            skill_detail_rating_positive.text = context?.getString(R.string.skill_unrated)
-            val params = skill_detail_rating_positive.layoutParams
-            params.width = 344
-            skill_detail_rating_positive.layoutParams = params
-            skill_detail_rating_negative.visibility = View.GONE
-            skill_detail_rating_thumbs_up.visibility = View.GONE
-            skill_detail_rating_thumbs_down.visibility = View.GONE
-        } else {
-            skill_detail_rating_positive.text = context?.getString(R.string.positive)
-            skill_detail_rating_positive.append(": " + skillData.skillRating?.positive)
-            skill_detail_rating_negative.text = context?.getString(R.string.negative)
-            skill_detail_rating_negative.append(": " + skillData.skillRating?.negative)
-
-            val positiveColor = getRatedColor(skillData.skillRating?.positive, context?.getString(R.string.positive))
-            val negativeColor = getRatedColor(skillData.skillRating?.negative, context?.getString(R.string.negative))
-
-            skill_detail_rating_thumbs_up.setColorFilter(positiveColor)
-            skill_detail_rating_thumbs_down.setColorFilter(negativeColor)
-        }
+        setUpFiveStarRatingBar()
+        setSkillGraph()
     }
 
-    private fun getRatedColor(rating: Int?, s: String?): Int {
-        var resId = R.color.colorAccent
-        if (rating != null) {
-            when (s) {
-                context?.getString(R.string.negative) ->
-                    if (rating < 10)
-                        resId = R.color.md_red_100
-                    else if (rating in 10..19)
-                        resId = R.color.md_red_200
-                    else if (rating in 20..29)
-                        resId = R.color.md_red_300
-                    else if (rating in 30..39)
-                        resId = R.color.md_red_300
-                    else if (rating in 40..49)
-                        resId = R.color.md_red_300
-                    else
-                        resId = R.color.md_red_400
-                context?.getString(R.string.positive) ->
-                    if (rating < 10)
-                        resId = R.color.md_blue_100
-                    else if (rating in 10..19)
-                        resId = R.color.md_blue_200
-                    else if (rating in 20..29)
-                        resId = R.color.md_blue_300
-                    else if (rating in 30..39)
-                        resId = R.color.md_blue_300
-                    else if (rating in 40..49)
-                        resId = R.color.md_blue_300
-                    else
-                        resId = R.color.md_blue_400
+    /**
+     * Set up the five star rating bar using which the user can rate the skill
+     * on a scale of one to five stars.
+     *
+     * Change the contents of the rating scale text view as per the number of
+     * stars given by the user.
+     */
+    fun setUpFiveStarRatingBar() {
+        fiveStarSkillRatingBar = five_star_skill_rating_bar
+        fiveStarSkillRatingScaleTextView = tv_five_star_skill_rating_scale
+
+        //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
+        fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, b ->
+            fiveStarSkillRatingScaleTextView.setText(v.toString())
+            when (ratingBar.rating.toInt()) {
+                1 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_hate)
+                2 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_improvement)
+                3 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_good)
+                4 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_great)
+                5 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_awesome)
+                else -> fiveStarSkillRatingScaleTextView.setText("")
             }
-        }
-        return resources.getColor(resId)
+
+            //Display a toast to notify the user that the rating has been submitted
+            Toast.makeText(context, "Thank you for rating this skill", Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    /**
+     * Set up the axes along with other necessary details for the horizontal bar chart.
+     */
+    fun setSkillGraph(){
+        skillRatingChart = skill_rating_chart
+
+        skillRatingChart.setDrawBarShadow(false)
+        val description = Description()
+        description.text = ""
+        skillRatingChart.description = description
+        skillRatingChart.legend.setEnabled(false)
+        skillRatingChart.setPinchZoom(false)
+        skillRatingChart.setDrawValueAboveBar(false)
+
+        //Display the axis on the left (contains the labels 1*, 2* and so on)
+        val xAxis = skillRatingChart.getXAxis()
+        xAxis.setDrawGridLines(false)
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
+        xAxis.setEnabled(true)
+
+        val yLeft = skillRatingChart.axisLeft
+        yLeft.axisMaximum = 100f
+        yLeft.axisMinimum = 0f
+        yLeft.isEnabled = false
+
+        //Set label count to 5 as we are using 5 star rating system
+        xAxis.setLabelCount(5)
+        val values = arrayOf("1 *", "2 *", "3 *", "4 *", "5 *")
+        xAxis.valueFormatter = XAxisValueFormatter(values)
+
+        val yRight = skillRatingChart.axisRight
+        yRight.setDrawAxisLine(true)
+        yRight.setDrawGridLines(false)
+        yRight.isEnabled = false
+
+        //Set bar entries and add necessary formatting
+        setData()
+
+        //Add animation to the graph
+        skillRatingChart.animateY(2000)
+    }
+
+    /**
+     * Set the bar entries i.e. the percentage of users who rated the skill with
+     * a certain number of stars.
+     *
+     * Set the colors for different bars and the bar width of the bars.
+     */
+    private fun setData() {
+
+        //Add a list of bar entries
+        val entries = ArrayList<BarEntry>()
+        entries.add(BarEntry(0f, 15f))
+        entries.add(BarEntry(1f, 30f))
+        entries.add(BarEntry(2f, 45f))
+        entries.add(BarEntry(3f, 60f))
+        entries.add(BarEntry(4f, 90f))
+
+        val barDataSet = BarDataSet(entries, "Bar Data Set")
+
+        //Set the colors for bars with first color for 1*, second for 2* and so on
+        barDataSet.setColors(
+                ContextCompat.getColor(skillRatingChart.context, R.color.md_red_300),
+                ContextCompat.getColor(skillRatingChart.context, R.color.md_orange_300),
+                ContextCompat.getColor(skillRatingChart.context, R.color.md_yellow_300),
+                ContextCompat.getColor(skillRatingChart.context, R.color.md_light_green_300),
+                ContextCompat.getColor(skillRatingChart.context, R.color.md_green_300)
+        )
+
+        barDataSet.setDrawValues(true)
+        val data = BarData(barDataSet)
+
+        //Set the bar width
+        //Note : To increase the spacing between the bars set the value of barWidth to < 1f
+        data.barWidth = 1f
+
+        //Finally set the data and refresh the graph
+        skillRatingChart.data = data
+        skillRatingChart.invalidate()
     }
 
     fun setDynamicContent() {
