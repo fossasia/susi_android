@@ -69,14 +69,14 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/custom_server"
+            android:id="@+id/custom_server_sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/custom_server"
             android:layout_marginBottom="5dp"/>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/input_url"
+            android:id="@+id/input_url_sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
