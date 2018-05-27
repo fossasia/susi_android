@@ -42,10 +42,8 @@ class ForgotPasswordActivity : AppCompatActivity(), IForgotPasswordView {
         }
 
         var bundle = intent.extras;
-        if (bundle != null) {
-            var string = bundle.getString("email")
-            forgot_email.editText?.setText(string)
-        }
+        var string = bundle?.getString("email")
+        forgot_email.editText?.setText(string)
 
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)

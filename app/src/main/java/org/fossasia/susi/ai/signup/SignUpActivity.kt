@@ -19,6 +19,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
+import javax.annotation.Nullable
 
 /**
  * <h1>The SignUp activity.</h1>
@@ -42,18 +43,16 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
             confirm_password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[2].toString())
 
-          if(savedInstanceState.getBoolean(Constant.SERVER)) {
+            if (savedInstanceState.getBoolean(Constant.SERVER)) {
                 input_url_sign_up.visibility = View.VISIBLE
             } else {
                 input_url_sign_up.visibility = View.GONE
             }
         }
 
-        var bundle: Bundle? = intent.extras;
-        if (bundle != null) {
-            var string = bundle.getString("email")
-            email.editText?.setText(string)
-        }
+        var bundle = intent.extras;
+        var string = bundle?.getString("email")
+        email.editText?.setText(string)
 
         progressDialog = ProgressDialog(this@SignUpActivity)
         progressDialog.setCancelable(false)
@@ -160,7 +159,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     fun showURL() {
-        custom_server_sign_up.setOnClickListener { input_url_sign_up.visibility = if(custom_server_sign_up.isChecked) View.VISIBLE else View.GONE}
+        custom_server_sign_up.setOnClickListener { input_url_sign_up.visibility = if (custom_server_sign_up.isChecked) View.VISIBLE else View.GONE }
     }
 
     fun setupPasswordWatcher() {
