@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
 
 /**
  * <h1>Map view holder</h1>
- *
+ * <p>
  * Created by saurabh on 7/10/16.
  */
 public class MapViewHolder extends RecyclerView.ViewHolder {
@@ -45,7 +45,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
     /**
      * Inflate MapView
      *
-     * @param model the ChatMessage object
+     * @param model       the ChatMessage object
      * @param currContext the Context
      */
     public void setView(final ChatMessage model, final Context currContext) {
@@ -73,16 +73,16 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                         /*
                           Open in Google Maps if installed, otherwise open browser.
                         */
-                            Intent mapIntent;
-                            if (AndroidHelper.INSTANCE.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
-                                Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", model.getLatitude(), model.getLongitude(), model.getZoom()));
-                                mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                                mapIntent.setPackage(AndroidHelper.INSTANCE.getGOOGLE_MAPS_PKG());
-                            } else {
-                                mapIntent = new Intent(Intent.ACTION_VIEW);
-                                mapIntent.setData(Uri.parse(mapHelper.getWebLink()));
-                            }
-                            currContext.startActivity(mapIntent);
+                        Intent mapIntent;
+                        if (AndroidHelper.INSTANCE.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
+                            Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", model.getLatitude(), model.getLongitude(), model.getZoom()));
+                            mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                            mapIntent.setPackage(AndroidHelper.INSTANCE.getGOOGLE_MAPS_PKG());
+                        } else {
+                            mapIntent = new Intent(Intent.ACTION_VIEW);
+                            mapIntent.setData(Uri.parse(mapHelper.getWebLink()));
+                        }
+                        currContext.startActivity(mapIntent);
                     }
                 });
 

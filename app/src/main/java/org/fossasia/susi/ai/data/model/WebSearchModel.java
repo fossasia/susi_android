@@ -4,7 +4,7 @@ import io.realm.RealmObject;
 
 /**
  * <h1>Class to store data from websearch result.</h1>
- *
+ * <p>
  * Created by mayanktripathi on 05/01/17.
  */
 public class WebSearchModel extends RealmObject {

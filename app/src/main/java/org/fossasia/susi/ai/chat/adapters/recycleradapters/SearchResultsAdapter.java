@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * <h1>Adapter to display horizontal list of RSS results.</h1>
- *
+ * <p>
  * Created by saurabh on 19/11/16.
  */
 

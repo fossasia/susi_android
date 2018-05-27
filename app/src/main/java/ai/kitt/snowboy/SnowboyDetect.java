@@ -9,41 +9,41 @@
 package ai.kitt.snowboy;
 
 public class SnowboyDetect {
-  private transient long swigCPtr;
-  protected transient boolean swigCMemOwn;
+    private transient long swigCPtr;
+    protected transient boolean swigCMemOwn;
 
-  protected SnowboyDetect(long cPtr, boolean cMemoryOwn) {
-    swigCMemOwn = cMemoryOwn;
-    swigCPtr = cPtr;
-  }
-
-  protected void finalize() {
-    delete();
-  }
-
-  public synchronized void delete() {
-    if (swigCPtr != 0) {
-      if (swigCMemOwn) {
-        swigCMemOwn = false;
-        snowboyJNI.delete_SnowboyDetect(swigCPtr);
-      }
-      swigCPtr = 0;
+    protected SnowboyDetect(long cPtr, boolean cMemoryOwn) {
+        swigCMemOwn = cMemoryOwn;
+        swigCPtr = cPtr;
     }
-  }
 
-  public SnowboyDetect(String resource_filename, String model_str) {
-    this(snowboyJNI.new_SnowboyDetect(resource_filename, model_str), true);
-  }
+    protected void finalize() {
+        delete();
+    }
 
-  public int runDetection(short[] data, int array_length) {
-    return snowboyJNI.SnowboyDetect_RunDetection__SWIG_5(swigCPtr, this, data, array_length);
-  }
+    public synchronized void delete() {
+        if (swigCPtr != 0) {
+            if (swigCMemOwn) {
+                swigCMemOwn = false;
+                snowboyJNI.delete_SnowboyDetect(swigCPtr);
+            }
+            swigCPtr = 0;
+        }
+    }
 
-  public void setSensitivity(String sensitivity_str) {
-    snowboyJNI.SnowboyDetect_SetSensitivity(swigCPtr, this, sensitivity_str);
-  }
+    public SnowboyDetect(String resource_filename, String model_str) {
+        this(snowboyJNI.new_SnowboyDetect(resource_filename, model_str), true);
+    }
 
-  public void applyFrontend(boolean apply_frontend) {
-    snowboyJNI.SnowboyDetect_ApplyFrontend(swigCPtr, this, apply_frontend);
-  }
+    public int runDetection(short[] data, int array_length) {
+        return snowboyJNI.SnowboyDetect_RunDetection__SWIG_5(swigCPtr, this, data, array_length);
+    }
+
+    public void setSensitivity(String sensitivity_str) {
+        snowboyJNI.SnowboyDetect_SetSensitivity(swigCPtr, this, sensitivity_str);
+    }
+
+    public void applyFrontend(boolean apply_frontend) {
+        snowboyJNI.SnowboyDetect_ApplyFrontend(swigCPtr, this, apply_frontend);
+    }
 }

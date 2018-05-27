@@ -23,12 +23,12 @@ import java.net.UnknownHostException
  *
  * Created by chiragw15 on 4/7/17.
  */
-class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel.OnLoginFinishedListener {
+class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginModel.OnLoginFinishedListener {
 
     var loginModel: LoginModel = LoginModel()
     var utilModel: UtilModel = UtilModel(loginActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
-    var loginView: ILoginView?= null
+    var loginView: ILoginView? = null
     lateinit var email: String
     lateinit var message: String
 
@@ -40,7 +40,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
             return
         }
 
-        if(utilModel.isLoggedIn()) {
+        if (utilModel.isLoggedIn()) {
             loginView.skipLogin()
             return
         }
@@ -60,7 +60,7 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
             return
         }
 
-        if(password.isEmpty()) {
+        if (password.isEmpty()) {
             loginView?.invalidCredentials(true, Constant.PASSWORD)
             return
         }
@@ -71,12 +71,12 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         }
 
         if (!isSusiServerSelected) {
-            if (url.isEmpty()){
+            if (url.isEmpty()) {
                 loginView?.invalidCredentials(true, Constant.INPUT_URL)
                 return
             }
 
-            if( CredentialHelper.isURLValid(url)) {
+            if (CredentialHelper.isURLValid(url)) {
                 if (CredentialHelper.getValidURL(url) != null) {
                     utilModel.setServer(false)
                     utilModel.setCustomURL(url)
@@ -105,9 +105,9 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
 
         if (throwable is UnknownHostException) {
-            if(NetworkUtils.isNetworkConnected()){
+            if (NetworkUtils.isNetworkConnected()) {
                 loginView?.onLoginError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
-            }else{
+            } else {
                 loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
                         utilModel.getString(R.string.no_internet_connection))
             }
@@ -143,9 +143,9 @@ class LoginPresenter(loginActivity: LoginActivity): ILoginPresenter, ILoginModel
         loginView?.showProgress(false)
 
         if (response.isSuccessful && response.body() != null) {
-            var settings: Settings ?= response.body().settings
+            var settings: Settings? = response.body().settings
 
-            if(settings != null) {
+            if (settings != null) {
                 utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
                 utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, settings.speechAlways)
                 utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, settings.speechOutput)

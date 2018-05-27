@@ -4,7 +4,7 @@ import io.realm.RealmObject;
 
 /**
  * <h1>Stores data extracted from a link to display link preview</h1>
- *
+ * <p>
  * Created by betterclever on 05/01/17.
  */
 public class WebLink extends RealmObject {

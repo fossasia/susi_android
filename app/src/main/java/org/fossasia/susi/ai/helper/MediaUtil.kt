@@ -40,7 +40,7 @@ object MediaUtil {
      */
     private fun getMicrophoneAvailable(context: Context): Boolean {
         if (ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             return false
         }
         val recorder = MediaRecorder()

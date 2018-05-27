@@ -26,7 +26,7 @@ import org.fossasia.susi.ai.R.id.*
  *
  * Created by chiragw15 on 24/8/17.
  */
-class SkillDetailsFragment: Fragment() {
+class SkillDetailsFragment : Fragment() {
 
     lateinit var skillData: SkillData
     lateinit var skillGroup: String
@@ -59,7 +59,7 @@ class SkillDetailsFragment: Fragment() {
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if(skillData.skillName != null && !skillData.skillName.isEmpty())
+        if (skillData.skillName != null && !skillData.skillName.isEmpty())
             (activity as SkillsActivity).title = skillData.skillName
         setupUI()
         super.onViewCreated(view, savedInstanceState)
@@ -81,7 +81,7 @@ class SkillDetailsFragment: Fragment() {
 
     fun setImage() {
         skill_detail_image.setImageResource(R.drawable.ic_susi)
-        if(skillData.image != null && !skillData.image.isEmpty()){
+        if (skillData.image != null && !skillData.image.isEmpty()) {
             Picasso.with(activity?.applicationContext).load(StringBuilder(imageLink)
                     .append(skillGroup).append("/en/").append(skillData.image).toString())
                     .error(R.drawable.ic_susi)
@@ -92,15 +92,15 @@ class SkillDetailsFragment: Fragment() {
 
     fun setName() {
         skill_detail_title.text = activity?.getString(R.string.no_skill_name)
-        if(skillData.skillName != null && !skillData.skillName.isEmpty()){
+        if (skillData.skillName != null && !skillData.skillName.isEmpty()) {
             skill_detail_title.text = skillData.skillName
         }
     }
 
     fun setAuthor() {
         skill_detail_author.text = "Author : ${activity?.getString(R.string.no_skill_author)}"
-        if(skillData.author != null && !skillData.author.isEmpty()){
-            if(skillData.authorUrl == null || skillData.authorUrl.isEmpty())
+        if (skillData.author != null && !skillData.author.isEmpty()) {
+            if (skillData.authorUrl == null || skillData.authorUrl.isEmpty())
                 skill_detail_author.text = "Author : ${skillData.skillName}"
             else {
                 skill_detail_author.linksClickable = true
@@ -115,24 +115,24 @@ class SkillDetailsFragment: Fragment() {
     }
 
     fun setTryButton() {
-        if(skillData.examples == null || skillData.examples.isEmpty())
+        if (skillData.examples == null || skillData.examples.isEmpty())
             skill_detail_try_button.visibility = View.GONE
 
         skill_detail_try_button.setOnClickListener {
             activity?.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(activity, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            if(skillData.examples != null && skillData.examples.isNotEmpty())
-                intent.putExtra("example",skillData.examples[0])
+            if (skillData.examples != null && skillData.examples.isNotEmpty())
+                intent.putExtra("example", skillData.examples[0])
             else
-                intent.putExtra("example","")
+                intent.putExtra("example", "")
             startActivity(intent)
             activity?.finish()
         }
     }
 
     fun setShareButton() {
-        if(skillTag == null || skillTag.isEmpty()) {
+        if (skillTag == null || skillTag.isEmpty()) {
             skill_detail_share_button.visibility = View.GONE
             return
         }
@@ -154,13 +154,13 @@ class SkillDetailsFragment: Fragment() {
 
     fun setDescription() {
         skill_detail_description.text = activity?.getString(R.string.no_skill_description)
-        if( skillData.descriptions != null && !skillData.descriptions.isEmpty()){
+        if (skillData.descriptions != null && !skillData.descriptions.isEmpty()) {
             skill_detail_description.text = skillData.descriptions
         }
     }
 
     fun setExamples() {
-        if(skillData.examples != null) {
+        if (skillData.examples != null) {
             skill_detail_examples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skill_detail_examples.layoutManager = mLayoutManager
@@ -169,7 +169,7 @@ class SkillDetailsFragment: Fragment() {
     }
 
     fun setRating() {
-        if(skillData.skillRating == null) {
+        if (skillData.skillRating == null) {
             skill_detail_rating_positive.text = context?.getString(R.string.skill_unrated)
             val params = skill_detail_rating_positive.layoutParams
             params.width = 344
@@ -196,18 +196,18 @@ class SkillDetailsFragment: Fragment() {
         if (rating != null) {
             when (s) {
                 context?.getString(R.string.negative) ->
-                        if (rating < 10)
-                            resId = R.color.md_red_100
-                        else if (rating in 10..19)
-                            resId = R.color.md_red_200
-                        else if (rating in 20..29)
-                            resId = R.color.md_red_300
-                        else if (rating in 30..39)
-                            resId = R.color.md_red_300
-                        else if (rating in 40..49)
-                            resId = R.color.md_red_300
-                        else
-                            resId = R.color.md_red_400
+                    if (rating < 10)
+                        resId = R.color.md_red_100
+                    else if (rating in 10..19)
+                        resId = R.color.md_red_200
+                    else if (rating in 20..29)
+                        resId = R.color.md_red_300
+                    else if (rating in 30..39)
+                        resId = R.color.md_red_300
+                    else if (rating in 40..49)
+                        resId = R.color.md_red_300
+                    else
+                        resId = R.color.md_red_400
                 context?.getString(R.string.positive) ->
                     if (rating < 10)
                         resId = R.color.md_blue_100
@@ -227,10 +227,10 @@ class SkillDetailsFragment: Fragment() {
     }
 
     fun setDynamicContent() {
-        if(skillData.dynamicContent == null) {
+        if (skillData.dynamicContent == null) {
             skill_detail_content.visibility = View.GONE
         } else {
-            if(skillData.dynamicContent!!) {
+            if (skillData.dynamicContent!!) {
                 skill_detail_content.text = context?.getString(R.string.content_type_dynamic)
             } else {
                 skill_detail_content.text = context?.getString(R.string.content_type_static)
@@ -239,7 +239,7 @@ class SkillDetailsFragment: Fragment() {
     }
 
     fun setPolicy() {
-        if(skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
+        if (skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
             skill_detail_policy.visibility = View.GONE
         } else {
             skill_detail_policy.linksClickable = true
@@ -253,7 +253,7 @@ class SkillDetailsFragment: Fragment() {
     }
 
     fun setTerms() {
-        if(skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
+        if (skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
             skill_detail_terms.visibility = View.GONE
         } else {
             skill_detail_terms.linksClickable = true

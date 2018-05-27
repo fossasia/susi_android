@@ -93,7 +93,7 @@ public interface SusiService {
     /**
      * User settings call
      *
-      * @param key
+     * @param key
      * @param value
      * @return the call
      */
@@ -111,12 +111,11 @@ public interface SusiService {
     Call<UserSetting> getUserSetting();
 
     /**
-     *
-     * @param model Model of Skill
-     * @param group Group of Skill
+     * @param model    Model of Skill
+     * @param group    Group of Skill
      * @param language Language of Skill
-     * @param skill Skill name
-     * @param rating Rating either positive or negative
+     * @param skill    Skill name
+     * @param rating   Rating either positive or negative
      * @return the Call
      */
     @POST("/cms/rateSkill.json")
@@ -141,7 +140,6 @@ public interface SusiService {
                                                       @Query("newpassword") String newPassword);
 
     /**
-     *
      * @return list of groups
      */
     @GET("/cms/getGroups.json")
