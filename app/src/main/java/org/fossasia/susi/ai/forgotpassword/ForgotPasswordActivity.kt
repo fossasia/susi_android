@@ -41,8 +41,8 @@ class ForgotPasswordActivity : AppCompatActivity(), IForgotPasswordView {
             }
         }
 
-        var bundle = intent.extras;
-        var string = bundle?.getString("email")
+        val bundle = intent.extras;
+        val string = bundle?.getString("email")
         forgot_email.editText?.setText(string)
 
         if (supportActionBar != null) {
