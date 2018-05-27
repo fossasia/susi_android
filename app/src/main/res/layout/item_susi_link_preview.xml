@@ -13,7 +13,8 @@
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        android:background="@drawable/rounded_layout">
+        android:background="@drawable/rounded_layout"
+        android:layout_marginStart="@dimen/message_card_margin_medium">
 
         <LinearLayout
             android:layout_width="@dimen/message_layout_max_width"
@@ -24,7 +25,7 @@
                 android:id="@+id/chat_bubble_item_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_weight="1"
                 android:paddingBottom="@dimen/padding_chatbubble_small"
                 android:paddingLeft="@dimen/padding_chatbubble_large"
@@ -49,7 +50,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="end|right|bottom"
                     android:gravity="center"
-                    android:paddingLeft="8dp">
+                    android:paddingLeft="8dp"
+                    android:paddingStart="8dp">
 
                     <TextView
                         android:id="@+id/timestamp"
@@ -63,15 +65,17 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="end"
                         android:layout_marginLeft="@dimen/margin_medium"
-                        android:gravity="right">
+                        android:layout_marginStart="@dimen/margin_medium">
 
                         <ImageView
                             android:id="@+id/thumbs_up"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/thumbs_up_outline"
                             android:layout_marginRight="@dimen/message_card_margin_small"
-                            app:srcCompat="@drawable/thumbs_up_outline" />
+                            android:layout_marginEnd="@dimen/message_card_margin_small" />
 
                         <ImageView
                             android:id="@+id/thumbs_down"
