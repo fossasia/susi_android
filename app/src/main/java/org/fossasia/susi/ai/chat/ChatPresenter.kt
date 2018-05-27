@@ -376,13 +376,19 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 handler.postDelayed({
                     val psh = ParseSusiResponseHelper()
                     psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
-                    val setMessage = psh.answer
+
+                    var setMessage = psh.answer;
                     if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
+                        setMessage = psh.answer
+
                         var speechReply = setMessage
                         if (psh.isHavingLink) {
                             speechReply = setMessage.substring(0, setMessage.indexOf("http"))
                         }
                         chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
+                    } else if (psh.actionType == Constant.STOP) {
+                        setMessage = psh.stop
+                        chatView?.stopMic()
                     }
                     try {
                         databaseRepository.updateDatabase(id, setMessage, false, DateTimeHelper.getDate(date),
