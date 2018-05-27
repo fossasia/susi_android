@@ -377,10 +377,10 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                     val psh = ParseSusiResponseHelper()
                     psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
 
-                  var setMessage = psh.answer;
+                    var setMessage = psh.answer;
                     if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = psh.answer
-                      
+
                         var speechReply = setMessage
                         if (psh.isHavingLink) {
                             speechReply = setMessage.substring(0, setMessage.indexOf("http"))
