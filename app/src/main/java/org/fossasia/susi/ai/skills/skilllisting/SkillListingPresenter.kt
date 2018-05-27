@@ -14,15 +14,15 @@ import retrofit2.Response
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListingPresenter: ISkillListingPresenter,
+class SkillListingPresenter : ISkillListingPresenter,
         ISkillListingModel.OnFetchGroupsFinishedListener, ISkillListingModel.OnFetchSkillsFinishedListener {
 
     var skillListingModel: ISkillListingModel = SkillListingModel()
-    var skillListingView: ISkillListingView ?= null
+    var skillListingView: ISkillListingView? = null
     var count = 0
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     var groupsCount = 0
-    var groups:  List<String> = ArrayList()
+    var groups: List<String> = ArrayList()
 
     override fun onAttach(skillListingView: ISkillListingView) {
         this.skillListingView = skillListingView
@@ -53,11 +53,11 @@ class SkillListingPresenter: ISkillListingPresenter,
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
             val responseSkillMap = response.body().skillMap
-            if(responseSkillMap.isNotEmpty()) {
+            if (responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
                 skillListingView?.updateAdapter(skills)
             }
-            if(count != groupsCount) {
+            if (count != groupsCount) {
                 skillListingModel.fetchSkills(groups[count], this)
                 count++
             }

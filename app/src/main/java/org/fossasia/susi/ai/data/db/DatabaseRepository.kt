@@ -17,13 +17,13 @@ import org.fossasia.susi.ai.rest.responses.susi.Datum
  *
  * Created by chiragw15 on 12/7/17.
  */
-class DatabaseRepository: IDatabaseRepository {
+class DatabaseRepository : IDatabaseRepository {
 
     var realm: Realm = Realm.getDefaultInstance()
 
     override fun getMessageCount(): Long {
         val temp = realm.where(ChatMessage::class.java).max(Constant.ID)
-        if(temp == null)
+        if (temp == null)
             return -1
         else
             return temp as Long

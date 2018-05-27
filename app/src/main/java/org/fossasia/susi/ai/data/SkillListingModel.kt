@@ -13,7 +13,7 @@ import retrofit2.Response
  *
  * Created by chiragw15 on 16/8/17.
  */
-class SkillListingModel: ISkillListingModel {
+class SkillListingModel : ISkillListingModel {
 
     lateinit var authResponseCallGroups: Call<ListGroupsResponse>
     lateinit var authResponseCallSkills: Call<ListSkillsResponse>

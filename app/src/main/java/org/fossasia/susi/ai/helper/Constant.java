@@ -2,7 +2,7 @@ package org.fossasia.susi.ai.helper;
 
 /**
  * <h1>Helper class to store constant strings used in preference and other places.</h1>
- *
+ * <p>
  * Created by Rajan Maurya on 11/10/16.
  */
 public class Constant {
@@ -11,7 +11,7 @@ public class Constant {
 
     public static final String ENTER_SEND = "enterAsSend";
 
-    public static final String MIC_INPUT="micInput";
+    public static final String MIC_INPUT = "micInput";
 
     public static final String ACCESS_TOKEN = "access_token";
 
@@ -24,22 +24,22 @@ public class Constant {
     public static final String RESET_PASSWORD = "reset_password";
     public static final String CHANGE_PASSWORD = "Change Password";
 
-    public static final String SAVED_EMAIL="saved_email";
-    public static final String SAVE_EMAIL="save_email";
+    public static final String SAVED_EMAIL = "saved_email";
+    public static final String SAVE_EMAIL = "save_email";
 
-    public static final String SUSI_SERVER="is_susi_server_selected";
-    public static final String CUSTOM_SERVER="custom_server";
-    public static final String SERVER="server";
-    public static final String SAVED_STATES="savedStates";
-    public static final String CANCEL="Cancel";
-    public static final String CHANGE_SERVER="Change Server";
-    public static final String SELECT_SERVER="Server_Select";
-    public static final String LANG_SELECT="Lang_Select";
-    public static final String LANGUAGE="prefLanguage";
-    public static final String DEFAULT="default";
-    public static final String RATE="rate";
-    public static final String DEVICE="device";
-    public static final String DEVICE_SETUP="setup";
+    public static final String SUSI_SERVER = "is_susi_server_selected";
+    public static final String CUSTOM_SERVER = "custom_server";
+    public static final String SERVER = "server";
+    public static final String SAVED_STATES = "savedStates";
+    public static final String CANCEL = "Cancel";
+    public static final String CHANGE_SERVER = "Change Server";
+    public static final String SELECT_SERVER = "Server_Select";
+    public static final String LANG_SELECT = "Lang_Select";
+    public static final String LANGUAGE = "prefLanguage";
+    public static final String DEFAULT = "default";
+    public static final String RATE = "rate";
+    public static final String DEVICE = "device";
+    public static final String DEVICE_SETUP = "setup";
 
     //action types
     public static final String ANSWER = "answer";

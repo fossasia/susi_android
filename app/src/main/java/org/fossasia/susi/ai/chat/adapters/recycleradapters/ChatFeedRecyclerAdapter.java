@@ -203,7 +203,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 webResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 return webResultsListHolder;
             case DATE_VIEW:
-                view = inflater.inflate(R.layout.date_view,viewGroup, false);
+                view = inflater.inflate(R.layout.date_view, viewGroup, false);
                 return new DateViewHolder(view);
             case DOTS:
                 return dotsHolder;
@@ -228,20 +228,20 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
 
-        switch(item.getActionType()) {
-            case Constant.ANCHOR :
+        switch (item.getActionType()) {
+            case Constant.ANCHOR:
                 return SUSI_MESSAGE;
-            case Constant.ANSWER :
+            case Constant.ANSWER:
                 return SUSI_MESSAGE;
-            case Constant.MAP :
+            case Constant.MAP:
                 return MAP;
-            case  Constant.WEBSEARCH :
+            case Constant.WEBSEARCH:
                 return WEB_SEARCH;
-            case Constant.RSS :
+            case Constant.RSS:
                 return SEARCH_RESULT;
-            case Constant.TABLE :
+            case Constant.TABLE:
                 return SEARCH_RESULT;
-            case  Constant.PIECHART :
+            case Constant.PIECHART:
                 return PIECHART;
             default:
                 return SUSI_MESSAGE;
@@ -289,7 +289,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), false, currContext);
-        } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH){
+        } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), true, currContext);
         } else if (holder instanceof DateViewHolder) {
@@ -333,7 +333,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, message);
         sendIntent.setType("text/plain");
-        currContext.startActivity(Intent.createChooser(sendIntent, currContext.getString(R.string.share_message) ));
+        currContext.startActivity(Intent.createChooser(sendIntent, currContext.getString(R.string.share_message)));
     }
 
     /**
@@ -351,21 +351,21 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     }
 
     private void setBackGroundColor(RecyclerView.ViewHolder holder, boolean isSelected, boolean isUserMessage) {
-        if( holder instanceof ChatViewHolder ) {
+        if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
-            if(isUserMessage)
-                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+            if (isUserMessage)
+                chatViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
             else
-                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                chatViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            if(isUserMessage)
-                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+            if (isUserMessage)
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
             else
-                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout));
         }
     }
@@ -377,11 +377,11 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
 
         List<Pair<String, Drawable>> optionList = new ArrayList<>();
-        optionList.add(new Pair<>("Copy",currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
-        optionList.add(new Pair<>("Share",currContext.getResources().getDrawable(R.drawable.ic_share_white_24dp)));
+        optionList.add(new Pair<>("Copy", currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
+        optionList.add(new Pair<>("Share", currContext.getResources().getDrawable(R.drawable.ic_share_white_24dp)));
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(currContext);
-        final ArrayAdapter<Pair<String,Drawable>> arrayAdapter = new SelectionDialogListAdapter(currContext, optionList);
+        final ArrayAdapter<Pair<String, Drawable>> arrayAdapter = new SelectionDialogListAdapter(currContext, optionList);
 
         dialog.setCancelable(true);
 
@@ -390,12 +390,14 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             public void onClick(DialogInterface dialog, int which) {
                 setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
                 switch (which) {
-                    case 0: setClipboard(getItem(position).getContent());
-                        Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
+                    case 0:
+                        setClipboard(getItem(position).getContent());
+                        Toast toast = Toast.makeText(recyclerView.getContext(), R.string.message_copied, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                         break;
-                    case 1: shareMessage(getItem(position).getContent());
+                    case 1:
+                        shareMessage(getItem(position).getContent());
                         break;
                 }
             }

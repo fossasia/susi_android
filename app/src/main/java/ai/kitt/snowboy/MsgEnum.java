@@ -1,6 +1,6 @@
 package ai.kitt.snowboy;
 
-public enum  MsgEnum {
+public enum MsgEnum {
     MSG_VAD_END,
     MSG_VAD_NOSPEECH,
     MSG_VAD_SPEECH,

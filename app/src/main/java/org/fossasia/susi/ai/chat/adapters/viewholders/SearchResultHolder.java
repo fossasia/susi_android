@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 
 /**
  * <h1>Search result view holder</h1>
- *
+ * <p>
  * Created by saurabh on 19/11/16.
  */
 public class SearchResultHolder extends RecyclerView.ViewHolder {

@@ -5,7 +5,7 @@ import android.view.View;
 
 /**
  * <h1>Message view holder</h1>
- *
+ * <p>
  * Created by better_clever on 18/10/16.
  */
 public abstract class MessageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
@@ -19,7 +19,7 @@ public abstract class MessageViewHolder extends RecyclerView.ViewHolder implemen
      * @param itemView      the item view
      * @param clickListener the click listener
      */
-    public MessageViewHolder(View itemView , ClickListener clickListener) {
+    public MessageViewHolder(View itemView, ClickListener clickListener) {
         super(itemView);
         this.listener = clickListener;
         itemView.setOnClickListener(this);

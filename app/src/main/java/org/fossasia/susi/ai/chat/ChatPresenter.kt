@@ -26,11 +26,11 @@ import java.util.concurrent.atomic.AtomicBoolean
  * The P in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
+class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
-        IDatabaseRepository.OnDatabaseUpdateListener{
+        IDatabaseRepository.OnDatabaseUpdateListener {
 
-    var chatView: IChatView?= null
+    var chatView: IChatView? = null
     var chatModel: IChatModel = ChatModel()
     var utilModel: UtilModel = UtilModel(chatActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
@@ -45,7 +45,8 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     var check = false
     var atHome = true
     var backPressedOnce = false
-    @Volatile var queueExecuting = AtomicBoolean(false)
+    @Volatile
+    var queueExecuting = AtomicBoolean(false)
 
     override fun onAttach(chatView: IChatView) {
         this.chatView = chatView
@@ -86,14 +87,13 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     override fun initiateHotwordDetection() {
         if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
                 chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
-            if ( utilModel.isArmDevice() && utilModel.checkMicInput() ) {
+            if (utilModel.isArmDevice() && utilModel.checkMicInput()) {
                 utilModel.copyAssetstoSD()
                 chatView?.initHotword()
                 startHotwordDetection()
-            }
-            else {
+            } else {
                 utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
-                if(utilModel.getBooleanPref(Constant.NOTIFY_USER, true)){
+                if (utilModel.getBooleanPref(Constant.NOTIFY_USER, true)) {
                     chatView?.showToast(utilModel.getString(R.string.error_hotword))
                     utilModel.putBooleanPref(Constant.NOTIFY_USER, false)
                 }
@@ -125,7 +125,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     }
 
     override fun disableMicInput(boolean: Boolean) {
-        if(boolean) {
+        if (boolean) {
             micCheck = false
             PrefManager.putBoolean(Constant.MIC_INPUT, false)
         } else {
@@ -137,7 +137,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     //Retrieves old Messages
     override fun retrieveOldMessages(firstRun: Boolean) {
-        if(firstRun and NetworkUtils.isNetworkConnected()) {
+        if (firstRun and NetworkUtils.isNetworkConnected()) {
             chatView?.showRetrieveOldMessageProgress()
             val thread = object : Thread() {
                 override fun run() {
@@ -181,7 +181,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                     databaseRepository.updateDatabase(newMessageIndex, query, false, DateTimeHelper.getDate(queryDate),
                             DateTimeHelper.getTime(queryDate), true, "", null, isHavingLink, null, "", "", this)
 
-                    if(allMessages[i].answers.isEmpty()) {
+                    if (allMessages[i].answers.isEmpty()) {
                         databaseRepository.updateDatabase(c, utilModel.getString(R.string.error_internet_connectivity),
                                 false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
                                 Constant.ANSWER, null, false, null, "", "", this)
@@ -277,7 +277,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
             databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                     DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
         } else {
-            val s = databaseRepository.getAMessage(newMessageIndex-1)?.date
+            val s = databaseRepository.getAMessage(newMessageIndex - 1)?.date
             if (DateTimeHelper.date != s) {
                 databaseRepository.updateDatabase(newMessageIndex, "", true, DateTimeHelper.date,
                         DateTimeHelper.currentTime, false, "", null, false, null, "", "", this)
@@ -295,14 +295,15 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     private inner class ComputeThread : Thread() {
         override fun run() {
-            if(queueExecuting.compareAndSet(false,true)) {
+            if (queueExecuting.compareAndSet(false, true)) {
                 computeOtherMessage()
             }
         }
     }
 
     @Synchronized
-    fun computeOtherMessage() { Log.v("chirag","chirag run")
+    fun computeOtherMessage() {
+        Log.v("chirag", "chirag run")
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
                 chatView?.showWaitingDots()
@@ -319,8 +320,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 chatView?.hideWaitingDots()
                 chatView?.displaySnackbar(utilModel.getString(R.string.no_internet_connection))
             }
-        }
-        else {
+        } else {
             queueExecuting.set(false)
         }
     }
@@ -328,7 +328,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
     override fun onSusiMessageReceivedFailure(t: Throwable) {
         chatView?.hideWaitingDots()
 
-        if(nonDeliveredMessages.isEmpty())
+        if (nonDeliveredMessages.isEmpty())
             return
 
         val id = nonDeliveredMessages.first.second
@@ -349,7 +349,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
 
     override fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?) {
 
-        if(nonDeliveredMessages.isEmpty())
+        if (nonDeliveredMessages.isEmpty())
             return
 
         val id = nonDeliveredMessages.first.second
@@ -359,7 +359,7 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         if (response != null && response.isSuccessful && response.body() != null) {
             val susiResponse = response.body()
 
-            if(response.body().answers.isEmpty()) {
+            if (response.body().answers.isEmpty()) {
                 databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
                         false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
                         Constant.ANSWER, null, false, null, "", "", this)
@@ -376,9 +376,11 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
                 handler.postDelayed({
                     val psh = ParseSusiResponseHelper()
                     psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
-                    var setMessage = psh.answer;
+
+                  var setMessage = psh.answer;
                     if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = psh.answer
+                      
                         var speechReply = setMessage
                         if (psh.isHavingLink) {
                             speechReply = setMessage.substring(0, setMessage.indexOf("http"))
@@ -425,18 +427,18 @@ class ChatPresenter(chatActivity: ChatActivity): IChatPresenter, IChatModel.OnRe
         val permissionsGranted = arrayOfNulls<String>(3)
         var c = 0
 
-        for(permission in permissionsRequired) {
-            if(!(chatView?.checkPermission(permission) as Boolean)) {
+        for (permission in permissionsRequired) {
+            if (!(chatView?.checkPermission(permission) as Boolean)) {
                 permissionsGranted[c] = permission
                 c++
             }
         }
 
-        if(c > 0) {
+        if (c > 0) {
             chatView?.askForPermission(permissionsGranted)
         }
 
-        if(!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
+        if (!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
         }
     }

@@ -28,6 +28,7 @@ interface IChatModel {
 
     fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
                        language: String, query: String, listener: OnMessageFromSusiReceivedListener)
+
     fun retrieveOldMessages(listener: OnRetrievingMessagesFinishedListener)
     fun getLocationFromIP(listener: OnLocationFromIPReceivedListener)
 }

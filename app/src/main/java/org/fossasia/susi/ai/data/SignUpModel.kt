@@ -15,7 +15,7 @@ import retrofit2.Response
  * Created by mayanktripathi on 10/07/17.
  */
 
-class SignUpModel: ISignUpModel {
+class SignUpModel : ISignUpModel {
 
     lateinit var authResponseCall: Call<SignUpResponse>
 

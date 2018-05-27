@@ -44,7 +44,7 @@ class SkillsActivity : AppCompatActivity() {
     private var mSearchAction: MenuItem? = null
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
-    private var skills : ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
+    private var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,19 +163,19 @@ class SkillsActivity : AppCompatActivity() {
         }
     }
 
-    fun doSearch(query : String) {
+    fun doSearch(query: String) {
 
         var pos = 0
 
 
-        for( item in skills) {
-            if(query in item.first){
+        for (item in skills) {
+            if (query in item.first) {
                 skillGroups.scrollToPosition(pos)
                 return
             }
 
-            for (item2 in item.second.keys){
-                if( query.toLowerCase() in item2){
+            for (item2 in item.second.keys) {
+                if (query.toLowerCase() in item2) {
                     skillGroups.scrollToPosition(pos)
                     return
                 }

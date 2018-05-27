@@ -54,7 +54,7 @@ public class ClientBuilder {
                     .client(httpClient.build())
                     .build();
             init();
-        } catch (IllegalArgumentException e ){
+        } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
     }

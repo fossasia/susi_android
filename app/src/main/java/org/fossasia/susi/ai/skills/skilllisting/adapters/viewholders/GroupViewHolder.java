@@ -10,7 +10,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- *
  * Created by chiragw15 on 18/8/17.
  */
 

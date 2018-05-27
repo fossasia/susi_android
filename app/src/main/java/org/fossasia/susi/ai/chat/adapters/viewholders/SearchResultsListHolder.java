@@ -27,7 +27,7 @@ import retrofit2.Response;
 
 /**
  * <h1>Search result list view holder</h1>
- *
+ * <p>
  * Created by saurabh on 19/11/16.
  */
 public class SearchResultsListHolder extends RecyclerView.ViewHolder {
@@ -53,9 +53,9 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
     /**
      * Inflate search_list
      *
-     * @param model the ChatMessage object
+     * @param model          the ChatMessage object
      * @param isClientSearch the boolean value to find client search type
-     * @param currContext the Context
+     * @param currContext    the Context
      */
     public void setView(final ChatMessage model, boolean isClientSearch, final Context currContext) {
         if (isClientSearch) {

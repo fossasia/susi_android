@@ -24,7 +24,7 @@ interface IUtilModel {
     fun putBooleanPref(prefName: String, value: Boolean)
     fun checkMicInput(): Boolean
     fun copyAssetstoSD()
-    fun permissionsToGet() : Array<String>
+    fun permissionsToGet(): Array<String>
     fun isArmDevice(): Boolean
     fun setLanguage(language: String)
     fun clearPrefs()
