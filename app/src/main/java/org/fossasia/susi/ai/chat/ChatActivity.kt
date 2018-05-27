@@ -465,4 +465,24 @@ class ChatActivity : AppCompatActivity(), IChatView {
         textToSpeech?.shutdown()
         chatPresenter.onDetach()
     }
+
+    override fun stopMic() {
+        onPause()
+        registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+
+        window.setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        )
+
+        if (recordingThread != null)
+            chatPresenter.startHotwordDetection()
+
+        if (et_message.text.toString().isNotEmpty()) {
+            btnSpeak.setImageResource(R.drawable.ic_send_fab)
+            et_message.setText("")
+            chatPresenter.micCheck(false)
+        }
+
+        chatPresenter.checkPreferences()
+    }
 }
