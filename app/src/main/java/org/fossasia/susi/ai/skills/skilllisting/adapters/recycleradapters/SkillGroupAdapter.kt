@@ -18,13 +18,13 @@ import org.fossasia.susi.ai.helper.StartSnapHelper
  * Created by chiragw15 on 15/8/17.
  */
 class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>)
-        :RecyclerView.Adapter<GroupViewHolder>() {
+    : RecyclerView.Adapter<GroupViewHolder>() {
 
-    lateinit var skillAdapterSnapHelper : SnapHelper
+    lateinit var skillAdapterSnapHelper: SnapHelper
 
     @NonNull
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        if(skills[position].first != null)
+        if (skills[position].first != null)
             holder.groupName?.text = skills[position].first
 
         skillAdapterSnapHelper = StartSnapHelper()

@@ -22,7 +22,7 @@ import java.net.UnknownHostException
 class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : IForgotPasswordPresenter, IForgotPasswordModel.OnFinishListener {
 
     lateinit var email: String
-    var forgotPasswordView: IForgotPasswordView?= null
+    var forgotPasswordView: IForgotPasswordView? = null
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
     var utilModel: UtilModel = UtilModel(forgotPasswordActivity)
 
@@ -46,11 +46,11 @@ class ForgotPasswordPresenter(forgotPasswordActivity: ForgotPasswordActivity) : 
         }
 
         if (isPersonalServerChecked) {
-            if(url.isEmpty()) {
+            if (url.isEmpty()) {
                 forgotPasswordView?.invalidCredentials(true, Constant.INPUT_URL)
                 return
             }
-            if ( CredentialHelper.isURLValid(url)) {
+            if (CredentialHelper.isURLValid(url)) {
                 if (CredentialHelper.getValidURL(url) != null) {
                     utilModel.setServer(false)
                     utilModel.setCustomURL(CredentialHelper.getValidURL(url) as String)

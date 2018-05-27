@@ -48,4 +48,9 @@
         <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
 
+    <style name="DevicesThemeLight" parent="PreferenceFixTheme.Light">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:background">@color/default_bg</item>
+        <item name="android:windowActionBar">true</item>
+    </style>
 </resources>

@@ -22,7 +22,7 @@ import org.fossasia.susi.ai.login.LoginActivity
  *
  * Created by meeera on 6/7/17.
  */
-class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
+class ForgotPasswordActivity : AppCompatActivity(), IForgotPasswordView {
 
     lateinit var forgotPasswordPresenter: IForgotPasswordPresenter
     lateinit var progressDialog: ProgressDialog
@@ -32,10 +32,10 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
         setContentView(R.layout.activity_forgot_password)
         title = getString(R.string.forgot_pass_activity)
 
-        if(savedInstanceState != null) {
+        if (savedInstanceState != null) {
             forgot_email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
             if (savedInstanceState.getBoolean(Constant.SERVER)) {
-               input_url.visibility = View.VISIBLE
+                input_url.visibility = View.VISIBLE
             } else {
                 input_url.visibility = View.GONE
             }
@@ -91,7 +91,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
 
     fun showUrl() {
         custom_server.setOnClickListener {
-            input_url.visibility = if(custom_server.isChecked) View.VISIBLE else View.GONE
+            input_url.visibility = if (custom_server.isChecked) View.VISIBLE else View.GONE
         }
     }
 
@@ -101,6 +101,7 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
             reset_button.isEnabled = true
         }
     }
+
     fun requestPassword() {
         reset_button.setOnClickListener {
             val email = forgot_email.editText?.text.toString()
@@ -114,13 +115,13 @@ class ForgotPasswordActivity : AppCompatActivity (), IForgotPasswordView {
     }
 
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
-        if(isEmpty) {
-            when(what) {
+        if (isEmpty) {
+            when (what) {
                 Constant.EMAIL -> forgot_email.error = getString(R.string.email_cannot_be_empty)
                 Constant.INPUT_URL -> input_url.error = getString(R.string.url_cannot_be_empty)
             }
         } else {
-            when(what) {
+            when (what) {
                 Constant.EMAIL -> forgot_email.error = getString(R.string.email_invalid_title)
                 Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
             }

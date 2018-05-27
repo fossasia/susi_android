@@ -21,7 +21,7 @@ import retrofit2.Response
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISettingModel.OnSettingFinishListener {
+class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, ISettingModel.OnSettingFinishListener {
 
     var settingModel: SettingModel = SettingModel()
     var settingView: ISettingsView? = null
@@ -33,8 +33,8 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
     }
 
     override fun enableMic(): Boolean {
-        if((settingView?.micPermission()) as Boolean) {
-            if(!utilModel.checkMicInput())
+        if ((settingView?.micPermission()) as Boolean) {
+            if (!utilModel.checkMicInput())
                 utilModel.putBooleanPref(Constant.MIC_INPUT, false)
             return utilModel.checkMicInput()
         } else {
@@ -44,8 +44,8 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
     }
 
     override fun enableHotword(): Boolean {
-        if(settingView?.hotWordPermission() as Boolean) {
-            if(utilModel.checkMicInput() && utilModel.isArmDevice()) {
+        if (settingView?.hotWordPermission() as Boolean) {
+            if (utilModel.checkMicInput() && utilModel.isArmDevice()) {
                 return true
             } else {
                 utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
@@ -88,7 +88,7 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
             settingView?.invalidCredentials(false, Constant.NEW_PASSWORD)
             return
         }
-        settingModel.resetPassword(password,newPassword,this)
+        settingModel.resetPassword(password, newPassword, this)
     }
 
     override fun onSuccess(response: Response<ChangeSettingResponse>) {
@@ -116,12 +116,12 @@ class SettingsPresenter(skillsActivity: SkillsActivity): ISettingsPresenter, ISe
             settingView?.passwordInvalid(what)
     }
 
-    override fun getAnonymity(): Boolean{
+    override fun getAnonymity(): Boolean {
         return utilModel.getAnonymity()
     }
 
     override fun setServer(isCustomServerChecked: Boolean, url: String) {
-        if(isCustomServerChecked) {
+        if (isCustomServerChecked) {
             if (url.isEmpty()) {
                 settingView?.checkUrl(true)
                 return

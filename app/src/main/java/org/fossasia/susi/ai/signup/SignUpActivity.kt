@@ -37,11 +37,12 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         setContentView(R.layout.activity_sign_up)
         setupPasswordWatcher()
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
             password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
             confirm_password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[2].toString())
-            if(savedInstanceState.getBoolean(Constant.SERVER)) {
+
+          if(savedInstanceState.getBoolean(Constant.SERVER)) {
                 input_url_sign_up.visibility = View.VISIBLE
             } else {
                 input_url_sign_up.visibility = View.GONE

@@ -23,7 +23,7 @@ import org.fossasia.susi.ai.chat.contract.IChatPresenter
 /**
  * Created by meeera on 17/8/17.
  */
-class STTfragment : Fragment(){
+class STTfragment : Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
 
@@ -66,7 +66,7 @@ class STTfragment : Fragment(){
                     speechprogress.onResultOrOnError()
                 (activity as ChatActivity).setText(voiceResults[0])
                 recognizer.destroy()
-                if ( (activity as ChatActivity).recordingThread != null ) {
+                if ((activity as ChatActivity).recordingThread != null) {
                     chatPresenter.startHotwordDetection()
                 }
                 (activity as ChatActivity).fabsetting.show()

@@ -23,9 +23,9 @@ import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
+class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var skillAdapterSnapHelper : SnapHelper
+    lateinit var skillAdapterSnapHelper: SnapHelper
     lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     lateinit var skillGroupAdapter: SkillGroupAdapter
@@ -57,11 +57,11 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        if(boolean) skillWait.visibility = View.VISIBLE else skillWait.visibility = View.GONE
+        if (boolean) skillWait.visibility = View.VISIBLE else skillWait.visibility = View.GONE
     }
 
     override fun displayError() {
-        if(activity != null) {
+        if (activity != null) {
             swipe_refresh_layout.isRefreshing = false
             skillGroups.visibility = GONE;
             error_skill_fetch.visibility = View.VISIBLE
@@ -70,7 +70,7 @@ class SkillListingFragment: Fragment(), ISkillListingView, SwipeRefreshLayout.On
 
     override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
         swipe_refresh_layout.isRefreshing = false
-        if(error_skill_fetch.visibility == View.VISIBLE){
+        if (error_skill_fetch.visibility == View.VISIBLE) {
             error_skill_fetch.visibility = View.GONE
         }
         this.skills.clear()

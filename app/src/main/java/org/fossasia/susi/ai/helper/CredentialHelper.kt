@@ -72,7 +72,7 @@ object CredentialHelper {
     }
 
     fun isURLValid(inputLayout: TextInputLayout, context: Context): Boolean {
-        if(Patterns.WEB_URL.matcher(inputLayout.editText?.text.toString()).matches()) {
+        if (Patterns.WEB_URL.matcher(inputLayout.editText?.text.toString()).matches()) {
             inputLayout.error = null
             return true
         } else {
@@ -80,6 +80,7 @@ object CredentialHelper {
             return false
         }
     }
+
     /**
      * Gets valid url.
 

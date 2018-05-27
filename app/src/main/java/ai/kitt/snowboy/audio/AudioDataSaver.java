@@ -25,7 +25,7 @@ public class AudioDataSaver implements AudioDataReceivedListener {
 
     @Override
     public void start() {
-        if(null != saveFile) {
+        if (null != saveFile) {
             if (saveFile.exists()) {
                 saveFile.delete();
             }
@@ -36,7 +36,7 @@ public class AudioDataSaver implements AudioDataReceivedListener {
             }
 
             try {
-                BufferedOutputStream bufferedStreamInstance  = new BufferedOutputStream(
+                BufferedOutputStream bufferedStreamInstance = new BufferedOutputStream(
                         new FileOutputStream(this.saveFile));
                 dataOutputStreamInstance = new DataOutputStream(bufferedStreamInstance);
             } catch (FileNotFoundException e) {
@@ -48,7 +48,7 @@ public class AudioDataSaver implements AudioDataReceivedListener {
     @Override
     public void onAudioDataReceived(byte[] data, int length) {
         try {
-            if(null != dataOutputStreamInstance) {
+            if (null != dataOutputStreamInstance) {
                 dataOutputStreamInstance.write(data, 0, length);
             }
         } catch (IOException e) {
@@ -58,7 +58,7 @@ public class AudioDataSaver implements AudioDataReceivedListener {
 
     @Override
     public void stop() {
-        if(null != dataOutputStreamInstance) {
+        if (null != dataOutputStreamInstance) {
             try {
                 dataOutputStreamInstance.close();
             } catch (IOException e) {

@@ -8,7 +8,7 @@ import retrofit2.http.Query;
 
 /**
  * <h1>Retrofit service to get websearch results.</h1>
- *
+ * <p>
  * Created by mayank on 12-12-2016.
  */
 public interface WebSearchService {

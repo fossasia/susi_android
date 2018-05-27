@@ -11,9 +11,9 @@ import com.google.gson.annotations.SerializedName
 
 class WebIcon {
 
-@SerializedName("URL")
- @Expose
- var url: String? = null
+    @SerializedName("URL")
+    @Expose
+    var url: String? = null
 
 }
 

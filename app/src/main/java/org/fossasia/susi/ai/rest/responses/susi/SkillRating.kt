@@ -8,7 +8,7 @@ import java.io.Serializable
  *
  * Created by chiragw15 on 18/8/17.
  */
-class SkillRating: Serializable {
+class SkillRating : Serializable {
     @SerializedName("positive")
     @Expose
     var positive: Int = 0

@@ -31,11 +31,11 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(PrefManager.getBoolean("activity_executed", false)){
+        if (PrefManager.getBoolean("activity_executed", false)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-        } 
+        }
 
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -80,6 +80,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
     }
+
     private int getItem(int i) {
         return ImageViewPager.getCurrentItem() + i;
     }
@@ -88,6 +89,7 @@ public class WelcomeActivity extends AppCompatActivity {
         startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
         finish();
     }
+
     private ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
@@ -111,6 +113,7 @@ public class WelcomeActivity extends AppCompatActivity {
             //empty body
         }
     };
+
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
 

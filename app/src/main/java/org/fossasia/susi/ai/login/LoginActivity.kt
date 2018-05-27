@@ -76,14 +76,14 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
-        if(isEmpty) {
-            when(what) {
+        if (isEmpty) {
+            when (what) {
                 Constant.EMAIL -> email.error = getString(R.string.email_cannot_be_empty)
                 Constant.PASSWORD -> password.error = getString(R.string.password_cannot_be_empty)
                 Constant.INPUT_URL -> input_url.error = getString(R.string.url_cannot_be_empty)
             }
         } else {
-            when(what) {
+            when (what) {
                 Constant.EMAIL -> email.error = getString(R.string.email_invalid_title)
                 Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
             }
@@ -117,7 +117,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     fun showURL() {
-        custom_server.setOnClickListener { input_url.visibility = if(custom_server.isChecked) View.VISIBLE else View.GONE}
+        custom_server.setOnClickListener { input_url.visibility = if (custom_server.isChecked) View.VISIBLE else View.GONE }
     }
 
     fun signUp() {
@@ -166,7 +166,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         })
     }
 
-    fun onEditorAction(){
+    fun onEditorAction() {
         password_input.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_GO) {
