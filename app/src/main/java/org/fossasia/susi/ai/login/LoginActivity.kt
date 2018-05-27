@@ -123,7 +123,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     fun signUp() {
         sign_up.setOnClickListener {
             var intent = Intent(this@LoginActivity, SignUpActivity::class.java)
-            intent.putExtra("email",email.editText?.text.toString())
+            intent.putExtra("email", email.editText?.text.toString())
             startActivity(intent)
         }
     }
@@ -131,7 +131,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     fun forgotPassword() {
         forgot_password.setOnClickListener {
             var intent = Intent(this@LoginActivity, ForgotPasswordActivity::class.java)
-            intent.putExtra("email",email.editText?.text.toString())
+            intent.putExtra("email", email.editText?.text.toString())
             startActivity(intent)
         }
     }

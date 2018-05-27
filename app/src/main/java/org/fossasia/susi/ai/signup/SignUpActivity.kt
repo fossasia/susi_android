@@ -49,7 +49,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             }
         }
 
-        var bundle = intent.extras;
+        var bundle: Bundle? = intent.extras;
         if (bundle != null) {
             var string = bundle.getString("email")
             email.editText?.setText(string)
