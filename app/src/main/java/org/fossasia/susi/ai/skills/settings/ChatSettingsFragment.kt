@@ -27,6 +27,8 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import android.content.ComponentName
+
 
 /**
  * The Fragment for Settings Activity
@@ -58,6 +60,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var querylanguage: ListPreference
     lateinit var deviceName: Preference
     lateinit var setupDevice: Preference
+    lateinit var settingsVoice: Preference
     var flag = true
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
@@ -83,6 +86,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
+        settingsVoice = preferenceManager.findPreference(Constant.VOICE_SETTINGS)
 
         // Display login email
         var utilModel = UtilModel(activity as SkillsActivity)
@@ -145,6 +149,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice.setOnPreferenceClickListener {
 
             val intent = Intent(activity, DeviceActivity::class.java)
+            startActivity(intent)
+            true
+        }
+
+        settingsVoice.setOnPreferenceClickListener {
+            val intent = Intent()
+            intent.action = "com.android.settings.TTS_SETTINGS"
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             true
         }
