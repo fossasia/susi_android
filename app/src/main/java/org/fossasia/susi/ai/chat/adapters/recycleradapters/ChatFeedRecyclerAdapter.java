@@ -92,7 +92,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         lastMsgCount = getItemCount();
         RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
             @Override
-            public void onChange(RealmResults elements) {
+            public void onChange(@NonNull RealmResults elements) {
                 //only scroll if new is added.
                 if (lastMsgCount < getItemCount()) {
                     scrollToBottom();
@@ -157,8 +157,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         realm.close();
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view;
@@ -272,7 +273,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
             chatViewHolder.setView(getData().get(position), getItemViewType(position), currContext);
@@ -325,7 +326,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private void setClipboard(String text) {
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) currContext.getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
-        clipboard.setPrimaryClip(clip);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+        }
     }
 
     private void shareMessage(String message) {
