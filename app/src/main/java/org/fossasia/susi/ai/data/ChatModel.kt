@@ -11,7 +11,6 @@ import org.fossasia.susi.ai.rest.services.LocationService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 /**
  * The Model of Chat Activity.

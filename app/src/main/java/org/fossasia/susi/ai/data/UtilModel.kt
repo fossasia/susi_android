@@ -65,7 +65,7 @@ class UtilModel(val context: Context) : IUtilModel {
     }
 
     override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
-        return PrefManager.getBoolean(prefName, defaultValue);
+        return PrefManager.getBoolean(prefName, defaultValue)
     }
 
     override fun putBooleanPref(prefName: String, value: Boolean) {

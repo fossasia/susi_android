@@ -3,15 +3,19 @@ package org.fossasia.susi.ai.chat
 import ai.kitt.snowboy.MsgEnum
 import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
-
 import android.Manifest
 import android.app.ProgressDialog
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.ConnectivityManager
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
@@ -26,11 +30,8 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-
 import io.realm.RealmResults
-
 import kotlinx.android.synthetic.main.activity_chat.*
-
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -38,7 +39,6 @@ import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.skills.SkillsActivity
-
 import java.util.*
 
 /**
@@ -405,10 +405,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     override fun hideRetrieveOldMessageProgress() {
         progressDialog.dismiss()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed();
     }
 
     override fun finishActivity() {
