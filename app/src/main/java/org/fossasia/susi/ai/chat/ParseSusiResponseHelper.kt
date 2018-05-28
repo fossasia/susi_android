@@ -68,7 +68,7 @@ class ParseSusiResponseHelper {
             Constant.TABLE -> try {
                 datumList = susiResponse.answers[0].data
             } catch (e: Exception) {
-                datumList = null;
+                datumList = null
             }
 
             Constant.WEBSEARCH -> try {

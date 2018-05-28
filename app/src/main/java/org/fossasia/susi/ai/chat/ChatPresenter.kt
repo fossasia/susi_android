@@ -371,13 +371,12 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
 
             for (i in 0..actionSize - 1) {
                 val delay = response.body().answers[0].actions[i].delay
-                val actionNo = i
                 val handler = Handler()
                 handler.postDelayed({
                     val psh = ParseSusiResponseHelper()
-                    psh.parseSusiResponse(susiResponse, actionNo, utilModel.getString(R.string.error_occurred_try_again))
+                    psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
 
-                    var setMessage = psh.answer;
+                    var setMessage = psh.answer
                     if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = psh.answer
 

@@ -95,10 +95,9 @@ class DatabaseRepository : IDatabaseRepository {
             }
         }, {
             if (!mine) {
-                val prId = prevId
                 realm.executeTransactionAsync { bgRealm ->
                     try {
-                        val previouschatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prId).findFirst()
+                        val previouschatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prevId).findFirst()
                         if (previouschatMessage != null && previouschatMessage.isMine) {
                             previouschatMessage.isDelivered = true
                             previouschatMessage.date = date
@@ -109,11 +108,11 @@ class DatabaseRepository : IDatabaseRepository {
                     }
 
                     try {
-                        val previousChatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prId - 1).findFirst()
+                        val previousChatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prevId - 1).findFirst()
                         if (previousChatMessage != null && previousChatMessage.isDate) {
                             previousChatMessage.date = date
                             previousChatMessage.timeStamp = timeStamp
-                            val previousChatMessage2 = bgRealm.where(ChatMessage::class.java).equalTo("id", prId - 2).findFirst()
+                            val previousChatMessage2 = bgRealm.where(ChatMessage::class.java).equalTo("id", prevId - 2).findFirst()
                             if (previousChatMessage2 != null && previousChatMessage2.date == previousChatMessage.date) {
                                 previousChatMessage.deleteFromRealm()
                             }

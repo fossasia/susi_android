@@ -4,7 +4,6 @@ import org.fossasia.susi.ai.data.contract.ISkillListingModel
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
-import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

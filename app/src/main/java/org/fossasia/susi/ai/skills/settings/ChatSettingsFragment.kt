@@ -5,12 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.annotation.Nullable
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
@@ -20,19 +17,16 @@ import android.view.Menu
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_login.*
+import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.signup.SignUpActivity
+import org.fossasia.susi.ai.login.LoginActivity
+import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
-import org.fossasia.susi.ai.skills.SkillsActivity
-import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
-import org.fossasia.susi.ai.rest.responses.susi.Skills
 
 /**
  * The Fragment for Settings Activity
@@ -91,7 +85,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
 
         // Display login email
-        var utilModel: UtilModel = UtilModel(activity as SkillsActivity)
+        var utilModel = UtilModel(activity as SkillsActivity)
         if (utilModel.isLoggedIn() == false)
             displayEmail.title = "Not logged in"
         else
@@ -208,7 +202,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         val itemAbout = menu.findItem(R.id.menu_about)
         itemAbout.isVisible = false
         var searchoption = menu.findItem(R.id.action_search)
-        searchoption.isVisible = false;
+        searchoption.isVisible = false
         super.onPrepareOptionsMenu(menu)
     }
 

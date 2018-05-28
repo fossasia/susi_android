@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.login;
+package org.fossasia.susi.ai.login
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -10,7 +10,6 @@ import android.support.test.runner.AndroidJUnit4
 import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.ChatActivityTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

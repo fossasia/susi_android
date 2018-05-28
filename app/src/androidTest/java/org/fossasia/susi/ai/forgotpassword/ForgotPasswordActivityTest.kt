@@ -1,10 +1,6 @@
 package org.fossasia.susi.ai.forgotpassword
 
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
-import android.support.test.InstrumentationRegistry.getInstrumentation
 import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
@@ -14,7 +10,6 @@ import android.support.test.runner.AndroidJUnit4
 import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.ChatActivityTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
