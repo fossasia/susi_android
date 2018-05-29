@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
+import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
@@ -39,12 +40,18 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
             password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
             confirm_password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[2].toString())
+
             if (savedInstanceState.getBoolean(Constant.SERVER)) {
-                input_url.visibility = View.VISIBLE
+                inputUrlSignUp.visibility = View.VISIBLE
             } else {
-                input_url.visibility = View.GONE
+                inputUrlSignUp.visibility = View.GONE
             }
         }
+
+        val bundle = intent.extras;
+        val string = bundle?.getString("email")
+        if (string != null)
+            email.editText?.setText(string)
 
         progressDialog = ProgressDialog(this@SignUpActivity)
         progressDialog.setCancelable(false)
@@ -74,7 +81,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirm_password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, custom_server.isChecked)
+        outState.putBoolean(Constant.SERVER, customServerSignUp.isChecked)
     }
 
     override fun onBackPressed() {
@@ -133,13 +140,13 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             when (what) {
                 Constant.EMAIL -> email.error = getString(R.string.email_cannot_be_empty)
                 Constant.PASSWORD -> password.error = getString(R.string.password_cannot_be_empty)
-                Constant.INPUT_URL -> input_url.error = getString(R.string.url_cannot_be_empty)
+                Constant.INPUT_URL -> inputUrlSignUp.error = getString(R.string.url_cannot_be_empty)
                 Constant.CONFIRM_PASSWORD -> confirm_password.error = getString(R.string.field_cannot_be_empty)
             }
         } else {
             when (what) {
                 Constant.EMAIL -> email.error = getString(R.string.invalid_email)
-                Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
+                Constant.INPUT_URL -> inputUrlSignUp.error = getString(R.string.invalid_url)
                 Constant.PASSWORD -> password.error = getString(R.string.error_password_matching)
             }
         }
@@ -151,7 +158,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     fun showURL() {
-        custom_server.setOnClickListener { input_url.visibility = if (custom_server.isChecked) View.VISIBLE else View.GONE }
+        customServerSignUp.setOnClickListener { inputUrlSignUp.visibility = if (customServerSignUp.isChecked) View.VISIBLE else View.GONE }
     }
 
     fun setupPasswordWatcher() {
@@ -182,14 +189,14 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             email.error = null
             password.error = null
             confirm_password.error = null
-            input_url.error = null
+            inputUrlSignUp.error = null
 
             val stringEmail = email.editText?.text.toString()
             val stringPassword = password.editText?.text.toString()
             val stringConPassword = confirm_password.editText?.text.toString()
-            val stringURL = input_url.editText?.text.toString()
+            val stringURL = inputUrlSignUp.editText?.text.toString()
 
-            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, !custom_server.isChecked, stringURL)
+            signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, !customServerSignUp.isChecked, stringURL)
         }
     }
 
