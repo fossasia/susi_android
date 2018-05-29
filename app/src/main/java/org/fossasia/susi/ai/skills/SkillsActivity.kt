@@ -1,31 +1,24 @@
 package org.fossasia.susi.ai.skills
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import org.fossasia.susi.ai.R
-import android.content.Intent
-import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
-import org.fossasia.susi.ai.chat.ChatActivity
-import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
-import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
-import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
-import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
-
-import android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
-import android.content.Context.INPUT_METHOD_SERVICE
-import android.support.v7.widget.RecyclerView
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
-import org.fossasia.susi.ai.R.id.skillGroups
+import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
+import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
+import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
 
 /**
@@ -106,10 +99,10 @@ class SkillsActivity : AppCompatActivity() {
             }
 
             R.id.action_search -> {
-                handleMenuSearch();
+                handleMenuSearch()
             }
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
     protected fun handleMenuSearch() {
@@ -189,7 +182,7 @@ class SkillsActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        mSearchAction = menu?.findItem(R.id.action_search);
+        mSearchAction = menu?.findItem(R.id.action_search)
         return super.onPrepareOptionsMenu(menu)
     }
 }

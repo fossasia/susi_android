@@ -28,4 +28,5 @@ interface IChatView {
     fun initHotword()
     fun promptSpeechInput()
     fun finishActivity()
+    fun stopMic()
 }

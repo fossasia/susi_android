@@ -20,6 +20,7 @@ class ParseSusiResponseHelper {
     var datumList: RealmList<Datum>? = null
     var mapData: MapData? = null
     var webSearch = ""
+    var stop = "Stopped"
     var isHavingLink = false
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
@@ -67,13 +68,19 @@ class ParseSusiResponseHelper {
             Constant.TABLE -> try {
                 datumList = susiResponse.answers[0].data
             } catch (e: Exception) {
-                datumList = null;
+                datumList = null
             }
 
             Constant.WEBSEARCH -> try {
                 webSearch = susiResponse.answers[0].actions[1].query
             } catch (e: Exception) {
                 webSearch = ""
+            }
+
+            Constant.STOP -> try {
+                stop = susiResponse.answers[0].actions[1].type
+            } catch (e: Exception) {
+
             }
 
             else -> answer = error

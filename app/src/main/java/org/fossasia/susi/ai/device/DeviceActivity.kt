@@ -1,16 +1,15 @@
 package org.fossasia.susi.ai.device
 
-import android.support.v7.app.AppCompatActivity
+import android.content.ComponentName
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
-import org.fossasia.susi.ai.BuildConfig
+import android.widget.Toast
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.contract.IDeviceView
-import android.content.Intent
-import android.content.ComponentName
-import android.widget.Toast
 
 
 class DeviceActivity : AppCompatActivity(), IDeviceView {

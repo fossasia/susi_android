@@ -105,7 +105,8 @@
                 android:text="@string/activity_login_forgot_pass"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:paddingStart="48dp" />
 
             <TextView
                 android:id="@+id/skip"

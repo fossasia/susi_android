@@ -67,6 +67,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
     private static final int LIST_RESULT = 13;
+    private static final int STOP = 14;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -207,6 +208,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             case DOTS:
                 return dotsHolder;
             case NULL_HOLDER:
+                return nullHolder;
+            case STOP:
                 return nullHolder;
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
