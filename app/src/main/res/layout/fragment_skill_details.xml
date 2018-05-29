@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:background="@color/md_white_1000"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
 
                 <TextView
                     android:id="@+id/skill_detail_title"
@@ -54,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_white_1000"
-            android:gravity="right">
+            android:gravity="end">
 
             <Button
                 android:id="@+id/skill_detail_try_button"
@@ -65,7 +66,8 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
                 android:text="@string/try_it"
-                android:textColor="@color/md_white_1000" />
+                android:textColor="@color/md_white_1000"
+                android:layout_marginEnd="16dp" />
 
             <Button
                 android:id="@+id/skill_detail_share_button"
@@ -80,7 +82,8 @@
                 android:drawableTint="@color/md_white_1000"
                 android:padding="10dp"
                 android:text="@string/action_share"
-                android:textColor="@color/md_white_1000" />
+                android:textColor="@color/md_white_1000"
+                android:layout_marginEnd="16dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,7 +98,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/description"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/skill_detail_description"
@@ -111,7 +114,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/examples"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/skill_detail_examples"
@@ -125,7 +128,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/rating"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -164,7 +167,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginRight="8dp"
-                            android:src="@drawable/thumbs_up_solid" />
+                            android:src="@drawable/thumbs_up_solid"
+                            android:layout_marginEnd="8dp" />
 
                     </LinearLayout>
 
@@ -202,7 +206,8 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginRight="8dp"
-                            android:src="@drawable/thumbs_down_solid" />
+                            android:src="@drawable/thumbs_down_solid"
+                            android:layout_marginEnd="8dp" />
 
                     </LinearLayout>
 
@@ -216,7 +221,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/content_type_dynamic"
                 android:textColor="@color/md_black_1000"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/skill_detail_policy"

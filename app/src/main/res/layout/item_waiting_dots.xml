@@ -15,6 +15,9 @@
         android:background="@drawable/rounded_layout"
         android:paddingBottom="@dimen/padding_large"
         android:paddingLeft="@dimen/padding_small"
+        android:layout_marginStart="@dimen/message_card_margin_medium"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingStart="@dimen/padding_small"
         android:paddingRight="@dimen/padding_large"
         android:paddingTop="@dimen/padding_large">
 

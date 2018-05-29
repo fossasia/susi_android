@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.skills.skilllisting
 
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SnapHelper
@@ -63,7 +63,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     override fun displayError() {
         if (activity != null) {
             swipe_refresh_layout.isRefreshing = false
-            skillGroups.visibility = GONE;
+            skillGroups.visibility = GONE
             error_skill_fetch.visibility = View.VISIBLE
         }
     }

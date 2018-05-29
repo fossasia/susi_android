@@ -16,8 +16,6 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.R.id.speechprogress
-import org.fossasia.susi.ai.R.id.txtchat
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 
 /**

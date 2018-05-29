@@ -1,9 +1,11 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
-import android.support.v4.app.Fragment
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.NonNull
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.method.LinkMovementMethod
@@ -18,9 +20,6 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
-import android.net.Uri
-import android.support.annotation.NonNull
-import org.fossasia.susi.ai.R.id.*
 
 /**
  *
@@ -148,7 +147,7 @@ class SkillDetailsFragment : Fragment() {
             sendIntent.action = Intent.ACTION_SEND
             sendIntent.putExtra(Intent.EXTRA_TEXT, shareUriBuilder.build().toString())
             sendIntent.type = "text/plain"
-            context?.startActivity(Intent.createChooser(sendIntent, getString(R.string.share_skill)));
+            context?.startActivity(Intent.createChooser(sendIntent, getString(R.string.share_skill)))
         }
     }
 
@@ -266,7 +265,4 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
 }

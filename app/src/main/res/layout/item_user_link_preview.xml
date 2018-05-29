@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_very_small"
-    android:gravity="right">
+    android:gravity="end"
+    android:layout_marginTop="@dimen/margin_very_small">
 
     <LinearLayout
         android:id="@+id/background_layout"
@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginRight="@dimen/message_card_margin_medium"
+        android:layout_marginEnd="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
         android:background="@drawable/rounded_layout_grey"
         android:orientation="vertical">
@@ -34,13 +35,15 @@
             android:textColorLink="@color/link_text"
             android:textSize="@dimen/message_text_size" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:gravity="center"
-            android:paddingLeft="@dimen/timestamp_layout_padding"
-            android:paddingRight="@dimen/padding_chatbubble_large">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:gravity="center"
+                android:paddingLeft="@dimen/timestamp_layout_padding"
+                android:paddingStart="@dimen/timestamp_layout_padding"
+                android:paddingRight="@dimen/padding_chatbubble_large"
+                android:paddingEnd="@dimen/padding_chatbubble_large">
 
             <TextView
                 android:id="@+id/timestamp"
@@ -56,6 +59,7 @@
                 android:layout_width="@dimen/timestamp_size"
                 android:layout_height="@dimen/timestamp_size"
                 android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginStart="@dimen/margin_small"
                 android:textColor="@color/timestamp_color"
                 app:srcCompat="@drawable/ic_clock" />
 

@@ -1,16 +1,14 @@
 package org.fossasia.susi.ai.helper
 
-import java.io.File
-import java.io.IOException
-
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.media.MediaRecorder
 import android.speech.RecognizerIntent
 import android.support.v4.app.ActivityCompat
+import java.io.File
+import java.io.IOException
 
 /**
  * <h1>Helper class to check if STT and TTS is possible for phone.</h1>

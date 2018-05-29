@@ -5,13 +5,12 @@ import android.support.annotation.NonNull
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SnapHelper
-import android.view.ViewGroup
-import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHolder
 import android.view.LayoutInflater
-import kotlinx.android.synthetic.main.fragment_skill_listing.*
+import android.view.ViewGroup
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.StartSnapHelper
+import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHolder
 
 /**
  *

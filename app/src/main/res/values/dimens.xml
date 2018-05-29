@@ -91,6 +91,6 @@
     <dimen name="mobile_image_size">342dp</dimen>
 
     <dimen name="slide_desc">16dp</dimen>
-    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_title">30sp</dimen>
 
 </resources>
