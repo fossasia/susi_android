@@ -1,7 +1,9 @@
 package org.fossasia.susi.ai.login
 
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.ForgotPasswordModel
 import org.fossasia.susi.ai.data.contract.ILoginModel
+import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
 import org.fossasia.susi.ai.data.LoginModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
@@ -11,6 +13,7 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
+import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import org.fossasia.susi.ai.rest.responses.susi.Settings
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
@@ -23,12 +26,13 @@ import java.net.UnknownHostException
  *
  * Created by chiragw15 on 4/7/17.
  */
-class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginModel.OnLoginFinishedListener {
+class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginModel.OnLoginFinishedListener, IForgotPasswordModel.OnFinishListener {
 
     var loginModel: LoginModel = LoginModel()
     var utilModel: UtilModel = UtilModel(loginActivity)
     var databaseRepository: IDatabaseRepository = DatabaseRepository()
     var loginView: ILoginView? = null
+    var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
     lateinit var email: String
     lateinit var message: String
 
@@ -117,7 +121,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         }
     }
 
-    override fun onSuccess(response: Response<LoginResponse>) {
+    override fun onLoginModelSuccess(response: Response<LoginResponse>) {
 
         if (response.isSuccessful && response.body() != null) {
 
@@ -165,4 +169,49 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
     override fun onDetach() {
         loginView = null
     }
+
+    override fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean) {
+        if (email.isEmpty()) {
+            loginView?.invalidCredentials(true, Constant.EMAIL)
+            return
+        }
+
+        if (!CredentialHelper.isEmailValid(email)) {
+            loginView?.invalidCredentials(false, Constant.EMAIL)
+            return
+        }
+
+        if (isPersonalServerChecked) {
+            if (url.isEmpty()) {
+                loginView?.invalidCredentials(true, Constant.INPUT_URL)
+                return
+            }
+            if (CredentialHelper.isURLValid(url)) {
+                if (CredentialHelper.getValidURL(url) != null) {
+                    utilModel.setServer(false)
+                    utilModel.setCustomURL(CredentialHelper.getValidURL(url) as String)
+                } else {
+                    loginView?.invalidCredentials(false, Constant.INPUT_URL)
+                    return
+                }
+            } else {
+                loginView?.invalidCredentials(false, Constant.INPUT_URL)
+                return
+            }
+        } else {
+            utilModel.setServer(true)
+        }
+        this.email = email
+        loginView?.showForgotPasswordProgress(true)
+        forgotPasswordModel.requestPassword(email.trim({ it <= ' ' }), this)
+    }
+
+    override fun onForgotPasswordModelSuccess(response: Response<ForgotPasswordResponse>) {
+        loginView?.showForgotPasswordProgress(false)
+    }
+
+    override fun cancelSignup() {
+        forgotPasswordModel.cancelSignup()
+    }
+
 }

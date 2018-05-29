@@ -185,6 +185,8 @@
     <string name="signing_up">Signing up…</string>
 
     <string name="unknown_host_exception">Unknown Host Exception</string>
+    <string name="check_email">Check your email!</string>
+    <string name="reset_password_text">We just sent you an email with a link to reset \n your password.</string>
 
     <!-- Settings Activity-->
     <string name="Continue">Continue</string>
@@ -319,4 +321,7 @@
     <string name="try_it">Try It</string>
 
     <string name="url_input">Enter URL</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
