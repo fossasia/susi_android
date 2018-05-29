@@ -45,8 +45,6 @@ class ForgotPasswordActivity : AppCompatActivity(), IForgotPasswordView {
         val string = bundle?.getString("email")
         if (string != null)
             forgot_email.editText?.setText(string)
-        else
-            forgot_email.editText?.setText("")
 
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
