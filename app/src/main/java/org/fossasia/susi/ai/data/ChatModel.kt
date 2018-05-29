@@ -22,7 +22,7 @@ class ChatModel : IChatModel {
 
     val TAG: String = ChatModel::class.java.name
 
-    var clientBuilder: ClientBuilder = ClientBuilder()
+    private var clientBuilder: ClientBuilder = ClientBuilder()
 
     override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
         val call = clientBuilder.susiApi.chatHistory

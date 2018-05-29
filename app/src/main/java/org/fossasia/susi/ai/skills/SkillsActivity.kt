@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
@@ -30,9 +29,9 @@ import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
 class SkillsActivity : AppCompatActivity() {
 
-    val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
-    val TAG_SKILLS_FRAGMENT = "SkillsFragment"
-    val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
+    private val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
+    private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
+    private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
 
     private var mSearchAction: MenuItem? = null
     private var isSearchOpened = false
@@ -58,7 +57,7 @@ class SkillsActivity : AppCompatActivity() {
         return true
     }
 
-    fun exitActivity() {
+    private fun exitActivity() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(this@SkillsActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -115,10 +114,10 @@ class SkillsActivity : AppCompatActivity() {
 
             //hides the keyboard
             val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(edtSearch?.getWindowToken(), 0)
+            imm.hideSoftInputFromWindow(edtSearch?.windowToken, 0)
 
             //add the search icon in the action bar
-            mSearchAction?.setIcon(resources.getDrawable(R.drawable.ic_open_search))
+            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
 
             isSearchOpened = false
         } else { //open the search entry
@@ -131,14 +130,12 @@ class SkillsActivity : AppCompatActivity() {
             edtSearch = action.customView.findViewById(R.id.edtSearch) as EditText //the text editor
 
             //this is a listener to do a search when the user clicks on search button
-            edtSearch?.setOnEditorActionListener(object : TextView.OnEditorActionListener {
-                override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        doSearch((findViewById(R.id.edtSearch) as EditText).text.toString())
-                        return true
-                    }
-                    return false
+            edtSearch?.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    doSearch((findViewById(R.id.edtSearch) as EditText).text.toString())
+                    return@OnEditorActionListener true
                 }
+                false
             })
 
 
@@ -150,7 +147,7 @@ class SkillsActivity : AppCompatActivity() {
 
 
             //add the close icon
-            mSearchAction?.setIcon(resources.getDrawable(R.drawable.ic_close_search))
+            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_close_search)
 
             isSearchOpened = true
         }
@@ -158,10 +155,8 @@ class SkillsActivity : AppCompatActivity() {
 
     fun doSearch(query: String) {
 
-        var pos = 0
 
-
-        for (item in skills) {
+        for ((pos, item) in skills.withIndex()) {
             if (query in item.first) {
                 skillGroups.scrollToPosition(pos)
                 return
@@ -175,7 +170,6 @@ class SkillsActivity : AppCompatActivity() {
 
             }
 
-            pos++
         }
 
         Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()

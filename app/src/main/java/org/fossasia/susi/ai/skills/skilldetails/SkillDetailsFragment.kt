@@ -38,19 +38,19 @@ import java.util.*
  */
 class SkillDetailsFragment : Fragment() {
 
-    lateinit var skillData: SkillData
-    lateinit var skillGroup: String
-    lateinit var skillTag: String
-    val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+    private lateinit var skillData: SkillData
+    private lateinit var skillGroup: String
+    private lateinit var skillTag: String
+    private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
-    lateinit var fiveStarSkillRatingBar : RatingBar
-    lateinit var fiveStarSkillRatingScaleTextView : TextView
-    lateinit var skillRatingChart: HorizontalBarChart
+    private lateinit var fiveStarSkillRatingBar : RatingBar
+    private lateinit var fiveStarSkillRatingScaleTextView : TextView
+    private lateinit var skillRatingChart: HorizontalBarChart
 
     companion object {
-        val SKILL_KEY = "skill_key"
-        val SKILL_TAG = "skill_tag"
-        val SKILL_GROUP = "skill_group"
+        const val SKILL_KEY = "skill_key"
+        const val SKILL_TAG = "skill_tag"
+        const val SKILL_GROUP = "skill_group"
         fun newInstance(skillData: SkillData, skillGroup: String, skillTag: String): SkillDetailsFragment {
             val fragment = SkillDetailsFragment()
             val bundle = Bundle()
@@ -79,7 +79,7 @@ class SkillDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    fun setupUI() {
+    private fun setupUI() {
         setImage()
         setName()
         setAuthor()
@@ -93,7 +93,7 @@ class SkillDetailsFragment : Fragment() {
         setTerms()
     }
 
-    fun setImage() {
+    private fun setImage() {
         skill_detail_image.setImageResource(R.drawable.ic_susi)
         if (skillData.image != null && !skillData.image.isEmpty()) {
             Picasso.with(activity?.applicationContext).load(StringBuilder(imageLink)
@@ -104,14 +104,14 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
-    fun setName() {
+    private fun setName() {
         skill_detail_title.text = activity?.getString(R.string.no_skill_name)
         if (skillData.skillName != null && !skillData.skillName.isEmpty()) {
             skill_detail_title.text = skillData.skillName
         }
     }
 
-    fun setAuthor() {
+    private fun setAuthor() {
         skill_detail_author.text = "Author : ${activity?.getString(R.string.no_skill_author)}"
         if (skillData.author != null && !skillData.author.isEmpty()) {
             if (skillData.authorUrl == null || skillData.authorUrl.isEmpty())
@@ -128,7 +128,7 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
-    fun setTryButton() {
+    private fun setTryButton() {
         if (skillData.examples == null || skillData.examples.isEmpty())
             skill_detail_try_button.visibility = View.GONE
 
@@ -145,7 +145,7 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
-    fun setShareButton() {
+    private fun setShareButton() {
         if (skillTag == null || skillTag.isEmpty()) {
             skill_detail_share_button.visibility = View.GONE
             return
@@ -166,14 +166,14 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
-    fun setDescription() {
+    private fun setDescription() {
         skill_detail_description.text = activity?.getString(R.string.no_skill_description)
         if (skillData.descriptions != null && !skillData.descriptions.isEmpty()) {
             skill_detail_description.text = skillData.descriptions
         }
     }
 
-    fun setExamples() {
+    private fun setExamples() {
         if (skillData.examples != null) {
             skill_detail_examples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -190,7 +190,7 @@ class SkillDetailsFragment : Fragment() {
      * Display horizontal bar chart to display the percentage of users for each rating on a
      * scale of one to five stars.
      */
-    fun setRating() {
+    private fun setRating() {
         setUpFiveStarRatingBar()
         setSkillGraph()
     }
@@ -202,7 +202,7 @@ class SkillDetailsFragment : Fragment() {
      * Change the contents of the rating scale text view as per the number of
      * stars given by the user.
      */
-    fun setUpFiveStarRatingBar() {
+    private fun setUpFiveStarRatingBar() {
         fiveStarSkillRatingBar = five_star_skill_rating_bar
         fiveStarSkillRatingScaleTextView = tv_five_star_skill_rating_scale
 
@@ -226,7 +226,7 @@ class SkillDetailsFragment : Fragment() {
     /**
      * Set up the axes along with other necessary details for the horizontal bar chart.
      */
-    fun setSkillGraph(){
+    private fun setSkillGraph(){
         skillRatingChart = skill_rating_chart
 
         skillRatingChart.setDrawBarShadow(false)
@@ -304,7 +304,7 @@ class SkillDetailsFragment : Fragment() {
         skillRatingChart.invalidate()
     }
 
-    fun setDynamicContent() {
+    private fun setDynamicContent() {
         if (skillData.dynamicContent == null) {
             skill_detail_content.visibility = View.GONE
         } else {
@@ -316,7 +316,7 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
-    fun setPolicy() {
+    private fun setPolicy() {
         if (skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
             skill_detail_policy.visibility = View.GONE
         } else {
@@ -330,7 +330,7 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
-    fun setTerms() {
+    private fun setTerms() {
         if (skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
             skill_detail_terms.visibility = View.GONE
         } else {

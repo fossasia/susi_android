@@ -19,7 +19,7 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHo
 class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>)
     : RecyclerView.Adapter<GroupViewHolder>() {
 
-    lateinit var skillAdapterSnapHelper: SnapHelper
+    private lateinit var skillAdapterSnapHelper: SnapHelper
 
     @NonNull
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
@@ -31,7 +31,7 @@ class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String,
         val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         holder.skillList?.layoutManager = mLayoutManager
         holder.skillList?.adapter = SkillListAdapter(context, skills[position])
-        holder.skillList?.setOnFlingListener(null)
+        holder.skillList?.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
     }
 

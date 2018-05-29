@@ -62,6 +62,6 @@ class WelcomeActivityTest {
     }
 
     companion object {
-        private val TAG = "WelcomeActivityTest"
+        private const val TAG = "WelcomeActivityTest"
     }
 }

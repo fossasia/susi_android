@@ -15,8 +15,8 @@ import retrofit2.Response
  */
 class SettingModel : ISettingModel {
 
-    lateinit var settingResponseCall: Call<ChangeSettingResponse>
-    lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
+    private lateinit var settingResponseCall: Call<ChangeSettingResponse>
+    private lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
     override fun sendSetting(key: String, value: String, count: Int, listener: ISettingModel.OnSettingFinishListener) {
         settingResponseCall = ClientBuilder().susiApi
                 .changeSettingResponse(key, value, count)

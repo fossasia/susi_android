@@ -25,10 +25,10 @@ import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
  */
 class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
 
-    lateinit var skillAdapterSnapHelper: SnapHelper
-    lateinit var skillListingPresenter: ISkillListingPresenter
+    private lateinit var skillAdapterSnapHelper: SnapHelper
+    private lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
-    lateinit var skillGroupAdapter: SkillGroupAdapter
+    private lateinit var skillGroupAdapter: SkillGroupAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
@@ -45,14 +45,14 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         super.onViewCreated(view, savedInstanceState)
     }
 
-    fun setUPAdapter() {
+    private fun setUPAdapter() {
         skillAdapterSnapHelper = StartSnapHelper()
         val mLayoutManager = LinearLayoutManager(activity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         skillGroups.layoutManager = mLayoutManager
         skillGroupAdapter = SkillGroupAdapter(requireContext(), skills)
         skillGroups.adapter = skillGroupAdapter
-        skillGroups.setOnFlingListener(null)
+        skillGroups.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(skillGroups)
     }
 

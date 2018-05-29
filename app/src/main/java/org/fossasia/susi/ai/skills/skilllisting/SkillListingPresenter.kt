@@ -17,12 +17,12 @@ import retrofit2.Response
 class SkillListingPresenter : ISkillListingPresenter,
         ISkillListingModel.OnFetchGroupsFinishedListener, ISkillListingModel.OnFetchSkillsFinishedListener {
 
-    var skillListingModel: ISkillListingModel = SkillListingModel()
-    var skillListingView: ISkillListingView? = null
-    var count = 0
+    private var skillListingModel: ISkillListingModel = SkillListingModel()
+    private var skillListingView: ISkillListingView? = null
+    private var count = 0
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
-    var groupsCount = 0
-    var groups: List<String> = ArrayList()
+    private var groupsCount = 0
+    private var groups: List<String> = ArrayList()
 
     override fun onAttach(skillListingView: ISkillListingView) {
         this.skillListingView = skillListingView

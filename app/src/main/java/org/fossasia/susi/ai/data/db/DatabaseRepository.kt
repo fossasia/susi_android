@@ -23,10 +23,10 @@ class DatabaseRepository : IDatabaseRepository {
 
     override fun getMessageCount(): Long {
         val temp = realm.where(ChatMessage::class.java).max(Constant.ID)
-        if (temp == null)
-            return -1
+        return if (temp == null)
+            -1
         else
-            return temp as Long
+            temp as Long
     }
 
     override fun getAMessage(index: Long): ChatMessage? {

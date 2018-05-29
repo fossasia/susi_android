@@ -29,10 +29,10 @@ import org.fossasia.susi.ai.signup.SignUpActivity
  */
 class LoginActivity : AppCompatActivity(), ILoginView {
 
-    lateinit var loginPresenter: ILoginPresenter
-    lateinit var progressDialog: ProgressDialog
     lateinit var forgotPasswordProgressDialog: Dialog
     lateinit var builder: AlertDialog.Builder
+    private lateinit var loginPresenter: ILoginPresenter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +116,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             email_input.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }
 
-    fun addListeners() {
+    private fun addListeners() {
         showURL()
         signUp()
         skip()
@@ -125,13 +125,13 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         onEditorAction()
     }
 
-    fun showURL() {
+    private fun showURL() {
         custom_server.setOnClickListener { input_url.visibility = if (custom_server.isChecked) View.VISIBLE else View.GONE }
     }
 
-    fun signUp() {
+    private fun signUp() {
         sign_up.setOnClickListener {
-            var intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             intent.putExtra("email", email.editText?.text.toString())
             startActivity(intent)
         }
@@ -141,13 +141,13 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         skip.setOnClickListener { loginPresenter.skipLogin() }
     }
 
-    fun logIn() {
+    private fun logIn() {
         log_in.setOnClickListener {
             startLogin()
         }
     }
 
-    fun startLogin() {
+    private fun startLogin() {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
         val stringURL = input_url.editText?.text.toString()
@@ -160,14 +160,14 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         loginPresenter.login(stringEmail, stringPassword, !custom_server.isChecked, stringURL)
     }
 
-    fun cancelLogin() {
+    private fun cancelLogin() {
         progressDialog.setOnCancelListener({
             loginPresenter.cancelLogin()
             log_in.isEnabled = true
         })
     }
 
-    fun onEditorAction() {
+    private fun onEditorAction() {
         password_input.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_GO) {
