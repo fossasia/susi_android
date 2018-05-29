@@ -68,6 +68,9 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
 
+    //Chrome custom tabs
+    implementation 'com.android.support:customtabs:25.1.0'
+
     //butterknife
     implementation "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"
     kapt "com.jakewharton:butterknife-compiler:${rootConfiguration.butterKnifeVersion}"

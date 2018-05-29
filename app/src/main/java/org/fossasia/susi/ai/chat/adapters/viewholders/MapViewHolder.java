@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.chat.adapters.viewholders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -78,11 +79,13 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                             Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", model.getLatitude(), model.getLongitude(), model.getZoom()));
                             mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                             mapIntent.setPackage(AndroidHelper.INSTANCE.getGOOGLE_MAPS_PKG());
+                            currContext.startActivity(mapIntent);
                         } else {
-                            mapIntent = new Intent(Intent.ACTION_VIEW);
-                            mapIntent.setData(Uri.parse(mapHelper.getWebLink()));
+                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                            CustomTabsIntent customTabsIntent = builder.build();
+                            customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.getWebLink()));
                         }
-                        currContext.startActivity(mapIntent);
+
                     }
                 });
 

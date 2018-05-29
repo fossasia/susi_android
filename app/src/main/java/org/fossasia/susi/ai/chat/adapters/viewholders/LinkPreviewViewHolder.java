@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -292,10 +292,9 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             @Override
             public void onClick(View view) {
                 Uri webpage = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                    currContext.startActivity(intent);
-                }
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(currContext, webpage);
             }
         });
     }
