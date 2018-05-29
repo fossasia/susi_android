@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.login
 
+import android.graphics.Color
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.ForgotPasswordModel
 import org.fossasia.susi.ai.data.contract.ILoginModel
@@ -208,6 +209,13 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
 
     override fun onForgotPasswordModelSuccess(response: Response<ForgotPasswordResponse>) {
         loginView?.showForgotPasswordProgress(false)
+        if (response.isSuccessful && response.body() != null) {
+            loginView?.resetPasswordSuccess(utilModel.getString(R.string.forgot_password_mail_sent), response.body().message)
+        } else if (response.code() == 422) {
+            loginView?.resetPasswordFailure(utilModel.getString(R.string.email_invalid_title), utilModel.getString(R.string.email_invalid), utilModel.getString(R.string.retry), Color.RED)
+        } else {
+            loginView?.resetPasswordFailure("${response.code()} " + utilModel.getString(R.string.error), response.message(), utilModel.getString(R.string.ok), Color.BLUE)
+        }
     }
 
     override fun cancelSignup() {

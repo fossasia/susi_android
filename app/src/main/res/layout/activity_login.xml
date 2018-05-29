@@ -124,10 +124,5 @@
             android:text="@string/activity_login_sign_up"
             android:textSize="@dimen/message_text_size"
             android:textStyle="bold" />
-
-        <FrameLayout
-            android:id="@+id/forgot_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
     </LinearLayout>
 </ScrollView>

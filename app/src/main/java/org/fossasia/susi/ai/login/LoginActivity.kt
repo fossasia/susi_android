@@ -12,6 +12,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -57,7 +58,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
         addListeners()
 
-        showUrl()
         cancelRequestPassword()
         requestPassword()
 
@@ -183,11 +183,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         super.onDestroy()
     }
 
-    override fun resetPassWordSuccess(title: String?, message: String?) {
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.forgot_fragment, ForgotPasswordFragment())
-        ft.addToBackStack(null)
-        ft.commit()
+    override fun resetPasswordSuccess(title: String?, message: String?) {
+        startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java))
     }
 
     override fun resetPasswordFailure(title: String?, message: String?, button: String?, color: Int) {
@@ -197,12 +194,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     override fun showForgotPasswordProgress(boolean: Boolean) {
         if (boolean) forgotPasswordProgressDialog.show() else forgotPasswordProgressDialog.dismiss()
-    }
-
-    fun showUrl() {
-        custom_server.setOnClickListener {
-            input_url.visibility = if (custom_server.isChecked) View.VISIBLE else View.GONE
-        }
     }
 
     fun cancelRequestPassword() {

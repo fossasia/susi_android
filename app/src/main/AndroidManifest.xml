@@ -54,8 +54,13 @@
             android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".forgotpassword.ForgotPasswordActivity"
-            android:theme="@style/ForgetPass_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:theme="@style/PreferencesThemeLight"
+            android:label="Reset Password"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.fossasia.susi.ai.login.LoginActivity" />
+        </activity>
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
