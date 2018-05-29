@@ -51,16 +51,12 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".forgotpassword.ForgotPasswordActivity"
-            android:theme="@style/PreferencesThemeLight"
             android:label="Reset Password"
-            android:windowSoftInputMode="stateVisible|adjustResize" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.fossasia.susi.ai.login.LoginActivity" />
-        </activity>
+            android:theme="@style/ForgetPass_Theme"
+            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
@@ -76,6 +72,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.skills.SkillsActivity" />
+        </activity>
+        <activity
+            android:name=".login.ForgotPass"
+            android:configChanges="orientation|screenSize"
+            android:label="Reset Password"
+            android:theme="@style/PreferencesThemeLight">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.fossasia.susi.ai.login.LoginActivity" />
         </activity>
     </application>
 

@@ -184,7 +184,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun resetPasswordSuccess(title: String?, message: String?) {
-        startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java))
+        startActivity(Intent(this@LoginActivity, ForgotPass::class.java))
     }
 
     override fun resetPasswordFailure(title: String?, message: String?, button: String?, color: Int) {

@@ -29,7 +29,7 @@ class ForgotPasswordActivity : AppCompatActivity(), IForgotPasswordView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.forgot_password)
+        setContentView(R.layout.activity_forgot_password)
         title = getString(R.string.forgot_pass_activity)
 
         if (savedInstanceState != null) {
