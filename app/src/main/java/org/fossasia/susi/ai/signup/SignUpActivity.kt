@@ -51,7 +51,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         val bundle = intent.extras;
         val string = bundle?.getString("email")
-        email.editText?.setText(string)
+        if (string != null)
+            email.editText?.setText(string)
+        else
+            email.editText?.setText("")
 
         progressDialog = ProgressDialog(this@SignUpActivity)
         progressDialog.setCancelable(false)
