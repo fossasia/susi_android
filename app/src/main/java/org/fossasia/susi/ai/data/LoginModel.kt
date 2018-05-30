@@ -28,7 +28,7 @@ class LoginModel : ILoginModel {
 
         authResponseCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                listener.onSuccess(response)
+                listener.onLoginModelSuccess(response)
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {

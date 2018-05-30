@@ -124,6 +124,5 @@
             android:text="@string/activity_login_sign_up"
             android:textSize="@dimen/message_text_size"
             android:textStyle="bold" />
-
     </LinearLayout>
 </ScrollView>
