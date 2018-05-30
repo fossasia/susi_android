@@ -125,7 +125,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             email.error = null
             inputUrlSignUp.error = null
             signUpPresenter.requestPassword(email1, url, isPersonalServerChecked)
-            finish ()
         }
         val alertTitle = getString(R.string.error_email)
         val alertMessage = getString(R.string.error_msg)
