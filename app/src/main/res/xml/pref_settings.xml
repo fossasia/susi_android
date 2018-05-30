@@ -6,7 +6,7 @@
     <PreferenceCategory android:title="Login email">
         <PreferenceScreen
             android:key="display_email"
-            android:title="test email" />
+            android:title="test email"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/server_settings_title">
