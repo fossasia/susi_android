@@ -210,7 +210,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
     override fun onForgotPasswordModelSuccess(response: Response<ForgotPasswordResponse>) {
         loginView?.showForgotPasswordProgress(false)
         if (response.isSuccessful && response.body() != null) {
-            loginView?.resetPasswordSuccess(utilModel.getString(R.string.forgot_password_mail_sent), response.body().message)
+            loginView?.resetPasswordSuccess()
         } else if (response.code() == 422) {
             loginView?.resetPasswordFailure(utilModel.getString(R.string.email_invalid_title), utilModel.getString(R.string.email_invalid), utilModel.getString(R.string.retry), Color.RED)
         } else {

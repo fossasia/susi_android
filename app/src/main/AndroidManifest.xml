@@ -51,7 +51,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity
             android:name=".forgotpassword.ForgotPasswordActivity"
             android:label="Reset Password"
