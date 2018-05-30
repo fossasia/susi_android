@@ -130,88 +130,105 @@
                 android:textColor="@color/md_black_1000"
                 android:textSize="22sp" />
 
+            <TextView
+                android:id="@+id/tv_five_star_skill_rating_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:gravity="center_horizontal"
+                android:text="@string/rate_skill"
+                android:textSize="@dimen/message_text_size"
+                android:textStyle="italic"/>
+
+            <!-- Add a five star rating bar -->
+            <RatingBar
+                android:id="@+id/five_star_skill_rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:layout_gravity="center_horizontal"
+                android:rating="5"
+                android:stepSize="1"/>
+
+            <!-- Display what a particular rating implies -->
+            <TextView
+                android:id="@+id/tv_five_star_skill_rating_scale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/rate_awesome"
+                android:textSize="@dimen/message_text_size"
+                android:textStyle="bold"
+                android:paddingBottom="@dimen/padding_small" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@color/md_white_1000">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/skill_detail_card_positive"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:layout_marginTop="6dp"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/padding_large"
+                    android:background="@color/md_white_1000">
 
-                    <LinearLayout
+                    <!-- Display average skill rating -->
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="horizontal">
+                        android:text="@string/placeholder_average_rating"
+                        android:textSize="@dimen/text_size_very_large"
+                        android:background="@color/md_white_1000"
+                        android:layout_gravity="center_horizontal"/>
 
-                        <TextView
-                            android:id="@+id/skill_detail_rating_positive"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@android:color/transparent"
-                            android:text="@string/positive_50" />
-
-                        <ImageView
-                            android:id="@+id/skill_detail_rating_thumbs_up"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="8dp"
-                            android:src="@drawable/thumbs_up_solid"
-                            android:layout_marginEnd="8dp" />
-
-                    </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/skill_detail_card_negative"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginTop="6dp"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground">
-
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="horizontal">
+                        android:gravity="center_horizontal"
+                        android:text="@string/average_rating"
+                        android:background="@color/md_white_1000"/>
 
-                        <TextView
-                            android:id="@+id/skill_detail_rating_negative"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@android:color/transparent"
-                            android:text="@string/negative_50" />
+                </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/skill_detail_rating_thumbs_down"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="8dp"
-                            android:src="@drawable/thumbs_down_solid"
-                            android:layout_marginEnd="8dp" />
+                <!-- Add a Horizontal Bar Chart using MPAndroidChart library -->
+                <com.github.mikephil.charting.charts.HorizontalBarChart
+                    android:id="@+id/skill_rating_chart"
+                    android:layout_width="0dp"
+                    android:layout_height="128dp"
+                    android:layout_weight="1"
+                    android:paddingTop="@dimen/padding_large"
+                    android:paddingBottom="@dimen/padding_large"
+                    android:background="@color/md_white_1000"/>
 
-                    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/padding_large"
+                    android:background="@color/md_white_1000">
 
-                </android.support.v7.widget.CardView>
+                    <!-- Display average skill rating -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/placeholder_total_rating"
+                        android:textSize="@dimen/text_size_very_large"
+                        android:background="@color/md_white_1000"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/total_rating"
+                        android:background="@color/md_white_1000"/>
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView
