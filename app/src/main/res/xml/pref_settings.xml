@@ -13,7 +13,7 @@
         <PreferenceScreen
             android:key="Server_Select"
             android:summary="@string/server_select_summary"
-            android:title="@string/server_pref" />
+            android:title="@string/server_pref"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_title">
@@ -70,7 +70,7 @@
         android:entries="@array/languagentries"
         android:entryValues="@array/languagentry"
         android:key="Lang_Select"
-        android:title="@string/Language" />
+        android:title="@string/Language"/>
 
     <PreferenceCategory android:title="@string/settings_devices">
 
