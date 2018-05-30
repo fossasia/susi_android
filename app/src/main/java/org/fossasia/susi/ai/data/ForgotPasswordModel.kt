@@ -26,7 +26,7 @@ class ForgotPasswordModel : IForgotPasswordModel {
             }
 
             override fun onResponse(call: Call<ForgotPasswordResponse>?, response: Response<ForgotPasswordResponse>) {
-                listener.onSuccess(response)
+                listener.onForgotPasswordModelSuccess(response)
             }
         })
     }

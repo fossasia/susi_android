@@ -12,7 +12,7 @@ interface IForgotPasswordModel {
 
     interface OnFinishListener {
         fun onError(throwable: Throwable)
-        fun onSuccess(response: Response<ForgotPasswordResponse>)
+        fun onForgotPasswordModelSuccess(response: Response<ForgotPasswordResponse>)
     }
 
     fun requestPassword(email: String, listener: IForgotPasswordModel.OnFinishListener)
