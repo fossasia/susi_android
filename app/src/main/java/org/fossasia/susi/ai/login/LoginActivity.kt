@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.login
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
@@ -12,7 +14,6 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
-import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -30,7 +31,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     lateinit var loginPresenter: ILoginPresenter
     lateinit var progressDialog: ProgressDialog
-    lateinit var forgotPasswordProgressDialog: ProgressDialog
+    lateinit var forgotPasswordProgressDialog: Dialog
+    lateinit var builder: AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +54,10 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         progressDialog.setCancelable(false)
         progressDialog.setMessage(getString(R.string.login))
 
-        forgotPasswordProgressDialog = ProgressDialog(this)
-        forgotPasswordProgressDialog.setCancelable(false)
-        forgotPasswordProgressDialog.setMessage(getString(R.string.reset_password_message))
+        builder = AlertDialog.Builder(this)
+        builder.setView(R.layout.progress)
+        forgotPasswordProgressDialog = builder.create()
+
 
         addListeners()
 

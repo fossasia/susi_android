@@ -56,7 +56,7 @@
             android:name=".forgotpassword.ForgotPasswordActivity"
             android:label="Reset Password"
             android:theme="@style/ForgetPass_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
@@ -75,7 +75,6 @@
         </activity>
         <activity
             android:name=".login.ForgotPass"
-            android:configChanges="orientation|screenSize"
             android:label="Reset Password"
             android:theme="@style/PreferencesThemeLight">
             <meta-data
