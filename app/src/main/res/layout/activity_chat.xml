@@ -16,7 +16,7 @@
             android:id="@+id/rv_chat_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/send_message_layout"
+            android:layout_above="@+id/sendMessageLayout"
             android:layout_alignParentTop="true"
             android:scrollbars="vertical" />
 
@@ -48,7 +48,7 @@
             app:srcCompat="@drawable/ic_scroll_to_end" />
 
         <LinearLayout
-            android:id="@+id/send_message_layout"
+            android:id="@+id/sendMessageLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -77,7 +77,7 @@
                         android:layout_weight="1">
 
                         <EditText
-                            android:id="@+id/et_message"
+                            android:id="@+id/etMessage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -116,7 +116,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/sttframe"
+            android:id="@+id/sttFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></FrameLayout>
     </RelativeLayout>

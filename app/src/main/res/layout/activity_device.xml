@@ -7,14 +7,14 @@
     tools:context="org.fossasia.susi.ai.device.DeviceActivity">
 
     <TextView
-        android:id="@+id/connected_device"
+        android:id="@+id/connectedDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceLarge"
         android:textColor="@color/md_green_50" />
 
     <TextView
-        android:id="@+id/no_device_connected"
+        android:id="@+id/noDeviceConnected"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

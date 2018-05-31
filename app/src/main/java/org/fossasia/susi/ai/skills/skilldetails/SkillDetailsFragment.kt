@@ -94,35 +94,35 @@ class SkillDetailsFragment : Fragment() {
     }
 
     private fun setImage() {
-        skill_detail_image.setImageResource(R.drawable.ic_susi)
+        skillDetailImage.setImageResource(R.drawable.ic_susi)
         if (skillData.image != null && !skillData.image.isEmpty()) {
             Picasso.with(activity?.applicationContext).load(StringBuilder(imageLink)
                     .append(skillGroup).append("/en/").append(skillData.image).toString())
                     .error(R.drawable.ic_susi)
                     .fit().centerCrop()
-                    .into(skill_detail_image)
+                    .into(skillDetailImage)
         }
     }
 
     private fun setName() {
-        skill_detail_title.text = activity?.getString(R.string.no_skill_name)
+        skillDetailTitle.text = activity?.getString(R.string.no_skill_name)
         if (skillData.skillName != null && !skillData.skillName.isEmpty()) {
-            skill_detail_title.text = skillData.skillName
+            skillDetailTitle.text = skillData.skillName
         }
     }
 
     private fun setAuthor() {
-        skill_detail_author.text = "Author : ${activity?.getString(R.string.no_skill_author)}"
+        skillDetailAuthor.text = "Author : ${activity?.getString(R.string.no_skill_author)}"
         if (skillData.author != null && !skillData.author.isEmpty()) {
             if (skillData.authorUrl == null || skillData.authorUrl.isEmpty())
-                skill_detail_author.text = "Author : ${skillData.skillName}"
+                skillDetailAuthor.text = "Author : ${skillData.skillName}"
             else {
-                skill_detail_author.linksClickable = true
-                skill_detail_author.movementMethod = LinkMovementMethod.getInstance()
+                skillDetailAuthor.linksClickable = true
+                skillDetailAuthor.movementMethod = LinkMovementMethod.getInstance()
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    skill_detail_author.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
+                    skillDetailAuthor.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
                 } else {
-                    skill_detail_author.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>")
+                    skillDetailAuthor.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>")
                 }
             }
         }
@@ -130,9 +130,9 @@ class SkillDetailsFragment : Fragment() {
 
     private fun setTryButton() {
         if (skillData.examples == null || skillData.examples.isEmpty())
-            skill_detail_try_button.visibility = View.GONE
+            skillDetailTryButton.visibility = View.GONE
 
-        skill_detail_try_button.setOnClickListener {
+        skillDetailTryButton.setOnClickListener {
             activity?.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(activity, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
@@ -147,11 +147,11 @@ class SkillDetailsFragment : Fragment() {
 
     private fun setShareButton() {
         if (skillTag == null || skillTag.isEmpty()) {
-            skill_detail_share_button.visibility = View.GONE
+            skillDetailShareButton.visibility = View.GONE
             return
         }
 
-        skill_detail_share_button.setOnClickListener {
+        skillDetailShareButton.setOnClickListener {
             val shareUriBuilder = Uri.Builder()
             shareUriBuilder.scheme("https")
                     .authority("skills.susi.ai")
@@ -167,18 +167,18 @@ class SkillDetailsFragment : Fragment() {
     }
 
     private fun setDescription() {
-        skill_detail_description.text = activity?.getString(R.string.no_skill_description)
+        skillDetailDescription.text = activity?.getString(R.string.no_skill_description)
         if (skillData.descriptions != null && !skillData.descriptions.isEmpty()) {
-            skill_detail_description.text = skillData.descriptions
+            skillDetailDescription.text = skillData.descriptions
         }
     }
 
     private fun setExamples() {
         if (skillData.examples != null) {
-            skill_detail_examples.setHasFixedSize(true)
+            skillDetailExamples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            skill_detail_examples.layoutManager = mLayoutManager
-            skill_detail_examples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
+            skillDetailExamples.layoutManager = mLayoutManager
+            skillDetailExamples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
         }
     }
 
@@ -306,40 +306,40 @@ class SkillDetailsFragment : Fragment() {
 
     private fun setDynamicContent() {
         if (skillData.dynamicContent == null) {
-            skill_detail_content.visibility = View.GONE
+            skillDetailContent.visibility = View.GONE
         } else {
             if (skillData.dynamicContent!!) {
-                skill_detail_content.text = context?.getString(R.string.content_type_dynamic)
+                skillDetailContent.text = context?.getString(R.string.content_type_dynamic)
             } else {
-                skill_detail_content.text = context?.getString(R.string.content_type_static)
+                skillDetailContent.text = context?.getString(R.string.content_type_static)
             }
         }
     }
 
     private fun setPolicy() {
         if (skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
-            skill_detail_policy.visibility = View.GONE
+            skillDetailPolicy.visibility = View.GONE
         } else {
-            skill_detail_policy.linksClickable = true
-            skill_detail_policy.movementMethod = LinkMovementMethod.getInstance()
+            skillDetailPolicy.linksClickable = true
+            skillDetailPolicy.movementMethod = LinkMovementMethod.getInstance()
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                skill_detail_policy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>", Html.FROM_HTML_MODE_COMPACT)
+                skillDetailPolicy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>", Html.FROM_HTML_MODE_COMPACT)
             } else {
-                skill_detail_policy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>")
+                skillDetailPolicy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>")
             }
         }
     }
 
     private fun setTerms() {
         if (skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
-            skill_detail_terms.visibility = View.GONE
+            skillDetailTerms.visibility = View.GONE
         } else {
-            skill_detail_terms.linksClickable = true
-            skill_detail_terms.movementMethod = LinkMovementMethod.getInstance()
+            skillDetailTerms.linksClickable = true
+            skillDetailTerms.movementMethod = LinkMovementMethod.getInstance()
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                skill_detail_terms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>", Html.FROM_HTML_MODE_COMPACT)
+                skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>", Html.FROM_HTML_MODE_COMPACT)
             } else {
-                skill_detail_terms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>")
+                skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>")
             }
         }
     }

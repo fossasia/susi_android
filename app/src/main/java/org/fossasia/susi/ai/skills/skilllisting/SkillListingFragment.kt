@@ -64,14 +64,14 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         if (activity != null) {
             swipe_refresh_layout.isRefreshing = false
             skillGroups.visibility = GONE
-            error_skill_fetch.visibility = View.VISIBLE
+            errorSkillFetch.visibility = View.VISIBLE
         }
     }
 
     override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
         swipe_refresh_layout.isRefreshing = false
-        if (error_skill_fetch.visibility == View.VISIBLE) {
-            error_skill_fetch.visibility = View.GONE
+        if (errorSkillFetch.visibility == View.VISIBLE) {
+            errorSkillFetch.visibility = View.GONE
         }
         this.skills.clear()
         this.skills.addAll(skills)

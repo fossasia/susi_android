@@ -60,8 +60,8 @@ class STTfragment : Fragment() {
                         Log.d("fragment", match)
                     }
                 }
-                if (speechprogress != null)
-                    speechprogress.onResultOrOnError()
+                if (speechProgress != null)
+                    speechProgress.onResultOrOnError()
                 (activity as ChatActivity).setText(voiceResults[0])
                 recognizer.destroy()
                 if ((activity as ChatActivity).recordingThread != null) {
@@ -79,8 +79,8 @@ class STTfragment : Fragment() {
                 Log.d("fragment",
                         "Error listening for speech: $error")
                 Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
-                if (speechprogress != null)
-                    speechprogress.onResultOrOnError()
+                if (speechProgress != null)
+                    speechProgress.onResultOrOnError()
                 recognizer.destroy()
                 activity?.fabsetting?.show()
                 activity?.supportFragmentManager?.popBackStackImmediate()
@@ -88,8 +88,8 @@ class STTfragment : Fragment() {
 
             override fun onBeginningOfSpeech() {
                 Log.d("fragment", "Speech starting")
-                if (speechprogress != null)
-                    speechprogress.onBeginningOfSpeech()
+                if (speechProgress != null)
+                    speechProgress.onBeginningOfSpeech()
             }
 
             override fun onBufferReceived(buffer: ByteArray) {
@@ -97,8 +97,8 @@ class STTfragment : Fragment() {
             }
 
             override fun onEndOfSpeech() {
-                if (speechprogress != null)
-                    speechprogress.onEndOfSpeech()
+                if (speechProgress != null)
+                    speechProgress.onEndOfSpeech()
             }
 
             override fun onEvent(eventType: Int, params: Bundle) {
@@ -108,12 +108,12 @@ class STTfragment : Fragment() {
             override fun onPartialResults(partialResults: Bundle) {
                 val partial = partialResults
                         .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                txtchat?.text = partial[0]
+                txtChat?.text = partial[0]
             }
 
             override fun onRmsChanged(rmsdB: Float) {
-                if (speechprogress != null)
-                    speechprogress.onRmsChanged(rmsdB)
+                if (speechProgress != null)
+                    speechProgress.onRmsChanged(rmsdB)
             }
         }
         recognizer.setRecognitionListener(listener)

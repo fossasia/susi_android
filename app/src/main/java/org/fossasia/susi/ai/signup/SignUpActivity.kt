@@ -42,7 +42,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
             password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
-            confirm_password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[2].toString())
+            confirmPassword.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[2].toString())
 
             if (savedInstanceState.getBoolean(Constant.SERVER)) {
                 inputUrlSignUp.visibility = View.VISIBLE
@@ -89,7 +89,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirm_password.editText?.text.toString())
+        val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirmPassword.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
         outState.putBoolean(Constant.SERVER, customServerSignUp.isChecked)
     }
@@ -133,15 +133,15 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun setErrorConpass(msg: String) {
-        confirm_password?.error = msg
+        confirmPassword?.error = msg
     }
 
     override fun enableSignUp(bool: Boolean) {
-        sign_up?.isEnabled = bool
+        signUp?.isEnabled = bool
     }
 
     override fun clearField() {
-        CredentialHelper.clearFields(email, password, confirm_password)
+        CredentialHelper.clearFields(email, password, confirmPassword)
     }
 
     override fun showProgress(bool: Boolean) {
@@ -154,7 +154,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                 Constant.EMAIL -> email.error = getString(R.string.email_cannot_be_empty)
                 Constant.PASSWORD -> password.error = getString(R.string.password_cannot_be_empty)
                 Constant.INPUT_URL -> inputUrlSignUp.error = getString(R.string.url_cannot_be_empty)
-                Constant.CONFIRM_PASSWORD -> confirm_password.error = getString(R.string.field_cannot_be_empty)
+                Constant.CONFIRM_PASSWORD -> confirmPassword.error = getString(R.string.field_cannot_be_empty)
             }
         } else {
             when (what) {
@@ -167,7 +167,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     override fun passwordInvalid() {
         password.error = getString(R.string.pass_validation_text)
-        sign_up.isEnabled = true
+        signUp.isEnabled = true
     }
 
     private fun showURL() {
@@ -185,28 +185,28 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private fun cancelSignUp() {
         progressDialog.setOnCancelListener({
             signUpPresenter.cancelSignUp()
-            sign_up.isEnabled = true
+            signUp.isEnabled = true
         })
     }
 
     override fun onSignUpError(title: String?, message: String?) {
         val notSuccessAlertboxHelper = AlertboxHelper(this@SignUpActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
         notSuccessAlertboxHelper.showAlertBox()
-        sign_up.isEnabled = true
+        signUp.isEnabled = true
     }
 
     private fun signUp() {
 
-        sign_up.setOnClickListener {
+        signUp.setOnClickListener {
 
             email.error = null
             password.error = null
-            confirm_password.error = null
+            confirmPassword.error = null
             inputUrlSignUp.error = null
 
             val stringEmail = email.editText?.text.toString()
             val stringPassword = password.editText?.text.toString()
-            val stringConPassword = confirm_password.editText?.text.toString()
+            val stringConPassword = confirmPassword.editText?.text.toString()
             val stringURL = inputUrlSignUp.editText?.text.toString()
 
             signUpPresenter.signUp(stringEmail, stringPassword, stringConPassword, !customServerSignUp.isChecked, stringURL)
