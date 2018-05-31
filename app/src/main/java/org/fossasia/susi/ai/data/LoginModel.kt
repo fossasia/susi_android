@@ -18,8 +18,8 @@ import retrofit2.Response
 
 class LoginModel : ILoginModel {
 
-    lateinit var authResponseCall: Call<LoginResponse>
-    lateinit var userSettingResponseCall: Call<UserSetting>
+    private lateinit var authResponseCall: Call<LoginResponse>
+    private lateinit var userSettingResponseCall: Call<UserSetting>
 
     override fun login(email: String, password: String, listener: ILoginModel.OnLoginFinishedListener) {
 
@@ -28,7 +28,7 @@ class LoginModel : ILoginModel {
 
         authResponseCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
-                listener.onSuccess(response)
+                listener.onLoginModelSuccess(response)
             }
 
             override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
@@ -44,7 +44,7 @@ class LoginModel : ILoginModel {
 
     override fun getUserSetting(listener: ILoginModel.OnLoginFinishedListener) {
         userSettingResponseCall = ClientBuilder().susiApi
-                .getUserSetting()
+                .userSetting
 
         userSettingResponseCall.enqueue(object : Callback<UserSetting> {
             override fun onFailure(call: Call<UserSetting>?, t: Throwable?) {

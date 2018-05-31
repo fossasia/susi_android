@@ -13,7 +13,7 @@ interface ILoginModel {
 
     interface OnLoginFinishedListener {
         fun onError(throwable: Throwable)
-        fun onSuccess(response: Response<LoginResponse>)
+        fun onLoginModelSuccess(response: Response<LoginResponse>)
         fun onSuccessSetting(response: Response<UserSetting>)
         fun onErrorSetting()
     }

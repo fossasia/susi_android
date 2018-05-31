@@ -16,11 +16,11 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHo
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListAdapter(val context: Context, val skillDetails: Pair<String, Map<String, SkillData>>) : RecyclerView.Adapter<SkillViewHolder>(),
+class SkillListAdapter(val context: Context, private val skillDetails: Pair<String, Map<String, SkillData>>) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
-    val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
-    val clickListener: SkillViewHolder.ClickListener = this
+    private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+    private val clickListener: SkillViewHolder.ClickListener = this
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
@@ -65,7 +65,7 @@ class SkillListAdapter(val context: Context, val skillDetails: Pair<String, Map<
         showSkillDetailFragment(skillData, skillGroup, skillTag)
     }
 
-    fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+    private fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (context as SkillsActivity).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillDetailsFragment)

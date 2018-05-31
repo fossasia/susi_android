@@ -84,6 +84,6 @@ class ChatActivityTest {
     }
 
     companion object {
-        private val TAG = "ChatActivityTest"
+        private const val TAG = "ChatActivityTest"
     }
 }

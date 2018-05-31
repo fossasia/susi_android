@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.signup
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -8,14 +10,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
-import kotlinx.android.synthetic.main.activity_forgot_password.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.login.ForgotPass
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 
@@ -28,8 +29,10 @@ import org.fossasia.susi.ai.signup.contract.ISignUpView
 
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
-    lateinit var signUpPresenter: ISignUpPresenter
-    lateinit var progressDialog: ProgressDialog
+    private lateinit var signUpPresenter: ISignUpPresenter
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var forgotPasswordProgressDialog: Dialog
+    private lateinit var builder: AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +60,20 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         progressDialog.setCancelable(false)
         progressDialog.setMessage(this.getString(R.string.signing_up))
 
+        builder = AlertDialog.Builder(this)
+        builder.setView(R.layout.progress)
+        forgotPasswordProgressDialog = builder.create()
+
         addListeners()
+
+        cancelRequestPassword()
+
         signUpPresenter = SignUpPresenter(this)
         signUpPresenter.onAttach(this)
 
     }
 
-    fun addListeners() {
+    private fun addListeners() {
         showURL()
         signUp()
         cancelSignUp()
@@ -109,9 +119,12 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             finish()
         }
         val dialogClickListenern = DialogInterface.OnClickListener { _, _ ->
-            val intent = Intent(this@SignUpActivity, ForgotPasswordActivity::class.java)
-            startActivity(intent)
-            finish()
+            val email1 = email.editText?.text.toString()
+            val isPersonalServerChecked = customServerSignUp.isChecked
+            val url = inputUrlSignUp.editText?.text.toString()
+            email.error = null
+            inputUrlSignUp.error = null
+            signUpPresenter.requestPassword(email1, url, isPersonalServerChecked)
         }
         val alertTitle = getString(R.string.error_email)
         val alertMessage = getString(R.string.error_msg)
@@ -157,11 +170,11 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         sign_up.isEnabled = true
     }
 
-    fun showURL() {
+    private fun showURL() {
         customServerSignUp.setOnClickListener { inputUrlSignUp.visibility = if (customServerSignUp.isChecked) View.VISIBLE else View.GONE }
     }
 
-    fun setupPasswordWatcher() {
+    private fun setupPasswordWatcher() {
         password.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             password.error = null
             if (!hasFocus)
@@ -169,7 +182,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         }
     }
 
-    fun cancelSignUp() {
+    private fun cancelSignUp() {
         progressDialog.setOnCancelListener({
             signUpPresenter.cancelSignUp()
             sign_up.isEnabled = true
@@ -182,7 +195,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         sign_up.isEnabled = true
     }
 
-    fun signUp() {
+    private fun signUp() {
 
         sign_up.setOnClickListener {
 
@@ -203,5 +216,24 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     override fun onDestroy() {
         signUpPresenter.onDetach()
         super.onDestroy()
+    }
+
+    override fun showForgotPasswordProgress(boolean: Boolean) {
+        if (boolean) forgotPasswordProgressDialog.show() else forgotPasswordProgressDialog.dismiss()
+    }
+
+    override fun resetPasswordSuccess() {
+        startActivity(Intent(this@SignUpActivity, ForgotPass::class.java))
+    }
+
+    override fun resetPasswordFailure(title: String?, message: String?, button: String?, color: Int) {
+        val notSuccessAlertboxHelper = AlertboxHelper(this@SignUpActivity, title, message, null, null, button, null, color)
+        notSuccessAlertboxHelper.showAlertBox()
+    }
+
+    private fun cancelRequestPassword() {
+        progressDialog.setOnCancelListener {
+            signUpPresenter.cancelSignup()
+        }
     }
 }

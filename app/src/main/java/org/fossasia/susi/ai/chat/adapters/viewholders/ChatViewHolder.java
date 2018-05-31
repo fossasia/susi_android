@@ -97,10 +97,16 @@ public class ChatViewHolder extends MessageViewHolder {
                     case USER_MESSAGE:
                         chatTextView.setText(model.getContent());
                         timeStamp.setText(model.getTimeStamp());
-                        if (model.getIsDelivered())
-                            receivedTick.setImageResource(R.drawable.ic_check);
-                        else
-                            receivedTick.setImageResource(R.drawable.ic_clock);
+                        if (model.getIsDelivered()) {
+                            if (receivedTick != null) {
+                                receivedTick.setImageResource(R.drawable.ic_check);
+                            }
+                        }
+                        else {
+                            if (receivedTick != null) {
+                                receivedTick.setImageResource(R.drawable.ic_clock);
+                            }
+                        }
 
                         chatTextView.setTag(this);
                         timeStamp.setTag(this);
@@ -121,11 +127,15 @@ public class ChatViewHolder extends MessageViewHolder {
                         }
 
                         if (model.getSkillLocation().isEmpty()) {
-                            thumbsUp.setVisibility(View.GONE);
-                            thumbsDown.setVisibility(View.GONE);
+                            if (thumbsUp != null) {
+                                thumbsUp.setVisibility(View.GONE);
+                                thumbsDown.setVisibility(View.GONE);
+                            }
                         } else {
-                            thumbsUp.setVisibility(View.VISIBLE);
-                            thumbsDown.setVisibility(View.VISIBLE);
+                            if (thumbsUp != null) {
+                                thumbsUp.setVisibility(View.VISIBLE);
+                                thumbsDown.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         if (model.isPositiveRated()) {
@@ -227,12 +237,16 @@ public class ChatViewHolder extends MessageViewHolder {
                 if (!response.isSuccessful() || response.body() == null) {
                     switch (polarity) {
                         case Constant.POSITIVE:
-                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                            setRating(false, true);
+                            if (thumbsUp != null) {
+                                thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                                setRating(false, true);
+                            }
                             break;
                         case Constant.NEGATIVE:
-                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                            setRating(false, false);
+                            if (thumbsDown != null) {
+                                thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                                setRating(false, false);
+                            }
                             break;
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
@@ -244,12 +258,16 @@ public class ChatViewHolder extends MessageViewHolder {
                 t.printStackTrace();
                 switch (polarity) {
                     case Constant.POSITIVE:
-                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                        setRating(false, true);
+                        if (thumbsUp != null) {
+                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                            setRating(false, true);
+                        }
                         break;
                     case Constant.NEGATIVE:
-                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                        setRating(false, false);
+                        if (thumbsDown != null) {
+                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                            setRating(false, false);
+                        }
                         break;
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();

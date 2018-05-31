@@ -57,6 +57,7 @@
     <dimen name="standard_content_padding">5dp</dimen>
 
     <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_very_large">48sp</dimen>
 
     <dimen name="timestamp_layout_padding">8dp</dimen>
     <dimen name="timestamp_size">10sp</dimen>

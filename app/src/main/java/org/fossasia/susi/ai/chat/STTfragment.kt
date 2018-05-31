@@ -32,7 +32,7 @@ class STTfragment : Fragment() {
 
     @NonNull
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
         (activity as ChatActivity).fabsetting.hide()
         promptSpeechInput()
         return rootView
@@ -77,7 +77,7 @@ class STTfragment : Fragment() {
 
             override fun onError(error: Int) {
                 Log.d("fragment",
-                        "Error listening for speech: " + error)
+                        "Error listening for speech: $error")
                 Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
                 if (speechprogress != null)
                     speechprogress.onResultOrOnError()

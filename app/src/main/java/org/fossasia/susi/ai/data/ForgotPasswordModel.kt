@@ -16,7 +16,7 @@ import retrofit2.Response
  */
 class ForgotPasswordModel : IForgotPasswordModel {
 
-    lateinit var authResponseCall: Call<ForgotPasswordResponse>
+    private lateinit var authResponseCall: Call<ForgotPasswordResponse>
     override fun requestPassword(email: String, listener: IForgotPasswordModel.OnFinishListener) {
         authResponseCall = ClientBuilder().susiApi.forgotPassword(email)
 
@@ -26,7 +26,7 @@ class ForgotPasswordModel : IForgotPasswordModel {
             }
 
             override fun onResponse(call: Call<ForgotPasswordResponse>?, response: Response<ForgotPasswordResponse>) {
-                listener.onSuccess(response)
+                listener.onForgotPasswordModelSuccess(response)
             }
         })
     }
