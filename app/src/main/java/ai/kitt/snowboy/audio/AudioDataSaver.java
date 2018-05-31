@@ -1,5 +1,6 @@
 package ai.kitt.snowboy.audio;
 
+import android.util.Log;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -7,15 +8,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import android.util.Log;
-
 import ai.kitt.snowboy.Constants;
 
 public class AudioDataSaver implements AudioDataReceivedListener {
 
     private static final String TAG = AudioDataSaver.class.getSimpleName();
 
-    private File saveFile = null;
+    private File saveFile;
     private DataOutputStream dataOutputStreamInstance = null;
 
     public AudioDataSaver() {
