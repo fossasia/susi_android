@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -35,13 +36,14 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
         inflater = LayoutInflater.from(context);
     }
 
+    @NonNull
     @Override
-    public RssViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RssViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new RssViewHolder(inflater.inflate(R.layout.rss_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final RssViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RssViewHolder holder, int position) {
         Datum datum = datumList.get(position);
         if (datum != null) {
             if (!TextUtils.isEmpty(datum.getLink())) {

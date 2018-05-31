@@ -1,18 +1,15 @@
 package ai.kitt.snowboy.audio;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
-import ai.kitt.snowboy.Constants;
-import ai.kitt.snowboy.MsgEnum;
-
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import ai.kitt.snowboy.Constants;
+import ai.kitt.snowboy.MsgEnum;
 import ai.kitt.snowboy.SnowboyDetect;
 
 public class RecordingThread {
@@ -26,8 +23,8 @@ public class RecordingThread {
     private static final String ACTIVE_PMDL = Constants.ACTIVE_PMDL;
 
     private boolean shouldContinue;
-    private AudioDataReceivedListener listener = null;
-    private Handler handler = null;
+    private AudioDataReceivedListener listener;
+    private Handler handler;
     private Thread thread;
 
     private static String strEnvWorkSpace = Constants.DEFAULT_WORK_SPACE;
