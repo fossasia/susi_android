@@ -224,6 +224,10 @@
 
     <string name="yes">Yes</string>
 
+    <string name="voice_settings">SUSI Voice settings</string>
+    <string name="change_voice">Click here to change SUSI\'s voice</string>
+    <string name="change_voice_summary">Change the text to speech settings from here to change the voice.</string>
+
     <!--Share App strings-->
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
 
