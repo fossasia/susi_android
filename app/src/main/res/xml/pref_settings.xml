@@ -41,6 +41,15 @@
             android:title="@string/setting_hotword_detection" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/voice_settings">
+
+        <PreferenceScreen
+            android:key="voice"
+            android:summary="@string/change_voice_summary"
+            android:title="@string/change_voice" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/settings_speech">
         <SwitchPreference
             android:id="@+id/speech_pref"

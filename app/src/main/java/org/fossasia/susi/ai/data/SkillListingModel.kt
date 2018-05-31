@@ -14,10 +14,10 @@ import retrofit2.Response
  */
 class SkillListingModel : ISkillListingModel {
 
-    lateinit var authResponseCallGroups: Call<ListGroupsResponse>
-    lateinit var authResponseCallSkills: Call<ListSkillsResponse>
+    private lateinit var authResponseCallGroups: Call<ListGroupsResponse>
+    private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
 
-    var clientBuilder: ClientBuilder = ClientBuilder()
+    private var clientBuilder: ClientBuilder = ClientBuilder()
 
     override fun fetchGroups(listener: ISkillListingModel.OnFetchGroupsFinishedListener) {
 

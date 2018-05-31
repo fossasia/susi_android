@@ -45,7 +45,7 @@ public class AppResCopy {
                 InputStream is = context.getAssets().open(assetsSrcDir);
                 FileOutputStream fos = new FileOutputStream(outFile);
                 byte[] buffer = new byte[1024];
-                int byteCount = 0;
+                int byteCount;
                 while ((byteCount = is.read(buffer)) != -1) {
                     fos.write(buffer, 0, byteCount);
                 }

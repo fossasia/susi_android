@@ -20,10 +20,10 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://maven.google.com" }
         jcenter()
         maven { url 'https://github.com/leonardocardoso/mvn-repo/raw/master/maven-deploy' }
         maven { url "https://jitpack.io" }
-        maven { url "https://maven.google.com" }
     }
 }
 

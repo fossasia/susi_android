@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 import android.content.Context;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,13 +42,14 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
         inflater = LayoutInflater.from(context);
     }
 
+    @NonNull
     @Override
-    public SearchResultHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SearchResultHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new SearchResultHolder(inflater.inflate(R.layout.search_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final SearchResultHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final SearchResultHolder holder, int position) {
         holder.descriptionTextView.setVisibility(View.GONE);
         holder.titleTextView.setVisibility(View.GONE);
         holder.previewImageView.setVisibility(View.GONE);

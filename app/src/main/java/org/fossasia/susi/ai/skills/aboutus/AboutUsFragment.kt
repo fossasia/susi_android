@@ -20,7 +20,7 @@ class AboutUsFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_about_us)
-        var rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         setHasOptionsMenu(true)
         return rootView
     }
@@ -30,7 +30,7 @@ class AboutUsFragment : Fragment() {
         itemAbout.isVisible = false
         val itemSettings = menu.findItem(R.id.menu_settings)
         itemSettings.isVisible = false
-        var searchoption = menu.findItem(R.id.action_search)
+        val searchoption = menu.findItem(R.id.action_search)
         searchoption.isVisible = false
         super.onPrepareOptionsMenu(menu)
     }

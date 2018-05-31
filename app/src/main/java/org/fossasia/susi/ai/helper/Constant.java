@@ -40,6 +40,7 @@ public class Constant {
     public static final String RATE = "rate";
     public static final String DEVICE = "device";
     public static final String DEVICE_SETUP = "setup";
+    public static final String VOICE_SETTINGS = "voice";
 
     //action types
     public static final String ANSWER = "answer";

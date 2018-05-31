@@ -28,7 +28,7 @@ class LocationHelper
 (context: Context) : Service(), LocationListener {
 
     private var canGetLocation = false
-    private val weakContext: WeakReference<Context>
+    private val weakContext: WeakReference<Context> = WeakReference(context)
 
     /**
      * Gets latitude.
@@ -53,10 +53,6 @@ class LocationHelper
         private set
 
     protected var locationManager: LocationManager? = null
-
-    init {
-        weakContext = WeakReference(context)
-    }
 
     /**
      * Gets location.

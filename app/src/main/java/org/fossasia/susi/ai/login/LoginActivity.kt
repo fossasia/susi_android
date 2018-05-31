@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.login
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
@@ -12,7 +14,6 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
-import org.fossasia.susi.ai.forgotpassword.ForgotPasswordActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -28,8 +29,10 @@ import org.fossasia.susi.ai.signup.SignUpActivity
  */
 class LoginActivity : AppCompatActivity(), ILoginView {
 
-    lateinit var loginPresenter: ILoginPresenter
-    lateinit var progressDialog: ProgressDialog
+    lateinit var forgotPasswordProgressDialog: Dialog
+    lateinit var builder: AlertDialog.Builder
+    private lateinit var loginPresenter: ILoginPresenter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +54,16 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         progressDialog.setCancelable(false)
         progressDialog.setMessage(getString(R.string.login))
 
+        builder = AlertDialog.Builder(this)
+        builder.setView(R.layout.progress)
+        forgotPasswordProgressDialog = builder.create()
+
+
         addListeners()
+
+        cancelRequestPassword()
+        requestPassword()
+
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
     }
@@ -86,6 +98,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             }
         }
         log_in.isEnabled = true
+        forgot_password.isEnabled = true
     }
 
     override fun showProgress(boolean: Boolean) {
@@ -103,39 +116,38 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             email_input.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }
 
-    fun addListeners() {
+    private fun addListeners() {
         showURL()
         signUp()
-        forgotPassword()
         skip()
         logIn()
         cancelLogin()
         onEditorAction()
     }
 
-    fun showURL() {
+    private fun showURL() {
         custom_server.setOnClickListener { input_url.visibility = if (custom_server.isChecked) View.VISIBLE else View.GONE }
     }
 
-    fun signUp() {
-        sign_up.setOnClickListener { startActivity(Intent(this@LoginActivity, SignUpActivity::class.java)) }
-    }
-
-    fun forgotPassword() {
-        forgot_password.setOnClickListener { startActivity(Intent(this@LoginActivity, ForgotPasswordActivity::class.java)) }
+    private fun signUp() {
+        sign_up.setOnClickListener {
+            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+            intent.putExtra("email", email.editText?.text.toString())
+            startActivity(intent)
+        }
     }
 
     fun skip() {
         skip.setOnClickListener { loginPresenter.skipLogin() }
     }
 
-    fun logIn() {
+    private fun logIn() {
         log_in.setOnClickListener {
             startLogin()
         }
     }
 
-    fun startLogin() {
+    private fun startLogin() {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
         val stringURL = input_url.editText?.text.toString()
@@ -148,14 +160,14 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         loginPresenter.login(stringEmail, stringPassword, !custom_server.isChecked, stringURL)
     }
 
-    fun cancelLogin() {
+    private fun cancelLogin() {
         progressDialog.setOnCancelListener({
             loginPresenter.cancelLogin()
             log_in.isEnabled = true
         })
     }
 
-    fun onEditorAction() {
+    private fun onEditorAction() {
         password_input.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_GO) {
@@ -176,5 +188,37 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun onDestroy() {
         loginPresenter.onDetach()
         super.onDestroy()
+    }
+
+    override fun resetPasswordSuccess() {
+        startActivity(Intent(this@LoginActivity, ForgotPass::class.java))
+    }
+
+    override fun resetPasswordFailure(title: String?, message: String?, button: String?, color: Int) {
+        val notSuccessAlertboxHelper = AlertboxHelper(this@LoginActivity, title, message, null, null, button, null, color)
+        notSuccessAlertboxHelper.showAlertBox()
+    }
+
+    override fun showForgotPasswordProgress(boolean: Boolean) {
+        if (boolean) forgotPasswordProgressDialog.show() else forgotPasswordProgressDialog.dismiss()
+    }
+
+    fun cancelRequestPassword() {
+        progressDialog.setOnCancelListener {
+            loginPresenter.cancelSignup()
+            forgot_password.isEnabled = true
+        }
+    }
+
+    fun requestPassword() {
+        forgot_password.setOnClickListener {
+            val email = email_input?.text.toString()
+            val isPersonalServerChecked = custom_server.isChecked
+            val url = input_url.editText?.text.toString()
+            email_input.error = null
+            input_url.error = null
+            forgot_password.isEnabled = false
+            loginPresenter.requestPassword(email, url, isPersonalServerChecked)
+        }
     }
 }

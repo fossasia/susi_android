@@ -2,11 +2,11 @@ package org.fossasia.susi.ai.chat
 
 import android.util.Patterns
 import io.realm.RealmList
-import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.data.model.MapData
+import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Helper class to parse susi response
@@ -28,10 +28,10 @@ class ParseSusiResponseHelper {
         actionType = susiResponse.answers[0].actions[i].type
 
         when (actionType) {
-            Constant.ANCHOR -> try {
-                answer = "<a href=\"" + susiResponse.answers[0].actions[i].anchorLink + "\">" + susiResponse.answers[0].actions[1].anchorText + "</a>"
+            Constant.ANCHOR -> answer = try {
+                "<a href=\"" + susiResponse.answers[0].actions[i].anchorLink + "\">" + susiResponse.answers[0].actions[1].anchorText + "</a>"
             } catch (e: Exception) {
-                answer = error
+                error
             }
 
             Constant.ANSWER -> try {
@@ -44,37 +44,37 @@ class ParseSusiResponseHelper {
                 isHavingLink = false
             }
 
-            Constant.MAP -> try {
+            Constant.MAP -> mapData = try {
                 val latitude = susiResponse.answers[0].actions[i].latitude
                 val longitude = susiResponse.answers[0].actions[i].longitude
                 val zoom = susiResponse.answers[0].actions[i].zoom
-                mapData = MapData(latitude, longitude, zoom)
+                MapData(latitude, longitude, zoom)
             } catch (e: Exception) {
-                mapData = null
+                null
             }
 
-            Constant.PIECHART -> try {
-                datumList = susiResponse.answers[0].data
+            Constant.PIECHART -> datumList = try {
+                susiResponse.answers[0].data
             } catch (e: Exception) {
-                datumList = null
+                null
             }
 
-            Constant.RSS -> try {
-                datumList = susiResponse.answers[0].data
+            Constant.RSS -> datumList = try {
+                susiResponse.answers[0].data
             } catch (e: Exception) {
-                datumList = null
+                null
             }
 
-            Constant.TABLE -> try {
-                datumList = susiResponse.answers[0].data
+            Constant.TABLE -> datumList = try {
+                susiResponse.answers[0].data
             } catch (e: Exception) {
-                datumList = null
+                null
             }
 
-            Constant.WEBSEARCH -> try {
-                webSearch = susiResponse.answers[0].actions[1].query
+            Constant.WEBSEARCH -> webSearch = try {
+                susiResponse.answers[0].actions[1].query
             } catch (e: Exception) {
-                webSearch = ""
+                ""
             }
 
             Constant.STOP -> try {

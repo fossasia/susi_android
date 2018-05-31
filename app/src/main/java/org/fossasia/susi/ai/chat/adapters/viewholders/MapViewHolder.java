@@ -78,8 +78,8 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                         if (AndroidHelper.INSTANCE.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
                             Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", model.getLatitude(), model.getLongitude(), model.getZoom()));
                             mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                            mapIntent.setPackage(AndroidHelper.INSTANCE.getGOOGLE_MAPS_PKG());
                             currContext.startActivity(mapIntent);
+                            mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
                         } else {
                             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                             CustomTabsIntent customTabsIntent = builder.build();

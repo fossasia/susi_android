@@ -109,19 +109,33 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
         }
 
         if (viewType == USER_WITHLINK) {
-            if (model.getIsDelivered())
-                receivedTick.setImageResource(R.drawable.ic_check);
-            else
-                receivedTick.setImageResource(R.drawable.ic_clock);
+            if (model.getIsDelivered()) {
+                if (receivedTick != null) {
+                    receivedTick.setImageResource(R.drawable.ic_check);
+                }
+            }
+            else {
+                if (receivedTick != null) {
+                    receivedTick.setImageResource(R.drawable.ic_clock);
+                }
+            }
         }
 
         if (viewType != USER_WITHLINK) {
             if (model.getSkillLocation().isEmpty()) {
-                thumbsUp.setVisibility(View.GONE);
-                thumbsDown.setVisibility(View.GONE);
+                if (thumbsUp != null) {
+                    thumbsUp.setVisibility(View.GONE);
+                }
+                if (thumbsDown != null) {
+                    thumbsDown.setVisibility(View.GONE);
+                }
             } else {
-                thumbsUp.setVisibility(View.VISIBLE);
-                thumbsDown.setVisibility(View.VISIBLE);
+                if (thumbsUp != null) {
+                    thumbsUp.setVisibility(View.VISIBLE);
+                }
+                if (thumbsDown != null) {
+                    thumbsDown.setVisibility(View.VISIBLE);
+                }
             }
 
             if (model.isPositiveRated()) {
@@ -243,17 +257,15 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
                 }
             };
 
-            if (model != null) {
-                List<String> urlList = ChatFeedRecyclerAdapter.extractLinks(model.getContent());
-                StringBuilder url = new StringBuilder(urlList.get(0));
-                StringBuilder http = new StringBuilder("http://");
-                StringBuilder https = new StringBuilder("https://");
-                if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(https.toString()))) {
-                    url = http.append(url.toString());
-                }
-                TextCrawler textCrawler = new TextCrawler();
-                textCrawler.makePreview(linkPreviewCallback, url.toString());
+            List<String> urlList = ChatFeedRecyclerAdapter.extractLinks(model.getContent());
+            StringBuilder url = new StringBuilder(urlList.get(0));
+            StringBuilder http = new StringBuilder("http://");
+            StringBuilder https = new StringBuilder("https://");
+            if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(https.toString()))) {
+                url = http.append(url.toString());
             }
+            TextCrawler textCrawler = new TextCrawler();
+            textCrawler.makePreview(linkPreviewCallback, url.toString());
         } else {
 
             if (!model.getWebLinkData().getHeadline().isEmpty()) {
@@ -326,12 +338,16 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
                 if (!response.isSuccessful() || response.body() == null) {
                     switch (polarity) {
                         case Constant.POSITIVE:
-                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                            setRating(false, true);
+                            if (thumbsUp != null) {
+                                thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                                setRating(false, true);
+                            }
                             break;
                         case Constant.NEGATIVE:
-                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                            setRating(false, false);
+                            if (thumbsDown != null) {
+                                thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                                setRating(false, false);
+                            }
                             break;
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
@@ -343,12 +359,16 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
                 t.printStackTrace();
                 switch (polarity) {
                     case Constant.POSITIVE:
-                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                        setRating(false, true);
+                        if (thumbsUp != null) {
+                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                            setRating(false, true);
+                        }
                         break;
                     case Constant.NEGATIVE:
-                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                        setRating(false, false);
+                        if (thumbsDown != null) {
+                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                            setRating(false, false);
+                        }
                         break;
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();

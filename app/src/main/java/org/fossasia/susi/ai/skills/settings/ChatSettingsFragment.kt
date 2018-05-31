@@ -27,6 +27,8 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import android.content.ComponentName
+
 
 /**
  * The Fragment for Settings Activity
@@ -36,29 +38,30 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 
 class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
-    lateinit var settingsPresenter: ISettingsPresenter
+    private lateinit var settingsPresenter: ISettingsPresenter
 
-    lateinit var rate: Preference
+    private lateinit var rate: Preference
     lateinit var server: Preference
-    lateinit var micSettings: Preference
-    lateinit var hotwordSettings: Preference
+    private lateinit var micSettings: Preference
+    private lateinit var hotwordSettings: Preference
     lateinit var share: Preference
-    lateinit var loginLogout: Preference
-    lateinit var resetPassword: Preference
-    lateinit var enterSend: Preference
-    lateinit var speechAlways: Preference
-    lateinit var speechOutput: Preference
-    lateinit var displayEmail: Preference
+    private lateinit var loginLogout: Preference
+    private lateinit var resetPassword: Preference
+    private lateinit var enterSend: Preference
+    private lateinit var speechAlways: Preference
+    private lateinit var speechOutput: Preference
+    private lateinit var displayEmail: Preference
     lateinit var password: TextInputLayout
-    lateinit var newPassword: TextInputLayout
-    lateinit var conPassword: TextInputLayout
-    lateinit var inputUrl: TextInputLayout
-    lateinit var resetPasswordAlert: AlertDialog
-    lateinit var setServerAlert: AlertDialog
-    lateinit var querylanguage: ListPreference
-    lateinit var deviceName: Preference
-    lateinit var setupDevice: Preference
-    var flag = true
+    private lateinit var newPassword: TextInputLayout
+    private lateinit var conPassword: TextInputLayout
+    private lateinit var inputUrl: TextInputLayout
+    private lateinit var resetPasswordAlert: AlertDialog
+    private lateinit var setServerAlert: AlertDialog
+    private lateinit var querylanguage: ListPreference
+    private lateinit var deviceName: Preference
+    private lateinit var setupDevice: Preference
+    private lateinit var settingsVoice: Preference
+    private var flag = true
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
@@ -83,10 +86,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
+        settingsVoice = preferenceManager.findPreference(Constant.VOICE_SETTINGS)
 
         // Display login email
-        var utilModel = UtilModel(activity as SkillsActivity)
-        if (utilModel.isLoggedIn() == false)
+        val utilModel = UtilModel(activity as SkillsActivity)
+        if (!utilModel.isLoggedIn())
             displayEmail.title = "Not logged in"
         else
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString()
@@ -149,6 +153,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
+        settingsVoice.setOnPreferenceClickListener {
+            val intent = Intent()
+            intent.action = "com.android.settings.TTS_SETTINGS"
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            true
+        }
+
         if (settingsPresenter.getAnonymity()) {
             server.isEnabled = true
             server.setOnPreferenceClickListener {
@@ -201,18 +213,18 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         itemSettings.isVisible = false
         val itemAbout = menu.findItem(R.id.menu_about)
         itemAbout.isVisible = false
-        var searchoption = menu.findItem(R.id.action_search)
+        val searchoption = menu.findItem(R.id.action_search)
         searchoption.isVisible = false
         super.onPrepareOptionsMenu(menu)
     }
 
-    fun setLanguage() {
+    private fun setLanguage() {
         val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
         querylanguage.setValueIndex(index)
         querylanguage.summary = querylanguage.entries[index]
     }
 
-    fun showAlert() {
+    private fun showAlert() {
         val builder = AlertDialog.Builder(requireContext())
         val promptsView = activity?.layoutInflater?.inflate(R.layout.alert_change_server, null)
         inputUrl = promptsView?.findViewById(R.id.input_url) as TextInputLayout
@@ -245,7 +257,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
     }
 
-    fun showResetPasswordAlert() {
+    private fun showResetPasswordAlert() {
         val builder = AlertDialog.Builder(requireContext())
         val resetPasswordView = activity?.layoutInflater?.inflate(R.layout.alert_reset_password, null)
         password = resetPasswordView?.findViewById(R.id.password) as TextInputLayout
@@ -258,9 +270,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 .setPositiveButton(getString(R.string.ok), null)
         resetPasswordAlert = builder.create()
         resetPasswordAlert.show()
-        resetPasswordAlert.getWindow()!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
+        resetPasswordAlert.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
                 .LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-        resetPasswordAlert.getWindow()!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        resetPasswordAlert.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         setupPasswordWatcher()
         resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             settingsPresenter.resetPassword(password.editText?.text.toString(), newPassword.editText?.text.toString(), conPassword.editText?.text.toString())
@@ -283,7 +295,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         activity?.finish()
     }
 
-    fun showToast(message: String) {
+    private fun showToast(message: String) {
         Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -313,7 +325,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     override fun onResetPasswordResponse(message: String) {
         resetPasswordAlert.dismiss()
-        if (!message.equals("null")) {
+        if (message != "null") {
             showToast(message)
         } else {
             showToast(getString(R.string.wrong_password))
@@ -333,7 +345,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setServerAlert.dismiss()
     }
 
-    fun setupPasswordWatcher() {
+    private fun setupPasswordWatcher() {
         password.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             password.error = null
             if (!hasFocus)
