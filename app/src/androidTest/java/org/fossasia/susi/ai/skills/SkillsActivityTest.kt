@@ -52,6 +52,6 @@ class SkillsActivityTest {
     }
 
     companion object {
-        private val TAG = "SkillsActivityTest"
+        private const val TAG = "SkillsActivityTest"
     }
 }

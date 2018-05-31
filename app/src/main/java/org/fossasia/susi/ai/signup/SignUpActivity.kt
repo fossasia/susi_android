@@ -29,10 +29,10 @@ import org.fossasia.susi.ai.signup.contract.ISignUpView
 
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
-    lateinit var signUpPresenter: ISignUpPresenter
-    lateinit var progressDialog: ProgressDialog
-    lateinit var forgotPasswordProgressDialog: Dialog
-    lateinit var builder: AlertDialog.Builder
+    private lateinit var signUpPresenter: ISignUpPresenter
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var forgotPasswordProgressDialog: Dialog
+    private lateinit var builder: AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +73,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     }
 
-    fun addListeners() {
+    private fun addListeners() {
         showURL()
         signUp()
         cancelSignUp()
@@ -170,11 +170,11 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         sign_up.isEnabled = true
     }
 
-    fun showURL() {
+    private fun showURL() {
         customServerSignUp.setOnClickListener { inputUrlSignUp.visibility = if (customServerSignUp.isChecked) View.VISIBLE else View.GONE }
     }
 
-    fun setupPasswordWatcher() {
+    private fun setupPasswordWatcher() {
         password.editText?.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
             password.error = null
             if (!hasFocus)
@@ -182,7 +182,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         }
     }
 
-    fun cancelSignUp() {
+    private fun cancelSignUp() {
         progressDialog.setOnCancelListener({
             signUpPresenter.cancelSignUp()
             sign_up.isEnabled = true
@@ -195,7 +195,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         sign_up.isEnabled = true
     }
 
-    fun signUp() {
+    private fun signUp() {
 
         sign_up.setOnClickListener {
 
@@ -231,7 +231,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         notSuccessAlertboxHelper.showAlertBox()
     }
 
-    fun cancelRequestPassword() {
+    private fun cancelRequestPassword() {
         progressDialog.setOnCancelListener {
             signUpPresenter.cancelSignup()
         }

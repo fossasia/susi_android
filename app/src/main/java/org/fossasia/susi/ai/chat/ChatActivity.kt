@@ -53,16 +53,16 @@ class ChatActivity : AppCompatActivity(), IChatView {
     val TAG: String = ChatActivity::class.java.name
 
     lateinit var chatPresenter: IChatPresenter
-    val PERM_REQ_CODE = 1
-    lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
-    var textToSpeech: TextToSpeech? = null
+    private val PERM_REQ_CODE = 1
+    private lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
+    private var textToSpeech: TextToSpeech? = null
     var recordingThread: RecordingThread? = null
-    lateinit var networkStateReceiver: BroadcastReceiver
-    lateinit var progressDialog: ProgressDialog
-    var example: String = ""
-    var isConfigurationChanged = false
+    private lateinit var networkStateReceiver: BroadcastReceiver
+    private lateinit var progressDialog: ProgressDialog
+    private var example: String = ""
+    private var isConfigurationChanged = false
 
-    val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+    private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             textToSpeech?.stop()
         }
@@ -80,10 +80,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
         setUpUI()
         initializationMethod(firstRun)
 
-        if (intent.getStringExtra("example") != null) {
-            example = intent.getStringExtra("example")
+        example = if (intent.getStringExtra("example") != null) {
+            intent.getStringExtra("example")
         } else {
-            example = ""
+            ""
         }
 
         networkStateReceiver = object : BroadcastReceiver() {
@@ -95,7 +95,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     // This method is used to set up the UI components
     // of Chat Activity like Adapter, Toolbar, Background, Theme, etc
-    fun setUpUI() {
+    private fun setUpUI() {
         chatPresenter.setUp()
         chatPresenter.checkPreferences()
         setEditText()
@@ -104,7 +104,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     // This method is used to call all other methods
     // which should run every time when the Chat Activity is started
     // like getting user location, initialization of TTS and hotword etc
-    fun initializationMethod(firstRun: Boolean) {
+    private fun initializationMethod(firstRun: Boolean) {
         chatPresenter.retrieveOldMessages(firstRun)
         chatPresenter.getLocationFromIP()
         chatPresenter.getLocationFromLocationService()
@@ -113,7 +113,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         compensateTTSDelay()
     }
 
-    fun setEditText() {
+    private fun setEditText() {
         val watch = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 //do whatever you want to do before text change in input edit text
@@ -210,11 +210,11 @@ class ChatActivity : AppCompatActivity(), IChatView {
         })
     }
 
-    fun compensateTTSDelay() {
+    private fun compensateTTSDelay() {
         Handler().post {
             textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
                 if (status != TextToSpeech.ERROR) {
-                    val locale = textToSpeech?.getLanguage()
+                    val locale = textToSpeech?.language
                     textToSpeech?.language = locale
                 }
             })
@@ -258,8 +258,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 })
 
                 val ttsParams = HashMap<String, String>()
-                ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
-                        this@ChatActivity.packageName)
+                ttsParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = this@ChatActivity.packageName
                 textToSpeech?.language = Locale(language)
                 textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
                 audioFocus.abandonAudioFocus(afChangeListener)

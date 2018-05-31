@@ -30,18 +30,18 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.OnDatabaseUpdateListener {
 
-    var chatView: IChatView? = null
+    private var chatView: IChatView? = null
     var chatModel: IChatModel = ChatModel()
-    var utilModel: UtilModel = UtilModel(chatActivity)
-    var databaseRepository: IDatabaseRepository = DatabaseRepository()
-    lateinit var locationHelper: LocationHelper
-    val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
-    var newMessageIndex: Long = 0
-    var micCheck = false
+    private var utilModel: UtilModel = UtilModel(chatActivity)
+    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
+    private lateinit var locationHelper: LocationHelper
+    private val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
+    private var newMessageIndex: Long = 0
+    private var micCheck = false
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var source = Constant.IP
-    var isDetectionOn = false
+    private var source = Constant.IP
+    private var isDetectionOn = false
     var check = false
     var atHome = true
     var backPressedOnce = false
@@ -190,7 +190,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
 
                     val actionSize = allMessages[i].answers[0].actions.size
 
-                    for (j in 0..actionSize - 1) {
+                    for (j in 0 until actionSize) {
                         val psh = ParseSusiResponseHelper()
                         psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
                         try {
@@ -243,7 +243,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         getLocation()
     }
 
-    fun getLocation() {
+    private fun getLocation() {
         locationHelper.getLocation()
         if (locationHelper.canGetLocation()) {
             latitude = locationHelper.latitude
@@ -311,7 +311,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 val now = Date()
                 val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
                 val query = nonDeliveredMessages.first.first
-                val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT).equals(Constant.DEFAULT)) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
+                val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT) == Constant.DEFAULT) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
 
                 chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, language, query, this)
 
@@ -369,7 +369,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
             val actionSize = response.body().answers[0].actions.size
             val date = response.body().answerDate
 
-            for (i in 0..actionSize - 1) {
+            for (i in 0 until actionSize) {
                 val delay = response.body().answers[0].actions[i].delay
                 val handler = Handler()
                 handler.postDelayed({
@@ -420,7 +420,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     //Asks for permissions from user
-    fun getPermissions() {
+    private fun getPermissions() {
         val permissionsRequired = utilModel.permissionsToGet()
 
         val permissionsGranted = arrayOfNulls<String>(3)

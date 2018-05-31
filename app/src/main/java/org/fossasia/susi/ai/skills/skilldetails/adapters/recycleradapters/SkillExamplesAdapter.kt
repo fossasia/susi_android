@@ -18,7 +18,7 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.SkillExampl
 class SkillExamplesAdapter(val context: Context, val examples: List<String>) : RecyclerView.Adapter<SkillExampleViewHolder>(),
         SkillExampleViewHolder.ClickListener {
 
-    val clickListener: SkillExampleViewHolder.ClickListener = this
+    private val clickListener: SkillExampleViewHolder.ClickListener = this
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillExampleViewHolder {
@@ -42,7 +42,7 @@ class SkillExamplesAdapter(val context: Context, val examples: List<String>) : R
         (context as Activity).overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        if (examples != null && examples.size != 0 && examples[position] != null)
+        if (examples != null && examples.isNotEmpty() && examples[position] != null)
             intent.putExtra("example", examples[position])
         else
             intent.putExtra("example", "")

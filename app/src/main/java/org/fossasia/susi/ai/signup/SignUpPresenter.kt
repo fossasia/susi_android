@@ -26,9 +26,9 @@ import java.net.UnknownHostException
 
 class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
 
-    var signUpView: ISignUpView? = null
-    var signUpModel: SignUpModel = SignUpModel()
-    var utilModel: UtilModel = UtilModel(signUpActivity)
+    private var signUpView: ISignUpView? = null
+    private var signUpModel: SignUpModel = SignUpModel()
+    private var utilModel: UtilModel = UtilModel(signUpActivity)
     lateinit var email: String
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
 

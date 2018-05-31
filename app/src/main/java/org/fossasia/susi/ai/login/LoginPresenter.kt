@@ -29,10 +29,10 @@ import java.net.UnknownHostException
  */
 class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginModel.OnLoginFinishedListener, IForgotPasswordModel.OnFinishListener {
 
-    var loginModel: LoginModel = LoginModel()
-    var utilModel: UtilModel = UtilModel(loginActivity)
-    var databaseRepository: IDatabaseRepository = DatabaseRepository()
-    var loginView: ILoginView? = null
+    private var loginModel: LoginModel = LoginModel()
+    private var utilModel: UtilModel = UtilModel(loginActivity)
+    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
+    private var loginView: ILoginView? = null
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
     lateinit var email: String
     lateinit var message: String
@@ -148,7 +148,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         loginView?.showProgress(false)
 
         if (response.isSuccessful && response.body() != null) {
-            var settings: Settings? = response.body().settings
+            val settings: Settings? = response.body().settings
 
             if (settings != null) {
                 utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
