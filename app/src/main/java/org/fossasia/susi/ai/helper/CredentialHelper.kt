@@ -3,11 +3,9 @@ package org.fossasia.susi.ai.helper
 import android.content.Context
 import android.support.design.widget.TextInputLayout
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
-
 import org.fossasia.susi.ai.R
-
+import timber.log.Timber
 import java.net.URL
 import java.util.regex.Pattern
 
@@ -17,8 +15,6 @@ import java.util.regex.Pattern
  * Created by saurabh on 11/10/16.
  */
 object CredentialHelper {
-
-    private const val TAG = "CredentialHelper"
 
     private val PASSWORD_PATTERN = Pattern.compile("^.{6,64}$")
 
@@ -30,7 +26,7 @@ object CredentialHelper {
      * @return the boolean
      */
     fun isEmailValid(mail: String): Boolean {
-        Log.d(TAG, "isEmailValid: $mail")
+        Timber.d("isEmailValid: %s", mail)
         val email = mail.trim { it <= ' ' }
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }

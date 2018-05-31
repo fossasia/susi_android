@@ -4,21 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
-import org.fossasia.susi.ai.helper.AndroidHelper;
-import org.fossasia.susi.ai.helper.MapHelper;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.MapData;
+import org.fossasia.susi.ai.helper.AndroidHelper;
+import org.fossasia.susi.ai.helper.MapHelper;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * <h1>Map view holder</h1>
@@ -29,8 +28,6 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.map_image)
     protected ImageView mapImage;
-
-    private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
 
     /**
      * Instantiates a new Map view holder.
@@ -53,7 +50,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
         if (model != null) {
             try {
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(), model.getLongitude(), model.getZoom()));
-                Log.v(TAG, mapHelper.getMapURL());
+                Timber.v(mapHelper.getMapURL());
 
                 Picasso.with(currContext.getApplicationContext()).load(mapHelper.getMapURL())
                         .into(mapImage, new com.squareup.picasso.Callback() {
@@ -63,7 +60,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
 
                             @Override
                             public void onError() {
-                                Log.d("Error", "map image can't loaded");
+                                Timber.d("map image can't loaded");
                             }
                         });
 

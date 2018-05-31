@@ -50,8 +50,6 @@ import java.util.*
  */
 class ChatActivity : AppCompatActivity(), IChatView {
 
-    val TAG: String = ChatActivity::class.java.name
-
     lateinit var chatPresenter: IChatPresenter
     private val PERM_REQ_CODE = 1
     private lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
