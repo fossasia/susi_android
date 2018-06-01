@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.chat
 
 import android.os.Handler
-import android.util.Log
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -303,7 +302,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
 
     @Synchronized
     fun computeOtherMessage() {
-        Log.v("chirag", "chirag run")
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
                 chatView?.showWaitingDots()

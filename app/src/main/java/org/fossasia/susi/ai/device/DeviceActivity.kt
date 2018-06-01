@@ -14,7 +14,6 @@ import org.fossasia.susi.ai.device.contract.IDeviceView
 
 class DeviceActivity : AppCompatActivity(), IDeviceView {
 
-    val TAG: String = DeviceActivity::class.java.name
     lateinit var devicePresenter: DevicePresenter
 
 

@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
+import timber.log.Timber
 
 /**
  * Created by meeera on 17/8/17.
@@ -53,11 +54,11 @@ class STTfragment : Fragment() {
                 val voiceResults = results
                         .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 if (voiceResults == null) {
-                    Log.e("fragment", "No voice results")
+                    Timber.e("No voice results")
                 } else {
-                    Log.d("fragment", "Printing matches: ")
+                    Timber.d("Printing matches: ")
                     for (match in voiceResults) {
-                        Log.d("fragment", match)
+                        Timber.d(match)
                     }
                 }
                 if (speechprogress != null)
@@ -72,12 +73,11 @@ class STTfragment : Fragment() {
             }
 
             override fun onReadyForSpeech(params: Bundle) {
-                Log.d("fragment", "Ready for speech")
+                Timber.d("Ready for speech")
             }
 
             override fun onError(error: Int) {
-                Log.d("fragment",
-                        "Error listening for speech: $error")
+                Timber.d("Error listening for speech: %s", error)
                 Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
                 if (speechprogress != null)
                     speechprogress.onResultOrOnError()
@@ -87,7 +87,7 @@ class STTfragment : Fragment() {
             }
 
             override fun onBeginningOfSpeech() {
-                Log.d("fragment", "Speech starting")
+                Timber.d("Speech starting")
                 if (speechprogress != null)
                     speechprogress.onBeginningOfSpeech()
             }
