@@ -9,7 +9,6 @@ import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
@@ -112,11 +111,6 @@ class SkillsActivity : AppCompatActivity() {
 
             action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action.setDisplayShowTitleEnabled(true) //show the title in the action bar
-
-            //hides the keyboard
-            val container = findViewById<FrameLayout>(R.id.fragment_container)
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(container?.windowToken, 0)
 
             //add the search icon in the action bar
             mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
