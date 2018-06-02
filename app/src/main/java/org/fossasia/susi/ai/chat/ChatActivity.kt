@@ -122,12 +122,12 @@ class ChatActivity : AppCompatActivity(), IChatView {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
                     btnSpeak.setOnClickListener({
                         chatPresenter.check(false)
-                        val chatMessage = et_message.text.toString().trim({ it <= ' ' })
+                        val chatMessage = askSusiMessage.text.toString().trim({ it <= ' ' })
                         val splits = chatMessage.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
                         val message = splits.joinToString(" ")
                         if (!chatMessage.isEmpty()) {
-                            chatPresenter.sendMessage(message, et_message.text.toString())
-                            et_message.setText("")
+                            chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                            askSusiMessage.setText("")
                         }
                     })
                 } else {
@@ -144,20 +144,20 @@ class ChatActivity : AppCompatActivity(), IChatView {
             }
         }
 
-        et_message.setSingleLine(false)
-        et_message.maxLines = 4
-        et_message.isVerticalScrollBarEnabled = true
-        et_message.setHorizontallyScrolling(false)
+        askSusiMessage.setSingleLine(false)
+        askSusiMessage.maxLines = 4
+        askSusiMessage.isVerticalScrollBarEnabled = true
+        askSusiMessage.setHorizontallyScrolling(false)
 
-        et_message.addTextChangedListener(watch)
+        askSusiMessage.addTextChangedListener(watch)
 
-        et_message.setOnEditorActionListener({ _, actionId, _ ->
+        askSusiMessage.setOnEditorActionListener({ _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                val message = et_message.text.toString().trim({ it <= ' ' })
+                val message = askSusiMessage.text.toString().trim({ it <= ' ' })
                 if (!message.isEmpty()) {
-                    chatPresenter.sendMessage(message, et_message.text.toString())
-                    et_message.setText("")
+                    chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                    askSusiMessage.setText("")
                 }
                 handled = true
             }
@@ -226,7 +226,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.sttframe, STTfragment())
+        ft.replace(R.id.speechToTextFrame, STTfragment())
         ft.addToBackStack(null)
         ft.commit()
     }
@@ -326,10 +326,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.check(false)
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
             btnSpeak.setOnClickListener({
-                val message = et_message.text.toString().trim({ it <= ' ' })
+                val message = askSusiMessage.text.toString().trim({ it <= ' ' })
                 if (!message.isEmpty()) {
-                    chatPresenter.sendMessage(message, et_message.text.toString())
-                    et_message.setText("")
+                    chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                    askSusiMessage.setText("")
                 }
             })
         }
@@ -337,9 +337,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     override fun checkEnterKeyPref(isChecked: Boolean) {
         if (isChecked) {
-            et_message.imeOptions = EditorInfo.IME_ACTION_SEND
+            askSusiMessage.imeOptions = EditorInfo.IME_ACTION_SEND
         } else {
-            et_message.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
+            askSusiMessage.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }
     }
 
@@ -426,9 +426,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
         if (recordingThread != null)
             chatPresenter.startHotwordDetection()
 
-        if (et_message.text.toString().isNotEmpty()) {
+        if (askSusiMessage.text.toString().isNotEmpty()) {
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
-            et_message.setText("")
+            askSusiMessage.setText("")
             chatPresenter.micCheck(false)
         }
 
@@ -470,9 +470,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
         if (recordingThread != null)
             chatPresenter.startHotwordDetection()
 
-        if (et_message.text.toString().isNotEmpty()) {
+        if (askSusiMessage.text.toString().isNotEmpty()) {
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
-            et_message.setText("")
+            askSusiMessage.setText("")
             chatPresenter.micCheck(false)
         }
 

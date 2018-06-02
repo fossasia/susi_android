@@ -16,7 +16,7 @@
             android:padding="16dp">
 
             <ImageView
-                android:id="@+id/skill_detail_image"
+                android:id="@+id/skillDetailImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@color/md_white_1000"
@@ -31,7 +31,7 @@
                 android:layout_marginStart="16dp">
 
                 <TextView
-                    android:id="@+id/skill_detail_title"
+                    android:id="@+id/skillDetailTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -41,7 +41,7 @@
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/skill_detail_author"
+                    android:id="@+id/skillDetailAuthor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -58,7 +58,7 @@
             android:gravity="end">
 
             <Button
-                android:id="@+id/skill_detail_try_button"
+                android:id="@+id/skillDetailTryButton"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="16dp"
@@ -70,7 +70,7 @@
                 android:layout_marginEnd="16dp" />
 
             <Button
-                android:id="@+id/skill_detail_share_button"
+                android:id="@+id/skillDetailShareButton"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="16dp"
@@ -101,7 +101,7 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/skill_detail_description"
+                android:id="@+id/skillDetailDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -117,7 +117,7 @@
                 android:textSize="22sp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/skill_detail_examples"
+                android:id="@+id/skillDetailExamples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
@@ -131,7 +131,7 @@
                 android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/tv_five_star_skill_rating_bar"
+                android:id="@+id/tvFiveStarSkillRatingBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
@@ -232,7 +232,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/skill_detail_content"
+                android:id="@+id/skillDetailContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -241,14 +241,14 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/skill_detail_policy"
+                android:id="@+id/skillDetailPolicy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/developer_privacy_policy" />
 
             <TextView
-                android:id="@+id/skill_detail_terms"
+                android:id="@+id/skillDetailTerms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use" />

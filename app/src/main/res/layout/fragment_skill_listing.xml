@@ -15,13 +15,13 @@
             android:layout_height="match_parent" />
 
         <ProgressBar
-            android:id="@+id/skillWait"
+            android:id="@+id/progressSkillWait"
             android:layout_width="@dimen/progress_bar_size"
             android:layout_height="@dimen/progress_bar_size"
             android:layout_gravity="center" />
 
         <TextView
-            android:id="@+id/error_skill_fetch"
+            android:id="@+id/errorSkillFetch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
