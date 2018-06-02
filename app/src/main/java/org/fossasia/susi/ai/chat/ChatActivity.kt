@@ -38,7 +38,7 @@ import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.skillactivity.SkillsActivity
 import java.util.*
 
 /**

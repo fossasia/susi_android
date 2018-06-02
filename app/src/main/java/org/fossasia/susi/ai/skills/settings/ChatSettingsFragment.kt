@@ -23,9 +23,9 @@ import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
-import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import org.fossasia.susi.ai.skills.skillactivity.SkillsActivity
 import timber.log.Timber
 
 

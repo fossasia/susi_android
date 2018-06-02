@@ -29,7 +29,7 @@
             android:theme="@style/Chat_Theme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
         <activity
-            android:name=".skills.SkillsActivity"
+            android:name=".skills.skillactivity.SkillsActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/PreferencesThemeLight">
             <meta-data

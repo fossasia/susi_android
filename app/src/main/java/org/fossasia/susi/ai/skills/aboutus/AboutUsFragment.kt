@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_about_us.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.skillactivity.SkillsActivity
 
 
 class AboutUsFragment : Fragment() {

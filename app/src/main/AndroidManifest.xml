@@ -36,7 +36,7 @@
             android:theme="@style/Chat_Theme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".skills.SkillsActivity"
+            android:name=".skills.skillactivity.SkillsActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/PreferencesThemeLight">
             <meta-data
@@ -66,7 +66,7 @@
             android:theme="@style/PreferencesThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.fossasia.susi.ai.skills.SkillsActivity" />
+                android:value="org.fossasia.susi.ai.skills.skillactivity.SkillsActivity" />
         </activity>
         <activity
             android:name=".login.ForgotPass"

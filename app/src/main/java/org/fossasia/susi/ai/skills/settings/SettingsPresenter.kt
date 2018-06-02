@@ -9,9 +9,9 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
-import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import org.fossasia.susi.ai.skills.skillactivity.SkillsActivity
 import retrofit2.Response
 
 /**

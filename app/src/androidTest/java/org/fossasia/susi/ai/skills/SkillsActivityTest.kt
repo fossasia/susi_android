@@ -9,6 +9,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.skills.skillactivity.SkillsActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

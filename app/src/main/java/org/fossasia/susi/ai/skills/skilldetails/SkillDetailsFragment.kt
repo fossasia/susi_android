@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -27,7 +28,8 @@ import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.skillactivity.SkillFragmentCallback
+import org.fossasia.susi.ai.skills.skillactivity.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import java.io.Serializable
 import java.util.*
@@ -46,6 +48,8 @@ class SkillDetailsFragment : Fragment() {
     private lateinit var fiveStarSkillRatingBar : RatingBar
     private lateinit var fiveStarSkillRatingScaleTextView : TextView
     private lateinit var skillRatingChart: HorizontalBarChart
+
+    private lateinit var skillCallback : SkillFragmentCallback
 
     companion object {
         const val SKILL_KEY = "skill_key"
@@ -178,7 +182,7 @@ class SkillDetailsFragment : Fragment() {
             skill_detail_examples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skill_detail_examples.layoutManager = mLayoutManager
-            skill_detail_examples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
+            skill_detail_examples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples, skillCallback)
         }
     }
 
@@ -344,4 +348,8 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
+      override fun onAttach(context: Context) {
+        super.onAttach(context);
+          skillCallback = activity as SkillFragmentCallback
+      }
 }

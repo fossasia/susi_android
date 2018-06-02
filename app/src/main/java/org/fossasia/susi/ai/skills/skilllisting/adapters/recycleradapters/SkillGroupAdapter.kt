@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.skillactivity.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHolder
 
 /**
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>)
+class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>, val skillCallback: SkillFragmentCallback)
     : RecyclerView.Adapter<GroupViewHolder>() {
 
     private lateinit var skillAdapterSnapHelper: SnapHelper
@@ -30,7 +31,7 @@ class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String,
         holder.skillList?.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         holder.skillList?.layoutManager = mLayoutManager
-        holder.skillList?.adapter = SkillListAdapter(context, skills[position])
+        holder.skillList?.adapter = SkillListAdapter(context, skills[position], skillCallback)
         holder.skillList?.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
     }

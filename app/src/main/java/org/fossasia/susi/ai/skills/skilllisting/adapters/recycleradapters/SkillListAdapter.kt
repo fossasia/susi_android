@@ -8,7 +8,8 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.skillactivity.SkillFragmentCallback
+import org.fossasia.susi.ai.skills.skillactivity.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
@@ -16,7 +17,7 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHo
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListAdapter(val context: Context, private val skillDetails: Pair<String, Map<String, SkillData>>) : RecyclerView.Adapter<SkillViewHolder>(),
+class SkillListAdapter(val context: Context, private val skillDetails: Pair<String, Map<String, SkillData>>,val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
@@ -62,15 +63,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: Pair<Stri
         val skillTag = skillDetails.second.keys.toTypedArray()[position]
         val skillData = skillDetails.second.values.toTypedArray()[position]
         val skillGroup = skillDetails.first.replace(" ", "%20")
-        showSkillDetailFragment(skillData, skillGroup, skillTag)
-    }
-
-    private fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
-        val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
-        (context as SkillsActivity).supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillDetailsFragment)
-                .addToBackStack(SkillDetailsFragment().toString())
-                .commit()
+        skillCallback.loadSkillDetailFragment(skillTag, skillData, skillGroup)
     }
 
     @NonNull
