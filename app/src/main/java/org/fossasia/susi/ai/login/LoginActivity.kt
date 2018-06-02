@@ -44,9 +44,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
             password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
             if (savedInstanceState.getBoolean(Constant.SERVER)) {
-                input_url.visibility = View.VISIBLE
+                inputUrl.visibility = View.VISIBLE
             } else {
-                input_url.visibility = View.GONE
+                inputUrl.visibility = View.GONE
             }
         }
 
@@ -89,16 +89,16 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             when (what) {
                 Constant.EMAIL -> email.error = getString(R.string.email_cannot_be_empty)
                 Constant.PASSWORD -> password.error = getString(R.string.password_cannot_be_empty)
-                Constant.INPUT_URL -> input_url.error = getString(R.string.url_cannot_be_empty)
+                Constant.INPUT_URL -> inputUrl.error = getString(R.string.url_cannot_be_empty)
             }
         } else {
             when (what) {
                 Constant.EMAIL -> email.error = getString(R.string.email_invalid_title)
-                Constant.INPUT_URL -> input_url.error = getString(R.string.invalid_url)
+                Constant.INPUT_URL -> inputUrl.error = getString(R.string.invalid_url)
             }
         }
-        log_in.isEnabled = true
-        forgot_password.isEnabled = true
+        logIn.isEnabled = true
+        forgotPassword.isEnabled = true
     }
 
     override fun showProgress(boolean: Boolean) {
@@ -108,12 +108,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun onLoginError(title: String?, message: String?) {
         val notSuccessAlertboxHelper = AlertboxHelper(this@LoginActivity, title, message, null, null, getString(R.string.ok), null, Color.BLUE)
         notSuccessAlertboxHelper.showAlertBox()
-        log_in.isEnabled = true
+        logIn.isEnabled = true
     }
 
     override fun attachEmails(savedEmails: MutableSet<String>?) {
         if (savedEmails != null)
-            email_input.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
+            emailInput.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }
 
     private fun addListeners() {
@@ -126,11 +126,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     private fun showURL() {
-        custom_server.setOnClickListener { input_url.visibility = if (custom_server.isChecked) View.VISIBLE else View.GONE }
+        customServer.setOnClickListener { inputUrl.visibility = if (customServer.isChecked) View.VISIBLE else View.GONE }
     }
 
     private fun signUp() {
-        sign_up.setOnClickListener {
+        signUp.setOnClickListener {
             val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
             intent.putExtra("email", email.editText?.text.toString())
             startActivity(intent)
@@ -142,7 +142,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     private fun logIn() {
-        log_in.setOnClickListener {
+        logIn.setOnClickListener {
             startLogin()
         }
     }
@@ -150,25 +150,25 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     private fun startLogin() {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
-        val stringURL = input_url.editText?.text.toString()
+        val stringURL = inputUrl.editText?.text.toString()
 
-        log_in.isEnabled = false
+        logIn.isEnabled = false
         email.error = null
         password.error = null
-        input_url.error = null
+        inputUrl.error = null
 
-        loginPresenter.login(stringEmail, stringPassword, !custom_server.isChecked, stringURL)
+        loginPresenter.login(stringEmail, stringPassword, !customServer.isChecked, stringURL)
     }
 
     private fun cancelLogin() {
         progressDialog.setOnCancelListener({
             loginPresenter.cancelLogin()
-            log_in.isEnabled = true
+            logIn.isEnabled = true
         })
     }
 
     private fun onEditorAction() {
-        password_input.setOnEditorActionListener { _, actionId, _ ->
+        passwordInput.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_GO) {
                 startLogin()
@@ -182,7 +182,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         super.onSaveInstanceState(outState)
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
-        outState.putBoolean(Constant.SERVER, custom_server.isChecked)
+        outState.putBoolean(Constant.SERVER, customServer.isChecked)
     }
 
     override fun onDestroy() {
@@ -206,18 +206,18 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     fun cancelRequestPassword() {
         progressDialog.setOnCancelListener {
             loginPresenter.cancelSignup()
-            forgot_password.isEnabled = true
+            forgotPassword.isEnabled = true
         }
     }
 
     fun requestPassword() {
-        forgot_password.setOnClickListener {
-            val email = email_input?.text.toString()
-            val isPersonalServerChecked = custom_server.isChecked
-            val url = input_url.editText?.text.toString()
-            email_input.error = null
-            input_url.error = null
-            forgot_password.isEnabled = false
+        forgotPassword.setOnClickListener {
+            val email = emailInput?.text.toString()
+            val isPersonalServerChecked = customServer.isChecked
+            val url = inputUrl.editText?.text.toString()
+            emailInput.error = null
+            inputUrl.error = null
+            forgotPassword.isEnabled = false
             loginPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
     }
