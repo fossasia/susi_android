@@ -5,19 +5,19 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+
 import ai.kitt.snowboy.Constants;
 import ai.kitt.snowboy.MsgEnum;
 import ai.kitt.snowboy.SnowboyDetect;
+import timber.log.Timber;
 
 public class RecordingThread {
     static {
         System.loadLibrary("snowboy-detect-android");
     }
-
-    private static final String TAG = RecordingThread.class.getSimpleName();
 
     private static final String ACTIVE_RES = Constants.ACTIVE_RES;
     private static final String ACTIVE_PMDL = Constants.ACTIVE_PMDL;
@@ -72,7 +72,7 @@ public class RecordingThread {
     }
 
     private void record() {
-        Log.v(TAG, "Start");
+        Timber.v("Start");
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
 
         // Buffer size in bytes: for 0.1 second of audio
@@ -90,14 +90,14 @@ public class RecordingThread {
                 bufferSize);
 
         if (record.getState() != AudioRecord.STATE_INITIALIZED) {
-            Log.e(TAG, "Audio Record can't initialize!");
+            Timber.e("Audio Record can't initialize!");
             return;
         }
         record.startRecording();
         if (null != listener) {
             listener.start();
         }
-        Log.v(TAG, "Start recording");
+        Timber.v("Start recording");
 
         long shortsRead = 0;
         while (shouldContinue) {
@@ -129,7 +129,7 @@ public class RecordingThread {
                 sendMessage(MsgEnum.MSG_VAD_SPEECH, null);
             } else if (result > 0) {
                 sendMessage(MsgEnum.MSG_ACTIVE, null);
-                Log.i("Snowboy: ", "Hotword " + Integer.toString(result) + " detected!");
+                Timber.i("Hotword %s detected!", Integer.toString(result));
             }
         }
 
@@ -139,6 +139,6 @@ public class RecordingThread {
         if (null != listener) {
             listener.stop();
         }
-        Log.v(TAG, String.format("Recording stopped. Samples read: %d", shortsRead));
+        Timber.v("Recording stopped. Samples read: %d", shortsRead);
     }
 }

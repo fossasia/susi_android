@@ -1,6 +1,5 @@
 package ai.kitt.snowboy.audio;
 
-import android.util.Log;
 import java.io.BufferedOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -9,17 +8,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import ai.kitt.snowboy.Constants;
+import timber.log.Timber;
 
 public class AudioDataSaver implements AudioDataReceivedListener {
-
-    private static final String TAG = AudioDataSaver.class.getSimpleName();
 
     private File saveFile;
     private DataOutputStream dataOutputStreamInstance = null;
 
     public AudioDataSaver() {
         saveFile = new File(Constants.SAVE_AUDIO);
-        Log.e(TAG, Constants.SAVE_AUDIO);
+        Timber.e(Constants.SAVE_AUDIO);
     }
 
     @Override
@@ -31,7 +29,7 @@ public class AudioDataSaver implements AudioDataReceivedListener {
             try {
                 saveFile.createNewFile();
             } catch (IOException e) {
-                Log.e(TAG, "IO Exception on creating audio file " + saveFile.toString(), e);
+                Timber.e(e, "IO Exception on creating audio file %s", saveFile);
             }
 
             try {
@@ -51,7 +49,7 @@ public class AudioDataSaver implements AudioDataReceivedListener {
                 dataOutputStreamInstance.write(data, 0, length);
             }
         } catch (IOException e) {
-            Log.e(TAG, "IO Exception on saving audio file " + saveFile.toString(), e);
+            Timber.e(e, "IO Exception on saving audio file %s", saveFile);
         }
     }
 
@@ -61,9 +59,9 @@ public class AudioDataSaver implements AudioDataReceivedListener {
             try {
                 dataOutputStreamInstance.close();
             } catch (IOException e) {
-                Log.e(TAG, "IO Exception on finishing saving audio file " + saveFile.toString(), e);
+                Timber.e(e, "IO Exception on finishing saving audio file %s", saveFile.toString());
             }
-            Log.e(TAG, "Recording saved to " + saveFile.toString());
+            Timber.e("Recording saved to " + saveFile.toString());
         }
     }
 }

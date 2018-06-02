@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.widget.AppCompatCheckBox
-import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.WindowManager
@@ -27,7 +26,7 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
-import android.content.ComponentName
+import timber.log.Timber
 
 
 /**
@@ -300,7 +299,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     override fun onSettingResponse(message: String) {
-        Log.d("settingresponse", message)
+        Timber.d(message)
     }
 
     override fun passwordInvalid(what: String) {

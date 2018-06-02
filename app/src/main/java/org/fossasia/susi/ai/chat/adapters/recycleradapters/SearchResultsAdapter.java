@@ -21,7 +21,6 @@ import java.util.List;
  */
 
 public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
-    public static final String TAG = SearchResultsAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private List<Datum> datumList;
 
