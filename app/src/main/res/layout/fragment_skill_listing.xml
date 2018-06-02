@@ -15,7 +15,7 @@
             android:layout_height="match_parent" />
 
         <ProgressBar
-            android:id="@+id/skillWait"
+            android:id="@+id/progressSkillWait"
             android:layout_width="@dimen/progress_bar_size"
             android:layout_height="@dimen/progress_bar_size"
             android:layout_gravity="center" />

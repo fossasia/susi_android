@@ -77,7 +77,7 @@
                         android:layout_weight="1">
 
                         <EditText
-                            android:id="@+id/etMessage"
+                            android:id="@+id/askSusiMessage"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -116,7 +116,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:id="@+id/sttFrame"
+            android:id="@+id/speechToTextFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></FrameLayout>
     </RelativeLayout>

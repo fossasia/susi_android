@@ -57,7 +57,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        if (boolean) skillWait.visibility = View.VISIBLE else skillWait.visibility = View.GONE
+        if (boolean) progressSkillWait.visibility = View.VISIBLE else progressSkillWait.visibility = View.GONE
     }
 
     override fun displayError() {
