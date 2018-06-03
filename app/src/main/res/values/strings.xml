@@ -15,12 +15,13 @@
     <string name="content">content</string>
 
     <string name="dialog_retrieve_messages_title">Retrieving old messages…</string>
+    <string name="dialog_cancel_sign_up">Cancel sign up?</string>
 
     <string name="email_invalid">The e-mail address you entered doesn\'t belong to an account. Please check your e-mail and try again.</string>
 
     <string name="enter_send" translatable="false">Enter_send</string>
 
-    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
+    <string name="error_cancelling_signUp_process_text">This will cancel the sign up process.</string>
     <string name="error_email">E-mail address already exists</string>
     <string name="error_msg">Please use the \"Forgot password?\" option to reset your password</string>
 
@@ -166,8 +167,6 @@
     <string name="unknown_answer">I don\'t know.</string>
 
     <!-- Login Activity-->
-    <string name="continue_sign_up">Continue Registration</string>
-
     <string name="email_invalid_title">Incorrect e-mail address</string>
 
     <string name="first_time">First time</string>
@@ -201,6 +200,7 @@
     <string name="forgot_pass_activity">Forgot Password?</string>
 
     <string name="loading">Loading…</string>
+    <string name="logout_confirmation">Are you sure you want to log out?</string>
 
     <string name="no">No</string>
 
