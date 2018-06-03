@@ -56,11 +56,11 @@
     <string name="send_message">Sending the message</string>
     <string name="send_msg_hint">Ask SUSI something…</string>
 
-    <string name="server_pref">Select Server</string>
+    <string name="server_pref">Select server</string>
     <string name="server_select_summary">Select backend server for the app.</string>
-    <string name="server_settings_title">Server Settings</string>
+    <string name="server_settings_title">Server settings</string>
 
-    <string name="settings_title">Chat Settings</string>
+    <string name="settings_title">Chat settings</string>
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">An e-mail has been sent to the provided address. Please use the
@@ -159,9 +159,9 @@
 
     <string name="query_language">Query Language</string>
 
-    <string name="settings_mic">Mic Settings</string>
+    <string name="settings_mic">Mic settings</string>
     <string name="settings_misc">Miscellaneous</string>
-    <string name="settings_speech">Speech Settings</string>
+    <string name="settings_speech">Speech settings</string>
     <string name="settings_devices">Devices</string>
     <string name="unknown_answer">I don\'t know.</string>
 
@@ -213,7 +213,7 @@
 
     <string name="pref_devices_not_connected">No connected device</string>
     <string name="settings_devices_setup">Click here to move to device setup screen</string>
-    <string name="reset">Reset Password</string>
+    <string name="reset">Reset password</string>
     <string name="reset_pass_activity">Reset Password</string>
 
     <string name="retry">Retry</string>
@@ -224,7 +224,7 @@
 
     <string name="yes">Yes</string>
 
-    <string name="voice_settings">SUSI Voice settings</string>
+    <string name="voice_settings">SUSI voice settings</string>
     <string name="change_voice">Click here to change SUSI\'s voice</string>
     <string name="change_voice_summary">Change the text to speech settings from here to change the voice.</string>
 
