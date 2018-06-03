@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -83,8 +84,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             }
 
             R.id.menu_settings -> {
-                if(isSearchOpened)
-                    handleMenuSearch()
+                handleOnLoadingFragment()
                 val settingsFragment = ChatSettingsFragment()
                 supportFragmentManager.beginTransaction()
                         .add(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
@@ -93,8 +93,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             }
 
             R.id.menu_about -> {
-                if(isSearchOpened)
-                    handleMenuSearch()
+                handleOnLoadingFragment()
                 val aboutFragment = AboutUsFragment()
                 supportFragmentManager.beginTransaction()
                         .add(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
@@ -118,7 +117,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             action.setDisplayShowTitleEnabled(true) //show the title in the action bar
             //add the search icon in the action bar
             mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
-            hideKeyboard()
             isSearchOpened = false
         } else { //open the search entry
 
@@ -177,12 +175,23 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
-        if(isSearchOpened)
-            handleMenuSearch()
+        handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillDetailsFragment)
                 .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
+    }
+
+    fun handleOnLoadingFragment()
+    {
+        hideKeyboard()
+        if(isSearchOpened) {
+            val action = supportActionBar //get the actionbar
+            action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action.setDisplayShowTitleEnabled(true)
+            mSearchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
+            isSearchOpened = false
+        }
     }
 }
