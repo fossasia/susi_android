@@ -132,9 +132,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         loginLogout.setOnPreferenceClickListener {
             if (!settingsPresenter.getAnonymity()) {
                 val d = AlertDialog.Builder(activity as SkillsActivity)
-                d.setMessage("Are you sure ?").setCancelable(false).setPositiveButton("Yes") { _, _ ->
+                d.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                     settingsPresenter.loginLogout()
-                }.setNegativeButton("No") { dialog, _ -> dialog.cancel() }
+                }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
                 val alert = d.create()
                 alert.setTitle(getString(R.string.logout))
