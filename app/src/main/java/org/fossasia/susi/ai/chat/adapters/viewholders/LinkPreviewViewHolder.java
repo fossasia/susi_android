@@ -8,7 +8,6 @@ import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +38,7 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static android.os.SystemClock.sleep;
 import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITHLINK;
@@ -76,7 +76,6 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
 
     private Realm realm;
     private String url;
-    private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private ChatMessage model;
 
     /**
@@ -113,8 +112,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
                 if (receivedTick != null) {
                     receivedTick.setImageResource(R.drawable.ic_check);
                 }
-            }
-            else {
+            } else {
                 if (receivedTick != null) {
                     receivedTick.setImageResource(R.drawable.ic_clock);
                 }
@@ -218,14 +216,14 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
                         if (sourceContent != null) {
 
                             if (!sourceContent.getDescription().isEmpty()) {
-                                Log.d(TAG, "onPos: " + sourceContent.getDescription());
+                                Timber.d("onPos: %s", sourceContent.getDescription());
                                 previewLayout.setVisibility(View.VISIBLE);
                                 descriptionTextView.setVisibility(View.VISIBLE);
                                 descriptionTextView.setText(sourceContent.getDescription());
                             }
 
                             if (!sourceContent.getTitle().isEmpty()) {
-                                Log.d(TAG, "onPos: " + sourceContent.getTitle());
+                                Timber.d("onPos: %s", sourceContent.getTitle());
                                 previewLayout.setVisibility(View.VISIBLE);
                                 titleTextView.setVisibility(View.VISIBLE);
                                 titleTextView.setText(sourceContent.getTitle());
@@ -269,26 +267,26 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
         } else {
 
             if (!model.getWebLinkData().getHeadline().isEmpty()) {
-                Log.d(TAG, "onPos: " + model.getWebLinkData().getHeadline());
+                Timber.d("onPos: %s", model.getWebLinkData().getHeadline());
                 titleTextView.setText(model.getWebLinkData().getHeadline());
             } else {
                 titleTextView.setVisibility(View.GONE);
-                Log.d(TAG, "handleItemEvents: " + "isEmpty");
+                Timber.d("handleItemEvents: isEmpty");
             }
 
             if (!model.getWebLinkData().getBody().isEmpty()) {
-                Log.d(TAG, "onPos: " + model.getWebLinkData().getHeadline());
+                Timber.d("onPos: %s", model.getWebLinkData().getHeadline());
                 descriptionTextView.setText(model.getWebLinkData().getBody());
             } else {
                 descriptionTextView.setVisibility(View.GONE);
-                Log.d(TAG, "handleItemEvents: " + "isEmpty");
+                Timber.d("handleItemEvents: isEmpty");
             }
 
             if (model.getWebLinkData().getHeadline().isEmpty() && model.getWebLinkData().getBody().isEmpty()) {
                 previewLayout.setVisibility(View.GONE);
             }
 
-            Log.i(TAG, model.getWebLinkData().getImageURL());
+            Timber.i(model.getWebLinkData().getImageURL());
             if (!model.getWebLinkData().getImageURL().equals("")) {
                 Picasso.with(currContext.getApplicationContext()).load(model.getWebLinkData().getImageURL())
                         .fit().centerCrop()

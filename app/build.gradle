@@ -105,5 +105,8 @@ dependencies {
         transitive = true
     }
 
+    //Timber
+    implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
 }

@@ -8,13 +8,13 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import timber.log.Timber
 import java.io.IOException
 
 /**
@@ -33,7 +33,7 @@ class SignUpActivityTest {
     @Before
     @Throws(IOException::class, InterruptedException::class)
     fun unlockScreen() {
-        Log.d(TAG, "running unlockScreen..")
+        Timber.d("running unlockScreen..")
 
         val activity = mActivityRule.activity
         val wakeUpDevice = Runnable {
@@ -46,7 +46,7 @@ class SignUpActivityTest {
 
     @Test
     fun testUIViewsPresenceOnLoad() {
-        Log.d(TAG, "running testUIViewsPresenceOnLoad..")
+        Timber.d("running testUIViewsPresenceOnLoad..")
 
         // checks if email input field is present
         onView(withId(R.id.email)).check(matches(isDisplayed()))
@@ -66,9 +66,4 @@ class SignUpActivityTest {
         onView(withId(R.id.sign_up)).check(matches(isDisplayed()))
 
     }
-
-    companion object {
-        private const val TAG = "SignUpActivityTest"
-    }
-
 }

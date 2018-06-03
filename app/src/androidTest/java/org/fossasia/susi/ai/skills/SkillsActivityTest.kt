@@ -7,13 +7,13 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import timber.log.Timber
 import java.io.IOException
 
 /**
@@ -32,7 +32,7 @@ class SkillsActivityTest {
     @Before
     @Throws(IOException::class, InterruptedException::class)
     fun unlockScreen() {
-        Log.d(TAG, "running unlockScreen..")
+        Timber.d("running unlockScreen..")
 
         val activity = mActivityRule.activity
         val wakeUpDevice = Runnable {
@@ -45,13 +45,9 @@ class SkillsActivityTest {
 
     @Test
     fun testUIViews() {
-        Log.d(TAG, "running testUIViews..")
+        Timber.d("running testUIViews..")
 
         // checks if frame layout is displayed or not
         onView(withId(R.id.fragment_container)).check(matches(isDisplayed()))
-    }
-
-    companion object {
-        private const val TAG = "SkillsActivityTest"
     }
 }

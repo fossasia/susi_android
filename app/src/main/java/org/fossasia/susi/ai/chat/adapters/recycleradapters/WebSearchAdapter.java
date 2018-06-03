@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import org.fossasia.susi.ai.data.model.WebSearchModel;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * <h1>Adapter to display horizontal list of web search results.</h1>
  * <p>
@@ -25,7 +26,6 @@ import java.util.List;
  */
 public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
 
-    public static final String TAG = SearchResultsAdapter.class.getSimpleName();
     private LayoutInflater inflater;
     private Context context;
     private List<WebSearchModel> searchResults;
@@ -76,12 +76,12 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
 
             if (iconUrl != null && !iconUrl.isEmpty()) {
                 holder.previewImageView.setVisibility(View.VISIBLE);
-                Log.v(TAG, iconUrl);
+                Timber.v(iconUrl);
                 Picasso.with(context).load(iconUrl)
                         .into(holder.previewImageView, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
-                                Log.d("Sucess", "image loaded successfully");
+                                Timber.d("image loaded successfully");
                             }
 
                             @Override
