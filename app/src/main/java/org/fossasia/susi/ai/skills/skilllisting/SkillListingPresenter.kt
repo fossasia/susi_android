@@ -19,7 +19,7 @@ class SkillListingPresenter : ISkillListingPresenter,
 
     private var skillListingModel: ISkillListingModel = SkillListingModel()
     private var skillListingView: ISkillListingView? = null
-    private var count = 0
+    private var count = 1
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     private var groupsCount = 0
     private var groups: List<String> = ArrayList()
