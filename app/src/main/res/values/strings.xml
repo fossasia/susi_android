@@ -252,10 +252,9 @@
     <!-- Devices String-->
     <string name="connect_success">Device Connected Successfully !</string>
     <string name="device_title">Devices</string>
-    <string name="device_not_add">You haven\'t added any devices yet</string>
-    <string name="choose_wifi">Please make sure you have turned on your device. You will be directed to the wifi settings page where you will choose your device\'s connection.</string>
-    <string name="device_hosted_connection">Connect to your device</string>
-
+    <string name="scan_devices">Scanning for devices...</string>
+    <string name="no_device_found">No devices found</string>
+    <string name="setup_tut">If you\'re setting up a new device, make sure it\'s \n nearby and plugged into a wall outlet</string>
     <!--About Us String-->
     <string name="susi_about">
         <a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
