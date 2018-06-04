@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilllisting
 
+import android.content.Context
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
@@ -14,6 +15,7 @@ import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillGroupAdapter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
@@ -29,6 +31,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     private lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     private lateinit var skillGroupAdapter: SkillGroupAdapter
+    private lateinit var skillCallback : SkillFragmentCallback
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
@@ -50,7 +53,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         val mLayoutManager = LinearLayoutManager(activity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         skillGroups.layoutManager = mLayoutManager
-        skillGroupAdapter = SkillGroupAdapter(requireContext(), skills)
+        skillGroupAdapter = SkillGroupAdapter(requireContext(), skills, skillCallback)
         skillGroups.adapter = skillGroupAdapter
         skillGroups.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(skillGroups)
@@ -81,6 +84,11 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     override fun onRefresh() {
         setUPAdapter()
         skillListingPresenter.getGroups(swipe_refresh_layout.isRefreshing)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context);
+        skillCallback = activity as SkillFragmentCallback
     }
 
     override fun onDestroyView() {
