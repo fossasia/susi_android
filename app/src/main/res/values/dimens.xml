@@ -94,4 +94,7 @@
     <dimen name="slide_desc">16dp</dimen>
     <dimen name="slide_title">30sp</dimen>
 
+    <dimen name="scan_message_margin_top">40dp</dimen>
+    <dimen name="scan_progress_margin_top">10dp</dimen>
+
 </resources>

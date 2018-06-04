@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.device
 
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
@@ -21,6 +22,8 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_device)
+
+        scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
