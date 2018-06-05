@@ -1,13 +1,14 @@
 package org.fossasia.susi.ai.device
 
-import android.content.ComponentName
-import android.content.Intent
+
+import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_device.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.contract.IDeviceView
 
@@ -21,6 +22,8 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_device)
+
+        scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -51,23 +54,18 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     fun chooseWifi(view: View) {
-        val builder = AlertDialog.Builder(this)
 
-        builder.setTitle(R.string.device_hosted_connection)
-        builder.setMessage(R.string.choose_wifi)
-        builder.setPositiveButton(R.string.ok) { dialog, which ->
-            val intent = Intent(Intent.ACTION_MAIN, null)
-            intent.addCategory(Intent.CATEGORY_LAUNCHER)
-            val componentName = ComponentName("com.android.settings", "com.android.settings.wifi.WifiSettings")
-            intent.component = componentName
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-        }
+        noDeviceFound.visibility = View.GONE
+        deviceTutorial.visibility = View.GONE
 
-        builder.setNegativeButton(R.string.cancel) { dialog, which ->
-            dialog.dismiss()
-        }
+        Handler().postDelayed({
+            scanDevice.visibility = View.GONE
+            scanProgress.visibility = View.GONE
+            noDeviceFound.visibility = View.VISIBLE
+            deviceTutorial.visibility = View.VISIBLE
+        }, 10000)
 
-        builder.create().show()
+        scanDevice.visibility = View.VISIBLE
+        scanProgress.visibility = View.VISIBLE
     }
 }

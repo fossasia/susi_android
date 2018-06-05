@@ -1,14 +1,16 @@
 package org.fossasia.susi.ai.skills.aboutus
 
 
+import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_about_us.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity
@@ -37,11 +39,58 @@ class AboutUsFragment : Fragment() {
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        about_susi.movementMethod = LinkMovementMethod.getInstance()
-        contributors_desc.movementMethod = LinkMovementMethod.getInstance()
-        susi_skill_cms_desc.movementMethod = LinkMovementMethod.getInstance()
-        susi_report_issues_desc.movementMethod = LinkMovementMethod.getInstance()
-        susi_license_info_desc.movementMethod = LinkMovementMethod.getInstance()
+        about_susi.setOnClickListener({
+            try {
+                var uri = Uri.parse(getString(R.string.url_about_susi))
+                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                var customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(context, uri)
+            } catch (e: Exception) {
+                Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        contributors_desc.setOnClickListener({
+            try {
+            var uri = Uri.parse(getString(R.string.url_susi_contributors))
+            var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+            var customTabsIntent = builder.build()
+            customTabsIntent.launchUrl(context, uri)
+        } catch (e: Exception) {
+            Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+        }})
+
+        susi_skill_cms_desc.setOnClickListener({
+            try {
+                var uri = Uri.parse(getString(R.string.url_susi_skill_cms))
+                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                var customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(context, uri)
+            } catch (e: Exception) {
+                Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        susi_report_issues_desc.setOnClickListener({
+            try {
+                var uri = Uri.parse(getString(R.string.url_susi_report_issue))
+                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                var customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(context, uri)
+            } catch (e: Exception) {
+                Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+            }
+        })
+        susi_license_info_desc.setOnClickListener({
+            try {
+                var uri = Uri.parse(getString(R.string.url_susi_license))
+                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                var customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(context, uri)
+            } catch (e: Exception) {
+                Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+            }
+        })
         super.onViewCreated(view, savedInstanceState)
     }
 

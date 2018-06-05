@@ -5,11 +5,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,8 +119,17 @@ class SkillDetailsFragment : Fragment() {
             if (skillData.authorUrl == null || skillData.authorUrl.isEmpty())
                 skillDetailAuthor.text = "Author : ${skillData.skillName}"
             else {
-                skillDetailAuthor.linksClickable = true
-                skillDetailAuthor.movementMethod = LinkMovementMethod.getInstance()
+                skillDetailAuthor.setOnClickListener({
+                    try {
+                        var uri = Uri.parse(skillData.authorUrl)
+                        var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                        var customTabsIntent = builder.build()
+                        customTabsIntent.launchUrl(context, uri)
+                    }
+                    catch (e: Exception){
+                        Toast.makeText(context,"Link not available",Toast.LENGTH_SHORT).show()
+                    }
+                })
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     skillDetailAuthor.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
                 } else {
@@ -320,8 +331,17 @@ class SkillDetailsFragment : Fragment() {
         if (skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
             skillDetailPolicy.visibility = View.GONE
         } else {
-            skillDetailPolicy.linksClickable = true
-            skillDetailPolicy.movementMethod = LinkMovementMethod.getInstance()
+            skillDetailAuthor.setOnClickListener({
+                try {
+                    var uri = Uri.parse(skillData.developerPrivacyPolicy)
+                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                    var customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(context, uri)
+                }
+                catch (e: Exception){
+                    Toast.makeText(context,"Link not available",Toast.LENGTH_SHORT).show()
+                }
+            })
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 skillDetailPolicy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>", Html.FROM_HTML_MODE_COMPACT)
             } else {
@@ -334,8 +354,17 @@ class SkillDetailsFragment : Fragment() {
         if (skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
             skillDetailTerms.visibility = View.GONE
         } else {
-            skillDetailTerms.linksClickable = true
-            skillDetailTerms.movementMethod = LinkMovementMethod.getInstance()
+            skillDetailAuthor.setOnClickListener({
+                try {
+                    var uri = Uri.parse(skillData.termsOfUse)
+                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                    var customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(context, uri)
+                }
+                catch (e: Exception){
+                    Toast.makeText(context,"Link not available",Toast.LENGTH_SHORT).show()
+                }
+            })
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>", Html.FROM_HTML_MODE_COMPACT)
             } else {

@@ -97,8 +97,9 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     override fun onBackPressed() {
         val dialogClickListener = DialogInterface.OnClickListener { _, _ -> super@SignUpActivity.onBackPressed() }
         val alertMessage = getString(R.string.error_cancelling_signUp_process_text)
-        val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, null, alertMessage, dialogClickListener, null,
-                resources.getString(R.string.yes), resources.getString(R.string.continue_sign_up), resources.getColor(R.color
+        val dialogTitle = getString(R.string.dialog_cancel_sign_up)
+        val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, dialogTitle, alertMessage, dialogClickListener, null,
+                resources.getString(R.string.cancel), resources.getString(R.string.Continue), resources.getColor(R.color
                 .md_blue_500))
         successAlertboxHelper.showAlertBox()
     }
