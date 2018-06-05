@@ -7,6 +7,8 @@ import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import timber.log.Timber;
+
 /**
  * <h1>Class to get Base URLs of susi/custom server.</h1>
  * <p>
@@ -37,6 +39,7 @@ public class BaseUrl {
                 PrefManager.setSusiRunningBaseUrl(BaseUrl.PROTOCOL_HTTP + baseUrls.getSusiServices().get(0));
             }
             if (t instanceof SocketTimeoutException || t instanceof ConnectException) {
+                Timber.e(t.getLocalizedMessage());
                 ClientBuilder.createSusiService();
             }
         }

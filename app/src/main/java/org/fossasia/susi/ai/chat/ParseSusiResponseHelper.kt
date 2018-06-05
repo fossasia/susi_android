@@ -6,6 +6,7 @@ import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -31,6 +32,7 @@ class ParseSusiResponseHelper {
             Constant.ANCHOR -> answer = try {
                 "<a href=\"" + susiResponse.answers[0].actions[i].anchorLink + "\">" + susiResponse.answers[0].actions[1].anchorText + "</a>"
             } catch (e: Exception) {
+                Timber.e(e.localizedMessage)
                 error
             }
 
@@ -40,6 +42,7 @@ class ParseSusiResponseHelper {
                 isHavingLink = true
                 if (urlList.isEmpty()) isHavingLink = false
             } catch (e: Exception) {
+                Timber.e(e.localizedMessage)
                 answer = error
                 isHavingLink = false
             }
@@ -50,37 +53,42 @@ class ParseSusiResponseHelper {
                 val zoom = susiResponse.answers[0].actions[i].zoom
                 MapData(latitude, longitude, zoom)
             } catch (e: Exception) {
+                Timber.e(e.localizedMessage)
                 null
             }
 
             Constant.PIECHART -> datumList = try {
                 susiResponse.answers[0].data
             } catch (e: Exception) {
+                Timber.e(e.localizedMessage)
                 null
             }
 
             Constant.RSS -> datumList = try {
                 susiResponse.answers[0].data
             } catch (e: Exception) {
+                Timber.e(e.localizedMessage)
                 null
             }
 
             Constant.TABLE -> datumList = try {
                 susiResponse.answers[0].data
             } catch (e: Exception) {
+                Timber.e(e.localizedMessage)
                 null
             }
 
             Constant.WEBSEARCH -> webSearch = try {
                 susiResponse.answers[0].actions[1].query
             } catch (e: Exception) {
+                Timber.e(e.localizedMessage)
                 ""
             }
 
             Constant.STOP -> try {
                 stop = susiResponse.answers[0].actions[1].type
             } catch (e: Exception) {
-
+                Timber.e(e.localizedMessage)
             }
 
             else -> answer = error
@@ -108,7 +116,7 @@ class ParseSusiResponseHelper {
                 susiLocation["language"] = locationArray[5]
                 susiLocation["skill"] = locationArray[6].split(".")[0]
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.e(e.localizedMessage)
             }
             return susiLocation
         }

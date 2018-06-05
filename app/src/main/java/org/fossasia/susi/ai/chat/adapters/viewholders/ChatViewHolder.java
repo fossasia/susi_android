@@ -27,6 +27,7 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static android.os.SystemClock.sleep;
 import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
@@ -205,7 +206,7 @@ public class ChatViewHolder extends MessageViewHolder {
                     default:
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e.getLocalizedMessage());
             }
         }
     }

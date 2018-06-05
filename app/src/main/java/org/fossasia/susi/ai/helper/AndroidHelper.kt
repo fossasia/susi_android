@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.helper
 
 import android.content.Context
 import android.content.pm.PackageManager
+import timber.log.Timber
 
 /**
  * <h1>Helper class to check if google maps is installed.</h1>
@@ -28,6 +29,7 @@ object AndroidHelper {
             context.packageManager.getApplicationInfo(packageName, 0)
             true
         } catch (e: PackageManager.NameNotFoundException) {
+            Timber.e(e.localizedMessage)
             false
         }
 

@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.helper
 
 import android.text.format.DateFormat
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,6 +51,7 @@ object DateTimeHelper {
         dateIn = try {
             sdf.parse(date)
         } catch (e: Exception) {
+            Timber.e(e.localizedMessage)
             null
         }
 

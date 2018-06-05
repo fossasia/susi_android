@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.ActivityCompat
+import timber.log.Timber
 
 import java.lang.ref.WeakReference
 
@@ -93,7 +94,7 @@ class LocationHelper
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e.localizedMessage)
         }
 
     }

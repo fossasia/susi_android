@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.speech.RecognizerIntent
 import android.support.v4.app.ActivityCompat
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 
@@ -50,6 +51,7 @@ object MediaUtil {
         try {
             recorder.prepare()
         } catch (exception: IOException) {
+            Timber.e(exception.localizedMessage)
             available = false
         }
 

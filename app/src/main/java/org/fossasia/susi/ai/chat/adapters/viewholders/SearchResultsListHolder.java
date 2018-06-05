@@ -85,12 +85,13 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                                         } catch (Exception e) {
                                             webSearch.setBody(text);
                                             webSearch.setHeadline(webquery);
+                                            Timber.e(e.getLocalizedMessage());
                                         }
                                         webSearch.setImageURL(iconUrl);
                                         webSearch.setUrl(url);
                                         searchResults.add(webSearch);
                                     } catch (Exception e) {
-                                        Timber.v(e.getLocalizedMessage());
+                                        Timber.e(e.getLocalizedMessage());
                                     }
                                 }
                                 if (searchResults.size() == 0) {
