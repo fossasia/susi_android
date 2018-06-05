@@ -12,6 +12,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
+import org.fossasia.susi.ai.rest.responses.susi.TableSusiResponse;
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting;
 
 import retrofit2.Call;
@@ -50,6 +51,25 @@ public interface SusiService {
                                        @Query("geosource") String geosource,
                                        @Query("language") String language,
                                        @Query("q") String query);
+
+    /**
+     * Gets susi response.
+     *
+     * @param timezoneOffset the timezone offset
+     * @param longitude      the longitude
+     * @param latitude       the latitude
+     * @param geosource      the geosource
+     * @param language       the language
+     * @param query          the query
+     * @return the susi response
+     */
+    @GET("/susi/chat.json")
+    Call<TableSusiResponse> getTableSusiResponse(@Query("timezoneOffset") int timezoneOffset,
+                                                 @Query("longitude") double longitude,
+                                                 @Query("latitude") double latitude,
+                                                 @Query("geosource") String geosource,
+                                                 @Query("language") String language,
+                                                 @Query("q") String query);
 
     /**
      * Gets chat history.

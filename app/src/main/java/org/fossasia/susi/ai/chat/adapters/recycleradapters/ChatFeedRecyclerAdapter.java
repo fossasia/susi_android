@@ -26,6 +26,7 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultsListHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.TableViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.Constant;
@@ -66,7 +67,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
-    private static final int LIST_RESULT = 13;
+    private static final int TABLE = 13;
     private static final int STOP = 14;
     private Context currContext;
     private Realm realm;
@@ -189,11 +190,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 view = inflater.inflate(R.layout.item_susi_piechart, viewGroup, false);
                 return new PieChartViewHolder(view, clickListener);
             case SEARCH_RESULT:
-                view = inflater.inflate(R.layout.search_list, viewGroup, false);
-                SearchResultsListHolder searchResultsListHolder = new SearchResultsListHolder(view);
-                searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
-                return searchResultsListHolder;
-            case LIST_RESULT:
+                view = inflater.inflate(R.layout.susi_table, viewGroup, false);
+                return new TableViewHolder(view, clickListener);
+            case TABLE:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder listResultHolder = new SearchResultsListHolder(view);
                 listResultHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
@@ -241,7 +240,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             case Constant.RSS:
                 return SEARCH_RESULT;
             case Constant.TABLE:
-                return SEARCH_RESULT;
+                return TABLE;
             case Constant.PIECHART:
                 return PIECHART;
             default:
@@ -283,6 +282,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
             pieChartViewHolder.setView(getData().get(position));
+        } else if (holder instanceof TableViewHolder) {
+            TableViewHolder tableViewHolder = (TableViewHolder) holder;
+            tableViewHolder.setView(getData().get(position), currContext);
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             setOnLinkLongClickListener(position, linkPreviewViewHolder);
