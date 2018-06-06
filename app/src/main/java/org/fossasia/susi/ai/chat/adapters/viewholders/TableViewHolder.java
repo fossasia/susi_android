@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
 import android.os.SystemClock;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,20 +27,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-import static android.os.SystemClock.sleep;
-
-import static java.lang.Thread.sleep;
-
 
 public class TableViewHolder extends MessageViewHolder {
 
-    @BindView(R.id.recycler_View)
+    @BindView(R.id.recyclerView)
     public RecyclerView recyclerView;
     @BindView(R.id.timestamp)
     public TextView timeStamp;
@@ -81,9 +75,6 @@ public class TableViewHolder extends MessageViewHolder {
                 LinearLayoutManager layoutManager = new LinearLayoutManager(currContext, LinearLayoutManager.HORIZONTAL,
                         false);
                 recyclerView.setLayoutManager(layoutManager);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(currContext, layoutManager.getOrientation());
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
                 TableAdapter tableAdapter = new TableAdapter(column, data);
                 recyclerView.setAdapter(tableAdapter);
             } else {

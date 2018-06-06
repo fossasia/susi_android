@@ -14,8 +14,6 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.TabViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
-import timber.log.Timber;
-
 public class TableAdapter extends RecyclerView.Adapter<TabViewHolder> {
     private List<String> data, column;
     private Context context;
@@ -36,10 +34,8 @@ public class TableAdapter extends RecyclerView.Adapter<TabViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull TabViewHolder holder, int position) {
         List<String> smallData = new ArrayList<>();
-        int pos = position + 1;
         for (int columnflag = 0; columnflag < column.size(); columnflag++) {
-            Timber.d(Integer.toString(position));
-            smallData.add(data.get(column.size() * (pos - 1) + columnflag));
+            smallData.add(data.get(column.size() * position + columnflag));
         }
 
         LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -50,6 +46,6 @@ public class TableAdapter extends RecyclerView.Adapter<TabViewHolder> {
 
     @Override
     public int getItemCount() {
-        return data.size()/column.size();
+        return data.size() / column.size();
     }
 }

@@ -15,8 +15,9 @@ import kotlin.collections.ArrayList
 
 class ParseTableSusiResponseHelper {
 
-    var listColumn: ArrayList<String> = ArrayList<String>()
-    var listTableData: ArrayList<String> = ArrayList<String>()
+    var listColumn: ArrayList<String> = ArrayList()
+    var listColVal: ArrayList<String> = ArrayList()
+    var listTableData: ArrayList<String> = ArrayList()
     var tableData: TableDatas? = null
     var count = 0;
     fun parseSusiResponse(response: Response<TableSusiResponse>) {
@@ -31,6 +32,7 @@ class ParseTableSusiResponseHelper {
                     while (iterator?.hasNext().toString().toBoolean()) {
                         val entry = iterator?.next()
                         listColumn.add(entry?.key.toString())
+                        listColVal.add(entry?.value.toString())
                     }
                 }
                 val map2 = tableanswer.data
@@ -43,7 +45,7 @@ class ParseTableSusiResponseHelper {
                         listTableData.add(entry2?.get(obj).toString())
                     }
                 }
-                tableData = TableDatas(listColumn, listTableData)
+                tableData = TableDatas(listColVal, listTableData)
             }
         } catch (e: Exception) {
             tableData = null

@@ -15,7 +15,8 @@
         app:cardBackgroundColor="@color/susi_message_bg">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_View"
+            android:id="@+id/recyclerView"
+            android:background="#e5e5e5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/table_bottom_margin" />

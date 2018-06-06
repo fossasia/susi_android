@@ -11,6 +11,8 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.VerticalCellViewHolder;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalCellViewHolder> {
 
     List<String> cols;
@@ -30,6 +32,8 @@ public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalCellVi
 
     @Override
     public void onBindViewHolder(@NonNull VerticalCellViewHolder holder, int position) {
+
+        Timber.d(cols.get(position) + " : " + data.get(position));
         holder.column.setText(cols.get(position));
         holder.data.setText(data.get(position));
     }
