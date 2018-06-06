@@ -57,7 +57,7 @@ class SkillListingModel : ISkillListingModel {
             authResponseCallGroups.cancel()
             authResponseCallSkills.cancel()
         } catch (e: Exception) {
-            Timber.e(e.localizedMessage)
+            Timber.e(e)
         }
     }
 }

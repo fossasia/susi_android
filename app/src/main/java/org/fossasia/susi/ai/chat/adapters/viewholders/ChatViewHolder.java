@@ -206,7 +206,7 @@ public class ChatViewHolder extends MessageViewHolder {
                     default:
                 }
             } catch (Exception e) {
-                Timber.e(e.getLocalizedMessage());
+                Timber.e(e);
             }
         }
     }

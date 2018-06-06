@@ -104,7 +104,7 @@ public class PieChartViewHolder extends MessageViewHolder {
                 pieChart.highlightValues(null);
                 pieChart.invalidate();
             } catch (Exception e) {
-                Timber.e(e.getLocalizedMessage());
+                Timber.e(e);
             }
         }
     }

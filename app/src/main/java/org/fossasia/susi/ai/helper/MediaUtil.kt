@@ -51,7 +51,7 @@ object MediaUtil {
         try {
             recorder.prepare()
         } catch (exception: IOException) {
-            Timber.e(exception.localizedMessage)
+            Timber.e(exception)
             available = false
         }
 

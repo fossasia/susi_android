@@ -51,7 +51,7 @@ object DateTimeHelper {
         dateIn = try {
             sdf.parse(date)
         } catch (e: Exception) {
-            Timber.e(e.localizedMessage)
+            Timber.e(e)
             null
         }
 

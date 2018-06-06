@@ -105,7 +105,7 @@ class DatabaseRepository : IDatabaseRepository {
                             previouschatMessage.timeStamp = timeStamp
                         }
                     } catch (e: Exception) {
-                        Timber.e(e.localizedMessage)
+                        Timber.e(e)
                     }
 
                     try {
@@ -119,7 +119,7 @@ class DatabaseRepository : IDatabaseRepository {
                             }
                         }
                     } catch (e: Exception) {
-                        Timber.e(e.localizedMessage)
+                        Timber.e(e)
                     }
                 }
 

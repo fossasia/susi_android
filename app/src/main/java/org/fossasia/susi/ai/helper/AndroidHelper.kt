@@ -29,7 +29,7 @@ object AndroidHelper {
             context.packageManager.getApplicationInfo(packageName, 0)
             true
         } catch (e: PackageManager.NameNotFoundException) {
-            Timber.e(e.localizedMessage)
+            Timber.e(e)
             false
         }
 
