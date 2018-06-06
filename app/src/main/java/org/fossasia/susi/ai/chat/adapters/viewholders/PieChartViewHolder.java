@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmList;
+import timber.log.Timber;
 
 /**
  * <h1>Pie chart view holder</h1>
@@ -103,7 +104,7 @@ public class PieChartViewHolder extends MessageViewHolder {
                 pieChart.highlightValues(null);
                 pieChart.invalidate();
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
     }
