@@ -14,8 +14,8 @@
         android:layout_marginTop="@dimen/message_card_margin_small"
         app:cardBackgroundColor="@color/susi_message_bg">
 
-        <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/recyclerView"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_View"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/table_bottom_margin" />

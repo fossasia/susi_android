@@ -4,26 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_very_small">
+    android:layout_marginTop="@dimen/margin_very_small"
+    android:background="@drawable/rounded_layout_grey">
 
     <android.support.v7.widget.CardView
         android:layout_width="@dimen/websearch_card_width"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/message_card_margin_medium"
+        android:layout_marginStart="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
         app:cardBackgroundColor="@color/susi_message_bg"
-        app:contentPadding="@dimen/standard_content_padding"
-        android:layout_marginStart="@dimen/message_card_margin_medium">
+        app:contentPadding="@dimen/standard_content_padding">
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
-        </LinearLayout>
+        </android.support.v7.widget.RecyclerView>
 
     </android.support.v7.widget.CardView>
 </LinearLayout>

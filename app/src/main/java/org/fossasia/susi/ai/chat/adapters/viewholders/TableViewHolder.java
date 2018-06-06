@@ -7,22 +7,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
-import org.fossasia.susi.ai.chat.adapters.recycleradapters.SearchResultsAdapter;
-import org.fossasia.susi.ai.chat.adapters.recycleradapters.WebSearchAdapter;
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.TableAdapter;
 import org.fossasia.susi.ai.data.model.ChatMessage;
-import org.fossasia.susi.ai.data.model.WebSearchModel;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.rest.ClientBuilder;
-import org.fossasia.susi.ai.rest.clients.WebSearchClient;
-import org.fossasia.susi.ai.rest.responses.others.WebSearch;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
-import org.fossasia.susi.ai.rest.services.WebSearchService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,46 +41,59 @@ import static java.lang.Thread.sleep;
 
 public class TableViewHolder extends MessageViewHolder {
 
-    @BindView(R.id.recyclerView)
-    protected RecyclerView recyclerView;
+    @BindView(R.id.recycler_View)
+    public RecyclerView recyclerView;
     @BindView(R.id.timestamp)
-    protected TextView timeStamp;
+    public TextView timeStamp;
     @BindView(R.id.thumbs_up)
-    protected ImageView thumbsUp;
+    public ImageView thumbsUp;
     @Nullable
     @BindView(R.id.thumbs_down)
-    protected ImageView thumbsDown;
+    public ImageView thumbsDown;
     private ChatMessage model;
     private Context currContext;
 
     public TableViewHolder(View itemView, ClickListener clickListener) {
         super(itemView, clickListener);
-        ButterKnife.bind(itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     public void setView(final ChatMessage model, final Context currContext) {
-        this.model = model;
-        this.currContext = currContext;
-        int columnSize = model.getTableColumns().size();
-        int dataSize = model.getTableData().size();
-        List<String> data = new ArrayList<>();
-        List<String> column = new ArrayList<>();
+        if (model != null) {
+            if (model.getTableColumns().size() != 0 || model.getTableData().size() != 0) {
+                this.model = model;
+                this.currContext = currContext;
+                int columnSize = model.getTableColumns().size();
+                int dataSize = model.getTableData().size();
+                List<String> data = new ArrayList<>();
+                List<String> column = new ArrayList<>();
 
-        for (int col = 0; col < columnSize; col++) {
-            column.add(model.getTableColumns().get(col).getColumnName());
+                for (int col = 0; col < columnSize; col++) {
+                    column.add(model.getTableColumns().get(col).getColumnName());
+                }
+
+                Timber.d("SIZE : " + Integer.toString(column.size()) + " : " + Integer.toString(data.size()));
+
+                for (int dFlag = 0; dFlag < dataSize; dFlag++) {
+                    data.add(model.getTableData().get(dFlag).getTableData());
+                }
+
+                LinearLayoutManager layoutManager = new LinearLayoutManager(currContext, LinearLayoutManager.HORIZONTAL,
+                        false);
+                recyclerView.setLayoutManager(layoutManager);
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(currContext, layoutManager.getOrientation());
+                recyclerView.addItemDecoration(dividerItemDecoration);
+
+                TableAdapter tableAdapter = new TableAdapter(column, data);
+                recyclerView.setAdapter(tableAdapter);
+            } else {
+                recyclerView.setLayoutManager(null);
+                recyclerView.setAdapter(null);
+            }
+        } else {
+            recyclerView.setLayoutManager(null);
+            recyclerView.setAdapter(null);
         }
-
-        for (int dFlag = 0; dFlag < dataSize; dFlag++) {
-            data.add(model.getTableData().get(dFlag).getTableData());
-        }
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(currContext, LinearLayoutManager.HORIZONTAL,
-                false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(currContext, linearLayoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-// TABLE ADAPTER
 
         if (model.getSkillLocation().isEmpty()) {
             thumbsUp.setVisibility(View.GONE);

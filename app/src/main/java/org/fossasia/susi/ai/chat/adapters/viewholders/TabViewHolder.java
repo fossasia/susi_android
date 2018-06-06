@@ -1,8 +1,7 @@
-package org.fossasia.susi.ai.chat.adapters.recycleradapters;
+package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import org.fossasia.susi.ai.R;
 
@@ -12,7 +11,7 @@ import butterknife.ButterKnife;
 public class TabViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.parentLayout)
-    public LinearLayout linearLayout;
+    public RecyclerView view;
 
     public TabViewHolder(View itemView) {
         super(itemView);

@@ -18,7 +18,7 @@ class ParseTableSusiResponseHelper {
     var listColumn: ArrayList<String> = ArrayList<String>()
     var listTableData: ArrayList<String> = ArrayList<String>()
     var tableData: TableDatas? = null
-
+    var count = 0;
     fun parseSusiResponse(response: Response<TableSusiResponse>) {
         try {
             var response1 = Gson().toJson(response)
@@ -37,6 +37,7 @@ class ParseTableSusiResponseHelper {
                 val iterator2 = map2?.iterator()
                 while (iterator2?.hasNext().toString().toBoolean()) {
                     val entry2 = iterator2?.next()
+                    count++;
                     for (count in 0..listColumn.size - 1) {
                         val obj = listColumn.get(count)
                         listTableData.add(entry2?.get(obj).toString())

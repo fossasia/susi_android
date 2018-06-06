@@ -190,13 +190,13 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 view = inflater.inflate(R.layout.item_susi_piechart, viewGroup, false);
                 return new PieChartViewHolder(view, clickListener);
             case SEARCH_RESULT:
-                view = inflater.inflate(R.layout.susi_table, viewGroup, false);
-                return new TableViewHolder(view, clickListener);
-            case TABLE:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder listResultHolder = new SearchResultsListHolder(view);
                 listResultHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 return listResultHolder;
+            case TABLE:
+                view = inflater.inflate(R.layout.susi_table, viewGroup, false);
+                return new TableViewHolder(view, clickListener);
             case WEB_SEARCH:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder webResultsListHolder = new SearchResultsListHolder(view);
