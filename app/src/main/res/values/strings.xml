@@ -326,7 +326,7 @@
     <!-- Five Star Skill Rating -->
 
     <string name="average_rating">Average Rating</string>
-    <string name="total_rating">Total Rating</string>
+    <string name="total_rating">Total Ratings</string>
     <string name="placeholder_average_rating">4.4</string>
     <string name="placeholder_total_rating">64</string>
     <string name="rate_skill">Rate this skill</string>
@@ -335,6 +335,8 @@
     <string name="rate_good">Good</string>
     <string name="rate_improvement">Need some improvement</string>
     <string name="rate_hate">Hated it</string>
+    <string name="average_rating_for_unrated_skill">0.0</string>
+    <string name="total_rating_for_unrated_skill">0</string>
 
 
 </resources>

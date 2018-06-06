@@ -16,4 +16,8 @@ class SkillRating : Serializable {
     @SerializedName("negative")
     @Expose
     var negative: Int = 0
+
+    @SerializedName("stars")
+    @Expose
+    var stars: Stars? = null
 }
