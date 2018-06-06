@@ -2,20 +2,12 @@ package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.method.LinkMovementMethod;
-import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.adapters.viewholders.VerticalCellViewHolder;
-import org.fossasia.susi.ai.helper.CredentialHelper;
-
 import java.util.List;
-
-import timber.log.Timber;
-
 public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalCellViewHolder> {
 
     private List<String> cols;
