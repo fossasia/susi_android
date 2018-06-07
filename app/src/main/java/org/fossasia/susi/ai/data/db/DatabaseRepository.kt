@@ -10,6 +10,7 @@ import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.Datum
+import timber.log.Timber
 
 /**
  * The Database repository. Does all database operations like updating database,
@@ -104,7 +105,7 @@ class DatabaseRepository : IDatabaseRepository {
                             previouschatMessage.timeStamp = timeStamp
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        Timber.e(e)
                     }
 
                     try {
@@ -118,7 +119,7 @@ class DatabaseRepository : IDatabaseRepository {
                             }
                         }
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        Timber.e(e)
                     }
                 }
 

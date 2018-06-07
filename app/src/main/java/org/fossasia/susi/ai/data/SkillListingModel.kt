@@ -7,6 +7,7 @@ import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  *
@@ -56,7 +57,7 @@ class SkillListingModel : ISkillListingModel {
             authResponseCallGroups.cancel()
             authResponseCallSkills.cancel()
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
         }
     }
 }
