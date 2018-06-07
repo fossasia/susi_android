@@ -1,16 +1,12 @@
 package org.fossasia.susi.ai.chat
 
 import android.util.Patterns
-import com.google.gson.Gson
 import io.realm.RealmList
 import org.fossasia.susi.ai.data.model.MapData
-import org.fossasia.susi.ai.data.model.TableDatas
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import timber.log.Timber
-import org.fossasia.susi.ai.rest.responses.susi.TableBody
-import retrofit2.Responseimport java.util.*
 import kotlin.collections.ArrayList
 
 /**
