@@ -422,6 +422,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         computeOtherMessage()
     }
 
+    // A callback to check when the Table Message was successfully received
     override fun onTableMessageReceivedSuccess(response: Response<TableSusiResponse>?) {
         if (response != null && response.isSuccessful && response.body() != null) {
             val tableresponse = response.body()
@@ -435,6 +436,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         }
     }
 
+    // A function called when the actionType is the table response type
     fun tableResponse(query: String) {
         val tz = TimeZone.getDefault()
         val now = Date()
