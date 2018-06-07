@@ -195,7 +195,7 @@ class SkillDetailsFragment : Fragment() {
      */
     private fun setRating() {
         setUpFiveStarRatingBar()
-        if (skillData.skillRating?.stars?.totalStar.toString().toInt() > 0) {
+        if (skillData.skillRating?.stars?.totalStar!! > 0) {
             setSkillGraph()
         } else {
             skill_rating_view.visibility = View.GONE
@@ -216,16 +216,16 @@ class SkillDetailsFragment : Fragment() {
         fiveStarSkillRatingScaleTextView = tv_five_star_skill_rating_scale
         fiveStarAverageSkillRating = tv_average_rating
         fiveStarTotalSkillRating = tv_total_rating
-        if (skillData.skillRating?.stars?.totalStar == null) {
-            fiveStarAverageSkillRating.text = "0"
+        if (skillData.skillRating?.stars?.totalStar == 0) {
+            fiveStarTotalSkillRating.text = "0"
         } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar
+            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
         }
 
         if (skillData.skillRating?.stars?.averageStar == null) {
             fiveStarTotalSkillRating.text = "0.0"
         } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.averageStar
+            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
         }
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
@@ -298,59 +298,35 @@ class SkillDetailsFragment : Fragment() {
      */
     private fun setData() {
 
-        val totalUsers: Int = skillData.skillRating?.stars?.totalStar.toString().toInt()
+        val totalUsers: Int = skillData.skillRating?.stars?.totalStar!!
         fiveStarAverageSkillRating = tv_average_rating
         fiveStarTotalSkillRating = tv_total_rating
-        if (skillData.skillRating?.stars?.averageStar.isNullOrEmpty()) {
+        if (skillData.skillRating?.stars?.averageStar == 0f) {
             fiveStarAverageSkillRating.text = getString(R.string.average_rating_for_unrated_skill)
         } else {
-            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar
+            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
         }
 
-        if (skillData.skillRating?.stars?.totalStar.isNullOrEmpty()) {
+        if (skillData.skillRating?.stars?.totalStar == 0) {
             fiveStarTotalSkillRating.text = getString(R.string.total_rating_for_unrated_skill)
         } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar
+            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
         }
 
-        val oneStarUsers: String? = skillData.skillRating?.stars?.oneStar
-        val twoStarUsers: String? = skillData.skillRating?.stars?.twoStar
-        val threeStarUsers: String? = skillData.skillRating?.stars?.threeStar
-        val fourStarUsers: String? = skillData.skillRating?.stars?.fourStar
-        val fiveStarUsers: String? = skillData.skillRating?.stars?.fiveStar
+        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar!!
+        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar!!
+        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar!!
+        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar!!
+        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar!!
 
         //Add a list of bar entries
         val entries = ArrayList<BarEntry>()
 
-        if (oneStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(0f, 0f))
-        } else {
-            entries.add(BarEntry(0f, (oneStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (twoStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(1f, 0f))
-        } else {
-            entries.add(BarEntry(1f, (twoStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (threeStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(2f, 0f))
-        } else {
-            entries.add(BarEntry(2f, (threeStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (fourStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(3f, 0f))
-        } else {
-            entries.add(BarEntry(3f, (fourStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (fiveStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(4f, 0f))
-        } else {
-            entries.add(BarEntry(4f, (fiveStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
+        entries.add(BarEntry(0f, calcPercentageOfUsers(oneStarUsers, totalUsers)))
+        entries.add(BarEntry(1f, calcPercentageOfUsers(twoStarUsers, totalUsers)))
+        entries.add(BarEntry(2f, calcPercentageOfUsers(threeStarUsers, totalUsers)))
+        entries.add(BarEntry(3f, calcPercentageOfUsers(fourStarUsers, totalUsers)))
+        entries.add(BarEntry(4f, calcPercentageOfUsers(fiveStarUsers, totalUsers)))
 
         val barDataSet = BarDataSet(entries, "Bar Data Set")
 
@@ -373,6 +349,16 @@ class SkillDetailsFragment : Fragment() {
         //Finally set the data and refresh the graph
         skillRatingChart.data = data
         skillRatingChart.invalidate()
+    }
+
+    /**
+     * Returns the percentage of users corresponding to each rating
+     *
+     * @param actualNumberOfUsers : Actual number of users corresponding to a rating
+     * @param totalNumberOfUsers : Total number of ratings for a skill
+     */
+    private fun calcPercentageOfUsers(actualNumberOfUsers: Int, totalNumberOfUsers: Int): Float {
+        return (actualNumberOfUsers * 100f) / totalNumberOfUsers
     }
 
     private fun setDynamicContent() {
