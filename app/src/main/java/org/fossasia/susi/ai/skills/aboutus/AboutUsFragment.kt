@@ -52,13 +52,14 @@ class AboutUsFragment : Fragment() {
 
         contributors_desc.setOnClickListener({
             try {
-            var uri = Uri.parse(getString(R.string.url_susi_contributors))
-            var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
-            var customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(context, uri)
-        } catch (e: Exception) {
-            Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
-        }})
+                var uri = Uri.parse(getString(R.string.url_susi_contributors))
+                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                var customTabsIntent = builder.build()
+                customTabsIntent.launchUrl(context, uri)
+            } catch (e: Exception) {
+                Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+            }
+        })
 
         susi_skill_cms_desc.setOnClickListener({
             try {

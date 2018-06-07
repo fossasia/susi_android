@@ -87,7 +87,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                 });
 
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
     }

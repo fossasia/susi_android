@@ -26,9 +26,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:background="@color/md_white_1000"
-                android:orientation="vertical"
-                android:layout_marginStart="16dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/skillDetailTitle"
@@ -62,18 +62,19 @@
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
                 android:text="@string/try_it"
-                android:textColor="@color/md_white_1000"
-                android:layout_marginEnd="16dp" />
+                android:textColor="@color/md_white_1000" />
 
             <Button
                 android:id="@+id/skillDetailShareButton"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
@@ -82,8 +83,7 @@
                 android:drawableTint="@color/md_white_1000"
                 android:padding="10dp"
                 android:text="@string/action_share"
-                android:textColor="@color/md_white_1000"
-                android:layout_marginEnd="16dp" />
+                android:textColor="@color/md_white_1000" />
         </LinearLayout>
 
         <LinearLayout
@@ -138,17 +138,17 @@
                 android:gravity="center_horizontal"
                 android:text="@string/rate_skill"
                 android:textSize="@dimen/message_text_size"
-                android:textStyle="italic"/>
+                android:textStyle="italic" />
 
             <!-- Add a five star rating bar -->
             <RatingBar
                 android:id="@+id/five_star_skill_rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:numStars="5"
                 android:layout_gravity="center_horizontal"
+                android:numStars="5"
                 android:rating="5"
-                android:stepSize="1"/>
+                android:stepSize="1" />
 
             <!-- Display what a particular rating implies -->
             <TextView
@@ -156,40 +156,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:paddingBottom="@dimen/padding_small"
                 android:text="@string/rate_awesome"
                 android:textSize="@dimen/message_text_size"
-                android:textStyle="bold"
-                android:paddingBottom="@dimen/padding_small" />
+                android:textStyle="bold" />
 
             <LinearLayout
+                android:id="@+id/skill_rating_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/md_white_1000">
+                android:background="@color/md_white_1000"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_gravity="center_vertical"
-                    android:padding="@dimen/padding_large"
-                    android:background="@color/md_white_1000">
+                    android:background="@color/md_white_1000"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
 
                     <!-- Display average skill rating -->
                     <TextView
+                        android:id="@+id/tv_average_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/placeholder_average_rating"
-                        android:textSize="@dimen/text_size_very_large"
+                        android:layout_gravity="center_horizontal"
                         android:background="@color/md_white_1000"
-                        android:layout_gravity="center_horizontal"/>
+                        android:text="@string/placeholder_average_rating"
+                        android:textSize="@dimen/text_size_very_large" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
-                        android:text="@string/average_rating"
-                        android:background="@color/md_white_1000"/>
+                        android:text="@string/average_rating" />
 
                 </LinearLayout>
 
@@ -199,37 +201,46 @@
                     android:layout_width="0dp"
                     android:layout_height="128dp"
                     android:layout_weight="1"
-                    android:paddingTop="@dimen/padding_large"
+                    android:background="@color/md_white_1000"
                     android:paddingBottom="@dimen/padding_large"
-                    android:background="@color/md_white_1000"/>
+                    android:paddingTop="@dimen/padding_large" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_gravity="center_vertical"
-                    android:padding="@dimen/padding_large"
-                    android:background="@color/md_white_1000">
+                    android:background="@color/md_white_1000"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
 
                     <!-- Display average skill rating -->
                     <TextView
+                        android:id="@+id/tv_total_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/placeholder_total_rating"
-                        android:textSize="@dimen/text_size_very_large"
+                        android:layout_gravity="center_horizontal"
                         android:background="@color/md_white_1000"
-                        android:layout_gravity="center_horizontal"/>
+                        android:text="@string/placeholder_total_rating"
+                        android:textSize="@dimen/text_size_very_large" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
-                        android:text="@string/total_rating"
-                        android:background="@color/md_white_1000"/>
+                        android:text="@string/total_rating" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_unrated_skill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/skillDetailContent"

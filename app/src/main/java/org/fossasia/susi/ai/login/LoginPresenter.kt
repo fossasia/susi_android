@@ -19,6 +19,7 @@ import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import org.fossasia.susi.ai.rest.responses.susi.Settings
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
 import retrofit2.Response
+import timber.log.Timber
 import java.net.UnknownHostException
 
 /**
@@ -111,6 +112,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
 
         if (throwable is UnknownHostException) {
             if (NetworkUtils.isNetworkConnected()) {
+                Timber.e(throwable.toString())
                 loginView?.onLoginError(utilModel.getString(R.string.unknown_host_exception), throwable.message.toString())
             } else {
                 loginView?.onLoginError(utilModel.getString(R.string.error_internet_connectivity),
