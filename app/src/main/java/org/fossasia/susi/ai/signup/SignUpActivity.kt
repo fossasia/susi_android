@@ -33,6 +33,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private lateinit var progressDialog: ProgressDialog
     private lateinit var forgotPasswordProgressDialog: Dialog
     private lateinit var builder: AlertDialog.Builder
+    private var checkDialog: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +49,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                 inputUrlSignUp.visibility = View.VISIBLE
             } else {
                 inputUrlSignUp.visibility = View.GONE
+            }
+
+            if (savedInstanceState.getBoolean(Constant.SAVE_DIALOG_STATE)) {
+                onBackPressed()
             }
         }
 
@@ -92,6 +97,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirmPassword.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
         outState.putBoolean(Constant.SERVER, customServerSignUp.isChecked)
+        outState.putBoolean(Constant.SAVE_DIALOG_STATE,checkDialog)
     }
 
     override fun onBackPressed() {
@@ -102,6 +108,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                 resources.getString(R.string.cancel), resources.getString(R.string.Continue), resources.getColor(R.color
                 .md_blue_500))
         successAlertboxHelper.showAlertBox()
+        checkDialog = true
     }
 
     override fun alertSuccess() {

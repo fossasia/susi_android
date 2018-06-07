@@ -200,6 +200,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                     DateTimeHelper.getTime(answerDate), false, psh.actionType, psh.mapData, psh.isHavingLink,
                                     psh.datumList, psh.webSearch, null, allMessages[i].answers[0].skills[0], this)
                         } catch (e: Exception) {
+                            Timber.e(e)
                             databaseRepository.updateDatabase(c, utilModel.getString(R.string.error_internet_connectivity),
                                     false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
                                     Constant.ANSWER, null, false, null, "", null, "", this)
@@ -234,7 +235,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 longitude = s[1].toDouble()
                 source = Constant.IP
             } catch (e: Exception) {
-                e.printStackTrace()
+                Timber.e(e)
             }
         }
     }
@@ -399,6 +400,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                 DateTimeHelper.getTime(date), false, psh.actionType, psh.mapData, psh.isHavingLink,
                                 psh.datumList, psh.webSearch, null, susiResponse.answers[0].skills[0], this)
                     } catch (e: Exception) {
+                        Timber.e(e)
                         databaseRepository.updateDatabase(id, utilModel.getString(R.string.error_internet_connectivity),
                                 false, DateTimeHelper.date, DateTimeHelper.currentTime, false,
                                 Constant.ANSWER, null, false, null, "", null, "", this)

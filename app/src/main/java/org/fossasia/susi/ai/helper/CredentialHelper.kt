@@ -94,7 +94,7 @@ object CredentialHelper {
                 susiURL.protocol + "://" + susiURL.host
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
             null
         }
 
