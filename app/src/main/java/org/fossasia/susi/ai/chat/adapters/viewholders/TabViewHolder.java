@@ -8,6 +8,10 @@ import org.fossasia.susi.ai.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/*
+*  A view for the individual item of the recyclerlist
+* */
+
 public class TabViewHolder extends RecyclerView.ViewHolder{
 
     @BindView(R.id.parentLayout)

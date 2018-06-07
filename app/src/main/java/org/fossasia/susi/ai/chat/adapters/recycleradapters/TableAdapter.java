@@ -14,6 +14,10 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.TabViewHolder;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+*   A RecyclerAdapter to inflate the list of the table responses
+* */
+
 public class TableAdapter extends RecyclerView.Adapter<TabViewHolder> {
     private List<String> data, column;
     private Context context;

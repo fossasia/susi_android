@@ -32,6 +32,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+/*
+*   A ViewHolder that contains the recyclerview of the Table Response items.
+*
+* */
 
 public class TableViewHolder extends MessageViewHolder {
 
@@ -53,7 +57,10 @@ public class TableViewHolder extends MessageViewHolder {
     }
 
     public void setView(final ChatMessage model, final Context currContext) {
+        // check if model is not null else there is no need to set view elements
         if (model != null) {
+
+            // check if the size of the data list and the column list is not 0
             if (model.getTableColumns().size() != 0 || model.getTableData().size() != 0) {
                 this.model = model;
                 this.currContext = currContext;
@@ -72,6 +79,8 @@ public class TableViewHolder extends MessageViewHolder {
                     data.add(model.getTableData().get(dFlag).getTableData());
                 }
 
+
+                // Set the layout manager for the recyclerview and and call the TableAdapter to attach the recyclerview elements
                 LinearLayoutManager layoutManager = new LinearLayoutManager(currContext, LinearLayoutManager.HORIZONTAL,
                         false);
                 recyclerView.setLayoutManager(layoutManager);
@@ -123,7 +132,7 @@ public class TableViewHolder extends MessageViewHolder {
         }
     }
 
-
+    // a function to rate the susi skill
     private void rateSusiSkill(final String polarity, String locationUrl, final Context context) {
 
         final Map<String, String> susiLocation = ParseSusiResponseHelper.Companion.getSkillLocation(locationUrl);
@@ -173,6 +182,7 @@ public class TableViewHolder extends MessageViewHolder {
         });
     }
 
+    // function to set the rating in the database
     private void setRating(boolean what, boolean which) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

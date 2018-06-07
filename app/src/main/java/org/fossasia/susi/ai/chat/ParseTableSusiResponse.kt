@@ -8,11 +8,6 @@ import retrofit2.Response
 import kotlin.collections.ArrayList
 
 
-/**
- * Created by meeera on 20/8/17.
- *
- * */
-
 class ParseTableSusiResponseHelper {
 
     var listColumn: ArrayList<String> = ArrayList()
@@ -20,10 +15,17 @@ class ParseTableSusiResponseHelper {
     var listTableData: ArrayList<String> = ArrayList()
     var tableData: TableDatas? = null
     var count = 0;
+
+    //parse the table response
     fun parseSusiResponse(response: Response<TableSusiResponse>) {
         try {
             var response1 = Gson().toJson(response)
             var tableresponse = Gson().fromJson(response1, TableBody::class.java)
+
+            // to access the json elements of the response received
+            // listColumn contains the key elements, listColVal contains the column name of the list
+            // listTableData contains the data corresponding each of the key as extracted from the JSON,
+            // it is the list of all the data elements in the answers of the JSON.
             for (tableanswer in tableresponse.body.answers) {
                 for (answer in tableanswer.actions) {
                     var map = answer.columns

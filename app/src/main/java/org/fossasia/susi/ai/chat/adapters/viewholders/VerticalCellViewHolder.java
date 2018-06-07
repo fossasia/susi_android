@@ -9,6 +9,10 @@ import org.fossasia.susi.ai.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/*
+* A view item for the individual recycler view element inside the TabViewHolder
+* */
+
 public class VerticalCellViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.column)

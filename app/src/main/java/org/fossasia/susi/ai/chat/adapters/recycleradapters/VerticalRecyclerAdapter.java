@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.adapters.viewholders.VerticalCellViewHolder;
 import java.util.List;
+
+// A RecyclerAdapter to inflate all the elements inside each Table type response
+
 public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalCellViewHolder> {
 
     private List<String> cols;
