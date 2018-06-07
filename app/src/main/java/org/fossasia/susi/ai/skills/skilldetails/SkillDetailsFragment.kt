@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
@@ -194,13 +195,29 @@ class SkillDetailsFragment : Fragment() {
      * display a message to inform the user that the skill is unrated.
      */
     private fun setRating() {
-        setUpFiveStarRatingBar()
+
+        //If the user is logged in, set up the five star skill rating bar
+        if (PrefManager.getToken() != null) {
+            setUpFiveStarRatingBar()
+        }
+
+        //If the totalStar is positive, it implies that the skill has been rated
+        //If so, set up the section to display the statistics else simply display a message for unrated skill
         if (skillData.skillRating?.stars?.totalStar!! > 0) {
+            fiveStarAverageSkillRating = tv_average_rating
+            fiveStarTotalSkillRating = tv_total_rating
+
+            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
+            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
             setSkillGraph()
         } else {
             skill_rating_view.visibility = View.GONE
             tv_unrated_skill.visibility = View.VISIBLE
-            tv_unrated_skill.text = getString(R.string.skill_unrated)
+            if (PrefManager.getToken() != null) {
+                tv_unrated_skill.text = getString(R.string.skill_unrated)
+            } else {
+                tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
+            }
         }
     }
 
@@ -214,19 +231,10 @@ class SkillDetailsFragment : Fragment() {
     private fun setUpFiveStarRatingBar() {
         fiveStarSkillRatingBar = five_star_skill_rating_bar
         fiveStarSkillRatingScaleTextView = tv_five_star_skill_rating_scale
-        fiveStarAverageSkillRating = tv_average_rating
-        fiveStarTotalSkillRating = tv_total_rating
-        if (skillData.skillRating?.stars?.totalStar == 0) {
-            fiveStarTotalSkillRating.text = "0"
-        } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
-        }
 
-        if (skillData.skillRating?.stars?.averageStar == null) {
-            fiveStarTotalSkillRating.text = "0.0"
-        } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
-        }
+        tvFiveStarSkillRatingBar.visibility = View.VISIBLE
+        fiveStarSkillRatingBar.visibility = View.VISIBLE
+        fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
         fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, b ->
@@ -265,6 +273,7 @@ class SkillDetailsFragment : Fragment() {
         //Display the axis on the left (contains the labels 1*, 2* and so on)
         val xAxis = skillRatingChart.getXAxis()
         xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(false)
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
         xAxis.setEnabled(true)
 
@@ -299,20 +308,6 @@ class SkillDetailsFragment : Fragment() {
     private fun setData() {
 
         val totalUsers: Int = skillData.skillRating?.stars?.totalStar!!
-        fiveStarAverageSkillRating = tv_average_rating
-        fiveStarTotalSkillRating = tv_total_rating
-        if (skillData.skillRating?.stars?.averageStar == 0f) {
-            fiveStarAverageSkillRating.text = getString(R.string.average_rating_for_unrated_skill)
-        } else {
-            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
-        }
-
-        if (skillData.skillRating?.stars?.totalStar == 0) {
-            fiveStarTotalSkillRating.text = getString(R.string.total_rating_for_unrated_skill)
-        } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
-        }
-
         val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar!!
         val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar!!
         val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar!!
@@ -321,7 +316,6 @@ class SkillDetailsFragment : Fragment() {
 
         //Add a list of bar entries
         val entries = ArrayList<BarEntry>()
-
         entries.add(BarEntry(0f, calcPercentageOfUsers(oneStarUsers, totalUsers)))
         entries.add(BarEntry(1f, calcPercentageOfUsers(twoStarUsers, totalUsers)))
         entries.add(BarEntry(2f, calcPercentageOfUsers(threeStarUsers, totalUsers)))
