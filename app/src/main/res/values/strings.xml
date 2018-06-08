@@ -335,8 +335,6 @@
     <string name="rate_good">Good</string>
     <string name="rate_improvement">Need some improvement</string>
     <string name="rate_hate">Hated it</string>
-    <string name="average_rating_for_unrated_skill">0.0</string>
-    <string name="total_rating_for_unrated_skill">0</string>
-
+    <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
 
 </resources>
