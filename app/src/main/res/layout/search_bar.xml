@@ -8,11 +8,11 @@
         android:id="@+id/edtSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/search_skill_margin"
         android:background="@null"
         android:hint="@string/search_skill"
         android:imeOptions="actionSearch"
         android:inputType="text"
-        android:padding="7dp" />
+        android:padding="@dimen/search_skill_padding" />
 
 </LinearLayout>
