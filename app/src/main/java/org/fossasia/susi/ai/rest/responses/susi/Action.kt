@@ -53,4 +53,7 @@ class Action {
     @Expose
     val language: String = "en"
 
+    @SerializedName("columns")
+    @Expose
+    var columns: Map<String, Any>? = null
 }
