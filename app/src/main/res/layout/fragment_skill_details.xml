@@ -138,7 +138,8 @@
                 android:gravity="center_horizontal"
                 android:text="@string/rate_skill"
                 android:textSize="@dimen/message_text_size"
-                android:textStyle="italic" />
+                android:textStyle="italic"
+                android:visibility="gone" />
 
             <!-- Add a five star rating bar -->
             <RatingBar
@@ -148,7 +149,8 @@
                 android:layout_gravity="center_horizontal"
                 android:numStars="5"
                 android:rating="5"
-                android:stepSize="1" />
+                android:stepSize="1"
+                android:visibility="gone" />
 
             <!-- Display what a particular rating implies -->
             <TextView
@@ -159,7 +161,8 @@
                 android:paddingBottom="@dimen/padding_small"
                 android:text="@string/rate_awesome"
                 android:textSize="@dimen/message_text_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/skill_rating_view"

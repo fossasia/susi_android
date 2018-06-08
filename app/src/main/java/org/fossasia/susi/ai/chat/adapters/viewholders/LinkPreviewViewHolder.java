@@ -302,9 +302,9 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             @Override
             public void onClick(View view) {
                 Uri webpage = Uri.parse(url);
-                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(); //custom tabs intent builder
                 CustomTabsIntent customTabsIntent = builder.build();
-                customTabsIntent.launchUrl(currContext, webpage);
+                customTabsIntent.launchUrl(currContext, webpage); //launching through custom tabs
             }
         });
     }

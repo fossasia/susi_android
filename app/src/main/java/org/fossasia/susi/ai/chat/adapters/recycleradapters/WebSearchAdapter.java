@@ -99,9 +99,9 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
                 public void onClick(View view) {
                     if (linkurl != null) {
                         Uri webpage = Uri.parse(linkurl);
-                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();  //custom tabs intent builder
                         CustomTabsIntent customTabsIntent = builder.build();
-                        customTabsIntent.launchUrl(context, webpage);
+                        customTabsIntent.launchUrl(context, webpage); //launching through custom tabs
                     }
                 }
             });

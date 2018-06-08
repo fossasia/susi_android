@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
@@ -122,11 +123,11 @@ class SkillDetailsFragment : Fragment() {
                 skillDetailAuthor.setOnClickListener({
                     try {
                         var uri = Uri.parse(skillData.authorUrl)
-                        var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                        var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
                         var customTabsIntent = builder.build()
-                        customTabsIntent.launchUrl(context, uri)
+                        customTabsIntent.launchUrl(context, uri) //launching through custom tabs
                     } catch (e: Exception) {
-                        Toast.makeText(context, "Link not available", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
                     }
                 })
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -202,13 +203,29 @@ class SkillDetailsFragment : Fragment() {
      * display a message to inform the user that the skill is unrated.
      */
     private fun setRating() {
-        setUpFiveStarRatingBar()
-        if (skillData.skillRating?.stars?.totalStar.toString().toInt() > 0) {
+
+        //If the user is logged in, set up the five star skill rating bar
+        if (PrefManager.getToken() != null) {
+            setUpFiveStarRatingBar()
+        }
+
+        //If the totalStar is positive, it implies that the skill has been rated
+        //If so, set up the section to display the statistics else simply display a message for unrated skill
+        if (skillData.skillRating?.stars?.totalStar!! > 0) {
+            fiveStarAverageSkillRating = tv_average_rating
+            fiveStarTotalSkillRating = tv_total_rating
+
+            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
+            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
             setSkillGraph()
         } else {
             skill_rating_view.visibility = View.GONE
             tv_unrated_skill.visibility = View.VISIBLE
-            tv_unrated_skill.text = getString(R.string.skill_unrated)
+            if (PrefManager.getToken() != null) {
+                tv_unrated_skill.text = getString(R.string.skill_unrated)
+            } else {
+                tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
+            }
         }
     }
 
@@ -222,19 +239,10 @@ class SkillDetailsFragment : Fragment() {
     private fun setUpFiveStarRatingBar() {
         fiveStarSkillRatingBar = five_star_skill_rating_bar
         fiveStarSkillRatingScaleTextView = tv_five_star_skill_rating_scale
-        fiveStarAverageSkillRating = tv_average_rating
-        fiveStarTotalSkillRating = tv_total_rating
-        if (skillData.skillRating?.stars?.totalStar == null) {
-            fiveStarAverageSkillRating.text = "0"
-        } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar
-        }
 
-        if (skillData.skillRating?.stars?.averageStar == null) {
-            fiveStarTotalSkillRating.text = "0.0"
-        } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.averageStar
-        }
+        tvFiveStarSkillRatingBar.visibility = View.VISIBLE
+        fiveStarSkillRatingBar.visibility = View.VISIBLE
+        fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
         fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, b ->
@@ -273,6 +281,7 @@ class SkillDetailsFragment : Fragment() {
         //Display the axis on the left (contains the labels 1*, 2* and so on)
         val xAxis = skillRatingChart.getXAxis()
         xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(false)
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
         xAxis.setEnabled(true)
 
@@ -306,59 +315,20 @@ class SkillDetailsFragment : Fragment() {
      */
     private fun setData() {
 
-        val totalUsers: Int = skillData.skillRating?.stars?.totalStar.toString().toInt()
-        fiveStarAverageSkillRating = tv_average_rating
-        fiveStarTotalSkillRating = tv_total_rating
-        if (skillData.skillRating?.stars?.averageStar.isNullOrEmpty()) {
-            fiveStarAverageSkillRating.text = getString(R.string.average_rating_for_unrated_skill)
-        } else {
-            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar
-        }
-
-        if (skillData.skillRating?.stars?.totalStar.isNullOrEmpty()) {
-            fiveStarTotalSkillRating.text = getString(R.string.total_rating_for_unrated_skill)
-        } else {
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar
-        }
-
-        val oneStarUsers: String? = skillData.skillRating?.stars?.oneStar
-        val twoStarUsers: String? = skillData.skillRating?.stars?.twoStar
-        val threeStarUsers: String? = skillData.skillRating?.stars?.threeStar
-        val fourStarUsers: String? = skillData.skillRating?.stars?.fourStar
-        val fiveStarUsers: String? = skillData.skillRating?.stars?.fiveStar
+        val totalUsers: Int = skillData.skillRating?.stars?.totalStar!!
+        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar!!
+        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar!!
+        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar!!
+        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar!!
+        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar!!
 
         //Add a list of bar entries
         val entries = ArrayList<BarEntry>()
-
-        if (oneStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(0f, 0f))
-        } else {
-            entries.add(BarEntry(0f, (oneStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (twoStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(1f, 0f))
-        } else {
-            entries.add(BarEntry(1f, (twoStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (threeStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(2f, 0f))
-        } else {
-            entries.add(BarEntry(2f, (threeStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (fourStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(3f, 0f))
-        } else {
-            entries.add(BarEntry(3f, (fourStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
-
-        if (fiveStarUsers.isNullOrEmpty()) {
-            entries.add(BarEntry(4f, 0f))
-        } else {
-            entries.add(BarEntry(4f, (fiveStarUsers!!.toFloat() / totalUsers) * 100f))
-        }
+        entries.add(BarEntry(0f, calcPercentageOfUsers(oneStarUsers, totalUsers)))
+        entries.add(BarEntry(1f, calcPercentageOfUsers(twoStarUsers, totalUsers)))
+        entries.add(BarEntry(2f, calcPercentageOfUsers(threeStarUsers, totalUsers)))
+        entries.add(BarEntry(3f, calcPercentageOfUsers(fourStarUsers, totalUsers)))
+        entries.add(BarEntry(4f, calcPercentageOfUsers(fiveStarUsers, totalUsers)))
 
         val barDataSet = BarDataSet(entries, "Bar Data Set")
 
@@ -383,6 +353,16 @@ class SkillDetailsFragment : Fragment() {
         skillRatingChart.invalidate()
     }
 
+    /**
+     * Returns the percentage of users corresponding to each rating
+     *
+     * @param actualNumberOfUsers : Actual number of users corresponding to a rating
+     * @param totalNumberOfUsers : Total number of ratings for a skill
+     */
+    private fun calcPercentageOfUsers(actualNumberOfUsers: Int, totalNumberOfUsers: Int): Float {
+        return (actualNumberOfUsers * 100f) / totalNumberOfUsers
+    }
+
     private fun setDynamicContent() {
         if (skillData.dynamicContent == null) {
             skillDetailContent.visibility = View.GONE
@@ -402,11 +382,11 @@ class SkillDetailsFragment : Fragment() {
             skillDetailAuthor.setOnClickListener({
                 try {
                     var uri = Uri.parse(skillData.developerPrivacyPolicy)
-                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
                     var customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(context, uri)
+                    customTabsIntent.launchUrl(context, uri) //launching through custom tabs
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Link not available", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
                 }
             })
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -424,11 +404,11 @@ class SkillDetailsFragment : Fragment() {
             skillDetailAuthor.setOnClickListener({
                 try {
                     var uri = Uri.parse(skillData.termsOfUse)
-                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()
+                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
                     var customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(context, uri)
+                    customTabsIntent.launchUrl(context, uri) //launching through custom tabs
                 } catch (e: Exception) {
-                    Toast.makeText(context, "Link not available", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
                 }
             })
             if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

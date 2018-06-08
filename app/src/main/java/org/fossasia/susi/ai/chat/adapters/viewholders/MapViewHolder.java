@@ -78,9 +78,9 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                             currContext.startActivity(mapIntent);
                             mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
                         } else {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(); //custom tabs intent builder
                             CustomTabsIntent customTabsIntent = builder.build();
-                            customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.getWebLink()));
+                            customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.getWebLink())); //launching through custom tabs
                         }
 
                     }

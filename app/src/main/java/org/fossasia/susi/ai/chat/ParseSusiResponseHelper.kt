@@ -7,7 +7,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import timber.log.Timber
-import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Helper class to parse susi response
@@ -65,13 +65,6 @@ class ParseSusiResponseHelper {
             }
 
             Constant.RSS -> datumList = try {
-                susiResponse.answers[0].data
-            } catch (e: Exception) {
-                Timber.e(e)
-                null
-            }
-
-            Constant.TABLE -> datumList = try {
                 susiResponse.answers[0].data
             } catch (e: Exception) {
                 Timber.e(e)
