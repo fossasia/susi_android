@@ -98,4 +98,7 @@
     <dimen name="scan_progress_margin_top">10dp</dimen>
     <dimen name="device_setup_margin_top">20dp</dimen>
 
+    <dimen name="search_skill_padding">7dp</dimen>
+    <dimen name="search_skill_margin">10dp</dimen>
+
 </resources>

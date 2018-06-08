@@ -302,6 +302,8 @@
 
     <string name="skill_name">Skill Name</string>
 
+    <string name="search_skill">Search Skill</string>
+
     <string name="skip">Skip</string>
 
     <string name="slide_1_desc">Log in on the app using a SUSI AI account, sign up to create a new account or just skip logging in alltogether.</string>
