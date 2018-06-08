@@ -19,6 +19,8 @@ public class ChatMessage extends RealmObject {
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
+    private RealmList<TableColumn> tableColumns;
+    private RealmList<TableData> tableData;
     private boolean isDelivered, isHavingLink, isDate, isMine, isPositiveRated, isNegativeRated;
     private double latitude, longitude, zoom;
 
@@ -57,6 +59,9 @@ public class ChatMessage extends RealmObject {
         this.isMine = isMine;
         this.webLinkData = null;
         this.webSearchList = null;
+        this.tableColumns = null;
+        this.tableData = null;
+
         this.skillLocation = skillLocation;
     }
 
@@ -98,6 +103,42 @@ public class ChatMessage extends RealmObject {
         } catch (IllegalStateException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets table type columns.
+     *
+     * @return the table columns
+     */
+    public RealmList<TableColumn> getTableColumns() {
+        return tableColumns;
+    }
+
+    /**
+     * Sets table columns.
+     *
+     * @param tableColumns
+     */
+    public void setTableColumns(RealmList<TableColumn> tableColumns) {
+        this.tableColumns = tableColumns;
+    }
+
+    /**
+     * Gets table type data.
+     *
+     * @return the table data
+     */
+    public RealmList<TableData> getTableData() {
+        return tableData;
+    }
+
+    /**
+     * Sets tableData.
+     *
+     * @param tableData
+     */
+    public void setTableData(RealmList<TableData> tableData) {
+        this.tableData = tableData;
     }
 
     /**
