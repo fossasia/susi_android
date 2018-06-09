@@ -5,6 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
@@ -127,14 +130,22 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
             edtSearch = action.customView.findViewById(R.id.edtSearch) as EditText //the text editor
 
-            //this is a listener to do a search when the user clicks on search button
-            edtSearch?.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    doSearch((findViewById(R.id.edtSearch) as EditText).text.toString())
-                    return@OnEditorActionListener true
+            //this is a listener to do a search when users enters query in editText
+            edtSearch?.addTextChangedListener(object: TextWatcher{
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //no need to implement
                 }
-                false
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //no need to implement
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+                    //after every change we call search function
+                   doSearch(p0.toString())
+                }
             })
+
             edtSearch?.requestFocus()
 
             //open the keyboard focused in the edtSearch
