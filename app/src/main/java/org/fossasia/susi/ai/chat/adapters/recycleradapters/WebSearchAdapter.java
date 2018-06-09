@@ -94,6 +94,9 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
                 holder.previewImageView.setVisibility(View.GONE);
             }
 
+            /*
+              redirects to the url of the preview link through chrome custom tabs
+             */
             holder.previewLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

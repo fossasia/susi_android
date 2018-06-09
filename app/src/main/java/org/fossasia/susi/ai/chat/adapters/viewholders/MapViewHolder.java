@@ -69,7 +69,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                     @Override
                     public void onClick(View v) {
                         /*
-                          Open in Google Maps if installed, otherwise open browser.
+                          Open in Google Maps if installed, otherwise open chrome custom tabs.
                         */
                         Intent mapIntent;
                         if (AndroidHelper.INSTANCE.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
@@ -78,7 +78,7 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                             currContext.startActivity(mapIntent);
                             mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
                         } else {
-                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(); //custom tabs intent builder
+                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                             CustomTabsIntent customTabsIntent = builder.build();
                             customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.getWebLink())); //launching through custom tabs
                         }

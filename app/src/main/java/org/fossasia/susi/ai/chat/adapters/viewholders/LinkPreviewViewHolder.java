@@ -298,6 +298,10 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             url = model.getWebLinkData().getUrl();
         }
 
+        /*
+          Redirects to the link through chrome custom tabs
+         */
+
         previewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
