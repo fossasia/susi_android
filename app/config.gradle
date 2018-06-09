@@ -23,4 +23,5 @@ ext {
     kotlinVersion = '1.2.41'
     picassoVersion = '2.5.2'
     timberVersion = '4.7.0'
+    customTabsVersion = '25.1.0'
 }

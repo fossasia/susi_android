@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.chat.adapters.viewholders;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,18 +69,20 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                     @Override
                     public void onClick(View v) {
                         /*
-                          Open in Google Maps if installed, otherwise open browser.
+                          Open in Google Maps if installed, otherwise open chrome custom tabs.
                         */
                         Intent mapIntent;
                         if (AndroidHelper.INSTANCE.isGoogleMapsInstalled(currContext) && mapHelper.isParseSuccessful()) {
                             Uri gmmIntentUri = Uri.parse(String.format("geo:%s,%s?z=%s", model.getLatitude(), model.getLongitude(), model.getZoom()));
                             mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                            currContext.startActivity(mapIntent);
                             mapIntent.setPackage(AndroidHelper.GOOGLE_MAPS_PKG);
                         } else {
-                            mapIntent = new Intent(Intent.ACTION_VIEW);
-                            mapIntent.setData(Uri.parse(mapHelper.getWebLink()));
+                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                            CustomTabsIntent customTabsIntent = builder.build();
+                            customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.getWebLink())); //launching through custom tabs
                         }
-                        currContext.startActivity(mapIntent);
+
                     }
                 });
 
