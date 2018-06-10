@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.customtabs.CustomTabsIntent;
 import android.net.Uri;
@@ -47,7 +46,6 @@ public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalCellVi
         final String info = data.get(position);
         holder.column.setText(cols.get(position));
         holder.linkData.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
