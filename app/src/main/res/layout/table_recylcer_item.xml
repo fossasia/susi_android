@@ -24,7 +24,6 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/message_layout_margin"
         android:visibility="gone"
-        android:autoLink="web"
         android:id="@+id/data_item_link"
         />
 </LinearLayout>

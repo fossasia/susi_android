@@ -44,7 +44,7 @@ public class TableAdapter extends RecyclerView.Adapter<TabViewHolder> {
 
         LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         holder.view.setLayoutManager(manager);
-        VerticalRecyclerAdapter verticalRecyclerAdapter = new VerticalRecyclerAdapter(column, smallData);
+        VerticalRecyclerAdapter verticalRecyclerAdapter = new VerticalRecyclerAdapter(context, column, smallData);
         holder.view.setAdapter(verticalRecyclerAdapter);
     }
 
