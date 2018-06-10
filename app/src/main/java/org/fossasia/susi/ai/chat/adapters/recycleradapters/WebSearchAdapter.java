@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -94,16 +94,17 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
                 holder.previewImageView.setVisibility(View.GONE);
             }
 
+            /*
+              redirects to the url of the preview link through chrome custom tabs
+             */
             holder.previewLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (linkurl != null) {
                         Uri webpage = Uri.parse(linkurl);
-
-                        Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                        if (intent.resolveActivity(context.getPackageManager()) != null) {
-                            context.startActivity(intent);
-                        }
+                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();  //custom tabs intent builder
+                        CustomTabsIntent customTabsIntent = builder.build();
+                        customTabsIntent.launchUrl(context, webpage); //launching through custom tabs
                     }
                 }
             });
