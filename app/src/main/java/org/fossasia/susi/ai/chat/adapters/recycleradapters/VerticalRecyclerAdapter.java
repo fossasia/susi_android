@@ -26,7 +26,7 @@ public class VerticalRecyclerAdapter extends RecyclerView.Adapter<VerticalCellVi
 
     private List<String> cols;
     private List<String> data;
-    Context context;
+    private Context context;
 
     public VerticalRecyclerAdapter(Context context, List<String> cols, List<String> data) {
         this.cols = cols;
