@@ -344,5 +344,6 @@
     <string name="rate_improvement">Need some improvement</string>
     <string name="rate_hate">Hated it</string>
     <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
+    <string name="toast_thank_for_rating">Thank you for rating this skill</string>
 
 </resources>

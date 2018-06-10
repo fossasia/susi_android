@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.R.id.*
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -246,6 +247,13 @@ class SkillDetailsFragment : Fragment() {
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
         fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, b ->
+
+            fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
+
+            //Send rating to the server
+            FiveStarSkillRatingRequest.sendFiveStarRating(skillData.model, skillData.group, skillData.language,
+                    skillTag, v.toInt().toString(), PrefManager.getToken().toString())
+
             fiveStarSkillRatingScaleTextView.setText(v.toString())
             when (ratingBar.rating.toInt()) {
                 1 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_hate)
@@ -257,7 +265,8 @@ class SkillDetailsFragment : Fragment() {
             }
 
             //Display a toast to notify the user that the rating has been submitted
-            Toast.makeText(context, "Thank you for rating this skill", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
+            setRating()
         })
     }
 
