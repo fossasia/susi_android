@@ -226,6 +226,7 @@
     <color name="md_amber_800">#FF8F00</color>
     <color name="md_amber_900">#FF6F00</color>
     <color name="md_amber_A100">#FFE57F</color>
+    <color name="md_amber_A500">#FFDF80</color>
     <color name="md_amber_A200">#FFD740</color>
     <color name="md_amber_A400">#FFC400</color>
     <color name="md_amber_A700">#FFAB00</color>

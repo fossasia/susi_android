@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -25,7 +26,6 @@ import com.github.mikephil.charting.data.BarEntry
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.R.id.*
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -50,6 +50,7 @@ class SkillDetailsFragment : Fragment() {
     private lateinit var fiveStarAverageSkillRating: TextView
     private lateinit var fiveStarTotalSkillRating: TextView
     private lateinit var skillRatingChart: HorizontalBarChart
+    private lateinit var xAxis: XAxis
 
     companion object {
         const val SKILL_KEY = "skill_key"
@@ -288,21 +289,16 @@ class SkillDetailsFragment : Fragment() {
         skillRatingChart.setDrawValueAboveBar(false)
 
         //Display the axis on the left (contains the labels 1*, 2* and so on)
-        val xAxis = skillRatingChart.getXAxis()
+        xAxis = skillRatingChart.getXAxis()
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(false)
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM)
+        xAxis.setPosition(XAxis.XAxisPosition.TOP)
         xAxis.setEnabled(true)
 
         val yLeft = skillRatingChart.axisLeft
         yLeft.axisMaximum = 100f
         yLeft.axisMinimum = 0f
         yLeft.isEnabled = false
-
-        //Set label count to 5 as we are using 5 star rating system
-        xAxis.setLabelCount(5)
-        val values = arrayOf("1 *", "2 *", "3 *", "4 *", "5 *")
-        xAxis.valueFormatter = XAxisValueFormatter(values)
 
         val yRight = skillRatingChart.axisRight
         yRight.setDrawAxisLine(true)
@@ -331,6 +327,22 @@ class SkillDetailsFragment : Fragment() {
         val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar!!
         val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar!!
 
+        val oneStarUsersPercent: Float = calcPercentageOfUsers(oneStarUsers, totalUsers)
+        val twoStarUsersPercent: Float = calcPercentageOfUsers(twoStarUsers, totalUsers)
+        val threeStarUsersPercent: Float = calcPercentageOfUsers(threeStarUsers, totalUsers)
+        val fourStarUsersPercent: Float = calcPercentageOfUsers(fourStarUsers, totalUsers)
+        val fiveStarUsersPercent: Float = calcPercentageOfUsers(fiveStarUsers, totalUsers)
+
+        val values = arrayOf(oneStarUsers.toString() + " (" + oneStarUsersPercent.toInt().toString() + "%)",
+                twoStarUsers.toString() + " (" + twoStarUsersPercent.toInt().toString() + "%)",
+                threeStarUsers.toString() + " (" + threeStarUsersPercent.toInt().toString() + "%)",
+                fourStarUsers.toString() + " (" + fourStarUsersPercent.toInt().toString() + "%)",
+                fiveStarUsers.toString() + " (" + fiveStarUsersPercent.toInt().toString() + "%)")
+
+        //Set label count to 5 as we are using 5 star rating system
+        xAxis.setLabelCount(5)
+        xAxis.valueFormatter = XAxisValueFormatter(values)
+
         //Add a list of bar entries
         val entries = ArrayList<BarEntry>()
         entries.add(BarEntry(0f, calcPercentageOfUsers(oneStarUsers, totalUsers)))
@@ -340,6 +352,8 @@ class SkillDetailsFragment : Fragment() {
         entries.add(BarEntry(4f, calcPercentageOfUsers(fiveStarUsers, totalUsers)))
 
         val barDataSet = BarDataSet(entries, "Bar Data Set")
+        barDataSet.barShadowColor = Color.argb(40, 150, 150, 150)
+        barDataSet.setDrawValues(false)
 
         //Set the colors for bars with first color for 1*, second for 2* and so on
         barDataSet.setColors(
@@ -350,15 +364,16 @@ class SkillDetailsFragment : Fragment() {
                 ContextCompat.getColor(skillRatingChart.context, R.color.md_green_300)
         )
 
-        barDataSet.setDrawValues(true)
         val data = BarData(barDataSet)
 
         //Set the bar width
         //Note : To increase the spacing between the bars set the value of barWidth to < 1f
-        data.barWidth = 1f
+        data.barWidth = 0.9f
+        skillRatingChart.setDrawBarShadow(true)
 
         //Finally set the data and refresh the graph
         skillRatingChart.data = data
+        skillRatingChart.setViewPortOffsets(0f, 28f, 128f, 28f)
         skillRatingChart.invalidate()
     }
 

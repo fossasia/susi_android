@@ -53,4 +53,11 @@
         <item name="android:background">@color/default_bg</item>
         <item name="android:windowActionBar">true</item>
     </style>
+
+    <!-- Theme for rating bar in skill details screen -->
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/md_grey_500</item>
+        <item name="colorControlActivated">@color/md_amber_A500</item>
+    </style>
 </resources>
