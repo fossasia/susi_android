@@ -24,6 +24,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         setContentView(R.layout.activity_device)
 
         scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
+        startScan()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,7 +55,10 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     fun chooseWifi(view: View) {
+        startScan()
+    }
 
+    private fun startScan() {
         noDeviceFound.visibility = View.GONE
         deviceTutorial.visibility = View.GONE
 
