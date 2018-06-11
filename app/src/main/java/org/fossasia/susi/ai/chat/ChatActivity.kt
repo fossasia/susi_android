@@ -38,6 +38,7 @@ import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.OnSwipeListener
 import org.fossasia.susi.ai.skills.SkillsActivity
 import java.util.*
 
@@ -97,6 +98,14 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.setUp()
         chatPresenter.checkPreferences()
         setEditText()
+
+        //Adding on swipe listener for swipe between @see(SkillListingFragment.kt) and ChatActivity.kt
+        rv_chat_feed.setOnTouchListener(object : OnSwipeListener(this) {
+            override fun onSwipeRight() {
+                val intent = Intent(context, SkillsActivity::class.java)
+                startActivity(intent)
+            }
+        })
     }
 
     // This method is used to call all other methods
