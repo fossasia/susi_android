@@ -81,7 +81,7 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:${rootConfiguration.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${rootConfiguration.retrofitVersion}"
-    debugImplementation "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
 
     //For Link Previews
     implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required

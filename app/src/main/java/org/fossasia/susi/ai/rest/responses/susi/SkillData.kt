@@ -10,6 +10,18 @@ import java.io.Serializable
  */
 class SkillData : Serializable {
 
+    @SerializedName("model")
+    @Expose
+    val model: String = ""
+
+    @SerializedName("group")
+    @Expose
+    val group: String = ""
+
+    @SerializedName("language")
+    @Expose
+    val language: String = ""
+
     @SerializedName("image")
     @Expose
     var image: String = ""
