@@ -345,5 +345,10 @@
     <string name="rate_hate">Hated it</string>
     <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
     <string name="toast_thank_for_rating">Thank you for rating this skill</string>
+    <string name="digit_one">1</string>
+    <string name="digit_two">2</string>
+    <string name="digit_three">3</string>
+    <string name="digit_four">4</string>
+    <string name="digit_five">5</string>
 
 </resources>
