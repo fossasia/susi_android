@@ -27,6 +27,21 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         startScan()
     }
 
+    private fun startScan() {
+        noDeviceFound.visibility = View.GONE
+        deviceTutorial.visibility = View.GONE
+
+        Handler().postDelayed({
+            scanDevice.visibility = View.GONE
+            scanProgress.visibility = View.GONE
+            noDeviceFound.visibility = View.VISIBLE
+            deviceTutorial.visibility = View.VISIBLE
+        }, 10000)
+
+        scanDevice.visibility = View.VISIBLE
+        scanProgress.visibility = View.VISIBLE
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {
@@ -56,20 +71,5 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     fun chooseWifi(view: View) {
         startScan()
-    }
-
-    private fun startScan() {
-        noDeviceFound.visibility = View.GONE
-        deviceTutorial.visibility = View.GONE
-
-        Handler().postDelayed({
-            scanDevice.visibility = View.GONE
-            scanProgress.visibility = View.GONE
-            noDeviceFound.visibility = View.VISIBLE
-            deviceTutorial.visibility = View.VISIBLE
-        }, 10000)
-
-        scanDevice.visibility = View.VISIBLE
-        scanProgress.visibility = View.VISIBLE
     }
 }
