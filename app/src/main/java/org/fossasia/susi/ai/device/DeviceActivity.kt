@@ -24,6 +24,22 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         setContentView(R.layout.activity_device)
 
         scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
+        startScan()
+    }
+
+    private fun startScan() {
+        noDeviceFound.visibility = View.GONE
+        deviceTutorial.visibility = View.GONE
+
+        Handler().postDelayed({
+            scanDevice.visibility = View.GONE
+            scanProgress.visibility = View.GONE
+            noDeviceFound.visibility = View.VISIBLE
+            deviceTutorial.visibility = View.VISIBLE
+        }, 10000)
+
+        scanDevice.visibility = View.VISIBLE
+        scanProgress.visibility = View.VISIBLE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,18 +70,6 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     fun chooseWifi(view: View) {
-
-        noDeviceFound.visibility = View.GONE
-        deviceTutorial.visibility = View.GONE
-
-        Handler().postDelayed({
-            scanDevice.visibility = View.GONE
-            scanProgress.visibility = View.GONE
-            noDeviceFound.visibility = View.VISIBLE
-            deviceTutorial.visibility = View.VISIBLE
-        }, 10000)
-
-        scanDevice.visibility = View.VISIBLE
-        scanProgress.visibility = View.VISIBLE
+        startScan()
     }
 }
