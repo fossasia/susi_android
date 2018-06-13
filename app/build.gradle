@@ -45,6 +45,23 @@ android {
         }
     }
 
+    flavorDimensions "default"
+
+    productFlavors {
+        fdroid {
+            dimension "default"
+            applicationIdSuffix ".fdroid"
+            versionNameSuffix "-FDroid"
+            ext.enableCrashlytics = false
+        }
+
+        playStore {
+            dimension "default"
+            applicationIdSuffix ".playstore"
+            versionNameSuffix "-PlayStore"
+        }
+    }
+
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
