@@ -57,7 +57,6 @@ android {
 
         playStore {
             dimension "default"
-            applicationIdSuffix ".playstore"
             versionNameSuffix "-PlayStore"
         }
     }
@@ -118,7 +117,7 @@ dependencies {
 
     //waiting dots
     implementation "com.github.tajchert:WaitingDots:${rootConfiguration.waitingDotsVersion}"
-    implementation("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
+    playStoreImplementation("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
         transitive = true
     }
 
