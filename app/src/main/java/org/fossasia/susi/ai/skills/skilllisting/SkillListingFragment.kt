@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.skills.skilllisting
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
@@ -13,6 +14,8 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.OnSwipeListener
 import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
@@ -31,7 +34,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     private lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
     private lateinit var skillGroupAdapter: SkillGroupAdapter
-    private lateinit var skillCallback : SkillFragmentCallback
+    private lateinit var skillCallback: SkillFragmentCallback
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
@@ -45,6 +48,14 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         swipe_refresh_layout.setOnRefreshListener(this)
         setUPAdapter()
         skillListingPresenter.getGroups(swipe_refresh_layout.isRefreshing)
+
+        // Adding onSwipe Listener for swipe between @see(ChatActivity.kt) and SkillsListingFragment
+        skillGroups.setOnTouchListener(object : OnSwipeListener(view.context) {
+            override fun onSwipeLeft() {
+                var intent = Intent(this.context, ChatActivity::class.java)
+                startActivity(intent)
+            }
+        })
         super.onViewCreated(view, savedInstanceState)
     }
 
