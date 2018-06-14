@@ -4,7 +4,6 @@ ext {
     targetSdkVersion = 27
 
     //Libraries
-    playServicesVersion = '10.2.0'
     supportLibraryVersion = '27.1.1'
     leakCanaryVersion = '1.5.4'
     mpAndroidChartVersion = 'v3.0.3'
