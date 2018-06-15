@@ -4,7 +4,6 @@ ext {
     targetSdkVersion = 27
 
     //Libraries
-    playServicesVersion = '10.2.0'
     supportLibraryVersion = '27.1.1'
     leakCanaryVersion = '1.5.4'
     mpAndroidChartVersion = 'v3.0.3'
@@ -14,8 +13,6 @@ ext {
     linkPreviewVersion = '2.0.0@aar'
     jsoupVersion = '1.8.3'
     preferenceVersion = '27.1.1.1'
-    crashlyticsVersion = '2.6.5@aar'
-    fabricVersion = '1.+'
     realmVersion = '1.3.0'
     waitingDotsVersion = '0.3.2'
     espressoVersion = '3.0.1'
