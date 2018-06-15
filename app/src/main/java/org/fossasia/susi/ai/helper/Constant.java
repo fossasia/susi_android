@@ -52,6 +52,8 @@ public class Constant {
     public static final String TABLE = "table";
     public static final String PIECHART = "piechart";
     public static final String STOP = "stop";
+    public static final String VIDEOPLAY = "video_play";
+    public static final String AUDIOPLAY = "audio_play";
 
     public static final String MESSAGE_COUNT = "message_count";
 

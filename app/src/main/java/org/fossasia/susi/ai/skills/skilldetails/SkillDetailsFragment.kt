@@ -244,7 +244,6 @@ class SkillDetailsFragment : Fragment() {
 
         tvFiveStarSkillRatingBar.visibility = View.VISIBLE
         fiveStarSkillRatingBar.visibility = View.VISIBLE
-        fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
         fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, b ->

@@ -160,7 +160,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingBottom="@dimen/padding_small"
-                android:text="@string/rate_awesome"
                 android:textSize="@dimen/message_text_size"
                 android:textStyle="bold"
                 android:visibility="gone" />
