@@ -352,7 +352,6 @@
     <string name="digit_three">3</string>
     <string name="digit_four">4</string>
     <string name="digit_five">5</string>
-
     <string name="location_access">Provide Location Access</string>
     <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
 
