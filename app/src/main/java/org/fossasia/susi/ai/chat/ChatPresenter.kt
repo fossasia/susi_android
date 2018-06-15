@@ -384,7 +384,12 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                     psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
 
                     var setMessage = psh.answer
-                    if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
+                    if (psh.actionType == Constant.VIDEOPLAY || psh.actionType == Constant.AUDIOPLAY) {
+                        // Play youtube video
+                        Timber.d("Playing a youtube video")
+                        return@postDelayed
+
+                    } else if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = psh.answer
 
                         var speechReply = setMessage
