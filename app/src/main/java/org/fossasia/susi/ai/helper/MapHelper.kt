@@ -48,11 +48,11 @@ class MapHelper
     }
 
     companion object {
-        private val BASE_URL = "http://staticmap.openstreetmap.de/staticmap.php?"
+        private const val BASE_URL = "http://staticmap.openstreetmap.de/staticmap.php?"
         private val URL_SCHEME = BASE_URL + "center=%f,%f&zoom=%f&size=%sx%s"
-        private val MAP_URL = "https://www.openstreetmap.org/#map="
-        private val MAP_URL_SCHEME = MAP_URL + "%f/%f/%f"
-        private val width = 340
-        private val height = 170
+        private const val MAP_URL = "https://www.openstreetmap.org/#map="
+        private val MAP_URL_SCHEME = "$MAP_URL%f/%f/%f"
+        private const val width = 340
+        private const val height = 170
     }
 }

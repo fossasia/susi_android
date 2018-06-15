@@ -27,6 +27,7 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static android.os.SystemClock.sleep;
 import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.SUSI_IMAGE;
@@ -36,7 +37,7 @@ import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecycl
 
 /**
  * <h1>Chat view holder</h1>
- *
+ * <p>
  * Created by
  * --Vatsal Bajpai on
  * --25/09/16 at
@@ -61,6 +62,7 @@ public class ChatViewHolder extends MessageViewHolder {
     protected ImageView thumbsDown;
 
     private ChatMessage model;
+
     /**
      * Instantiates a new Chat view holder.
      *
@@ -85,7 +87,7 @@ public class ChatViewHolder extends MessageViewHolder {
     /**
      * Inflate ChatView
      *
-     * @param model the ChatMessage object
+     * @param model    the ChatMessage object
      * @param viewType the viewType
      */
     public void setView(final ChatMessage model, int viewType, final Context context) {
@@ -96,10 +98,16 @@ public class ChatViewHolder extends MessageViewHolder {
                     case USER_MESSAGE:
                         chatTextView.setText(model.getContent());
                         timeStamp.setText(model.getTimeStamp());
-                        if (model.getIsDelivered())
-                            receivedTick.setImageResource(R.drawable.ic_check);
-                        else
-                            receivedTick.setImageResource(R.drawable.ic_clock);
+                        if (model.getIsDelivered()) {
+                            if (receivedTick != null) {
+                                receivedTick.setImageResource(R.drawable.ic_check);
+                            }
+                        }
+                        else {
+                            if (receivedTick != null) {
+                                receivedTick.setImageResource(R.drawable.ic_clock);
+                            }
+                        }
 
                         chatTextView.setTag(this);
                         timeStamp.setTag(this);
@@ -107,7 +115,7 @@ public class ChatViewHolder extends MessageViewHolder {
                         break;
                     case SUSI_MESSAGE:
                         Spanned answerText;
-                        if(model.getActionType().equals(Constant.ANCHOR)) {
+                        if (model.getActionType().equals(Constant.ANCHOR)) {
                             chatTextView.setLinksClickable(true);
                             chatTextView.setMovementMethod(LinkMovementMethod.getInstance());
                         } else {
@@ -119,21 +127,25 @@ public class ChatViewHolder extends MessageViewHolder {
                             answerText = Html.fromHtml(model.getContent());
                         }
 
-                        if(model.getSkillLocation().isEmpty()){
-                            thumbsUp.setVisibility(View.GONE);
-                            thumbsDown.setVisibility(View.GONE);
+                        if (model.getSkillLocation().isEmpty()) {
+                            if (thumbsUp != null) {
+                                thumbsUp.setVisibility(View.GONE);
+                                thumbsDown.setVisibility(View.GONE);
+                            }
                         } else {
-                            thumbsUp.setVisibility(View.VISIBLE);
-                            thumbsDown.setVisibility(View.VISIBLE);
+                            if (thumbsUp != null) {
+                                thumbsUp.setVisibility(View.VISIBLE);
+                                thumbsDown.setVisibility(View.VISIBLE);
+                            }
                         }
 
-                        if(model.isPositiveRated()){
+                        if (model.isPositiveRated()) {
                             thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
                         } else {
                             thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
                         }
 
-                        if(model.isNegativeRated()){
+                        if (model.isNegativeRated()) {
                             thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
                         } else {
                             thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
@@ -148,10 +160,10 @@ public class ChatViewHolder extends MessageViewHolder {
                             @Override
                             public void onClick(View view) {
                                 thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
-                                if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                                if (!model.isPositiveRated() && !model.isNegativeRated()) {
                                     rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), context);
                                     setRating(true, true);
-                                } else if(!model.isPositiveRated() && model.isNegativeRated()) {
+                                } else if (!model.isPositiveRated() && model.isNegativeRated()) {
                                     setRating(false, false);
                                     thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
                                     rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), context);
@@ -170,10 +182,10 @@ public class ChatViewHolder extends MessageViewHolder {
                             @Override
                             public void onClick(View view) {
                                 thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
-                                if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                                if (!model.isPositiveRated() && !model.isNegativeRated()) {
                                     rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), context);
                                     setRating(true, false);
-                                } else if(model.isPositiveRated() && !model.isNegativeRated()) {
+                                } else if (model.isPositiveRated() && !model.isNegativeRated()) {
                                     setRating(false, true);
                                     thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
                                     rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), context);
@@ -194,7 +206,7 @@ public class ChatViewHolder extends MessageViewHolder {
                     default:
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
     }
@@ -202,7 +214,7 @@ public class ChatViewHolder extends MessageViewHolder {
     private void setRating(boolean what, boolean which) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        if(which) {
+        if (which) {
             model.setPositiveRated(what);
         } else {
             model.setNegativeRated(what);
@@ -212,9 +224,9 @@ public class ChatViewHolder extends MessageViewHolder {
 
     private void rateSusiSkill(final String polarity, String locationUrl, final Context context) {
 
-        final Map<String,String> susiLocation = ParseSusiResponseHelper.Companion.getSkillLocation(locationUrl);
+        final Map<String, String> susiLocation = ParseSusiResponseHelper.Companion.getSkillLocation(locationUrl);
 
-        if(susiLocation.size() == 0)
+        if (susiLocation.size() == 0)
             return;
 
         Call<SkillRatingResponse> call = new ClientBuilder().getSusiApi().rateSkill(susiLocation.get("model"),
@@ -223,15 +235,19 @@ public class ChatViewHolder extends MessageViewHolder {
         call.enqueue(new Callback<SkillRatingResponse>() {
             @Override
             public void onResponse(Call<SkillRatingResponse> call, Response<SkillRatingResponse> response) {
-                if(!response.isSuccessful() || response.body() == null) {
-                    switch(polarity) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    switch (polarity) {
                         case Constant.POSITIVE:
-                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                            setRating(false, true);
+                            if (thumbsUp != null) {
+                                thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                                setRating(false, true);
+                            }
                             break;
                         case Constant.NEGATIVE:
-                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                            setRating(false, false);
+                            if (thumbsDown != null) {
+                                thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                                setRating(false, false);
+                            }
                             break;
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
@@ -241,14 +257,18 @@ public class ChatViewHolder extends MessageViewHolder {
             @Override
             public void onFailure(Call<SkillRatingResponse> call, Throwable t) {
                 t.printStackTrace();
-                switch(polarity) {
+                switch (polarity) {
                     case Constant.POSITIVE:
-                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                        setRating(false, true);
+                        if (thumbsUp != null) {
+                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                            setRating(false, true);
+                        }
                         break;
                     case Constant.NEGATIVE:
-                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                        setRating(false, false);
+                        if (thumbsDown != null) {
+                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                            setRating(false, false);
+                        }
                         break;
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();

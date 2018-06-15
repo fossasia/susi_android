@@ -7,16 +7,17 @@
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
         android:padding="10dp"
-        android:background="@drawable/rounded_layout">
+        android:background="@drawable/rounded_layout"
+     android:layout_marginStart="@dimen/message_card_margin_medium">
 
     <TextView
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/md_white_1000"
         android:maxWidth="@dimen/message_layout_max_width"
         android:paddingBottom="@dimen/message_textview_bottom_padding"
         android:text="@string/hello_world"
-        android:background="@color/md_white_1000"
         android:textColor="@color/message_text_color"
         android:textSize="@dimen/message_text_size" />
 

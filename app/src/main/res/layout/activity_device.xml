@@ -6,4 +6,58 @@
     android:layout_height="match_parent"
     tools:context="org.fossasia.susi.ai.device.DeviceActivity">
 
+    <TextView
+        android:id="@+id/scanDevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/scan_message_margin_top"
+        android:gravity="center"
+        android:text="@string/scan_devices"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/scanProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/scan_progress_margin_top"
+        android:visibility="gone"
+        app:layout_constraintLeft_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanDevice" />
+
+    <TextView
+        android:id="@+id/noDeviceFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/no_device_found"
+        android:textAppearance="?android:textAppearanceLarge"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/deviceTutorial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/device_setup_margin_top"
+        android:gravity="center"
+        android:padding="@dimen/padding_large"
+        android:text="@string/setup_tut"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/noDeviceFound" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_large"
+        android:onClick="chooseWifi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
+
 </android.support.constraint.ConstraintLayout>

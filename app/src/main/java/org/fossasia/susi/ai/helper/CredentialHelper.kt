@@ -3,11 +3,9 @@ package org.fossasia.susi.ai.helper
 import android.content.Context
 import android.support.design.widget.TextInputLayout
 import android.text.TextUtils
-import android.util.Log
 import android.util.Patterns
-
 import org.fossasia.susi.ai.R
-
+import timber.log.Timber
 import java.net.URL
 import java.util.regex.Pattern
 
@@ -17,8 +15,6 @@ import java.util.regex.Pattern
  * Created by saurabh on 11/10/16.
  */
 object CredentialHelper {
-
-    private val TAG = "CredentialHelper"
 
     private val PASSWORD_PATTERN = Pattern.compile("^.{6,64}$")
 
@@ -30,7 +26,7 @@ object CredentialHelper {
      * @return the boolean
      */
     fun isEmailValid(mail: String): Boolean {
-        Log.d(TAG, "isEmailValid: " + mail)
+        Timber.d("isEmailValid: %s", mail)
         val email = mail.trim { it <= ' ' }
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
@@ -72,14 +68,15 @@ object CredentialHelper {
     }
 
     fun isURLValid(inputLayout: TextInputLayout, context: Context): Boolean {
-        if(Patterns.WEB_URL.matcher(inputLayout.editText?.text.toString()).matches()) {
+        return if (Patterns.WEB_URL.matcher(inputLayout.editText?.text.toString()).matches()) {
             inputLayout.error = null
-            return true
+            true
         } else {
             inputLayout.error = context.getString(R.string.invalid_url)
-            return false
+            false
         }
     }
+
     /**
      * Gets valid url.
 
@@ -88,17 +85,17 @@ object CredentialHelper {
      * @return the valid url
      */
     fun getValidURL(url: String): String? {
-        try {
-            if (url.trim { it <= ' ' }.substring(0, 7) == "http://" || url.trim { it <= ' ' }.substring(0, 8) == "https://") {
+        return try {
+            return if (url.trim { it <= ' ' }.substring(0, 7) == "http://" || url.trim { it <= ' ' }.substring(0, 8) == "https://") {
                 val susiURL = URL(url.trim { it <= ' ' })
-                return susiURL.protocol + "://" + susiURL.host
+                susiURL.protocol + "://" + susiURL.host
             } else {
                 val susiURL = URL("http://" + url.trim { it <= ' ' })
-                return susiURL.protocol + "://" + susiURL.host
+                susiURL.protocol + "://" + susiURL.host
             }
         } catch (e: Exception) {
-            e.printStackTrace()
-            return null
+            Timber.e(e)
+            null
         }
 
     }
@@ -113,12 +110,12 @@ object CredentialHelper {
      * @return the boolean
      */
     fun checkIfEmpty(inputLayout: TextInputLayout, context: Context): Boolean {
-        if (TextUtils.isEmpty(inputLayout.editText!!.text.toString())) {
+        return if (TextUtils.isEmpty(inputLayout.editText!!.text.toString())) {
             inputLayout.error = context.getString(R.string.field_cannot_be_empty)
-            return true
+            true
         } else {
             inputLayout.error = null
-            return false
+            false
         }
     }
 }

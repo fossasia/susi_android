@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="@dimen/margin_very_small">
 
     <android.support.v7.widget.CardView
@@ -13,7 +13,8 @@
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
         app:cardBackgroundColor="@color/susi_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        app:contentPadding="@dimen/standard_content_padding"
+        android:layout_marginStart="@dimen/message_card_margin_medium">
 
         <LinearLayout
             android:id="@+id/parent_layout"
@@ -26,42 +27,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="@dimen/standard_content_padding"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/standard_content_padding">
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:layout_marginBottom="@dimen/standard_content_padding"
                     android:maxLines="1"
                     android:textColor="@color/md_grey_800"
-                    android:layout_marginBottom="@dimen/standard_content_padding"
+                    android:textSize="16sp"
                     tools:text="@string/sample_website_headline" />
 
                 <TextView
                     android:id="@+id/link"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="@string/rss_item_link"
+                    android:layout_marginBottom="@dimen/standard_content_padding"
+                    android:autoLink="all"
                     android:clickable="true"
                     android:linksClickable="true"
                     android:longClickable="true"
-                    android:autoLink="all"
                     android:maxLines="1"
-                    android:layout_marginBottom="@dimen/standard_content_padding"
-                    android:textColorLink="@color/link_text" />
+                    android:text="@string/rss_item_link"
+                    android:textColorLink="@color/link_text"
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/description"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/webpreview_content_height"
-                    android:textSize="15sp"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="3"
                     android:textColor="@color/md_grey_600"
-                    android:ellipsize="end"
+                    android:textSize="15sp"
                     tools:text="@string/sample_website_description" />
 
             </LinearLayout>

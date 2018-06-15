@@ -26,6 +26,7 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.MessageViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultsListHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.TableViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.Constant;
@@ -45,7 +46,7 @@ import pl.tajchert.sample.DotsTextView;
 
 /**
  * <h1>Main adapter to display chat feed as a recycler view.</h1>
- *
+ * <p>
  * Created by
  * --Vatsal Bajpai on
  * --25/09/16 at
@@ -66,7 +67,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private static final int SEARCH_RESULT = 10;
     private static final int WEB_SEARCH = 11;
     private static final int DATE_VIEW = 12;
-    private static final int LIST_RESULT = 13;
+    private static final int TABLE = 13;
+    private static final int STOP = 14;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -91,7 +93,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         lastMsgCount = getItemCount();
         RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
             @Override
-            public void onChange(RealmResults elements) {
+            public void onChange(@NonNull RealmResults elements) {
                 //only scroll if new is added.
                 if (lastMsgCount < getItemCount()) {
                     scrollToBottom();
@@ -156,8 +158,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         realm.close();
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view;
@@ -188,25 +191,25 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 return new PieChartViewHolder(view, clickListener);
             case SEARCH_RESULT:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
-                SearchResultsListHolder searchResultsListHolder = new SearchResultsListHolder(view);
-                searchResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
-                return searchResultsListHolder;
-            case LIST_RESULT:
-                view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder listResultHolder = new SearchResultsListHolder(view);
                 listResultHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 return listResultHolder;
+            case TABLE:
+                view = inflater.inflate(R.layout.susi_table, viewGroup, false);
+                return new TableViewHolder(view, clickListener);
             case WEB_SEARCH:
                 view = inflater.inflate(R.layout.search_list, viewGroup, false);
                 SearchResultsListHolder webResultsListHolder = new SearchResultsListHolder(view);
                 webResultsListHolder.recyclerView.addItemDecoration(new ConstraintsHelper(6, currContext));
                 return webResultsListHolder;
             case DATE_VIEW:
-                view = inflater.inflate(R.layout.date_view,viewGroup, false);
+                view = inflater.inflate(R.layout.date_view, viewGroup, false);
                 return new DateViewHolder(view);
             case DOTS:
                 return dotsHolder;
             case NULL_HOLDER:
+                return nullHolder;
+            case STOP:
                 return nullHolder;
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
@@ -225,20 +228,20 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
 
-        switch(item.getActionType()) {
-            case Constant.ANCHOR :
+        switch (item.getActionType()) {
+            case Constant.ANCHOR:
                 return SUSI_MESSAGE;
-            case Constant.ANSWER :
+            case Constant.ANSWER:
                 return SUSI_MESSAGE;
-            case Constant.MAP :
+            case Constant.MAP:
                 return MAP;
-            case  Constant.WEBSEARCH :
+            case Constant.WEBSEARCH:
                 return WEB_SEARCH;
-            case Constant.RSS :
+            case Constant.RSS:
                 return SEARCH_RESULT;
-            case Constant.TABLE :
-                return SEARCH_RESULT;
-            case  Constant.PIECHART :
+            case Constant.TABLE:
+                return TABLE;
+            case Constant.PIECHART:
                 return PIECHART;
             default:
                 return SUSI_MESSAGE;
@@ -269,7 +272,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
             chatViewHolder.setView(getData().get(position), getItemViewType(position), currContext);
@@ -279,6 +282,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
             pieChartViewHolder.setView(getData().get(position));
+        } else if (holder instanceof TableViewHolder) {
+            TableViewHolder tableViewHolder = (TableViewHolder) holder;
+            tableViewHolder.setView(getData().get(position), currContext);
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             setOnLinkLongClickListener(position, linkPreviewViewHolder);
@@ -286,7 +292,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), false, currContext);
-        } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH){
+        } else if (holder instanceof SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH) {
             SearchResultsListHolder searchResultsListHolder = (SearchResultsListHolder) holder;
             searchResultsListHolder.setView(getData().get(position), true, currContext);
         } else if (holder instanceof DateViewHolder) {
@@ -322,7 +328,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private void setClipboard(String text) {
         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) currContext.getSystemService(Context.CLIPBOARD_SERVICE);
         android.content.ClipData clip = android.content.ClipData.newPlainText("Copied Text", text);
-        clipboard.setPrimaryClip(clip);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clip);
+        }
     }
 
     private void shareMessage(String message) {
@@ -330,7 +338,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, message);
         sendIntent.setType("text/plain");
-        currContext.startActivity(Intent.createChooser(sendIntent, currContext.getString(R.string.share_message) ));
+        currContext.startActivity(Intent.createChooser(sendIntent, currContext.getString(R.string.share_message)));
     }
 
     /**
@@ -348,21 +356,21 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     }
 
     private void setBackGroundColor(RecyclerView.ViewHolder holder, boolean isSelected, boolean isUserMessage) {
-        if( holder instanceof ChatViewHolder ) {
+        if (holder instanceof ChatViewHolder) {
             ChatViewHolder chatViewHolder = (ChatViewHolder) holder;
-            if(isUserMessage)
-                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+            if (isUserMessage)
+                chatViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
             else
-                chatViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                chatViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
-            if(isUserMessage)
-                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+            if (isUserMessage)
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout_grey));
             else
-                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable( isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
+                linkPreviewViewHolder.backgroundLayout.setBackgroundDrawable(isSelected ? currContext.getResources().getDrawable(R.drawable.rounded_layout_selected) :
                         currContext.getResources().getDrawable(R.drawable.rounded_layout));
         }
     }
@@ -374,11 +382,11 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
 
         List<Pair<String, Drawable>> optionList = new ArrayList<>();
-        optionList.add(new Pair<>("Copy",currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
-        optionList.add(new Pair<>("Share",currContext.getResources().getDrawable(R.drawable.ic_share_white_24dp)));
+        optionList.add(new Pair<>("Copy", currContext.getResources().getDrawable(R.drawable.ic_content_copy_white_24dp)));
+        optionList.add(new Pair<>("Share", currContext.getResources().getDrawable(R.drawable.ic_share_white_24dp)));
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(currContext);
-        final ArrayAdapter<Pair<String,Drawable>> arrayAdapter = new SelectionDialogListAdapter(currContext, optionList);
+        final ArrayAdapter<Pair<String, Drawable>> arrayAdapter = new SelectionDialogListAdapter(currContext, optionList);
 
         dialog.setCancelable(true);
 
@@ -387,12 +395,14 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             public void onClick(DialogInterface dialog, int which) {
                 setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE);
                 switch (which) {
-                    case 0: setClipboard(getItem(position).getContent());
-                        Toast toast = Toast.makeText(recyclerView.getContext() , R.string.message_copied , Toast.LENGTH_LONG);
+                    case 0:
+                        setClipboard(getItem(position).getContent());
+                        Toast toast = Toast.makeText(recyclerView.getContext(), R.string.message_copied, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                         break;
-                    case 1: shareMessage(getItem(position).getContent());
+                    case 1:
+                        shareMessage(getItem(position).getContent());
                         break;
                 }
             }

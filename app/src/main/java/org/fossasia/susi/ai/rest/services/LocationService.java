@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 
 /**
  * <h1>Retrofit service to get location of user using his/her public ip address.</h1>
- *
+ * <p>
  * Created by chiragw15 on 6/12/16.
  */
 public interface LocationService {

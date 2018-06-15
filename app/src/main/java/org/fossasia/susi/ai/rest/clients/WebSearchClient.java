@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * <h1>Class to get retrofit client to get websearch results.</h1>
- *
+ * <p>
  * Created by mayank on 12-12-2016.
  */
 public class WebSearchClient {
@@ -19,7 +19,7 @@ public class WebSearchClient {
      * @return the client
      */
     public static Retrofit getClient() {
-        if (retrofit==null) {
+        if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())

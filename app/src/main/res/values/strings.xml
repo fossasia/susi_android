@@ -15,12 +15,13 @@
     <string name="content">content</string>
 
     <string name="dialog_retrieve_messages_title">Retrieving old messages…</string>
+    <string name="dialog_cancel_sign_up">Cancel sign up?</string>
 
     <string name="email_invalid">The e-mail address you entered doesn\'t belong to an account. Please check your e-mail and try again.</string>
 
     <string name="enter_send" translatable="false">Enter_send</string>
 
-    <string name="error_cancelling_signUp_process_text">Are you sure, You want to stop the registration process? You will not be able to use the SUSI app without an account.</string>
+    <string name="error_cancelling_signUp_process_text">This will cancel the sign up process.</string>
     <string name="error_email">E-mail address already exists</string>
     <string name="error_msg">Please use the \"Forgot password?\" option to reset your password</string>
 
@@ -33,6 +34,9 @@
     <string name="hotword_success">Hotword detected</string>
 
     <string name="id">ID</string>
+
+    <string name="menu_item_about">About</string>
+    <string name="menu_item_settings">Settings</string>
 
     <string name="message_copied">Message copied</string>
 
@@ -53,11 +57,11 @@
     <string name="send_message">Sending the message</string>
     <string name="send_msg_hint">Ask SUSI something…</string>
 
-    <string name="server_pref">Select Server</string>
+    <string name="server_pref">Select server</string>
     <string name="server_select_summary">Select backend server for the app.</string>
-    <string name="server_settings_title">Server Settings</string>
+    <string name="server_settings_title">Server settings</string>
 
-    <string name="settings_title">Chat Settings</string>
+    <string name="settings_title">Chat settings</string>
 
     <string name="signup">Thank you for Signing Up</string>
     <string name="signup_msg">An e-mail has been sent to the provided address. Please use the
@@ -88,11 +92,8 @@
     <string name="settings_speechPreference_key" translatable="false">speechOutput</string>
     <string name="settings_speechPreference_label">Speech output</string>
     <string name="settings_speechPreference_summary">Enable speech output only for speech input</string>
-    <string name="settings_devices_setup">Click here to setup a device</string>
-
     <string name="speech_not_supported">Sorry, your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say something…</string>
-
     <string name="tap_on_mic">Tap the mic icon to speak</string>
 
     <!--Error Messages-->
@@ -159,15 +160,13 @@
 
     <string name="query_language">Query Language</string>
 
-    <string name="settings_mic">Mic Settings</string>
+    <string name="settings_mic">Mic settings</string>
     <string name="settings_misc">Miscellaneous</string>
-    <string name="settings_speech">Speech Settings</string>
+    <string name="settings_speech">Speech settings</string>
     <string name="settings_devices">Devices</string>
     <string name="unknown_answer">I don\'t know.</string>
 
     <!-- Login Activity-->
-    <string name="continue_sign_up">Continue Registration</string>
-
     <string name="email_invalid_title">Incorrect e-mail address</string>
 
     <string name="first_time">First time</string>
@@ -180,10 +179,13 @@
     <string name="login">Logging in…</string>
 
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
     <string name="signing_up">Signing up…</string>
 
     <string name="unknown_host_exception">Unknown Host Exception</string>
+    <string name="check_email">Check your email!</string>
+    <string name="reset_password_text">We just sent you an email with a link to reset \n your password.</string>
 
     <!-- Settings Activity-->
     <string name="Continue">Continue</string>
@@ -198,6 +200,7 @@
     <string name="forgot_pass_activity">Forgot Password?</string>
 
     <string name="loading">Loading…</string>
+    <string name="logout_confirmation">Are you sure you want to log out?</string>
 
     <string name="no">No</string>
 
@@ -209,8 +212,8 @@
     <string name="pref_share_title">Share SUSI</string>
 
     <string name="pref_devices_not_connected">No connected device</string>
-
-    <string name="reset">Reset Password</string>
+    <string name="settings_devices_setup">Click here to move to device setup screen</string>
+    <string name="reset">Reset password</string>
     <string name="reset_pass_activity">Reset Password</string>
 
     <string name="retry">Retry</string>
@@ -220,6 +223,10 @@
     <string name="wrong_password">Failed. Try again</string>
 
     <string name="yes">Yes</string>
+
+    <string name="voice_settings">SUSI voice settings</string>
+    <string name="change_voice">Click here to change SUSI\'s voice</string>
+    <string name="change_voice_summary">Change the text to speech settings from here to change the voice.</string>
 
     <!--Share App strings-->
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
@@ -242,18 +249,29 @@
     <string name="skills">Skills</string>
     <string name="skills_activity">SUSI.AI Skills</string>
 
+    <!-- Devices String-->
+    <string name="connect_success">Device Connected Successfully !</string>
+    <string name="device_title">Devices</string>
+    <string name="scan_devices">Scanning for devices...</string>
+    <string name="no_device_found">No devices found</string>
+    <string name="setup_tut">If you\'re setting up a new device, make sure it\'s \n nearby and plugged into a wall outlet</string>
     <!--About Us String-->
+    <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
         <a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
     <string name="susi_contributors">Contributors</string>
+    <string name="url_susi_contributors" translatable="false">https://github.com/fossasia/susi_android/graphs/contributors</string>
     <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors">Contributors</a>.</string>
     <string name="susi_license_information">License</string>
+    <string name="url_susi_license" translatable="false">https://github.com/fossasia/susi_android/blob/master/LICENSE</string>
     <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. As per the <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a>
     </string>
     <string name="susi_report_issues">Report Issues</string>
+    <string name="url_susi_report_issue" translatable="false">https://github.com/fossasia/susi_android/issues</string>
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues">Github Repository Issue Tracker</a>.</string>
 
     <string name="susi_skill_cms">SUSI Skill CMS</string>
+    <string name="url_susi_skill_cms">http://www.skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai">skills.susi.ai</a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
 
     <!-- Intro Strings -->
@@ -262,7 +280,7 @@
     <string name="content_type_dynamic">Content Type: Dynamic</string>
     <string name="content_type_static">Content Type: Static</string>
 
-    <string name="customer_server">Customer Server</string>
+    <string name="custom_server">Custom Server</string>
 
     <string name="description">Description</string>
     <string name="description_long">Description long</string>
@@ -274,14 +292,12 @@
     <string name="how_can_i_help">How can I help you?</string>
 
     <string name="negative">Negative</string>
-    <string name="negative_50">Negative: 50</string>
 
     <string name="next">Next</string>
 
     <string name="option">Option</string>
 
     <string name="positive">Positive</string>
-    <string name="positive_50">Positive: 50</string>
 
     <string name="rating">Rating</string>
 
@@ -290,6 +306,8 @@
     <string name="sample_group">Sample Group</string>
 
     <string name="skill_name">Skill Name</string>
+
+    <string name="search_skill">Search Skill</string>
 
     <string name="skip">Skip</string>
 
@@ -311,4 +329,26 @@
     <string name="try_it">Try It</string>
 
     <string name="url_input">Enter URL</string>
+
+    <string name="link_unavailable">Link not available</string>
+    <!-- Five Star Skill Rating -->
+
+    <string name="average_rating">Average Rating</string>
+    <string name="total_rating">Total Ratings</string>
+    <string name="placeholder_average_rating">4.4</string>
+    <string name="placeholder_total_rating">64</string>
+    <string name="rate_skill">Rate this skill</string>
+    <string name="rate_awesome">Awesome! I love it.</string>
+    <string name="rate_great">Great</string>
+    <string name="rate_good">Good</string>
+    <string name="rate_improvement">Need some improvement</string>
+    <string name="rate_hate">Hated it</string>
+    <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
+    <string name="toast_thank_for_rating">Thank you for rating this skill</string>
+    <string name="digit_one">1</string>
+    <string name="digit_two">2</string>
+    <string name="digit_three">3</string>
+    <string name="digit_four">4</string>
+    <string name="digit_five">5</string>
+
 </resources>

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:layout_centerInParent="true"
     android:layout_centerHorizontal="true"
-    android:gravity="center_horizontal">
+    android:layout_centerInParent="true"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/date"
         android:layout_width="@dimen/date_layout_width"
         android:layout_height="@dimen/date_layout_height"
         android:layout_marginTop="@dimen/message_layout_margin"
-        android:textSize="@dimen/date_text_size"
+        android:gravity="center"
         android:textColor="@color/timestamp_color"
-        android:gravity="center" />
+        android:textSize="@dimen/date_text_size" />
 </LinearLayout>

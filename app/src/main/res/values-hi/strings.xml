@@ -185,7 +185,7 @@
     <string name="slide_3_desc">ब्राउज़ करें और अपने पसंदीदा एसयूएसआई एआई कौशल की कोशिश करें</string>
     <string name="slide_4_title">चैट सेटिंग्स</string>
     <string name="slide_4_desc">बेहतर अनुभव के लिए अपनी चैट सेटिंग्स को निजीकृत करें</string>
-    <string name="customer_server">ग्राहक सर्वर</string>
+    <string name="custom_server">कस्टम सर्वर</string>
     <string name="url_input">यू आर एल दर्ज करो</string>
     <string name="skill_name">कौशल का नाम</string>
     <string name="author_name">लेखक: लेखक का नाम</string>

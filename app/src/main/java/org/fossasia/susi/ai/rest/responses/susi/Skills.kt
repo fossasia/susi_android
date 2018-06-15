@@ -10,5 +10,5 @@ import com.google.gson.annotations.SerializedName
 class Skills {
     @SerializedName("aboutsusi")
     @Expose
-    val skillData: SkillData ?= null
+    val skillData: SkillData? = null
 }

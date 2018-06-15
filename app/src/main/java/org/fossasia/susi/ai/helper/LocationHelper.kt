@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.ActivityCompat
+import timber.log.Timber
 
 import java.lang.ref.WeakReference
 
@@ -28,7 +29,7 @@ class LocationHelper
 (context: Context) : Service(), LocationListener {
 
     private var canGetLocation = false
-    private val weakContext: WeakReference<Context>
+    private val weakContext: WeakReference<Context> = WeakReference(context)
 
     /**
      * Gets latitude.
@@ -53,10 +54,6 @@ class LocationHelper
         private set
 
     protected var locationManager: LocationManager? = null
-
-    init {
-        weakContext = WeakReference(context)
-    }
 
     /**
      * Gets location.
@@ -97,7 +94,7 @@ class LocationHelper
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
         }
 
     }

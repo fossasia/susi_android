@@ -5,34 +5,34 @@ import android.support.annotation.NonNull
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SnapHelper
-import android.view.ViewGroup
-import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHolder
 import android.view.LayoutInflater
-import kotlinx.android.synthetic.main.fragment_skill_listing.*
+import android.view.ViewGroup
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.StartSnapHelper
+import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.SkillFragmentCallback
+import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHolder
 
 /**
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>)
-        :RecyclerView.Adapter<GroupViewHolder>() {
+class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>, val skillCallback: SkillFragmentCallback)
+    : RecyclerView.Adapter<GroupViewHolder>() {
 
-    lateinit var skillAdapterSnapHelper : SnapHelper
+    private lateinit var skillAdapterSnapHelper: SnapHelper
 
     @NonNull
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        if(skills[position].first != null)
+        if (skills[position].first != null)
             holder.groupName?.text = skills[position].first
 
         skillAdapterSnapHelper = StartSnapHelper()
         holder.skillList?.setHasFixedSize(true)
         val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         holder.skillList?.layoutManager = mLayoutManager
-        holder.skillList?.adapter = SkillListAdapter(context, skills[position])
-        holder.skillList?.setOnFlingListener(null)
+        holder.skillList?.adapter = SkillListAdapter(context, skills[position], skillCallback)
+        holder.skillList?.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
     }
 

@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg">
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_vertical_margin"
         android:text="@string/how_can_i_help"
-        android:textSize="40sp"
-        android:textColor="@color/md_black_1000"/>
+        android:textColor="@color/md_black_1000"
+        android:textSize="40sp" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/linearlayout"
         android:layout_margin="@dimen/activity_vertical_margin">
+
         <org.fossasia.susi.ai.speechinputanimation.SpeechProgressView
-            android:id="@+id/speechprogress"
+            android:id="@+id/speechProgress"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_margin="8dp" />
     </LinearLayout>
+
     <TextView
-        android:id="@+id/txtchat"
+        android:id="@+id/txtChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/linearlayout"
+        android:layout_above="@id/linearLayout"
         android:layout_margin="@dimen/activity_vertical_margin"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:textColor="@color/md_black_1000"
         android:layout_centerInParent="true"/>
 </RelativeLayout>

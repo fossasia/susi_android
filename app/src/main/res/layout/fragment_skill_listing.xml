@@ -3,32 +3,33 @@
     android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/default_bg">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/skillGroups"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@color/default_bg">
 
-    <ProgressBar
-        android:id="@+id/skillWait"
-        android:layout_width="@dimen/progress_bar_size"
-        android:layout_height="@dimen/progress_bar_size"
-        android:layout_gravity="center"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/skillGroups"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <TextView
-        android:id="@+id/error_skill_fetch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:text="@string/error_skill_listing"
-        android:textSize="18sp"
-        android:padding="16dp"
-        android:textColor="@color/colorPrimary"
-        android:visibility="gone"/>
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/progressSkillWait"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/errorSkillFetch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:padding="16dp"
+            android:text="@string/error_skill_listing"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:visibility="gone" />
+    </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

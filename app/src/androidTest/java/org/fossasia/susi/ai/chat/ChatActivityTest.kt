@@ -9,7 +9,6 @@ import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.GrantPermissionRule
 import android.support.test.runner.AndroidJUnit4
-import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
 import org.junit.Before
@@ -19,6 +18,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import timber.log.Timber
 import java.io.IOException
 
 /**
@@ -33,15 +33,15 @@ class ChatActivityTest {
     @Rule
     @JvmField
     val permissionRule: TestRule = GrantPermissionRule.grant(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
 
     @Rule
     @JvmField
-     val mActivityRule = ActivityTestRule(ChatActivity::class.java)
+    val mActivityRule = ActivityTestRule(ChatActivity::class.java)
 
     /**
      * Unlock screen.
@@ -52,7 +52,7 @@ class ChatActivityTest {
     @Before
     @Throws(IOException::class, InterruptedException::class)
     fun unlockScreen() {
-        Log.d(TAG, "running unlockScreen..")
+        Timber.d("running unlockScreen..")
 
         val activity = mActivityRule.activity
         val wakeUpDevice = Runnable {
@@ -68,7 +68,7 @@ class ChatActivityTest {
      */
     @Test
     fun test01_UIViewsPresenceOnLoad() {
-        Log.d(TAG, "running test01_UIViewsPresenceOnLoad..")
+        Timber.d("running test01_UIViewsPresenceOnLoad..")
 
         // checks if recycler view is present
         onView(withId(R.id.rv_chat_feed)).check(matches(isDisplayed()))
@@ -81,9 +81,5 @@ class ChatActivityTest {
 
         // checks if microphone button is present
         onView(withId(R.id.btnSpeak)).check(matches(isDisplayed()))
-    }
-
-    companion object {
-        private val TAG = "ChatActivityTest"
     }
 }
