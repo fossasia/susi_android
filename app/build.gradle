@@ -8,19 +8,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
 
-    dependencies {
-        classpath "io.fabric.tools:gradle:1.25.4"
-    }
 }
 
 //apply plugin: 'io.fabric'
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
     mavenCentral()
 }
 
@@ -52,7 +45,6 @@ android {
             dimension "default"
             applicationIdSuffix ".fdroid"
             versionNameSuffix "-FDroid"
-            ext.enableCrashlytics = false
         }
 
         playStore {
@@ -117,9 +109,6 @@ dependencies {
 
     //waiting dots
     implementation "com.github.tajchert:WaitingDots:${rootConfiguration.waitingDotsVersion}"
-    playStoreImplementation("com.crashlytics.sdk.android:crashlytics:${rootConfiguration.crashlyticsVersion}") {
-        transitive = true
-    }
 
     //Timber
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
