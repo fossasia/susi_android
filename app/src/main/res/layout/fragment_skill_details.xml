@@ -147,9 +147,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:numStars="5"
-                android:rating="5"
+                android:numStars="0"
+                android:rating="0"
                 android:stepSize="1"
+                android:theme="@style/RatingBar"
                 android:visibility="gone" />
 
             <!-- Display what a particular rating implies -->
@@ -159,7 +160,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingBottom="@dimen/padding_small"
-                android:text="@string/rate_awesome"
                 android:textSize="@dimen/message_text_size"
                 android:textStyle="bold"
                 android:visibility="gone" />
@@ -194,8 +194,138 @@
                         android:layout_height="wrap_content"
                         android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
-                        android:text="@string/average_rating" />
+                        android:text="@string/average_rating"
+                        android:textSize="@dimen/text_size_small" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/md_white_1000"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_five"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_four"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_three"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_two"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:background="@color/md_white_1000"
+                            android:text="@string/digit_one"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <!-- Add a Horizontal Bar Chart using MPAndroidChart library -->
@@ -231,7 +361,8 @@
                         android:layout_height="wrap_content"
                         android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
-                        android:text="@string/total_rating" />
+                        android:text="@string/total_rating"
+                        android:textSize="@dimen/text_size_small" />
 
                 </LinearLayout>
 

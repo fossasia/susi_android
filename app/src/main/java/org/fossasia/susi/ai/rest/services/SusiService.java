@@ -2,16 +2,17 @@ package org.fossasia.susi.ai.rest.services;
 
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse;
+import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
+import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
-import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
 import org.fossasia.susi.ai.rest.responses.susi.TableSusiResponse;
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting;
 
@@ -145,6 +146,24 @@ public interface SusiService {
                                         @Query("skill") String skill,
                                         @Query("rating") String rating);
 
+    /**
+     * Send five star user rating to the server
+     *
+     * @param model       Model of the skill (e.g. general)
+     * @param group       Group of skill (e.g. Knowledge)
+     * @param language    Language directory in which the skill resides (e.g. en)
+     * @param skill       Skill Tag of object in which the skill data resides
+     * @param rating      User rating to be sent
+     * @param accessToken Access token of logged in user
+     * @return the Call
+     */
+    @POST("/cms/fiveStarRateSkill.json")
+    Call<FiveStarSkillRatingResponse> fiveStarRateSkill(@Query("model") String model,
+                                                        @Query("group") String group,
+                                                        @Query("language") String language,
+                                                        @Query("skill") String skill,
+                                                        @Query("stars") String rating,
+                                                        @Query("access_token") String accessToken);
 
     /**
      * Reset Password call

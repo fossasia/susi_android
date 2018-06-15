@@ -41,6 +41,7 @@
     <dimen name="padding_img">40dp</dimen>
     <dimen name="padding_large">10dp</dimen>
     <dimen name="padding_small">5dp</dimen>
+    <dimen name="padding_very_small">0.8dp</dimen>
 
     <dimen name="piechart_layout_height">300dp</dimen>
 
@@ -56,8 +57,9 @@
 
     <dimen name="standard_content_padding">5dp</dimen>
 
+    <dimen name="text_size_small">10sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
-    <dimen name="text_size_very_large">48sp</dimen>
+    <dimen name="text_size_very_large">24sp</dimen>
 
     <dimen name="timestamp_layout_padding">8dp</dimen>
     <dimen name="timestamp_size">10sp</dimen>
