@@ -15,9 +15,9 @@ import retrofit2.Response
  * Created by mayanktripathi on 10/07/17.
  */
 
-class SignUpModel: ISignUpModel {
+class SignUpModel : ISignUpModel {
 
-    lateinit var authResponseCall: Call<SignUpResponse>
+    private lateinit var authResponseCall: Call<SignUpResponse>
 
     override fun signUp(email: String, password: String, listener: ISignUpModel.OnSignUpFinishedListener) {
 

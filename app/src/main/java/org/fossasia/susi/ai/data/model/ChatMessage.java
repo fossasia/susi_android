@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
 
 /**
  * <h1>Model Class extending realm object to store messaged in local database.</h1>
- *
+ * <p>
  * Created by himanshusoni on 06/09/15.
  */
 public class ChatMessage extends RealmObject {
@@ -19,6 +19,8 @@ public class ChatMessage extends RealmObject {
     private RealmList<Datum> datumRealmList;
     private WebLink webLinkData;
     private RealmList<WebSearchModel> webSearchList;
+    private RealmList<TableColumn> tableColumns;
+    private RealmList<TableData> tableData;
     private boolean isDelivered, isHavingLink, isDate, isMine, isPositiveRated, isNegativeRated;
     private double latitude, longitude, zoom;
 
@@ -57,6 +59,9 @@ public class ChatMessage extends RealmObject {
         this.isMine = isMine;
         this.webLinkData = null;
         this.webSearchList = null;
+        this.tableColumns = null;
+        this.tableData = null;
+
         this.skillLocation = skillLocation;
     }
 
@@ -95,9 +100,45 @@ public class ChatMessage extends RealmObject {
     public void setWebLinkData(WebLink webLinkData) {
         try {
             this.webLinkData = webLinkData;
-        } catch(IllegalStateException e) {
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets table type columns.
+     *
+     * @return the table columns
+     */
+    public RealmList<TableColumn> getTableColumns() {
+        return tableColumns;
+    }
+
+    /**
+     * Sets table columns.
+     *
+     * @param tableColumns
+     */
+    public void setTableColumns(RealmList<TableColumn> tableColumns) {
+        this.tableColumns = tableColumns;
+    }
+
+    /**
+     * Gets table type data.
+     *
+     * @return the table data
+     */
+    public RealmList<TableData> getTableData() {
+        return tableData;
+    }
+
+    /**
+     * Sets tableData.
+     *
+     * @param tableData
+     */
+    public void setTableData(RealmList<TableData> tableData) {
+        this.tableData = tableData;
     }
 
     /**
@@ -213,21 +254,27 @@ public class ChatMessage extends RealmObject {
      *
      * @return the boolean
      */
-    public boolean isHavingLink() {return isHavingLink;}
+    public boolean isHavingLink() {
+        return isHavingLink;
+    }
 
     /**
      * Sets having link.
      *
      * @param havingLink the having link
      */
-    public void setHavingLink(boolean havingLink) {isHavingLink = havingLink;}
+    public void setHavingLink(boolean havingLink) {
+        isHavingLink = havingLink;
+    }
 
     /**
      * Gets datum realm list.
      *
      * @return the datum realm list
      */
-    public RealmList<Datum> getDatumRealmList() { return datumRealmList; }
+    public RealmList<Datum> getDatumRealmList() {
+        return datumRealmList;
+    }
 
     /**
      * Sets datum realm list.
@@ -243,14 +290,18 @@ public class ChatMessage extends RealmObject {
      *
      * @return the is delivered
      */
-    public boolean getIsDelivered() { return isDelivered; }
+    public boolean getIsDelivered() {
+        return isDelivered;
+    }
 
     /**
      * Sets is delivered.
      *
      * @param isDelivered the is delivered
      */
-    public void setIsDelivered(boolean isDelivered) { this.isDelivered = isDelivered; }
+    public void setIsDelivered(boolean isDelivered) {
+        this.isDelivered = isDelivered;
+    }
 
     /**
      * Gets webquery.

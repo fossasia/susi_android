@@ -1,16 +1,15 @@
 package org.fossasia.susi.ai.helper
 
-import java.io.File
-import java.io.IOException
-
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.media.MediaRecorder
 import android.speech.RecognizerIntent
 import android.support.v4.app.ActivityCompat
+import timber.log.Timber
+import java.io.File
+import java.io.IOException
 
 /**
  * <h1>Helper class to check if STT and TTS is possible for phone.</h1>
@@ -40,7 +39,7 @@ object MediaUtil {
      */
     private fun getMicrophoneAvailable(context: Context): Boolean {
         if (ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             return false
         }
         val recorder = MediaRecorder()
@@ -52,6 +51,7 @@ object MediaUtil {
         try {
             recorder.prepare()
         } catch (exception: IOException) {
+            Timber.e(exception)
             available = false
         }
 

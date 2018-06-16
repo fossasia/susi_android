@@ -70,7 +70,8 @@ Please find info about the set up of the Android app in your development environ
 - Gericop/Android-Support-Preference-V7-Fix [Docs](https://github.com/Gericop/Android-Support-Preference-V7-Fix)
 - Snowboy Hotword Detection [Docs](http://docs.kitt.ai/snowboy/)
 - zagum/SpeechRecognitionView [Docs](https://github.com/zagum/SpeechRecognitionView)
-
+- MPAndroidChart [Docs](https://github.com/PhilJay/MPAndroidChart)
+- Timber [Docs](https://github.com/JakeWharton/timber)
 
 ### Project Conventions
 

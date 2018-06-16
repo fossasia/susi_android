@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.helper
 
 import android.content.Context
 import android.content.pm.PackageManager
+import timber.log.Timber
 
 /**
  * <h1>Helper class to check if google maps is installed.</h1>
@@ -10,7 +11,7 @@ import android.content.pm.PackageManager
  */
 object AndroidHelper {
 
-    val GOOGLE_MAPS_PKG = "com.google.android.apps.maps"
+    const val GOOGLE_MAPS_PKG = "com.google.android.apps.maps"
 
     /**
      * Is google maps installed boolean.
@@ -24,11 +25,12 @@ object AndroidHelper {
     }
 
     private fun isAppInstalled(context: Context, packageName: String): Boolean {
-        try {
+        return try {
             context.packageManager.getApplicationInfo(packageName, 0)
-            return true
+            true
         } catch (e: PackageManager.NameNotFoundException) {
-            return false
+            Timber.e(e)
+            false
         }
 
     }

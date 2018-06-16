@@ -6,9 +6,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmList;
+import timber.log.Timber;
 
 /**
  * <h1>Pie chart view holder</h1>
@@ -66,13 +69,15 @@ public class PieChartViewHolder extends MessageViewHolder {
                 pieChart.setRotationAngle(0);
                 pieChart.setDragDecelerationFrictionCoef(0.001f);
                 pieChart.getLegend().setEnabled(false);
-                pieChart.setDescription("");
+                Description description = new Description();
+                description.setText("");
+                pieChart.setDescription(description);
                 RealmList<Datum> datumList = model.getDatumRealmList();
-                final ArrayList<Entry> yVals = new ArrayList<>();
+                final ArrayList<PieEntry> yVals = new ArrayList<>();
                 final ArrayList<String> xVals = new ArrayList<>();
                 for (int i = 0; i < datumList.size(); i++) {
-                    yVals.add(new Entry(datumList.get(i).getPercent(), i));
-                    xVals.add(datumList.get(i).getPresident());
+                    yVals.add(new PieEntry(datumList.get(i).getPercent(),
+                            datumList.get(i).getPresident()));
                 }
                 pieChart.setClickable(false);
                 pieChart.setHighlightPerTapEnabled(false);
@@ -91,7 +96,7 @@ public class PieChartViewHolder extends MessageViewHolder {
                 for (int c : ColorTemplate.PASTEL_COLORS)
                     colors.add(c);
                 dataSet.setColors(colors);
-                PieData data = new PieData(xVals, dataSet);
+                PieData data = new PieData(dataSet);
                 data.setValueFormatter(new PercentFormatter());
                 data.setValueTextSize(11f);
                 data.setValueTextColor(Color.GRAY);
@@ -99,7 +104,7 @@ public class PieChartViewHolder extends MessageViewHolder {
                 pieChart.highlightValues(null);
                 pieChart.invalidate();
             } catch (Exception e) {
-                e.printStackTrace();
+                Timber.e(e);
             }
         }
     }

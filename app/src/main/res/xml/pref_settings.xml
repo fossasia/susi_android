@@ -6,14 +6,14 @@
     <PreferenceCategory android:title="Login email">
         <PreferenceScreen
             android:key="display_email"
-            android:title="test email"></PreferenceScreen>
+            android:title="test email"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/server_settings_title">
         <PreferenceScreen
             android:key="Server_Select"
             android:summary="@string/server_select_summary"
-            android:title="@string/server_pref"></PreferenceScreen>
+            android:title="@string/server_pref"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_title">
@@ -41,6 +41,15 @@
             android:title="@string/setting_hotword_detection" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/voice_settings">
+
+        <PreferenceScreen
+            android:key="voice"
+            android:summary="@string/change_voice_summary"
+            android:title="@string/change_voice" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/settings_speech">
         <SwitchPreference
             android:id="@+id/speech_pref"
@@ -61,7 +70,7 @@
         android:entries="@array/languagentries"
         android:entryValues="@array/languagentry"
         android:key="Lang_Select"
-        android:title="@string/Language"></ListPreference>
+        android:title="@string/Language"/>
 
     <PreferenceCategory android:title="@string/settings_devices">
 

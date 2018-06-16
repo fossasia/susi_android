@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 
 /**
  * <h1>Zero height view holder</h1>
- *
+ * <p>
  * Created by mejariamol on 10/21/2016.
  */
 public class ZeroHeightHolder extends RecyclerView.ViewHolder {

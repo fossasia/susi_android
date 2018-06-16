@@ -17,4 +17,7 @@ interface ISignUpView {
     fun passwordInvalid()
     fun invalidCredentials(isEmpty: Boolean, what: String)
     fun onSignUpError(title: String?, message: String?)
+    fun showForgotPasswordProgress(boolean: Boolean)
+    fun resetPasswordSuccess()
+    fun resetPasswordFailure(title: String?, message: String?, button: String?, color: Int)
 }

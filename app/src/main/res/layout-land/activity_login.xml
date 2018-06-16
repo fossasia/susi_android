@@ -10,12 +10,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight=".5"
         android:adjustViewBounds="true"
-        android:padding="@dimen/padding_img"
-        android:layout_gravity="center"
         android:background="@color/default_bg"
         android:contentDescription="@string/activity_login_imageview_description"
+        android:padding="@dimen/padding_img"
         app:srcCompat="@drawable/ic_susi_blue" />
 
     <ScrollView
@@ -42,11 +42,11 @@
                 app:errorEnabled="true">
 
                 <AutoCompleteTextView
+                    android:id="@+id/emailInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    android:id="@+id/email_input"
-                    android:inputType="textEmailAddress"/>
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -57,7 +57,7 @@
                 app:passwordToggleEnabled="true">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/password_input"
+                    android:id="@+id/passwordInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
@@ -66,14 +66,14 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/customer_server"
+                android:id="@+id/customServer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/customer_server"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:text="@string/custom_server" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_url"
+                android:id="@+id/inputUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -87,7 +87,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatButton
-                android:id="@+id/log_in"
+                android:id="@+id/logIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -95,17 +95,18 @@
                 android:text="@string/activity_login_log_in" />
 
             <TextView
-                android:id="@+id/forgot_password"
+                android:id="@+id/forgotPassword"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
+                android:paddingLeft="48dp"
                 android:text="@string/activity_login_forgot_pass"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:paddingLeft="48dp"
-                android:typeface="monospace" />
+                android:typeface="monospace"
+                android:paddingStart="48dp" />
 
             <TextView
                 android:id="@+id/skip"
@@ -120,7 +121,7 @@
                 android:typeface="monospace" />
 
             <TextView
-                android:id="@+id/sign_up"
+                android:id="@+id/signUp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

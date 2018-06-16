@@ -16,7 +16,7 @@
             android:padding="16dp">
 
             <ImageView
-                android:id="@+id/skill_detail_image"
+                android:id="@+id/skillDetailImage"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@color/md_white_1000"
@@ -26,11 +26,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:background="@color/md_white_1000"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/skill_detail_title"
+                    android:id="@+id/skillDetailTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -40,7 +41,7 @@
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/skill_detail_author"
+                    android:id="@+id/skillDetailAuthor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -54,13 +55,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_white_1000"
-            android:gravity="right">
+            android:gravity="end">
 
             <Button
-                android:id="@+id/skill_detail_try_button"
+                android:id="@+id/skillDetailTryButton"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
@@ -68,10 +70,11 @@
                 android:textColor="@color/md_white_1000" />
 
             <Button
-                android:id="@+id/skill_detail_share_button"
+                android:id="@+id/skillDetailShareButton"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_marginBottom="16dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
@@ -95,10 +98,10 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/description"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
             <TextView
-                android:id="@+id/skill_detail_description"
+                android:id="@+id/skillDetailDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -111,10 +114,10 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/examples"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/skill_detail_examples"
+                android:id="@+id/skillDetailExamples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp" />
@@ -125,108 +128,272 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/rating"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvFiveStarSkillRatingBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:gravity="center_horizontal"
+                android:text="@string/rate_skill"
+                android:textSize="@dimen/message_text_size"
+                android:textStyle="italic"
+                android:visibility="gone" />
+
+            <!-- Add a five star rating bar -->
+            <RatingBar
+                android:id="@+id/five_star_skill_rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:numStars="0"
+                android:rating="0"
+                android:stepSize="1"
+                android:theme="@style/RatingBar"
+                android:visibility="gone" />
+
+            <!-- Display what a particular rating implies -->
+            <TextView
+                android:id="@+id/tv_five_star_skill_rating_scale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingBottom="@dimen/padding_small"
+                android:textSize="@dimen/message_text_size"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/skill_rating_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_white_1000"
                 android:orientation="horizontal">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/skill_detail_card_positive"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:layout_marginTop="6dp"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/md_white_1000"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
+
+                    <!-- Display average skill rating -->
+                    <TextView
+                        android:id="@+id/tv_average_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/md_white_1000"
+                        android:text="@string/placeholder_average_rating"
+                        android:textSize="@dimen/text_size_very_large" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:gravity="center_horizontal"
+                        android:text="@string/average_rating"
+                        android:textSize="@dimen/text_size_small" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/md_white_1000"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="horizontal">
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
 
                         <TextView
-                            android:id="@+id/skill_detail_rating_positive"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@android:color/transparent"
-                            android:text="@string/positive_50" />
-
-                        <ImageView
-                            android:id="@+id/skill_detail_rating_thumbs_up"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="8dp"
-                            android:src="@drawable/thumbs_up_solid" />
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_five"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
 
                     </LinearLayout>
-
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/skill_detail_card_negative"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginTop="6dp"
-                    android:layout_weight="1"
-                    android:foreground="?attr/selectableItemBackground">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="?attr/selectableItemBackground"
-                        android:orientation="horizontal">
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
 
                         <TextView
-                            android:id="@+id/skill_detail_rating_negative"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:layout_marginTop="4dp"
-                            android:background="@android:color/transparent"
-                            android:text="@string/negative_50" />
-
-                        <ImageView
-                            android:id="@+id/skill_detail_rating_thumbs_down"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="8dp"
-                            android:src="@drawable/thumbs_down_solid" />
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_four"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
 
                     </LinearLayout>
 
-                </android.support.v7.widget.CardView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_three"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:gravity="end"
+                            android:text="@string/digit_two"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/padding_very_small">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:background="@color/md_white_1000"
+                            android:text="@string/digit_one"
+                            android:textColor="@color/md_grey_600" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:src="@drawable/baseline_star_rate_black_18dp"
+                            android:tint="@color/md_grey_600" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Add a Horizontal Bar Chart using MPAndroidChart library -->
+                <com.github.mikephil.charting.charts.HorizontalBarChart
+                    android:id="@+id/skill_rating_chart"
+                    android:layout_width="0dp"
+                    android:layout_height="128dp"
+                    android:layout_weight="1"
+                    android:background="@color/md_white_1000"
+                    android:paddingBottom="@dimen/padding_large"
+                    android:paddingTop="@dimen/padding_large" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/md_white_1000"
+                    android:orientation="vertical"
+                    android:padding="@dimen/padding_large">
+
+                    <!-- Display average skill rating -->
+                    <TextView
+                        android:id="@+id/tv_total_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/md_white_1000"
+                        android:text="@string/placeholder_total_rating"
+                        android:textSize="@dimen/text_size_very_large" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:gravity="center_horizontal"
+                        android:text="@string/total_rating"
+                        android:textSize="@dimen/text_size_small" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView
-                android:id="@+id/skill_detail_content"
+                android:id="@+id/tv_unrated_skill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_small"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/skillDetailContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/content_type_dynamic"
                 android:textColor="@color/md_black_1000"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/skill_detail_policy"
+                android:id="@+id/skillDetailPolicy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/developer_privacy_policy" />
 
             <TextView
-                android:id="@+id/skill_detail_terms"
+                android:id="@+id/skillDetailTerms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use" />

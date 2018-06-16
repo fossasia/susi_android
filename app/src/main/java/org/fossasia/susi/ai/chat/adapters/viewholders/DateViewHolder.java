@@ -11,7 +11,7 @@ import butterknife.ButterKnife;
 
 /**
  * <h1>Date view holder</h1>
- *
+ * <p>
  * Created by chiragw15 on 11/12/16.
  */
 public class DateViewHolder extends RecyclerView.ViewHolder {

@@ -3,12 +3,10 @@ package org.fossasia.susi.ai.chat.adapters.viewholders;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.SearchResultsAdapter;
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.WebSearchAdapter;
 import org.fossasia.susi.ai.data.model.ChatMessage;
@@ -24,10 +22,11 @@ import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * <h1>Search result list view holder</h1>
- *
+ * <p>
  * Created by saurabh on 19/11/16.
  */
 public class SearchResultsListHolder extends RecyclerView.ViewHolder {
@@ -37,7 +36,6 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
     public LinearLayout backgroundLayout;
     private String webquery;
     private Realm realm;
-    private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
 
     /**
      * Instantiates a new Search results list holder.
@@ -53,9 +51,9 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
     /**
      * Inflate search_list
      *
-     * @param model the ChatMessage object
+     * @param model          the ChatMessage object
      * @param isClientSearch the boolean value to find client search type
-     * @param currContext the Context
+     * @param currContext    the Context
      */
     public void setView(final ChatMessage model, boolean isClientSearch, final Context currContext) {
         if (isClientSearch) {
@@ -67,7 +65,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                     call.enqueue(new Callback<WebSearch>() {
                         @Override
                         public void onResponse(Call<WebSearch> call, Response<WebSearch> response) {
-                            Log.e(TAG, response.toString());
+                            Timber.e(response.toString());
                             if (response.body() != null) {
                                 realm.beginTransaction();
                                 RealmList<WebSearchModel> searchResults = new RealmList<>();
@@ -87,12 +85,13 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
                                         } catch (Exception e) {
                                             webSearch.setBody(text);
                                             webSearch.setHeadline(webquery);
+                                            Timber.e(e);
                                         }
                                         webSearch.setImageURL(iconUrl);
                                         webSearch.setUrl(url);
                                         searchResults.add(webSearch);
                                     } catch (Exception e) {
-                                        Log.v(TAG, e.getLocalizedMessage());
+                                        Timber.e(e);
                                     }
                                 }
                                 if (searchResults.size() == 0) {
@@ -120,7 +119,7 @@ public class SearchResultsListHolder extends RecyclerView.ViewHolder {
 
                         @Override
                         public void onFailure(Call<WebSearch> call, Throwable t) {
-                            Log.e(TAG, "error" + t.toString());
+                            Timber.e("error %s", t.toString());
                         }
                     });
                 } else {

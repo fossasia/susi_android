@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_marginTop="@dimen/margin_very_small">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_very_small">
 
     <android.support.v7.widget.CardView
         android:layout_width="@dimen/websearch_card_width"
@@ -13,7 +13,8 @@
         android:layout_marginLeft="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
         app:cardBackgroundColor="@color/susi_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        app:contentPadding="@dimen/standard_content_padding"
+        android:layout_marginStart="@dimen/message_card_margin_medium">
 
         <LinearLayout
             android:id="@+id/preview_layout"
@@ -26,9 +27,9 @@
                 android:layout_width="@dimen/webpreview_layout_height"
                 android:layout_height="@dimen/webpreview_layout_height"
                 android:layout_weight="0.1"
-                android:scaleType="centerInside"
                 android:adjustViewBounds="true"
                 android:background="#aaffffff"
+                android:scaleType="centerInside"
                 app:srcCompat="@drawable/ic_user" />
 
             <LinearLayout
@@ -42,22 +43,22 @@
                     android:id="@+id/link_preview_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
                     android:maxLines="1"
                     android:padding="@dimen/standard_content_padding"
                     android:textColor="@color/md_grey_800"
+                    android:textSize="16sp"
                     tools:text="@string/sample_website_headline" />
 
                 <TextView
                     android:id="@+id/link_preview_description"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/webpreview_content_height"
-                    android:textSize="15sp"
                     android:layout_gravity="bottom"
                     android:gravity="center_vertical"
                     android:maxLines="3"
                     android:padding="@dimen/standard_content_padding"
                     android:textColor="@color/md_grey_600"
+                    android:textSize="15sp"
                     tools:text="@string/sample_website_description" />
 
             </LinearLayout>

@@ -1,14 +1,13 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,16 +38,17 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 import static android.os.SystemClock.sleep;
 import static org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter.USER_WITHLINK;
 
 /**
  * <h1>Link preview view holder</h1>
- *
+ * <p>
  * Created by better_clever on 12/10/16.
  */
-public class LinkPreviewViewHolder extends MessageViewHolder{
+public class LinkPreviewViewHolder extends MessageViewHolder {
 
     @BindView(R.id.text)
     public TextView text;
@@ -64,7 +64,8 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     public TextView timestampTextView;
     @BindView(R.id.preview_layout)
     public LinearLayout previewLayout;
-    @Nullable @BindView(R.id.received_tick)
+    @Nullable
+    @BindView(R.id.received_tick)
     public ImageView receivedTick;
     @Nullable
     @BindView(R.id.thumbs_up)
@@ -75,24 +76,24 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
 
     private Realm realm;
     private String url;
-    private String TAG = ChatFeedRecyclerAdapter.class.getSimpleName();
     private ChatMessage model;
+
     /**
      * Instantiates a new Link preview view holder.
      *
      * @param itemView the item view
      * @param listener the listener
      */
-    public LinkPreviewViewHolder(View itemView , ClickListener listener) {
+    public LinkPreviewViewHolder(View itemView, ClickListener listener) {
         super(itemView, listener);
         realm = Realm.getDefaultInstance();
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     /**
      * Inflate Link Preview
      *
-     * @param model the ChatMessage object
+     * @param model       the ChatMessage object
      * @param currContext the Context
      */
     public void setView(final ChatMessage model, int viewType, final Context currContext) {
@@ -107,28 +108,41 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
         }
 
         if (viewType == USER_WITHLINK) {
-            if (model.getIsDelivered())
-                receivedTick.setImageResource(R.drawable.ic_check);
-            else
-                receivedTick.setImageResource(R.drawable.ic_clock);
+            if (model.getIsDelivered()) {
+                if (receivedTick != null) {
+                    receivedTick.setImageResource(R.drawable.ic_check);
+                }
+            } else {
+                if (receivedTick != null) {
+                    receivedTick.setImageResource(R.drawable.ic_clock);
+                }
+            }
         }
 
         if (viewType != USER_WITHLINK) {
-            if(model.getSkillLocation().isEmpty()){
-                thumbsUp.setVisibility(View.GONE);
-                thumbsDown.setVisibility(View.GONE);
+            if (model.getSkillLocation().isEmpty()) {
+                if (thumbsUp != null) {
+                    thumbsUp.setVisibility(View.GONE);
+                }
+                if (thumbsDown != null) {
+                    thumbsDown.setVisibility(View.GONE);
+                }
             } else {
-                thumbsUp.setVisibility(View.VISIBLE);
-                thumbsDown.setVisibility(View.VISIBLE);
+                if (thumbsUp != null) {
+                    thumbsUp.setVisibility(View.VISIBLE);
+                }
+                if (thumbsDown != null) {
+                    thumbsDown.setVisibility(View.VISIBLE);
+                }
             }
 
-            if(model.isPositiveRated()){
+            if (model.isPositiveRated()) {
                 thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
             } else {
                 thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
             }
 
-            if(model.isNegativeRated()){
+            if (model.isNegativeRated()) {
                 thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
             } else {
                 thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
@@ -138,10 +152,10 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
                 @Override
                 public void onClick(View view) {
                     thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
-                    if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                    if (!model.isPositiveRated() && !model.isNegativeRated()) {
                         rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
                         setRating(true, true);
-                    } else if(!model.isPositiveRated() && model.isNegativeRated()) {
+                    } else if (!model.isPositiveRated() && model.isNegativeRated()) {
                         setRating(false, false);
                         thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
                         rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
@@ -160,10 +174,10 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
                 @Override
                 public void onClick(View view) {
                     thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
-                    if(!model.isPositiveRated() && !model.isNegativeRated()) {
+                    if (!model.isPositiveRated() && !model.isNegativeRated()) {
                         rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
                         setRating(true, false);
-                    } else if(model.isPositiveRated() && !model.isNegativeRated()) {
+                    } else if (model.isPositiveRated() && !model.isNegativeRated()) {
                         setRating(false, true);
                         thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
                         rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
@@ -194,7 +208,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
 
                 @Override
                 public void onPos(final SourceContent sourceContent, boolean b) {
-                    if(!PrefManager.hasTokenExpired() || PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+                    if (!PrefManager.hasTokenExpired() || PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
                         realm.beginTransaction();
                         Realm realm = Realm.getDefaultInstance();
                         WebLink link = realm.createObject(WebLink.class);
@@ -202,14 +216,14 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
                         if (sourceContent != null) {
 
                             if (!sourceContent.getDescription().isEmpty()) {
-                                Log.d(TAG, "onPos: " + sourceContent.getDescription());
+                                Timber.d("onPos: %s", sourceContent.getDescription());
                                 previewLayout.setVisibility(View.VISIBLE);
                                 descriptionTextView.setVisibility(View.VISIBLE);
                                 descriptionTextView.setText(sourceContent.getDescription());
                             }
 
                             if (!sourceContent.getTitle().isEmpty()) {
-                                Log.d(TAG, "onPos: " + sourceContent.getTitle());
+                                Timber.d("onPos: %s", sourceContent.getTitle());
                                 previewLayout.setVisibility(View.VISIBLE);
                                 titleTextView.setVisibility(View.VISIBLE);
                                 titleTextView.setText(sourceContent.getTitle());
@@ -241,40 +255,38 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
                 }
             };
 
-            if (model != null) {
-                List<String> urlList = ChatFeedRecyclerAdapter.extractLinks(model.getContent());
-                StringBuilder url = new StringBuilder(urlList.get(0));
-                StringBuilder http = new StringBuilder("http://");
-                StringBuilder https = new StringBuilder("https://");
-                if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(https.toString()))) {
-                    url = http.append(url.toString());
-                }
-                TextCrawler textCrawler = new TextCrawler();
-                textCrawler.makePreview(linkPreviewCallback, url.toString());
+            List<String> urlList = ChatFeedRecyclerAdapter.extractLinks(model.getContent());
+            StringBuilder url = new StringBuilder(urlList.get(0));
+            StringBuilder http = new StringBuilder("http://");
+            StringBuilder https = new StringBuilder("https://");
+            if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(https.toString()))) {
+                url = http.append(url.toString());
             }
+            TextCrawler textCrawler = new TextCrawler();
+            textCrawler.makePreview(linkPreviewCallback, url.toString());
         } else {
 
-            if(!model.getWebLinkData().getHeadline().isEmpty()) {
-                Log.d(TAG, "onPos: " + model.getWebLinkData().getHeadline());
+            if (!model.getWebLinkData().getHeadline().isEmpty()) {
+                Timber.d("onPos: %s", model.getWebLinkData().getHeadline());
                 titleTextView.setText(model.getWebLinkData().getHeadline());
             } else {
                 titleTextView.setVisibility(View.GONE);
-                Log.d(TAG, "handleItemEvents: " + "isEmpty");
+                Timber.d("handleItemEvents: isEmpty");
             }
 
-            if(!model.getWebLinkData().getBody().isEmpty()) {
-                Log.d(TAG, "onPos: " + model.getWebLinkData().getHeadline());
+            if (!model.getWebLinkData().getBody().isEmpty()) {
+                Timber.d("onPos: %s", model.getWebLinkData().getHeadline());
                 descriptionTextView.setText(model.getWebLinkData().getBody());
             } else {
                 descriptionTextView.setVisibility(View.GONE);
-                Log.d(TAG, "handleItemEvents: " + "isEmpty");
+                Timber.d("handleItemEvents: isEmpty");
             }
 
-            if(model.getWebLinkData().getHeadline().isEmpty() && model.getWebLinkData().getBody().isEmpty()) {
+            if (model.getWebLinkData().getHeadline().isEmpty() && model.getWebLinkData().getBody().isEmpty()) {
                 previewLayout.setVisibility(View.GONE);
             }
 
-            Log.i(TAG, model.getWebLinkData().getImageURL());
+            Timber.i(model.getWebLinkData().getImageURL());
             if (!model.getWebLinkData().getImageURL().equals("")) {
                 Picasso.with(currContext.getApplicationContext()).load(model.getWebLinkData().getImageURL())
                         .fit().centerCrop()
@@ -286,14 +298,17 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
             url = model.getWebLinkData().getUrl();
         }
 
+        /*
+          Redirects to the link through chrome custom tabs
+         */
+
         previewLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Uri webpage = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, webpage);
-                if (intent.resolveActivity(currContext.getPackageManager()) != null) {
-                    currContext.startActivity(intent);
-                }
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(); //custom tabs intent builder
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(currContext, webpage); //launching through custom tabs
             }
         });
     }
@@ -301,7 +316,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
     private void setRating(boolean what, boolean which) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        if(which) {
+        if (which) {
             model.setPositiveRated(what);
         } else {
             model.setNegativeRated(what);
@@ -311,9 +326,9 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
 
     private void rateSusiSkill(final String polarity, String locationUrl, final Context context) {
 
-        final Map<String,String> susiLocation = ParseSusiResponseHelper.Companion.getSkillLocation(locationUrl);
+        final Map<String, String> susiLocation = ParseSusiResponseHelper.Companion.getSkillLocation(locationUrl);
 
-        if(susiLocation.size() == 0)
+        if (susiLocation.size() == 0)
             return;
 
         Call<SkillRatingResponse> call = new ClientBuilder().getSusiApi().rateSkill(susiLocation.get("model"),
@@ -322,15 +337,19 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
         call.enqueue(new Callback<SkillRatingResponse>() {
             @Override
             public void onResponse(Call<SkillRatingResponse> call, Response<SkillRatingResponse> response) {
-                if(!response.isSuccessful() || response.body() == null) {
-                    switch(polarity) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    switch (polarity) {
                         case Constant.POSITIVE:
-                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                            setRating(false, true);
+                            if (thumbsUp != null) {
+                                thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                                setRating(false, true);
+                            }
                             break;
                         case Constant.NEGATIVE:
-                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                            setRating(false, false);
+                            if (thumbsDown != null) {
+                                thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                                setRating(false, false);
+                            }
                             break;
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
@@ -340,14 +359,18 @@ public class LinkPreviewViewHolder extends MessageViewHolder{
             @Override
             public void onFailure(Call<SkillRatingResponse> call, Throwable t) {
                 t.printStackTrace();
-                switch(polarity) {
+                switch (polarity) {
                     case Constant.POSITIVE:
-                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                        setRating(false, true);
+                        if (thumbsUp != null) {
+                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                            setRating(false, true);
+                        }
                         break;
                     case Constant.NEGATIVE:
-                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                        setRating(false, false);
+                        if (thumbsDown != null) {
+                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                            setRating(false, false);
+                        }
                         break;
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();

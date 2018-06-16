@@ -4,35 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="right"
+    android:gravity="end"
     android:layout_marginTop="@dimen/margin_very_small">
 
     <LinearLayout
         android:id="@+id/background_layout"
         android:layout_width="@dimen/message_layout_max_width"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginRight="@dimen/message_card_margin_medium"
+        android:layout_marginEnd="@dimen/message_card_margin_medium"
         android:layout_marginTop="@dimen/message_card_margin_small"
-        android:background="@drawable/rounded_layout_grey">
+        android:background="@drawable/rounded_layout_grey"
+        android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:layout_gravity="end"
-                android:autoLink="all"
-                android:maxWidth="@dimen/message_layout_max_width"
-                android:paddingTop="@dimen/padding_chatbubble_large"
-                android:paddingRight="@dimen/padding_chatbubble_large"
-                android:paddingLeft="@dimen/padding_chatbubble_large"
-                android:paddingBottom="@dimen/padding_chatbubble_small"
-                android:text="@string/hello_world"
-                android:textColor="@color/message_text_color"
-                android:textColorLink="@color/link_text"
-                android:textSize="@dimen/message_text_size" />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:autoLink="all"
+            android:gravity="end"
+            android:maxWidth="@dimen/message_layout_max_width"
+            android:paddingBottom="@dimen/padding_chatbubble_small"
+            android:paddingLeft="@dimen/padding_chatbubble_large"
+            android:paddingRight="@dimen/padding_chatbubble_large"
+            android:paddingTop="@dimen/padding_chatbubble_large"
+            android:text="@string/hello_world"
+            android:textColor="@color/message_text_color"
+            android:textColorLink="@color/link_text"
+            android:textSize="@dimen/message_text_size" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -40,75 +41,78 @@
                 android:layout_gravity="bottom|end"
                 android:gravity="center"
                 android:paddingLeft="@dimen/timestamp_layout_padding"
-                android:paddingRight="@dimen/padding_chatbubble_large">
+                android:paddingStart="@dimen/timestamp_layout_padding"
+                android:paddingRight="@dimen/padding_chatbubble_large"
+                android:paddingEnd="@dimen/padding_chatbubble_large">
 
-                    <TextView
-                        android:id="@+id/timestamp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="bottom"
-                        android:text="@string/time_9am"
-                        android:textColor="@color/timestamp_color"
-                        android:textSize="@dimen/timestamp_size" />
+            <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:text="@string/time_9am"
+                android:textColor="@color/timestamp_color"
+                android:textSize="@dimen/timestamp_size" />
 
-                    <ImageView
-                        android:id="@+id/received_tick"
-                        android:layout_width="@dimen/timestamp_size"
-                        android:layout_height="@dimen/timestamp_size"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:textColor="@color/timestamp_color"
-                        app:srcCompat="@drawable/ic_clock" />
+            <ImageView
+                android:id="@+id/received_tick"
+                android:layout_width="@dimen/timestamp_size"
+                android:layout_height="@dimen/timestamp_size"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginStart="@dimen/margin_small"
+                android:textColor="@color/timestamp_color"
+                app:srcCompat="@drawable/ic_clock" />
 
-                </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/preview_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/link_preview_image"
+                android:layout_width="@dimen/webpreview_layout_height"
+                android:layout_height="@dimen/preview_layout_height"
+                android:layout_marginTop="4dp"
+                android:layout_weight="0.2"
+                android:background="#aaffffff"
+                app:srcCompat="@drawable/ic_user" />
 
             <LinearLayout
-                android:id="@+id/preview_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/preview_layout_height"
+                android:layout_marginTop="@dimen/message_layout_margin"
+                android:layout_weight="0.8"
+                android:background="@color/md_white_1000"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/link_preview_image"
-                    android:layout_width="@dimen/webpreview_layout_height"
-                    android:layout_height="@dimen/preview_layout_height"
-                    android:layout_marginTop="4dp"
-                    android:layout_weight="0.2"
-                    android:background="#aaffffff"
-                    app:srcCompat="@drawable/ic_user" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/preview_layout_height"
-                    android:layout_marginTop="@dimen/message_layout_margin"
-                    android:layout_weight="0.8"
+                <TextView
+                    android:id="@+id/link_preview_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/webpreview_headline_height"
                     android:background="@color/md_white_1000"
-                    android:orientation="vertical">
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:padding="@dimen/standard_content_padding"
+                    android:textColor="@color/md_grey_800"
+                    tools:text="@string/sample_website_headline" />
 
-                    <TextView
-                        android:id="@+id/link_preview_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/webpreview_headline_height"
-                        android:background="@color/md_white_1000"
-                        android:maxLines="1"
-                        android:gravity="center_vertical"
-                        android:padding="@dimen/standard_content_padding"
-                        android:textColor="@color/md_grey_800"
-                        tools:text="@string/sample_website_headline" />
+                <TextView
+                    android:id="@+id/link_preview_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/webpreview_content_height"
+                    android:layout_gravity="bottom"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:padding="@dimen/standard_content_padding"
+                    android:textColor="@color/md_grey_600"
+                    tools:text="@string/sample_website_description" />
 
-                    <TextView
-                        android:id="@+id/link_preview_description"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/webpreview_content_height"
-                        android:layout_gravity="bottom"
-                        android:gravity="center_vertical"
-                        android:maxLines="2"
-                        android:padding="@dimen/standard_content_padding"
-                        android:textColor="@color/md_grey_600"
-                        tools:text="@string/sample_website_description" />
-
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
 

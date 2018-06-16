@@ -8,47 +8,45 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.SkillsActivity
-import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
-import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
+import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
 /**
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map<String, SkillData>>) : RecyclerView.Adapter<SkillViewHolder>(),
+class SkillListAdapter(val context: Context, private val skillDetails: Pair<String, Map<String, SkillData>>, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
-    val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
-    val clickListener: SkillViewHolder.ClickListener = this
+    private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+    private val clickListener: SkillViewHolder.ClickListener = this
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
         val skillData = skillDetails.second.values.toTypedArray()[position]
 
-        if(skillData.skillName == null || skillData.skillName.isEmpty()){
+        if (skillData.skillName == null || skillData.skillName.isEmpty()) {
             holder.skillPreviewTitle?.text = context.getString(R.string.no_skill_name)
         } else {
             holder.skillPreviewTitle?.text = skillData.skillName
         }
 
-        if( skillData.descriptions == null || skillData.descriptions.isEmpty()){
+        if (skillData.descriptions == null || skillData.descriptions.isEmpty()) {
             holder.skillPreviewDescription?.text = context.getString(R.string.no_skill_description)
         } else {
             holder.skillPreviewDescription?.text = skillData.descriptions
         }
 
-        if(skillData.examples == null || skillData.examples.isEmpty())
+        if (skillData.examples == null || skillData.examples.isEmpty())
             holder.skillPreviewExample?.text = StringBuilder("\"").append("\"")
         else
             holder.skillPreviewExample?.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
 
-        if(skillData.image == null || skillData.image.isEmpty()){
+        if (skillData.image == null || skillData.image.isEmpty()) {
             holder.previewImageView?.setImageResource(R.drawable.ic_susi)
         } else {
             Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
-                    .append(skillDetails.first.replace(" ","%20")).append("/en/").append(skillData.image).toString())
+                    .append(skillDetails.first.replace(" ", "%20")).append("/en/").append(skillData.image).toString())
                     .fit().centerCrop()
                     .error(R.drawable.ic_susi)
                     .into(holder.previewImageView)
@@ -62,16 +60,12 @@ class SkillListAdapter(val context: Context, val skillDetails:  Pair<String, Map
     override fun onItemClicked(position: Int) {
         val skillTag = skillDetails.second.keys.toTypedArray()[position]
         val skillData = skillDetails.second.values.toTypedArray()[position]
-        val skillGroup = skillDetails.first.replace(" ","%20")
+        val skillGroup = skillDetails.first.replace(" ", "%20")
         showSkillDetailFragment(skillData, skillGroup, skillTag)
     }
 
-    fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
-        val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
-        (context as SkillsActivity).supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillDetailsFragment)
-                .addToBackStack(SkillDetailsFragment().toString())
-                .commit()
+    private fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+        skillCallback.loadDetailFragment(skillData, skillGroup, skillTag)
     }
 
     @NonNull

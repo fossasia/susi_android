@@ -82,6 +82,7 @@ public class Datum extends RealmObject {
     public void setPosition(String position) {
         this.position = position;
     }
+
     /**
      * Gets 0.
      *
