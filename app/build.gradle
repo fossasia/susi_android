@@ -44,8 +44,7 @@ android {
         fdroid {
             dimension "default"
             applicationIdSuffix ".fdroid"
-            versionNameSuffix "1.0.0"
-            versionCode 1
+            versionNameSuffix "-FDroid"
         }
 
         playStore {
