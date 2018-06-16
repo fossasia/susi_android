@@ -25,8 +25,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 8
-        versionName "1.0.7"
+        versionCode 9
+        versionName "1.0.8"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -44,7 +44,8 @@ android {
         fdroid {
             dimension "default"
             applicationIdSuffix ".fdroid"
-            versionNameSuffix "-FDroid"
+            versionNameSuffix "1.0.0"
+            versionCode 1
         }
 
         playStore {
