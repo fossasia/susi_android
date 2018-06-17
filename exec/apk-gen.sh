@@ -25,7 +25,8 @@ then
 		\cp app-fdroid-release-unsigned.apk app-fdroid-release-unaligned.apk
 		\cp app-playStore-release-unsigned.apk app-playStore-release-unaligned.apk
 		jarsigner -verbose -tsa http://timestamp.comodoca.com/rfc3161 -sigalg SHA1withRSA -digestalg SHA1 -keystore ../exec/key.jks -storepass $STORE_PASS -keypass $KEY_PASS app-release-unaligned.apk $ALIAS
-		${ANDROID_HOME}/build-tools/27.0.3/zipalign -vfp 4 app-release-unaligned.apk app-release.apk
+		${ANDROID_HOME}/build-tools/27.0.3/zipalign -vfp 4 app-fdroid-release-unaligned.apk app-fdroid-release.apk
+		${ANDROID_HOME}/build-tools/27.0.3/zipalign -vfp 4 app-playStore-release-unaligned.apk app-playStore-release.apk
 	fi
 
 	git checkout --orphan workaround
