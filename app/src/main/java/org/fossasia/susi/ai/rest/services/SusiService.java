@@ -51,6 +51,7 @@ public interface SusiService {
                                        @Query("latitude") double latitude,
                                        @Query("geosource") String geosource,
                                        @Query("language") String language,
+                                       @Query("device_type") String deviceType,
                                        @Query("q") String query);
 
     /**
@@ -70,6 +71,7 @@ public interface SusiService {
                                                  @Query("latitude") double latitude,
                                                  @Query("geosource") String geosource,
                                                  @Query("language") String language,
+                                                 @Query("device_type") String deviceType,
                                                  @Query("q") String query);
 
     /**
