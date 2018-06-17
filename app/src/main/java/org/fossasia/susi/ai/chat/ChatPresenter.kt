@@ -41,7 +41,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     private var micCheck = false
     var latitude: Double = 0.0
     var longitude: Double = 0.0
-    var deviceType: String = "Android"
+    private val deviceType = "Android"
     private var source = Constant.IP
     private var isDetectionOn = false
     var check = false
