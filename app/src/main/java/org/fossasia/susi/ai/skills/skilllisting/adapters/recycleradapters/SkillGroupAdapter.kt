@@ -17,7 +17,7 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHo
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, Map<String, SkillData>>>, val skillCallback: SkillFragmentCallback)
+class SkillGroupAdapter(val context: Context, val skills: ArrayList<Pair<String, List<SkillData>>>, val skillCallback: SkillFragmentCallback)
     : RecyclerView.Adapter<GroupViewHolder>() {
 
     private lateinit var skillAdapterSnapHelper: SnapHelper
