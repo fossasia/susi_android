@@ -52,9 +52,9 @@ class ChatModel : IChatModel {
     }
 
     override fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                                language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
+                                language: String, deviceType: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        clientBuilder.susiApi.getSusiResponse(timezoneOffset, longitude, latitude, source, language, query).enqueue(
+        clientBuilder.susiApi.getSusiResponse(timezoneOffset, longitude, latitude, source, language, deviceType, query).enqueue(
                 object : Callback<SusiResponse> {
                     override fun onResponse(call: Call<SusiResponse>, response: Response<SusiResponse>?) {
                         listener.onSusiMessageReceivedSuccess(response)
@@ -72,9 +72,9 @@ class ChatModel : IChatModel {
     }
 
     override fun getTableSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                                     language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
+                                     language: String, deviceType: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        clientBuilder.susiApi.getTableSusiResponse(timezoneOffset, longitude, latitude, source, language, query).enqueue(
+        clientBuilder.susiApi.getTableSusiResponse(timezoneOffset, longitude, latitude, source, language, deviceType, query).enqueue(
                 object : Callback<TableSusiResponse> {
                     override fun onResponse(call: Call<TableSusiResponse>, response: Response<TableSusiResponse>?) {
                         listener.onTableMessageReceivedSuccess(response)
