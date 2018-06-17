@@ -29,10 +29,10 @@ interface IChatModel {
     }
 
     fun getTableSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                        language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener)
+                        language: String, deviceType: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener)
 
     fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                       language: String, query: String, listener: OnMessageFromSusiReceivedListener)
+                       language: String, deviceType: String, query: String, listener: OnMessageFromSusiReceivedListener)
 
     fun retrieveOldMessages(listener: OnRetrievingMessagesFinishedListener)
     fun getLocationFromIP(listener: OnLocationFromIPReceivedListener)

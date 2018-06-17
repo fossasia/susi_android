@@ -84,6 +84,19 @@ class ParseSusiResponseHelper {
                 Timber.e(e)
             }
 
+            Constant.VIDEOPLAY -> try {
+                answer = susiResponse.answers[0].actions[1].expression
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+
+            Constant.AUDIOPLAY -> try {
+                answer = susiResponse.answers[0].actions[1].expression
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+
+
             else -> answer = error
         }
     }

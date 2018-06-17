@@ -41,6 +41,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     private var micCheck = false
     var latitude: Double = 0.0
     var longitude: Double = 0.0
+    private val deviceType = "Android"
     private var source = Constant.IP
     private var isDetectionOn = false
     var check = false
@@ -315,7 +316,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 val query = nonDeliveredMessages.first.first
                 val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT) == Constant.DEFAULT) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
 
-                chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, language, query, this)
+                chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, language, deviceType, query, this)
 
             } else run {
                 queueExecuting.set(false)
@@ -383,7 +384,12 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                     psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
 
                     var setMessage = psh.answer
-                    if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
+                    if (psh.actionType == Constant.VIDEOPLAY || psh.actionType == Constant.AUDIOPLAY) {
+                        // Play youtube video
+                        Timber.d("Playing a youtube video")
+                        return@postDelayed
+
+                    } else if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = psh.answer
 
                         var speechReply = setMessage
@@ -442,7 +448,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         val now = Date()
         val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
         val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT).equals(Constant.DEFAULT)) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
-        chatModel.getTableSusiMessage(timezoneOffset, longitude, latitude, source, language, query, this)
+        chatModel.getTableSusiMessage(timezoneOffset, longitude, latitude, source, language, deviceType, query, this)
     }
 
     override fun onDatabaseUpdateSuccess() {

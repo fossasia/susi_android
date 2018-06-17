@@ -9,10 +9,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
@@ -130,21 +128,32 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             edtSearch = action.customView.findViewById(R.id.edtSearch) as EditText //the text editor
 
             //this is a listener to do a search when users enters query in editText
-            edtSearch?.addTextChangedListener(object: TextWatcher{
+            edtSearch?.addTextChangedListener(object : TextWatcher {
+                /**
+                 * Variable used to remove unneccessary invoking of doSearch() method.
+                 */
+                var text: String = ""
+                var afterText: String = ""
+                var check = true
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //no need to implement
+                    //no need to implement
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                //no need to implement
+                    //no need to implement
                 }
 
                 override fun afterTextChanged(p0: Editable?) {
-                    //after every change we call search function
-                   doSearch(p0.toString())
+                    afterText = p0.toString()
+                    //checking that value exist in skills and if not exist comparing the length of the current text to the previous text where the skills are present
+                    if (check || (afterText.length <= text.length)) {
+                        check = doSearch(p0.toString())
+                        text = p0.toString()
+                    } else {
+                        Toast.makeText(baseContext, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
+                    }
                 }
             })
-
             edtSearch?.requestFocus()
 
             //open the keyboard focused in the edtSearch
@@ -156,22 +165,23 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         }
     }
 
-    fun doSearch(query: String) {
+    fun doSearch(query: String): Boolean {
 
         for ((pos, item) in skills.withIndex()) {
             if (query in item.first) {
                 skillGroups.scrollToPosition(pos)
-                return
+                return true
             }
 
             for (item2 in item.second.keys) {
                 if (query.toLowerCase() in item2) {
                     skillGroups.scrollToPosition(pos)
-                    return
+                    return true
                 }
             }
         }
         Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
+        return false
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -179,8 +189,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun  hideKeyboard() {
-        val inputManager:InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    fun hideKeyboard() {
+        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
@@ -193,10 +203,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .commit()
     }
 
-    fun handleOnLoadingFragment()
-    {
+    fun handleOnLoadingFragment() {
         hideKeyboard()
-        if(isSearchOpened) {
+        if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
             action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action.setDisplayShowTitleEnabled(true)
