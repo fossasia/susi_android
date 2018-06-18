@@ -11,15 +11,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/message_card_margin_small"
         android:layout_marginLeft="@dimen/margin_card"
+        android:layout_marginStart="@dimen/margin_card"
         android:layout_marginTop="@dimen/message_card_margin_small"
         android:foreground="?attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/susi_message_bg"
-        android:layout_marginStart="@dimen/margin_card">
+        app:cardBackgroundColor="@color/susi_message_bg">
 
         <LinearLayout
             android:id="@+id/preview_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/default_bg"
             android:orientation="vertical">
 
             <LinearLayout
@@ -27,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/md_white_1000"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small">
 
                 <ImageView
                     android:id="@+id/skill_preview_image"
@@ -88,6 +90,31 @@
                     android:textColor="@color/md_grey_800"
                     android:textSize="@dimen/skill_description"
                     tools:text="@string/sample_website_description" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/cv_rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="@dimen/rating_bar_layout_width"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:padding="@dimen/cmv_padding"
+                    android:theme="@style/RatingBar" />
+
+                <TextView
+                    android:id="@+id/cv_total_ratings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/cmv_padding"
+                    android:paddingTop="@dimen/cmv_padding"
+                    android:text="@string/digit_five"
+                    android:textColor="@color/colorPrimary" />
+
             </LinearLayout>
         </LinearLayout>
 
