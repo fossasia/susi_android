@@ -142,7 +142,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         } else {
             loginView?.showProgress(false)
             loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error),
-                    response.message() + '\n' + R.string.error_custom_server)
+                    "${response.message()} \n" + utilModel.getString(R.string.error_custom_server))
         }
     }
 
