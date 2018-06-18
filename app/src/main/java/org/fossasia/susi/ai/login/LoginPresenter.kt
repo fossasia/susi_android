@@ -141,7 +141,8 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
                     utilModel.getString(R.string.password_invalid))
         } else {
             loginView?.showProgress(false)
-            loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error), response.message())
+            loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error),
+                    response.message() + '\n' + R.string.error_custom_server)
         }
     }
 
