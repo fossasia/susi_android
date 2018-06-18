@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
@@ -24,6 +25,10 @@ public class SkillViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public TextView skillPreviewDescription;
     @BindView(R.id.skill_preview_example)
     public TextView skillPreviewExample;
+    @BindView(R.id.cv_rating_bar)
+    public RatingBar skillRatingBar;
+    @BindView(R.id.cv_total_ratings)
+    public TextView totalRatings;
 
     private ClickListener listener;
 
