@@ -101,4 +101,6 @@
     <dimen name="scan_progress_margin_top">10dp</dimen>
     <dimen name="device_setup_margin_top">20dp</dimen>
 
+    <dimen name="rating_bar_layout_width">100dp</dimen>
+
 </resources>
