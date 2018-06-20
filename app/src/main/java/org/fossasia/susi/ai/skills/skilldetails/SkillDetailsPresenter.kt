@@ -16,7 +16,8 @@ import java.net.UnknownHostException
  *
  * @author arundhati24
  */
-class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter, ISkillDetailsModel.OnUpdateRatingsFinishedListener {
+class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter,
+        ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener {
 
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
     private var skillDetailsView: ISkillDetailsView? = null
@@ -33,7 +34,24 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
         skillDetailsModel.cancelUpdateRatings()
     }
 
+    override fun updateUserRating(map: Map<String, String>) {
+        skillDetailsModel.getRatingByUser(map, this)
+    }
+
+    override fun cancelUserRating() {
+        skillDetailsModel.cancelUpdateUserRating()
+    }
+
     override fun onError(throwable: Throwable) {
+
+        if (throwable is UnknownHostException) {
+            if (NetworkUtils.isNetworkConnected()) {
+                Timber.e(throwable.toString())
+            }
+        }
+    }
+
+    override fun onUpdateUserRatingError(throwable: Throwable) {
 
         if (throwable is UnknownHostException) {
             if (NetworkUtils.isNetworkConnected()) {
@@ -53,6 +71,16 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
             skillDetailsView?.updateRatings(response.body().ratings)
         } else {
             Timber.d("Could not update the ratings")
+        }
+    }
+
+    override fun onUpdateUserRatingModelSuccess(response: Response<GetRatingByUserResponse>) {
+
+        if (response.isSuccessful && response.body() != null) {
+            Timber.d(response.body().message)
+            skillDetailsView?.updateUserRating(response.body().ratings?.stars)
+        } else {
+            Timber.d("Could not update the user ratings")
         }
     }
 

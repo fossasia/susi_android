@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.data
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +20,7 @@ import retrofit2.Response
 class SkillDetailsModel : ISkillDetailsModel {
 
     private lateinit var updateRatingsResponseCall: Call<FiveStarSkillRatingResponse>
+    private lateinit var updateUserRatingResponseCall: Call<GetRatingByUserResponse>
 
     /**
      * Posts a request the fiveStarRateSkill.json API
@@ -49,8 +51,27 @@ class SkillDetailsModel : ISkillDetailsModel {
         })
     }
 
+    override fun getRatingByUser(map: Map<String, String>, listener: ISkillDetailsModel.OnUpdateUserRatingFinishedListener) {
+        updateUserRatingResponseCall = ClientBuilder().susiApi.getRatingByUser(map)
+
+        updateUserRatingResponseCall.enqueue(object : Callback<GetRatingByUserResponse> {
+            override fun onResponse(call: Call<GetRatingByUserResponse>, response: Response<GetRatingByUserResponse>) {
+                listener.onUpdateUserRatingModelSuccess(response)
+            }
+
+            override fun onFailure(call: Call<GetRatingByUserResponse>, t: Throwable) {
+                t.printStackTrace()
+                listener.onUpdateUserRatingError(t)
+            }
+        })
+    }
+
     override fun cancelUpdateRatings() {
         updateRatingsResponseCall.cancel()
+    }
+
+    override fun cancelUpdateUserRating() {
+        updateUserRatingResponseCall.cancel()
     }
 
 }

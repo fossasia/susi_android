@@ -13,5 +13,9 @@ interface ISkillDetailsPresenter {
 
     fun cancelUpdateRatings()
 
+    fun updateUserRating(map: Map<String, String>)
+
+    fun cancelUserRating()
+
     fun onDetach()
 }

@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.responses.susi.Ratings
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
 import org.fossasia.susi.ai.skills.SkillsActivity
@@ -214,6 +215,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      */
     private fun setRating() {
 
+        val map: MutableMap<String, String> = HashMap()
+        map.put("model", skillData.model)
+        map.put("group", skillData.group)
+        map.put("language", skillData.language)
+        map.put("skill", skillTag)
+        map.put("access_token", PrefManager.getToken().toString())
+        skillDetailsPresenter.updateUserRating(map)
+
         //If the user is logged in, set up the five star skill rating bar
         if (PrefManager.getToken() != null) {
             setUpFiveStarRatingBar()
@@ -293,6 +302,18 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         if (ratingsObject != null) {
             skillData.skillRating?.stars = ratingsObject
             setRating()
+        }
+    }
+
+    /**
+     * Show the user rating on the rating bar
+     *
+     * @param updatedRating Updates the rating bar with the user rating
+     *
+     */
+    override fun updateUserRating(updatedRating: Int?) {
+        if (updatedRating != null) {
+            fiveStarSkillRatingBar.rating = updatedRating.toFloat()
         }
     }
 
