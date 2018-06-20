@@ -34,8 +34,7 @@ class FiveStarSkillRatingRequest {
          * @param accessToken : Access token for the logged in user
          *
          */
-        fun sendFiveStarRating(model: String, group: String, language: String,
-                               skillTag: String, rating: String, accessToken: String) {
+        fun sendFiveStarRating(map: Map<String, String>) {
             interceptor = HttpLoggingInterceptor().apply {
                 this.level = HttpLoggingInterceptor.Level.BODY
             }
@@ -51,7 +50,7 @@ class FiveStarSkillRatingRequest {
                     .build()
 
             val service: SusiService = retrofit.create(SusiService::class.java)
-            service.fiveStarRateSkill(model, group, language, skillTag, rating, accessToken)
+            service.fiveStarRateSkill(map)
                     .enqueue(object : Callback<FiveStarSkillRatingResponse> {
                         override fun onResponse(call: Call<FiveStarSkillRatingResponse>?,
                                                 response: Response<FiveStarSkillRatingResponse>?) {
