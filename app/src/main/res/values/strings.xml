@@ -196,7 +196,8 @@
 
     <string name="error">Error</string>
     <string name="error_password_matching">Passwords do not match</string>
-
+    <string name="error_custom_server">Please make sure that you enter the correct custom server URL, the entered URL is incorrect</string>
+    
     <string name="forgot_pass_activity">Forgot Password?</string>
 
     <string name="loading">Loading…</string>
