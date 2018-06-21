@@ -144,21 +144,17 @@ public interface SusiService {
     /**
      * Send five star user rating to the server
      *
-     * @param model       Model of the skill (e.g. general)
-     * @param group       Group of skill (e.g. Knowledge)
-     * @param language    Language directory in which the skill resides (e.g. en)
-     * @param skill       Skill Tag of object in which the skill data resides
-     * @param rating      User rating to be sent
-     * @param accessToken Access token of logged in user
+     * @param query A query map consisting of following key value pairs
+     *              model       Model of the skill (e.g. general)
+     *              group       Group of skill (e.g. Knowledge)
+     *              language    Language directory in which the skill resides (e.g. en)
+     *              skill       Skill Tag of object in which the skill data resides
+     *              stars      User rating to be sent
+     *              accessToken Access token of logged in user
      * @return the Call
      */
     @POST("/cms/fiveStarRateSkill.json")
-    Call<FiveStarSkillRatingResponse> fiveStarRateSkill(@Query("model") String model,
-                                                        @Query("group") String group,
-                                                        @Query("language") String language,
-                                                        @Query("skill") String skill,
-                                                        @Query("stars") String rating,
-                                                        @Query("access_token") String accessToken);
+    Call<FiveStarSkillRatingResponse> fiveStarRateSkill(@QueryMap Map<String, String> query);
 
     /**
      * Reset Password call
