@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.device
 import org.fossasia.susi.ai.device.contract.IDevicePresenter
 import org.fossasia.susi.ai.device.contract.IDeviceView
 
-class DevicePresenter : IDevicePresenter {
+class DevicePresenter(deviceActivity: DeviceActivity) : IDevicePresenter {
 
     private var deviceView: IDeviceView? = null
 
@@ -12,6 +12,7 @@ class DevicePresenter : IDevicePresenter {
     }
 
     override fun searchDevices() {
+
     }
 
     override fun onDetach() {
