@@ -16,11 +16,11 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_device.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.contract.IDeviceView
 import org.fossasia.susi.ai.device.contract.IDevicePresenter
+import timber.log.Timber
 
 
 class DeviceActivity : AppCompatActivity(), IDeviceView {
@@ -28,15 +28,16 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     lateinit var devicePresenter: IDevicePresenter
     lateinit var mainWifi: WifiManager
     lateinit var receiverWifi: WifiReceiver
-    lateinit var filter: IntentFilter
+    var filter: IntentFilter? = null
+    var broadCastRegistered = false
     private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_device)
-
-        filter = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        receiverWifi = WifiReceiver()
         devicePresenter = DevicePresenter(this)
         devicePresenter.onAttach(this)
 
@@ -51,6 +52,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
                     PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION);
         } else {
             devicePresenter.isPermissionGranted(true)
+            Timber.d("ASK PERMISSIONS ELSE")
         }
     }
 
@@ -74,9 +76,10 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     override fun startScan() {
         mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
-
+        filter = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         receiverWifi = WifiReceiver()
         registerReceiver(receiverWifi, filter)
+        broadCastRegistered = true
         mainWifi.startScan()
     }
 
@@ -94,11 +97,14 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     override fun onBackPressed() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+
         super.onBackPressed()
     }
 
     override fun onDeviceConnectedSuccess() {
-        Toast.makeText(this, R.string.connect_success, Toast.LENGTH_SHORT).show()
+        Timber.d("Connected Successfully")
+        scanDevice.visibility = View.GONE
+        scanProgress.visibility = View.GONE
     }
 
     override fun showProgress() {
@@ -107,7 +113,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         scanProgress.visibility = View.VISIBLE
     }
 
-    override fun onDeviceConnectionError(title: Int, content: Int) {
+    override fun onDeviceConnectionError(title: String?, content: String?) {
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
@@ -121,18 +127,22 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     override fun onPause() {
-        unregisterReceiver(receiverWifi)
+        if (broadCastRegistered)
+            unregisterReceiver(receiverWifi)
         super.onPause()
     }
 
     override fun onResume() {
-        registerReceiver(receiverWifi, filter)
+        if (filter != null) {
+            registerReceiver(receiverWifi, filter)
+            broadCastRegistered = true
+        }
         super.onResume()
     }
 
     inner class WifiReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
-            Toast.makeText(p0, "Inside the app", Toast.LENGTH_LONG).show()
+            Timber.d("Inside the app")
             var wifiList: List<ScanResult> = ArrayList<ScanResult>()
             wifiList = mainWifi.getScanResults()
             devicePresenter.inflateList(wifiList)
@@ -149,6 +159,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 0) {
             devicePresenter.checkLocationEnabled()
+            Timber.d("Onactivityresult")
         }
     }
 

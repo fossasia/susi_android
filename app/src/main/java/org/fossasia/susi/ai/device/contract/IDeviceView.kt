@@ -7,7 +7,7 @@ interface IDeviceView {
 
     fun showProgress()
 
-    fun onDeviceConnectionError(title: Int, content: Int)
+    fun onDeviceConnectionError(title: String?, content: String?)
 
     fun stopProgress()
 

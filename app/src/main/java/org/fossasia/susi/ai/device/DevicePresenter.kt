@@ -7,6 +7,7 @@ import android.location.LocationManager
 import android.net.wifi.ScanResult
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.UtilModel
 import timber.log.Timber
 
 
@@ -16,6 +17,7 @@ class DevicePresenter(deviceActivity: DeviceActivity) : IDevicePresenter {
     var check = false
     var isLocationOn = false
     val connections = ArrayList<String>()
+    private var utilModel: UtilModel = UtilModel(deviceActivity)
 
     override fun onAttach(deviceView: IDeviceView) {
         this.deviceView = deviceView
@@ -23,22 +25,18 @@ class DevicePresenter(deviceActivity: DeviceActivity) : IDevicePresenter {
 
     override fun searchDevices() {
         deviceView?.askForPermissions()
+        Timber.d(check.toString() + "Check")
         if (check) {
-            deviceView?.showLocationIntentDialog()
+            checkLocationEnabled()
             if (isLocationOn) {
+                Timber.d("Location ON")
+                deviceView?.showProgress()
                 deviceView?.startScan()
-
-                if (connections.size > 0) {
-                    deviceView?.onDeviceConnectedSuccess()
-                } else {
-                    deviceView?.onDeviceConnectionError(R.string.no_device_found,R.string.setup_tut)
-                }
             } else {
-
+                deviceView?.showLocationIntentDialog()
             }
-
         } else {
-            // please enable permissions
+            deviceView?.askForPermissions()
         }
     }
 
@@ -56,6 +54,12 @@ class DevicePresenter(deviceActivity: DeviceActivity) : IDevicePresenter {
             connections.add(list[i].SSID)
             Timber.d(connections.get(i))
         }
+
+        if (connections.size > 0) {
+            deviceView?.onDeviceConnectedSuccess()
+        } else {
+            deviceView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+        }
     }
 
     override fun isPermissionGranted(b: Boolean) {
@@ -66,6 +70,7 @@ class DevicePresenter(deviceActivity: DeviceActivity) : IDevicePresenter {
         val locationManager = MainApplication.getInstance().applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             isLocationOn = true
+            deviceView?.startScan()
         } else {
             isLocationOn = false
         }
