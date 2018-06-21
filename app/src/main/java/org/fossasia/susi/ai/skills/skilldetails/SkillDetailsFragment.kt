@@ -28,17 +28,24 @@ import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.responses.susi.Ratings
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.rest.responses.susi.Stars
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
+import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
+import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import java.io.Serializable
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  *
  * Created by chiragw15 on 24/8/17.
  */
-class SkillDetailsFragment : Fragment() {
+class SkillDetailsFragment : Fragment(), ISkillDetailsView {
+
+    private lateinit var skillDetailsPresenter: ISkillDetailsPresenter
 
     private lateinit var skillData: SkillData
     private lateinit var skillGroup: String
@@ -69,6 +76,8 @@ class SkillDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        skillDetailsPresenter = SkillDetailsPresenter(this)
+        skillDetailsPresenter.onAttach(this)
         skillData = arguments?.getSerializable(
                 SKILL_KEY) as SkillData
         skillGroup = (arguments as Bundle).getString(SKILL_GROUP)
@@ -206,6 +215,14 @@ class SkillDetailsFragment : Fragment() {
      */
     private fun setRating() {
 
+        val map: MutableMap<String, String> = HashMap()
+        map.put("model", skillData.model)
+        map.put("group", skillData.group)
+        map.put("language", skillData.language)
+        map.put("skill", skillTag)
+        map.put("access_token", PrefManager.getToken().toString())
+        skillDetailsPresenter.updateUserRating(map)
+
         //If the user is logged in, set up the five star skill rating bar
         if (PrefManager.getToken() != null) {
             setUpFiveStarRatingBar()
@@ -250,9 +267,14 @@ class SkillDetailsFragment : Fragment() {
 
             fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
 
-            //Send rating to the server
-            FiveStarSkillRatingRequest.sendFiveStarRating(skillData.model, skillData.group, skillData.language,
-                    skillTag, v.toInt().toString(), PrefManager.getToken().toString())
+            val map: MutableMap<String, String> = HashMap()
+            map.put("model", skillData.model)
+            map.put("group", skillData.group)
+            map.put("language", skillData.language)
+            map.put("skill", skillTag)
+            map.put("stars", v.toInt().toString())
+            map.put("access_token", PrefManager.getToken().toString())
+            skillDetailsPresenter.updateRatings(map)
 
             fiveStarSkillRatingScaleTextView.setText(v.toString())
             when (ratingBar.rating.toInt()) {
@@ -268,6 +290,31 @@ class SkillDetailsFragment : Fragment() {
             Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
             setRating()
         })
+    }
+
+    /**
+     * Update the ratings as soon as the user rates a skill
+     *
+     * @param ratingsObject Updated stars object that includes the user rating
+     *
+     */
+    override fun updateRatings(ratingsObject: Stars?) {
+        if (ratingsObject != null) {
+            skillData.skillRating?.stars = ratingsObject
+            setRating()
+        }
+    }
+
+    /**
+     * Show the user rating on the rating bar
+     *
+     * @param updatedRating Updates the rating bar with the user rating
+     *
+     */
+    override fun updateUserRating(updatedRating: Int?) {
+        if (updatedRating != null) {
+            fiveStarSkillRatingBar.rating = updatedRating.toFloat()
+        }
     }
 
     /**
@@ -441,5 +488,4 @@ class SkillDetailsFragment : Fragment() {
             }
         }
     }
-
 }
