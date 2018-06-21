@@ -12,7 +12,7 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
@@ -20,12 +20,12 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_device.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.contract.IDeviceView
-import timber.log.Timber
+import org.fossasia.susi.ai.device.contract.IDevicePresenter
 
 
 class DeviceActivity : AppCompatActivity(), IDeviceView {
 
-    lateinit var devicePresenter: DevicePresenter
+    lateinit var devicePresenter: IDevicePresenter
     lateinit var mainWifi: WifiManager
     lateinit var receiverWifi: WifiReceiver
     lateinit var filter: IntentFilter
@@ -37,27 +37,47 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         setContentView(R.layout.activity_device)
 
         filter = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-        showProgress()
         devicePresenter = DevicePresenter(this)
         devicePresenter.onAttach(this)
-        startScan()
+
+        devicePresenter.searchDevices()
     }
 
-    private fun startScan() {
+    override fun askForPermissions() {
         noDeviceFound.visibility = View.GONE
         deviceTutorial.visibility = View.GONE
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(Array<String>(1,{Manifest.permission.ACCESS_COARSE_LOCATION}),
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(Array<String>(1, { Manifest.permission.ACCESS_COARSE_LOCATION }),
                     PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION);
-            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
-        }else{
-            mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
-
-            receiverWifi = WifiReceiver()
-            registerReceiver(receiverWifi,filter)
-            mainWifi.startScan()
-            //do something, permission was previously granted; or legacy device
+        } else {
+            devicePresenter.isPermissionGranted(true)
         }
+    }
+
+    override fun showLocationIntentDialog() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setView(R.layout.select_dialog_item_material)
+
+        dialogBuilder.setTitle(R.string.location_access)
+        dialogBuilder.setMessage(R.string.location_access_message)
+        dialogBuilder.setPositiveButton("NEXT", { dialog, whichButton ->
+
+            val callGPSSettingIntent = Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            startActivityForResult(callGPSSettingIntent, 0)
+
+        })
+        dialogBuilder.setNegativeButton("Cancel", { dialog, whichButton ->
+        })
+        val b = dialogBuilder.create()
+        b.show()
+    }
+
+    override fun startScan() {
+        mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
+
+        receiverWifi = WifiReceiver()
+        registerReceiver(receiverWifi, filter)
+        mainWifi.startScan()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -87,20 +107,17 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         scanProgress.visibility = View.VISIBLE
     }
 
-    override fun onDeviceConnectionError() {
-
-        Handler().postDelayed({
-            scanDevice.visibility = View.GONE
-            scanProgress.visibility = View.GONE
-            noDeviceFound.visibility = View.VISIBLE
-            deviceTutorial.visibility = View.VISIBLE
-        }, 10000)
-
-
+    override fun onDeviceConnectionError(title: Int, content: Int) {
+        scanDevice.visibility = View.GONE
+        scanProgress.visibility = View.GONE
+        noDeviceFound.text = title
+        deviceTutorial.text = content
+        noDeviceFound.visibility = View.VISIBLE
+        deviceTutorial.visibility = View.VISIBLE
     }
 
     fun chooseWifi(view: View) {
-        startScan()
+        devicePresenter.searchDevices()
     }
 
     override fun onPause() {
@@ -113,25 +130,26 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         super.onResume()
     }
 
-    inner class WifiReceiver: BroadcastReceiver() {
-
+    inner class WifiReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
+            Toast.makeText(p0, "Inside the app", Toast.LENGTH_LONG).show()
+            var wifiList: List<ScanResult> = ArrayList<ScanResult>()
+            wifiList = mainWifi.getScanResults()
+            devicePresenter.inflateList(wifiList)
 
-
-                Toast.makeText(p0, "Inside the app", Toast.LENGTH_LONG).show()
-
-                val connections = ArrayList<String>()
-
-                var sb = StringBuilder()
-                var wifiList: List<ScanResult> = ArrayList<ScanResult>()
-                wifiList = mainWifi.getScanResults()
-                Timber.d("size " + wifiList.size)
-                for (i in wifiList.indices) {
-                    connections.add(wifiList[i].SSID)
-                    Timber.d(connections.get(i))
-                }
         }
+    }
 
+    override fun stopProgress() {
+        scanDevice.visibility = View.GONE
+        scanProgress.visibility = View.GONE
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == 0) {
+            devicePresenter.checkLocationEnabled()
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -141,8 +159,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
                 for (i in permissions.indices) {
                     when (permissions[i]) {
                         Manifest.permission.ACCESS_COARSE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                          //  chatPresenter.getLocationFromLocationService()
-                            startScan()
+                            devicePresenter.isPermissionGranted(true)
                         }
                     }
                 }
