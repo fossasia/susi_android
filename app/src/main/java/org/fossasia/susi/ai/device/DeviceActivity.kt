@@ -25,7 +25,7 @@ import org.fossasia.susi.ai.device.DeviceActivity.WifiReceiver
 class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     lateinit var devicePresenter: DevicePresenter
-    val mainWifi: WifiManager? = null
+    lateinit var mainWifi: WifiManager
     lateinit var receiverWifi: WifiReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +33,8 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_device)
 
+
+        showProgress()
         mainWifi = getApplicationContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
 
         receiverWifi = WifiReceiver();
@@ -45,7 +47,6 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         devicePresenter = DevicePresenter(this)
         devicePresenter.onAttach(this)
 
-        scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
         //startScan()
     }
 
@@ -89,6 +90,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     override fun showProgress() {
+        scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
     }
 
     override fun onDeviceConnectionError() {
@@ -107,7 +109,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         startScan()
     }
 
-    public class WifiReceiver: BroadcastReceiver() {
+    inner class WifiReceiver: BroadcastReceiver() {
 
         override fun onReceive(p0: Context?, p1: Intent?) {
 
@@ -115,13 +117,11 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
 
             var sb = StringBuilder()
             var wifiList: List<ScanResult> = ArrayList<ScanResult>()
-            wifiList = wifiManager.getScanResults()
+            wifiList = mainWifi.getScanResults()
             for (i in wifiList.indices) {
                 connections.add(wifiList[i].SSID)
                 Toast.makeText(p0,connections.get(i),Toast.LENGTH_LONG).show()
             }
-
-
         }
 
     }
