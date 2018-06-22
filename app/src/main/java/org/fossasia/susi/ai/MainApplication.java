@@ -68,11 +68,13 @@ public class MainApplication extends Application {
                 return;
             }
 
+            Timber.log(priority, tag, message, throwable);
+
             if (priority == Log.ERROR) {
                 if (throwable == null) {
-                    Timber.e(message);
+                    Log.e("MainApplication", message);
                 } else {
-                    Timber.e(throwable, message);
+                    Log.e("MainApplication", throwable.toString());
                 }
             }
         }
