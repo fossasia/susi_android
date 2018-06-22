@@ -215,16 +215,15 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      */
     private fun setRating() {
 
-        val map: MutableMap<String, String> = HashMap()
-        map.put("model", skillData.model)
-        map.put("group", skillData.group)
-        map.put("language", skillData.language)
-        map.put("skill", skillTag)
-        map.put("access_token", PrefManager.getToken().toString())
-        skillDetailsPresenter.updateUserRating(map)
-
         //If the user is logged in, set up the five star skill rating bar
         if (PrefManager.getToken() != null) {
+            val map: MutableMap<String, String> = HashMap()
+            map.put("model", skillData.model)
+            map.put("group", skillData.group)
+            map.put("language", skillData.language)
+            map.put("skill", skillTag)
+            map.put("access_token", PrefManager.getToken().toString())
+            skillDetailsPresenter.updateUserRating(map)
             setUpFiveStarRatingBar()
         }
 
