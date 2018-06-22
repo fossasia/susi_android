@@ -72,7 +72,7 @@ public class MainApplication extends Application {
                 if (throwable == null) {
                     Log.e(TAG, message);
                 } else {
-                    Log.e(TAG, throwable.toString());
+                    Log.e(TAG, message + throwable.toString());
                 }
             }
         }
