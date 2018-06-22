@@ -68,8 +68,6 @@ public class MainApplication extends Application {
                 return;
             }
 
-            Timber.log(priority, tag, message, throwable);
-
             if (priority == Log.ERROR) {
                 if (throwable == null) {
                     Log.e(TAG, message);
