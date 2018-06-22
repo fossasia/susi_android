@@ -52,8 +52,12 @@ class SkillListAdapter(val context: Context, private val skillDetails: Pair<Stri
                     .into(holder.previewImageView)
         }
 
-        holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar!!.toFloat()
-        holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
+        if (skillData.skillRating != null) {
+            if (skillData.skillRating?.stars != null) {
+                holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar as Float
+                holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
+            }
+        }
     }
 
     override fun getItemCount(): Int {

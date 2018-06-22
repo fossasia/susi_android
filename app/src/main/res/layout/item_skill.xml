@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/cmv_padding"
                     android:paddingTop="@dimen/cmv_padding"
-                    android:text="@string/digit_five"
+                    android:text="@string/digit_zero"
                     android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
