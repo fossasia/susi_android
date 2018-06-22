@@ -20,6 +20,7 @@ import retrofit2.Response
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.collections.HashMap
 
 /**
  * Presentation Layer for Chat View.
@@ -41,6 +42,9 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     private var micCheck = false
     var latitude: Double = 0.0
     var longitude: Double = 0.0
+    private var countryName: String? = ""
+    private var countryCode: String? = ""
+    private val deviceType = "Android"
     private var source = Constant.IP
     private var isDetectionOn = false
     var check = false
@@ -234,6 +238,9 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 latitude = s[0].toDouble()
                 longitude = s[1].toDouble()
                 source = Constant.IP
+                countryCode = response.body().country
+                val locale = Locale("", countryCode)
+                countryName = locale.displayCountry
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -314,8 +321,17 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
                 val query = nonDeliveredMessages.first.first
                 val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT) == Constant.DEFAULT) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
-
-                chatModel.getSusiMessage(timezoneOffset, longitude, latitude, source, language, query, this)
+                val data: MutableMap<String, String> = HashMap()
+                data.put("timezoneOffset", timezoneOffset.toString())
+                data.put("longitude", longitude.toString())
+                data.put("latitude", latitude.toString())
+                data.put("geosource", source)
+                data.put("language", language)
+                data.put("country_code", countryCode.toString())
+                data.put("country_name", countryName.toString())
+                data.put("device_type", deviceType)
+                data.put("q", query)
+                chatModel.getSusiMessage(data, this)
 
             } else run {
                 queueExecuting.set(false)
@@ -447,7 +463,17 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         val now = Date()
         val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
         val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT).equals(Constant.DEFAULT)) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
-        chatModel.getTableSusiMessage(timezoneOffset, longitude, latitude, source, language, query, this)
+        val data: MutableMap<String, String> = HashMap()
+        data.put("timezoneOffset", timezoneOffset.toString())
+        data.put("longitude", longitude.toString())
+        data.put("latitude", latitude.toString())
+        data.put("geosource", source)
+        data.put("language", language)
+        data.put("country_code", countryCode.toString())
+        data.put("country_name", countryName.toString())
+        data.put("device_type", deviceType)
+        data.put("q", query)
+        chatModel.getTableSusiMessage(data, this)
     }
 
     override fun onDatabaseUpdateSuccess() {
