@@ -19,7 +19,7 @@ import timber.log.Timber;
 public class MainApplication extends Application {
 
     private static MainApplication instance;
-
+    private static final String TAG = "MainApplication";
     /**
      * Gets instance.
      *
@@ -72,9 +72,9 @@ public class MainApplication extends Application {
 
             if (priority == Log.ERROR) {
                 if (throwable == null) {
-                    Log.e("MainApplication", message);
+                    Log.e(TAG, message);
                 } else {
-                    Log.e("MainApplication", throwable.toString());
+                    Log.e(TAG, throwable.toString());
                 }
             }
         }
