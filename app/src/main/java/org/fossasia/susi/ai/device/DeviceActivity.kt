@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_device.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.adapters.DevicesAdapter
@@ -41,7 +42,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         setContentView(R.layout.activity_device)
         mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
         receiverWifi = WifiReceiver()
-        devicePresenter = DevicePresenter(this)
+        devicePresenter = DevicePresenter(this, mainWifi)
         devicePresenter.onAttach(this)
 
         devicePresenter.searchDevices()
@@ -104,7 +105,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         super.onBackPressed()
     }
 
-    override fun onDeviceConnectedSuccess(devicesScanned: List<String>) {
+    override fun setupAdapter(devicesScanned: List<String>) {
         Timber.d("Connected Successfully")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
@@ -112,14 +113,16 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         val linearLayoutManager = LinearLayoutManager(this)
         deviceList.layoutManager = linearLayoutManager
         deviceList.setHasFixedSize(true)
-        recyclerAdapter = DevicesAdapter(devicesScanned,this)
+        recyclerAdapter = DevicesAdapter(devicesScanned, devicePresenter)
         deviceList.adapter = recyclerAdapter
     }
 
-    override fun showProgress() {
+    override fun showProgress(title: String?) {
         scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
+        scanDevice.text = title
         scanDevice.visibility = View.VISIBLE
         scanProgress.visibility = View.VISIBLE
+        deviceList.visibility = View.GONE
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
@@ -187,5 +190,9 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     override fun unregister() {
         unregisterReceiver(receiverWifi)
+    }
+
+    override fun onDeviceConnectionSuccess() {
+        Toast.makeText(this, "Connection Successful, Did you hear a beep ?", Toast.LENGTH_LONG).show()
     }
 }
