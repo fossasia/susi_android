@@ -15,6 +15,11 @@ import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
 
+/*
+*   Created by batbrain7 on 22/06/18
+*   This is the presenter for the device activity where the logic of connecting to the device is written.
+ */
+
 
 class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDevicePresenter {
 
@@ -22,6 +27,7 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
     private var deviceView: IDeviceView? = null
     var check = false
     var isLocationOn = false
+    var SSID: String? = null
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(deviceActivity)
 
@@ -64,10 +70,10 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
 
         if (connections.size > 0) {
             deviceView?.setupAdapter(connections)
-//            deviceView?.unregister()
+            deviceView?.unregister()
         } else {
             deviceView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
-//            deviceViewew?.unregister()
+            deviceView?.unregister()
         }
     }
 
@@ -79,30 +85,40 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
         val locationManager = MainApplication.getInstance().applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             isLocationOn = true
-            deviceView?.startScan()
         } else {
             isLocationOn = false
         }
     }
 
     override fun connectToDevice(networkSSID: String) {
-        deviceView?.showProgress(utilModel.getString(R.string.connecting_device))
-
         Timber.d("connectToWiFi() called with: ssid = [$networkSSID], key = password")
-
-        val wifiConfiguration = WifiConfiguration()
-        wifiConfiguration.SSID = "\"" + networkSSID + "\""
-        wifiConfiguration.preSharedKey = "\"" + "password" + "\""
-
-        val networkId = mWifiManager.addNetwork(wifiConfiguration)
-        if (networkId != -1) {
-            mWifiManager.enableNetwork(networkId, true)
-            // Use this to permanently save this network
-            // Otherwise, it will disappear after a reboot
-            mWifiManager.saveConfiguration()
-        }
-
-        deviceView?.onDeviceConnectionSuccess()
+        SSID = networkSSID
+        ConnectWifi().execute()
     }
 
+    inner class ConnectWifi: AsyncTask<Void, Void, Void>() {
+
+        override fun doInBackground(vararg p0: Void?): Void? {
+            val wifiConfiguration = WifiConfiguration()
+            wifiConfiguration.SSID = "\"" + SSID + "\""
+            wifiConfiguration.preSharedKey = "\"" + "password" + "\""
+
+            val networkId = mWifiManager.addNetwork(wifiConfiguration)
+            if (networkId != -1) {
+                mWifiManager.enableNetwork(networkId, true)
+                // Use this to permanently save this network
+                // Otherwise, it will disappear after a reboot
+                mWifiManager.saveConfiguration()
+            }
+            return null;
+        }
+
+        override fun onProgressUpdate(vararg values: Void?) {
+            deviceView?.showProgress(utilModel.getString(R.string.connecting_device))
+        }
+
+        override fun onPostExecute(result: Void?) {
+            deviceView?.onDeviceConnectionSuccess()
+        }
+    }
 }

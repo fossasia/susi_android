@@ -1,15 +1,10 @@
 package org.fossasia.susi.ai.device.adapters;
 
-import android.content.Context;
-import android.net.wifi.WifiConfiguration;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.device.DevicePresenter;
-import org.fossasia.susi.ai.device.contract.IDevicePresenter;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

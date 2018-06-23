@@ -26,6 +26,12 @@ import org.fossasia.susi.ai.device.contract.IDevicePresenter
 import timber.log.Timber
 
 
+/*
+*   Created by batbrain7 on 20/06/18
+*   Device activity is where we can setup a new device and also
+*   view the devices currently connected
+ */
+
 class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     lateinit var devicePresenter: IDevicePresenter
@@ -33,7 +39,6 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     lateinit var receiverWifi: WifiReceiver
     lateinit var recyclerAdapter: DevicesAdapter
     var filter: IntentFilter? = null
-    var broadCastRegistered = false
     private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,11 +84,9 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     override fun startScan() {
-        mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
         filter = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         receiverWifi = WifiReceiver()
         registerReceiver(receiverWifi, filter)
-        broadCastRegistered = true
         mainWifi.startScan()
     }
 
@@ -139,18 +142,6 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         devicePresenter.searchDevices()
     }
 
-    override fun onPause() {
-        super.onPause()
-    }
-
-    override fun onResume() {
-        if (filter != null) {
-//            registerReceiver(receiverWifi, filter)
-            broadCastRegistered = true
-        }
-        super.onResume()
-    }
-
     inner class WifiReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             Timber.d("Inside the app")
@@ -168,7 +159,8 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 0) {
-            devicePresenter.checkLocationEnabled()
+            devicePresenter.searchDevices()
+
             Timber.d("Onactivityresult")
         }
     }

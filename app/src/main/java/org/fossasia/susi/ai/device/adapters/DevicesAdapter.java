@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.device.adapters;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.device.DeviceActivity;
 import org.fossasia.susi.ai.device.DevicePresenter;
 import org.fossasia.susi.ai.device.contract.IDevicePresenter;
 
