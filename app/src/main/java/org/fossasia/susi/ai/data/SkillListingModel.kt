@@ -38,7 +38,7 @@ class SkillListingModel : ISkillListingModel {
 
     override fun fetchSkills(group: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
 
-        authResponseCallSkills = clientBuilder.susiApi.fetchListSkills(group)
+        authResponseCallSkills = clientBuilder.susiApi.fetchListSkills(group, "true", "descending", "rating")
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
             override fun onResponse(call: Call<ListSkillsResponse>, response: Response<ListSkillsResponse>) {
