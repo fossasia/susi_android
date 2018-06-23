@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.device.contract
 
 interface IDeviceView {
 
-    fun onDeviceConnectedSuccess()
+    fun onDeviceConnectedSuccess(devicesScanned: List<String>)
 
     fun showProgress()
 
@@ -16,5 +16,7 @@ interface IDeviceView {
     fun askForPermissions()
 
     fun startScan()
+
+    fun unregister()
 
 }

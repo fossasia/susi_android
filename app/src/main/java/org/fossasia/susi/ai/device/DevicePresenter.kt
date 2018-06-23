@@ -56,9 +56,11 @@ class DevicePresenter(deviceActivity: DeviceActivity) : IDevicePresenter {
         }
 
         if (connections.size > 0) {
-            deviceView?.onDeviceConnectedSuccess()
+            deviceView?.onDeviceConnectedSuccess(connections)
+//            deviceView?.unregister()
         } else {
             deviceView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+//            deviceViewew?.unregister()
         }
     }
 

@@ -14,10 +14,12 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_device.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.device.adapters.DevicesAdapter
 import org.fossasia.susi.ai.device.contract.IDeviceView
 import org.fossasia.susi.ai.device.contract.IDevicePresenter
 import timber.log.Timber
@@ -28,6 +30,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     lateinit var devicePresenter: IDevicePresenter
     lateinit var mainWifi: WifiManager
     lateinit var receiverWifi: WifiReceiver
+    lateinit var recyclerAdapter: DevicesAdapter
     var filter: IntentFilter? = null
     var broadCastRegistered = false
     private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
@@ -101,10 +104,16 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         super.onBackPressed()
     }
 
-    override fun onDeviceConnectedSuccess() {
+    override fun onDeviceConnectedSuccess(devicesScanned: List<String>) {
         Timber.d("Connected Successfully")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
+        deviceList.visibility = View.VISIBLE
+        val linearLayoutManager = LinearLayoutManager(this)
+        deviceList.layoutManager = linearLayoutManager
+        deviceList.setHasFixedSize(true)
+        recyclerAdapter = DevicesAdapter(devicesScanned,this)
+        deviceList.adapter = recyclerAdapter
     }
 
     override fun showProgress() {
@@ -117,6 +126,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
+        deviceList.visibility = View.GONE
         deviceTutorial.text = content
         noDeviceFound.visibility = View.VISIBLE
         deviceTutorial.visibility = View.VISIBLE
@@ -127,14 +137,12 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     override fun onPause() {
-        if (broadCastRegistered)
-            unregisterReceiver(receiverWifi)
         super.onPause()
     }
 
     override fun onResume() {
         if (filter != null) {
-            registerReceiver(receiverWifi, filter)
+//            registerReceiver(receiverWifi, filter)
             broadCastRegistered = true
         }
         super.onResume()
@@ -146,7 +154,6 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
             var wifiList: List<ScanResult> = ArrayList<ScanResult>()
             wifiList = mainWifi.getScanResults()
             devicePresenter.inflateList(wifiList)
-
         }
     }
 
@@ -176,5 +183,9 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
                 }
             }
         }
+    }
+
+    override fun unregister() {
+        unregisterReceiver(receiverWifi)
     }
 }

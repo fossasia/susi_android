@@ -60,4 +60,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/deviceList"
+        >
+    </android.support.v7.widget.RecyclerView>
+
 </android.support.constraint.ConstraintLayout>
