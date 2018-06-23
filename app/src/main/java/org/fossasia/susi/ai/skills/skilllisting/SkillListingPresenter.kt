@@ -20,7 +20,7 @@ class SkillListingPresenter : ISkillListingPresenter,
     private var skillListingModel: ISkillListingModel = SkillListingModel()
     private var skillListingView: ISkillListingView? = null
     private var count = 1
-    var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
+    var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
     private var groupsCount = 0
     private var groups: List<String> = ArrayList()
 
@@ -52,7 +52,7 @@ class SkillListingPresenter : ISkillListingPresenter,
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
-            val responseSkillMap = response.body().skillMap
+            val responseSkillMap = response.body().filteredSkillsData
             if (responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
                 skillListingView?.updateAdapter(skills)
