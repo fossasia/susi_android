@@ -64,8 +64,8 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
         Timber.d("size " + list.size)
         connections = ArrayList<String>()
         for (i in list.indices) {
-            connections.add(list[i].SSID)
-            Timber.d(connections.get(i))
+            if (list[i].SSID.equals(utilModel.getString(R.string.device_name)))
+                connections.add(list[i].SSID)
         }
 
         if (connections.size > 0) {

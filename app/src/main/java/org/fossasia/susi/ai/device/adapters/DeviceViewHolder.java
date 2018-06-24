@@ -11,9 +11,9 @@ import butterknife.OnClick;
 
 public class DeviceViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.speakerName)
+    protected  @BindView(R.id.speakerName)
     TextView speakerName;
-    @BindView(R.id.speakerSetUp)
+    protected  @BindView(R.id.speakerSetUp)
     TextView setUp;
     protected DevicePresenter devicePresenter;
 
@@ -23,7 +23,7 @@ public class DeviceViewHolder extends RecyclerView.ViewHolder {
         this.devicePresenter = devicePresenter;
     }
 
-    @OnClick(R.id.speakerSetUp) void onClick() {
+    protected  @OnClick(R.id.speakerSetUp) void onClick() {
         String SSID = speakerName.getText().toString();
         devicePresenter.connectToDevice(SSID);
     }
