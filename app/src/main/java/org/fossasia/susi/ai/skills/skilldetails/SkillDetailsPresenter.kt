@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skilldetails
 
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.data.SkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.rest.responses.susi.*
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
@@ -17,7 +18,8 @@ import java.net.UnknownHostException
  * @author arundhati24
  */
 class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter,
-        ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener {
+        ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener,
+        ISkillDetailsModel.OnUpdateFeedbackFinishedListener {
 
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
     private var skillDetailsView: ISkillDetailsView? = null
@@ -42,6 +44,14 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
         skillDetailsModel.cancelUpdateUserRating()
     }
 
+    override fun postFeedback(queryObject: PostFeedback) {
+        skillDetailsModel.postFeedback(queryObject, this)
+    }
+
+    override fun cancelPostFeedback() {
+        skillDetailsModel.cancelPostFeedback()
+    }
+
     override fun onError(throwable: Throwable) {
 
         if (throwable is UnknownHostException) {
@@ -53,6 +63,14 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
 
     override fun onUpdateUserRatingError(throwable: Throwable) {
 
+        if (throwable is UnknownHostException) {
+            if (NetworkUtils.isNetworkConnected()) {
+                Timber.e(throwable.toString())
+            }
+        }
+    }
+
+    override fun onUpdateFeedbackError(throwable: Throwable) {
         if (throwable is UnknownHostException) {
             if (NetworkUtils.isNetworkConnected()) {
                 Timber.e(throwable.toString())
@@ -81,6 +99,15 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
             skillDetailsView?.updateUserRating(response.body().ratings?.stars)
         } else {
             Timber.d("Could not update the user ratings")
+        }
+    }
+
+    override fun onUpdateFeedbackModelSuccess(response: Response<PostSkillFeedbackResponse>) {
+        if (response.isSuccessful && response.body() != null) {
+            Timber.d(response.body().message)
+            skillDetailsView?.updateFeedback()
+        } else {
+            Timber.d("Could not update feedback")
         }
     }
 
