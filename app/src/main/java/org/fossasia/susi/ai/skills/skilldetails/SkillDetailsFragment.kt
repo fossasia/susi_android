@@ -229,13 +229,25 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
         //If the totalStar is positive, it implies that the skill has been rated
         //If so, set up the section to display the statistics else simply display a message for unrated skill
-        if (skillData.skillRating?.stars?.totalStar!! > 0) {
-            fiveStarAverageSkillRating = tv_average_rating
-            fiveStarTotalSkillRating = tv_total_rating
+        if (skillData.skillRating != null) {
+            if (skillData.skillRating?.stars != null) {
+                if (skillData.skillRating?.stars?.totalStar as Int > 0) {
+                    fiveStarAverageSkillRating = tv_average_rating
+                    fiveStarTotalSkillRating = tv_total_rating
 
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
-            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
-            setSkillGraph()
+                    fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
+                    fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
+                    setSkillGraph()
+                } else {
+                    skill_rating_view.visibility = View.GONE
+                    tv_unrated_skill.visibility = View.VISIBLE
+                    if (PrefManager.getToken() != null) {
+                        tv_unrated_skill.text = getString(R.string.skill_unrated)
+                    } else {
+                        tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
+                    }
+                }
+            }
         } else {
             skill_rating_view.visibility = View.GONE
             tv_unrated_skill.visibility = View.VISIBLE
@@ -365,12 +377,12 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      */
     private fun setData() {
 
-        val totalUsers: Int = skillData.skillRating?.stars?.totalStar!!
-        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar!!
-        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar!!
-        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar!!
-        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar!!
-        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar!!
+        val totalUsers: Int = skillData.skillRating?.stars?.totalStar as Int
+        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar as Int
+        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar as Int
+        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar as Int
+        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar as Int
+        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar as Int
 
         val oneStarUsersPercent: Float = calcPercentageOfUsers(oneStarUsers, totalUsers)
         val twoStarUsersPercent: Float = calcPercentageOfUsers(twoStarUsers, totalUsers)
