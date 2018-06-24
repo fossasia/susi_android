@@ -15,7 +15,7 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHo
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListAdapter(val context: Context, private val skillDetails: Pair<String, Map<String, SkillData>>, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
+class SkillListAdapter(val context: Context, private val skillDetails: Pair<String, List<SkillData>>, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
@@ -23,7 +23,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: Pair<Stri
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
-        val skillData = skillDetails.second.values.toTypedArray()[position]
+        val skillData = skillDetails.second.toTypedArray()[position]
 
         if (skillData.skillName == null || skillData.skillName.isEmpty()) {
             holder.skillPreviewTitle?.text = context.getString(R.string.no_skill_name)
@@ -52,8 +52,12 @@ class SkillListAdapter(val context: Context, private val skillDetails: Pair<Stri
                     .into(holder.previewImageView)
         }
 
-        holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar!!.toFloat()
-        holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
+        if (skillData.skillRating != null) {
+            if (skillData.skillRating?.stars != null) {
+                holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar as Float
+                holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -61,8 +65,13 @@ class SkillListAdapter(val context: Context, private val skillDetails: Pair<Stri
     }
 
     override fun onItemClicked(position: Int) {
-        val skillTag = skillDetails.second.keys.toTypedArray()[position]
-        val skillData = skillDetails.second.values.toTypedArray()[position]
+        var skillTag: String? = ""
+        if (skillDetails.second.toTypedArray()[position].skillTag != null) {
+            skillTag = skillDetails.second.toTypedArray()[position].skillTag
+        } else {
+            skillTag = ""
+        }
+        val skillData = skillDetails.second.toTypedArray()[position]
         val skillGroup = skillDetails.first.replace(" ", "%20")
         showSkillDetailFragment(skillData, skillGroup, skillTag)
     }
