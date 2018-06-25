@@ -362,11 +362,16 @@
 
     <!-- Feedback System -->
 
-    <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
     <string name="button_post">post</string>
     <string name="desc_post_feedback">Write your invaluable feedback here</string>
+    <string name="example_feedback">Example feedback</string>
     <string name="feedback_section">Feedback</string>
     <string name="hint_feedback">Skill feedback</string>
+    <string name="placeholder_date">25 Jun, 2018</string>
+    <string name="placeholder_email">abc@example.com</string>
+    <string name="placeholder_initials">AB</string>
+    <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
+    <string name="see_all_reviews">See All Reviews</string>
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
 

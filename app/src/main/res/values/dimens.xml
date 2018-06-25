@@ -25,6 +25,7 @@
     <dimen name="margin_bottom">40dp</dimen>
     <dimen name="margin_card">8dp</dimen>
     <dimen name="margin_large">10dp</dimen>
+    <dimen name="margin_very_large">16dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_small">5dp</dimen>
     <dimen name="margin_top">60dp</dimen>
@@ -61,7 +62,9 @@
 
     <dimen name="standard_content_padding">5dp</dimen>
 
-    <dimen name="text_size_small">10sp</dimen>
+    <dimen name="text_size_very_small">10sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_very_large">24sp</dimen>
     <dimen name="text_size_normal">22sp</dimen>
@@ -87,6 +90,7 @@
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="img_width_height">120dp</dimen>
+    <dimen name="tv_initials_width_height">56dp</dimen>
 
     <dimen name="intro_desc_padding">10dp</dimen>
     <dimen name="intro_desc_textsize">14sp</dimen>
@@ -107,5 +111,12 @@
     <dimen name="device_setup_margin_top">20dp</dimen>
 
     <dimen name="rating_bar_layout_width">100dp</dimen>
+
+    <!-- Right facing arrow dimensions -->
+
+    <dimen name="arrow_width">72dp</dimen>
+    <dimen name="arrow_height">16dp</dimen>
+    <dimen name="arrow_padding_large">56dp</dimen>
+
 
 </resources>

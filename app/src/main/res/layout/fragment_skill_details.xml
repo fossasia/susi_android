@@ -193,7 +193,7 @@
                         android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
                         android:text="@string/average_rating"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_very_small" />
 
                 </LinearLayout>
 
@@ -360,7 +360,7 @@
                         android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
                         android:text="@string/total_rating"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_very_small" />
 
                 </LinearLayout>
 
@@ -428,8 +428,14 @@
                 android:id="@+id/tvAnonymousPostFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="@string/post_feedback_for_anonymous_user"
                 android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/skillDetailContent"
