@@ -93,10 +93,11 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
     override fun connectToDevice(networkSSID: String) {
         Timber.d("connectToWiFi() called with: ssid = [$networkSSID], key = password")
         SSID = networkSSID
+        deviceView?.showProgress(utilModel.getString(R.string.connecting_device))
         ConnectWifi().execute()
     }
 
-    inner class ConnectWifi: AsyncTask<Void, Void, Void>() {
+    inner class ConnectWifi : AsyncTask<Void, Void, Void>() {
 
         override fun doInBackground(vararg p0: Void?): Void? {
             val wifiConfiguration = WifiConfiguration()
@@ -111,10 +112,6 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
                 mWifiManager.saveConfiguration()
             }
             return null;
-        }
-
-        override fun onProgressUpdate(vararg values: Void?) {
-            deviceView?.showProgress(utilModel.getString(R.string.connecting_device))
         }
 
         override fun onPostExecute(result: Void?) {

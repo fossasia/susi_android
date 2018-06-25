@@ -185,6 +185,8 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     override fun onDeviceConnectionSuccess() {
-        Toast.makeText(this, "Connection Successful, Did you hear a beep ?", Toast.LENGTH_LONG).show()
+        scanProgress.visibility = View.GONE
+        scanDevice.visibility = View.VISIBLE
+        scanDevice.setText(R.string.connect_success)
     }
 }
