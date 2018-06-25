@@ -10,7 +10,7 @@ ext {
     butterKnifeVersion = '8.8.1'
     retrofitVersion = '2.1.0'
     okHttpVersion = '3.3.1'
-    linkPreviewVersion = '2.0.0@aar'
+    linkPreviewVersion = '1.0.8'
     jsoupVersion = '1.8.3'
     preferenceVersion = '27.1.1.1'
     realmVersion = '1.3.0'
