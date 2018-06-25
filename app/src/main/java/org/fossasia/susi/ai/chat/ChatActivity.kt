@@ -25,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
@@ -38,6 +39,7 @@ import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.skills.SkillsActivity
 import java.util.*
 
@@ -59,6 +61,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private lateinit var progressDialog: ProgressDialog
     private var example: String = ""
     private var isConfigurationChanged = false
+    private var enterAsSend = lazy{
+        PrefManager.getBoolean(Constant.ENTER_SEND, false)
+    }
 
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
@@ -162,6 +167,18 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 handled = true
             }
             handled
+        })
+
+        askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
+            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend.value && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
+                val message = askSusiMessage.text.toString().trim({ it <= ' ' })
+                if (!message.isEmpty()) {
+                    chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                    askSusiMessage.setText("")
+                }
+                return@OnKeyListener true
+            }
+            false
         })
     }
 
