@@ -28,6 +28,7 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultsListHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TableViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.YoutubeVideoViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.ConstraintsHelper;
@@ -69,6 +70,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private static final int DATE_VIEW = 12;
     private static final int TABLE = 13;
     private static final int STOP = 14;
+    private static final int AUDIOPLAY = 15;
+    private static final int VIDEOPLAY = 16;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -211,6 +214,12 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 return nullHolder;
             case STOP:
                 return nullHolder;
+            case AUDIOPLAY:
+                view = inflater.inflate(R.layout.youtube_video, viewGroup, false);
+                return new YoutubeVideoViewHolder(view, clickListener);
+            case VIDEOPLAY:
+                view = inflater.inflate(R.layout.youtube_video, viewGroup, false);
+                return new YoutubeVideoViewHolder(view, clickListener);
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, clickListener, USER_MESSAGE);
@@ -243,6 +252,10 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 return TABLE;
             case Constant.PIECHART:
                 return PIECHART;
+            case Constant.AUDIOPLAY:
+                return AUDIOPLAY;
+            case Constant.VIDEOPLAY:
+                return VIDEOPLAY;
             default:
                 return SUSI_MESSAGE;
         }
@@ -262,9 +275,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", "");
+                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", "", "");
                 }
-                return new ChatMessage(-405, "", "", false, false, false, "", null, "", "");
+                return new ChatMessage(-405, "", "", false, false, false, "", null, "", "", "");
             }
             return getData().get(index);
         }
@@ -279,6 +292,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             mapViewHolder.setView(getData().get(position), currContext);
+        } else if (holder instanceof YoutubeVideoViewHolder) {
+            YoutubeVideoViewHolder videoViewHolder = (YoutubeVideoViewHolder) holder;
+            videoViewHolder.setPlayerView(getData().get(position));
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
             pieChartViewHolder.setView(getData().get(position));

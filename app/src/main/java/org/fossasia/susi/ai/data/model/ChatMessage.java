@@ -23,6 +23,7 @@ public class ChatMessage extends RealmObject {
     private RealmList<TableData> tableData;
     private boolean isDelivered, isHavingLink, isDate, isMine, isPositiveRated, isNegativeRated;
     private double latitude, longitude, zoom;
+    private String identifier;
 
     /**
      * Instantiates a new Chat message.
@@ -47,7 +48,7 @@ public class ChatMessage extends RealmObject {
      */
     public ChatMessage(long id, String content, String date, boolean isDate, boolean isMine,
                        boolean isHavingLink, String timeStamp, RealmList<Datum> datumRealmList,
-                       String webquery, String skillLocation) {
+                       String webquery, String skillLocation, String identifier) {
         this.id = id;
         this.content = content;
         this.date = date;
@@ -57,6 +58,7 @@ public class ChatMessage extends RealmObject {
         this.datumRealmList = datumRealmList;
         this.webquery = webquery;
         this.isMine = isMine;
+        this.identifier = identifier;
         this.webLinkData = null;
         this.webSearchList = null;
         this.tableColumns = null;
@@ -157,6 +159,14 @@ public class ChatMessage extends RealmObject {
      */
     public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     /**

@@ -79,4 +79,6 @@ public class Constant {
     public static final String NEGATIVE = "negative";
     public static final String NOTIFY_USER = "notify_user";
 
+    //VIDEO ID
+    public static final String VIDEO_ID = "video_id";
 }
