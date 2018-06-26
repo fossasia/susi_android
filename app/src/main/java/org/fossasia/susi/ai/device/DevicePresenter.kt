@@ -23,11 +23,11 @@ import android.os.AsyncTask
 
 class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDevicePresenter {
 
-    var mWifiManager = manager
+    private var mWifiManager = manager
     private var deviceView: IDeviceView? = null
-    var check = false
-    var isLocationOn = false
-    var SSID: String? = null
+    private var check = false
+    private var isLocationOn = false
+    private var SSID: String? = null
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(deviceActivity)
 
