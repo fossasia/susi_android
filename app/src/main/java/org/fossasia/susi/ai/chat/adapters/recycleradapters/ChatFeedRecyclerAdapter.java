@@ -223,8 +223,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 view = inflater.inflate(R.layout.youtube_video, viewGroup, false);
                 return new YoutubeVideoViewHolder(view, clickListener);
             case IMAGE:
-                view = inflater.inflate(R.layout.image_holder,viewGroup,false);
-                return new ImageViewHolder(view,clickListener);
+                view = inflater.inflate(R.layout.image_holder, viewGroup, false);
+                return new ImageViewHolder(view, clickListener);
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, clickListener, USER_MESSAGE);
@@ -238,7 +238,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isDate()) return DATE_VIEW;
-        else if ((item.getContent().endsWith(".jpg")||(item.getContent().endsWith(".png"))))
+        else if ((item.getContent().endsWith(".jpg") || (item.getContent().endsWith(".png"))))
             return IMAGE;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;

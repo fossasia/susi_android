@@ -7,7 +7,6 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import timber.log.Timber
-import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 /**

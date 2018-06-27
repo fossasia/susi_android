@@ -31,6 +31,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+/*
+*   Created by batbrain7 on 27/06/18
+*
+*   A ViewHolder class for all that displays all the image responses.
+*/
+
 public class ImageViewHolder extends MessageViewHolder {
     /**
      * Instantiates a new Message view holder.
@@ -62,9 +68,9 @@ public class ImageViewHolder extends MessageViewHolder {
         if (model != null) {
             imageURL = model.getContent();
             try {
-
-                Picasso.with(itemView.getContext()).load(imageURL).
-                        placeholder(R.drawable.ic_susi)
+                Picasso.with(itemView.getContext())
+                        .load(imageURL)
+                        .placeholder(R.drawable.ic_susi)
                         .into(imageView);
             } catch (Exception e) {
                 Timber.e(e);
@@ -118,19 +124,23 @@ public class ImageViewHolder extends MessageViewHolder {
 
     // a function to rate the susi skill
     private void rateSusiSkill(final String polarity, String locationUrl, final Context context) {
-
         final Map<String, String> susiLocation = ParseSusiResponseHelper.Companion.getSkillLocation(locationUrl);
 
-        if (susiLocation.size() == 0) {
+        if (susiLocation.isEmpty()) {
             return;
         }
 
-        Call<SkillRatingResponse> call = new ClientBuilder().getSusiApi().rateSkill(susiLocation.get("model"),
-                susiLocation.get("group"), susiLocation.get("language"), susiLocation.get("skill"), polarity);
+        Call<SkillRatingResponse> ratingResponseCall = new ClientBuilder().getSusiApi()
+                .rateSkill(
+                susiLocation.get("model"),
+                susiLocation.get("group"),
+                susiLocation.get("language"),
+                susiLocation.get("skill"),
+                polarity);
 
-        call.enqueue(new Callback<SkillRatingResponse>() {
+        ratingResponseCall.enqueue(new Callback<SkillRatingResponse>() {
             @Override
-            public void onResponse(Call<SkillRatingResponse> call, Response<SkillRatingResponse> response) {
+            public void onResponse(Call<SkillRatingResponse> responseCall, Response<SkillRatingResponse> response) {
                 if (!response.isSuccessful() || response.body() == null) {
                     switch (polarity) {
                         case Constant.POSITIVE:
@@ -148,8 +158,8 @@ public class ImageViewHolder extends MessageViewHolder {
             }
 
             @Override
-            public void onFailure(Call<SkillRatingResponse> call, Throwable t) {
-                t.printStackTrace();
+            public void onFailure(Call<SkillRatingResponse> responseCall, Throwable t) {
+                Timber.e(t);
                 switch (polarity) {
                     case Constant.POSITIVE:
                         thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
@@ -167,13 +177,13 @@ public class ImageViewHolder extends MessageViewHolder {
     }
 
     // function to set the rating in the database
-    private void setRating(boolean what, boolean which) {
+    private void setRating(boolean rating, boolean thumbsUp) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        if (which) {
-            model.setPositiveRated(what);
+        if (thumbsUp) {
+            model.setPositiveRated(rating);
         } else {
-            model.setNegativeRated(what);
+            model.setNegativeRated(rating);
         }
         realm.commitTransaction();
     }
