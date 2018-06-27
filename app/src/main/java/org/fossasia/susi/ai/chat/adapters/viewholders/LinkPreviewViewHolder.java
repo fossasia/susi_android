@@ -203,9 +203,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             titleTextView.setVisibility(View.GONE);
             previewLayout.setVisibility(View.GONE);
 
-            ResponseListener responseListener;
-            responseListener = getResponseListener();
-            RichPreview richPreview = new RichPreview(responseListener);
+            RichPreview richPreview = new RichPreview(getResponseListener());
 
             List<String> urlList = ChatFeedRecyclerAdapter.extractLinks(model.getContent());
             String url = urlList.get(0);
