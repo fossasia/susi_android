@@ -78,7 +78,6 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
     private Realm realm;
     private String url;
     private ChatMessage model;
-    private ResponseListener responseListener;
 
     /**
      * Instantiates a new Link preview view holder.
@@ -204,15 +203,16 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             titleTextView.setVisibility(View.GONE);
             previewLayout.setVisibility(View.GONE);
 
-            responseListener = initResponseListener();
+            ResponseListener responseListener;
+            responseListener = getResponseListener();
             RichPreview richPreview = new RichPreview(responseListener);
 
             List<String> urlList = ChatFeedRecyclerAdapter.extractLinks(model.getContent());
-            StringBuilder url = new StringBuilder(urlList.get(0));
-            StringBuilder http = new StringBuilder("http://");
-            StringBuilder https = new StringBuilder("https://");
-            if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(https.toString()))) {
-                url = http.append(url.toString());
+            String url = urlList.get(0);
+            String http = "http://";
+            String https = "https://";
+            if (!(url.startsWith(http) || url.startsWith(https))) {
+                url = http + url;
             }
 
             richPreview.getPreview(String.valueOf(url));
@@ -331,7 +331,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
         });
     }
 
-    private ResponseListener initResponseListener() {
+    private ResponseListener getResponseListener() {
 
         return new ResponseListener() {
             @Override
@@ -364,7 +364,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
 
                         final String imageLink = data.getImageurl();
 
-                        if (imageLink == null || TextUtils.isEmpty(imageLink)) {
+                        if (TextUtils.isEmpty(imageLink)) {
                             previewImageView.setVisibility(View.GONE);
                             link.setImageURL("");
                         } else {
