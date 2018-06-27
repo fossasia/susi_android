@@ -1,7 +1,9 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.SystemClock;
+import android.support.customtabs.CustomTabsIntent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +49,7 @@ public class ImageViewHolder extends MessageViewHolder {
     @BindView(R.id.thumbs_down)
     public ImageView thumbsDown;
     private ChatMessage model;
-
+    String imageURL;
 
     public ImageViewHolder(View itemView, ClickListener clickListener) {
         super(itemView, clickListener);
@@ -58,17 +60,25 @@ public class ImageViewHolder extends MessageViewHolder {
         this.model = model;
 
         if (model != null) {
-
+            imageURL = model.getContent();
             try {
-                String img_url = model.getContent();
 
-                Picasso.with(itemView.getContext()).load(img_url).
+                Picasso.with(itemView.getContext()).load(imageURL).
                         placeholder(R.drawable.ic_susi)
                         .into(imageView);
             } catch (Exception e) {
                 Timber.e(e);
             }
         }
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                customTabsIntent.launchUrl(itemView.getContext(), Uri.parse(imageURL));
+            }
+        });
 
         if (model.getSkillLocation().isEmpty()) {
             thumbsUp.setVisibility(View.GONE);

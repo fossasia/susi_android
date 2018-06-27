@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
@@ -239,7 +238,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isDate()) return DATE_VIEW;
-        else if (item.getContent()!= null && (item.getContent().endsWith(".jpg")||(item.getContent().endsWith(".png"))))
+        else if ((item.getContent().endsWith(".jpg")||(item.getContent().endsWith(".png"))))
             return IMAGE;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
