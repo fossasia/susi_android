@@ -212,10 +212,10 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             String http = "http://";
             String https = "https://";
             if (!(url.startsWith(http) || url.startsWith(https))) {
-                url = http + url;
+                url = https + url;
             }
 
-            richPreview.getPreview(String.valueOf(url));
+            richPreview.getPreview(url);
         } else {
 
             if (!model.getWebLinkData().getHeadline().isEmpty()) {
@@ -332,7 +332,6 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
     }
 
     private ResponseListener getResponseListener() {
-
         return new ResponseListener() {
             @Override
             public void onData(MetaData data) {
@@ -343,14 +342,14 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
 
                     if (data != null) {
 
-                        if (!data.getDescription().isEmpty()) {
+                        if (!TextUtils.isEmpty(data.getDescription())) {
                             Timber.d("onPos: %s", data.getDescription());
                             previewLayout.setVisibility(View.VISIBLE);
                             descriptionTextView.setVisibility(View.VISIBLE);
                             descriptionTextView.setText(data.getDescription());
                         }
 
-                        if (!data.getTitle().isEmpty()) {
+                        if (!TextUtils.isEmpty(data.getTitle())) {
                             Timber.d("onPos: %s", data.getTitle());
                             previewLayout.setVisibility(View.VISIBLE);
                             titleTextView.setVisibility(View.VISIBLE);
