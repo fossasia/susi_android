@@ -37,7 +37,7 @@ public class Constant {
     public static final String SELECT_SERVER = "Server_Select";
     public static final String LANG_SELECT = "Lang_Select";
     public static final String LANGUAGE = "prefLanguage";
-    public static final String DEFAULT = "default";
+    public static final String DEFAULT = "en";
     public static final String RATE = "rate";
     public static final String DEVICE = "device";
     public static final String DEVICE_SETUP = "setup";
