@@ -56,4 +56,8 @@ class Action {
     @SerializedName("columns")
     @Expose
     var columns: Map<String, Any>? = null
+
+    @SerializedName("identifier")
+    @Expose
+    var identifier: String = ""
 }
