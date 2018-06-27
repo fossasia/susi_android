@@ -14,22 +14,31 @@ import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_device.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.device.adapters.DevicesAdapter
 import org.fossasia.susi.ai.device.contract.IDeviceView
 import org.fossasia.susi.ai.device.contract.IDevicePresenter
 import timber.log.Timber
 
+
+/*
+*   Created by batbrain7 on 20/06/18
+*   Device activity is where we can setup a new device and also
+*   view the devices currently connected
+ */
 
 class DeviceActivity : AppCompatActivity(), IDeviceView {
 
     lateinit var devicePresenter: IDevicePresenter
     lateinit var mainWifi: WifiManager
     lateinit var receiverWifi: WifiReceiver
+    lateinit var recyclerAdapter: DevicesAdapter
     var filter: IntentFilter? = null
-    var broadCastRegistered = false
     private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +47,7 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         setContentView(R.layout.activity_device)
         mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
         receiverWifi = WifiReceiver()
-        devicePresenter = DevicePresenter(this)
+        devicePresenter = DevicePresenter(this, mainWifi)
         devicePresenter.onAttach(this)
 
         devicePresenter.searchDevices()
@@ -75,11 +84,9 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     override fun startScan() {
-        mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
         filter = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         receiverWifi = WifiReceiver()
         registerReceiver(receiverWifi, filter)
-        broadCastRegistered = true
         mainWifi.startScan()
     }
 
@@ -101,22 +108,31 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         super.onBackPressed()
     }
 
-    override fun onDeviceConnectedSuccess() {
+    override fun setupAdapter(devicesScanned: List<String>) {
         Timber.d("Connected Successfully")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
+        deviceList.visibility = View.VISIBLE
+        val linearLayoutManager = LinearLayoutManager(this)
+        deviceList.layoutManager = linearLayoutManager
+        deviceList.setHasFixedSize(true)
+        recyclerAdapter = DevicesAdapter(devicesScanned, devicePresenter)
+        deviceList.adapter = recyclerAdapter
     }
 
-    override fun showProgress() {
+    override fun showProgress(title: String?) {
         scanProgress.getIndeterminateDrawable().setColorFilter(Color.parseColor("#ffc100"), android.graphics.PorterDuff.Mode.MULTIPLY)
+        scanDevice.text = title
         scanDevice.visibility = View.VISIBLE
         scanProgress.visibility = View.VISIBLE
+        deviceList.visibility = View.GONE
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
+        deviceList.visibility = View.GONE
         deviceTutorial.text = content
         noDeviceFound.visibility = View.VISIBLE
         deviceTutorial.visibility = View.VISIBLE
@@ -126,27 +142,12 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
         devicePresenter.searchDevices()
     }
 
-    override fun onPause() {
-        if (broadCastRegistered)
-            unregisterReceiver(receiverWifi)
-        super.onPause()
-    }
-
-    override fun onResume() {
-        if (filter != null) {
-            registerReceiver(receiverWifi, filter)
-            broadCastRegistered = true
-        }
-        super.onResume()
-    }
-
     inner class WifiReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             Timber.d("Inside the app")
             var wifiList: List<ScanResult> = ArrayList<ScanResult>()
             wifiList = mainWifi.getScanResults()
             devicePresenter.inflateList(wifiList)
-
         }
     }
 
@@ -158,7 +159,8 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == 0) {
-            devicePresenter.checkLocationEnabled()
+            devicePresenter.searchDevices()
+
             Timber.d("Onactivityresult")
         }
     }
@@ -176,5 +178,15 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
                 }
             }
         }
+    }
+
+    override fun unregister() {
+        unregisterReceiver(receiverWifi)
+    }
+
+    override fun onDeviceConnectionSuccess() {
+        scanProgress.visibility = View.GONE
+        scanDevice.visibility = View.VISIBLE
+        scanDevice.setText(R.string.connect_success)
     }
 }

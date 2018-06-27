@@ -179,6 +179,7 @@ public interface SusiService {
 
     @GET("/cms/getSkillList.json")
     Call<ListSkillsResponse> fetchListSkills(@Query("group") String groups,
+                                             @Query("language") String language,
                                              @Query("applyFilter") String applyFilter,
                                              @Query("filter_name") String filterName,
                                              @Query("filter_type") String filterType);

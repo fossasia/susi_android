@@ -3,9 +3,9 @@ package org.fossasia.susi.ai.device.contract
 
 interface IDeviceView {
 
-    fun onDeviceConnectedSuccess()
+    fun setupAdapter(devicesScanned: List<String>)
 
-    fun showProgress()
+    fun showProgress(title: String?)
 
     fun onDeviceConnectionError(title: String?, content: String?)
 
@@ -16,5 +16,9 @@ interface IDeviceView {
     fun askForPermissions()
 
     fun startScan()
+
+    fun unregister()
+
+    fun onDeviceConnectionSuccess()
 
 }
