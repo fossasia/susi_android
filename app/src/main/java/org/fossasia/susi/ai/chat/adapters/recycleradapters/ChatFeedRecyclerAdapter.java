@@ -239,11 +239,12 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isDate()) return DATE_VIEW;
+        else if (item.getContent()!= null && (item.getContent().endsWith(".jpg")||(item.getContent().endsWith(".png"))))
+            return IMAGE;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
-        else if (item.getContent()!= null && (item.getContent().endsWith(".jpg")||(item.getContent().endsWith(".png"))))
-            return IMAGE;
+
 
         switch (item.getActionType()) {
             case Constant.ANCHOR:
