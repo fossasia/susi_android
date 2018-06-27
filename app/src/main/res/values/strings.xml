@@ -354,5 +354,8 @@
     <string name="digit_five">5</string>
     <string name="location_access">Provide Location Access</string>
     <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
-
+    <string name="set_up">SET UP</string>
+    <string name="connecting_device">Connecting to your device...</string>
+    <string name="device_name">SUSI.AI</string>
+    <string name="connection_success">Connected Successfully !</string>
 </resources>

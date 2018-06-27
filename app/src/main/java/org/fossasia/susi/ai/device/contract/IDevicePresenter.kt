@@ -18,4 +18,6 @@ interface IDevicePresenter {
     fun checkLocationEnabled()
 
     fun inflateList(list : List<ScanResult>)
+
+    fun connectToDevice(networkSSID: String)
 }
