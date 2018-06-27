@@ -25,7 +25,6 @@ class ParseSusiResponseHelper {
     var webSearch = ""
     var stop = "Stopped"
     var isHavingLink = false
-    var isImage = false
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
@@ -41,7 +40,6 @@ class ParseSusiResponseHelper {
 
             Constant.ANSWER -> try {
                 answer = susiResponse.answers[0].actions[i].expression
-                isImage = checkImage(answer)
                 val urlList = extractUrls(answer)
                 isHavingLink = true
                 if (urlList.isEmpty()) isHavingLink = false
@@ -131,14 +129,6 @@ class ParseSusiResponseHelper {
                 Timber.e(e)
             }
             return susiLocation
-        }
-
-        fun checkImage(text: String) : Boolean {
-            if (Patterns.WEB_URL.matcher(text).matches() && (text.endsWith("jpg ") || text.endsWith("png"))) {
-                return true;
-            } else {
-                return false
-            }
         }
     }
 }

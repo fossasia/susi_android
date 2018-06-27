@@ -2,11 +2,12 @@ package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
 import android.os.SystemClock;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
@@ -26,8 +27,9 @@ import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
-public class ImageViewHolder extends MessageViewHolder{
+public class ImageViewHolder extends MessageViewHolder {
     /**
      * Instantiates a new Message view holder.
      *
@@ -49,15 +51,24 @@ public class ImageViewHolder extends MessageViewHolder{
 
     public ImageViewHolder(View itemView, ClickListener clickListener) {
         super(itemView, clickListener);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
     }
 
     public void setView(ChatMessage model) {
+        this.model = model;
 
+        if (model != null) {
 
+            try {
+                String img_url = model.getContent();
 
-
-
+                Picasso.with(itemView.getContext()).load(img_url).
+                        placeholder(R.drawable.ic_susi)
+                        .into(imageView);
+            } catch (Exception e) {
+                Timber.e(e);
+            }
+        }
 
         if (model.getSkillLocation().isEmpty()) {
             thumbsUp.setVisibility(View.GONE);

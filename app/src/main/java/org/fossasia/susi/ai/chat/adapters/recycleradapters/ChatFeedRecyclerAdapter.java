@@ -16,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.DateViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.ImageViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.MessageViewHolder;
@@ -72,6 +74,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private static final int STOP = 14;
     private static final int AUDIOPLAY = 15;
     private static final int VIDEOPLAY = 16;
+    private static final int IMAGE = 17;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -220,6 +223,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             case VIDEOPLAY:
                 view = inflater.inflate(R.layout.youtube_video, viewGroup, false);
                 return new YoutubeVideoViewHolder(view, clickListener);
+            case IMAGE:
+                view = inflater.inflate(R.layout.image_holder,viewGroup,false);
+                return new ImageViewHolder(view,clickListener);
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, clickListener, USER_MESSAGE);
@@ -236,6 +242,8 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
+        else if (item.getContent()!= null && (item.getContent().endsWith(".jpg")||(item.getContent().endsWith(".png"))))
+            return IMAGE;
 
         switch (item.getActionType()) {
             case Constant.ANCHOR:
@@ -314,6 +322,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof DateViewHolder) {
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
             dateViewHolder.textDate.setText(getData().get(position).getDate());
+        } else if (holder instanceof ImageViewHolder) {
+            ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
+            imageViewHolder.setView(getData().get(position));
         }
     }
 
