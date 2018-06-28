@@ -55,7 +55,7 @@ public class ImageViewHolder extends MessageViewHolder {
     @BindView(R.id.thumbs_down)
     public ImageView thumbsDown;
     private ChatMessage model;
-    String imageURL;
+    private String imageURL;
 
     public ImageViewHolder(View itemView, ClickListener clickListener) {
         super(itemView, clickListener);
