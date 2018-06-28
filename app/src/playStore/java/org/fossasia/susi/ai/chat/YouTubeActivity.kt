@@ -21,6 +21,8 @@ import timber.log.Timber
  *
  */
 
+private const val YOUTUBE_KEY = "com.google.android.youtube.API_KEY"
+
 class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
     private val RECOVERY_REQUEST = 1;
     private lateinit var playerStateChangeListener: MyPlayerStateChangeListener
@@ -33,7 +35,6 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.youtube_player)
 
-        val YOUTUBE_KEY = "com.google.android.youtube.API_KEY"
         apikey = this.packageManager.getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA)
                 .metaData.getString(YOUTUBE_KEY)
 
