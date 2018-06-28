@@ -41,6 +41,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.skills.SkillsActivity
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -53,6 +54,7 @@ import java.util.*
 class ChatActivity : AppCompatActivity(), IChatView {
 
     lateinit var chatPresenter: IChatPresenter
+    lateinit var youtubeVid: IYoutubeVid
     private val PERM_REQ_CODE = 1
     private lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
     private var textToSpeech: TextToSpeech? = null
@@ -61,7 +63,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private lateinit var progressDialog: ProgressDialog
     private var example: String = ""
     private var isConfigurationChanged = false
-    private var enterAsSend = lazy{
+    private val enterAsSend : Boolean by lazy {
         PrefManager.getBoolean(Constant.ENTER_SEND, false)
     }
 
@@ -80,6 +82,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
 
+        youtubeVid = YoutubeVid(this)
         setUpUI()
         initializationMethod(firstRun)
 
@@ -170,7 +173,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
         })
 
         askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
-            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend.value && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
+            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
+                    && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
                 val message = askSusiMessage.text.toString().trim({ it <= ' ' })
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
@@ -495,4 +499,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         chatPresenter.checkPreferences()
     }
+
+    override fun playVideo(videoId: String) {
+        Timber.d(videoId)
+        youtubeVid.playYoutubeVid(videoId)
+    }
+
 }

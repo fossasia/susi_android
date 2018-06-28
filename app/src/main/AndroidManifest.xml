@@ -52,7 +52,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
@@ -77,6 +77,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.login.LoginActivity" />
         </activity>
+        <activity
+            android:name=".chat.YouTubeActivity"
+            android:theme="@style/Theme.AppCompat.Dialog">
+        </activity>
+        <meta-data
+            android:name="com.google.android.youtube.API_KEY"
+            android:value="${YOUTUBE_API_KEY}"/>
     </application>
 
 </manifest>

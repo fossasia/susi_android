@@ -2,6 +2,8 @@ package org.fossasia.susi.ai.skills.skilllisting
 
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -37,7 +39,7 @@ class SkillListingPresenter : ISkillListingPresenter,
         if (response.isSuccessful && response.body() != null) {
             groupsCount = response.body().groups.size
             groups = response.body().groups
-            skillListingModel.fetchSkills(groups[0], this)
+            skillListingModel.fetchSkills(groups[0], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
         } else {
             skillListingView?.visibilityProgressBar(false)
             skillListingView?.displayError()
@@ -58,7 +60,7 @@ class SkillListingPresenter : ISkillListingPresenter,
                 skillListingView?.updateAdapter(skills)
             }
             if (count != groupsCount) {
-                skillListingModel.fetchSkills(groups[count], this)
+                skillListingModel.fetchSkills(groups[count], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
                 count++
             }
         } else {
