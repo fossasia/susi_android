@@ -32,10 +32,10 @@ import retrofit2.Response;
 import timber.log.Timber;
 
 /*
-*   Created by batbrain7 on 27/06/18
-*
-*   A ViewHolder class for all that displays all the image responses.
-*/
+ *   Created by batbrain7 on 27/06/18
+ *
+ *   A ViewHolder class for all that displays all the image responses.
+ */
 
 public class ImageViewHolder extends MessageViewHolder {
     /**
@@ -132,45 +132,27 @@ public class ImageViewHolder extends MessageViewHolder {
 
         Call<SkillRatingResponse> ratingResponseCall = new ClientBuilder().getSusiApi()
                 .rateSkill(
-                susiLocation.get("model"),
-                susiLocation.get("group"),
-                susiLocation.get("language"),
-                susiLocation.get("skill"),
-                polarity);
+                        susiLocation.get("model"),
+                        susiLocation.get("group"),
+                        susiLocation.get("language"),
+                        susiLocation.get("skill"),
+                        polarity);
 
         ratingResponseCall.enqueue(new Callback<SkillRatingResponse>() {
             @Override
             public void onResponse(Call<SkillRatingResponse> responseCall, Response<SkillRatingResponse> response) {
                 if (!response.isSuccessful() || response.body() == null) {
-                    switch (polarity) {
-                        case Constant.POSITIVE:
-                            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                            setRating(false, true);
-                            break;
-                        case Constant.NEGATIVE:
-                            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                            setRating(false, false);
-                            break;
-                        default:
-                    }
+                    updateRating(polarity);
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
+                } else {
+                    Timber.d("Rating successful");
                 }
             }
 
             @Override
             public void onFailure(Call<SkillRatingResponse> responseCall, Throwable t) {
                 Timber.e(t);
-                switch (polarity) {
-                    case Constant.POSITIVE:
-                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                        setRating(false, true);
-                        break;
-                    case Constant.NEGATIVE:
-                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                        setRating(false, false);
-                        break;
-                    default:
-                }
+                updateRating(polarity);
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
             }
         });
@@ -187,4 +169,19 @@ public class ImageViewHolder extends MessageViewHolder {
         }
         realm.commitTransaction();
     }
+
+    private void updateRating(String polarity) {
+        switch (polarity) {
+            case Constant.POSITIVE:
+                thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+                setRating(false, true);
+                break;
+            case Constant.NEGATIVE:
+                thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+                setRating(false, false);
+                break;
+            default:
+        }
+    }
+
 }
