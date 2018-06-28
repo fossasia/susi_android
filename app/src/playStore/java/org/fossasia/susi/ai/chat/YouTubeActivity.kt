@@ -33,8 +33,9 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.youtube_player)
 
+        val YOUTUBE_KEY = "com.google.android.youtube.API_KEY"
         apikey = this.packageManager.getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA)
-                .metaData.getString("com.google.android.youtube.API_KEY")
+                .metaData.getString(YOUTUBE_KEY)
 
         if ("YOUR_API_KEY".equals(apikey)) {
             init()
