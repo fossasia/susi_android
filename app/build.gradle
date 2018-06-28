@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
-def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: '"YOUR_API_KEY"'
+def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
 
 buildscript {
 
@@ -32,16 +32,17 @@ android {
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                YOUTUBE_API_KEY: YOUTUBE_API_KEY
+        ]
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField "String", 'YOUTUBE_API_KEY', YOUTUBE_API_KEY
         }
 
         debug {
-            buildConfigField "String", 'YOUTUBE_API_KEY', YOUTUBE_API_KEY
         }
     }
 
@@ -99,10 +100,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
 
     //For Link Previews
-    implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}"
-
-    // required
-    implementation "com.leocardz:link-preview:${rootConfiguration.linkPreviewVersion}"
+    implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required
+    implementation "io.github.ponnamkarthik:richlinkpreview:${rootConfiguration.linkPreviewVersion}"
 
     //preference UI
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
