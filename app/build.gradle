@@ -99,10 +99,8 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
 
     //For Link Previews
-    implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}"
-
-    // required
-    implementation "com.leocardz:link-preview:${rootConfiguration.linkPreviewVersion}"
+    implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required
+    implementation "io.github.ponnamkarthik:richlinkpreview:${rootConfiguration.linkPreviewVersion}"
 
     //preference UI
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
