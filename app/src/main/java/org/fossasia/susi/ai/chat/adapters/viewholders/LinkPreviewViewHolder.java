@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.Html;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,9 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
 import com.squareup.picasso.Picasso;
 
 import org.fossasia.susi.ai.R;
@@ -34,6 +32,9 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.github.ponnamkarthik.richlinkpreview.MetaData;
+import io.github.ponnamkarthik.richlinkpreview.ResponseListener;
+import io.github.ponnamkarthik.richlinkpreview.RichPreview;
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -197,73 +198,22 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
         text.setText(answerText);
         timestampTextView.setText(model.getTimeStamp());
         if (model.getWebLinkData() == null) {
-            LinkPreviewCallback linkPreviewCallback = new LinkPreviewCallback() {
-                @Override
-                public void onPre() {
-                    previewImageView.setVisibility(View.GONE);
-                    descriptionTextView.setVisibility(View.GONE);
-                    titleTextView.setVisibility(View.GONE);
-                    previewLayout.setVisibility(View.GONE);
-                }
+            previewImageView.setVisibility(View.GONE);
+            descriptionTextView.setVisibility(View.GONE);
+            titleTextView.setVisibility(View.GONE);
+            previewLayout.setVisibility(View.GONE);
 
-                @Override
-                public void onPos(final SourceContent sourceContent, boolean b) {
-                    if (!PrefManager.hasTokenExpired() || PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
-                        realm.beginTransaction();
-                        Realm realm = Realm.getDefaultInstance();
-                        WebLink link = realm.createObject(WebLink.class);
-
-                        if (sourceContent != null) {
-
-                            if (!sourceContent.getDescription().isEmpty()) {
-                                Timber.d("onPos: %s", sourceContent.getDescription());
-                                previewLayout.setVisibility(View.VISIBLE);
-                                descriptionTextView.setVisibility(View.VISIBLE);
-                                descriptionTextView.setText(sourceContent.getDescription());
-                            }
-
-                            if (!sourceContent.getTitle().isEmpty()) {
-                                Timber.d("onPos: %s", sourceContent.getTitle());
-                                previewLayout.setVisibility(View.VISIBLE);
-                                titleTextView.setVisibility(View.VISIBLE);
-                                titleTextView.setText(sourceContent.getTitle());
-                            }
-
-                            link.setBody(sourceContent.getDescription());
-                            link.setHeadline(sourceContent.getTitle());
-                            link.setUrl(sourceContent.getUrl());
-                            url = sourceContent.getFinalUrl();
-
-                            final List<String> imageList = sourceContent.getImages();
-
-                            if (imageList == null || imageList.size() == 0) {
-                                previewImageView.setVisibility(View.GONE);
-                                link.setImageURL("");
-                            } else {
-                                previewImageView.setVisibility(View.VISIBLE);
-                                Picasso.with(currContext.getApplicationContext()).load(imageList.get(0))
-                                        .fit().centerCrop()
-                                        .into(previewImageView);
-                                link.setImageURL(imageList.get(0));
-                            }
-                        }
-
-                        model.setWebLinkData(link);
-                        realm.copyToRealmOrUpdate(model);
-                        realm.commitTransaction();
-                    }
-                }
-            };
+            RichPreview richPreview = new RichPreview(getResponseListener());
 
             List<String> urlList = ChatFeedRecyclerAdapter.extractLinks(model.getContent());
-            StringBuilder url = new StringBuilder(urlList.get(0));
-            StringBuilder http = new StringBuilder("http://");
-            StringBuilder https = new StringBuilder("https://");
-            if (!(url.toString().startsWith(http.toString()) || url.toString().startsWith(https.toString()))) {
-                url = http.append(url.toString());
+            String url = urlList.get(0);
+            String http = "http://";
+            String https = "https://";
+            if (!(url.startsWith(http) || url.startsWith(https))) {
+                url = https + url;
             }
-            TextCrawler textCrawler = new TextCrawler();
-            textCrawler.makePreview(linkPreviewCallback, url.toString());
+
+            richPreview.getPreview(url);
         } else {
 
             if (!model.getWebLinkData().getHeadline().isEmpty()) {
@@ -377,5 +327,64 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             }
 
         });
+    }
+
+    private ResponseListener getResponseListener() {
+        return new ResponseListener() {
+            @Override
+            public void onData(MetaData data) {
+                if (!PrefManager.hasTokenExpired() || PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+                    realm.beginTransaction();
+                    Realm realm = Realm.getDefaultInstance();
+                    WebLink link = realm.createObject(WebLink.class);
+
+                    if (data != null) {
+
+                        if (!TextUtils.isEmpty(data.getDescription())) {
+                            Timber.d("onPos: %s", data.getDescription());
+                            previewLayout.setVisibility(View.VISIBLE);
+                            descriptionTextView.setVisibility(View.VISIBLE);
+                            descriptionTextView.setText(data.getDescription());
+                        }
+
+                        if (!TextUtils.isEmpty(data.getTitle())) {
+                            Timber.d("onPos: %s", data.getTitle());
+                            previewLayout.setVisibility(View.VISIBLE);
+                            titleTextView.setVisibility(View.VISIBLE);
+                            titleTextView.setText(data.getTitle());
+                        }
+
+                        link.setBody(data.getDescription());
+                        link.setHeadline(data.getTitle());
+                        link.setUrl(data.getUrl());
+                        url = data.getUrl();
+
+                        final String imageLink = data.getImageurl();
+
+                        if (TextUtils.isEmpty(imageLink)) {
+                            previewImageView.setVisibility(View.GONE);
+                            link.setImageURL("");
+                        } else {
+                            previewImageView.setVisibility(View.VISIBLE);
+                            Picasso.with(itemView.getContext()).
+                                    load(imageLink)
+                                    .fit()
+                                    .centerCrop()
+                                    .into(previewImageView);
+                            link.setImageURL(imageLink);
+                        }
+                    }
+
+                    model.setWebLinkData(link);
+                    realm.copyToRealmOrUpdate(model);
+                    realm.commitTransaction();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Timber.e(e);
+            }
+        };
     }
 }
