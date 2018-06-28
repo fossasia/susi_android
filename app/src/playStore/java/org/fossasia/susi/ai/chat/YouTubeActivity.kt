@@ -23,19 +23,18 @@ import timber.log.Timber
 
 class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
     private val RECOVERY_REQUEST = 1;
-    lateinit var playerStateChangeListener: MyPlayerStateChangeListener
-    lateinit var playbackEventListener: MyPlaybackEventListener
+    private lateinit var playerStateChangeListener: MyPlayerStateChangeListener
+    private lateinit var playbackEventListener: MyPlaybackEventListener
     private var youtubeId: String = ""
-    lateinit var playerView: YouTubePlayerView
-    var apikey = ""
+    private lateinit var playerView: YouTubePlayerView
+    private var apikey = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.youtube_player)
 
-
-        val ai = this.packageManager.getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA)
-        apikey = ai.metaData.getString("com.google.android.youtube.API_KEY")
+        apikey = this.packageManager.getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA)
+                .metaData.getString("com.google.android.youtube.API_KEY")
 
         if ("YOUR_API_KEY".equals(apikey)) {
             init()
