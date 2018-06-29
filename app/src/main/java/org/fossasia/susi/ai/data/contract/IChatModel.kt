@@ -28,11 +28,9 @@ interface IChatModel {
         fun onSusiMessageReceivedFailure(t: Throwable)
     }
 
-    fun getTableSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                        language: String, deviceType: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener)
+    fun getTableSusiMessage(map: Map<String, String>, listener: IChatModel.OnMessageFromSusiReceivedListener)
 
-    fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                       language: String, deviceType: String, query: String, listener: OnMessageFromSusiReceivedListener)
+    fun getSusiMessage(map: Map<String, String>, listener: OnMessageFromSusiReceivedListener)
 
     fun retrieveOldMessages(listener: OnRetrievingMessagesFinishedListener)
     fun getLocationFromIP(listener: OnLocationFromIPReceivedListener)

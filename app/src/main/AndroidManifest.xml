@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.fossasia.susi.ai">
 
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -51,7 +52,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize"/>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
@@ -76,6 +77,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.login.LoginActivity" />
         </activity>
+        <activity
+            android:name=".chat.YouTubeActivity"
+            android:theme="@style/Theme.AppCompat.Dialog">
+        </activity>
+        <meta-data
+            android:name="com.google.android.youtube.API_KEY"
+            android:value="${YOUTUBE_API_KEY}"/>
     </application>
 
 </manifest>
