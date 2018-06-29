@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.skills.settings
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -110,6 +111,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!settingsPresenter.getAnonymity()) {
                 settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
             }
+            val intent = Intent(context, SkillsActivity::class.java)
+            startActivity(intent)
+            (context as Activity).finish()
             true
         }
         rate.setOnPreferenceClickListener {

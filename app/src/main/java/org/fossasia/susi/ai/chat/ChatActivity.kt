@@ -41,6 +41,7 @@ import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.skills.SkillsActivity
+import timber.log.Timber
 import java.util.*
 
 /**
@@ -53,6 +54,7 @@ import java.util.*
 class ChatActivity : AppCompatActivity(), IChatView {
 
     lateinit var chatPresenter: IChatPresenter
+    lateinit var youtubeVid: IYoutubeVid
     private val PERM_REQ_CODE = 1
     private lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
     private var textToSpeech: TextToSpeech? = null
@@ -84,6 +86,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
 
+        youtubeVid = YoutubeVid(this)
         setUpUI()
         initializationMethod(firstRun)
 
@@ -487,4 +490,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         chatPresenter.checkPreferences()
     }
+
+    override fun playVideo(videoId: String) {
+        Timber.d(videoId)
+        youtubeVid.playYoutubeVid(videoId)
+    }
+
 }

@@ -38,7 +38,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private var mSearchAction: MenuItem? = null
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
-    private var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
+    private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,8 +154,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 return
             }
 
-            for (item2 in item.second.keys) {
-                if (query.toLowerCase() in item2) {
+            for (item2 in item.second) {
+                if (query.toLowerCase() in item2.group.toLowerCase()) {
                     skillGroups.scrollToPosition(pos)
                     return
                 }
@@ -169,8 +169,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun  hideKeyboard() {
-        val inputManager:InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    fun hideKeyboard() {
+        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
@@ -183,10 +183,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .commit()
     }
 
-    fun handleOnLoadingFragment()
-    {
+    fun handleOnLoadingFragment() {
         hideKeyboard()
-        if(isSearchOpened) {
+        if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
             action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action.setDisplayShowTitleEnabled(true)

@@ -28,17 +28,24 @@ import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.responses.susi.Ratings
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.rest.responses.susi.Stars
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
+import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
+import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import java.io.Serializable
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  *
  * Created by chiragw15 on 24/8/17.
  */
-class SkillDetailsFragment : Fragment() {
+class SkillDetailsFragment : Fragment(), ISkillDetailsView {
+
+    private lateinit var skillDetailsPresenter: ISkillDetailsPresenter
 
     private lateinit var skillData: SkillData
     private lateinit var skillGroup: String
@@ -69,6 +76,8 @@ class SkillDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        skillDetailsPresenter = SkillDetailsPresenter(this)
+        skillDetailsPresenter.onAttach(this)
         skillData = arguments?.getSerializable(
                 SKILL_KEY) as SkillData
         skillGroup = (arguments as Bundle).getString(SKILL_GROUP)
@@ -208,18 +217,37 @@ class SkillDetailsFragment : Fragment() {
 
         //If the user is logged in, set up the five star skill rating bar
         if (PrefManager.getToken() != null) {
+            val map: MutableMap<String, String> = HashMap()
+            map.put("model", skillData.model)
+            map.put("group", skillData.group)
+            map.put("language", skillData.language)
+            map.put("skill", skillTag)
+            map.put("access_token", PrefManager.getToken().toString())
+            skillDetailsPresenter.updateUserRating(map)
             setUpFiveStarRatingBar()
         }
 
         //If the totalStar is positive, it implies that the skill has been rated
         //If so, set up the section to display the statistics else simply display a message for unrated skill
-        if (skillData.skillRating?.stars?.totalStar!! > 0) {
-            fiveStarAverageSkillRating = tv_average_rating
-            fiveStarTotalSkillRating = tv_total_rating
+        if (skillData.skillRating != null) {
+            if (skillData.skillRating?.stars != null) {
+                if (skillData.skillRating?.stars?.totalStar as Int > 0) {
+                    fiveStarAverageSkillRating = tv_average_rating
+                    fiveStarTotalSkillRating = tv_total_rating
 
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
-            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
-            setSkillGraph()
+                    fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
+                    fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
+                    setSkillGraph()
+                } else {
+                    skill_rating_view.visibility = View.GONE
+                    tv_unrated_skill.visibility = View.VISIBLE
+                    if (PrefManager.getToken() != null) {
+                        tv_unrated_skill.text = getString(R.string.skill_unrated)
+                    } else {
+                        tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
+                    }
+                }
+            }
         } else {
             skill_rating_view.visibility = View.GONE
             tv_unrated_skill.visibility = View.VISIBLE
@@ -250,9 +278,14 @@ class SkillDetailsFragment : Fragment() {
 
             fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
 
-            //Send rating to the server
-            FiveStarSkillRatingRequest.sendFiveStarRating(skillData.model, skillData.group, skillData.language,
-                    skillTag, v.toInt().toString(), PrefManager.getToken().toString())
+            val map: MutableMap<String, String> = HashMap()
+            map.put("model", skillData.model)
+            map.put("group", skillData.group)
+            map.put("language", skillData.language)
+            map.put("skill", skillTag)
+            map.put("stars", v.toInt().toString())
+            map.put("access_token", PrefManager.getToken().toString())
+            skillDetailsPresenter.updateRatings(map)
 
             fiveStarSkillRatingScaleTextView.setText(v.toString())
             when (ratingBar.rating.toInt()) {
@@ -268,6 +301,31 @@ class SkillDetailsFragment : Fragment() {
             Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
             setRating()
         })
+    }
+
+    /**
+     * Update the ratings as soon as the user rates a skill
+     *
+     * @param ratingsObject Updated stars object that includes the user rating
+     *
+     */
+    override fun updateRatings(ratingsObject: Stars?) {
+        if (ratingsObject != null) {
+            skillData.skillRating?.stars = ratingsObject
+            setRating()
+        }
+    }
+
+    /**
+     * Show the user rating on the rating bar
+     *
+     * @param updatedRating Updates the rating bar with the user rating
+     *
+     */
+    override fun updateUserRating(updatedRating: Int?) {
+        if (updatedRating != null) {
+            fiveStarSkillRatingBar.rating = updatedRating.toFloat()
+        }
     }
 
     /**
@@ -319,12 +377,12 @@ class SkillDetailsFragment : Fragment() {
      */
     private fun setData() {
 
-        val totalUsers: Int = skillData.skillRating?.stars?.totalStar!!
-        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar!!
-        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar!!
-        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar!!
-        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar!!
-        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar!!
+        val totalUsers: Int = skillData.skillRating?.stars?.totalStar as Int
+        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar as Int
+        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar as Int
+        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar as Int
+        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar as Int
+        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar as Int
 
         val oneStarUsersPercent: Float = calcPercentageOfUsers(oneStarUsers, totalUsers)
         val twoStarUsersPercent: Float = calcPercentageOfUsers(twoStarUsers, totalUsers)
@@ -441,5 +499,4 @@ class SkillDetailsFragment : Fragment() {
             }
         }
     }
-
 }

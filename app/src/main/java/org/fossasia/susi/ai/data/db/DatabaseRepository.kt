@@ -50,9 +50,7 @@ class DatabaseRepository : IDatabaseRepository {
                 query, Case.INSENSITIVE).findAll()
     }
 
-    override fun updateDatabase(prevId: Long, message: String, isDate: Boolean, date: String,
-                                timeStamp: String, mine: Boolean, actionType: String, mapData: MapData?,
-                                isHavingLink: Boolean, datumList: List<Datum>?, webSearch: String, tableData: TableDatas?, skillLocation: String,
+    override fun updateDatabase(chatArgs: ChatArgs,
                                 listener: IDatabaseRepository.OnDatabaseUpdateListener) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
@@ -60,75 +58,75 @@ class DatabaseRepository : IDatabaseRepository {
 
         realm.executeTransactionAsync({ bgRealm ->
             val chatMessage = bgRealm.createObject(ChatMessage::class.java, id)
-            chatMessage.content = message
-            chatMessage.date = date
-            chatMessage.setIsDate(isDate)
-            chatMessage.setIsMine(mine)
-            chatMessage.timeStamp = timeStamp
-            chatMessage.isHavingLink = isHavingLink
-            if (mine)
+            chatMessage.content = chatArgs.message
+            chatMessage.date = chatArgs.date
+            chatMessage.setIsDate(chatArgs.isDate)
+            chatMessage.setIsMine(chatArgs.mine)
+            chatMessage.timeStamp = chatArgs.timeStamp
+            chatMessage.isHavingLink = chatArgs.isHavingLink
+            if (chatArgs.mine)
                 chatMessage.isDelivered = false
             else {
-                chatMessage.actionType = actionType
-                chatMessage.webquery = webSearch
+                chatMessage.actionType = chatArgs.actionType
+                chatMessage.webquery = chatArgs.webSearch
                 chatMessage.isDelivered = true
-                if (mapData != null) {
-                    chatMessage.latitude = mapData.latitude
-                    chatMessage.longitude = mapData.longitude
-                    chatMessage.zoom = mapData.zoom
+                if (chatArgs.mapData != null) {
+                    chatMessage.latitude = chatArgs.mapData.latitude
+                    chatMessage.longitude = chatArgs.mapData.longitude
+                    chatMessage.zoom = chatArgs.mapData.zoom
                 }
-                if (tableData != null) {
+                if (chatArgs.tableData != null) {
                     val columnRealmList = RealmList<TableColumn>()
                     val tableDataRealmList = RealmList<TableData>()
-                    for (column in tableData.columns) {
+                    for (column in chatArgs.tableData.columns) {
                         val realmColumn = bgRealm.createObject(TableColumn::class.java)
                         realmColumn.columnName = column
                         columnRealmList.add(realmColumn)
                     }
                     chatMessage.tableColumns = columnRealmList
-                    for (tableData in tableData.tableData) {
+                    for (tableData in chatArgs.tableData.tableData) {
                         val realmData = bgRealm.createObject(TableData::class.java)
                         realmData.tableData = tableData
                         tableDataRealmList.add(realmData)
                     }
                     chatMessage.tableData = tableDataRealmList
                 }
-                if (datumList != null) {
+                if (chatArgs.identifier != null) {
+                    chatMessage.identifier = chatArgs.identifier
+                }
+                if (chatArgs.datumList != null) {
                     val datumRealmList = RealmList<Datum>()
-                    for (datum in datumList) {
+                    for (datum in chatArgs.datumList) {
                         val realmDatum = bgRealm.createObject(Datum::class.java)
                         realmDatum.description = datum.description
                         realmDatum.link = datum.link
                         realmDatum.title = datum.title
-                        realmDatum.jerseyNumber = datum.jerseyNumber
-                        realmDatum.name = datum.name
-                        realmDatum.position = datum.position
                         datumRealmList.add(realmDatum)
                     }
                     chatMessage.datumRealmList = datumRealmList
                 }
-                chatMessage.skillLocation = skillLocation
+                chatMessage.skillLocation = chatArgs.skillLocation
             }
         }, {
-            if (!mine) {
+            if (!chatArgs.mine) {
                 realm.executeTransactionAsync { bgRealm ->
                     try {
-                        val previouschatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prevId).findFirst()
+                        val previouschatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", chatArgs.prevId).findFirst()
                         if (previouschatMessage != null && previouschatMessage.isMine) {
                             previouschatMessage.isDelivered = true
-                            previouschatMessage.date = date
-                            previouschatMessage.timeStamp = timeStamp
+                            previouschatMessage.date = chatArgs.date
+                            previouschatMessage.timeStamp = chatArgs.timeStamp
                         }
                     } catch (e: Exception) {
                         Timber.e(e)
                     }
 
                     try {
-                        val previousChatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", prevId - 1).findFirst()
+                        val previousChatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", chatArgs.prevId - 1).findFirst()
                         if (previousChatMessage != null && previousChatMessage.isDate) {
-                            previousChatMessage.date = date
-                            previousChatMessage.timeStamp = timeStamp
-                            val previousChatMessage2 = bgRealm.where(ChatMessage::class.java).equalTo("id", prevId - 2).findFirst()
+                            previousChatMessage.date = chatArgs.date
+                            previousChatMessage.timeStamp = chatArgs.timeStamp
+                            val previousChatMessage2 = bgRealm.where(ChatMessage::class.java).equalTo("id", chatArgs.prevId - 2).findFirst()
                             if (previousChatMessage2 != null && previousChatMessage2.date == previousChatMessage.date) {
                                 previousChatMessage.deleteFromRealm()
                             }

@@ -7,6 +7,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
+def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
+
 buildscript {
 
 }
@@ -25,16 +27,22 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 8
-        versionName "1.0.7"
+        versionCode 10
+        versionName "1.0.9"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [
+                YOUTUBE_API_KEY: YOUTUBE_API_KEY
+        ]
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
         }
     }
 
@@ -93,7 +101,7 @@ dependencies {
 
     //For Link Previews
     implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required
-    implementation "com.leocardz:link-preview:${rootConfiguration.linkPreviewVersion}"
+    implementation "io.github.ponnamkarthik:richlinkpreview:${rootConfiguration.linkPreviewVersion}"
 
     //preference UI
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
@@ -109,6 +117,9 @@ dependencies {
 
     //waiting dots
     implementation "com.github.tajchert:WaitingDots:${rootConfiguration.waitingDotsVersion}"
+
+    //Youtube API
+    playStoreImplementation files('libs/YouTubeAndroidPlayerApi.jar')
 
     //Timber
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"

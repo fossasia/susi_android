@@ -51,10 +51,9 @@ class ChatModel : IChatModel {
         })
     }
 
-    override fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                                language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
+    override fun getSusiMessage(map: Map<String, String>, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        clientBuilder.susiApi.getSusiResponse(timezoneOffset, longitude, latitude, source, language, query).enqueue(
+        clientBuilder.susiApi.getSusiResponse(map).enqueue(
                 object : Callback<SusiResponse> {
                     override fun onResponse(call: Call<SusiResponse>, response: Response<SusiResponse>?) {
                         listener.onSusiMessageReceivedSuccess(response)
@@ -71,10 +70,9 @@ class ChatModel : IChatModel {
                 })
     }
 
-    override fun getTableSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                                     language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
+    override fun getTableSusiMessage(map: Map<String, String>, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        clientBuilder.susiApi.getTableSusiResponse(timezoneOffset, longitude, latitude, source, language, query).enqueue(
+        clientBuilder.susiApi.getTableSusiResponse(map).enqueue(
                 object : Callback<TableSusiResponse> {
                     override fun onResponse(call: Call<TableSusiResponse>, response: Response<TableSusiResponse>?) {
                         listener.onTableMessageReceivedSuccess(response)
@@ -86,7 +84,7 @@ class ChatModel : IChatModel {
                         } else {
                             Timber.d(t, "An error occurred")
                         }
-                       // listener.onSusiMessageReceivedFailure(t)
+                        // listener.onSusiMessageReceivedFailure(t)
                     }
                 })
     }
