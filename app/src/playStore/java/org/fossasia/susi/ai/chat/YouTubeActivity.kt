@@ -39,10 +39,10 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
                 .metaData.getString(YOUTUBE_KEY)
 
         if ("YOUR_API_KEY".equals(apikey)) {
-            init()
-        } else {
             Toast.makeText(applicationContext, "API KEY not set.", Toast.LENGTH_LONG).show()
             finish()
+        } else {
+            init()
         }
     }
 
@@ -81,10 +81,10 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         if (requestCode == RECOVERY_REQUEST) {
             // Retry initialization if user performed a recovery action
             if ("YOUR_API_KEY".equals(apikey)) {
-                playerView.initialize(apikey, this)
-            } else {
                 Toast.makeText(applicationContext, "API KEY not set.", Toast.LENGTH_LONG).show()
                 finish()
+            } else {
+                playerView.initialize(apikey, this)
             }
         }
     }
