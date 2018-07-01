@@ -171,7 +171,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     fun hideKeyboard() {
         val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
+        if (currentFocus != null)
+            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
     override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
