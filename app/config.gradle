@@ -21,4 +21,5 @@ ext {
     picassoVersion = '2.5.2'
     timberVersion = '4.7.0'
     customTabsVersion = '25.1.0'
+    playServicesVersion = '15.0.1'
 }

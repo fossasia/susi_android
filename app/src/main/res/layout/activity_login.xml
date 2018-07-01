@@ -77,6 +77,13 @@
                 android:inputType="textUri" />
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/rememberMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="@string/remember_me" />
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/logIn"
             android:layout_width="match_parent"
@@ -118,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:background="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/activity_login_sign_up"

@@ -38,7 +38,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="2dp"
                 app:errorEnabled="true">
 
                 <AutoCompleteTextView
@@ -86,6 +86,13 @@
                     android:inputType="textUri" />
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/rememberMe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:text="@string/remember_me" />
+
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/logIn"
                 android:layout_width="match_parent"
@@ -102,11 +109,11 @@
                 android:layout_marginTop="10dp"
                 android:background="?selectableItemBackground"
                 android:paddingLeft="48dp"
+                android:paddingStart="48dp"
                 android:text="@string/activity_login_forgot_pass"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:typeface="monospace"
-                android:paddingStart="48dp" />
+                android:typeface="monospace" />
 
             <TextView
                 android:id="@+id/skip"
