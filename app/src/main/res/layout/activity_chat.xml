@@ -87,7 +87,7 @@
                             android:cursorVisible="true"
                             android:hint="@string/send_msg_hint"
                             android:imeOptions="actionSend"
-                            android:inputType="textCapSentences"
+                            android:inputType="textNoSuggestions"
                             android:scrollbars="vertical"
                             android:textCursorDrawable="@null"
                             android:theme="@style/sendMessageEditTextTheme" />
