@@ -222,10 +222,17 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     private fun setLanguage() {
-        if (querylanguage.entries.isNotEmpty()) {
-            val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
-            querylanguage.setValueIndex(index)
-            querylanguage.summary = querylanguage.entries[index]
+        try {
+            if (querylanguage.entries.isNotEmpty()) {
+                val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
+                querylanguage.setValueIndex(index)
+                querylanguage.summary = querylanguage.entries[index]
+            }
+        } catch (e: Exception) {
+            Timber.e(e) //Language not present in app
+            PrefManager.putString(Constant.LANGUAGE, Constant.DEFAULT)
+            querylanguage.setValueIndex(0)//setting language to default - english
+            querylanguage.summary = querylanguage.entries[0]
         }
     }
 
