@@ -222,9 +222,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     private fun setLanguage() {
-        val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
-        querylanguage.setValueIndex(index)
-        querylanguage.summary = querylanguage.entries[index]
+        if (querylanguage.entries.isNotEmpty()) {
+            val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
+            querylanguage.setValueIndex(index)
+            querylanguage.summary = querylanguage.entries[index]
+        }
     }
 
     private fun showAlert() {
