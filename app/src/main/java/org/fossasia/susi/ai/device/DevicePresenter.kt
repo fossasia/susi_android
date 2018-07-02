@@ -70,10 +70,8 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
 
         if (connections.size > 0) {
             deviceView?.setupAdapter(connections)
-            deviceView?.unregister()
         } else {
             deviceView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
-            deviceView?.unregister()
         }
     }
 
@@ -115,7 +113,11 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
         }
 
         override fun onPostExecute(result: Void?) {
-            deviceView?.onDeviceConnectionSuccess()
+            Timber.d("Connected")
         }
+    }
+
+    override fun makeConnectionRequest() {
+        Timber.d("make request")
     }
 }
