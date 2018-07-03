@@ -53,6 +53,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
     private lateinit var fiveStarSkillRatingBar: RatingBar
+    private var fromUser = false
     private lateinit var fiveStarSkillRatingScaleTextView: TextView
     private lateinit var fiveStarAverageSkillRating: TextView
     private lateinit var fiveStarTotalSkillRating: TextView
@@ -274,9 +275,13 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         fiveStarSkillRatingBar.visibility = View.VISIBLE
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
-        fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, b ->
+        fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, fromUser ->
 
             fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
+
+            if(fromUser == true){
+                this.fromUser = fromUser
+            }
 
             val map: MutableMap<String, String> = HashMap()
             map.put("model", skillData.model)
@@ -297,8 +302,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 else -> fiveStarSkillRatingScaleTextView.setText("")
             }
 
-            //Display a toast to notify the user that the rating has been submitted
-            Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
             setRating()
         })
     }
@@ -312,6 +315,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     override fun updateRatings(ratingsObject: Stars?) {
         if (ratingsObject != null) {
             skillData.skillRating?.stars = ratingsObject
+            if(fromUser == true) {
+                //Display a toast to notify the user that the rating has been submitted
+                Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
+            }
             setRating()
         }
     }
