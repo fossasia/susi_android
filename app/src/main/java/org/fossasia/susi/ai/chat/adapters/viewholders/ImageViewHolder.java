@@ -15,8 +15,9 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.data.model.ChatMessage;
+import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.helper.Constant;
-import org.fossasia.susi.ai.rest.ClientBuilder;
+import org.fossasia.susi.ai.helper.QueryHelper;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 
 import java.util.Map;
@@ -131,13 +132,11 @@ public class ImageViewHolder extends MessageViewHolder {
             return;
         }
 
-        Call<SkillRatingResponse> ratingResponseCall = new ClientBuilder().getSusiApi()
-                .rateSkill(
-                        susiLocation.get("model"),
-                        susiLocation.get("group"),
-                        susiLocation.get("language"),
-                        susiLocation.get("skill"),
-                        polarity);
+        SkillRatingQuery queryObject = new SkillRatingQuery(susiLocation.get("model"), susiLocation.get("group"),
+                susiLocation.get("language"), susiLocation.get("skill"), polarity);
+        QueryHelper queryHelper = new QueryHelper();
+
+        Call<SkillRatingResponse> ratingResponseCall = queryHelper.rateSkillCall(queryObject);
 
         ratingResponseCall.enqueue(new Callback<SkillRatingResponse>() {
             @Override

@@ -137,11 +137,7 @@ public interface SusiService {
      * @return the Call
      */
     @POST("/cms/rateSkill.json")
-    Call<SkillRatingResponse> rateSkill(@Query("model") String model,
-                                        @Query("group") String group,
-                                        @Query("language") String language,
-                                        @Query("skill") String skill,
-                                        @Query("rating") String rating);
+    Call<SkillRatingResponse> rateSkill(@QueryMap Map<String, String> map);
 
     /**
      * Send five star user rating to the server
@@ -194,11 +190,7 @@ public interface SusiService {
 
 
     @GET("/cms/getSkillList.json")
-    Call<ListSkillsResponse> fetchListSkills(@Query("group") String groups,
-                                             @Query("language") String language,
-                                             @Query("applyFilter") String applyFilter,
-                                             @Query("filter_name") String filterName,
-                                             @Query("filter_type") String filterType);
+    Call<ListSkillsResponse> fetchListSkills(@QueryMap Map<String, String> map);
 
     @GET("/cms/getRatingByUser.json")
     Call<GetRatingByUserResponse> getRatingByUser(@QueryMap Map<String, String> query);

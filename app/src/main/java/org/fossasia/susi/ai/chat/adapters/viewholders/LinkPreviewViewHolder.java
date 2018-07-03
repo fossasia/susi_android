@@ -22,9 +22,10 @@ import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.data.model.WebLink;
+import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.PrefManager;
-import org.fossasia.susi.ai.rest.ClientBuilder;
+import org.fossasia.susi.ai.helper.QueryHelper;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 
 import java.util.List;
@@ -281,8 +282,11 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
         if (susiLocation.size() == 0)
             return;
 
-        Call<SkillRatingResponse> call = new ClientBuilder().getSusiApi().rateSkill(susiLocation.get("model"),
-                susiLocation.get("group"), susiLocation.get("language"), susiLocation.get("skill"), polarity);
+        SkillRatingQuery queryObject = new SkillRatingQuery(susiLocation.get("model"), susiLocation.get("group"),
+                susiLocation.get("language"), susiLocation.get("skill"), polarity);
+        QueryHelper queryHelper = new QueryHelper();
+
+        Call<SkillRatingResponse> call = queryHelper.rateSkillCall(queryObject);
 
         call.enqueue(new Callback<SkillRatingResponse>() {
             @Override
