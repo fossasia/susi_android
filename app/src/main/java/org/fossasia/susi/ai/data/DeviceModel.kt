@@ -8,13 +8,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class DeviceModel: IDeviceModel {
+class DeviceModel : IDeviceModel {
 
     private val deviceService = DeviceClient.getClient().create(DeviceService::class.java)
 
     override fun sendWifiCredentials(ssid: String, pass: String, listener: IDeviceModel.onSendWifiCredentialsListener) {
 
-        deviceService.wifiCredentials(ssid,pass).enqueue(object :Callback<String> {
+        deviceService.wifiCredentials(ssid, pass).enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>?, t: Throwable?) {
                 if (t?.localizedMessage != null) {
                     Timber.d(t.localizedMessage)
@@ -32,7 +32,7 @@ class DeviceModel: IDeviceModel {
 
     override fun setConfiguration(stt: String, tts: String, hotword: String, wake: String, listener: IDeviceModel.onSetConfigurationListener) {
 
-        deviceService.ttSSettings(stt,tts,hotword,wake).enqueue(object :Callback<String> {
+        deviceService.ttSSettings(stt, tts, hotword, wake).enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>?, t: Throwable?) {
                 if (t?.localizedMessage != null) {
                     Timber.d(t.localizedMessage)
@@ -51,7 +51,7 @@ class DeviceModel: IDeviceModel {
 
     override fun sendAuthCredentials(choice: String, email: String, password: String, listener: IDeviceModel.onSendAuthCredentialsListener) {
 
-        deviceService.authCredentials(choice,email,password).enqueue(object :Callback<String> {
+        deviceService.authCredentials(choice, email, password).enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>?, t: Throwable?) {
                 if (t?.localizedMessage != null) {
                     Timber.d(t.localizedMessage)

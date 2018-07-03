@@ -22,7 +22,7 @@ import org.fossasia.susi.ai.data.contract.IDeviceModel
 
 
 class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDevicePresenter, IDeviceModel.onSendWifiCredentialsListener,
-                        IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener{
+        IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener {
 
 
     private var mWifiManager = manager
@@ -124,9 +124,9 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
     override fun makeConnectionRequest() {
         Timber.d("make request")
         deviceView?.unregister()
-        deviceModel.sendAuthCredentials("y","mohitkumar2k15@dtu.ac.in","batbrain",this@DevicePresenter)
-        deviceModel.sendWifiCredentials("Neelam","9560247000",this@DevicePresenter)
-        deviceModel.setConfiguration("google","google","y","n",this@DevicePresenter)
+        deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
+        deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
+        deviceModel.setConfiguration("google", "google", "y", "n", this@DevicePresenter)
     }
 
     override fun onSendCredentialSuccess() {
@@ -136,7 +136,7 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
 
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
-        deviceView?.onDeviceConnectionError("Wifi Cred Failure","Not done properly")
+        deviceView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
     }
 
     override fun onSendAuthSuccess() {
@@ -146,7 +146,7 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
 
     override fun onSendAuthFailure() {
         Timber.d("AUTH - FAILURE")
-        deviceView?.onDeviceConnectionError("Auth Failure","Not done properly")
+        deviceView?.onDeviceConnectionError("Auth Failure", "Not done properly")
     }
 
     override fun onSetConfigSuccess() {
@@ -156,6 +156,6 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
 
     override fun onSetConfigFailure() {
         Timber.d("CONFIG - FAILURE")
-        deviceView?.onDeviceConnectionError("Configuration Failure","Not done properly")
+        deviceView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
     }
 }
