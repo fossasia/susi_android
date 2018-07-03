@@ -7,7 +7,7 @@ import retrofit2.http.Path;
 
 public interface DeviceService {
 
-    @GET("/wifi_credentials/{wifissid}/{wifipassid}")
+    @GET("/wifi_credentials/{wifissid}/{wifipassd}")
     Call<String> wifiCredentials(@Path("wifissid") String ssid,
                                      @Path("wifipassd") String pass);
 

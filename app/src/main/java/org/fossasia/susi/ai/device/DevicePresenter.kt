@@ -10,10 +10,10 @@ import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import timber.log.Timber
-import android.net.NetworkInfo
-import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
+import org.fossasia.susi.ai.data.DeviceModel
+import org.fossasia.susi.ai.data.contract.IDeviceModel
 
 /*
 *   Created by batbrain7 on 22/06/18
@@ -21,11 +21,14 @@ import android.os.AsyncTask
  */
 
 
-class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDevicePresenter {
+class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDevicePresenter, IDeviceModel.onSendWifiCredentialsListener,
+                        IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener{
+
 
     private var mWifiManager = manager
     private var deviceView: IDeviceView? = null
     private var check = false
+    private var deviceModel: IDeviceModel = DeviceModel()
     private var isLocationOn = false
     private var SSID: String? = null
     lateinit var connections: ArrayList<String>
@@ -114,10 +117,45 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
 
         override fun onPostExecute(result: Void?) {
             Timber.d("Connected")
+
         }
     }
 
     override fun makeConnectionRequest() {
         Timber.d("make request")
+        deviceView?.unregister()
+        deviceModel.sendAuthCredentials("y","mohitkumar2k15@dtu.ac.in","batbrain",this@DevicePresenter)
+        deviceModel.sendWifiCredentials("Neelam","9560247000",this@DevicePresenter)
+        deviceModel.setConfiguration("google","google","y","n",this@DevicePresenter)
+    }
+
+    override fun onSendCredentialSuccess() {
+        Timber.d("WIFI - SUCCESSFUL")
+        deviceView?.onDeviceConnectionSuccess()
+    }
+
+    override fun onSendCredentialFailure() {
+        Timber.d("WIFI - FAILURE")
+        deviceView?.onDeviceConnectionError("Wifi Cred Failure","Not done properly")
+    }
+
+    override fun onSendAuthSuccess() {
+        Timber.d("AUTH - SUCCESSFUL")
+        deviceView?.onDeviceConnectionSuccess()
+    }
+
+    override fun onSendAuthFailure() {
+        Timber.d("AUTH - FAILURE")
+        deviceView?.onDeviceConnectionError("Auth Failure","Not done properly")
+    }
+
+    override fun onSetConfigSuccess() {
+        Timber.d("CONFIG - SUCCESS")
+        deviceView?.onDeviceConnectionSuccess()
+    }
+
+    override fun onSetConfigFailure() {
+        Timber.d("CONFIG - FAILURE")
+        deviceView?.onDeviceConnectionError("Configuration Failure","Not done properly")
     }
 }
