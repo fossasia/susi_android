@@ -230,6 +230,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                     isHavingLink = psh.isHavingLink,
                                     datumList = psh.datumList,
                                     webSearch = psh.webSearch,
+                                    identifier = psh.identifier,
                                     skillLocation = allMessages[i].answers[0].skills[0]),
                                     this)
                         } catch (e: Exception) {
