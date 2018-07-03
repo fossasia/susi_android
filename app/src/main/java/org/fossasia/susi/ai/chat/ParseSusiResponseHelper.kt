@@ -65,13 +65,6 @@ class ParseSusiResponseHelper {
                 null
             }
 
-            Constant.RSS -> datumList = try {
-                susiResponse.answers[0].data
-            } catch (e: Exception) {
-                Timber.e(e)
-                null
-            }
-
             Constant.WEBSEARCH -> webSearch = try {
                 susiResponse.answers[0].actions[1].query
             } catch (e: Exception) {
