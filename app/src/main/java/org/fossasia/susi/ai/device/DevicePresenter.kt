@@ -124,9 +124,10 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
     override fun makeConnectionRequest() {
         Timber.d("make request")
         deviceView?.unregister()
-        deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
-        deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
-        deviceModel.setConfiguration("google", "google", "y", "n", this@DevicePresenter)
+        // test data only
+      //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
+      //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
+      //  deviceModel.setConfiguration("google", "google", "y", "n", this@DevicePresenter)
     }
 
     override fun onSendCredentialSuccess() {

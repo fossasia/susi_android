@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.rest.clients;
 
+import org.fossasia.susi.ai.BuildConfig;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -13,9 +15,8 @@ public class DeviceClient {
      */
     public static Retrofit getClient() {
         if (retrofit == null) {
-            String SUSI_SPEAKER_BASE_URL = "http://10.0.0.1:5000";
             retrofit = new Retrofit.Builder()
-                    .baseUrl(SUSI_SPEAKER_BASE_URL)
+                    .baseUrl(BuildConfig.SPEAKER_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
