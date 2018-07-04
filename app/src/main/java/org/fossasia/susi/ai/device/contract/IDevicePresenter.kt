@@ -20,4 +20,6 @@ interface IDevicePresenter {
     fun inflateList(list : List<ScanResult>)
 
     fun connectToDevice(networkSSID: String)
+
+    fun makeConnectionRequest()
 }
