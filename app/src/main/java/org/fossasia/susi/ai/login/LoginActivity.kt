@@ -11,6 +11,9 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.google.android.gms.auth.api.credentials.*
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -20,6 +23,7 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
+import timber.log.Timber
 
 /**
  * <h1>The Login activity.</h1>
@@ -27,12 +31,15 @@ import org.fossasia.susi.ai.signup.SignUpActivity
  *
  * Created by chiragw15 on 4/7/17.
  */
-class LoginActivity : AppCompatActivity(), ILoginView {
+class LoginActivity : AppCompatActivity(), ILoginView, OnCompleteListener<CredentialRequestResponse> {
 
     lateinit var forgotPasswordProgressDialog: Dialog
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var credential: Credential
+    private lateinit var credentialsClient: CredentialsClient
+    private lateinit var credentialRequest: CredentialRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +56,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
                 inputUrl.visibility = View.GONE
             }
         }
+
+        credentialsClient = Credentials.getClient(this)
+        credentialRequest = CredentialRequest.Builder()
+                .setPasswordLoginSupported(true)
+                .build()
+        credentialsClient.request(credentialRequest).addOnCompleteListener(this)
 
         progressDialog = ProgressDialog(this)
         progressDialog.setCancelable(false)
@@ -70,6 +83,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     override fun onLoginSuccess(message: String?) {
         Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
+        if (rememberMe.isChecked) {
+            saveCredential(email.editText?.text.toString(), password.editText?.text.toString())
+        }
         val intent = Intent(this@LoginActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(Constant.FIRST_TIME, true)
@@ -220,5 +236,37 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             forgotPassword.isEnabled = false
             loginPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
+    }
+
+    fun saveCredential(email: String, password: String) {
+        credential = Credential.Builder(email)
+                .setPassword(password)
+                .setName(getString(R.string.susi_account))
+                .build()
+        credentialsClient.save(credential).addOnCompleteListener({
+            if (it.isComplete) {
+                Timber.d("Saved Credentials")
+            }
+        })
+
+
+    }
+
+    override fun onComplete(task: Task<CredentialRequestResponse>) {
+        if (task.isSuccessful) {
+            onCredentialRetrieved(task.getResult().credential)
+        } else {
+            Timber.e(task.exception.toString())
+        }
+    }
+
+    private fun onCredentialRetrieved(credential: Credential?) {
+
+        var accountName = credential?.name
+        if (accountName.equals(getString(R.string.susi_account))) {
+            email.editText?.setText(credential?.id.toString())
+            password.editText?.setText(credential?.password.toString())
+        }
+
     }
 }

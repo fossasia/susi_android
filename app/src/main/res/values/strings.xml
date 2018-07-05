@@ -9,6 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="action_wall_settings">Wallpaper</string>
+    <string name="remember_me">Remember Me</string>
 
     <string name="background_no_wall">no_wall</string>
 
@@ -358,4 +359,5 @@
     <string name="connecting_device">Connecting to your device...</string>
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
+    <string name="susi_account">SUSI ACCOUNT</string>
 </resources>

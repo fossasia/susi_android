@@ -76,6 +76,7 @@ dependencies {
     implementation "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.google.android.gms:play-services-auth:${rootConfiguration.playServicesVersion}"
 
     //piechart
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
