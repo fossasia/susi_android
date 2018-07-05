@@ -158,6 +158,12 @@ Please help us follow the best practice to make it easy for the reviewer as well
 	```
 	apply plugin: 'io.fabric'
 	```
+## For Developers: Updating the URL of the smart speaker
+1. Go to build.gradle file and the URL of the smart speaker local server under the name of SPEAKER_BASE_URL as a buildConfigField can be updated there under the buildtypes section in both the release and debug blocks : 
+    ```
+    buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'	
+    
+ 	```
 
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:
