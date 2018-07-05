@@ -21,6 +21,7 @@ import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -76,6 +77,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
 

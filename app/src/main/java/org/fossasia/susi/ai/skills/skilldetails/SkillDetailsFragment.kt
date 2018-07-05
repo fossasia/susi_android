@@ -9,6 +9,7 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
@@ -174,6 +175,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             return
         }
 
+        skillDetailShareButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_white_24dp,0,0,0)
         skillDetailShareButton.setOnClickListener {
             val shareUriBuilder = Uri.Builder()
             shareUriBuilder.scheme("https")

@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.login
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
@@ -29,7 +28,7 @@ import org.fossasia.susi.ai.signup.SignUpActivity
  */
 class LoginActivity : AppCompatActivity(), ILoginView {
 
-    lateinit var forgotPasswordProgressDialog: Dialog
+    lateinit var forgotPasswordProgressDialog: AlertDialog
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
@@ -55,9 +54,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         progressDialog.setMessage(getString(R.string.login))
 
         builder = AlertDialog.Builder(this)
-        builder.setView(R.layout.progress)
         forgotPasswordProgressDialog = builder.create()
-
+        forgotPasswordProgressDialog.setView(forgotPasswordProgressDialog.getLayoutInflater().inflate(R.layout.progress, null))
 
         addListeners()
 
