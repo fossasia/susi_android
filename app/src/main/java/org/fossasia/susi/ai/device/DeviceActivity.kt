@@ -9,15 +9,17 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.wifi.ScanResult
+import android.net.wifi.SupplicantState
+import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_device.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.adapters.DevicesAdapter
@@ -84,7 +86,9 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     }
 
     override fun startScan() {
-        filter = IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        filter = IntentFilter()
+        filter!!.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        filter!!.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
         receiverWifi = WifiReceiver()
         registerReceiver(receiverWifi, filter)
         mainWifi.startScan()
@@ -145,9 +149,27 @@ class DeviceActivity : AppCompatActivity(), IDeviceView {
     inner class WifiReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             Timber.d("Inside the app")
-            var wifiList: List<ScanResult> = ArrayList<ScanResult>()
-            wifiList = mainWifi.getScanResults()
-            devicePresenter.inflateList(wifiList)
+            if (p1 != null) {
+                if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
+                    var wifiList: List<ScanResult> = ArrayList<ScanResult>()
+                    wifiList = mainWifi.getScanResults()
+                    devicePresenter.inflateList(wifiList)
+                } else if (p1.action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
+                    Timber.d("Wifi changes")
+                    if (p1.getParcelableExtra<Parcelable>(WifiManager.EXTRA_NEW_STATE) == SupplicantState.COMPLETED) {
+                        Timber.d("Wifi Changes #2")
+                        val wi = mainWifi.connectionInfo
+                        if (wi != null) {
+                            val ssid = wi.ssid
+                            Timber.d(ssid)
+                            if (ssid.equals("\"SUSI.AI\"")) {
+                                Timber.d("Going to make connection")
+                                devicePresenter.makeConnectionRequest()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
