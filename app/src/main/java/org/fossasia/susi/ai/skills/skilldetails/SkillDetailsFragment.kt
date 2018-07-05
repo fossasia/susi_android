@@ -301,8 +301,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 5 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_awesome)
                 else -> fiveStarSkillRatingScaleTextView.setText("")
             }
-
-            setRating()
         })
     }
 
