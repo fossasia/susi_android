@@ -9,6 +9,7 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
@@ -175,6 +176,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             return
         }
 
+        skillDetailShareButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_white_24dp, 0, 0, 0)
         skillDetailShareButton.setOnClickListener {
             val shareUriBuilder = Uri.Builder()
             shareUriBuilder.scheme("https")
@@ -280,7 +282,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
             fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
 
-            if(fromUser == true){
+            if (fromUser == true) {
                 this.fromUser = fromUser
             }
 
@@ -314,7 +316,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     override fun updateRatings(ratingsObject: Stars?) {
         if (ratingsObject != null) {
             skillData.skillRating?.stars = ratingsObject
-            if(fromUser == true) {
+            if (fromUser == true) {
                 //Display a toast to notify the user that the rating has been submitted
                 Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
             }

@@ -2,6 +2,7 @@ package org.fossasia.susi.ai;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
@@ -27,6 +28,10 @@ public class MainApplication extends Application {
      */
     public static MainApplication getInstance() {
         return instance;
+    }
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     @Override
