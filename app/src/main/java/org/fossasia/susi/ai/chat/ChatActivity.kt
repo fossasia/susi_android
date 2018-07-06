@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
@@ -63,7 +64,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private lateinit var progressDialog: ProgressDialog
     private var example: String = ""
     private var isConfigurationChanged = false
-    private val enterAsSend : Boolean by lazy {
+    private val enterAsSend: Boolean by lazy {
         PrefManager.getBoolean(Constant.ENTER_SEND, false)
     }
 
@@ -359,6 +360,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun checkEnterKeyPref(isChecked: Boolean) {
         if (isChecked) {
             askSusiMessage.imeOptions = EditorInfo.IME_ACTION_SEND
+            askSusiMessage.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD //setting this programmatically works for all devices
         } else {
             askSusiMessage.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }
