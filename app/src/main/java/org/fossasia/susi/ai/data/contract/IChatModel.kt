@@ -24,11 +24,8 @@ interface IChatModel {
 
     interface OnMessageFromSusiReceivedListener {
         fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?)
-        fun onTableMessageReceivedSuccess(response: Response<TableSusiResponse>?)
         fun onSusiMessageReceivedFailure(t: Throwable)
     }
-
-    fun getTableSusiMessage(map: Map<String, String>, listener: IChatModel.OnMessageFromSusiReceivedListener)
 
     fun getSusiMessage(map: Map<String, String>, listener: OnMessageFromSusiReceivedListener)
 

@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.chat
 import android.util.Patterns
 import io.realm.RealmList
 import org.fossasia.susi.ai.data.model.MapData
+import org.fossasia.susi.ai.data.model.TableDatas
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
@@ -24,6 +25,8 @@ class ParseSusiResponseHelper {
     var webSearch = ""
     var stop = "Stopped"
     var isHavingLink = false
+    var tableData: TableDatas? = null
+    var count = 0;
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
@@ -78,6 +81,40 @@ class ParseSusiResponseHelper {
                 Timber.e(e)
             }
 
+            Constant.TABLE -> try {
+                count = 0
+                val listColumn: ArrayList<String> = ArrayList()
+                val listColVal: ArrayList<String> = ArrayList()
+                val listTableData: ArrayList<String> = ArrayList()
+
+                for (tableanswer in susiResponse.answers) {
+                    for (answer in tableanswer.actions) {
+                        val map = answer.columns
+                        val set = map?.entries
+                        val iterator = set?.iterator()
+                        while (iterator?.hasNext().toString().toBoolean()) {
+                            val entry = iterator?.next()
+                            listColumn.add(entry?.key.toString())
+                            listColVal.add(entry?.value.toString())
+                        }
+                    }
+                    val map2 = tableanswer.data
+                    Timber.d(map2.toString())
+                    val iterator2 = map2.iterator()
+                    iterator2.forEach {
+                        val entry2 = iterator2.next()
+                        count++
+                        for (count in 0..listColumn.size - 1) {
+                            val obj = listColumn.get(count)
+                            listTableData.add(entry2.get(obj).toString())
+                        }
+                    }
+                    tableData = TableDatas(listColVal, listTableData)
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+                tableData = null
+            }
 
             else -> answer = error
         }

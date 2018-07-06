@@ -1,10 +1,9 @@
 package org.fossasia.susi.ai.chat
 
-import org.fossasia.susi.ai.rest.responses.susi.TableSusiResponse
 import com.google.gson.Gson
 import org.fossasia.susi.ai.data.model.TableDatas
-import org.fossasia.susi.ai.rest.responses.susi.TableBody
-import retrofit2.Response
+import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+import org.fossasia.susi.ai.rest.responses.susi.Body
 import kotlin.collections.ArrayList
 
 
@@ -14,13 +13,13 @@ class ParseTableSusiResponseHelper {
     var listColVal: ArrayList<String> = ArrayList()
     var listTableData: ArrayList<String> = ArrayList()
     var tableData: TableDatas? = null
-    var count = 0;
+    var count = 0
 
     //parse the table response
-    fun parseSusiResponse(response: Response<TableSusiResponse>) {
+    fun parseSusiResponse(response: SusiResponse) {
         try {
             var response1 = Gson().toJson(response)
-            var tableresponse = Gson().fromJson(response1, TableBody::class.java)
+            var tableresponse = Gson().fromJson(response1, Body::class.java)
 
             // to access the json elements of the response received
             // listColumn contains the key elements, listColVal contains the column name of the list
