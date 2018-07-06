@@ -46,7 +46,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
 
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         val skillFragment = SkillListingFragment()
         skills = skillFragment.skills
         supportFragmentManager.beginTransaction()

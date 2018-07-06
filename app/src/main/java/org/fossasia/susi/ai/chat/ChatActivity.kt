@@ -77,7 +77,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
 

@@ -2,6 +2,7 @@ package org.fossasia.susi.ai;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
@@ -32,6 +33,7 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
