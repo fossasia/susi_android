@@ -21,7 +21,6 @@ public class MainApplication extends Application {
 
     private static MainApplication instance;
     private static final String TAG = "MainApplication";
-
     /**
      * Gets instance.
      *
