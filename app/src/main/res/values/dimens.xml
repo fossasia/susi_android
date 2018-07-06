@@ -6,6 +6,9 @@
 
     <dimen name="button_width">250dp</dimen>
 
+    <dimen name="button_width_skill_details">100dp</dimen>
+    <dimen name="button_height_skill_details">40dp</dimen>
+
     <dimen name="cmv_corner_radius">15dp</dimen>
     <dimen name="cmv_padding">10dp</dimen>
 
@@ -42,6 +45,7 @@
     <dimen name="padding_large">10dp</dimen>
     <dimen name="padding_small">5dp</dimen>
     <dimen name="padding_very_small">0.8dp</dimen>
+    <dimen name="padding_very_large">16dp</dimen>
 
     <dimen name="piechart_layout_height">300dp</dimen>
 
@@ -60,6 +64,7 @@
     <dimen name="text_size_small">10sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_very_large">24sp</dimen>
+    <dimen name="text_size_normal">22sp</dimen>
 
     <dimen name="timestamp_layout_padding">8dp</dimen>
     <dimen name="timestamp_size">10sp</dimen>
