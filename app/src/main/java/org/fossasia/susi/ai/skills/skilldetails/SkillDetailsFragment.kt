@@ -28,8 +28,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.rest.responses.susi.Ratings
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
 import org.fossasia.susi.ai.skills.SkillsActivity
@@ -104,6 +104,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         setDescription()
         setExamples()
         setRating()
+        setFeedback()
         setDynamicContent()
         setPolicy()
         setTerms()
@@ -449,6 +450,40 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      */
     private fun calcPercentageOfUsers(actualNumberOfUsers: Int, totalNumberOfUsers: Int): Float {
         return (actualNumberOfUsers * 100f) / totalNumberOfUsers
+    }
+
+    /**
+     * Set up the feedback section
+     *
+     * If the user is logged in, show the post feedback section otherwise display an appropriate message
+     */
+    private fun setFeedback() {
+        if (PrefManager.getToken() != null) {
+            tvPostFeedbackDesc.visibility = View.VISIBLE
+            layoutPostFeedback.visibility = View.VISIBLE
+            buttonPost.setOnClickListener {
+                if (etFeedback.text.toString().isNotEmpty()) {
+                    val queryObject = PostFeedback(skillData.model, skillData.group, skillData.language,
+                            skillData.skillTag, etFeedback.text.toString(), PrefManager.getToken().toString())
+
+                    skillDetailsPresenter.postFeedback(queryObject)
+                } else {
+                    Toast.makeText(context, getString(R.string.toast_empty_feedback), Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            tvAnonymousPostFeedback.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * Displays a toast to show that the feedback has been posted successfully
+     */
+    override fun updateFeedback() {
+        Toast.makeText(context, getString(R.string.toast_feedback_updated), Toast.LENGTH_SHORT).show()
+        etFeedback.text.clear()
+        etFeedback.dispatchWindowFocusChanged(true)
+        etFeedback.clearFocus()
     }
 
     private fun setDynamicContent() {
