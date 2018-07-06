@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,7 +71,7 @@ public class ImageViewHolder extends MessageViewHolder {
             try {
                 Picasso.with(itemView.getContext())
                         .load(imageURL)
-                        .placeholder(R.drawable.ic_susi)
+                        .placeholder(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_susi))
                         .into(imageView);
             } catch (Exception e) {
                 Timber.e(e);
