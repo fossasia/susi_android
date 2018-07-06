@@ -71,7 +71,7 @@ public class ImageViewHolder extends MessageViewHolder {
             try {
                 Picasso.with(itemView.getContext())
                         .load(imageURL)
-                        .placeholder(ContextCompat.getDrawable(itemView.getContext(),R.drawable.ic_susi))
+                        .placeholder(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_susi))
                         .into(imageView);
             } catch (Exception e) {
                 Timber.e(e);

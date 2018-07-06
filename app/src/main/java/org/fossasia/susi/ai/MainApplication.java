@@ -21,6 +21,7 @@ public class MainApplication extends Application {
 
     private static MainApplication instance;
     private static final String TAG = "MainApplication";
+
     /**
      * Gets instance.
      *
@@ -30,7 +31,7 @@ public class MainApplication extends Application {
         return instance;
     }
 
-    static  {
+    static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
