@@ -30,10 +30,13 @@ public class MainApplication extends Application {
         return instance;
     }
 
+    static  {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
