@@ -9,6 +9,7 @@ import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
+import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
@@ -169,6 +170,21 @@ public interface SusiService {
     Call<ResetPasswordResponse> resetPasswordResponse(@Query("changepassword") String email,
                                                       @Query("password") String password,
                                                       @Query("newpassword") String newPassword);
+
+    /**
+     * Post feedback provided by user
+     *
+     * @param query A query map consisting of following key value pairs
+     *              model       Model of the skill (e.g. general)
+     *              group       Group of skill (e.g. Knowledge)
+     *              language    Language directory in which the skill resides (e.g. en)
+     *              skill       Skill Tag of object in which the skill data resides
+     *              feedback    User feedback to be posted
+     *              accessToken Access token of the logged in user
+     * @return the Call
+     */
+    @POST("/cms/feedbackSkill.json")
+    Call<PostSkillFeedbackResponse> postFeedback(@QueryMap Map<String, String> query);
 
     /**
      * @return list of groups

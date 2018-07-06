@@ -1,12 +1,16 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
+import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
+import java.util.*
 
 /**
  * Model of SkillDetails
@@ -21,6 +25,7 @@ class SkillDetailsModel : ISkillDetailsModel {
 
     private lateinit var updateRatingsResponseCall: Call<FiveStarSkillRatingResponse>
     private lateinit var updateUserRatingResponseCall: Call<GetRatingByUserResponse>
+    private lateinit var updateFeedbackResponseCall: Call<PostSkillFeedbackResponse>
 
     /**
      * Posts a request the fiveStarRateSkill.json API
@@ -66,6 +71,28 @@ class SkillDetailsModel : ISkillDetailsModel {
         })
     }
 
+    override fun postFeedback(queryObject: PostFeedback, listener: ISkillDetailsModel.OnUpdateFeedbackFinishedListener) {
+        val query: MutableMap<String, String> = HashMap()
+        query.put("model", queryObject.model)
+        query.put("group", queryObject.group)
+        query.put("language", queryObject.language)
+        query.put("skill", queryObject.skill)
+        query.put("feedback", queryObject.feedback)
+        query.put("access_token", queryObject.accessToken)
+        updateFeedbackResponseCall = ClientBuilder().susiApi.postFeedback(query)
+
+        updateFeedbackResponseCall.enqueue(object : Callback<PostSkillFeedbackResponse> {
+            override fun onResponse(call: Call<PostSkillFeedbackResponse>, response: Response<PostSkillFeedbackResponse>) {
+                listener.onUpdateFeedbackModelSuccess(response)
+            }
+
+            override fun onFailure(call: Call<PostSkillFeedbackResponse>, t: Throwable) {
+                Timber.e(t)
+                listener.onUpdateFeedbackError(t)
+            }
+        })
+    }
+
     override fun cancelUpdateRatings() {
         updateRatingsResponseCall.cancel()
     }
@@ -74,4 +101,7 @@ class SkillDetailsModel : ISkillDetailsModel {
         updateUserRatingResponseCall.cancel()
     }
 
+    override fun cancelPostFeedback() {
+        updateFeedbackResponseCall.cancel()
+    }
 }
