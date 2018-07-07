@@ -42,7 +42,7 @@ class SkillDetailsModel : ISkillDetailsModel {
      */
     override fun fiveStarRateSkill(map: Map<String, String>, listener: ISkillDetailsModel.OnUpdateRatingsFinishedListener) {
 
-        updateRatingsResponseCall = ClientBuilder().susiApi.fiveStarRateSkill(map)
+        updateRatingsResponseCall = ClientBuilder.getSusiApi().fiveStarRateSkill(map)
 
         updateRatingsResponseCall.enqueue(object : Callback<FiveStarSkillRatingResponse> {
             override fun onResponse(call: Call<FiveStarSkillRatingResponse>, response: Response<FiveStarSkillRatingResponse>) {
@@ -57,7 +57,7 @@ class SkillDetailsModel : ISkillDetailsModel {
     }
 
     override fun getRatingByUser(map: Map<String, String>, listener: ISkillDetailsModel.OnUpdateUserRatingFinishedListener) {
-        updateUserRatingResponseCall = ClientBuilder().susiApi.getRatingByUser(map)
+        updateUserRatingResponseCall = ClientBuilder.getSusiApi().getRatingByUser(map)
 
         updateUserRatingResponseCall.enqueue(object : Callback<GetRatingByUserResponse> {
             override fun onResponse(call: Call<GetRatingByUserResponse>, response: Response<GetRatingByUserResponse>) {
@@ -79,7 +79,7 @@ class SkillDetailsModel : ISkillDetailsModel {
         query.put("skill", queryObject.skill)
         query.put("feedback", queryObject.feedback)
         query.put("access_token", queryObject.accessToken)
-        updateFeedbackResponseCall = ClientBuilder().susiApi.postFeedback(query)
+        updateFeedbackResponseCall = ClientBuilder.getSusiApi().postFeedback(query)
 
         updateFeedbackResponseCall.enqueue(object : Callback<PostSkillFeedbackResponse> {
             override fun onResponse(call: Call<PostSkillFeedbackResponse>, response: Response<PostSkillFeedbackResponse>) {

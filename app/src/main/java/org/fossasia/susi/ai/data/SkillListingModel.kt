@@ -22,7 +22,7 @@ class SkillListingModel : ISkillListingModel {
 
     override fun fetchGroups(listener: ISkillListingModel.OnFetchGroupsFinishedListener) {
 
-        authResponseCallGroups = clientBuilder.susiApi.fetchListGroups()
+        authResponseCallGroups = ClientBuilder.getSusiApi().fetchListGroups()
 
         authResponseCallGroups.enqueue(object : Callback<ListGroupsResponse> {
             override fun onResponse(call: Call<ListGroupsResponse>, response: Response<ListGroupsResponse>) {
@@ -38,7 +38,7 @@ class SkillListingModel : ISkillListingModel {
 
     override fun fetchSkills(group: String, language: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
 
-        authResponseCallSkills = clientBuilder.susiApi.fetchListSkills(group, language, "true", "descending", "rating")
+        authResponseCallSkills = ClientBuilder.getSusiApi().fetchListSkills(group, language, "true", "descending", "rating")
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
             override fun onResponse(call: Call<ListSkillsResponse>, response: Response<ListSkillsResponse>) {

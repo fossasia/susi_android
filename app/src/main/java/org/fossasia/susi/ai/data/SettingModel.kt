@@ -18,7 +18,7 @@ class SettingModel : ISettingModel {
     private lateinit var settingResponseCall: Call<ChangeSettingResponse>
     private lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
     override fun sendSetting(key: String, value: String, count: Int, listener: ISettingModel.OnSettingFinishListener) {
-        settingResponseCall = ClientBuilder().susiApi
+        settingResponseCall = ClientBuilder.getSusiApi()
                 .changeSettingResponse(key, value, count)
         settingResponseCall.enqueue(object : Callback<ChangeSettingResponse> {
             override fun onFailure(call: Call<ChangeSettingResponse>?, t: Throwable) {
@@ -34,7 +34,7 @@ class SettingModel : ISettingModel {
 
     override fun resetPassword(password: String, newPassword: String, listener: ISettingModel.OnSettingFinishListener) {
         val email = PrefManager.getString(Constant.SAVE_EMAIL, null)
-        resetPasswordResponseCall = ClientBuilder().susiApi
+        resetPasswordResponseCall = ClientBuilder.getSusiApi()
                 .resetPasswordResponse(email, password, newPassword)
         resetPasswordResponseCall.enqueue(object : Callback<ResetPasswordResponse> {
             override fun onResponse(call: Call<ResetPasswordResponse>?, response: Response<ResetPasswordResponse>?) {

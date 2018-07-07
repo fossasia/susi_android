@@ -42,7 +42,7 @@ public class ClientBuilder {
 
         try {
             retrofit = RetrofitInstance.getRetrofit();
-            init();
+            susiService = getSusiApi();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,10 @@ public class ClientBuilder {
      *
      * @return the susi api
      */
-    public SusiService getSusiApi() {
+    public static SusiService getSusiApi() {
+        if(susiService == null){
+            init();
+        }
         return susiService;
     }
 }
