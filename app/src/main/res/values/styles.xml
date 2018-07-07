@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,41 +6,125 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="SUSIImage">@drawable/letter_s</item>
+        <item name="SUSIButtonColor">@color/colorPrimaryDark</item>
+        <item name="ChatBG">@color/default_bg</item>
+        <item name="UserMessageBG">@color/user_message_bg</item>
+        <item name="SUSIMessageBG">@color/susi_message_bg</item>
+        <item name="MessageTextColor">@color/message_text_color</item>
+        <item name="TimeStampColor">@color/timestamp_color</item>
     </style>
+
+    <style name="AppTheme_Dark" parent="AppTheme">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#001d38</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="SUSIImage">@drawable/letter_s_dark</item>
+        <item name="SUSIButtonColor">#ffffff</item>
+        <item name="ChatBG">#003464</item>
+        <item name="UserMessageBG">#00539f</item>
+        <item name="SUSIMessageBG">#0062bc</item>
+        <item name="MessageTextColor">#d6d6d6</item>
+        <item name="TimeStampColor">#b6b6b6</item>
+    </style>
+
 
     <style name="Chat_Theme" parent="AppTheme">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="Chat_Theme_Dark" parent="AppTheme_Dark">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 
     <style name="SignUp_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="SignUp_Theme_Dark" parent="AppTheme_Dark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+
     <style name="ForgetPass_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="PreferencesThemeDark" parent="PreferenceFixTheme">
-        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+    <style name="ForgetPass_Theme_Dark" parent="AppTheme_Dark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+
+
+
 
     <style name="PreferencesThemeLight" parent="PreferenceFixTheme.Light">
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
         <item name="android:background">@color/default_bg</item>
         <item name="android:windowActionBar">true</item>
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="SUSIImage">@drawable/letter_s</item>
+        <item name="SUSIButtonColor">@color/colorPrimaryDark</item>
+        <item name="ChatBG">@color/default_bg</item>
+        <item name="UserMessageBG">@color/user_message_bg</item>
+        <item name="SUSIMessageBG">@color/susi_message_bg</item>
+        <item name="MessageTextColor">@color/message_text_color</item>
+        <item name="TimeStampColor">@color/timestamp_color</item>
+
     </style>
+
+
+    <style name="PreferencesThemeDark" parent="PreferenceFixTheme">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:background">#003464</item>
+        <item name="android:windowActionBar">true</item>
+
+
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">#001d38</item>
+        <item name="colorAccent">@color/colorPrimary</item>
+
+        <item name="SUSIImage">@drawable/letter_s_dark</item>
+        <item name="SUSIButtonColor">#ffffff</item>
+        <item name="ChatBG">#003464</item>
+        <item name="UserMessageBG">#00539f</item>
+        <item name="SUSIMessageBG">#0062bc</item>
+        <item name="MessageTextColor">#d6d6d6</item>
+        <item name="TimeStampColor">#b6b6b6</item>
+
+        <item name="android:toolbarStyle" tools:ignore="NewApi">@color/colorPrimaryDark</item>
+    </style>
+
+
+
 
     <style name="WindowAnimationTransition">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
+
     <style name="Login_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Login_Theme_Dark" parent="AppTheme_Dark">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
 
     <style name="sendMessageEditTextTheme">
         <item name="android:textColorHighlight">@color/md_teal_100</item>

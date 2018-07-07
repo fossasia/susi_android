@@ -82,6 +82,7 @@
     <string name="setting_hotword_key" translatable="false">hotword_detection</string>
 
     <string name="settings_enterPreference_key" translatable="false">enterAsSend</string>
+    <string name="settings_dark_theme_key" translatable="false">darkTheme</string>
     <string name="settings_enterPreference_label">↵ to send</string>
     <string name="settings_enterPreference_summary">Send message by clicking ↵ on the keyboard</string>
     <string name="settings_hotwordPreference_summary">Enable \"Hotword Detection\" to interact with SUSI in hands-free mode</string>

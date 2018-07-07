@@ -10,6 +10,7 @@ public class Constant {
     public static final String IMAGE_DATA = "image_data";
 
     public static final String ENTER_SEND = "enterAsSend";
+    public static final String DARK_THEME = "darkTheme";
 
     public static final String MIC_INPUT = "micInput";
 

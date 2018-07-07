@@ -38,6 +38,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -76,6 +77,13 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if(PrefManager.isDarkThemeEnabled(this)) {
+            setTheme(R.style.Chat_Theme_Dark)
+        }else {
+            setTheme(R.style.Chat_Theme)
+        }
+
         setContentView(R.layout.activity_chat)
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
