@@ -1,11 +1,19 @@
 package org.fossasia.susi.ai.rest;
 
+import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
+import org.fossasia.susi.ai.dataclasses.SkillsListQuery;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor;
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
+import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.services.SusiService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -66,5 +74,25 @@ public class ClientBuilder {
      */
     public SusiService getSusiApi() {
         return susiService;
+    }
+
+    public static Call<SkillRatingResponse> rateSkillCall(SkillRatingQuery queryObject) {
+        Map<String, String> queryMap= new HashMap<String, String>();
+        queryMap.put("model", queryObject.getModel());
+        queryMap.put("group", queryObject.getGroup());
+        queryMap.put("language", queryObject.getLanguage());
+        queryMap.put("skill", queryObject.getSkill());
+        queryMap.put("rating", queryObject.getRating());
+        return susiService.rateSkill(queryMap);
+    }
+
+    public static Call<ListSkillsResponse> fetchListSkillsCall(SkillsListQuery queryObject) {
+        Map<String, String> queryMap = new HashMap<String, String>();
+        queryMap.put("group", queryObject.getGroup());
+        queryMap.put("language", queryObject.getLanguage());
+        queryMap.put("applyFilter", queryObject.getApplyFilter());
+        queryMap.put("filter_name", queryObject.getFilterName());
+        queryMap.put("filter_type", queryObject.getFilterType());
+        return susiService.fetchListSkills(queryMap);
     }
 }
