@@ -10,6 +10,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  * Skill Listing Presenter
@@ -37,10 +38,12 @@ class SkillListingPresenter : ISkillListingPresenter,
 
     override fun onGroupFetchSuccess(response: Response<ListGroupsResponse>) {
         if (response.isSuccessful && response.body() != null) {
+            Timber.d("GROUPS FETCHED")
             groupsCount = response.body().groups.size
             groups = response.body().groups
             skillListingModel.fetchSkills(groups[0], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
         } else {
+            Timber.d("GROUPS NOT FETCHED")
             skillListingView?.visibilityProgressBar(false)
             skillListingView?.displayError()
         }
@@ -54,6 +57,7 @@ class SkillListingPresenter : ISkillListingPresenter,
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
+            Timber.d("SKILLS FETCHED")
             val responseSkillMap = response.body().filteredSkillsData
             if (responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
@@ -64,6 +68,7 @@ class SkillListingPresenter : ISkillListingPresenter,
                 count++
             }
         } else {
+            Timber.d("SKILLS NOT FETCHED")
             skillListingView?.visibilityProgressBar(false)
             skillListingView?.displayError()
         }
