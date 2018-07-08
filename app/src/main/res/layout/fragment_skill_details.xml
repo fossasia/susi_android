@@ -141,7 +141,7 @@
 
             <!-- Add a five star rating bar -->
             <RatingBar
-                android:id="@+id/five_star_skill_rating_bar"
+                android:id="@+id/fiveStarSkillRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -153,7 +153,7 @@
 
             <!-- Display what a particular rating implies -->
             <TextView
-                android:id="@+id/tv_five_star_skill_rating_scale"
+                android:id="@+id/tvFiveStarSkillRatingScale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -179,7 +179,7 @@
 
                     <!-- Display average skill rating -->
                     <TextView
-                        android:id="@+id/tv_average_rating"
+                        android:id="@+id/tvAverageRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -346,7 +346,7 @@
 
                     <!-- Display average skill rating -->
                     <TextView
-                        android:id="@+id/tv_total_rating"
+                        android:id="@+id/tvTotalRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
