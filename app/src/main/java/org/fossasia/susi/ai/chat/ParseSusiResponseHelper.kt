@@ -5,6 +5,7 @@ import io.realm.RealmList
 import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.data.model.TableDatas
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.rest.responses.susi.Answer
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import timber.log.Timber
@@ -87,20 +88,17 @@ class ParseSusiResponseHelper {
                 val listColVal: ArrayList<String> = ArrayList()
                 val listTableData: ArrayList<String> = ArrayList()
 
-                for (tableanswer in susiResponse.answers) {
-                    for (answer in tableanswer.actions) {
-                        val map = answer.columns
-                        map?.forEach {
+                susiResponse.answers.forEach {
+                    it.actions.forEach {
+                        it.columns?.forEach {
                             listColumn.add(it.key)
                             listColVal.add(it.value.toString())
                         }
                     }
-                    val map2 = tableanswer.data
-                    map2.forEach {
+                    it.data.forEach {
                         count++
-                        for (count in 0..listColumn.size - 1) {
-                            val obj = listColumn.get(count)
-                            listTableData.add(it.get(obj).toString())
+                        listColumn.forEach { i -> String
+                            listTableData.add(it[i].toString())
                         }
                     }
                     tableData = TableDatas(listColVal, listTableData)
