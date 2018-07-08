@@ -90,17 +90,13 @@ class ParseSusiResponseHelper {
                 for (tableanswer in susiResponse.answers) {
                     for (answer in tableanswer.actions) {
                         val map = answer.columns
-                        val set = map?.entries
-                        val iterator = set?.iterator()
-                        iterator?.forEach {
-                            listColumn.add(it.key.toString())
+                        map?.forEach {
+                            listColumn.add(it.key)
                             listColVal.add(it.value.toString())
                         }
                     }
                     val map2 = tableanswer.data
-                    Timber.d(map2.toString())
-                    val iterator2 = map2.iterator()
-                    iterator2.forEach {
+                    map2.forEach {
                         count++
                         for (count in 0..listColumn.size - 1) {
                             val obj = listColumn.get(count)
