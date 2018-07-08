@@ -532,4 +532,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             }
         }
     }
+
+    override fun onDestroyView() {
+        skillDetailsPresenter.onDetach()
+        super.onDestroyView()
+    }
 }
