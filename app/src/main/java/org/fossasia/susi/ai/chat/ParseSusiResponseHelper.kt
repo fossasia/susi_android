@@ -92,21 +92,19 @@ class ParseSusiResponseHelper {
                         val map = answer.columns
                         val set = map?.entries
                         val iterator = set?.iterator()
-                        while (iterator?.hasNext().toString().toBoolean()) {
-                            val entry = iterator?.next()
-                            listColumn.add(entry?.key.toString())
-                            listColVal.add(entry?.value.toString())
+                        iterator?.forEach {
+                            listColumn.add(it.key.toString())
+                            listColVal.add(it.value.toString())
                         }
                     }
                     val map2 = tableanswer.data
                     Timber.d(map2.toString())
                     val iterator2 = map2.iterator()
                     iterator2.forEach {
-                        val entry2 = iterator2.next()
                         count++
                         for (count in 0..listColumn.size - 1) {
                             val obj = listColumn.get(count)
-                            listTableData.add(entry2.get(obj).toString())
+                            listTableData.add(it.get(obj).toString())
                         }
                     }
                     tableData = TableDatas(listColVal, listTableData)
