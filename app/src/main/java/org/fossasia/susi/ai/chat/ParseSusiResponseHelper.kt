@@ -69,14 +69,14 @@ class ParseSusiResponseHelper {
             }
 
             Constant.VIDEOPLAY -> try {
-               // answer = susiResponse.answers[0].actions[i].expression
+                // answer = susiResponse.answers[0].actions[i].expression
                 identifier = susiResponse.answers[0].actions[i].identifier
             } catch (e: Exception) {
                 Timber.e(e)
             }
 
             Constant.AUDIOPLAY -> try {
-              //  answer = susiResponse.answers[0].actions[i].expression
+                //  answer = susiResponse.answers[0].actions[i].expression
                 identifier = susiResponse.answers[0].actions[i].identifier
             } catch (e: Exception) {
                 Timber.e(e)
@@ -84,9 +84,9 @@ class ParseSusiResponseHelper {
 
             Constant.TABLE -> try {
                 count = 0
-                val listColumn: ArrayList<String> = ArrayList()
-                val listColVal: ArrayList<String> = ArrayList()
-                val listTableData: ArrayList<String> = ArrayList()
+                val listColumn = ArrayList<String>()
+                val listColVal = ArrayList<String>()
+                val listTableData = ArrayList<String>()
 
                 susiResponse.answers.forEach {
                     it.actions.forEach {
@@ -97,7 +97,8 @@ class ParseSusiResponseHelper {
                     }
                     it.data.forEach {
                         count++
-                        listColumn.forEach { i -> String
+                        listColumn.forEach { i ->
+                            String
                             listTableData.add(it[i].toString())
                         }
                     }
