@@ -312,11 +312,11 @@
 
     <string name="skip">Skip</string>
 
-    <string name="slide_1_desc">Log in on the app using a SUSI AI account, sign up to create a new account or just skip logging in alltogether.</string>
+    <string name="slide_1_desc">Log in on the app using a SUSI.AI account, sign up to create a new account or just skip logging in altogether.</string>
     <string name="slide_1_title">Log in</string>
-    <string name="slide_2_desc">Interact with SUSI AI by asking questions. Use the microphone button for voice interaction.</string>
+    <string name="slide_2_desc">Interact with SUSI.AI by asking questions. Use the microphone button for voice interaction.</string>
     <string name="slide_2_title">Chat Interface</string>
-    <string name="slide_3_desc">Browse and try your favorite SUSI AI skill</string>
+    <string name="slide_3_desc">Browse and try your favorite SUSI.AI skill</string>
     <string name="slide_3_title">Skill List</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
     <string name="slide_4_title">Chat Settings</string>
