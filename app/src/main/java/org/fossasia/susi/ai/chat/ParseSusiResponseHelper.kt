@@ -27,7 +27,6 @@ class ParseSusiResponseHelper {
     var stop = "Stopped"
     var isHavingLink = false
     var tableData: TableDatas? = null
-    var count = 0;
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
@@ -83,7 +82,6 @@ class ParseSusiResponseHelper {
             }
 
             Constant.TABLE -> try {
-                count = 0
                 val listColumn = ArrayList<String>()
                 val listColVal = ArrayList<String>()
                 val listTableData = ArrayList<String>()
@@ -96,7 +94,6 @@ class ParseSusiResponseHelper {
                         }
                     }
                     it.data.forEach {
-                        count++
                         listColumn.forEach { i ->
                             String
                             listTableData.add(it[i].toString())
