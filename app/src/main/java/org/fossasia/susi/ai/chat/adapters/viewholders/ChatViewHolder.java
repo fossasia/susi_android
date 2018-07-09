@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
+import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.data.model.ChatMessage;
 import org.fossasia.susi.ai.rest.ClientBuilder;
@@ -102,8 +103,7 @@ public class ChatViewHolder extends MessageViewHolder {
                             if (receivedTick != null) {
                                 receivedTick.setImageResource(R.drawable.ic_check);
                             }
-                        }
-                        else {
+                        } else {
                             if (receivedTick != null) {
                                 receivedTick.setImageResource(R.drawable.ic_clock);
                             }
@@ -229,8 +229,10 @@ public class ChatViewHolder extends MessageViewHolder {
         if (susiLocation.size() == 0)
             return;
 
-        Call<SkillRatingResponse> call = new ClientBuilder().getSusiApi().rateSkill(susiLocation.get("model"),
-                susiLocation.get("group"), susiLocation.get("language"), susiLocation.get("skill"), polarity);
+        SkillRatingQuery queryObject = new SkillRatingQuery(susiLocation.get("model"), susiLocation.get("group"),
+                susiLocation.get("language"), susiLocation.get("skill"), polarity);
+
+        Call<SkillRatingResponse> call = ClientBuilder.rateSkillCall(queryObject);
 
         call.enqueue(new Callback<SkillRatingResponse>() {
             @Override
