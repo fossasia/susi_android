@@ -28,16 +28,19 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.FeedbackAdapter
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import java.io.Serializable
-import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 /**
@@ -465,6 +468,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
         }
+
+        val query = FetchFeedbackQuery(skillData.model, skillData.group, skillData.language, skillTag)
+        skillDetailsPresenter.fetchFeedback(query)
     }
 
     /**
@@ -475,6 +481,23 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         etFeedback.text.clear()
         etFeedback.dispatchWindowFocusChanged(true)
         etFeedback.clearFocus()
+        etFeedback.text.clear()
+        etFeedback.dispatchWindowFocusChanged(true)
+        etFeedback.clearFocus()
+    }
+
+    /**
+     * Displays the feedback list on the skill details screen
+     *
+     * @param list : Contains the list of Feedback objects received from the getSkillFeedback.json API
+     */
+    override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
+        if (feedbackResponse != null) {
+            val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            rvFeedback.setHasFixedSize(true)
+            rvFeedback.layoutManager = mLayoutManager
+            rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
+        }
     }
 
     private fun setDynamicContent() {

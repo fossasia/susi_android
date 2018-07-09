@@ -19,7 +19,7 @@ class Action {
 
     @SerializedName("type")
     @Expose
-    val type: String = "answer"
+    val type: String = ""
 
     @SerializedName("link")
     @Expose

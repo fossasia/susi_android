@@ -11,12 +11,12 @@ import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.data.db.ChatArgs
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
+import org.fossasia.susi.ai.data.model.TableItem
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
-import org.fossasia.susi.ai.rest.responses.susi.TableSusiResponse
 import retrofit2.Response
 import timber.log.Timber
 import java.util.*
@@ -53,6 +53,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     var backPressedOnce = false
     var id: Long = 0;
     var identifier: String = ""
+    var tableDatas: TableItem? = null
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -230,6 +231,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                     isHavingLink = psh.isHavingLink,
                                     datumList = psh.datumList,
                                     webSearch = psh.webSearch,
+                                    tableData = psh.tableData,
                                     identifier = psh.identifier,
                                     skillLocation = allMessages[i].answers[0].skills[0]),
                                     this)
@@ -445,10 +447,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
             val date = response.body().answerDate
 
             for (i in 0 until actionSize) {
-                if (response.body().answers[0].actions[i].type.equals("table")) {
-                    tableResponse(query)
-                    return
-                }
                 val delay = response.body().answers[0].actions[i].delay
                 val handler = Handler()
                 handler.postDelayed({
@@ -456,7 +454,9 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                     psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
 
                     var setMessage = psh.answer
-                    if (psh.actionType == Constant.VIDEOPLAY || psh.actionType == Constant.AUDIOPLAY) {
+                    if (psh.actionType == Constant.TABLE) {
+                        tableDatas = psh.tableData
+                    } else if (psh.actionType == Constant.VIDEOPLAY || psh.actionType == Constant.AUDIOPLAY) {
                         // Play youtube video
                         identifier = psh.identifier
                         chatView?.playVideo(identifier)
@@ -484,6 +484,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                 isHavingLink = psh.isHavingLink,
                                 datumList = psh.datumList,
                                 webSearch = psh.webSearch,
+                                tableData = tableDatas,
                                 identifier = identifier,
                                 skillLocation = susiResponse.answers[0].skills[0]
                         ), this)
@@ -516,44 +517,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
             chatView?.hideWaitingDots()
         }
         computeOtherMessage()
-    }
-
-    // A callback to check when the Table Message was successfully received
-    override fun onTableMessageReceivedSuccess(response: Response<TableSusiResponse>?) {
-        if (response != null && response.isSuccessful && response.body() != null) {
-            val tableresponse = response.body()
-            val psh = ParseTableSusiResponseHelper()
-            psh.parseSusiResponse(response)
-            val date = response.body().answerDate
-            databaseRepository.updateDatabase(ChatArgs(
-                    prevId = id,
-                    date = DateTimeHelper.getDate(date),
-                    timeStamp = DateTimeHelper.getTime(date),
-                    actionType = Constant.TABLE,
-                    tableData = psh.tableData,
-                    skillLocation = tableresponse.answers[0].skills[0]
-            ), this)
-            chatView?.hideWaitingDots()
-        }
-    }
-
-    // A function called when the actionType is the table response type
-    fun tableResponse(query: String) {
-        val tz = TimeZone.getDefault()
-        val now = Date()
-        val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
-        val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT).equals(Constant.DEFAULT)) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
-        val data: MutableMap<String, String> = HashMap()
-        data.put("timezoneOffset", timezoneOffset.toString())
-        data.put("longitude", longitude.toString())
-        data.put("latitude", latitude.toString())
-        data.put("geosource", source)
-        data.put("language", language)
-        data.put("country_code", countryCode.toString())
-        data.put("country_name", countryName.toString())
-        data.put("device_type", deviceType)
-        data.put("q", query)
-        chatModel.getTableSusiMessage(data, this)
     }
 
     override fun onDatabaseUpdateSuccess() {

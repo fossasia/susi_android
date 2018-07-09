@@ -2,16 +2,16 @@ package org.fossasia.susi.ai.data.model;
 
 import java.util.ArrayList;
 
-public class TableDatas {
+public class TableItem {
 
     private ArrayList<String> columns;
     private ArrayList<String> tableData;
 
-    public TableDatas() {
+    public TableItem() {
 
     }
 
-    public TableDatas(ArrayList<String> columns, ArrayList<String> tableData) {
+    public TableItem(ArrayList<String> columns, ArrayList<String> tableData) {
         this.columns = columns;
         this.tableData = tableData;
     }

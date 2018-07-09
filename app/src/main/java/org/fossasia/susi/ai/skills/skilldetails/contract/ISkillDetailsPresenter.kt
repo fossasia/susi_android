@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilldetails.contract
 
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 
 /**
@@ -22,6 +23,10 @@ interface ISkillDetailsPresenter {
     fun postFeedback(queryObject: PostFeedback)
 
     fun cancelPostFeedback()
+
+    fun fetchFeedback(query: FetchFeedbackQuery)
+
+    fun cancelFetchFeedback()
 
     fun onDetach()
 }
