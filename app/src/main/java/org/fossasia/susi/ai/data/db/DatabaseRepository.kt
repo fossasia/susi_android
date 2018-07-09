@@ -75,16 +75,16 @@ class DatabaseRepository : IDatabaseRepository {
                     chatMessage.longitude = chatArgs.mapData.longitude
                     chatMessage.zoom = chatArgs.mapData.zoom
                 }
-                if (chatArgs.tableData != null) {
+                if (chatArgs.tableItem != null) {
                     val columnRealmList = RealmList<TableColumn>()
                     val tableDataRealmList = RealmList<TableData>()
-                    for (column in chatArgs.tableData.columns) {
+                    for (column in chatArgs.tableItem.columns) {
                         val realmColumn = bgRealm.createObject(TableColumn::class.java)
                         realmColumn.columnName = column
                         columnRealmList.add(realmColumn)
                     }
                     chatMessage.tableColumns = columnRealmList
-                    for (tableData in chatArgs.tableData.tableData) {
+                    for (tableData in chatArgs.tableItem.tableData) {
                         val realmData = bgRealm.createObject(TableData::class.java)
                         realmData.tableData = tableData
                         tableDataRealmList.add(realmData)
