@@ -13,6 +13,7 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.TableAdapter;
 import org.fossasia.susi.ai.data.model.ChatMessage;
+import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
@@ -32,10 +33,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
-/*
-*   A ViewHolder that contains the recyclerview of the Table Response items.
-*
-* */
+/**
+ * A ViewHolder that contains the recyclerview of the Table Response items.
+ */
 
 public class TableViewHolder extends MessageViewHolder {
 
@@ -141,8 +141,10 @@ public class TableViewHolder extends MessageViewHolder {
             return;
         }
 
-        Call<SkillRatingResponse> call = new ClientBuilder().getSusiApi().rateSkill(susiLocation.get("model"),
-                susiLocation.get("group"), susiLocation.get("language"), susiLocation.get("skill"), polarity);
+        SkillRatingQuery queryObject = new SkillRatingQuery(susiLocation.get("model"), susiLocation.get("group"),
+                susiLocation.get("language"), susiLocation.get("skill"), polarity);
+
+        Call<SkillRatingResponse> call = ClientBuilder.rateSkillCall(queryObject);
 
         call.enqueue(new Callback<SkillRatingResponse>() {
             @Override
