@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilldetails.contract
 
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.Stars
 
 /**
@@ -14,4 +15,6 @@ interface ISkillDetailsView {
     fun updateUserRating(updatedRating: Int?)
 
     fun updateFeedback()
+
+    fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse)
 }

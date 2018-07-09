@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skilldetails
 
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.data.SkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.rest.responses.susi.*
@@ -19,7 +20,7 @@ import java.net.UnknownHostException
  */
 class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter,
         ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener,
-        ISkillDetailsModel.OnUpdateFeedbackFinishedListener {
+        ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener {
 
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
     private var skillDetailsView: ISkillDetailsView? = null
@@ -52,6 +53,14 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
         skillDetailsModel.cancelPostFeedback()
     }
 
+    override fun fetchFeedback(query: FetchFeedbackQuery) {
+        skillDetailsModel.fetchFeedback(query, this)
+    }
+
+    override fun cancelFetchFeedback() {
+        skillDetailsModel.cancelFetchFeedback()
+    }
+
     override fun onError(throwable: Throwable) {
 
         if (throwable is UnknownHostException) {
@@ -71,6 +80,14 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
     }
 
     override fun onUpdateFeedbackError(throwable: Throwable) {
+        if (throwable is UnknownHostException) {
+            if (NetworkUtils.isNetworkConnected()) {
+                Timber.e(throwable.toString())
+            }
+        }
+    }
+
+    override fun onFetchFeedbackError(throwable: Throwable) {
         if (throwable is UnknownHostException) {
             if (NetworkUtils.isNetworkConnected()) {
                 Timber.e(throwable.toString())
@@ -108,6 +125,15 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
             skillDetailsView?.updateFeedback()
         } else {
             Timber.d("Could not update feedback")
+        }
+    }
+
+    override fun onFetchFeedbackModelSuccess(response: Response<GetSkillFeedbackResponse>) {
+        if (response.isSuccessful && response.body() != null) {
+            Timber.d(response.body().message)
+            skillDetailsView?.updateFeedbackList(response.body())
+        } else {
+            Timber.d("Could not fetch feedback")
         }
     }
 
