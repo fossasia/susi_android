@@ -15,7 +15,7 @@ class Answer {
 
     @SerializedName("data")
     @Expose
-    val data = RealmList<Datum>()
+    var data: List<Map<String, String>> = ArrayList()
 
     @SerializedName("metadata")
     @Expose
