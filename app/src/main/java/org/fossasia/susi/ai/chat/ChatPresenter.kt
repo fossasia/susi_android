@@ -11,7 +11,7 @@ import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.data.db.ChatArgs
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
-import org.fossasia.susi.ai.data.model.TableDatas
+import org.fossasia.susi.ai.data.model.TableItem
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
@@ -53,7 +53,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     var backPressedOnce = false
     var id: Long = 0;
     var identifier: String = ""
-    var tableDatas: TableDatas? = null
+    var tableDatas: TableItem? = null
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
