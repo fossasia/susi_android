@@ -53,16 +53,6 @@ public class SearchResultsAdapter extends RecyclerView.Adapter<RssViewHolder> {
                     holder.descriptionTextView.setText(Html.fromHtml(datum.getDescription()));
                 }
                 holder.linkTextView.setText(datum.getLink());
-            } else {
-                if (!TextUtils.isEmpty(datum.getName())) {
-                    holder.titleTextView.setText(Html.fromHtml(datum.getName()));
-                }
-                if (!TextUtils.isEmpty(datum.getJerseyNumber())) {
-                    holder.descriptionTextView.setText(Html.fromHtml(datum.getJerseyNumber()));
-                }
-                if (!TextUtils.isEmpty(datum.getPosition())) {
-                    holder.linkTextView.setText(Html.fromHtml(datum.getPosition()));
-                }
             }
         }
     }

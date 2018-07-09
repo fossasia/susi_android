@@ -61,4 +61,9 @@ class SkillData : Serializable {
     @SerializedName("skill_rating")
     @Expose
     var skillRating: SkillRating? = null
+
+    @SerializedName("skill_tag")
+    @Expose
+    var skillTag: String = ""
+
 }

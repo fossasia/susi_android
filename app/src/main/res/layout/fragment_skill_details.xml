@@ -78,8 +78,6 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
-                android:drawableLeft="@drawable/ic_share_white_24dp"
-                android:drawableStart="@drawable/ic_share_white_24dp"
                 android:drawableTint="@color/md_white_1000"
                 android:padding="10dp"
                 android:text="@string/action_share"
@@ -98,7 +96,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/description"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22sp" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/skillDetailDescription"
@@ -114,7 +112,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/examples"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22sp" />
+                android:textSize="@dimen/text_size_normal" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/skillDetailExamples"
@@ -128,7 +126,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/rating"
                 android:textColor="@color/md_black_1000"
-                android:textSize="22sp" />
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/tvFiveStarSkillRatingBar"
@@ -143,7 +141,7 @@
 
             <!-- Add a five star rating bar -->
             <RatingBar
-                android:id="@+id/five_star_skill_rating_bar"
+                android:id="@+id/fiveStarSkillRatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -155,7 +153,7 @@
 
             <!-- Display what a particular rating implies -->
             <TextView
-                android:id="@+id/tv_five_star_skill_rating_scale"
+                android:id="@+id/tvFiveStarSkillRatingScale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -181,7 +179,7 @@
 
                     <!-- Display average skill rating -->
                     <TextView
-                        android:id="@+id/tv_average_rating"
+                        android:id="@+id/tvAverageRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -348,7 +346,7 @@
 
                     <!-- Display average skill rating -->
                     <TextView
-                        android:id="@+id/tv_total_rating"
+                        android:id="@+id/tvTotalRating"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -374,6 +372,63 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_small"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/padding_very_large"
+                android:text="@string/feedback_section"
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/text_size_normal" />
+
+            <TextView
+                android:id="@+id/tvPostFeedbackDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/desc_post_feedback"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/layoutPostFeedback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/feedback"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/etFeedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_feedback"
+                        android:inputType="text" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/buttonPost"
+                    android:layout_width="@dimen/button_width_skill_details"
+                    android:layout_height="@dimen/button_height_skill_details"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:backgroundTint="@color/md_cyan_300"
+                    android:text="@string/button_post"
+                    android:textAllCaps="true"
+                    android:textColor="@color/md_white_1000" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvAnonymousPostFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/post_feedback_for_anonymous_user"
                 android:visibility="gone" />
 
             <TextView

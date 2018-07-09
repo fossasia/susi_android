@@ -1,10 +1,8 @@
 package org.fossasia.susi.ai.data.db.contract
 
 import io.realm.RealmResults
+import org.fossasia.susi.ai.data.db.ChatArgs
 import org.fossasia.susi.ai.data.model.ChatMessage
-import org.fossasia.susi.ai.data.model.MapData
-import org.fossasia.susi.ai.data.model.TableDatas
-import org.fossasia.susi.ai.rest.responses.susi.Datum
 
 /**
  * The interface for Database Repository
@@ -25,7 +23,5 @@ interface IDatabaseRepository {
     fun getAllMessages(): RealmResults<ChatMessage>
     fun getSearchResults(query: String): RealmResults<ChatMessage>
     fun closeDatabase()
-    fun updateDatabase(prevId: Long, message: String, isDate: Boolean, date: String, timeStamp: String,
-                       mine: Boolean, actionType: String, mapData: MapData?, isHavingLink: Boolean,
-                       datumList: List<Datum>?, webSearch: String, tableData: TableDatas?, skillLocation: String, listener: OnDatabaseUpdateListener)
+    fun updateDatabase(chatArgs: ChatArgs, listener: OnDatabaseUpdateListener)
 }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ChatViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.DateViewHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.ImageViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.LinkPreviewViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.MapViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.MessageViewHolder;
@@ -28,6 +29,7 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.PieChartViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultsListHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TableViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder;
+import org.fossasia.susi.ai.chat.adapters.viewholders.YoutubeVideoViewHolder;
 import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.helper.ConstraintsHelper;
@@ -69,6 +71,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     private static final int DATE_VIEW = 12;
     private static final int TABLE = 13;
     private static final int STOP = 14;
+    private static final int AUDIOPLAY = 15;
+    private static final int VIDEOPLAY = 16;
+    private static final int IMAGE = 17;
     private Context currContext;
     private Realm realm;
     private int lastMsgCount;
@@ -211,6 +216,15 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 return nullHolder;
             case STOP:
                 return nullHolder;
+            case AUDIOPLAY:
+                view = inflater.inflate(R.layout.youtube_video, viewGroup, false);
+                return new YoutubeVideoViewHolder(view, clickListener);
+            case VIDEOPLAY:
+                view = inflater.inflate(R.layout.youtube_video, viewGroup, false);
+                return new YoutubeVideoViewHolder(view, clickListener);
+            case IMAGE:
+                view = inflater.inflate(R.layout.image_holder, viewGroup, false);
+                return new ImageViewHolder(view, clickListener);
             default:
                 view = inflater.inflate(R.layout.item_user_message, viewGroup, false);
                 return new ChatViewHolder(view, clickListener, USER_MESSAGE);
@@ -224,9 +238,12 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (item.getId() == -404) return DOTS;
         else if (item.getId() == -405) return NULL_HOLDER;
         else if (item.isDate()) return DATE_VIEW;
+        else if (item.getContent().endsWith(".jpg") || item.getContent().endsWith(".png"))
+            return IMAGE;
         else if (item.isMine() && item.isHavingLink()) return USER_WITHLINK;
         else if (!item.isMine() && item.isHavingLink()) return SUSI_WITHLINK;
         else if (item.isMine() && !item.isHavingLink()) return USER_MESSAGE;
+
 
         switch (item.getActionType()) {
             case Constant.ANCHOR:
@@ -243,6 +260,10 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
                 return TABLE;
             case Constant.PIECHART:
                 return PIECHART;
+            case Constant.AUDIOPLAY:
+                return AUDIOPLAY;
+            case Constant.VIDEOPLAY:
+                return VIDEOPLAY;
             default:
                 return SUSI_MESSAGE;
         }
@@ -262,9 +283,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         if (getData() != null && getData().isValid()) {
             if (index == getData().size()) {
                 if (isSusiTyping) {
-                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", "");
+                    return new ChatMessage(-404, "", "", false, false, false, "", null, "", "", "");
                 }
-                return new ChatMessage(-405, "", "", false, false, false, "", null, "", "");
+                return new ChatMessage(-405, "", "", false, false, false, "", null, "", "", "");
             }
             return getData().get(index);
         }
@@ -279,6 +300,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof MapViewHolder) {
             MapViewHolder mapViewHolder = (MapViewHolder) holder;
             mapViewHolder.setView(getData().get(position), currContext);
+        } else if (holder instanceof YoutubeVideoViewHolder) {
+            YoutubeVideoViewHolder videoViewHolder = (YoutubeVideoViewHolder) holder;
+            videoViewHolder.setPlayerView(getData().get(position));
         } else if (holder instanceof PieChartViewHolder) {
             PieChartViewHolder pieChartViewHolder = (PieChartViewHolder) holder;
             pieChartViewHolder.setView(getData().get(position));
@@ -298,6 +322,9 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
         } else if (holder instanceof DateViewHolder) {
             DateViewHolder dateViewHolder = (DateViewHolder) holder;
             dateViewHolder.textDate.setText(getData().get(position).getDate());
+        } else if (holder instanceof ImageViewHolder) {
+            ImageViewHolder imageViewHolder = (ImageViewHolder) holder;
+            imageViewHolder.setView(getData().get(position));
         }
     }
 

@@ -196,6 +196,7 @@
 
     <string name="error">Error</string>
     <string name="error_password_matching">Passwords do not match</string>
+    <string name="error_custom_server">Please make sure that you enter the correct custom server URL, the entered URL is incorrect</string>
 
     <string name="forgot_pass_activity">Forgot Password?</string>
 
@@ -311,11 +312,11 @@
 
     <string name="skip">Skip</string>
 
-    <string name="slide_1_desc">Log in on the app using a SUSI AI account, sign up to create a new account or just skip logging in alltogether.</string>
+    <string name="slide_1_desc">Log in on the app using a SUSI.AI account, sign up to create a new account or just skip logging in altogether.</string>
     <string name="slide_1_title">Log in</string>
-    <string name="slide_2_desc">Interact with SUSI AI by asking questions. Use the microphone button for voice interaction.</string>
+    <string name="slide_2_desc">Interact with SUSI.AI by asking questions. Use the microphone button for voice interaction.</string>
     <string name="slide_2_title">Chat Interface</string>
-    <string name="slide_3_desc">Browse and try your favorite SUSI AI skill</string>
+    <string name="slide_3_desc">Browse and try your favorite SUSI.AI skill</string>
     <string name="slide_3_title">Skill List</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
     <string name="slide_4_title">Chat Settings</string>
@@ -345,10 +346,28 @@
     <string name="rate_hate">Hated it</string>
     <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
     <string name="toast_thank_for_rating">Thank you for rating this skill</string>
+    <string name="digit_zero">0</string>
     <string name="digit_one">1</string>
     <string name="digit_two">2</string>
     <string name="digit_three">3</string>
     <string name="digit_four">4</string>
     <string name="digit_five">5</string>
+
+    <string name="location_access">Provide Location Access</string>
+    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
+    <string name="set_up">SET UP</string>
+    <string name="connecting_device">Connecting to your device...</string>
+    <string name="device_name">SUSI.AI</string>
+    <string name="connection_success">Connected Successfully !</string>
+
+    <!-- Feedback System -->
+
+    <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
+    <string name="button_post">post</string>
+    <string name="desc_post_feedback">Write your invaluable feedback here</string>
+    <string name="feedback_section">Feedback</string>
+    <string name="hint_feedback">Skill feedback</string>
+    <string name="toast_empty_feedback">Please enter a feedback to post</string>
+    <string name="toast_feedback_updated">Skill feedback updated</string>
 
 </resources>

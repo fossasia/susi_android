@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.R.id.skillGroups
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
@@ -38,7 +39,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private var mSearchAction: MenuItem? = null
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
-    private var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
+    private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
+    var text: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -132,23 +134,21 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 /**
                  * Variable used to remove unneccessary invoking of doSearch() method.
                  */
-                var text: String = ""
-                var afterText: String = ""
-                var check = true
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                var searchCheck = true
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                     //no need to implement
                 }
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     //no need to implement
                 }
 
-                override fun afterTextChanged(p0: Editable?) {
-                    afterText = p0.toString()
+                override fun afterTextChanged(s: Editable?) {
                     //checking that value exist in skills and if not exist comparing the length of the current text to the previous text where the skills are present
-                    if (check || (afterText.length <= text.length)) {
-                        check = doSearch(p0.toString())
-                        text = p0.toString()
+                    if (searchCheck || (s.toString().length <= text.length)) {
+                        searchCheck = doSearch(s.toString())
+                        text = s.toString()
                     } else {
                         Toast.makeText(baseContext, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
                     }
@@ -165,6 +165,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         }
     }
 
+    /*
+     Used to perform search for the query entered by the user
+     Returns true if the skill is found related to search query else false
+     */
     fun doSearch(query: String): Boolean {
 
         for ((pos, item) in skills.withIndex()) {
@@ -173,8 +177,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 return true
             }
 
-            for (item2 in item.second.keys) {
-                if (query.toLowerCase() in item2) {
+            for (item2 in item.second) {
+                if (query.toLowerCase() in item2.group.toLowerCase()) {
                     skillGroups.scrollToPosition(pos)
                     return true
                 }
@@ -192,6 +196,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     fun hideKeyboard() {
         val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
+        if (currentFocus != null)
+            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
     override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {

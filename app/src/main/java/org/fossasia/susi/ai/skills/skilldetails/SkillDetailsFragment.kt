@@ -9,6 +9,7 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
@@ -27,28 +28,32 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.rest.responses.susi.Stars
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
+import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
+import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import java.io.Serializable
 import java.util.*
+import kotlin.collections.HashMap
 
 /**
  *
  * Created by chiragw15 on 24/8/17.
  */
-class SkillDetailsFragment : Fragment() {
+class SkillDetailsFragment : Fragment(), ISkillDetailsView {
+
+    private lateinit var skillDetailsPresenter: ISkillDetailsPresenter
 
     private lateinit var skillData: SkillData
     private lateinit var skillGroup: String
     private lateinit var skillTag: String
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
-    private lateinit var fiveStarSkillRatingBar: RatingBar
-    private lateinit var fiveStarSkillRatingScaleTextView: TextView
-    private lateinit var fiveStarAverageSkillRating: TextView
-    private lateinit var fiveStarTotalSkillRating: TextView
+    private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
     private lateinit var xAxis: XAxis
 
@@ -69,6 +74,8 @@ class SkillDetailsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        skillDetailsPresenter = SkillDetailsPresenter(this)
+        skillDetailsPresenter.onAttach(this)
         skillData = arguments?.getSerializable(
                 SKILL_KEY) as SkillData
         skillGroup = (arguments as Bundle).getString(SKILL_GROUP)
@@ -93,6 +100,7 @@ class SkillDetailsFragment : Fragment() {
         setDescription()
         setExamples()
         setRating()
+        setFeedback()
         setDynamicContent()
         setPolicy()
         setTerms()
@@ -164,6 +172,7 @@ class SkillDetailsFragment : Fragment() {
             return
         }
 
+        skillDetailShareButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_share_white_24dp, 0, 0, 0)
         skillDetailShareButton.setOnClickListener {
             val shareUriBuilder = Uri.Builder()
             shareUriBuilder.scheme("https")
@@ -208,18 +217,35 @@ class SkillDetailsFragment : Fragment() {
 
         //If the user is logged in, set up the five star skill rating bar
         if (PrefManager.getToken() != null) {
+            val map: MutableMap<String, String> = HashMap()
+            map.put("model", skillData.model)
+            map.put("group", skillData.group)
+            map.put("language", skillData.language)
+            map.put("skill", skillTag)
+            map.put("access_token", PrefManager.getToken().toString())
+            skillDetailsPresenter.updateUserRating(map)
             setUpFiveStarRatingBar()
         }
 
         //If the totalStar is positive, it implies that the skill has been rated
         //If so, set up the section to display the statistics else simply display a message for unrated skill
-        if (skillData.skillRating?.stars?.totalStar!! > 0) {
-            fiveStarAverageSkillRating = tv_average_rating
-            fiveStarTotalSkillRating = tv_total_rating
+        if (skillData.skillRating != null) {
+            if (skillData.skillRating?.stars != null) {
+                if (skillData.skillRating?.stars?.totalStar as Int > 0) {
 
-            fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
-            fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
-            setSkillGraph()
+                    tvTotalRating.text = skillData.skillRating?.stars?.totalStar.toString()
+                    tvAverageRating.text = skillData.skillRating?.stars?.averageStar.toString()
+                    setSkillGraph()
+                } else {
+                    skill_rating_view.visibility = View.GONE
+                    tv_unrated_skill.visibility = View.VISIBLE
+                    if (PrefManager.getToken() != null) {
+                        tv_unrated_skill.text = getString(R.string.skill_unrated)
+                    } else {
+                        tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
+                    }
+                }
+            }
         } else {
             skill_rating_view.visibility = View.GONE
             tv_unrated_skill.visibility = View.VISIBLE
@@ -239,35 +265,66 @@ class SkillDetailsFragment : Fragment() {
      * stars given by the user.
      */
     private fun setUpFiveStarRatingBar() {
-        fiveStarSkillRatingBar = five_star_skill_rating_bar
-        fiveStarSkillRatingScaleTextView = tv_five_star_skill_rating_scale
-
         tvFiveStarSkillRatingBar.visibility = View.VISIBLE
         fiveStarSkillRatingBar.visibility = View.VISIBLE
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
-        fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, b ->
+        fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, fromUser ->
 
-            fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
+            tvFiveStarSkillRatingScale.visibility = View.VISIBLE
 
-            //Send rating to the server
-            FiveStarSkillRatingRequest.sendFiveStarRating(skillData.model, skillData.group, skillData.language,
-                    skillTag, v.toInt().toString(), PrefManager.getToken().toString())
-
-            fiveStarSkillRatingScaleTextView.setText(v.toString())
-            when (ratingBar.rating.toInt()) {
-                1 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_hate)
-                2 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_improvement)
-                3 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_good)
-                4 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_great)
-                5 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_awesome)
-                else -> fiveStarSkillRatingScaleTextView.setText("")
+            if (fromUser == true) {
+                this.fromUser = fromUser
             }
 
-            //Display a toast to notify the user that the rating has been submitted
-            Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
-            setRating()
+            val map: MutableMap<String, String> = HashMap()
+            map.put("model", skillData.model)
+            map.put("group", skillData.group)
+            map.put("language", skillData.language)
+            map.put("skill", skillTag)
+            map.put("stars", v.toInt().toString())
+            map.put("access_token", PrefManager.getToken().toString())
+            skillDetailsPresenter.updateRatings(map)
+
+            tvFiveStarSkillRatingScale.setText(v.toString())
+            when (ratingBar.rating.toInt()) {
+                1 -> tvFiveStarSkillRatingScale.setText(R.string.rate_hate)
+                2 -> tvFiveStarSkillRatingScale.setText(R.string.rate_improvement)
+                3 -> tvFiveStarSkillRatingScale.setText(R.string.rate_good)
+                4 -> tvFiveStarSkillRatingScale.setText(R.string.rate_great)
+                5 -> tvFiveStarSkillRatingScale.setText(R.string.rate_awesome)
+                else -> tvFiveStarSkillRatingScale.setText("")
+            }
         })
+    }
+
+    /**
+     * Update the ratings as soon as the user rates a skill
+     *
+     * @param ratingsObject Updated stars object that includes the user rating
+     *
+     */
+    override fun updateRatings(ratingsObject: Stars?) {
+        if (ratingsObject != null) {
+            skillData.skillRating?.stars = ratingsObject
+            if (fromUser == true) {
+                //Display a toast to notify the user that the rating has been submitted
+                Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
+            }
+            setRating()
+        }
+    }
+
+    /**
+     * Show the user rating on the rating bar
+     *
+     * @param updatedRating Updates the rating bar with the user rating
+     *
+     */
+    override fun updateUserRating(updatedRating: Int?) {
+        if (updatedRating != null) {
+            fiveStarSkillRatingBar.rating = updatedRating.toFloat()
+        }
     }
 
     /**
@@ -319,12 +376,12 @@ class SkillDetailsFragment : Fragment() {
      */
     private fun setData() {
 
-        val totalUsers: Int = skillData.skillRating?.stars?.totalStar!!
-        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar!!
-        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar!!
-        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar!!
-        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar!!
-        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar!!
+        val totalUsers: Int = skillData.skillRating?.stars?.totalStar as Int
+        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar as Int
+        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar as Int
+        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar as Int
+        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar as Int
+        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar as Int
 
         val oneStarUsersPercent: Float = calcPercentageOfUsers(oneStarUsers, totalUsers)
         val twoStarUsersPercent: Float = calcPercentageOfUsers(twoStarUsers, totalUsers)
@@ -386,6 +443,40 @@ class SkillDetailsFragment : Fragment() {
         return (actualNumberOfUsers * 100f) / totalNumberOfUsers
     }
 
+    /**
+     * Set up the feedback section
+     *
+     * If the user is logged in, show the post feedback section otherwise display an appropriate message
+     */
+    private fun setFeedback() {
+        if (PrefManager.getToken() != null) {
+            tvPostFeedbackDesc.visibility = View.VISIBLE
+            layoutPostFeedback.visibility = View.VISIBLE
+            buttonPost.setOnClickListener {
+                if (etFeedback.text.toString().isNotEmpty()) {
+                    val queryObject = PostFeedback(skillData.model, skillData.group, skillData.language,
+                            skillData.skillTag, etFeedback.text.toString(), PrefManager.getToken().toString())
+
+                    skillDetailsPresenter.postFeedback(queryObject)
+                } else {
+                    Toast.makeText(context, getString(R.string.toast_empty_feedback), Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            tvAnonymousPostFeedback.visibility = View.VISIBLE
+        }
+    }
+
+    /**
+     * Displays a toast to show that the feedback has been posted successfully
+     */
+    override fun updateFeedback() {
+        Toast.makeText(context, getString(R.string.toast_feedback_updated), Toast.LENGTH_SHORT).show()
+        etFeedback.text.clear()
+        etFeedback.dispatchWindowFocusChanged(true)
+        etFeedback.clearFocus()
+    }
+
     private fun setDynamicContent() {
         if (skillData.dynamicContent == null) {
             skillDetailContent.visibility = View.GONE
@@ -442,4 +533,8 @@ class SkillDetailsFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        skillDetailsPresenter.onDetach()
+        super.onDestroyView()
+    }
 }

@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
@@ -29,9 +28,9 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     private lateinit var skillAdapterSnapHelper: SnapHelper
     private lateinit var skillListingPresenter: ISkillListingPresenter
-    var skills: ArrayList<Pair<String, Map<String, SkillData>>> = ArrayList()
+    var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
     private lateinit var skillGroupAdapter: SkillGroupAdapter
-    private lateinit var skillCallback : SkillFragmentCallback
+    private lateinit var skillCallback: SkillFragmentCallback
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
@@ -66,16 +65,17 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     override fun displayError() {
         if (activity != null) {
             swipe_refresh_layout.isRefreshing = false
-            skillGroups.visibility = GONE
+            skillGroups.visibility = View.GONE
             errorSkillFetch.visibility = View.VISIBLE
         }
     }
 
-    override fun updateAdapter(skills: ArrayList<Pair<String, Map<String, SkillData>>>) {
+    override fun updateAdapter(skills: ArrayList<Pair<String, List<SkillData>>>) {
         swipe_refresh_layout.isRefreshing = false
         if (errorSkillFetch.visibility == View.VISIBLE) {
             errorSkillFetch.visibility = View.GONE
         }
+        skillGroups.visibility = View.VISIBLE
         this.skills.clear()
         this.skills.addAll(skills)
         skillGroupAdapter.notifyDataSetChanged()

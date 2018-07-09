@@ -2,6 +2,7 @@ package org.fossasia.susi.ai;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 
 import com.squareup.leakcanary.LeakCanary;
@@ -19,7 +20,7 @@ import timber.log.Timber;
 public class MainApplication extends Application {
 
     private static MainApplication instance;
-
+    private static final String TAG = "MainApplication";
     /**
      * Gets instance.
      *
@@ -27,6 +28,10 @@ public class MainApplication extends Application {
      */
     public static MainApplication getInstance() {
         return instance;
+    }
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     @Override
@@ -70,9 +75,9 @@ public class MainApplication extends Application {
 
             if (priority == Log.ERROR) {
                 if (throwable == null) {
-                    Timber.e(message);
+                    Log.e(TAG, message);
                 } else {
-                    Timber.e(throwable, message);
+                    Log.e(TAG, message + "\n" + throwable.toString());
                 }
             }
         }

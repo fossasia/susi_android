@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.skills.settings
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -107,6 +108,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!settingsPresenter.getAnonymity()) {
                 settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
             }
+            val intent = Intent(context, SkillsActivity::class.java)
+            startActivity(intent)
+            (context as Activity).finish()
             true
         }
         rate.setOnPreferenceClickListener {
@@ -218,9 +222,18 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     private fun setLanguage() {
-        val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
-        querylanguage.setValueIndex(index)
-        querylanguage.summary = querylanguage.entries[index]
+        try {
+            if (querylanguage.entries.isNotEmpty()) {
+                val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
+                querylanguage.setValueIndex(index)
+                querylanguage.summary = querylanguage.entries[index]
+            }
+        } catch (e: Exception) {
+            Timber.e(e) //Language not present in app
+            PrefManager.putString(Constant.LANGUAGE, Constant.DEFAULT)
+            querylanguage.setValueIndex(0)//setting language to default - english
+            querylanguage.summary = querylanguage.entries[0]
+        }
     }
 
     private fun showAlert() {

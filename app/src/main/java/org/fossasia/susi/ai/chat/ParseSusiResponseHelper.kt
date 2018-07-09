@@ -20,6 +20,7 @@ class ParseSusiResponseHelper {
     var actionType: String = Constant.ANSWER
     var datumList: RealmList<Datum>? = null
     var mapData: MapData? = null
+    var identifier: String = ""
     var webSearch = ""
     var stop = "Stopped"
     var isHavingLink = false
@@ -57,27 +58,6 @@ class ParseSusiResponseHelper {
                 null
             }
 
-            Constant.PIECHART -> datumList = try {
-                susiResponse.answers[0].data
-            } catch (e: Exception) {
-                Timber.e(e)
-                null
-            }
-
-            Constant.RSS -> datumList = try {
-                susiResponse.answers[0].data
-            } catch (e: Exception) {
-                Timber.e(e)
-                null
-            }
-
-            Constant.WEBSEARCH -> webSearch = try {
-                susiResponse.answers[0].actions[1].query
-            } catch (e: Exception) {
-                Timber.e(e)
-                ""
-            }
-
             Constant.STOP -> try {
                 stop = susiResponse.answers[0].actions[1].type
             } catch (e: Exception) {
@@ -85,13 +65,15 @@ class ParseSusiResponseHelper {
             }
 
             Constant.VIDEOPLAY -> try {
-                answer = susiResponse.answers[0].actions[1].expression
+               // answer = susiResponse.answers[0].actions[i].expression
+                identifier = susiResponse.answers[0].actions[i].identifier
             } catch (e: Exception) {
                 Timber.e(e)
             }
 
             Constant.AUDIOPLAY -> try {
-                answer = susiResponse.answers[0].actions[1].expression
+              //  answer = susiResponse.answers[0].actions[i].expression
+                identifier = susiResponse.answers[0].actions[i].identifier
             } catch (e: Exception) {
                 Timber.e(e)
             }
