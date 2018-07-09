@@ -231,7 +231,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                     isHavingLink = psh.isHavingLink,
                                     datumList = psh.datumList,
                                     webSearch = psh.webSearch,
-                                    tableData = psh.tableData,
+                                    tableItem = psh.tableData,
                                     identifier = psh.identifier,
                                     skillLocation = allMessages[i].answers[0].skills[0]),
                                     this)
@@ -484,7 +484,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                 isHavingLink = psh.isHavingLink,
                                 datumList = psh.datumList,
                                 webSearch = psh.webSearch,
-                                tableData = tableItem,
+                                tableItem = tableItem,
                                 identifier = identifier,
                                 skillLocation = susiResponse.answers[0].skills[0]
                         ), this)
