@@ -53,7 +53,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     var backPressedOnce = false
     var id: Long = 0;
     var identifier: String = ""
-    var tableDatas: TableItem? = null
+    var tableItem: TableItem? = null
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -455,7 +455,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
 
                     var setMessage = psh.answer
                     if (psh.actionType == Constant.TABLE) {
-                        tableDatas = psh.tableData
+                        tableItem = psh.tableData
                     } else if (psh.actionType == Constant.VIDEOPLAY || psh.actionType == Constant.AUDIOPLAY) {
                         // Play youtube video
                         identifier = psh.identifier
@@ -484,7 +484,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                                 isHavingLink = psh.isHavingLink,
                                 datumList = psh.datumList,
                                 webSearch = psh.webSearch,
-                                tableData = tableDatas,
+                                tableData = tableItem,
                                 identifier = identifier,
                                 skillLocation = susiResponse.answers[0].skills[0]
                         ), this)

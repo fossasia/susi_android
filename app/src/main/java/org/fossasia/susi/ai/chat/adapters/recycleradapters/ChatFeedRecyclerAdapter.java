@@ -308,7 +308,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             pieChartViewHolder.setView(getData().get(position));
         } else if (holder instanceof TableViewHolder) {
             TableViewHolder tableViewHolder = (TableViewHolder) holder;
-            tableViewHolder.setView(getData().get(position), currContext);
+            tableViewHolder.setView(getData().get(position));
         } else if (holder instanceof LinkPreviewViewHolder) {
             LinkPreviewViewHolder linkPreviewViewHolder = (LinkPreviewViewHolder) holder;
             setOnLinkLongClickListener(position, linkPreviewViewHolder);
