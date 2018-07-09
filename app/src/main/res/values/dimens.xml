@@ -117,6 +117,4 @@
     <dimen name="arrow_width">72dp</dimen>
     <dimen name="arrow_height">16dp</dimen>
     <dimen name="arrow_padding_large">56dp</dimen>
-
-
 </resources>

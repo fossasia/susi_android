@@ -18,7 +18,7 @@
         <item>hi</item>
     </string-array>
 
-    <string-array name="months">
+    <array name="months">
         <item>Jan</item>
         <item>Feb</item>
         <item>Mar</item>
@@ -31,5 +31,5 @@
         <item>Oct</item>
         <item>Nov</item>
         <item>Dec</item>
-    </string-array>
+    </array>
 </resources>

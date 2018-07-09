@@ -48,11 +48,13 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
             if (feedbackResponse.feedbackList != null) {
                 if (feedbackResponse.feedbackList[position] != null) {
                     if (position < 3) {
-                        if (feedbackResponse.feedbackList[position].email != null) {
+                        if (feedbackResponse.feedbackList[position].email != null &&
+                                !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
                             holder.initials.text = feedbackResponse.feedbackList[position].email?.substring(0, 2)
                             holder.feedbackEmail?.text = feedbackResponse.feedbackList[position].email
                         }
-                        if (feedbackResponse.feedbackList[position].timestamp != null) {
+                        if (feedbackResponse.feedbackList[position].timestamp != null &&
+                                !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
                             val date: String? = getDate(feedbackResponse.feedbackList[position].timestamp)
                             if (date != null) {
                                 holder.feedbackDate.text = date
@@ -61,7 +63,8 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                             }
 
                         }
-                        if (feedbackResponse.feedbackList[position].feedback != null) {
+                        if (feedbackResponse.feedbackList[position].feedback != null &&
+                                !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
                             holder.feedback.maxLines = 1
                             holder.feedback.ellipsize = TextUtils.TruncateAt.END
                             holder.feedback.text = feedbackResponse.feedbackList[position].feedback
