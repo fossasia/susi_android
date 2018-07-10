@@ -41,10 +41,8 @@ class AboutUsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         about_susi.setOnClickListener({
             try {
-                var uri = Uri.parse(getString(R.string.url_about_susi))
-                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()  //Custom tabs intent builder
-                var customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(context, uri) //launching through custom tabs
+                val uri = Uri.parse(getString(R.string.url_about_susi))
+                launchCustomtTab(uri)
             } catch (e: Exception) {
                 Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
             }
@@ -52,10 +50,8 @@ class AboutUsFragment : Fragment() {
 
         contributors_desc.setOnClickListener({
             try {
-                var uri = Uri.parse(getString(R.string.url_susi_contributors))
-                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder()  //Custom tabs intent builder
-                var customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(context, uri) //launching through custom tabs
+                val uri = Uri.parse(getString(R.string.url_susi_contributors))
+                launchCustomtTab(uri)
             } catch (e: Exception) {
                 Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
             }
@@ -63,10 +59,8 @@ class AboutUsFragment : Fragment() {
 
         susi_skill_cms_desc.setOnClickListener({
             try {
-                var uri = Uri.parse(getString(R.string.url_susi_skill_cms))
-                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
-                var customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(context, uri)  //launching through custom tabs
+                val uri = Uri.parse(getString(R.string.url_susi_skill_cms))
+                launchCustomtTab(uri)
             } catch (e: Exception) {
                 Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
             }
@@ -74,20 +68,16 @@ class AboutUsFragment : Fragment() {
 
         susi_report_issues_desc.setOnClickListener({
             try {
-                var uri = Uri.parse(getString(R.string.url_susi_report_issue))
-                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
-                var customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(context, uri)  //launching through custom tabs
+                val uri = Uri.parse(getString(R.string.url_susi_report_issue))
+                launchCustomtTab(uri)
             } catch (e: Exception) {
                 Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
             }
         })
         susi_license_info_desc.setOnClickListener({
             try {
-                var uri = Uri.parse(getString(R.string.url_susi_license))
-                var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
-                var customTabsIntent = builder.build()
-                customTabsIntent.launchUrl(context, uri) //launching through custom tabs
+                val uri = Uri.parse(getString(R.string.url_susi_license))
+                launchCustomtTab(uri)
             } catch (e: Exception) {
                 Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
             }
@@ -95,4 +85,7 @@ class AboutUsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+    fun launchCustomtTab(uri: Uri) {
+        CustomTabsIntent.Builder().build().launchUrl(context, uri) //launching through custom tabs
+    }
 }
