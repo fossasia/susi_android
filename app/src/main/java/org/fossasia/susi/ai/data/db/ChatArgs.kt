@@ -17,5 +17,5 @@ data class ChatArgs(
         val datumList: List<Datum>? = null,
         val webSearch: String = "",
         val identifier: String? = "",
-        val tableData: TableItem? = null,
+        val tableItem: TableItem? = null,
         val skillLocation: String = "")
