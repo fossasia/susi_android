@@ -77,6 +77,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.login.LoginActivity" />
         </activity>
+
+        <activity
+            android:name=".skills.feedback.FeedbackActivity"
+            android:label="See All Reviews"
+            android:theme="@style/PreferencesThemeLight" />
+
         <activity
             android:name=".chat.YouTubeActivity"
             android:theme="@style/Theme.AppCompat.Dialog">

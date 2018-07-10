@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.data.db
 
 import org.fossasia.susi.ai.data.model.MapData
-import org.fossasia.susi.ai.data.model.TableDatas
+import org.fossasia.susi.ai.data.model.TableItem
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 
 data class ChatArgs(
@@ -17,5 +17,5 @@ data class ChatArgs(
         val datumList: List<Datum>? = null,
         val webSearch: String = "",
         val identifier: String? = "",
-        val tableData: TableDatas? = null,
+        val tableItem: TableItem? = null,
         val skillLocation: String = "")

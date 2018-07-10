@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/itemFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvInitials"
+            android:layout_width="@dimen/tv_initials_width_height"
+            android:layout_height="@dimen/tv_initials_width_height"
+            android:layout_gravity="top"
+            android:layout_margin="@dimen/margin_small"
+            android:background="@drawable/circle_feedback"
+            android:gravity="center"
+            android:text="@string/placeholder_initials"
+            android:textAllCaps="true"
+            android:textColor="@color/md_white_1000" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_email"
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/placeholder_date"
+                android:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/tvFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_feedback"
+                android:textColor="@color/md_grey_700"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/seeAllReviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/see_all_reviews"
+            android:textSize="@dimen/text_size_medium" />
+
+        <ImageView
+            android:layout_width="@dimen/arrow_width"
+            android:layout_height="@dimen/arrow_height"
+            android:layout_gravity="center"
+            android:paddingEnd="@dimen/arrow_padding_large"
+            android:paddingRight="@dimen/arrow_padding_large"
+            android:src="@drawable/ic_right_facing_arrow" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

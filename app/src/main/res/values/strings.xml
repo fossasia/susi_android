@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">SUSI AI</string>
+    <string name="app_name">SUSI.AI</string>
 
     <!--General Strings-->
     <string name="action_about_us">About Us</string>
@@ -312,11 +312,11 @@
 
     <string name="skip">Skip</string>
 
-    <string name="slide_1_desc">Log in on the app using a SUSI AI account, sign up to create a new account or just skip logging in alltogether.</string>
+    <string name="slide_1_desc">Log in on the app using a SUSI.AI account, sign up to create a new account or just skip logging in altogether.</string>
     <string name="slide_1_title">Log in</string>
-    <string name="slide_2_desc">Interact with SUSI AI by asking questions. Use the microphone button for voice interaction.</string>
+    <string name="slide_2_desc">Interact with SUSI.AI by asking questions. Use the microphone button for voice interaction.</string>
     <string name="slide_2_title">Chat Interface</string>
-    <string name="slide_3_desc">Browse and try your favorite SUSI AI skill</string>
+    <string name="slide_3_desc">Browse and try your favorite SUSI.AI skill</string>
     <string name="slide_3_title">Skill List</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
     <string name="slide_4_title">Chat Settings</string>
@@ -362,11 +362,16 @@
 
     <!-- Feedback System -->
 
-    <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
     <string name="button_post">post</string>
     <string name="desc_post_feedback">Write your invaluable feedback here</string>
+    <string name="example_feedback">Example feedback</string>
     <string name="feedback_section">Feedback</string>
     <string name="hint_feedback">Skill feedback</string>
+    <string name="placeholder_date">25 Jun, 2018</string>
+    <string name="placeholder_email">abc@example.com</string>
+    <string name="placeholder_initials">AB</string>
+    <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
+    <string name="see_all_reviews">See All Reviews</string>
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
 

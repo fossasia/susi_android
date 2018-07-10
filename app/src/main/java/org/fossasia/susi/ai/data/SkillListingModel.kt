@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
+import org.fossasia.susi.ai.dataclasses.SkillsListQuery
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
@@ -18,7 +19,6 @@ class SkillListingModel : ISkillListingModel {
     private lateinit var authResponseCallGroups: Call<ListGroupsResponse>
     private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
 
-    private var clientBuilder: ClientBuilder = ClientBuilder()
 
     override fun fetchGroups(listener: ISkillListingModel.OnFetchGroupsFinishedListener) {
 
@@ -38,7 +38,8 @@ class SkillListingModel : ISkillListingModel {
 
     override fun fetchSkills(group: String, language: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
 
-        authResponseCallSkills = ClientBuilder.getSusiApi().fetchListSkills(group, language, "true", "descending", "rating")
+        val queryObject = SkillsListQuery(group, language, "true", "descending", "rating")
+        authResponseCallSkills = ClientBuilder.fetchListSkillsCall(queryObject)
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
             override fun onResponse(call: Call<ListSkillsResponse>, response: Response<ListSkillsResponse>) {

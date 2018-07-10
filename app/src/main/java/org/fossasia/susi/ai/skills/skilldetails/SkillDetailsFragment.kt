@@ -28,16 +28,19 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.FeedbackAdapter
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import java.io.Serializable
-import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 /**
@@ -53,11 +56,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private lateinit var skillTag: String
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
-    private lateinit var fiveStarSkillRatingBar: RatingBar
     private var fromUser = false
-    private lateinit var fiveStarSkillRatingScaleTextView: TextView
-    private lateinit var fiveStarAverageSkillRating: TextView
-    private lateinit var fiveStarTotalSkillRating: TextView
     private lateinit var skillRatingChart: HorizontalBarChart
     private lateinit var xAxis: XAxis
 
@@ -236,11 +235,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         if (skillData.skillRating != null) {
             if (skillData.skillRating?.stars != null) {
                 if (skillData.skillRating?.stars?.totalStar as Int > 0) {
-                    fiveStarAverageSkillRating = tv_average_rating
-                    fiveStarTotalSkillRating = tv_total_rating
 
-                    fiveStarTotalSkillRating.text = skillData.skillRating?.stars?.totalStar.toString()
-                    fiveStarAverageSkillRating.text = skillData.skillRating?.stars?.averageStar.toString()
+                    tvTotalRating.text = skillData.skillRating?.stars?.totalStar.toString()
+                    tvAverageRating.text = skillData.skillRating?.stars?.averageStar.toString()
                     setSkillGraph()
                 } else {
                     skill_rating_view.visibility = View.GONE
@@ -271,16 +268,13 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      * stars given by the user.
      */
     private fun setUpFiveStarRatingBar() {
-        fiveStarSkillRatingBar = five_star_skill_rating_bar
-        fiveStarSkillRatingScaleTextView = tv_five_star_skill_rating_scale
-
         tvFiveStarSkillRatingBar.visibility = View.VISIBLE
         fiveStarSkillRatingBar.visibility = View.VISIBLE
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
         fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, fromUser ->
 
-            fiveStarSkillRatingScaleTextView.visibility = View.VISIBLE
+            tvFiveStarSkillRatingScale.visibility = View.VISIBLE
 
             if (fromUser == true) {
                 this.fromUser = fromUser
@@ -295,14 +289,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             map.put("access_token", PrefManager.getToken().toString())
             skillDetailsPresenter.updateRatings(map)
 
-            fiveStarSkillRatingScaleTextView.setText(v.toString())
+            tvFiveStarSkillRatingScale.setText(v.toString())
             when (ratingBar.rating.toInt()) {
-                1 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_hate)
-                2 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_improvement)
-                3 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_good)
-                4 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_great)
-                5 -> fiveStarSkillRatingScaleTextView.setText(R.string.rate_awesome)
-                else -> fiveStarSkillRatingScaleTextView.setText("")
+                1 -> tvFiveStarSkillRatingScale.setText(R.string.rate_hate)
+                2 -> tvFiveStarSkillRatingScale.setText(R.string.rate_improvement)
+                3 -> tvFiveStarSkillRatingScale.setText(R.string.rate_good)
+                4 -> tvFiveStarSkillRatingScale.setText(R.string.rate_great)
+                5 -> tvFiveStarSkillRatingScale.setText(R.string.rate_awesome)
+                else -> tvFiveStarSkillRatingScale.setText("")
             }
         })
     }
@@ -474,6 +468,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
         }
+
+        val query = FetchFeedbackQuery(skillData.model, skillData.group, skillData.language, skillTag)
+        skillDetailsPresenter.fetchFeedback(query)
     }
 
     /**
@@ -484,6 +481,23 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         etFeedback.text.clear()
         etFeedback.dispatchWindowFocusChanged(true)
         etFeedback.clearFocus()
+        etFeedback.text.clear()
+        etFeedback.dispatchWindowFocusChanged(true)
+        etFeedback.clearFocus()
+    }
+
+    /**
+     * Displays the feedback list on the skill details screen
+     *
+     * @param list : Contains the list of Feedback objects received from the getSkillFeedback.json API
+     */
+    override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
+        if (feedbackResponse != null) {
+            val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            rvFeedback.setHasFixedSize(true)
+            rvFeedback.layoutManager = mLayoutManager
+            rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
+        }
     }
 
     private fun setDynamicContent() {
@@ -540,5 +554,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>")
             }
         }
+    }
+
+    override fun onDestroyView() {
+        skillDetailsPresenter.onDetach()
+        super.onDestroyView()
     }
 }

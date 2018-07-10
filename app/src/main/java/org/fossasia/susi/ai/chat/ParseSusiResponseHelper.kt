@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.chat
 import android.util.Patterns
 import io.realm.RealmList
 import org.fossasia.susi.ai.data.model.MapData
+import org.fossasia.susi.ai.data.model.TableItem
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
@@ -24,6 +25,7 @@ class ParseSusiResponseHelper {
     var webSearch = ""
     var stop = "Stopped"
     var isHavingLink = false
+    var tableData: TableItem? = null
 
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
@@ -65,19 +67,43 @@ class ParseSusiResponseHelper {
             }
 
             Constant.VIDEOPLAY -> try {
-               // answer = susiResponse.answers[0].actions[i].expression
+                // answer = susiResponse.answers[0].actions[i].expression
                 identifier = susiResponse.answers[0].actions[i].identifier
             } catch (e: Exception) {
                 Timber.e(e)
             }
 
             Constant.AUDIOPLAY -> try {
-              //  answer = susiResponse.answers[0].actions[i].expression
+                //  answer = susiResponse.answers[0].actions[i].expression
                 identifier = susiResponse.answers[0].actions[i].identifier
             } catch (e: Exception) {
                 Timber.e(e)
             }
 
+            Constant.TABLE -> try {
+                val listColumn = ArrayList<String>()
+                val listColVal = ArrayList<String>()
+                val listTableData = ArrayList<String>()
+
+                susiResponse.answers.forEach {
+                    it.actions.forEach {
+                        it.columns?.forEach {
+                            listColumn.add(it.key)
+                            listColVal.add(it.value.toString())
+                        }
+                    }
+                    it.data.forEach {
+                        listColumn.forEach { i ->
+                            String
+                            listTableData.add(it[i].toString())
+                        }
+                    }
+                    tableData = TableItem(listColVal, listTableData)
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+                tableData = null
+            }
 
             else -> answer = error
         }

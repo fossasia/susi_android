@@ -21,8 +21,7 @@ public class RetrofitInstance {
     private static RetrofitInstance retrofitInstance = null;
     private Retrofit retrofit;
 
-
-    private RetrofitInstance(){
+    private RetrofitInstance() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -38,13 +37,10 @@ public class RetrofitInstance {
                 .build();
     }
 
-    public static Retrofit getRetrofit(){
-        if(retrofitInstance == null){
+    public static Retrofit getRetrofit() {
+        if (retrofitInstance == null) {
             retrofitInstance = new RetrofitInstance();
         }
-
         return retrofitInstance.retrofit;
     }
-
-
 }

@@ -1,16 +1,18 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Model of SkillDetails
@@ -26,6 +28,7 @@ class SkillDetailsModel : ISkillDetailsModel {
     private lateinit var updateRatingsResponseCall: Call<FiveStarSkillRatingResponse>
     private lateinit var updateUserRatingResponseCall: Call<GetRatingByUserResponse>
     private lateinit var updateFeedbackResponseCall: Call<PostSkillFeedbackResponse>
+    private lateinit var fetchFeedbackResponseCall: Call<GetSkillFeedbackResponse>
 
     /**
      * Posts a request the fiveStarRateSkill.json API
@@ -93,6 +96,22 @@ class SkillDetailsModel : ISkillDetailsModel {
         })
     }
 
+    override fun fetchFeedback(query: FetchFeedbackQuery, listener: ISkillDetailsModel.OnFetchFeedbackFinishedListener) {
+
+        fetchFeedbackResponseCall = ClientBuilder.fetchFeedbackCall(query)
+
+        fetchFeedbackResponseCall.enqueue(object : Callback<GetSkillFeedbackResponse> {
+            override fun onResponse(call: Call<GetSkillFeedbackResponse>, response: Response<GetSkillFeedbackResponse>) {
+                listener.onFetchFeedbackModelSuccess(response)
+            }
+
+            override fun onFailure(call: Call<GetSkillFeedbackResponse>, t: Throwable) {
+                Timber.e(t)
+                listener.onFetchFeedbackError(t)
+            }
+        })
+    }
+
     override fun cancelUpdateRatings() {
         updateRatingsResponseCall.cancel()
     }
@@ -104,4 +123,9 @@ class SkillDetailsModel : ISkillDetailsModel {
     override fun cancelPostFeedback() {
         updateFeedbackResponseCall.cancel()
     }
+
+    override fun cancelFetchFeedback() {
+        fetchFeedbackResponseCall.cancel()
+    }
+
 }
