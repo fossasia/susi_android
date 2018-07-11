@@ -1,32 +1,26 @@
-package org.fossasia.susi.ai.device
+package org.fossasia.susi.ai.device.deviceconnect
 
 import android.content.Context
-import org.fossasia.susi.ai.device.contract.IDevicePresenter
-import org.fossasia.susi.ai.device.contract.IDeviceView
 import android.location.LocationManager
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
-import org.fossasia.susi.ai.MainApplication
-import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.UtilModel
-import timber.log.Timber
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
+import org.fossasia.susi.ai.MainApplication
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.DeviceModel
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
+import org.fossasia.susi.ai.device.DeviceActivity
+import org.fossasia.susi.ai.device.contract.IDeviceConnectPresenter
+import org.fossasia.susi.ai.device.contract.IDeviceConnectView
+import timber.log.Timber
 
-/*
-*   Created by batbrain7 on 22/06/18
-*   This is the presenter for the device activity where the logic of connecting to the device is written.
- */
-
-
-class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDevicePresenter, IDeviceModel.onSendWifiCredentialsListener,
+class DeviceConnectPresenter (deviceActivity: DeviceActivity, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
         IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener {
 
-
     private var mWifiManager = manager
-    private var deviceView: IDeviceView? = null
+    private var deviceConnectView: IDeviceConnectView? = null
     private var check = false
     private var deviceModel: IDeviceModel = DeviceModel()
     private var isLocationOn = false
@@ -34,29 +28,29 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(deviceActivity)
 
-    override fun onAttach(deviceView: IDeviceView) {
-        this.deviceView = deviceView
+    override fun onAttach(deviceConnectView: IDeviceConnectView) {
+        this.deviceConnectView = deviceConnectView
     }
 
     override fun searchDevices() {
-        deviceView?.askForPermissions()
+        deviceConnectView?.askForPermissions()
         Timber.d(check.toString() + "Check")
         if (check) {
             checkLocationEnabled()
             if (isLocationOn) {
                 Timber.d("Location ON")
-                deviceView?.showProgress(utilModel.getString(R.string.scan_devices))
-                deviceView?.startScan()
+                deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
+                deviceConnectView?.startScan()
             } else {
-                deviceView?.showLocationIntentDialog()
+                deviceConnectView?.showLocationIntentDialog()
             }
         } else {
-            deviceView?.askForPermissions()
+            deviceConnectView?.askForPermissions()
         }
     }
 
     override fun onDetach() {
-        this.deviceView = null
+        this.deviceConnectView = null
     }
 
     override fun getAvailableDevices() {
@@ -72,9 +66,9 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
         }
 
         if (connections.size > 0) {
-            deviceView?.setupAdapter(connections)
+            deviceConnectView?.setupAdapter(connections)
         } else {
-            deviceView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+            deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
         }
     }
 
@@ -94,7 +88,7 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
     override fun connectToDevice(networkSSID: String) {
         Timber.d("connectToWiFi() called with: ssid = [$networkSSID], key = password")
         SSID = networkSSID
-        deviceView?.showProgress(utilModel.getString(R.string.connecting_device))
+        deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         ConnectWifi().execute()
     }
 
@@ -123,40 +117,40 @@ class DevicePresenter(deviceActivity: DeviceActivity, manager: WifiManager) : ID
 
     override fun makeConnectionRequest() {
         Timber.d("make request")
-        deviceView?.unregister()
+        // deviceConnectView?.unregister()
         // test data only
-      //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
-      //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
-      //  deviceModel.setConfiguration("google", "google", "y", "n", this@DevicePresenter)
+        //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
+        //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
+        //  deviceModel.setConfiguration("google", "google", "y", "n", this@DevicePresenter)
     }
 
     override fun onSendCredentialSuccess() {
         Timber.d("WIFI - SUCCESSFUL")
-        deviceView?.onDeviceConnectionSuccess()
+        deviceConnectView?.onDeviceConnectionSuccess()
     }
 
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
-        deviceView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
+        deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
     }
 
     override fun onSendAuthSuccess() {
         Timber.d("AUTH - SUCCESSFUL")
-        deviceView?.onDeviceConnectionSuccess()
+        deviceConnectView?.onDeviceConnectionSuccess()
     }
 
     override fun onSendAuthFailure() {
         Timber.d("AUTH - FAILURE")
-        deviceView?.onDeviceConnectionError("Auth Failure", "Not done properly")
+        deviceConnectView?.onDeviceConnectionError("Auth Failure", "Not done properly")
     }
 
     override fun onSetConfigSuccess() {
         Timber.d("CONFIG - SUCCESS")
-        deviceView?.onDeviceConnectionSuccess()
+        deviceConnectView?.onDeviceConnectionSuccess()
     }
 
     override fun onSetConfigFailure() {
         Timber.d("CONFIG - FAILURE")
-        deviceView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
+        deviceConnectView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
     }
 }

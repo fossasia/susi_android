@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.device.contract
 
 
-interface IDeviceView {
+interface IDeviceConnectView {
 
     fun setupAdapter(devicesScanned: List<String>)
 

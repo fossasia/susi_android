@@ -7,18 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.device.DevicePresenter;
-import org.fossasia.susi.ai.device.contract.IDevicePresenter;
+import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter;
+import org.fossasia.susi.ai.device.contract.IDeviceConnectPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DevicesAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
 
-    private List<String> devices = new ArrayList<>();
-    private IDevicePresenter devicePresenter;
+    private List<String> devices;
+    private IDeviceConnectPresenter devicePresenter;
 
-    public DevicesAdapter(List<String> devices, IDevicePresenter devicePresenter) {
+    public DevicesAdapter(List<String> devices, IDeviceConnectPresenter devicePresenter) {
         this.devices = devices;
         this.devicePresenter = devicePresenter;
     }
@@ -27,7 +27,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
     @Override
     public DeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.device_layout, parent, false);
-        return new DeviceViewHolder(v, (DevicePresenter) devicePresenter);
+        return new DeviceViewHolder(v, (DeviceConnectPresenter) devicePresenter);
     }
 
     @Override

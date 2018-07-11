@@ -1,11 +1,10 @@
 package org.fossasia.susi.ai.device.contract
 
-import android.content.Context
 import android.net.wifi.ScanResult
 
-interface IDevicePresenter {
+interface IDeviceConnectPresenter {
 
-    fun onAttach(deviceView: IDeviceView)
+    fun onAttach(deviceConnectView: IDeviceConnectView)
 
     fun searchDevices()
 
