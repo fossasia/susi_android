@@ -13,6 +13,8 @@ import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.TableAdapter;
 import org.fossasia.susi.ai.data.model.ChatMessage;
+import org.fossasia.susi.ai.data.model.TableColumn;
+import org.fossasia.susi.ai.data.model.TableData;
 import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.rest.ClientBuilder;
@@ -33,6 +35,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+import static android.os.SystemClock.sleep;
+
 /**
  * A ViewHolder that contains the recyclerview of the Table Response items.
  */
@@ -49,39 +53,33 @@ public class TableViewHolder extends MessageViewHolder {
     @BindView(R.id.thumbs_down)
     public ImageView thumbsDown;
     private ChatMessage model;
-    private Context currContext;
 
     public TableViewHolder(View itemView, ClickListener clickListener) {
         super(itemView, clickListener);
         ButterKnife.bind(this, itemView);
     }
 
-    public void setView(final ChatMessage model, final Context currContext) {
+    public void setView(final ChatMessage model) {
+        this.model = model;
         // check if model is not null else there is no need to set view elements
         if (model != null) {
-
             // check if the size of the data list and the column list is not 0
-            if (model.getTableColumns().size() != 0 || model.getTableData().size() != 0) {
-                this.model = model;
-                this.currContext = currContext;
-                int columnSize = model.getTableColumns().size();
-                int dataSize = model.getTableData().size();
+            if (model.getTableColumns().size() > 0 || model.getTableData().size() > 0) {
                 List<String> data = new ArrayList<>();
                 List<String> column = new ArrayList<>();
 
-                for (int col = 0; col < columnSize; col++) {
-                    column.add(model.getTableColumns().get(col).getColumnName());
+                for (TableColumn col : model.getTableColumns()) {
+                    column.add(col.getColumnName());
                 }
 
                 Timber.d("SIZE : " + Integer.toString(column.size()) + " : " + Integer.toString(data.size()));
 
-                for (int dFlag = 0; dFlag < dataSize; dFlag++) {
-                    data.add(model.getTableData().get(dFlag).getTableData());
+                for (TableData tableData : model.getTableData()) {
+                    data.add(tableData.getTableData());
                 }
 
-
                 // Set the layout manager for the recyclerview and and call the TableAdapter to attach the recyclerview elements
-                LinearLayoutManager layoutManager = new LinearLayoutManager(currContext, LinearLayoutManager.HORIZONTAL,
+                LinearLayoutManager layoutManager = new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.HORIZONTAL,
                         false);
                 recyclerView.setLayoutManager(layoutManager);
                 TableAdapter tableAdapter = new TableAdapter(column, data);
@@ -100,33 +98,55 @@ public class TableViewHolder extends MessageViewHolder {
             thumbsDown.setVisibility(View.GONE);
         } else {
             thumbsUp.setVisibility(View.VISIBLE);
-            thumbsDown.setVisibility(View.INVISIBLE);
+            thumbsDown.setVisibility(View.VISIBLE);
         }
 
         if (model.isPositiveRated()) {
             thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
         } else {
             thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
+            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
         }
         timeStamp.setText(model.getTimeStamp());
-
+        timeStamp.setTag(this);
     }
 
     @OnClick
     public void thumbsUpClick() {
         thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
         if (!model.isPositiveRated() && !model.isNegativeRated()) {
-            rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+            rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), itemView.getContext());
             setRating(true, true);
         } else if (model.isPositiveRated() && !model.isNegativeRated()) {
             setRating(false, true);
             thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-            SystemClock.sleep(500);
-            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
+            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
+            sleep(500);
+            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
             setRating(true, false);
         } else if (!model.isPositiveRated() && model.isNegativeRated()) {
-            rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
+            rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), itemView.getContext());
+            setRating(false, false);
+            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
+        }
+    }
+
+    @OnClick
+    public void thumbsDownClick() {
+        thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
+        if (!model.isPositiveRated() && !model.isNegativeRated()) {
+            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
+            setRating(true, false);
+        } else if (model.isPositiveRated() && !model.isNegativeRated()) {
+            setRating(false, true);
+            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
+            sleep(500);
+            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
+            setRating(true, false);
+        } else if (!model.isPositiveRated() && model.isNegativeRated()) {
+            rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), itemView.getContext());
             setRating(false, false);
             thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
         }
@@ -162,12 +182,14 @@ public class TableViewHolder extends MessageViewHolder {
                         default:
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show();
+                } else {
+                    Timber.d("Response successful");
                 }
             }
 
             @Override
             public void onFailure(Call<SkillRatingResponse> call, Throwable t) {
-                t.printStackTrace();
+                Timber.d(t);
                 switch (polarity) {
                     case Constant.POSITIVE:
                         thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
@@ -185,13 +207,13 @@ public class TableViewHolder extends MessageViewHolder {
     }
 
     // function to set the rating in the database
-    private void setRating(boolean what, boolean which) {
+    private void setRating(boolean rating, boolean thumbsUp) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        if (which) {
-            model.setPositiveRated(what);
+        if (thumbsUp) {
+            model.setPositiveRated(rating);
         } else {
-            model.setNegativeRated(what);
+            model.setNegativeRated(rating);
         }
         realm.commitTransaction();
     }

@@ -16,7 +16,6 @@ import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
-import org.fossasia.susi.ai.rest.responses.susi.TableSusiResponse;
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting;
 
 import java.util.Map;
@@ -54,21 +53,6 @@ public interface SusiService {
      */
     @GET("/susi/chat.json")
     Call<SusiResponse> getSusiResponse(@QueryMap Map<String, String> query);
-
-    /**
-     * Gets susi response.
-     *
-     * @param query A query map consisting of the following key value pairs
-     *              timezoneOffset the timezone offset
-     *              longitude      the longitude
-     *              latitude       the latitude
-     *              geosource      the geosource
-     *              language       the language
-     *              query          the query
-     * @return the susi response
-     */
-    @GET("/susi/chat.json")
-    Call<TableSusiResponse> getTableSusiResponse(@QueryMap Map<String, String> query);
 
     /**
      * Gets chat history.
