@@ -65,8 +65,6 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                         }
                         if (feedbackResponse.feedbackList[position].feedback != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
-                            holder.feedback.maxLines = 1
-                            holder.feedback.ellipsize = TextUtils.TruncateAt.END
                             holder.feedback.text = feedbackResponse.feedbackList[position].feedback
                         }
                     }
