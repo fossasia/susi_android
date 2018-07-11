@@ -36,14 +36,6 @@ public class ClientBuilder {
         createSusiService();
     }
 
-    private static void init() {
-        susiService = createApi(SusiService.class);
-    }
-
-    private static <T> T createApi(Class<T> clazz) {
-        return retrofit.create(clazz);
-    }
-
     /**
      * Create susi service.
      */
@@ -64,9 +56,9 @@ public class ClientBuilder {
      */
     public static SusiService getSusiApi() {
         if (susiService == null) {
-            if(retrofit == null)
+            if (retrofit == null)
                 retrofit = RetrofitInstance.getRetrofit();
-            init();
+            susiService = retrofit.create(SusiService.class);
         }
         return susiService;
     }
