@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilllisting.contract
 
+import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 
 /**
@@ -8,6 +9,6 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
  */
 interface ISkillListingView {
     fun visibilityProgressBar(boolean: Boolean)
-    fun updateAdapter(skills: ArrayList<Pair<String, List<SkillData>>>)
+    fun updateAdapter(metrics: SkillsBasedOnMetrics)
     fun displayError()
 }
