@@ -375,4 +375,7 @@
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
