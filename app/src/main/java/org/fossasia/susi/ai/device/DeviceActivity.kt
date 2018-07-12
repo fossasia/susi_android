@@ -1,23 +1,13 @@
 package org.fossasia.susi.ai.device
 
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.wifi.ScanResult
-import android.net.wifi.SupplicantState
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import android.view.View
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.device.adapters.DevicesAdapter
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
-import org.fossasia.susi.ai.device.contract.IDeviceConnectPresenter
-import timber.log.Timber
 
 
 /*
@@ -43,7 +33,6 @@ class DeviceActivity : AppCompatActivity() {
         val deviceConnectFragment = DeviceConnectFragment()
         supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, deviceConnectFragment, TAG_DEVICE_CONNECT_FRAGMENT)
-                .addToBackStack(TAG_DEVICE_CONNECT_FRAGMENT)
                 .commit()
     }
 
@@ -55,13 +44,11 @@ class DeviceActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-
+        finish()
         super.onBackPressed()
     }
 }

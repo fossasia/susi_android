@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.device.contract
+package org.fossasia.susi.ai.device.deviceconnect.contract
 
 import android.net.wifi.ScanResult
 
@@ -8,7 +8,7 @@ interface IDeviceConnectPresenter {
 
     fun searchDevices()
 
-    fun getAvailableDevices()
+    fun availableWifi(list: List<ScanResult>)
 
     fun onDetach()
 
@@ -16,7 +16,7 @@ interface IDeviceConnectPresenter {
 
     fun checkLocationEnabled()
 
-    fun inflateList(list : List<ScanResult>)
+    fun availableDevices(list : List<ScanResult>)
 
     fun connectToDevice(networkSSID: String)
 

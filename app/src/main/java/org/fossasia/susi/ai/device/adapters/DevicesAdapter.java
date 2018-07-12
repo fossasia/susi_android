@@ -8,36 +8,49 @@ import android.view.ViewGroup;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter;
-import org.fossasia.susi.ai.device.contract.IDeviceConnectPresenter;
+import org.fossasia.susi.ai.device.deviceconnect.WifiViewHolder;
+import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DevicesAdapter extends RecyclerView.Adapter<DeviceViewHolder> {
+public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> devices;
+    private List<String> itemList;
     private IDeviceConnectPresenter devicePresenter;
+    private int viewCode;
 
-    public DevicesAdapter(List<String> devices, IDeviceConnectPresenter devicePresenter) {
-        this.devices = devices;
+    public DevicesAdapter(List<String> itemList, IDeviceConnectPresenter devicePresenter, int viewCode) {
+        this.itemList = itemList;
         this.devicePresenter = devicePresenter;
+        this.viewCode = viewCode;
     }
 
     @NonNull
     @Override
-    public DeviceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.device_layout, parent, false);
-        return new DeviceViewHolder(v, (DeviceConnectPresenter) devicePresenter);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewCode == 1) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.device_layout, parent, false);
+            return new DeviceViewHolder(v, (DeviceConnectPresenter) devicePresenter);
+        } else {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_wifi_item, parent, false);
+            return new WifiViewHolder(v, (DeviceConnectPresenter) devicePresenter);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DeviceViewHolder holder, int position) {
-        String ssid = devices.get(position);
-        holder.speakerName.setText(ssid);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof DeviceViewHolder) {
+            DeviceViewHolder viewHolder = (DeviceViewHolder) holder;
+            String ssid = itemList.get(position);
+            viewHolder.speakerName.setText(ssid);
+        } else if (holder instanceof WifiViewHolder) {
+            WifiViewHolder viewHolder = (WifiViewHolder) holder;
+            viewHolder.wifiName.setText(position);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return devices.size();
+        return itemList.size();
     }
 }

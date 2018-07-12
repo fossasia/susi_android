@@ -26,8 +26,8 @@ import kotlinx.android.synthetic.main.fragment_device_connect.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.adapters.DevicesAdapter
-import org.fossasia.susi.ai.device.contract.IDeviceConnectPresenter
-import org.fossasia.susi.ai.device.contract.IDeviceConnectView
+import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
+import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import timber.log.Timber
 
 /**
@@ -35,16 +35,17 @@ import timber.log.Timber
  *
  * Fragment that displays the UI to connect to the device
  */
-class DeviceConnectFragment : Fragment(),IDeviceConnectView {
+class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     lateinit var deviceConnectPresenter: IDeviceConnectPresenter
     lateinit var mainWifi: WifiManager
     lateinit var receiverWifi: WifiReceiver
     lateinit var recyclerAdapter: DevicesAdapter
     private var filter: IntentFilter? = null
-    private var b  = false
+    private var b = false
     private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
-
+    private val VIEW_AVAILABLE_DEVICES = 1;
+    private val VIEW_AVAILABLE_WIFI = 0;
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -106,22 +107,31 @@ class DeviceConnectFragment : Fragment(),IDeviceConnectView {
     }
 
     override fun onPause() {
-        super.onPause()
         if (b) {
             unregister()
         }
+        super.onPause()
     }
 
-    override fun setupAdapter(devicesScanned: List<String>) {
+    override fun setupAdapter(scanList: List<String>, isDevice: Boolean) {
         Timber.d("Connected Successfully")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
-        deviceList.visibility = View.VISIBLE
-        val linearLayoutManager = LinearLayoutManager(activity as DeviceActivity)
-        deviceList.layoutManager = linearLayoutManager
-        deviceList.setHasFixedSize(true)
-        recyclerAdapter = DevicesAdapter(devicesScanned, deviceConnectPresenter)
-        deviceList.adapter = recyclerAdapter
+        if (isDevice) {
+            wifiList.visibility = View.GONE
+            deviceList.visibility = View.VISIBLE
+            deviceList.layoutManager = LinearLayoutManager(activity as DeviceActivity)
+            deviceList.setHasFixedSize(true)
+            recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_DEVICES)
+            deviceList.adapter = recyclerAdapter
+        } else {
+            wifiList.visibility = View.VISIBLE
+            deviceList.visibility = View.GONE
+            deviceList.layoutManager = LinearLayoutManager(activity as DeviceActivity)
+            deviceList.setHasFixedSize(true)
+            recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
+            deviceList.adapter = recyclerAdapter
+        }
     }
 
     override fun showProgress(title: String?) {
@@ -140,6 +150,7 @@ class DeviceConnectFragment : Fragment(),IDeviceConnectView {
         deviceTutorial.text = content
         noDeviceFound.visibility = View.VISIBLE
         deviceTutorial.visibility = View.VISIBLE
+        unregister()
     }
 
     override fun stopProgress() {
@@ -172,6 +183,7 @@ class DeviceConnectFragment : Fragment(),IDeviceConnectView {
     }
 
     override fun unregister() {
+        b = false
         (activity as DeviceActivity).unregisterReceiver(receiverWifi)
     }
 
@@ -186,9 +198,8 @@ class DeviceConnectFragment : Fragment(),IDeviceConnectView {
             Timber.d("Inside the app")
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
-                    var wifiList: List<ScanResult> = ArrayList<ScanResult>()
-                    wifiList = mainWifi.getScanResults()
-                    deviceConnectPresenter.inflateList(wifiList)
+                    val wifiList = mainWifi.getScanResults()
+                    deviceConnectPresenter.availableDevices(wifiList)
                 } else if (p1.action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
                     Timber.d("Wifi changes")
                     if (p1.getParcelableExtra<Parcelable>(WifiManager.EXTRA_NEW_STATE) == SupplicantState.COMPLETED) {

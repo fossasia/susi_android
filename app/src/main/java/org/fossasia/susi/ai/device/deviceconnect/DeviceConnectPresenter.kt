@@ -12,16 +12,16 @@ import org.fossasia.susi.ai.data.DeviceModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
 import org.fossasia.susi.ai.device.DeviceActivity
-import org.fossasia.susi.ai.device.contract.IDeviceConnectPresenter
-import org.fossasia.susi.ai.device.contract.IDeviceConnectView
+import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
+import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import timber.log.Timber
 
-class DeviceConnectPresenter (deviceActivity: DeviceActivity, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
+class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
         IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener {
 
     private var mWifiManager = manager
     private var deviceConnectView: IDeviceConnectView? = null
-    private var check = false
+    private var checkPermissions = false
     private var deviceModel: IDeviceModel = DeviceModel()
     private var isLocationOn = false
     private var SSID: String? = null
@@ -34,8 +34,8 @@ class DeviceConnectPresenter (deviceActivity: DeviceActivity, manager: WifiManag
 
     override fun searchDevices() {
         deviceConnectView?.askForPermissions()
-        Timber.d(check.toString() + "Check")
-        if (check) {
+        Timber.d(checkPermissions.toString() + "Check")
+        if (checkPermissions) {
             checkLocationEnabled()
             if (isLocationOn) {
                 Timber.d("Location ON")
@@ -53,11 +53,11 @@ class DeviceConnectPresenter (deviceActivity: DeviceActivity, manager: WifiManag
         this.deviceConnectView = null
     }
 
-    override fun getAvailableDevices() {
+    override fun availableWifi(list: List<ScanResult>) {
 
     }
 
-    override fun inflateList(list: List<ScanResult>) {
+    override fun availableDevices(list: List<ScanResult>) {
         Timber.d("size " + list.size)
         connections = ArrayList<String>()
         for (i in list.indices) {
@@ -65,15 +65,15 @@ class DeviceConnectPresenter (deviceActivity: DeviceActivity, manager: WifiManag
                 connections.add(list[i].SSID)
         }
 
-        if (connections.size > 0) {
-            deviceConnectView?.setupAdapter(connections)
+        if (!connections.isEmpty()) {
+            deviceConnectView?.setupAdapter(connections,true)
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
         }
     }
 
     override fun isPermissionGranted(b: Boolean) {
-        check = b
+        checkPermissions = b
     }
 
     override fun checkLocationEnabled() {
@@ -121,7 +121,7 @@ class DeviceConnectPresenter (deviceActivity: DeviceActivity, manager: WifiManag
         // test data only
         //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
         //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
-        //  deviceModel.setConfiguration("google", "google", "y", "n", this@DevicePresenter)
+        deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
     }
 
     override fun onSendCredentialSuccess() {
@@ -147,6 +147,7 @@ class DeviceConnectPresenter (deviceActivity: DeviceActivity, manager: WifiManag
     override fun onSetConfigSuccess() {
         Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.onDeviceConnectionSuccess()
+
     }
 
     override fun onSetConfigFailure() {
