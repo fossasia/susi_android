@@ -1,9 +1,9 @@
-package org.fossasia.susi.ai.device.contract
+package org.fossasia.susi.ai.device.deviceconnect.contract
 
 
-interface IDeviceView {
+interface IDeviceConnectView {
 
-    fun setupAdapter(devicesScanned: List<String>)
+    fun setupAdapter(scanList: List<String>, isDevice: Boolean)
 
     fun showProgress(title: String?)
 

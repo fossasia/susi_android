@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/margin_large"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_large"
+        app:srcCompat="@drawable/ic_perm_scan_wifi_black_24dp" />
+        <TextView
+            android:id="@+id/wifi_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/message_layout_margin"
+            android:padding="@dimen/message_card_margin_small"
+            android:textAppearance="?android:textAppearanceLarge" />
+</LinearLayout>
