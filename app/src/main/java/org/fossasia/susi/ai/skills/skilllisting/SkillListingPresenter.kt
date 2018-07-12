@@ -26,10 +26,9 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     private var skillListingView: ISkillListingView? = null
     private var count = 1
     private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
-    private var metrics = SkillsBasedOnMetrics(ArrayList(), ArrayList())
+    private var metrics = SkillsBasedOnMetrics(ArrayList(), ArrayList(), ArrayList())
     private var metricsData: Metrics? = null
     private var groupsCount = 0
-    private var groups: List<String> = ArrayList()
     private val utilModel = UtilModel(skillListingFragment.requireContext())
 
     override fun onAttach(skillListingView: ISkillListingView) {
@@ -51,8 +50,10 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
         if (response.isSuccessful && response.body() != null) {
             Timber.d("GROUPS FETCHED")
             groupsCount = response.body().groups.size
-            groups = response.body().groups
-            skillListingModel.fetchSkills(groups[0], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
+            metrics.groups = response.body().groups as MutableList<String>
+            if (metrics.groups != null) {
+                skillListingView?.updateAdapter(metrics)
+            }
         } else {
             Timber.d("GROUPS NOT FETCHED")
             skillListingView?.visibilityProgressBar(false)
@@ -72,10 +73,9 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
             val responseSkillMap = response.body().filteredSkillsData
             if (responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
-                //skillListingView?.updateAdapter(skills)
             }
             if (count != groupsCount) {
-                skillListingModel.fetchSkills(groups[count], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
+                skillListingModel.fetchSkills(metrics.groups[count], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
                 count++
             }
         } else {
@@ -97,6 +97,7 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
             metricsData = response.body().metrics
             if (metricsData != null) {
                 metrics.metricsList.clear()
+                metrics.metricsGroupTitles.clear()
                 if (metricsData?.rating != null) {
                     if (metricsData?.rating?.size as Int > 0) {
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_rating))
@@ -128,6 +129,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
                         skillListingView?.updateAdapter(metrics)
                     }
                 }
+
+                skillListingModel.fetchGroups(this)
             }
         } else {
             Timber.d("METRICS NOT FETCHED")

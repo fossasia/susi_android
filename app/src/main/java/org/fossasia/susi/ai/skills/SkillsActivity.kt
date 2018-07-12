@@ -47,7 +47,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         setContentView(R.layout.activity_skills)
 
         val skillFragment = SkillListingFragment()
-        skills = skillFragment.skills
+        //skills = skillFragment.skills
         supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
