@@ -72,7 +72,8 @@
         android:key="Lang_Select"
         android:title="@string/Language"/>
 
-    <PreferenceCategory android:title="@string/settings_devices">
+    <PreferenceCategory android:title="@string/settings_devices"
+        android:key="device_section">
 
         <PreferenceScreen
             android:key="device"
