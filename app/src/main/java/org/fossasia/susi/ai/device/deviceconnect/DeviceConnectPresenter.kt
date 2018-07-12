@@ -145,7 +145,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
-     //   deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
+        //   deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
     }
 
     override fun onSendAuthSuccess() {
