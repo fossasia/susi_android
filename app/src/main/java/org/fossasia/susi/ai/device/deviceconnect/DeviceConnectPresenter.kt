@@ -40,7 +40,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             if (isLocationOn) {
                 Timber.d("Location ON")
                 deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
-                deviceConnectView?.startScan()
+                deviceConnectView?.startScan(true)
             } else {
                 deviceConnectView?.showLocationIntentDialog()
             }
@@ -54,7 +54,17 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     }
 
     override fun availableWifi(list: List<ScanResult>) {
+        connections = ArrayList<String>()
+        for (i in list.indices) {
+            connections.add(list[i].SSID)
+        }
 
+        deviceConnectView?.unregister()
+        if (!list.isEmpty()) {
+            deviceConnectView?.setupWiFiAdapter(connections)
+        } else {
+            deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+        }
     }
 
     override fun availableDevices(list: List<ScanResult>) {
@@ -66,7 +76,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         }
 
         if (!connections.isEmpty()) {
-            deviceConnectView?.setupAdapter(connections, true)
+            deviceConnectView?.setupDeviceAdapter(connections)
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
         }
@@ -100,13 +110,16 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             wifiConfiguration.preSharedKey = "\"" + "password" + "\""
 
             val networkId = mWifiManager.addNetwork(wifiConfiguration)
-            if (networkId != -1) {
-                mWifiManager.enableNetwork(networkId, true)
-                // Use this to permanently save this network
-                // Otherwise, it will disappear after a reboot
-                mWifiManager.saveConfiguration()
-            }
-            return null;
+//            if (networkId != -1) {
+//                mWifiManager.enableNetwork(networkId, true)
+//                // Use this to permanently save this network
+//                // Otherwise, it will disappear after a reboot
+//                mWifiManager.saveConfiguration()
+//            }
+            mWifiManager.disconnect();
+            mWifiManager.enableNetwork(networkId, true);
+            mWifiManager.reconnect();
+            return null
         }
 
         override fun onPostExecute(result: Void?) {
@@ -121,7 +134,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         // test data only
         //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
         //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
-        deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
+        // deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
+        searchWiFi()
     }
 
     override fun onSendCredentialSuccess() {
@@ -131,7 +145,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
-        deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
+     //   deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
     }
 
     override fun onSendAuthSuccess() {
@@ -153,5 +167,9 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun onSetConfigFailure() {
         Timber.d("CONFIG - FAILURE")
         deviceConnectView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
+    }
+
+    override fun searchWiFi() {
+        deviceConnectView?.startScan(false)
     }
 }

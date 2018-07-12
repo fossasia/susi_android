@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.device.deviceconnect.contract
 
 interface IDeviceConnectView {
 
-    fun setupAdapter(scanList: List<String>, isDevice: Boolean)
+    fun setupDeviceAdapter(scanList: List<String>)
 
     fun showProgress(title: String?)
 
@@ -15,10 +15,11 @@ interface IDeviceConnectView {
 
     fun askForPermissions()
 
-    fun startScan()
+    fun startScan(isDevice: Boolean)
 
     fun unregister()
 
     fun onDeviceConnectionSuccess()
 
+    fun setupWiFiAdapter(scanList: List<String>)
 }

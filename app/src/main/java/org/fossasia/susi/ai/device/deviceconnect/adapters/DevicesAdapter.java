@@ -45,7 +45,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.speakerName.setText(ssid);
         } else if (holder instanceof WifiViewHolder) {
             WifiViewHolder viewHolder = (WifiViewHolder) holder;
-            viewHolder.wifiName.setText(position);
+            viewHolder.wifiName.setText(itemList.get(position));
         }
     }
 

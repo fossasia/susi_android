@@ -256,6 +256,9 @@
     <string name="scan_devices">Scanning for devices...</string>
     <string name="no_device_found">No devices found</string>
     <string name="setup_tut">If you\'re setting up a new device, make sure it\'s \n nearby and plugged into a wall outlet</string>
+    <string name="no_wifi_found">No WiFi-Networks found</string>
+    <string name="setup_wifi">Make sure there are WiFi connections available \n near you.</string>
+
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
