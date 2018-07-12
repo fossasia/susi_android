@@ -8,18 +8,17 @@ import org.fossasia.susi.ai.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class WifiViewHolder extends RecyclerView.ViewHolder{
+public class WifiViewHolder extends RecyclerView.ViewHolder {
 
-    public  @BindView(R.id.wifi_name)
+    public @BindView(R.id.wifi_name)
     TextView wifiName;
 
     protected DeviceConnectPresenter devicePresenter;
 
     public WifiViewHolder(View itemView, DeviceConnectPresenter devicePresenter) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
         this.devicePresenter = devicePresenter;
     }
 }

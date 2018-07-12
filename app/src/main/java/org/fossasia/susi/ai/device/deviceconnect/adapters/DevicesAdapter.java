@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.device.adapters;
+package org.fossasia.susi.ai.device.deviceconnect.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

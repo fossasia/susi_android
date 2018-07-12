@@ -8,7 +8,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.net.wifi.ScanResult
 import android.net.wifi.SupplicantState
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -25,14 +24,14 @@ import kotlinx.android.synthetic.main.fragment_device_connect.*
 
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
-import org.fossasia.susi.ai.device.adapters.DevicesAdapter
+import org.fossasia.susi.ai.device.deviceconnect.adapters.DevicesAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import timber.log.Timber
 
 /**
  * @author batbrain7
- *
+ * Created on 11/07/18
  * Fragment that displays the UI to connect to the device
  */
 class DeviceConnectFragment : Fragment(), IDeviceConnectView {

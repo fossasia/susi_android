@@ -66,7 +66,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         }
 
         if (!connections.isEmpty()) {
-            deviceConnectView?.setupAdapter(connections,true)
+            deviceConnectView?.setupAdapter(connections, true)
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
         }

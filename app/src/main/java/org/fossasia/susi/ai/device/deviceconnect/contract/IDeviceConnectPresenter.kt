@@ -12,11 +12,11 @@ interface IDeviceConnectPresenter {
 
     fun onDetach()
 
-    fun isPermissionGranted(b:Boolean)
+    fun isPermissionGranted(b: Boolean)
 
     fun checkLocationEnabled()
 
-    fun availableDevices(list : List<ScanResult>)
+    fun availableDevices(list: List<ScanResult>)
 
     fun connectToDevice(networkSSID: String)
 
