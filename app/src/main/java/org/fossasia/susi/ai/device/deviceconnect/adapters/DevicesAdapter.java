@@ -46,6 +46,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         } else if (holder instanceof WifiViewHolder) {
             WifiViewHolder viewHolder = (WifiViewHolder) holder;
             viewHolder.wifiName.setText(itemList.get(position));
+
         }
     }
 

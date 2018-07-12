@@ -40,7 +40,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             if (isLocationOn) {
                 Timber.d("Location ON")
                 deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
-                deviceConnectView?.startScan(true)
+
+              deviceConnectView?.startScan(true)
             } else {
                 deviceConnectView?.showLocationIntentDialog()
             }
@@ -65,6 +66,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
         }
+
     }
 
     override fun availableDevices(list: List<ScanResult>) {
@@ -136,6 +138,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
         // deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
         searchWiFi()
+
     }
 
     override fun onSendCredentialSuccess() {
@@ -146,6 +149,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
         //   deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
+
     }
 
     override fun onSendAuthSuccess() {
@@ -168,8 +172,9 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d("CONFIG - FAILURE")
         deviceConnectView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
     }
-
+          
     override fun searchWiFi() {
         deviceConnectView?.startScan(false)
     }
+
 }

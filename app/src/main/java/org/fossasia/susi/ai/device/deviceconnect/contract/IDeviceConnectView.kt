@@ -22,4 +22,5 @@ interface IDeviceConnectView {
     fun onDeviceConnectionSuccess()
 
     fun setupWiFiAdapter(scanList: List<String>)
+
 }

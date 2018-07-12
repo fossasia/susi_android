@@ -126,6 +126,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceList.setHasFixedSize(true)
         recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_DEVICES)
         deviceList.adapter = recyclerAdapter
+
     }
 
     override fun showProgress(title: String?) {
@@ -216,7 +217,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
-    override fun setupWiFiAdapter(scanList: List<String>) {
+  override fun setupWiFiAdapter(scanList: List<String>) {
         Timber.d("Setup Wifi adapter")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
@@ -227,4 +228,5 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
         wifiList.adapter = recyclerAdapter
     }
+
 }

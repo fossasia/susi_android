@@ -23,4 +23,5 @@ interface IDeviceConnectPresenter {
     fun makeConnectionRequest()
 
     fun searchWiFi()
+
 }
