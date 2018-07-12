@@ -5,13 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
@@ -40,6 +39,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
     private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
+    private var text: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,13 +128,31 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
             edtSearch = action.customView.findViewById(R.id.edtSearch) as EditText //the text editor
 
-            //this is a listener to do a search when the user clicks on search button
-            edtSearch?.setOnEditorActionListener(TextView.OnEditorActionListener { v, actionId, event ->
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    doSearch((findViewById(R.id.edtSearch) as EditText).text.toString())
-                    return@OnEditorActionListener true
+            //this is a listener to do a search when users enters query in editText
+            edtSearch?.addTextChangedListener(object : TextWatcher {
+                /**
+                 * Variable used to remove unneccessary invoking of doSearch() method.
+                 */
+                var skillFound = true
+
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                    //no need to implement
                 }
-                false
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    //no need to implement
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val currentText = s.toString()
+                    //checking that value exist in skills and if not exist comparing the length of the current text to the previous text where the skills are present
+                    if (skillFound || (currentText.length <= text.length)) {
+                        skillFound = performSearch(currentText)
+                        text = currentText
+                    } else {
+                        Toast.makeText(baseContext, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
+                    }
+                }
             })
             edtSearch?.requestFocus()
 
@@ -147,22 +165,27 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         }
     }
 
-    fun doSearch(query: String) {
+    /*
+     Used to perform search for the query entered by the user
+     Returns true if the skill is found related to search query else false
+     */
+    fun performSearch(query: String): Boolean {
 
         for ((pos, item) in skills.withIndex()) {
             if (query in item.first) {
                 skillGroups.scrollToPosition(pos)
-                return
+                return true
             }
 
             for (item2 in item.second) {
                 if (query.toLowerCase() in item2.group.toLowerCase()) {
                     skillGroups.scrollToPosition(pos)
-                    return
+                    return true
                 }
             }
         }
         Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
+        return false
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
