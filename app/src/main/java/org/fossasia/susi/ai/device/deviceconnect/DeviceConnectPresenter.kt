@@ -41,7 +41,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
                 Timber.d("Location ON")
                 deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
 
-              deviceConnectView?.startScan(true)
+                deviceConnectView?.startScan(true)
             } else {
                 deviceConnectView?.showLocationIntentDialog()
             }
@@ -61,10 +61,11 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         }
 
         if (!list.isEmpty()) {
-            deviceConnectView?.unregister()
             deviceConnectView?.setupWiFiAdapter(connections)
+            deviceConnectView?.unregister()
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+            deviceConnectView?.unregister()
         }
 
     }
@@ -80,8 +81,10 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         deviceConnectView?.unregister()
         if (!connections.isEmpty()) {
             deviceConnectView?.setupDeviceAdapter(connections)
+            deviceConnectView?.unregister()
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+            deviceConnectView?.unregister()
         }
     }
 
@@ -119,9 +122,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
                 // Otherwise, it will disappear after a reboot
                 mWifiManager.saveConfiguration()
             }
-//            mWifiManager.disconnect();
-//            mWifiManager.enableNetwork(networkId, true);
-//            mWifiManager.reconnect();
             return null
         }
 
@@ -138,7 +138,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
         //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
         // deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
-         searchWiFi()
+        searchWiFi()
 
     }
 
@@ -173,9 +173,20 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d("CONFIG - FAILURE")
         deviceConnectView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
     }
-          
+
     override fun searchWiFi() {
         deviceConnectView?.startScan(false)
+    }
+
+    override fun makeWifiRequest(ssid: String, password: String) {
+        Timber.d("In here")
+        deviceModel.sendWifiCredentials(ssid, password, this@DeviceConnectPresenter)
+    }
+
+    override fun makeConfigRequest() {
+    }
+
+    override fun makeAuthRequest() {
     }
 
 }

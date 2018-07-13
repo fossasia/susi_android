@@ -21,6 +21,6 @@ interface IDeviceConnectView {
 
     fun onDeviceConnectionSuccess()
 
-    fun setupWiFiAdapter(scanList: List<String>)
+    fun setupWiFiAdapter(scanList: ArrayList<String>)
 
 }

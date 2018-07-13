@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_device_connect.*
 
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
-import org.fossasia.susi.ai.device.deviceconnect.adapters.DevicesAdapter
+import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.DevicesAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import timber.log.Timber
@@ -66,6 +66,16 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        filter = IntentFilter()
+        filter?.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
+        receiverWifi = WifiReceiver()
+        (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
+        b = true
+    }
+
     override fun askForPermissions() {
         noDeviceFound.visibility = View.GONE
         deviceTutorial.visibility = View.GONE
@@ -97,12 +107,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun startScan(isDevice: Boolean) {
-        filter = IntentFilter()
-        filter?.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-        filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-        receiverWifi = WifiReceiver()
-        (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
-        b = true
         checkDevice = isDevice
         Timber.d(isDevice.toString())
         mainWifi.startScan()
@@ -172,6 +176,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun unregister() {
         b = false
+        onPause()
+        onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
         (activity as DeviceActivity).unregisterReceiver(receiverWifi)
     }
 
@@ -211,11 +221,13 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
-    override fun setupWiFiAdapter(scanList: List<String>) {
+    override fun setupWiFiAdapter(scanList: ArrayList<String>) {
         Timber.d("Setup Wifi adapter")
-        scanDevice.visibility = View.GONE
+        scanDevice.setText("Choose a Wi-Fi")
+        scanList.remove("SUSI.AI")
         scanProgress.visibility = View.GONE
         deviceList.visibility = View.GONE
+        addDeviceButton.visibility = View.GONE
         wifiList.visibility = View.VISIBLE
         wifiList.layoutManager = LinearLayoutManager(activity as DeviceActivity)
         wifiList.setHasFixedSize(true)

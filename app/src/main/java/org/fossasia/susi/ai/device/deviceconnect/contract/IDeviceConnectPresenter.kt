@@ -24,4 +24,9 @@ interface IDeviceConnectPresenter {
 
     fun searchWiFi()
 
+    fun makeWifiRequest(ssid: String, password: String)
+
+    fun makeConfigRequest()
+
+    fun makeAuthRequest()
 }
