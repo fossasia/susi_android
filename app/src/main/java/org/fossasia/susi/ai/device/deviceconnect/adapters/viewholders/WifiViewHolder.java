@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter;
-import org.fossasia.susi.ai.helper.Constant;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
