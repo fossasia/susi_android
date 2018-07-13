@@ -16,25 +16,27 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHo
 
 /**
  *
- * Created by chiragw15 on 15/8/17.
+ * Created by arundhati24 on 27/07/2018.
  */
-class SkillGroupAdapter(val context: Context, val metrics: SkillsBasedOnMetrics, val skillCallback: SkillFragmentCallback)
+class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetrics, val skillCallback: SkillFragmentCallback)
     : RecyclerView.Adapter<GroupViewHolder>() {
 
     private lateinit var skillAdapterSnapHelper: SnapHelper
 
     @NonNull
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        if (metrics.metricsList[position] != null)
-            holder.groupName?.text = metrics.metricsGroupTitles[position]
+        if (metrics != null) {
+            if (metrics.metricsGroupTitles[position] != null)
+                holder.groupName?.text = metrics.metricsGroupTitles[position]
 
-        skillAdapterSnapHelper = StartSnapHelper()
-        holder.skillList?.setHasFixedSize(true)
-        val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        holder.skillList?.layoutManager = mLayoutManager
-        holder.skillList?.adapter = SkillListAdapter(context, metrics.metricsList[position], skillCallback)
-        holder.skillList?.onFlingListener = null
-        skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
+            skillAdapterSnapHelper = StartSnapHelper()
+            holder.skillList?.setHasFixedSize(true)
+            val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            holder.skillList?.layoutManager = mLayoutManager
+            holder.skillList?.adapter = SkillListAdapter(context, metrics.metricsList[position], skillCallback)
+            holder.skillList?.onFlingListener = null
+            skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
+        }
     }
 
     override fun getItemCount(): Int {

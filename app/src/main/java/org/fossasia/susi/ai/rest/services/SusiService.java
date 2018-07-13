@@ -7,6 +7,7 @@ import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse;
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
@@ -202,5 +203,16 @@ public interface SusiService {
      */
     @GET("/cms/getSkillFeedback.json")
     Call<GetSkillFeedbackResponse> fetchFeedback(@QueryMap Map<String, String> query);
+
+    /**
+     * Get skills based on different metrics from the server
+     *
+     * @param model    Model of the skill (e.g. general)
+     * @param language Language directory in which the skill resides (e.g. en)
+     * @return the call
+     */
+    @GET("/cms/getSkillMetricsData.json")
+    Call<ListSkillMetricsResponse> fetchSkillMetricsData(@Query("model") String model,
+                                                         @Query("language") String language);
 
 }

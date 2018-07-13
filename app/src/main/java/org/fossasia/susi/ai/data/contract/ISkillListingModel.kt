@@ -1,6 +1,8 @@
 package org.fossasia.susi.ai.data.contract
 
+import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import retrofit2.Response
 
@@ -19,9 +21,16 @@ interface ISkillListingModel {
         fun onSkillFetchFailure(t: Throwable)
     }
 
+    interface OnFetchSkillMetricsFinishedListener {
+        fun onSkillMetricsFetchSuccess(response: Response<ListSkillMetricsResponse>)
+        fun onSkillMetricsFetchFailure(t: Throwable)
+    }
+
     fun fetchGroups(listener: OnFetchGroupsFinishedListener)
 
     fun fetchSkills(group: String, language: String, listener: OnFetchSkillsFinishedListener)
+
+    fun fetchSkillMetrics(query: SkillMetricsDataQuery, listener: OnFetchSkillMetricsFinishedListener)
 
     fun cancelFetch()
 }
