@@ -381,4 +381,11 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Metrics -->
+
+    <string name="metric_rating">\"SUSI, What are your highest rated skills?\"</string>
+    <string name="metric_usage">\"SUSI, what are your most used skills?\"</string>
+    <string name="metric_latest">\"SUSI, what are the latest skills?\"</string>
+    <string name="metric_feedback">\"SUSI, what are the skills with most feedback?\"</string>
+
 </resources>
