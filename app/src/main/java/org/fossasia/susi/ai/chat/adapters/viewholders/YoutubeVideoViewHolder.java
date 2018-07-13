@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -45,7 +46,7 @@ public class YoutubeVideoViewHolder extends MessageViewHolder {
                 String img_url = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
 
                 Picasso.with(itemView.getContext()).load(img_url).
-                        placeholder(R.drawable.ic_play_circle_filled_white_24dp)
+                        placeholder(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_susi))
                         .into(playerView);
             } catch (Exception e) {
                 Timber.e(e);

@@ -1,5 +1,8 @@
 package org.fossasia.susi.ai.skills.skilldetails.contract
 
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
+import org.fossasia.susi.ai.dataclasses.PostFeedback
+
 /**
  * The interface for SkillDetails Presenter
  *
@@ -16,6 +19,14 @@ interface ISkillDetailsPresenter {
     fun updateUserRating(map: Map<String, String>)
 
     fun cancelUserRating()
+
+    fun postFeedback(queryObject: PostFeedback)
+
+    fun cancelPostFeedback()
+
+    fun fetchFeedback(query: FetchFeedbackQuery)
+
+    fun cancelFetchFeedback()
 
     fun onDetach()
 }

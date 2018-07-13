@@ -1,8 +1,11 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
+import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery
+import org.fossasia.susi.ai.dataclasses.SkillsListQuery
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import retrofit2.Call
 import retrofit2.Callback
@@ -17,6 +20,7 @@ class SkillListingModel : ISkillListingModel {
 
     private lateinit var authResponseCallGroups: Call<ListGroupsResponse>
     private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
+    private lateinit var authResponseCallMetrics: Call<ListSkillMetricsResponse>
 
     private var clientBuilder: ClientBuilder = ClientBuilder()
 
@@ -38,7 +42,8 @@ class SkillListingModel : ISkillListingModel {
 
     override fun fetchSkills(group: String, language: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
 
-        authResponseCallSkills = clientBuilder.susiApi.fetchListSkills(group, language, "true", "descending", "rating")
+        val queryObject = SkillsListQuery(group, language, "true", "descending", "rating")
+        authResponseCallSkills = ClientBuilder.fetchListSkillsCall(queryObject)
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
             override fun onResponse(call: Call<ListSkillsResponse>, response: Response<ListSkillsResponse>) {
@@ -52,10 +57,27 @@ class SkillListingModel : ISkillListingModel {
         })
     }
 
+    override fun fetchSkillMetrics(query: SkillMetricsDataQuery, listener: ISkillListingModel.OnFetchSkillMetricsFinishedListener) {
+
+        authResponseCallMetrics = ClientBuilder.fetchListSkillMetricsCall(query)
+
+        authResponseCallMetrics.enqueue(object : Callback<ListSkillMetricsResponse> {
+            override fun onResponse(call: Call<ListSkillMetricsResponse>, response: Response<ListSkillMetricsResponse>) {
+                listener.onSkillMetricsFetchSuccess(response)
+            }
+
+            override fun onFailure(call: Call<ListSkillMetricsResponse>, t: Throwable) {
+                Timber.e(t)
+                listener.onSkillMetricsFetchFailure(t)
+            }
+        })
+    }
+
     override fun cancelFetch() {
         try {
             authResponseCallGroups.cancel()
             authResponseCallSkills.cancel()
+            authResponseCallMetrics.cancel()
         } catch (e: Exception) {
             Timber.e(e)
         }

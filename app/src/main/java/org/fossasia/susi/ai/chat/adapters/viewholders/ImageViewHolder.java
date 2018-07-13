@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper;
 import org.fossasia.susi.ai.data.model.ChatMessage;
+import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.helper.Constant;
 import org.fossasia.susi.ai.rest.ClientBuilder;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
@@ -70,7 +72,7 @@ public class ImageViewHolder extends MessageViewHolder {
             try {
                 Picasso.with(itemView.getContext())
                         .load(imageURL)
-                        .placeholder(R.drawable.ic_susi)
+                        .placeholder(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_susi))
                         .into(imageView);
             } catch (Exception e) {
                 Timber.e(e);
@@ -130,13 +132,10 @@ public class ImageViewHolder extends MessageViewHolder {
             return;
         }
 
-        Call<SkillRatingResponse> ratingResponseCall = new ClientBuilder().getSusiApi()
-                .rateSkill(
-                        susiLocation.get("model"),
-                        susiLocation.get("group"),
-                        susiLocation.get("language"),
-                        susiLocation.get("skill"),
-                        polarity);
+        SkillRatingQuery queryObject = new SkillRatingQuery(susiLocation.get("model"), susiLocation.get("group"),
+                susiLocation.get("language"), susiLocation.get("skill"), polarity);
+
+        Call<SkillRatingResponse> ratingResponseCall = ClientBuilder.rateSkillCall(queryObject);
 
         ratingResponseCall.enqueue(new Callback<SkillRatingResponse>() {
             @Override

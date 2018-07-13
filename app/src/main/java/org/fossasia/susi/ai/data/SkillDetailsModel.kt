@@ -1,12 +1,19 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
+import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * Model of SkillDetails
@@ -21,6 +28,8 @@ class SkillDetailsModel : ISkillDetailsModel {
 
     private lateinit var updateRatingsResponseCall: Call<FiveStarSkillRatingResponse>
     private lateinit var updateUserRatingResponseCall: Call<GetRatingByUserResponse>
+    private lateinit var updateFeedbackResponseCall: Call<PostSkillFeedbackResponse>
+    private lateinit var fetchFeedbackResponseCall: Call<GetSkillFeedbackResponse>
 
     /**
      * Posts a request the fiveStarRateSkill.json API
@@ -66,12 +75,58 @@ class SkillDetailsModel : ISkillDetailsModel {
         })
     }
 
+    override fun postFeedback(queryObject: PostFeedback, listener: ISkillDetailsModel.OnUpdateFeedbackFinishedListener) {
+        val query: MutableMap<String, String> = HashMap()
+        query.put("model", queryObject.model)
+        query.put("group", queryObject.group)
+        query.put("language", queryObject.language)
+        query.put("skill", queryObject.skill)
+        query.put("feedback", queryObject.feedback)
+        query.put("access_token", queryObject.accessToken)
+        updateFeedbackResponseCall = ClientBuilder().susiApi.postFeedback(query)
+
+        updateFeedbackResponseCall.enqueue(object : Callback<PostSkillFeedbackResponse> {
+            override fun onResponse(call: Call<PostSkillFeedbackResponse>, response: Response<PostSkillFeedbackResponse>) {
+                listener.onUpdateFeedbackModelSuccess(response)
+            }
+
+            override fun onFailure(call: Call<PostSkillFeedbackResponse>, t: Throwable) {
+                Timber.e(t)
+                listener.onUpdateFeedbackError(t)
+            }
+        })
+    }
+
+    override fun fetchFeedback(query: FetchFeedbackQuery, listener: ISkillDetailsModel.OnFetchFeedbackFinishedListener) {
+
+        fetchFeedbackResponseCall = ClientBuilder.fetchFeedbackCall(query)
+
+        fetchFeedbackResponseCall.enqueue(object : Callback<GetSkillFeedbackResponse> {
+            override fun onResponse(call: Call<GetSkillFeedbackResponse>, response: Response<GetSkillFeedbackResponse>) {
+                listener.onFetchFeedbackModelSuccess(response)
+            }
+
+            override fun onFailure(call: Call<GetSkillFeedbackResponse>, t: Throwable) {
+                Timber.e(t)
+                listener.onFetchFeedbackError(t)
+            }
+        })
+    }
+
     override fun cancelUpdateRatings() {
         updateRatingsResponseCall.cancel()
     }
 
     override fun cancelUpdateUserRating() {
         updateUserRatingResponseCall.cancel()
+    }
+
+    override fun cancelPostFeedback() {
+        updateFeedbackResponseCall.cancel()
+    }
+
+    override fun cancelFetchFeedback() {
+        fetchFeedbackResponseCall.cancel()
     }
 
 }

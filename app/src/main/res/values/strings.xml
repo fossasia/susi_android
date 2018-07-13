@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">SUSI AI</string>
+    <string name="app_name">SUSI.AI</string>
 
     <!--General Strings-->
     <string name="action_about_us">About Us</string>
@@ -259,21 +259,21 @@
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
-        <a href="https://chat.susi.ai/overview">SUSI AI</a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of SUSI AI.</string>
+        <a href="https://chat.susi.ai/overview"><font color='#4184f3'>SUSI.AI</font></a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. SUSI.AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the SUSI.AI server that holds the "intelligence" and "personality" of SUSI.AI.</string>
     <string name="susi_contributors">Contributors</string>
     <string name="url_susi_contributors" translatable="false">https://github.com/fossasia/susi_android/graphs/contributors</string>
-    <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors">Contributors</a>.</string>
+    <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors"><font color='#4184f3'>Contributors</font></a>.</string>
     <string name="susi_license_information">License</string>
     <string name="url_susi_license" translatable="false">https://github.com/fossasia/susi_android/blob/master/LICENSE</string>
-    <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. As per the <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a>
+    <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. As per the <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><font color='#4184f3'>LICENSE.md</font></a>
     </string>
     <string name="susi_report_issues">Report Issues</string>
     <string name="url_susi_report_issue" translatable="false">https://github.com/fossasia/susi_android/issues</string>
-    <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues">Github Repository Issue Tracker</a>.</string>
+    <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues"><font color='#4184f3'>Github Repository Issue Tracker</font></a>.</string>
 
     <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="url_susi_skill_cms">http://www.skills.susi.ai</string>
-    <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai">skills.susi.ai</a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
+    <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><font color='#4184f3'>skills.susi.ai</font></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
 
     <!-- Intro Strings -->
     <string name="author_name">Author: Author name</string>
@@ -312,11 +312,11 @@
 
     <string name="skip">Skip</string>
 
-    <string name="slide_1_desc">Log in on the app using a SUSI AI account, sign up to create a new account or just skip logging in alltogether.</string>
+    <string name="slide_1_desc">Log in on the app using a SUSI.AI account, sign up to create a new account or just skip logging in altogether.</string>
     <string name="slide_1_title">Log in</string>
-    <string name="slide_2_desc">Interact with SUSI AI by asking questions. Use the microphone button for voice interaction.</string>
+    <string name="slide_2_desc">Interact with SUSI.AI by asking questions. Use the microphone button for voice interaction.</string>
     <string name="slide_2_title">Chat Interface</string>
-    <string name="slide_3_desc">Browse and try your favorite SUSI AI skill</string>
+    <string name="slide_3_desc">Browse and try your favorite SUSI.AI skill</string>
     <string name="slide_3_title">Skill List</string>
     <string name="slide_4_desc">Personalize your chat settings for better experience.</string>
     <string name="slide_4_title">Chat Settings</string>
@@ -352,10 +352,37 @@
     <string name="digit_three">3</string>
     <string name="digit_four">4</string>
     <string name="digit_five">5</string>
+
     <string name="location_access">Provide Location Access</string>
     <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
     <string name="set_up">SET UP</string>
     <string name="connecting_device">Connecting to your device...</string>
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
+
+    <!-- Feedback System -->
+
+    <string name="button_post">post</string>
+    <string name="desc_post_feedback">Write your invaluable feedback here</string>
+    <string name="example_feedback">Example feedback</string>
+    <string name="feedback_section">Feedback</string>
+    <string name="hint_feedback">Skill feedback</string>
+    <string name="placeholder_date">25 Jun, 2018</string>
+    <string name="placeholder_email">abc@example.com</string>
+    <string name="placeholder_initials">AB</string>
+    <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
+    <string name="see_all_reviews">See All Reviews</string>
+    <string name="toast_empty_feedback">Please enter a feedback to post</string>
+    <string name="toast_feedback_updated">Skill feedback updated</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Metrics -->
+
+    <string name="metric_rating">\"SUSI, What are your highest rated skills?\"</string>
+    <string name="metric_usage">\"SUSI, what are your most used skills?\"</string>
+    <string name="metric_latest">\"SUSI, what are the latest skills?\"</string>
+    <string name="metric_feedback">\"SUSI, what are the skills with most feedback?\"</string>
+
 </resources>

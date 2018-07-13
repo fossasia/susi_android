@@ -102,6 +102,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             loginLogout.title = "Logout"
         }
 
+        if (PrefManager.getToken() == null) {
+            deviceName.isVisible = false
+            setupDevice.isVisible = false
+            preferenceManager.findPreference("device_section").isVisible = false
+        }
+
         querylanguage.setOnPreferenceChangeListener { _, newValue ->
             PrefManager.putString(Constant.LANGUAGE, newValue.toString())
             setLanguage()
@@ -222,9 +228,18 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     }
 
     private fun setLanguage() {
-        val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
-        querylanguage.setValueIndex(index)
-        querylanguage.summary = querylanguage.entries[index]
+        try {
+            if (querylanguage.entries.isNotEmpty()) {
+                val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
+                querylanguage.setValueIndex(index)
+                querylanguage.summary = querylanguage.entries[index]
+            }
+        } catch (e: Exception) {
+            Timber.e(e) //Language not present in app
+            PrefManager.putString(Constant.LANGUAGE, Constant.DEFAULT)
+            querylanguage.setValueIndex(0)//setting language to default - english
+            querylanguage.summary = querylanguage.entries[0]
+        }
     }
 
     private fun showAlert() {

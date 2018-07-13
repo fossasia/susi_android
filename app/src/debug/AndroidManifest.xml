@@ -27,7 +27,7 @@
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Chat_Theme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".skills.SkillsActivity"
             android:configChanges="orientation|screenSize"
@@ -43,7 +43,10 @@
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+            android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".skills.feedback.FeedbackActivity"
+            android:theme="@style/PreferencesThemeLight" />
     </application>
 
 </manifest>
