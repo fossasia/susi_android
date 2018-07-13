@@ -97,23 +97,15 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun startScan(isDevice: Boolean) {
-        if (isDevice) {
-            filter = IntentFilter()
-            filter?.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-            filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-            receiverWifi = WifiReceiver()
-            (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
-            b = true
-        }
+        filter = IntentFilter()
+        filter?.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
+        receiverWifi = WifiReceiver()
+        (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
+        b = true
         checkDevice = isDevice
+        Timber.d(isDevice.toString())
         mainWifi.startScan()
-    }
-
-    override fun onPause() {
-        if (b) {
-            unregister()
-        }
-        super.onPause()
     }
 
     override fun setupDeviceAdapter(scanList: List<String>) {
@@ -135,6 +127,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanDevice.visibility = View.VISIBLE
         scanProgress.visibility = View.VISIBLE
         deviceList.visibility = View.GONE
+        wifiList.visibility = View.GONE
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
@@ -145,7 +138,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceTutorial.text = content
         noDeviceFound.visibility = View.VISIBLE
         deviceTutorial.visibility = View.VISIBLE
-        unregister()
+        // unregister()
     }
 
     override fun stopProgress() {
@@ -194,6 +187,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     val wifiList = mainWifi.getScanResults()
+                    Timber.d("Check " + checkDevice)
                     if (checkDevice)
                         deviceConnectPresenter.availableDevices(wifiList)
                     else
@@ -217,7 +211,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
-  override fun setupWiFiAdapter(scanList: List<String>) {
+    override fun setupWiFiAdapter(scanList: List<String>) {
         Timber.d("Setup Wifi adapter")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE

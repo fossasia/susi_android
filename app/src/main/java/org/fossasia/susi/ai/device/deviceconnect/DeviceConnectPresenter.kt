@@ -60,8 +60,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             connections.add(list[i].SSID)
         }
 
-        deviceConnectView?.unregister()
         if (!list.isEmpty()) {
+            deviceConnectView?.unregister()
             deviceConnectView?.setupWiFiAdapter(connections)
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
@@ -77,6 +77,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
                 connections.add(list[i].SSID)
         }
 
+        deviceConnectView?.unregister()
         if (!connections.isEmpty()) {
             deviceConnectView?.setupDeviceAdapter(connections)
         } else {
@@ -112,15 +113,15 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             wifiConfiguration.preSharedKey = "\"" + "password" + "\""
 
             val networkId = mWifiManager.addNetwork(wifiConfiguration)
-//            if (networkId != -1) {
-//                mWifiManager.enableNetwork(networkId, true)
-//                // Use this to permanently save this network
-//                // Otherwise, it will disappear after a reboot
-//                mWifiManager.saveConfiguration()
-//            }
-            mWifiManager.disconnect();
-            mWifiManager.enableNetwork(networkId, true);
-            mWifiManager.reconnect();
+            if (networkId != -1) {
+                mWifiManager.enableNetwork(networkId, true)
+                // Use this to permanently save this network
+                // Otherwise, it will disappear after a reboot
+                mWifiManager.saveConfiguration()
+            }
+//            mWifiManager.disconnect();
+//            mWifiManager.enableNetwork(networkId, true);
+//            mWifiManager.reconnect();
             return null
         }
 
@@ -132,12 +133,12 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun makeConnectionRequest() {
         Timber.d("make request")
-        // deviceConnectView?.unregister()
-        // test data only
+        //  deviceConnectView?.unregister()
+        //  test data only
         //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
         //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
         // deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
-        searchWiFi()
+         searchWiFi()
 
     }
 
