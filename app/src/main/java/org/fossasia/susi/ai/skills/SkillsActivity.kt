@@ -173,13 +173,13 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
         for ((pos, item) in skills.withIndex()) {
             if (query in item.first) {
-                skillGroups.scrollToPosition(pos)
+                skillMetrics.scrollToPosition(pos)
                 return true
             }
 
             for (item2 in item.second) {
                 if (query.toLowerCase() in item2.group.toLowerCase()) {
-                    skillGroups.scrollToPosition(pos)
+                    skillMetrics.scrollToPosition(pos)
                     return true
                 }
             }
