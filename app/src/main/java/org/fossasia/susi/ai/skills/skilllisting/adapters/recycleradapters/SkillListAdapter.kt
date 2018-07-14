@@ -15,7 +15,7 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHo
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListAdapter(val context: Context, private val skillDetails: Pair<String, List<SkillData>>, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
+class SkillListAdapter(val context: Context, private val skillDetails: List<SkillData>?, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
@@ -23,56 +23,58 @@ class SkillListAdapter(val context: Context, private val skillDetails: Pair<Stri
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
-        val skillData = skillDetails.second.toTypedArray()[position]
+        if (skillDetails != null) {
+            val skillData = skillDetails.toTypedArray()[position]
 
-        if (skillData.skillName == null || skillData.skillName.isEmpty()) {
-            holder.skillPreviewTitle?.text = context.getString(R.string.no_skill_name)
-        } else {
-            holder.skillPreviewTitle?.text = skillData.skillName
-        }
+            if (skillData.skillName == null || skillData.skillName.isEmpty()) {
+                holder.skillPreviewTitle?.text = context.getString(R.string.no_skill_name)
+            } else {
+                holder.skillPreviewTitle?.text = skillData.skillName
+            }
 
-        if (skillData.descriptions == null || skillData.descriptions.isEmpty()) {
-            holder.skillPreviewDescription?.text = context.getString(R.string.no_skill_description)
-        } else {
-            holder.skillPreviewDescription?.text = skillData.descriptions
-        }
+            if (skillData.descriptions == null || skillData.descriptions.isEmpty()) {
+                holder.skillPreviewDescription?.text = context.getString(R.string.no_skill_description)
+            } else {
+                holder.skillPreviewDescription?.text = skillData.descriptions
+            }
 
-        if (skillData.examples == null || skillData.examples.isEmpty())
-            holder.skillPreviewExample?.text = StringBuilder("\"").append("\"")
-        else
-            holder.skillPreviewExample?.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
+            if (skillData.examples == null || skillData.examples.isEmpty())
+                holder.skillPreviewExample?.text = StringBuilder("\"").append("\"")
+            else
+                holder.skillPreviewExample?.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
 
-        if (skillData.image == null || skillData.image.isEmpty()) {
-            holder.previewImageView?.setImageResource(R.drawable.ic_susi)
-        } else {
-            Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
-                    .append(skillDetails.first.replace(" ", "%20")).append("/en/").append(skillData.image).toString())
-                    .fit().centerCrop()
-                    .error(R.drawable.ic_susi)
-                    .into(holder.previewImageView)
-        }
+            if (skillData.image == null || skillData.image.isEmpty()) {
+                holder.previewImageView?.setImageResource(R.drawable.ic_susi)
+            } else {
+                Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
+                        .append(skillDetails[position].group.replace(" ", "%20")).append("/en/").append(skillData.image).toString())
+                        .fit().centerCrop()
+                        .error(R.drawable.ic_susi)
+                        .into(holder.previewImageView)
+            }
 
-        if (skillData.skillRating != null) {
-            if (skillData.skillRating?.stars != null) {
-                holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar as Float
-                holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
+            if (skillData.skillRating != null) {
+                if (skillData.skillRating?.stars != null) {
+                    holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar as Float
+                    holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
+                }
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return skillDetails.second.size
+        return (skillDetails as List<SkillData>).size
     }
 
     override fun onItemClicked(position: Int) {
         var skillTag: String? = ""
-        if (skillDetails.second.toTypedArray()[position].skillTag != null) {
-            skillTag = skillDetails.second.toTypedArray()[position].skillTag
+        if ((skillDetails as List<SkillData>)[position].skillTag != null) {
+            skillTag = skillDetails.toTypedArray()[position].skillTag
         } else {
             skillTag = ""
         }
-        val skillData = skillDetails.second.toTypedArray()[position]
-        val skillGroup = skillDetails.first.replace(" ", "%20")
+        val skillData = skillDetails[position]
+        val skillGroup = skillDetails[position].group.replace(" ", "%20")
         showSkillDetailFragment(skillData, skillGroup, skillTag)
     }
 

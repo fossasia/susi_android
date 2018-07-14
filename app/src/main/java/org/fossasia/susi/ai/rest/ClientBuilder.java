@@ -1,10 +1,12 @@
 package org.fossasia.susi.ai.rest;
 
+import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery;
 import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.dataclasses.SkillsListQuery;
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery;
 import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor;
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse;
@@ -90,5 +92,9 @@ public class ClientBuilder {
         queryMap.put("filter_name", queryObject.getFilterName());
         queryMap.put("filter_type", queryObject.getFilterType());
         return susiService.fetchListSkills(queryMap);
+    }
+
+    public static Call<ListSkillMetricsResponse> fetchListSkillMetricsCall(SkillMetricsDataQuery queryObject) {
+        return susiService.fetchSkillMetricsData(queryObject.getModel(), queryObject.getLanguage());
     }
 }

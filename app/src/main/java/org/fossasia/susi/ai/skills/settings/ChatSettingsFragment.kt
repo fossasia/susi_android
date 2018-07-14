@@ -102,6 +102,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             loginLogout.title = "Logout"
         }
 
+        if (PrefManager.getToken() == null) {
+            deviceName.isVisible = false
+            setupDevice.isVisible = false
+            preferenceManager.findPreference("device_section").isVisible = false
+        }
+
         querylanguage.setOnPreferenceChangeListener { _, newValue ->
             PrefManager.putString(Constant.LANGUAGE, newValue.toString())
             setLanguage()
