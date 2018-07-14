@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
-import org.fossasia.susi.ai.data.UtilModel;
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter;
 
 import butterknife.BindView;
@@ -26,6 +25,7 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
     public WifiViewHolder(View itemView, DeviceConnectPresenter devicePresenter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        this.devicePresenter = devicePresenter;
     }
 
     public @OnClick(R.id.wifi_name)
