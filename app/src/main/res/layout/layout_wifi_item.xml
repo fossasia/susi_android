@@ -18,6 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="@dimen/message_layout_margin"
-            android:padding="@dimen/message_card_margin_small"
-            android:textAppearance="?android:textAppearanceLarge" />
+            android:padding="@dimen/margin_large"
+            />
 </LinearLayout>

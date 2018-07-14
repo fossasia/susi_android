@@ -38,34 +38,14 @@ public class ClientBuilder {
         createSusiService();
     }
 
-    private static void init() {
-        susiService = createApi(SusiService.class);
-    }
-
-    private static <T> T createApi(Class<T> clazz) {
-        return retrofit.create(clazz);
-    }
-
     /**
      * Create susi service.
      */
     public static void createSusiService() {
 
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        //Must maintain the order of interceptors here, logging needs to be last.
-        httpClient.addInterceptor(new TokenInterceptor());
-        httpClient.addInterceptor(logging);
-
         try {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(PrefManager.getSusiRunningBaseUrl())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(httpClient.build())
-                    .build();
-            init();
+            retrofit = RetrofitInstance.getRetrofit();
+            susiService = getSusiApi();
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
@@ -76,7 +56,12 @@ public class ClientBuilder {
      *
      * @return the susi api
      */
-    public SusiService getSusiApi() {
+    public static SusiService getSusiApi() {
+        if (susiService == null) {
+            if (retrofit == null)
+                retrofit = RetrofitInstance.getRetrofit();
+            susiService = retrofit.create(SusiService.class);
+        }
         return susiService;
     }
 

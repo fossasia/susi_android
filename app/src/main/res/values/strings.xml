@@ -256,6 +256,9 @@
     <string name="scan_devices">Scanning for devices...</string>
     <string name="no_device_found">No devices found</string>
     <string name="setup_tut">If you\'re setting up a new device, make sure it\'s \n nearby and plugged into a wall outlet</string>
+    <string name="no_wifi_found">No WiFi-Networks found</string>
+    <string name="setup_wifi">Make sure there are WiFi connections available \n near you.</string>
+
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
@@ -359,6 +362,9 @@
     <string name="connecting_device">Connecting to your device...</string>
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
+    <string name="choose_wifi">Choose a Wi-Fi</string>
+    <string name="enter_password">Enter the Password for \n</string>
+
 
     <!-- Feedback System -->
 
@@ -375,14 +381,10 @@
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Metrics -->
 
     <string name="metric_rating">\"SUSI, What are your highest rated skills?\"</string>
     <string name="metric_usage">\"SUSI, what are your most used skills?\"</string>
     <string name="metric_latest">\"SUSI, what are the latest skills?\"</string>
     <string name="metric_feedback">\"SUSI, what are the skills with most feedback?\"</string>
-
 </resources>

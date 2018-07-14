@@ -40,7 +40,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             if (isLocationOn) {
                 Timber.d("Location ON")
                 deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
-                deviceConnectView?.startScan()
+
+                deviceConnectView?.startScan(true)
             } else {
                 deviceConnectView?.showLocationIntentDialog()
             }
@@ -54,6 +55,18 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     }
 
     override fun availableWifi(list: List<ScanResult>) {
+        connections = ArrayList<String>()
+        for (i in list.indices) {
+            connections.add(list[i].SSID)
+        }
+
+        if (!list.isEmpty()) {
+            deviceConnectView?.setupWiFiAdapter(connections)
+            deviceConnectView?.unregister()
+        } else {
+            deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+            deviceConnectView?.unregister()
+        }
 
     }
 
@@ -65,10 +78,13 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
                 connections.add(list[i].SSID)
         }
 
+        deviceConnectView?.unregister()
         if (!connections.isEmpty()) {
-            deviceConnectView?.setupAdapter(connections, true)
+            deviceConnectView?.setupDeviceAdapter(connections)
+            deviceConnectView?.unregister()
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
+            deviceConnectView?.unregister()
         }
     }
 
@@ -106,7 +122,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
                 // Otherwise, it will disappear after a reboot
                 mWifiManager.saveConfiguration()
             }
-            return null;
+            return null
         }
 
         override fun onPostExecute(result: Void?) {
@@ -117,11 +133,12 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun makeConnectionRequest() {
         Timber.d("make request")
-        // deviceConnectView?.unregister()
-        // test data only
+        //  deviceConnectView?.unregister()
+        //  test data only
         //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
         //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
-        deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
+        // deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
+        searchWiFi()
     }
 
     override fun onSendCredentialSuccess() {
@@ -131,7 +148,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
-        deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
+        //   deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
     }
 
     override fun onSendAuthSuccess() {
@@ -147,11 +164,26 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun onSetConfigSuccess() {
         Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.onDeviceConnectionSuccess()
-
     }
 
     override fun onSetConfigFailure() {
         Timber.d("CONFIG - FAILURE")
         deviceConnectView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
     }
+
+    override fun searchWiFi() {
+        deviceConnectView?.startScan(false)
+    }
+
+    override fun makeWifiRequest(ssid: String, password: String) {
+        Timber.d("In here")
+        deviceModel.sendWifiCredentials(ssid, password, this@DeviceConnectPresenter)
+    }
+
+    override fun makeConfigRequest() {
+    }
+
+    override fun makeAuthRequest() {
+    }
+
 }

@@ -20,10 +20,9 @@ import timber.log.Timber
  */
 class ChatModel : IChatModel {
 
-    private var clientBuilder: ClientBuilder = ClientBuilder()
 
     override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
-        val call = clientBuilder.susiApi.chatHistory
+        val call = ClientBuilder.getSusiApi().chatHistory
         call.enqueue(object : Callback<MemoryResponse> {
             override fun onResponse(call: Call<MemoryResponse>, response: Response<MemoryResponse>?) {
                 listener.onRetrieveSuccess(response)
@@ -52,7 +51,7 @@ class ChatModel : IChatModel {
 
     override fun getSusiMessage(map: Map<String, String>, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        clientBuilder.susiApi.getSusiResponse(map).enqueue(
+        ClientBuilder.getSusiApi().getSusiResponse(map).enqueue(
                 object : Callback<SusiResponse> {
                     override fun onResponse(call: Call<SusiResponse>, response: Response<SusiResponse>?) {
                         listener.onSusiMessageReceivedSuccess(response)
