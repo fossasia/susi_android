@@ -197,7 +197,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     val wifiList = mainWifi.getScanResults()
-                    Timber.d("Check " + checkDevice)
+                    Timber.d("Check%s",checkDevice)
                     if (checkDevice)
                         deviceConnectPresenter.availableDevices(wifiList)
                     else
@@ -223,7 +223,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun setupWiFiAdapter(scanList: ArrayList<String>) {
         Timber.d("Setup Wifi adapter")
-        scanDevice.setText("Choose a Wi-Fi")
+        scanDevice.setText(R.string.choose_wifi)
         scanList.remove("SUSI.AI")
         scanProgress.visibility = View.GONE
         deviceList.visibility = View.GONE

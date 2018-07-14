@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.data.UtilModel;
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter;
 import org.fossasia.susi.ai.helper.Constant;
 
@@ -26,14 +27,13 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
     public WifiViewHolder(View itemView, DeviceConnectPresenter devicePresenter) {
         super(itemView);
         ButterKnife.bind(this, itemView);
-        this.devicePresenter = devicePresenter;
     }
 
     public @OnClick(R.id.wifi_name)
     void onClick() {
         final View view = LayoutInflater.from(itemView.getContext()).inflate(R.layout.get_password, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(itemView.getContext()).create();
-        alertDialog.setTitle("Enter the Password for \n" + wifiName.getText().toString());
+        alertDialog.setTitle(R.string.enter_password + wifiName.getText().toString());
         alertDialog.setCancelable(false);
 
         final EditText password = view.findViewById(R.id.edt_pass);
@@ -45,14 +45,12 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
             }
         });
 
-
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 alertDialog.dismiss();
             }
         });
-
 
         alertDialog.setView(view);
         alertDialog.show();

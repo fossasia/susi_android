@@ -362,6 +362,9 @@
     <string name="connecting_device">Connecting to your device...</string>
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
+    <string name="choose_wifi">Choose a Wi-Fi</string>
+    <string name="enter_password">Enter the Password for \n</string>
+
 
     <!-- Feedback System -->
 
@@ -377,8 +380,4 @@
     <string name="see_all_reviews">See All Reviews</string>
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 </resources>
