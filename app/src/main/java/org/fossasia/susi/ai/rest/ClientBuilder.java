@@ -95,6 +95,8 @@ public class ClientBuilder {
     }
 
     public static Call<ListSkillMetricsResponse> fetchListSkillMetricsCall(SkillMetricsDataQuery queryObject) {
+        if (susiService == null)
+            createSusiService();
         return susiService.fetchSkillMetricsData(queryObject.getModel(), queryObject.getLanguage());
     }
 }
