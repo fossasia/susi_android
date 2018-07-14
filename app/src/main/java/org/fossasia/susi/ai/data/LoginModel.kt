@@ -23,7 +23,7 @@ class LoginModel : ILoginModel {
 
     override fun login(email: String, password: String, listener: ILoginModel.OnLoginFinishedListener) {
 
-        authResponseCall = ClientBuilder().susiApi
+        authResponseCall = ClientBuilder.getSusiApi()
                 .login(email, password)
 
         authResponseCall.enqueue(object : Callback<LoginResponse> {
@@ -43,7 +43,7 @@ class LoginModel : ILoginModel {
     }
 
     override fun getUserSetting(listener: ILoginModel.OnLoginFinishedListener) {
-        userSettingResponseCall = ClientBuilder().susiApi
+        userSettingResponseCall = ClientBuilder.getSusiApi()
                 .userSetting
 
         userSettingResponseCall.enqueue(object : Callback<UserSetting> {
