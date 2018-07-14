@@ -37,12 +37,12 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun getGroups(swipeToRefreshActive: Boolean) {
-        skillListingView?.visibilityProgressBar(true)
+        skillListingView?.visibilityProgressBar(!swipeToRefreshActive)
         skillListingModel.fetchGroups(this)
     }
 
     override fun getMetrics(swipeToRefreshActive: Boolean) {
-        skillListingView?.visibilityProgressBar(true)
+        skillListingView?.visibilityProgressBar(!swipeToRefreshActive)
         val queryObject = SkillMetricsDataQuery("general", PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
         skillListingModel.fetchSkillMetrics(queryObject, this)
     }
