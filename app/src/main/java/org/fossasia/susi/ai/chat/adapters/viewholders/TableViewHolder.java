@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders;
 
 import android.content.Context;
-import android.os.SystemClock;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
