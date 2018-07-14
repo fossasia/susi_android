@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.device.deviceconnect.adapters;
+package org.fossasia.susi.ai.device.deviceconnect.adapters.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,7 +13,7 @@ import butterknife.OnClick;
 
 public class DeviceViewHolder extends RecyclerView.ViewHolder {
 
-    protected @BindView(R.id.speakerName)
+    public @BindView(R.id.speakerName)
     TextView speakerName;
     protected @BindView(R.id.speakerSetUp)
     TextView setUp;

@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.device.deviceconnect.adapters;
+package org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 
 import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter;
-import org.fossasia.susi.ai.device.deviceconnect.WifiViewHolder;
+import org.fossasia.susi.ai.device.deviceconnect.adapters.viewholders.DeviceViewHolder;
+import org.fossasia.susi.ai.device.deviceconnect.adapters.viewholders.WifiViewHolder;
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class DevicesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             viewHolder.speakerName.setText(ssid);
         } else if (holder instanceof WifiViewHolder) {
             WifiViewHolder viewHolder = (WifiViewHolder) holder;
-            viewHolder.wifiName.setText(position);
+            viewHolder.wifiName.setText(itemList.get(position));
         }
     }
 
