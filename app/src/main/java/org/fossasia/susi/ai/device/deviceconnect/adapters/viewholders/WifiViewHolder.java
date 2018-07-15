@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
+import org.fossasia.susi.ai.data.UtilModel;
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter;
 
 import butterknife.BindView;
@@ -20,6 +21,7 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
     public @BindView(R.id.wifi_name)
     TextView wifiName;
 
+    private UtilModel utilModel;
     protected DeviceConnectPresenter devicePresenter;
 
     public WifiViewHolder(View itemView, DeviceConnectPresenter devicePresenter) {
@@ -30,9 +32,10 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
 
     public @OnClick(R.id.wifi_name)
     void onClick() {
+        utilModel = new UtilModel(itemView.getContext());
         final View view = LayoutInflater.from(itemView.getContext()).inflate(R.layout.get_password, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(itemView.getContext()).create();
-        alertDialog.setTitle(R.string.enter_password + wifiName.getText().toString());
+        alertDialog.setTitle(utilModel.getString(R.string.enter_password) + wifiName.getText().toString());
         alertDialog.setCancelable(false);
 
         final EditText password = view.findViewById(R.id.edt_pass);

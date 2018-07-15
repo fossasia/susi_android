@@ -139,6 +139,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
         // deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
         searchWiFi()
+        makeAuthRequest()
+        makeConfigRequest()
     }
 
     override fun onSendCredentialSuccess() {
@@ -148,7 +150,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
-        //   deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
+        deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
     }
 
     override fun onSendAuthSuccess() {
@@ -176,14 +178,18 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     }
 
     override fun makeWifiRequest(ssid: String, password: String) {
-        Timber.d("In here")
+        Timber.d("In here : WIFI REQUEST")
         deviceModel.sendWifiCredentials(ssid, password, this@DeviceConnectPresenter)
     }
 
     override fun makeConfigRequest() {
+        Timber.d("In here : CONFIG REQUEST")
+        deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
     }
 
     override fun makeAuthRequest() {
+        Timber.d("In here : AUTH REQUEST")
+        deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DeviceConnectPresenter)
     }
 
 }

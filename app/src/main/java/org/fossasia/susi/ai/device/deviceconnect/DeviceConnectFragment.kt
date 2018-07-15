@@ -135,14 +135,18 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
+        onPause()
+        filter = IntentFilter()
+        receiverWifi = WifiReceiver()
+        (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
         deviceList.visibility = View.GONE
         deviceTutorial.text = content
+        wifiList.visibility = View.GONE
         noDeviceFound.visibility = View.VISIBLE
         deviceTutorial.visibility = View.VISIBLE
-        // unregister()
     }
 
     override fun stopProgress() {
@@ -188,6 +192,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun onDeviceConnectionSuccess() {
         scanProgress.visibility = View.GONE
         scanDevice.visibility = View.VISIBLE
+        wifiList.visibility = View.GONE
+        deviceList.visibility = View.GONE
         scanDevice.setText(R.string.connect_success)
     }
 
