@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.fossasia.susi.ai.R;
@@ -20,6 +21,8 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
 
     public @BindView(R.id.wifi_name)
     TextView wifiName;
+    public @BindView(R.id.layout_wifi)
+    LinearLayout layout;
 
     private UtilModel utilModel;
     protected DeviceConnectPresenter devicePresenter;
@@ -30,7 +33,7 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
         this.devicePresenter = devicePresenter;
     }
 
-    public @OnClick(R.id.wifi_name)
+    public @OnClick(R.id.layout_wifi)
     void onClick() {
         utilModel = new UtilModel(itemView.getContext());
         final View view = LayoutInflater.from(itemView.getContext()).inflate(R.layout.get_password, null);
