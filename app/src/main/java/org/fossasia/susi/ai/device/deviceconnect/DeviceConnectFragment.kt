@@ -12,6 +12,7 @@ import android.net.wifi.SupplicantState
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Message
 import android.os.Parcelable
 import android.provider.Settings
 import android.support.v4.app.Fragment
@@ -189,12 +190,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         (activity as DeviceActivity).unregisterReceiver(receiverWifi)
     }
 
-    override fun onDeviceConnectionSuccess() {
+    override fun onDeviceConnectionSuccess(message: String) {
         scanProgress.visibility = View.GONE
         scanDevice.visibility = View.VISIBLE
         wifiList.visibility = View.GONE
         deviceList.visibility = View.GONE
-        scanDevice.setText(R.string.connect_success)
+        scanDevice.setText(message)
     }
 
     inner class WifiReceiver : BroadcastReceiver() {
