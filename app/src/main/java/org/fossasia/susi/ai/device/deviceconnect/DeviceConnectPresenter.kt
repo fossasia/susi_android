@@ -59,7 +59,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         for (i in list.indices) {
             connections.add(list[i].SSID)
         }
-
         if (!list.isEmpty()) {
             deviceConnectView?.setupWiFiAdapter(connections)
             deviceConnectView?.unregister()
@@ -143,31 +142,37 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun onSendCredentialSuccess() {
         Timber.d("WIFI - SUCCESSFUL")
-        deviceConnectView?.onDeviceConnectionSuccess()
+        deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.wifi_success))
+        makeAuthRequest()
     }
 
     override fun onSendCredentialFailure() {
         Timber.d("WIFI - FAILURE")
-        //   deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
+        deviceConnectView?.stopProgress()
+        deviceConnectView?.onDeviceConnectionError("Wifi Cred Failure", "Not done properly")
     }
 
     override fun onSendAuthSuccess() {
         Timber.d("AUTH - SUCCESSFUL")
-        deviceConnectView?.onDeviceConnectionSuccess()
+        deviceConnectView?.stopProgress()
+        deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.auth_success))
     }
 
     override fun onSendAuthFailure() {
         Timber.d("AUTH - FAILURE")
+        deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError("Auth Failure", "Not done properly")
     }
 
     override fun onSetConfigSuccess() {
         Timber.d("CONFIG - SUCCESS")
-        deviceConnectView?.onDeviceConnectionSuccess()
+        deviceConnectView?.stopProgress()
+        deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
     }
 
     override fun onSetConfigFailure() {
         Timber.d("CONFIG - FAILURE")
+        deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError("Configuration Failure", "Not done properly")
     }
 
@@ -176,14 +181,21 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     }
 
     override fun makeWifiRequest(ssid: String, password: String) {
-        Timber.d("In here")
+        Timber.d("In here : WIFI REQUEST")
+        deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         deviceModel.sendWifiCredentials(ssid, password, this@DeviceConnectPresenter)
     }
 
     override fun makeConfigRequest() {
+        Timber.d("In here : CONFIG REQUEST")
+        deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
+        deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
     }
 
     override fun makeAuthRequest() {
+        Timber.d("In here : AUTH REQUEST")
+        deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
+        deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DeviceConnectPresenter)
     }
 
 }
