@@ -252,8 +252,6 @@
 
     <!-- Devices String-->
     <string name="connect_success">Device Connected Successfully !</string>
-    <string name="auth_success">Auth credentials sent Successfully !</string>
-    <string name="wifi_success">Wifi credentials sent Successfully !</string>
     <string name="device_title">Devices</string>
     <string name="scan_devices">Scanning for devices...</string>
     <string name="no_device_found">No devices found</string>

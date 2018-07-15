@@ -12,7 +12,6 @@ import android.net.wifi.SupplicantState
 import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Message
 import android.os.Parcelable
 import android.provider.Settings
 import android.support.v4.app.Fragment
@@ -70,6 +69,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun onResume() {
         super.onResume()
         filter = IntentFilter()
+        filter?.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
+        filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
         receiverWifi = WifiReceiver()
         (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
         b = true
@@ -108,11 +109,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun startScan(isDevice: Boolean) {
         checkDevice = isDevice
         Timber.d(isDevice.toString())
-        filter = IntentFilter()
-        filter?.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
-        filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
-        receiverWifi = WifiReceiver()
-        (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
         mainWifi.startScan()
     }
 
@@ -139,15 +135,14 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
-        unregister()
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
         deviceList.visibility = View.GONE
         deviceTutorial.text = content
-        wifiList.visibility = View.GONE
         noDeviceFound.visibility = View.VISIBLE
         deviceTutorial.visibility = View.VISIBLE
+        // unregister()
     }
 
     override fun stopProgress() {
@@ -182,9 +177,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun unregister() {
         b = false
         onPause()
-        filter = IntentFilter()
-        receiverWifi = WifiReceiver()
-        (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
+        onResume()
     }
 
     override fun onPause() {
@@ -192,12 +185,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         (activity as DeviceActivity).unregisterReceiver(receiverWifi)
     }
 
-    override fun onDeviceConnectionSuccess(message: String) {
+    override fun onDeviceConnectionSuccess() {
         scanProgress.visibility = View.GONE
         scanDevice.visibility = View.VISIBLE
-        wifiList.visibility = View.GONE
-        deviceList.visibility = View.GONE
-        scanDevice.setText(message)
+        scanDevice.setText(R.string.connect_success)
     }
 
     inner class WifiReceiver : BroadcastReceiver() {
@@ -206,7 +197,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     val wifiList = mainWifi.getScanResults()
-                    Timber.d("Check%s", checkDevice)
+                    Timber.d("Check%s",checkDevice)
                     if (checkDevice)
                         deviceConnectPresenter.availableDevices(wifiList)
                     else
