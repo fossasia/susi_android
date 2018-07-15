@@ -58,7 +58,7 @@ class SkillListingModel : ISkillListingModel {
 
     override fun fetchSkillMetrics(query: SkillMetricsDataQuery, listener: ISkillListingModel.OnFetchSkillMetricsFinishedListener) {
 
-        authResponseCallMetrics = ClientBuilder.fetchListSkillMetricsCall(query)
+        authResponseCallMetrics = ClientBuilder.getSusiApi().fetchSkillMetricsData(query.model, query.language)
 
         authResponseCallMetrics.enqueue(object : Callback<ListSkillMetricsResponse> {
             override fun onResponse(call: Call<ListSkillMetricsResponse>, response: Response<ListSkillMetricsResponse>) {

@@ -93,8 +93,4 @@ public class ClientBuilder {
         queryMap.put("filter_type", queryObject.getFilterType());
         return susiService.fetchListSkills(queryMap);
     }
-
-    public static Call<ListSkillMetricsResponse> fetchListSkillMetricsCall(SkillMetricsDataQuery queryObject) {
-        return susiService.fetchSkillMetricsData(queryObject.getModel(), queryObject.getLanguage());
-    }
 }
