@@ -255,7 +255,7 @@
     <string name="auth_success">Authentication credentials sent successfully!</string>
     <string name="wifi_success">Wifi credentials sent successfully!</string>
     <string name="config_success">Device configured successfully!</string>
-    <string name="connection_error">Connection Failed</string>
+    <string name="connection_error">Connection failed</string>
     <string name="wifi_error">Wifi credentials not sent.Please try again</string>
     <string name="auth_error">Authentication credentials not sent.Please try again.</string>
     <string name="config_error">Configuration of the speaker failed.</string>
