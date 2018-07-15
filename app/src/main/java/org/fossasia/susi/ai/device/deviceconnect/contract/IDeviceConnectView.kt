@@ -19,7 +19,7 @@ interface IDeviceConnectView {
 
     fun unregister()
 
-    fun onDeviceConnectionSuccess(message: String)
+    fun onDeviceConnectionSuccess()
 
     fun setupWiFiAdapter(scanList: ArrayList<String>)
 
