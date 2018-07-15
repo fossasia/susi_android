@@ -24,7 +24,6 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
     public @BindView(R.id.layout_wifi)
     LinearLayout layout;
 
-    private UtilModel utilModel;
     protected DeviceConnectPresenter devicePresenter;
 
     public WifiViewHolder(View itemView, DeviceConnectPresenter devicePresenter) {
@@ -35,6 +34,7 @@ public class WifiViewHolder extends RecyclerView.ViewHolder {
 
     public @OnClick(R.id.layout_wifi)
     void onClick() {
+        UtilModel utilModel;
         utilModel = new UtilModel(itemView.getContext());
         final View view = LayoutInflater.from(itemView.getContext()).inflate(R.layout.get_password, null);
         final AlertDialog alertDialog = new AlertDialog.Builder(itemView.getContext()).create();
