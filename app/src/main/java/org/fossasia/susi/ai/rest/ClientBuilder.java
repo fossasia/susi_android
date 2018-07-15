@@ -71,7 +71,7 @@ public class ClientBuilder {
         queryMap.put("group", queryObject.getGroup());
         queryMap.put("language", queryObject.getLanguage());
         queryMap.put("skill", queryObject.getSkill());
-        return susiService.fetchFeedback(queryMap);
+        return getSusiApi().fetchFeedback(queryMap);
     }
 
     public static Call<SkillRatingResponse> rateSkillCall(SkillRatingQuery queryObject) {
@@ -81,7 +81,7 @@ public class ClientBuilder {
         queryMap.put("language", queryObject.getLanguage());
         queryMap.put("skill", queryObject.getSkill());
         queryMap.put("rating", queryObject.getRating());
-        return susiService.rateSkill(queryMap);
+        return getSusiApi().rateSkill(queryMap);
     }
 
     public static Call<ListSkillsResponse> fetchListSkillsCall(SkillsListQuery queryObject) {
@@ -91,6 +91,6 @@ public class ClientBuilder {
         queryMap.put("applyFilter", queryObject.getApplyFilter());
         queryMap.put("filter_name", queryObject.getFilterName());
         queryMap.put("filter_type", queryObject.getFilterType());
-        return susiService.fetchListSkills(queryMap);
+        return getSusiApi().fetchListSkills(queryMap);
     }
 }
