@@ -153,21 +153,10 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             thumbsUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
                     if (!model.isPositiveRated() && !model.isNegativeRated()) {
+                        thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
                         rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
                         setRating(true, true);
-                    } else if (!model.isPositiveRated() && model.isNegativeRated()) {
-                        setRating(false, false);
-                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
-                        rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
-                        sleep(500);
-                        rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
-                        setRating(true, true);
-                    } else if (model.isPositiveRated() && !model.isNegativeRated()) {
-                        rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-                        setRating(false, true);
-                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
                     }
                 }
             });
@@ -175,21 +164,10 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
             thumbsDown.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
                     if (!model.isPositiveRated() && !model.isNegativeRated()) {
+                        thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
                         rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
                         setRating(true, false);
-                    } else if (model.isPositiveRated() && !model.isNegativeRated()) {
-                        setRating(false, true);
-                        thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-                        rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-                        sleep(500);
-                        rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), currContext);
-                        setRating(true, false);
-                    } else if (!model.isPositiveRated() && model.isNegativeRated()) {
-                        rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), currContext);
-                        setRating(false, false);
-                        thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
                     }
                 }
             });
