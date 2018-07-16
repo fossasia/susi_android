@@ -147,18 +147,21 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.connection_error), utilModel.getString(R.string.wifi_error))
+        makeAuthRequest()
     }
 
     override fun onSendAuthSuccess() {
         Timber.d("AUTH - SUCCESSFUL")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.auth_success))
+        makeConfigRequest()
     }
 
     override fun onSendAuthFailure() {
         Timber.d("AUTH - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.connection_error), utilModel.getString(R.string.auth_error))
+        makeConfigRequest()
     }
 
     override fun onSetConfigSuccess() {
