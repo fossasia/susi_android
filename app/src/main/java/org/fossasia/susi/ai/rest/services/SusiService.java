@@ -33,14 +33,6 @@ import retrofit2.http.QueryMap;
 public interface SusiService {
 
     /**
-     * Gets susi base urls.
-     *
-     * @return the susi base urls
-     */
-    @GET(BaseUrl.SUSI_SERVICES_URL + "/config_susi.json")
-    Call<SusiBaseUrls> getSusiBaseUrls();
-
-    /**
      * Gets susi response.
      *
      * @param query A query map consisting of the following key value pairs
@@ -155,13 +147,6 @@ public interface SusiService {
     Call<ResetPasswordResponse> resetPasswordResponse(@Query("changepassword") String email,
                                                       @Query("password") String password,
                                                       @Query("newpassword") String newPassword);
-
-    @POST("/cms/feedbackSkill.json")
-    Call<PostSkillFeedbackResponse> postFeedback(@Query("model") String model,
-                                                 @Query("group") String group,
-                                                 @Query("language") String language,
-                                                 @Query("skill") String skill,
-                                                 @Query("feedback") String feedback);
 
     /**
      * Post feedback provided by user
