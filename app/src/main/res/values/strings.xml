@@ -251,7 +251,14 @@
     <string name="skills_activity">SUSI.AI Skills</string>
 
     <!-- Devices String-->
-    <string name="connect_success">Device Connected Successfully !</string>
+    <string name="connect_success">Device Connected successfully!</string>
+    <string name="auth_success">Authentication credentials sent successfully!</string>
+    <string name="wifi_success">Wifi credentials sent successfully!</string>
+    <string name="config_success">Device configured successfully!</string>
+    <string name="connection_error">Connection failed</string>
+    <string name="wifi_error">Wifi credentials not sent.Please try again</string>
+    <string name="auth_error">Authentication credentials not sent.Please try again.</string>
+    <string name="config_error">Configuration of the speaker failed.</string>
     <string name="device_title">Devices</string>
     <string name="scan_devices">Scanning for devices...</string>
     <string name="no_device_found">No devices found</string>

@@ -135,14 +135,16 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
+        unregister()
+        (activity as DeviceActivity).registerReceiver(receiverWifi,IntentFilter())
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
         deviceList.visibility = View.GONE
         deviceTutorial.text = content
+        wifiList.visibility = View.GONE
         noDeviceFound.visibility = View.VISIBLE
         deviceTutorial.visibility = View.VISIBLE
-        // unregister()
     }
 
     override fun stopProgress() {
@@ -177,18 +179,21 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun unregister() {
         b = false
         onPause()
-        onResume()
     }
 
     override fun onPause() {
-        super.onPause()
         (activity as DeviceActivity).unregisterReceiver(receiverWifi)
+        super.onPause()
     }
 
-    override fun onDeviceConnectionSuccess() {
+    override fun onDeviceConnectionSuccess(message: String) {
+        unregister()
+        (activity as DeviceActivity).registerReceiver(receiverWifi,IntentFilter())
         scanProgress.visibility = View.GONE
         scanDevice.visibility = View.VISIBLE
-        scanDevice.setText(R.string.connect_success)
+        wifiList.visibility = View.GONE
+        deviceList.visibility = View.GONE
+        scanDevice.setText(message)
     }
 
     inner class WifiReceiver : BroadcastReceiver() {
@@ -197,7 +202,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     val wifiList = mainWifi.getScanResults()
-                    Timber.d("Check%s",checkDevice)
+                    Timber.d("Check %s", checkDevice)
                     if (checkDevice)
                         deviceConnectPresenter.availableDevices(wifiList)
                     else
