@@ -2,10 +2,7 @@ package org.fossasia.susi.ai.device.deviceconnect
 
 
 import android.Manifest
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.wifi.SupplicantState
@@ -20,9 +17,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import kotlinx.android.synthetic.main.fragment_device_connect.*
 
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.DevicesAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
@@ -136,7 +135,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
         unregister()
-        (activity as DeviceActivity).registerReceiver(receiverWifi,IntentFilter())
+        (activity as DeviceActivity).registerReceiver(receiverWifi, IntentFilter())
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
@@ -188,7 +187,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun onDeviceConnectionSuccess(message: String) {
         unregister()
-        (activity as DeviceActivity).registerReceiver(receiverWifi,IntentFilter())
+        (activity as DeviceActivity).registerReceiver(receiverWifi, IntentFilter())
         scanProgress.visibility = View.GONE
         scanDevice.visibility = View.VISIBLE
         wifiList.visibility = View.GONE
@@ -240,4 +239,25 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         wifiList.adapter = recyclerAdapter
     }
 
+    override fun showPopUpDialog() {
+        val utilModel: UtilModel
+        utilModel = UtilModel(activity as DeviceActivity)
+        val view = LayoutInflater.from(activity).inflate(R.layout.get_password, null)
+        val alertDialog = AlertDialog.Builder(activity as DeviceActivity).create()
+        alertDialog.setTitle(utilModel.getString(R.string.enter_password_mail))
+        alertDialog.setCancelable(false)
+
+        val password = view.findViewById<EditText>(R.id.edt_pass)
+
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, utilModel.getString(R.string.next)) { dialog, which ->
+            deviceConnectPresenter.makeAuthRequest(password.text.toString())
+        }
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, utilModel.getString(R.string.cancel)) { dialog, which ->
+            alertDialog.dismiss()
+        }
+
+        alertDialog.setView(view)
+        alertDialog.show()
+    }
 }

@@ -371,6 +371,7 @@
     <string name="connection_success">Connected Successfully !</string>
     <string name="choose_wifi">Choose a Wi-Fi</string>
     <string name="enter_password">Enter the Password for \n</string>
+    <string name="enter_password_mail">Enter the password for your account \n</string>
 
 
     <!-- Feedback System -->

@@ -28,5 +28,5 @@ interface IDeviceConnectPresenter {
 
     fun makeConfigRequest()
 
-    fun makeAuthRequest()
+    fun makeAuthRequest(password: String)
 }
