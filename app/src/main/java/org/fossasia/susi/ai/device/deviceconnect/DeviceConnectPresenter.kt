@@ -61,10 +61,10 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         }
         if (!list.isEmpty()) {
             deviceConnectView?.setupWiFiAdapter(connections)
-//            deviceConnectView?.unregister()
+            // deviceConnectView?.unregister()
         } else {
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
-//            deviceConnectView?.unregister()
+            // deviceConnectView?.unregister()
         }
 
     }
