@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data
 
+import android.widget.Toast
 import org.fossasia.susi.ai.data.contract.IDeviceModel
 import org.fossasia.susi.ai.rest.clients.DeviceClient
 import org.fossasia.susi.ai.rest.services.DeviceService
@@ -21,7 +22,9 @@ class DeviceModel : IDeviceModel {
                 } else {
                     Timber.d(t, "An error occurred")
                 }
-                listener.onSendCredentialFailure()
+                Timber.d("Error in WiFi : " + call.toString())
+                if (t!=null)
+                    listener.onSendCredentialFailure(t.localizedMessage)
             }
 
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
@@ -35,11 +38,13 @@ class DeviceModel : IDeviceModel {
         deviceService.ttSSettings(stt, tts, hotword, wake).enqueue(object : Callback<String> {
             override fun onFailure(call: Call<String>?, t: Throwable?) {
                 if (t?.localizedMessage != null) {
-                    Timber.d(t.localizedMessage)
+                    Timber.d(t.cause)
                 } else {
                     Timber.d(t, "An error occurred")
                 }
-                listener.onSetConfigFailure()
+                Timber.d("Error in Configuration : " + call.toString())
+                if (t!=null)
+                    listener.onSetConfigFailure(t.localizedMessage)
             }
 
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
@@ -58,7 +63,9 @@ class DeviceModel : IDeviceModel {
                 } else {
                     Timber.d(t, "An error occurred")
                 }
-                listener.onSendAuthFailure()
+                Timber.d("Error in Authentication : " + call.toString())
+                if (t!=null)
+                    listener.onSendAuthFailure(t.localizedMessage)
             }
 
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
