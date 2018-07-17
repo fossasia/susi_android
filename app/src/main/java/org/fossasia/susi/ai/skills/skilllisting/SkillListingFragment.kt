@@ -5,8 +5,7 @@ import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SnapHelper
+import android.support.v7.widget.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +19,7 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillMetricsAdapter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
+import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 
 /**
  *
@@ -30,7 +30,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     private lateinit var skillAdapterSnapHelper: SnapHelper
     private lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
-    private var metrics = SkillsBasedOnMetrics(ArrayList(), ArrayList())
+    private var metrics = SkillsBasedOnMetrics(ArrayList(), ArrayList(), ArrayList())
     private lateinit var skillMetricsAdapter: SkillMetricsAdapter
     private lateinit var skillCallback: SkillFragmentCallback
 
@@ -80,8 +80,13 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         skillMetrics.visibility = View.VISIBLE
         this.metrics.metricsList.clear()
         this.metrics.metricsGroupTitles.clear()
+        this.metrics.groups.clear()
         this.metrics.metricsList.addAll(metrics.metricsList)
         this.metrics.metricsGroupTitles.addAll(metrics.metricsGroupTitles)
+        this.metrics.groups.add(0, "CATEGORIES")
+        this.metrics.groups.add(1, "All")
+        this.metrics.groups.addAll(metrics.groups)
+        skillMetrics.addItemDecoration(SimpleDividerItemDecoration(context, this.metrics.metricsList.size))
         skillMetricsAdapter.notifyDataSetChanged()
     }
 

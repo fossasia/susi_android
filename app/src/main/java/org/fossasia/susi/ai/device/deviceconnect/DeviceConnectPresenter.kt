@@ -14,6 +14,8 @@ import org.fossasia.susi.ai.data.contract.IDeviceModel
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
 
 class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
@@ -140,14 +142,14 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun onSendCredentialSuccess() {
         Timber.d("WIFI - SUCCESSFUL")
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.wifi_success))
-        makeAuthRequest()
+        deviceConnectView?.showPopUpDialog()
     }
 
-    override fun onSendCredentialFailure() {
+    override fun onSendCredentialFailure(localMessage: String) {
         Timber.d("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
-        deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.connection_error), utilModel.getString(R.string.wifi_error))
-        makeAuthRequest()
+        deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.wifi_error))
+        deviceConnectView?.showPopUpDialog()
     }
 
     override fun onSendAuthSuccess() {
@@ -157,10 +159,10 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         makeConfigRequest()
     }
 
-    override fun onSendAuthFailure() {
+    override fun onSendAuthFailure(localMessage: String) {
         Timber.d("AUTH - FAILURE")
         deviceConnectView?.stopProgress()
-        deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.connection_error), utilModel.getString(R.string.auth_error))
+        deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.auth_error))
         makeConfigRequest()
     }
 
@@ -170,10 +172,10 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
     }
 
-    override fun onSetConfigFailure() {
+    override fun onSetConfigFailure(localMessage: String) {
         Timber.d("CONFIG - FAILURE")
         deviceConnectView?.stopProgress()
-        deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.connection_error), utilModel.getString(R.string.config_error))
+        deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.config_error))
     }
 
     override fun searchWiFi() {
@@ -192,11 +194,11 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
     }
 
-    override fun makeAuthRequest() {
+    override fun makeAuthRequest(password: String) {
         Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
-        // only for basic testing purposes, the email is hardcoded.
-        deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DeviceConnectPresenter)
+        deviceModel.sendAuthCredentials("y", PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(),
+                password, this@DeviceConnectPresenter)
     }
 
 }

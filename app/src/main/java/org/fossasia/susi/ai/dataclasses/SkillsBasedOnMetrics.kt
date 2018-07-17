@@ -8,5 +8,6 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
  */
 data class SkillsBasedOnMetrics(
         var metricsList: ArrayList<List<SkillData>?>,
-        var metricsGroupTitles: ArrayList<String>
+        var metricsGroupTitles: ArrayList<String>,
+        var groups: MutableList<String>
 )

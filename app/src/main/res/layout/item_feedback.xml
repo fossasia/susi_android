@@ -57,23 +57,22 @@
         android:id="@+id/seeAllReviews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:visibility="gone">
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
             android:text="@string/see_all_reviews"
             android:textSize="@dimen/text_size_medium" />
 
         <ImageView
             android:layout_width="@dimen/arrow_width"
             android:layout_height="@dimen/arrow_height"
-            android:layout_gravity="center"
-            android:paddingEnd="@dimen/arrow_padding_large"
-            android:paddingRight="@dimen/arrow_padding_large"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large"
             android:src="@drawable/ic_right_facing_arrow" />
 
     </LinearLayout>
