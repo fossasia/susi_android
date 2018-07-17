@@ -4,17 +4,17 @@ interface IDeviceModel {
 
     interface onSendWifiCredentialsListener {
         fun onSendCredentialSuccess()
-        fun onSendCredentialFailure()
+        fun onSendCredentialFailure(localMessage: String)
     }
 
     interface onSendAuthCredentialsListener {
         fun onSendAuthSuccess()
-        fun onSendAuthFailure()
+        fun onSendAuthFailure(localMessage: String)
     }
 
     interface onSetConfigurationListener {
         fun onSetConfigSuccess()
-        fun onSetConfigFailure()
+        fun onSetConfigFailure(localMessage: String)
     }
 
     fun sendWifiCredentials(ssid: String, pass: String, listener: onSendWifiCredentialsListener)

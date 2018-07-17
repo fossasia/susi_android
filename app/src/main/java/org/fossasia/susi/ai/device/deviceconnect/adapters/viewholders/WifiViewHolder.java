@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.device.deviceconnect.adapters.viewholders;
 
 import android.content.DialogInterface;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
