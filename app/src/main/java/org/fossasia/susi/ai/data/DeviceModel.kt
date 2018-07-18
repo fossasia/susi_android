@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.data
 
-import android.widget.Toast
 import org.fossasia.susi.ai.data.contract.IDeviceModel
 import org.fossasia.susi.ai.rest.clients.DeviceClient
 import org.fossasia.susi.ai.rest.services.DeviceService
@@ -23,7 +22,7 @@ class DeviceModel : IDeviceModel {
                     Timber.d(t, "An error occurred")
                 }
                 Timber.d("Error in WiFi : " + call.toString())
-                if (t!=null)
+                if (t != null)
                     listener.onSendCredentialFailure(t.localizedMessage)
             }
 
@@ -43,7 +42,7 @@ class DeviceModel : IDeviceModel {
                     Timber.d(t, "An error occurred")
                 }
                 Timber.d("Error in Configuration : " + call.toString())
-                if (t!=null)
+                if (t != null)
                     listener.onSetConfigFailure(t.localizedMessage)
             }
 
@@ -64,7 +63,7 @@ class DeviceModel : IDeviceModel {
                     Timber.d(t, "An error occurred")
                 }
                 Timber.d("Error in Authentication : " + call.toString())
-                if (t!=null)
+                if (t != null)
                     listener.onSendAuthFailure(t.localizedMessage)
             }
 
