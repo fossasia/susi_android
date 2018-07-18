@@ -21,6 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:vmSafeMode="true">
+
         <activity
             android:name=".login.WelcomeActivity"
             android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
@@ -30,12 +31,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".chat.ChatActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Chat_Theme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+
         <activity
             android:name=".skills.SkillsActivity"
             android:configChanges="orientation|screenSize"
@@ -44,15 +47,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.chat.ChatActivity" />
         </activity>
+
         <activity
             android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateVisible|adjustResize"
             tools:replace="android:theme" />
+
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+
         <!--
         For Developers:
         Replay the fabric_api_key to your actual API KEY
@@ -69,6 +75,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.skills.SkillsActivity" />
         </activity>
+
         <activity
             android:name=".login.ForgotPass"
             android:label="Reset Password"
@@ -85,11 +92,12 @@
 
         <activity
             android:name=".chat.YouTubeActivity"
-            android:theme="@style/Theme.AppCompat.Dialog">
-        </activity>
+            android:theme="@style/Theme.AppCompat.Dialog" />
+
         <meta-data
             android:name="com.google.android.youtube.API_KEY"
-            android:value="${YOUTUBE_API_KEY}"/>
+            android:value="${YOUTUBE_API_KEY}" />
+
     </application>
 
 </manifest>
