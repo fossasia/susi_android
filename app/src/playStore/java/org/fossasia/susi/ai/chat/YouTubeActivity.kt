@@ -63,7 +63,7 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         p1?.setPlayerStateChangeListener(playerStateChangeListener);
         p1?.setPlaybackEventListener(playbackEventListener);
         if (!p2 && youtubeId != null) {
-            p1?.cueVideo(youtubeId)
+            p1?.loadVideo(youtubeId)
         }
     }
 
