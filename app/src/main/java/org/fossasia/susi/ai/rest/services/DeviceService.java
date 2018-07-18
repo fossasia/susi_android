@@ -1,27 +1,32 @@
 package org.fossasia.susi.ai.rest.services;
 
+import org.fossasia.susi.ai.rest.responses.others.SpeakerAuthResponse;
+import org.fossasia.susi.ai.rest.responses.others.SpeakerConfigResponse;
+import org.fossasia.susi.ai.rest.responses.others.SpeakerWifiResponse;
+
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 
 public interface DeviceService {
 
-    @GET("/wifi_credentials/{wifissid}/{wifipassd}")
-    Call<String> wifiCredentials(@Path("wifissid") String ssid,
-                                     @Path("wifipassd") String pass);
+    @GET("/wifi_credentials")
+    Call<SpeakerWifiResponse> wifiCredentials(@Query("wifissid") String ssid,
+                                              @Query("wifipassd") String pass);
 
 
-    @GET("/config/{stt}/{tts}/{hotword}/{wake}")
-    Call<String> ttSSettings(@Path("stt") String speechToText,
-                                @Path("tts") String textToSpeech,
-                                @Path("hotword") String hotword,
-                                @Path("wake") String wake);
+    @GET("/config")
+    Call<SpeakerConfigResponse> ttSSettings(@QueryMap Map<String, String> query);
 
 
-    @GET("/auth/{choice}/{email}/{password}")
-    Call<String> authCredentials(@Path("choice") String choice,
-                                     @Path("email") String email,
-                                     @Path("password") String password);
+    @GET("/auth")
+    Call<SpeakerAuthResponse> authCredentials(@Query("choice") String choice,
+                                              @Query("email") String email,
+                                              @Query("password") String password);
 
 }
