@@ -240,8 +240,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun showPopUpDialog() {
-        val utilModel: UtilModel
-        utilModel = UtilModel(activity as DeviceActivity)
+        val utilModel = UtilModel(activity as DeviceActivity)
         val view = LayoutInflater.from(activity).inflate(R.layout.get_password, null)
         val alertDialog = AlertDialog.Builder(activity as DeviceActivity).create()
         alertDialog.setTitle(utilModel.getString(R.string.enter_password_mail))
