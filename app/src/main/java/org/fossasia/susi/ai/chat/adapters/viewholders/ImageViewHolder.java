@@ -96,11 +96,14 @@ public class ImageViewHolder extends MessageViewHolder {
             thumbsDown.setVisibility(View.VISIBLE);
         }
 
-        if (model.isPositiveRated()) {
-            thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+        if (model.isPositiveRated() || model.isNegativeRated()) {
+            thumbsUp.setVisibility(View.GONE);
+            thumbsDown.setVisibility(View.GONE);
         } else {
-            thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
+            thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
+            thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
         }
+
         timeStamp.setText(model.getTimeStamp());
 
         thumbsUp.setOnClickListener(new View.OnClickListener() {

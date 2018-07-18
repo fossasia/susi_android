@@ -100,15 +100,11 @@ public class TableViewHolder extends MessageViewHolder {
             thumbsDown.setVisibility(View.VISIBLE);
         }
 
-        if (model.isPositiveRated()) {
-            thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+        if (model.isPositiveRated() || model.isNegativeRated()) {
+            thumbsUp.setVisibility(View.GONE);
+            thumbsDown.setVisibility(View.GONE);
         } else {
             thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-        }
-
-        if (model.isNegativeRated()) {
-            thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
-        } else {
             thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
         }
 
