@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.IDeviceModel
+import org.fossasia.susi.ai.dataclasses.SpeakerConfiguration
 import org.fossasia.susi.ai.rest.clients.DeviceClient
 import org.fossasia.susi.ai.rest.responses.others.SpeakerAuthResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerConfigResponse
@@ -35,12 +36,12 @@ class DeviceModel : IDeviceModel {
         })
     }
 
-    override fun setConfiguration(stt: String, tts: String, hotword: String, wake: String, listener: IDeviceModel.onSetConfigurationListener) {
+    override fun setConfiguration(speakerConfig: SpeakerConfiguration, listener: IDeviceModel.onSetConfigurationListener) {
         val query: MutableMap<String, String> = HashMap()
-        query.put("stt", stt)
-        query.put("tts", tts)
-        query.put("hotword", hotword)
-        query.put("wake", wake)
+        query.put("stt", speakerConfig.stt)
+        query.put("tts", speakerConfig.tts)
+        query.put("hotword", speakerConfig.hotword)
+        query.put("wake", speakerConfig.wake)
 
         deviceService.ttSSettings(query).enqueue(object : Callback<SpeakerConfigResponse> {
             override fun onFailure(call: Call<SpeakerConfigResponse>, t: Throwable?) {

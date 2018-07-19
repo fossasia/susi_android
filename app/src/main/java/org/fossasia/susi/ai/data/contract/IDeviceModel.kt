@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.data.contract
 
+import org.fossasia.susi.ai.dataclasses.SpeakerConfiguration
+
 interface IDeviceModel {
 
     interface onSendWifiCredentialsListener {
@@ -19,7 +21,7 @@ interface IDeviceModel {
 
     fun sendWifiCredentials(ssid: String, pass: String, listener: onSendWifiCredentialsListener)
 
-    fun setConfiguration(stt: String, tts: String, hotword: String, wake: String, listener: onSetConfigurationListener)
+    fun setConfiguration(speakerConfig: SpeakerConfiguration, listener: onSetConfigurationListener)
 
     fun sendAuthCredentials(choice: String, email: String, password: String, listener: onSendAuthCredentialsListener)
 }
