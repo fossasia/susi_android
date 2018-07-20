@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.settings
 
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.SettingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISettingModel
@@ -141,9 +142,9 @@ class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, IS
 
     override fun checkLogin() {
         if (PrefManager.getToken() == null) {
-            settingView?.setLogoutPreferences("Not logged in", "Login")
+            settingView?.setLogoutPreferences(utilModel.getString(R.string.not_logged_in), utilModel.getString(R.string.action_login))
         } else {
-            settingView?.setLoginPreferences(PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(), "Logout")
+            settingView?.setLoginPreferences(PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(), utilModel.getString(R.string.action_log_out))
         }
     }
 
