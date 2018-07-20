@@ -157,7 +157,11 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
                 utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
                 utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, settings.speechAlways)
                 utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, settings.speechOutput)
-                utilModel.setLanguage(settings.language)
+                if (settings.language == "default") {
+                    utilModel.setLanguage("en")
+                } else {
+                    utilModel.setLanguage(settings.language)
+                }
             }
 
             loginView?.onLoginSuccess(message)
