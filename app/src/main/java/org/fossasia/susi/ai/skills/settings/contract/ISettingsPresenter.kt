@@ -1,11 +1,5 @@
 package org.fossasia.susi.ai.skills.settings.contract
 
-/**
- * The interface for Settings Presenter
- *
- * Created by mayanktripathi on 07/07/17.
- */
-
 interface ISettingsPresenter {
 
     fun enableMic(): Boolean
@@ -27,5 +21,7 @@ interface ISettingsPresenter {
     fun getAnonymity(): Boolean
 
     fun setServer(isCustomServerChecked: Boolean, url: String)
+
+    fun checkLogin()
 
 }

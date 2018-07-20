@@ -7,19 +7,13 @@ import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import retrofit2.Response
-
-/**
- * Presenter for Settings
- * The P in MVP
- *
- * Created by mayanktripathi on 07/07/17.
- */
 
 class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, ISettingModel.OnSettingFinishListener {
 
@@ -145,5 +139,12 @@ class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, IS
         settingView?.setServerSuccessful()
     }
 
+    override fun checkLogin() {
+        if (PrefManager.getToken() == null) {
+            settingView?.setLogoutPreferences("Not logged in", "Login")
+        } else {
+            settingView?.setLoginPreferences(PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(), "Logout")
+        }
+    }
 
 }

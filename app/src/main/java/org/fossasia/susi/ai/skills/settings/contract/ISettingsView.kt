@@ -1,11 +1,5 @@
 package org.fossasia.susi.ai.skills.settings.contract
 
-/**
- * The interface for Settings view
- *
- * Created by mayanktripathi on 07/07/17.
- */
-
 interface ISettingsView {
     fun startLoginActivity()
     fun micPermission(): Boolean
@@ -16,5 +10,6 @@ interface ISettingsView {
     fun checkUrl(isEmpty: Boolean)
     fun onResetPasswordResponse(message: String)
     fun setServerSuccessful()
-
+    fun setLoginPreferences(message: String, loginMessage: String)
+    fun setLogoutPreferences(message: String, logoutMessage: String)
 }

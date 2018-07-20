@@ -19,7 +19,6 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -28,13 +27,6 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
-
-
-/**
- * The Fragment for Settings Activity
- *
- * Created by mayanktripathi on 10/07/17.
- */
 
 class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
@@ -88,26 +80,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
         settingsVoice = preferenceManager.findPreference(Constant.VOICE_SETTINGS)
 
-        // Display login email
-        val utilModel = UtilModel(activity as SkillsActivity)
-        if (!utilModel.isLoggedIn())
-            displayEmail.title = "Not logged in"
-        else
-            displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString()
-
+        settingsPresenter.checkLogin()
         setLanguage()
-        if (settingsPresenter.getAnonymity()) {
-            loginLogout.title = "Login"
-        } else {
-            loginLogout.title = "Logout"
-        }
-
-        if (PrefManager.getToken() == null) {
-            deviceName.isVisible = false
-            setupDevice.isVisible = false
-            preferenceManager.findPreference("device_section").isVisible = false
-        }
-
         querylanguage.setOnPreferenceChangeListener { _, newValue ->
             PrefManager.putString(Constant.LANGUAGE, newValue.toString())
             setLanguage()
@@ -139,22 +113,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
-        loginLogout.setOnPreferenceClickListener {
-            if (!settingsPresenter.getAnonymity()) {
-                val d = AlertDialog.Builder(activity as SkillsActivity)
-                d.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
-                    settingsPresenter.loginLogout()
-                }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-
-                val alert = d.create()
-                alert.setTitle(getString(R.string.logout))
-                alert.show()
-            } else {
-                settingsPresenter.loginLogout()
-            }
-            true
-        }
-
         setupDevice.setOnPreferenceClickListener {
 
             val intent = Intent(activity, DeviceActivity::class.java)
@@ -170,51 +128,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
-        if (settingsPresenter.getAnonymity()) {
-            server.isEnabled = true
-            server.setOnPreferenceClickListener {
-                showAlert()
-                true
-            }
-        } else {
-            server.isEnabled = false
-        }
-
-        if (!settingsPresenter.getAnonymity()) {
-            resetPassword.isEnabled = true
-            resetPassword.setOnPreferenceClickListener {
-                showResetPasswordAlert()
-                true
-            }
-        } else {
-            resetPassword.isEnabled = false
-        }
-
         micSettings.isEnabled = settingsPresenter.enableMic()
-
         hotwordSettings.isEnabled = settingsPresenter.enableHotword()
-
-        if (!settingsPresenter.getAnonymity()) {
-            micSettings.setOnPreferenceClickListener {
-                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
-                true
-            }
-
-            enterSend.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
-                true
-            }
-
-            speechAlways.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString(), 1)
-                true
-            }
-
-            speechOutput.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString(), 1)
-                true
-            }
-        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -229,11 +144,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     private fun setLanguage() {
         try {
-            if (querylanguage.entries.isNotEmpty()) {
-                val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
-                querylanguage.setValueIndex(index)
-                querylanguage.summary = querylanguage.entries[index]
-            }
+            val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
+            querylanguage.setValueIndex(index)
+            querylanguage.summary = querylanguage.entries[index]
         } catch (e: Exception) {
             Timber.e(e) //Language not present in app
             PrefManager.putString(Constant.LANGUAGE, Constant.DEFAULT)
@@ -386,5 +299,77 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     override fun onDestroyView() {
         super.onDestroyView()
         settingsPresenter.onDetach()
+    }
+
+    override fun setLoginPreferences(message: String, loginMessage: String) {
+        loginLogout.title = loginMessage
+        displayEmail.title = message
+
+        /*   set Mic preferences    */
+        micSettings.setOnPreferenceClickListener {
+            settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
+            true
+        }
+
+        /* logout on clicking loginLogout */
+        loginLogout.setOnPreferenceClickListener {
+            val d = AlertDialog.Builder(activity as SkillsActivity)
+            d.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
+                settingsPresenter.loginLogout()
+            }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+
+            val alert = d.create()
+            alert.setTitle(getString(R.string.logout))
+            alert.show()
+            true
+        }
+
+        /* disable choose server option */
+        server.isEnabled = false
+
+        /* Allow reset password option */
+        resetPassword.isEnabled = true
+        resetPassword.setOnPreferenceClickListener {
+            showResetPasswordAlert()
+            true
+        }
+
+        enterSend.setOnPreferenceChangeListener { _, newValue ->
+            settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
+            true
+        }
+
+        speechAlways.setOnPreferenceChangeListener { _, newValue ->
+            settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString(), 1)
+            true
+        }
+
+        speechOutput.setOnPreferenceChangeListener { _, newValue ->
+            settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString(), 1)
+            true
+        }
+
+    }
+
+    override fun setLogoutPreferences(message: String, logoutMessage: String) {
+        loginLogout.title = logoutMessage
+        displayEmail.title = message
+
+        deviceName.isVisible = false
+        setupDevice.isVisible = false
+        preferenceManager.findPreference("device_section").isVisible = false
+
+        loginLogout.setOnPreferenceClickListener {
+            settingsPresenter.loginLogout()
+            true
+        }
+
+        server.isEnabled = true
+        server.setOnPreferenceClickListener {
+            showAlert()
+            true
+        }
+
+        resetPassword.isEnabled = false
     }
 }
