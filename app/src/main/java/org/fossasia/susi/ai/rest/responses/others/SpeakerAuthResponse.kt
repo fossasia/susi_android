@@ -1,12 +1,8 @@
 package org.fossasia.susi.ai.rest.responses.others
 
-class SpeakerAuthResponse {
-
-    val auth: String? = null
-
-    val authentication: String? = null
-
-    val email: String? = null
-
-    val password: String? = null
-}
+data class SpeakerAuthResponse(
+        val auth: String,
+        val authentication: String,
+        val email: String,
+        val password: String? = null
+)

@@ -8,12 +8,11 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 
-public interface DeviceService {
+public interface DeviceApi {
 
     @GET("/wifi_credentials")
     Call<SpeakerWifiResponse> wifiCredentials(@Query("wifissid") String ssid,
