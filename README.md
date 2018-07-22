@@ -164,7 +164,14 @@ Please help us follow the best practice to make it easy for the reviewer as well
     buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'	
     
  	```
-
+ 	
+## For Developers: Adding the YouTube API key
+Go to AndroidManifest.xml and replace the ${YOUTUBE_API_KEY} with the real youtube API Key by adding :
+  	
+    <meta-data
+    android:name="com.google.android.youtube.API_KEY"
+    android:value="${YOUTUBE_API_KEY}" />
+   
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:
 1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/susi-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/susi-release.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will always be the latest one.

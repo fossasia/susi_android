@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters
 
-import android.annotation.TargetApi
 import android.content.Context
 import android.support.annotation.NonNull
 import android.support.v4.content.ContextCompat
@@ -21,12 +20,14 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillGroupV
  *
  * Created by arundhati24 on 12/07/2018.
  */
-class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetrics,
-                          val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetrics, val skillCallback: SkillFragmentCallback) :
+        RecyclerView.Adapter<RecyclerView.ViewHolder>(), SkillGroupViewHolder.ClickListener {
 
     private val VIEW_TYPE_METRIC = 0;
     private val VIEW_TYPE_GROUP = 1;
     private lateinit var skillAdapterSnapHelper: SnapHelper
+
+    private val clickListener: SkillGroupViewHolder.ClickListener = this
 
     @NonNull
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -87,7 +88,15 @@ class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetric
         } else {
             val itemView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_skill_group_list, parent, false)
-            return SkillGroupViewHolder(itemView)
+            return SkillGroupViewHolder(itemView, metrics.metricsList.size, clickListener)
         }
+    }
+
+    override fun onItemClicked(position: Int) {
+        showGroupWiseSkillsFragment(metrics.groups[position])
+    }
+
+    private fun showGroupWiseSkillsFragment(group: String) {
+        skillCallback.loadGroupWiseSkillsFragment(group)
     }
 }

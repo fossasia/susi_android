@@ -286,7 +286,7 @@
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><font color='#4184f3'>skills.susi.ai</font></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
 
     <!-- Intro Strings -->
-    <string name="author_name">Author: Author name</string>
+    <string name="author_name">Author name</string>
 
     <string name="content_type_dynamic">Content Type: Dynamic</string>
     <string name="content_type_static">Content Type: Static</string>
