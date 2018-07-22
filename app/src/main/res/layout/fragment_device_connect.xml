@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/scan_message_margin_top"
         android:gravity="center"
+        android:visibility="gone"
         android:text="@string/scan_devices"
         android:textAppearance="?android:textAppearanceLarge"
         app:layout_constraintTop_toTopOf="parent" />
