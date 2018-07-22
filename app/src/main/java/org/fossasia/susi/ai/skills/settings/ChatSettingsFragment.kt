@@ -62,6 +62,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
     private var flag = true
+    private val packageName = "ai.susi";
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.pref_settings)
@@ -120,7 +121,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
         rate.setOnPreferenceClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + context?.packageName)))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)))
             true
         }
 
@@ -131,7 +132,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 shareIntent.type = "text/plain"
                 shareIntent.putExtra(Intent.EXTRA_TEXT,
                         String.format(getString(R.string.promo_msg_template),
-                                String.format(getString(R.string.app_share_url), (activity as SkillsActivity).packageName)))
+                                String.format(getString(R.string.app_share_url), packageName)))
                 startActivity(shareIntent)
             } catch (e: Exception) {
                 showToast(getString(R.string.error_msg_retry))
