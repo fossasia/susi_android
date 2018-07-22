@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.dataclasses
+package org.fossasia.susi.ai.data.device
 
 data class SpeakerConfiguration(
         val stt: String = "",

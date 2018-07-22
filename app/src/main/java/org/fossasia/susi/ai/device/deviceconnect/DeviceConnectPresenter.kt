@@ -8,10 +8,11 @@ import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.DeviceModel
+import org.fossasia.susi.ai.data.device.DeviceModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
-import org.fossasia.susi.ai.dataclasses.SpeakerConfiguration
+import org.fossasia.susi.ai.data.device.SpeakerAuth
+import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
@@ -196,8 +197,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun makeAuthRequest(password: String) {
         Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
-        deviceModel.sendAuthCredentials("y", PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(),
-                password, this@DeviceConnectPresenter)
+        deviceModel.sendAuthCredentials(SpeakerAuth("y", PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(),
+                password), this@DeviceConnectPresenter)
     }
 
 }

@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.data.contract
 
-import org.fossasia.susi.ai.dataclasses.SpeakerConfiguration
+import org.fossasia.susi.ai.data.device.SpeakerAuth
+import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 
 interface IDeviceModel {
 
@@ -23,5 +24,5 @@ interface IDeviceModel {
 
     fun setConfiguration(speakerConfig: SpeakerConfiguration, listener: onSetConfigurationListener)
 
-    fun sendAuthCredentials(choice: String, email: String, password: String, listener: onSendAuthCredentialsListener)
+    fun sendAuthCredentials(speakerAuth: SpeakerAuth, listener: onSendAuthCredentialsListener)
 }

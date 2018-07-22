@@ -1,7 +1,6 @@
-package org.fossasia.susi.ai.data
+package org.fossasia.susi.ai.data.device
 
 import org.fossasia.susi.ai.data.contract.IDeviceModel
-import org.fossasia.susi.ai.dataclasses.SpeakerConfiguration
 import org.fossasia.susi.ai.rest.clients.DeviceClient
 import org.fossasia.susi.ai.rest.responses.others.SpeakerAuthResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerConfigResponse
@@ -15,7 +14,7 @@ import timber.log.Timber
 class DeviceServiceImpl: DeviceService {
     private val deviceApi = DeviceClient.getClient().create(DeviceApi::class.java)
 
-    override fun ttsSettings(speakerConfig: SpeakerConfiguration , listener: IDeviceModel.onSetConfigurationListener) {
+    override fun submitConfigSettings(speakerConfig: SpeakerConfiguration, listener: IDeviceModel.onSetConfigurationListener) {
         val query: MutableMap<String, String> = HashMap()
         query.put("stt", speakerConfig.stt)
         query.put("tts", speakerConfig.tts)
@@ -40,8 +39,8 @@ class DeviceServiceImpl: DeviceService {
         })
     }
 
-    override fun authCredentials(choice: String, email: String, password: String, listener: IDeviceModel.onSendAuthCredentialsListener) {
-        deviceApi.authCredentials(choice, email, password).enqueue(object : Callback<SpeakerAuthResponse> {
+    override fun submitAuthCredentials(speakerAuth: SpeakerAuth, listener: IDeviceModel.onSendAuthCredentialsListener) {
+        deviceApi.authCredentials(speakerAuth.choice, speakerAuth.email, speakerAuth.password).enqueue(object : Callback<SpeakerAuthResponse> {
             override fun onFailure(call: Call<SpeakerAuthResponse>, t: Throwable?) {
                 if (t?.localizedMessage != null) {
                     Timber.d(t.localizedMessage)
@@ -59,7 +58,7 @@ class DeviceServiceImpl: DeviceService {
         })
     }
 
-    override fun wifiCredentials(ssid: String, pass: String, listener: IDeviceModel.onSendWifiCredentialsListener) {
+    override fun submitWifiCredentials(ssid: String, pass: String, listener: IDeviceModel.onSendWifiCredentialsListener) {
         deviceApi.wifiCredentials(ssid, pass).enqueue(object : Callback<SpeakerWifiResponse> {
             override fun onFailure(call: Call<SpeakerWifiResponse>, t: Throwable?) {
                 if (t?.localizedMessage != null) {
