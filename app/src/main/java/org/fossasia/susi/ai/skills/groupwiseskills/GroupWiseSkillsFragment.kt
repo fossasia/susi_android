@@ -73,6 +73,14 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         progressSkillWait.visibility = if (boolean) View.VISIBLE else View.GONE
     }
 
+    override fun showEmptySkillsListMessage() {
+        if (activity != null) {
+            swipeRefreshLayout.isRefreshing = false
+            groupWiseSkills.visibility = View.GONE
+            messageNoSkillsFound.visibility = View.VISIBLE
+        }
+    }
+
     override fun displayError() {
         if (activity != null) {
             swipeRefreshLayout.isRefreshing = false

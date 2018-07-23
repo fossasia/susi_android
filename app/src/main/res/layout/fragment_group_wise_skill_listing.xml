@@ -33,5 +33,17 @@
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_large"
             android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/messageNoSkillsFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/padding_very_large"
+            android:text="@string/message_no_skills_found"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_large"
+            android:visibility="gone" />
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>
