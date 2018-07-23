@@ -12,5 +12,7 @@ interface IGroupWiseSkillsView {
 
     fun updateAdapter(skills: GroupWiseSkills)
 
+    fun showEmptySkillsListMessage()
+
     fun displayError()
 }

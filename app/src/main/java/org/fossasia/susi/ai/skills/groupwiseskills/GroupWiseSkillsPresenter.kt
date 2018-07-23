@@ -40,6 +40,8 @@ class GroupWiseSkillsPresenter(val groupWiseSkillsFragment: GroupWiseSkillsFragm
                 skills.skillsList.clear()
                 skills.skillsList = responseSkillList as MutableList<SkillData>
                 groupWiseSkillsView?.updateAdapter(skills)
+            } else {
+                groupWiseSkillsView?.showEmptySkillsListMessage()
             }
         } else {
             Timber.d("GROUP WISE SKILLS NOT FETCHED")
