@@ -76,5 +76,7 @@
         android:id="@+id/wifiList"
         >
     </android.support.v7.widget.RecyclerView>
-
+    <include layout="@layout/room_layout"
+        android:id="@+id/room"
+        android:visibility="gone"/>
 </android.support.constraint.ConstraintLayout>

@@ -372,7 +372,10 @@
     <string name="choose_wifi">Choose a Wi-Fi</string>
     <string name="enter_password">Enter the Password for \n</string>
     <string name="enter_password_mail">Enter the password for your account \n</string>
-
+    <string name="device_room">Where is this device?</string>
+    <string name="device_room_exp">Choose a location for your SUSI smart speaker. This will help name and organize your devcies.</string>
+    <string name="my_rooms">My Rooms</string>
+    <string name="create_new_room">Create new</string>
 
     <!-- Feedback System -->
 
