@@ -5,13 +5,11 @@ import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.rest.clients.BaseUrl
+import org.fossasia.susi.ai.Utils.UIutils
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
-import timber.log.Timber
 
 /**
  *
@@ -20,8 +18,8 @@ import timber.log.Timber
 class SkillListAdapter(val context: Context, private val skillDetails: List<SkillData>?, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
-    private val imageLink = BaseUrl.SUSI_DEFAULT_BASE_URL + "/cms/getImage.png?"
     private val clickListener: SkillViewHolder.ClickListener = this
+    private lateinit var uiUtils: UIutils
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
@@ -48,14 +46,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
             if (skillData.image == null || skillData.image.isEmpty()) {
                 holder.previewImageView?.setImageResource(R.drawable.ic_susi)
             } else {
-                Picasso.with(context.applicationContext)
-                        .load(StringBuilder(imageLink)
-                                .append("model=" + skillData.model + "&language=" + skillData.language + "&group=" + skillData.group.replace(" ", "%20"))
-                                .append("&image=").append(skillData.image).toString())
-                        .fit()
-                        .centerCrop()
-                        .error(R.drawable.ic_susi)
-                        .into(holder.previewImageView)
+                uiUtils.setSkillsImage(skillData, holder.previewImageView)
             }
 
             if (skillData.skillRating != null) {

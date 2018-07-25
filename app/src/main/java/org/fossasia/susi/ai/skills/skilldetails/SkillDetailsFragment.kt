@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.Utils.UIutils
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
@@ -53,11 +54,11 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private lateinit var skillData: SkillData
     private lateinit var skillGroup: String
     private lateinit var skillTag: String
-    private val imageLink = BaseUrl.SUSI_DEFAULT_BASE_URL + "/cms/getImage.png?"
 
     private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
     private lateinit var xAxis: XAxis
+    private lateinit var uIutils: UIutils
 
     companion object {
         const val SKILL_KEY = "skill_key"
@@ -111,13 +112,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private fun setImage() {
         skillDetailImage.setImageResource(R.drawable.ic_susi)
         if (skillData.image != null && !skillData.image.isEmpty()) {
-            Picasso.with(activity?.applicationContext)
-                    .load(StringBuilder(imageLink)
-                            .append("model=" + skillData.model + "&language=" + skillData.language + "&group=" + skillData.group.replace(" ", "%20"))
-                            .append("&image=").append(skillData.image).toString())
-                    .error(R.drawable.ic_susi)
-                    .fit().centerCrop()
-                    .into(skillDetailImage)
+            uIutils.setSkillsImage(skillData, skillDetailImage)
         }
     }
 
