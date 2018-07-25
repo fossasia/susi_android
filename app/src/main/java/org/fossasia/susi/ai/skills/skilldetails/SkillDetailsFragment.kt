@@ -9,14 +9,11 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
-import android.widget.TextView
 import android.widget.Toast
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.Description
@@ -31,6 +28,7 @@ import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
@@ -39,6 +37,7 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.Feedba
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
+import timber.log.Timber
 import java.io.Serializable
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -54,7 +53,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private lateinit var skillData: SkillData
     private lateinit var skillGroup: String
     private lateinit var skillTag: String
-    private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+    private val imageLink = BaseUrl.SUSI_DEFAULT_BASE_URL + "/cms/getImage.png?"
 
     private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
@@ -112,8 +111,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private fun setImage() {
         skillDetailImage.setImageResource(R.drawable.ic_susi)
         if (skillData.image != null && !skillData.image.isEmpty()) {
-            Picasso.with(activity?.applicationContext).load(StringBuilder(imageLink)
-                    .append(skillGroup).append("/en/").append(skillData.image).toString())
+            Picasso.with(activity?.applicationContext)
+                    .load(StringBuilder(imageLink)
+                            .append("model=" + skillData.model + "&language=" + skillData.language + "&group=" + skillData.group.replace(" ", "%20"))
+                            .append("&image=").append(skillData.image).toString())
                     .error(R.drawable.ic_susi)
                     .fit().centerCrop()
                     .into(skillDetailImage)
