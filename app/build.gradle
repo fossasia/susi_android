@@ -53,13 +53,10 @@ android {
     productFlavors {
         fdroid {
             dimension "default"
-            applicationIdSuffix ".fdroid"
-            versionNameSuffix "-FDroid"
         }
 
         playStore {
             dimension "default"
-            versionNameSuffix "-PlayStore"
         }
     }
 
