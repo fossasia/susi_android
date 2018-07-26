@@ -8,15 +8,19 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
+import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.groupwiseskills.adapters.viewholders.SkillViewHolder
 
 /**
  *
  * Created by arundhati24 on 16/07/2018.
  */
-class SkillsListAdapter(val context: Context, private val skillDetails: GroupWiseSkills) : RecyclerView.Adapter<SkillViewHolder>() {
+class SkillsListAdapter(val context: Context, private val skillDetails: GroupWiseSkills, val skillCallback: SkillFragmentCallback) :
+        RecyclerView.Adapter<SkillViewHolder>(), SkillViewHolder.ClickListener {
 
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
+    private val clickListener: SkillViewHolder.ClickListener = this
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
@@ -64,10 +68,26 @@ class SkillsListAdapter(val context: Context, private val skillDetails: GroupWis
         return skillDetails.skillsList.size
     }
 
+    override fun onItemClicked(position: Int) {
+        var skillTag: String? = ""
+        if (skillDetails.skillsList[position].skillTag != null) {
+            skillTag = skillDetails.skillsList.toTypedArray().get(position).skillTag
+        } else {
+            skillTag = ""
+        }
+        val skillData = skillDetails.skillsList.get(position)
+        val skillGroup = skillDetails.skillsList.get(position).group.replace(" ", "%20")
+        showSkillDetailFragment(skillData, skillGroup, skillTag)
+    }
+
+    private fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+        skillCallback.loadDetailFragment(skillData, skillGroup, skillTag)
+    }
+
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillViewHolder {
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_group_wise_skill, parent, false)
-        return SkillViewHolder(itemView)
+        return SkillViewHolder(itemView, clickListener)
     }
 }
