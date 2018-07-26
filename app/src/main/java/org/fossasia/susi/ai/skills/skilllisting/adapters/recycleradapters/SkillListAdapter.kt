@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.Utils.UIutils
+import org.fossasia.susi.ai.helper.ImageUtils
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
@@ -19,7 +19,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
         SkillViewHolder.ClickListener {
 
     private val clickListener: SkillViewHolder.ClickListener = this
-    private lateinit var uiUtils: UIutils
+    private lateinit var uiUtils: ImageUtils
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {

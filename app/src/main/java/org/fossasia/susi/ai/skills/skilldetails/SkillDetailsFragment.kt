@@ -21,15 +21,13 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.Utils.UIutils
+import org.fossasia.susi.ai.helper.ImageUtils
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
@@ -38,7 +36,6 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.Feedba
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
-import timber.log.Timber
 import java.io.Serializable
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -58,7 +55,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
     private lateinit var xAxis: XAxis
-    private lateinit var uIutils: UIutils
+    private lateinit var uIutils: ImageUtils
 
     companion object {
         const val SKILL_KEY = "skill_key"

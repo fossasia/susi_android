@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.Utils
+package org.fossasia.susi.ai.helper
 
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
@@ -6,7 +6,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 
-class UIutils {
+class ImageUtils {
 
     private val imageLink = BaseUrl.SUSI_DEFAULT_BASE_URL + "/cms/getImage.png?"
 
