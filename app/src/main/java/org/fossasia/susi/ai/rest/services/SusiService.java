@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.rest.services;
 
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse;
+import org.fossasia.susi.ai.rest.responses.susi.FeedBackLogResponse;
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse;
@@ -199,5 +200,24 @@ public interface SusiService {
     @GET("/cms/getSkillMetricsData.json")
     Call<ListSkillMetricsResponse> fetchSkillMetricsData(@Query("model") String model,
                                                          @Query("language") String language);
+
+    /**
+     * Post data to the server to create the feedback log
+     *
+     * @param query    A query map consisting of the following key value pairs
+     *              model          the model of the skill
+     *              group          the group of the skill
+     *              language       the language of the skill
+     *              skill          the skill
+     *              feedback       the feedback thumbsup or thumbsdown
+     *              user_query     the query asked by user
+     *              susi_reply     the message replied by susi
+     *              country_name   the country name
+     *              country_code   the country code
+     *              device_type    the type of the device
+     * @return the susi response
+     */
+    @GET("/cms/feedbackLog.json")
+    Call<FeedBackLogResponse> postFeedBackData(@QueryMap Map<String,String> query);
 
 }
