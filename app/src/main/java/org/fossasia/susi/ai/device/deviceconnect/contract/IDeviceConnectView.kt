@@ -13,6 +13,8 @@ interface IDeviceConnectView {
 
     fun showLocationIntentDialog()
 
+    fun showWifiIntentDialog()
+
     fun askForPermissions()
 
     fun startScan(isDevice: Boolean)
