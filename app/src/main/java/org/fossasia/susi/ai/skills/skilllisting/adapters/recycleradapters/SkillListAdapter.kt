@@ -19,7 +19,6 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
         SkillViewHolder.ClickListener {
 
     private val clickListener: SkillViewHolder.ClickListener = this
-    private lateinit var uiUtils: Utils
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
@@ -46,7 +45,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
             if (skillData.image == null || skillData.image.isEmpty()) {
                 holder.previewImageView?.setImageResource(R.drawable.ic_susi)
             } else {
-                uiUtils.setSkillsImage(skillData, holder.previewImageView)
+                Utils.setSkillsImage(skillData, holder.previewImageView)
             }
 
             if (skillData.skillRating != null) {

@@ -11,17 +11,16 @@ object Utils {
 
     fun setSkillsImage(skillData: SkillData, imageView: ImageView) {
         Picasso.with(imageView.context)
-                .load(getLink(skillData))
+                .load(getImageLink(skillData))
                 .error(R.drawable.ic_susi)
                 .fit()
                 .centerCrop()
                 .into(imageView)
     }
 
-    fun getLink(skillData: SkillData): String {
-        return StringBuilder(imageLink)
-                .append("model=" + skillData.model + "&language=" + skillData.language + "&group=" + skillData.group.replace(" ", "%20"))
-                .append("&image=").append(skillData.image).toString()
+    fun getImageLink(skillData: SkillData): String {
+        return "$imageLink" + "model=" + "$skillData.model" + "&language=" + "$skillData.language" + "&group=" +
+                StringBuffer(skillData.group.replace(" ", "%20")).toString() + "&image=" + "$skillData.image"
     }
 
 }

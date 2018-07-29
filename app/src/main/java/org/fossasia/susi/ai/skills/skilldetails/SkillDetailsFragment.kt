@@ -55,7 +55,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
     private lateinit var xAxis: XAxis
-    private lateinit var uIutils: Utils
 
     companion object {
         const val SKILL_KEY = "skill_key"
@@ -109,7 +108,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private fun setImage() {
         skillDetailImage.setImageResource(R.drawable.ic_susi)
         if (skillData.image != null && !skillData.image.isEmpty()) {
-            uIutils.setSkillsImage(skillData, skillDetailImage)
+            Utils.setSkillsImage(skillData, skillDetailImage)
         }
     }
 
