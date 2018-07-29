@@ -20,6 +20,7 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillM
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
+import timber.log.Timber
 
 /**
  *
@@ -40,7 +41,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.skills_activity)
+        activity?.title = getString(R.string.skills_activity)
         skillListingPresenter = SkillListingPresenter(this)
         skillListingPresenter.onAttach(this)
         swipe_refresh_layout.setOnRefreshListener(this)
@@ -96,8 +97,12 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     }
 
     override fun onAttach(context: Context) {
-        super.onAttach(context);
-        skillCallback = activity as SkillFragmentCallback
+        super.onAttach(context)
+        if (context is SkillFragmentCallback) {
+            skillCallback = context
+        } else {
+            Timber.e("context is not SkillFragmentCallback")
+        }
     }
 
     override fun onDestroyView() {

@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.groupwiseskills
 
+import android.content.Context
 import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.annotation.NonNull
@@ -14,9 +15,11 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import org.fossasia.susi.ai.helper.StartSnapHelper
+import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.groupwiseskills.adapters.recycleradapters.SkillsListAdapter
 import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsPresenter
 import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsView
+import timber.log.Timber
 
 /**
  *
@@ -27,6 +30,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     private lateinit var groupWiseSkillsPresenter: IGroupWiseSkillsPresenter
     private var skills = GroupWiseSkills("", ArrayList())
     private lateinit var skillsAdapter: SkillsListAdapter
+    private lateinit var skillCallback: SkillFragmentCallback
 
     companion object {
         const val SKILL_GROUP = "group"
@@ -63,7 +67,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         val mLayoutManager = LinearLayoutManager(activity)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL
         groupWiseSkills.layoutManager = mLayoutManager
-        skillsAdapter = SkillsListAdapter(requireContext(), skills)
+        skillsAdapter = SkillsListAdapter(requireContext(), skills, skillCallback)
         groupWiseSkills.adapter = skillsAdapter
         groupWiseSkills.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(groupWiseSkills)
@@ -99,6 +103,15 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         this.skills.skillsList.addAll(skills.skillsList)
         groupWiseSkills.addItemDecoration(SimpleDividerItemDecoration(context, this.skills.skillsList.size))
         skillsAdapter.notifyDataSetChanged()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context);
+        if (context is SkillFragmentCallback) {
+            skillCallback = context
+        } else {
+            Timber.e("context is not SkillFragmentCallback")
+        }
     }
 
     override fun onRefresh() {
