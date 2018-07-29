@@ -23,7 +23,7 @@
     <dimen name="map_view_height">180dp</dimen>
 
     <dimen name="margin_bottom">40dp</dimen>
-    <dimen name="margin_card">8dp</dimen>
+    <dimen name="margin_card">4dp</dimen>
     <dimen name="margin_large">10dp</dimen>
     <dimen name="margin_very_large">16dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
@@ -53,6 +53,8 @@
     <dimen name="preview_layout_height">95dp</dimen>
 
     <dimen name="progress_bar_size">50dp</dimen>
+
+    <dimen name="radius_skill_card_corner">4dp</dimen>
 
     <dimen name="skill_description">16sp</dimen>
     <dimen name="skill_example">14sp</dimen>
