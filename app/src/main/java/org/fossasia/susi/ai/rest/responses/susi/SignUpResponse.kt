@@ -9,14 +9,9 @@ import com.google.gson.annotations.SerializedName
  * Created by saurabh on 12/10/16.
  */
 
-class SignUpResponse {
+data class SignUpResponse (
 
-    @SerializedName("message")
-    @Expose
-    val message: String? = null
-
-    @SerializedName("session")
-    @Expose
+    val message: String? = null,
     val session: Session? = null
 
-}
+)

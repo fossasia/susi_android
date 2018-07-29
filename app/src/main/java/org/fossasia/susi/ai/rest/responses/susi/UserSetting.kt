@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * Created by meeera on 30/6/17.
  */
 
-class UserSetting {
+data class UserSetting (
 
     /**
      * Gets session
@@ -15,8 +15,7 @@ class UserSetting {
      * @return the session
      */
     @SerializedName("session")
-    @Expose
-    val session: Session? = null
+    val session: Session? = null,
 
     /**
      * Gets settings
@@ -24,6 +23,5 @@ class UserSetting {
      * @return the settings
      */
     @SerializedName("settings")
-    @Expose
     val settings: Settings? = null
-}
+)
