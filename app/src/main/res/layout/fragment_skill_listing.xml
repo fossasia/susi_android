@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center_horizontal"
-            android:padding="16dp"
+            android:padding="@dimen/padding_large"
             android:text="@string/error_skill_listing"
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/text_size_large"

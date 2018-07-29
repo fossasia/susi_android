@@ -8,22 +8,22 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginTop="@dimen/message_card_margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
         app:cardBackgroundColor="@color/susi_message_bg">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/table_bottom_margin"
+            android:layout_marginBottom="@dimen/margin_very_large"
             />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|right|bottom"
-            android:layout_marginBottom="@dimen/standard_content_padding"
+            android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center">
 
             <TextView
@@ -33,19 +33,19 @@
                 android:gravity="bottom"
                 android:text="9:00 AM"
                 android:textColor="@color/timestamp_color"
-                android:textSize="@dimen/timestamp_size" />
+                android:textSize="@dimen/text_size_very_small" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/margin_large"
                 android:gravity="right">
 
                 <ImageView
                     android:id="@+id/thumbs_up"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/message_card_margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
                     app:srcCompat="@drawable/thumbs_up_outline" />
 
                 <ImageView

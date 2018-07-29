@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewHolder
 import org.w3c.dom.Text
@@ -38,8 +39,8 @@ class AllReviewsAdapter(val context: Context, val feedbackList: List<Feedback>?)
             if (feedbackList[position] != null) {
                 if (feedbackList[position].email != null &&
                         !TextUtils.isEmpty(feedbackList[position].email)) {
-                    holder.initials.text = feedbackList[position].email?.substring(0, 2)
-                    holder.feedbackEmail?.text = feedbackList[position].email
+                    Utils.setAvatar(context, feedbackList.get(position).email, holder.avatar)
+                    Utils.truncateEmailAtEnd(feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
                 }
                 if (feedbackList[position].timestamp != null &&
                         !TextUtils.isEmpty(feedbackList[position].timestamp)) {

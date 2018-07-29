@@ -1,63 +1,25 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
  * <h1>Kotlin Data class to parse action types in retrofit response from susi client.</h1>
  */
 
-class Action {
-
-    @SerializedName("delay")
-    @Expose
-    val delay: Long = 0
-
-    @SerializedName("expression")
-    @Expose
-    val expression: String = ""
-
-    @SerializedName("type")
-    @Expose
-    val type: String = ""
-
-    @SerializedName("link")
-    @Expose
-    val anchorLink: String? = null
-
-    @SerializedName("text")
-    @Expose
-    val anchorText: String? = null
-
-    @SerializedName("query")
-    @Expose
-    val query: String = ""
-
-    @SerializedName("latitude")
-    @Expose
-    val latitude: Double = 0.toDouble()
-
-    @SerializedName("longitude")
-    @Expose
-    val longitude: Double = 0.toDouble()
-
-    @SerializedName("zoom")
-    @Expose
-    val zoom: Double = 0.toDouble()
-
-    @SerializedName("count")
-    @Expose
-    val count: Int = 0
-
-    @SerializedName("language")
-    @Expose
-    val language: String = "en"
-
-    @SerializedName("columns")
-    @Expose
-    var columns: Map<String, Any>? = null
-
-    @SerializedName("identifier")
-    @Expose
-    var identifier: String = ""
-}
+data class Action(
+        val delay: Long = 0,
+        val expression: String = "",
+        val type: String = "",
+        @SerializedName("link")
+        val anchorLink: String? = null,
+        @SerializedName("text")
+        val anchorText: String? = null,
+        val query: String = "",
+        val latitude: Double = 0.toDouble(),
+        val longitude: Double = 0.toDouble(),
+        val zoom: Double = 0.toDouble(),
+        val count: Int = 0,
+        val language: String = "en",
+        var columns: Map<String, Any>? = null,
+        var identifier: String = ""
+)

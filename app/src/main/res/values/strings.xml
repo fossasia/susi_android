@@ -364,14 +364,18 @@
     <string name="digit_five">5</string>
 
     <string name="location_access">Provide Location Access</string>
-    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
+    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby Wi-Fi networks available.</string>
+    <string name="wifi_access">Provide Wi-Fi Access</string>
+    <string name="wifi_access_message">Please turn on the Wi-Fi in order to search for the nearby Wi-Fi networks available. </string>
     <string name="set_up">SET UP</string>
+    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker.</string>
     <string name="connecting_device">Connecting to your device...</string>
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
-    <string name="choose_wifi">Choose a Wi-Fi</string>
+    <string name="choose_wifi">Connect to Wi-Fi</string>
     <string name="enter_password">Enter the Password for \n</string>
-    <string name="enter_password_mail">Enter the password for your account \n</string>
+    <string name="thanks_wifi">Thanks for entering the Wi-Fi credentials\n</string>
+    <string name="enter_password_mail">This is the final step, please enter your SUSI.AI account\'s password to successfully connect to the speaker</string>
 
 
     <!-- Feedback System -->
@@ -386,11 +390,13 @@
     <string name="placeholder_initials">AB</string>
     <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
     <string name="see_all_reviews">See All Reviews</string>
+    <string name="reviews">Reviews</string>
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
 
     <!-- Metrics -->
 
+    <string name="metric_staff_picks">Staff Picks</string>
     <string name="metric_rating">\"SUSI, What are your highest rated skills?\"</string>
     <string name="metric_usage">\"SUSI, what are your most used skills?\"</string>
     <string name="metric_latest">\"SUSI, what are the recently updated skills?\"</string>

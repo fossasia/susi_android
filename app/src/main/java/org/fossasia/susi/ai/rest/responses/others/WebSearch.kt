@@ -9,14 +9,9 @@ import com.google.gson.annotations.SerializedName
  * Created by mayank on 12-12-2016.
  */
 
-class WebSearch {
-
+data class WebSearch(
     @SerializedName("Heading")
-    @Expose
-    var heading: String? = null
-
+    var heading: String? = null,
     @SerializedName("RelatedTopics")
-    @Expose
     var relatedTopics: List<RelatedTopics>? = null
-
-}
+)

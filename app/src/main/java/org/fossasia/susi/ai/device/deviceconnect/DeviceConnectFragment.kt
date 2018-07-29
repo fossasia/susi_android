@@ -40,11 +40,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     lateinit var receiverWifi: WifiReceiver
     lateinit var recyclerAdapter: DevicesAdapter
     private var filter: IntentFilter? = null
-    private var b = false
-    private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
-    private val VIEW_AVAILABLE_DEVICES = 1;
-    private val VIEW_AVAILABLE_WIFI = 0;
-    private var checkDevice: Boolean = false;
+    private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1
+    private val VIEW_AVAILABLE_DEVICES = 1
+    private val VIEW_AVAILABLE_WIFI = 0
+    private var checkDevice: Boolean = false
+    private val REQUEST_LOCATION = 0
+    private val REQUEST_WIFI = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -54,7 +55,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainWifi = (activity as DeviceActivity).applicationContext?.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        mainWifi = context?.getSystemService(Context.WIFI_SERVICE) as WifiManager
         deviceConnectPresenter = DeviceConnectPresenter(activity as DeviceActivity, mainWifi)
         deviceConnectPresenter.onAttach(this)
         receiverWifi = WifiReceiver()
@@ -71,8 +72,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         filter?.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)
         filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
         receiverWifi = WifiReceiver()
-        (activity as DeviceActivity).registerReceiver(receiverWifi, filter)
-        b = true
+        context?.registerReceiver(receiverWifi, filter)
     }
 
     override fun askForPermissions() {
@@ -80,7 +80,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceTutorial.visibility = View.GONE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (activity as DeviceActivity).checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(Array<String>(1, { Manifest.permission.ACCESS_COARSE_LOCATION }),
-                    PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION);
+                    PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION)
         } else {
             deviceConnectPresenter.isPermissionGranted(true)
             Timber.d("ASK PERMISSIONS ELSE")
@@ -90,19 +90,31 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun showLocationIntentDialog() {
         val dialogBuilder = AlertDialog.Builder(activity as DeviceActivity)
         dialogBuilder.setView(R.layout.select_dialog_item_material)
-
         dialogBuilder.setTitle(R.string.location_access)
         dialogBuilder.setMessage(R.string.location_access_message)
-        dialogBuilder.setPositiveButton("NEXT", { dialog, whichButton ->
-
+        dialogBuilder.setPositiveButton(R.string.next, { dialog, whichButton ->
             val callGPSSettingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivityForResult(callGPSSettingIntent, 0)
+            startActivityForResult(callGPSSettingIntent, REQUEST_LOCATION)
+        })
 
+        dialogBuilder.setNegativeButton(R.string.cancel, { dialog, whichButton ->
         })
-        dialogBuilder.setNegativeButton("Cancel", { dialog, whichButton ->
-        })
-        val b = dialogBuilder.create()
-        b.show()
+
+        dialogBuilder.create().show()
+    }
+
+    override fun showWifiIntentDialog() {
+        var dialogBuilder = AlertDialog.Builder(activity as DeviceActivity)
+        dialogBuilder.setView(R.layout.select_dialog_item_material)
+        dialogBuilder.setTitle(R.string.wifi_access);
+        dialogBuilder.setMessage(R.string.wifi_access_message)
+        dialogBuilder.setPositiveButton(R.string.next) { dialog, whichButton ->
+            val wifiIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivityForResult(wifiIntent, REQUEST_WIFI)
+        }
+        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
+            dialog.dismiss()
+        }.show()
     }
 
     override fun startScan(isDevice: Boolean) {
@@ -116,8 +128,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         wifiList.visibility = View.GONE
+        scanHelp.visibility = View.GONE
         deviceList.visibility = View.VISIBLE
-        deviceList.layoutManager = LinearLayoutManager(activity as DeviceActivity)
+        deviceList.layoutManager = LinearLayoutManager(context)
         deviceList.setHasFixedSize(true)
         recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_DEVICES)
         deviceList.adapter = recyclerAdapter
@@ -131,11 +144,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanProgress.visibility = View.VISIBLE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
+        scanHelp.visibility = View.GONE
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
         unregister()
-        (activity as DeviceActivity).registerReceiver(receiverWifi, IntentFilter())
+        context?.registerReceiver(receiverWifi, IntentFilter())
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         noDeviceFound.text = title
@@ -153,9 +167,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == 0) {
+        if (requestCode == REQUEST_WIFI || requestCode == REQUEST_LOCATION) {
             deviceConnectPresenter.searchDevices()
-
             Timber.d("Onactivityresult")
         }
     }
@@ -176,18 +189,17 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun unregister() {
-        b = false
         onPause()
     }
 
     override fun onPause() {
-        (activity as DeviceActivity).unregisterReceiver(receiverWifi)
+        context?.unregisterReceiver(receiverWifi)
         super.onPause()
     }
 
     override fun onDeviceConnectionSuccess(message: String) {
         unregister()
-        (activity as DeviceActivity).registerReceiver(receiverWifi, IntentFilter())
+        context?.registerReceiver(receiverWifi, IntentFilter())
         scanProgress.visibility = View.GONE
         scanDevice.visibility = View.VISIBLE
         wifiList.visibility = View.GONE
@@ -210,9 +222,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                     Timber.d("Wifi changes")
                     if (p1.getParcelableExtra<Parcelable>(WifiManager.EXTRA_NEW_STATE) == SupplicantState.COMPLETED) {
                         Timber.d("Wifi Changes #2")
-                        val wi = mainWifi.connectionInfo
-                        if (wi != null) {
-                            val ssid = wi.ssid
+                        val wifiInfo = mainWifi.connectionInfo
+                        if (wifiInfo != null) {
+                            val ssid = wifiInfo.ssid
                             Timber.d(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
                                 Timber.d("Going to make connection")
@@ -230,10 +242,11 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanDevice.setText(R.string.choose_wifi)
         scanList.remove("SUSI.AI")
         scanProgress.visibility = View.GONE
+        scanHelp.visibility = View.VISIBLE
         deviceList.visibility = View.GONE
         addDeviceButton.visibility = View.GONE
         wifiList.visibility = View.VISIBLE
-        wifiList.layoutManager = LinearLayoutManager(activity as DeviceActivity)
+        wifiList.layoutManager = LinearLayoutManager(context)
         wifiList.setHasFixedSize(true)
         recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
         wifiList.adapter = recyclerAdapter
@@ -243,7 +256,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         val utilModel = UtilModel(activity as DeviceActivity)
         val view = LayoutInflater.from(activity).inflate(R.layout.get_password, null)
         val alertDialog = AlertDialog.Builder(activity as DeviceActivity).create()
-        alertDialog.setTitle(utilModel.getString(R.string.enter_password_mail))
+        alertDialog.setTitle(utilModel.getString(R.string.thanks_wifi))
+        alertDialog.setMessage(utilModel.getString(R.string.enter_password_mail))
         alertDialog.setCancelable(false)
 
         val password = view.findViewById<EditText>(R.id.edt_pass)
