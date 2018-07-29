@@ -114,6 +114,17 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
                     }
                 }
 
+                if (metricsData?.newest != null) {
+                    val size = metricsData?.newest?.size
+                    if (size is Int) {
+                        if (size > 0) {
+                            metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_newest))
+                            metrics.metricsList.add(metricsData?.newest)
+                            skillListingView?.updateAdapter(metrics)
+                        }
+                    }
+                }
+
                 if (metricsData?.latest != null) {
                     if (metricsData?.latest?.size as Int > 0) {
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_latest))
@@ -127,6 +138,17 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_feedback))
                         metrics.metricsList.add(metricsData?.feedback)
                         skillListingView?.updateAdapter(metrics)
+                    }
+                }
+
+                if (metricsData?.topGames != null) {
+                    val size = metricsData?.feedback?.size
+                    if (size is Int) {
+                        if (size > 0) {
+                            metrics.metricsGroupTitles.add(utilModel.getString(R.string.metrics_top_games))
+                            metrics.metricsList.add(metricsData?.topGames)
+                            skillListingView?.updateAdapter(metrics)
+                        }
                     }
                 }
 
