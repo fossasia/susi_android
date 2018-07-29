@@ -7,10 +7,6 @@ import com.google.gson.annotations.SerializedName
  * <h1>Kotlin Data class to parse meta data object in retrofit response from susi client.</h1>
  */
 
-class Metadata {
-
-    @SerializedName("count")
-    @Expose
+data class Metadata (
     val count: Int = 0
-
-}
+)
