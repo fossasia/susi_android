@@ -11,22 +11,13 @@ import io.realm.RealmList
  * <h1>Kotlin Data class to parse answer in retrofit response from susi client.</h1>
  */
 
-class Answer {
+data class Answer(
 
-    @SerializedName("data")
-    @Expose
-    var data: List<Map<String, String>> = ArrayList()
+        var data: List<Map<String, String>> = ArrayList(),
 
-    @SerializedName("metadata")
-    @Expose
-    val metadata: Metadata? = null
+        val metadata: Metadata? = null,
 
-    @SerializedName("actions")
-    @Expose
-    val actions: List<Action> = ArrayList()
+        val actions: List<Action> = ArrayList(),
 
-    @SerializedName("skills")
-    @Expose
-    val skills: List<String> = ArrayList()
-
-}
+        val skills: List<String> = ArrayList()
+)
