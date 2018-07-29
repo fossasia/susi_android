@@ -84,8 +84,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if (skillData.skillName != null && !skillData.skillName.isEmpty())
-            (activity as SkillsActivity).title = skillData.skillName
+        skillData?.skillName?.let { activity?.title = skillData.skillName }
         setupUI()
         super.onViewCreated(view, savedInstanceState)
     }
