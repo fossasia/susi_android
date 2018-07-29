@@ -23,11 +23,11 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.helper.ImageUtils
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
@@ -55,7 +55,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
     private lateinit var xAxis: XAxis
-    private lateinit var uIutils: ImageUtils
+    private lateinit var uIutils: Utils
 
     companion object {
         const val SKILL_KEY = "skill_key"
