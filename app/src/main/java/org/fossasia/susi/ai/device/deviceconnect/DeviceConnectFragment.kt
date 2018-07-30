@@ -41,10 +41,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     lateinit var recyclerAdapter: DevicesAdapter
     private var filter: IntentFilter? = null
     private var b = false
-    private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1;
-    private val VIEW_AVAILABLE_DEVICES = 1;
-    private val VIEW_AVAILABLE_WIFI = 0;
-    private var checkDevice: Boolean = false;
+    private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1
+    private val VIEW_AVAILABLE_DEVICES = 1
+    private val VIEW_AVAILABLE_WIFI = 0
+    private var checkDevice: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -80,7 +80,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceTutorial.visibility = View.GONE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && (activity as DeviceActivity).checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(Array<String>(1, { Manifest.permission.ACCESS_COARSE_LOCATION }),
-                    PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION);
+                    PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION)
         } else {
             deviceConnectPresenter.isPermissionGranted(true)
             Timber.d("ASK PERMISSIONS ELSE")

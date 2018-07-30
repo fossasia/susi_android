@@ -8,10 +8,8 @@ import java.io.Serializable
  * <h1>Kotlin Data class to parse session object in retrofit response from susi client.</h1>
  */
 
-class Session : Serializable {
+data class Session (
 
-    @SerializedName("identity")
-    @Expose
     val identity: Identity? = null
 
-}
+)

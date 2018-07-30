@@ -53,7 +53,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        activity?.title = activity?.getString(R.string.skills_activity)
+        activity?.title = this.skills.group
         groupWiseSkillsPresenter = GroupWiseSkillsPresenter(this)
         groupWiseSkillsPresenter.onAttach(this)
         swipeRefreshLayout.setOnRefreshListener(this)
