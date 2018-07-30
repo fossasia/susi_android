@@ -1,8 +1,7 @@
 package org.fossasia.susi.ai.rest.services;
 
-import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse;
-import org.fossasia.susi.ai.rest.responses.susi.FeedBackLogResponse;
+import org.fossasia.susi.ai.rest.responses.susi.FeedBackLogData;
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse;
@@ -16,7 +15,6 @@ import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
-import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse;
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting;
 
@@ -218,6 +216,6 @@ public interface SusiService {
      * @return the susi response
      */
     @GET("/cms/feedbackLog.json")
-    Call<FeedBackLogResponse> postFeedBackData(@QueryMap Map<String,String> query);
+    Call<FeedBackLogData> postFeedBackData(@QueryMap Map<String,String> query);
 
 }
