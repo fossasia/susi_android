@@ -117,9 +117,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.getLocationFromIP()
         chatPresenter.getLocationFromLocationService()
         chatPresenter.getUndeliveredMessages()
-        if (BuildConfig.FLAVOR.equals("playStore")) {
-            chatPresenter.initiateHotwordDetection()
-        }
+        chatPresenter.initiateHotwordDetection()
         compensateTTSDelay()
     }
 
