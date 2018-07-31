@@ -14,7 +14,9 @@
         android:layout_marginStart="@dimen/margin_card"
         android:layout_marginTop="@dimen/message_card_margin_small"
         android:foreground="?attr/selectableItemBackground"
-        app:cardBackgroundColor="@color/susi_message_bg">
+        app:cardBackgroundColor="@color/susi_message_bg"
+        app:cardCornerRadius="@dimen/radius_skill_card_corner"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:id="@+id/preview_layout"
@@ -27,9 +29,10 @@
                 android:id="@+id/link_preview_text_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
                 android:background="@color/md_white_1000"
                 android:orientation="horizontal"
-                android:padding="@dimen/padding_small">
+                android:padding="@dimen/padding_large">
 
                 <ImageView
                     android:id="@+id/skill_preview_image"
@@ -54,43 +57,23 @@
                     android:textAlignment="center"
                     android:textColor="@color/md_grey_800"
                     android:textSize="@dimen/skill_example"
-                    android:typeface="monospace"
+                    android:textStyle="italic"
                     tools:text="@string/sample_website_description" />
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/skill_preview_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/default_bg"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/skill_preview_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/cmv_padding"
-                    android:paddingRight="@dimen/cmv_padding"
-                    android:paddingTop="@dimen/cmv_padding"
-                    android:text="@string/skill_title"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/skill_title"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/skill_preview_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:minHeight="@dimen/skill_min_height"
-                    android:padding="@dimen/cmv_padding"
-                    android:textColor="@color/md_grey_800"
-                    android:textSize="@dimen/skill_description"
-                    tools:text="@string/sample_website_description" />
-            </LinearLayout>
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/cmv_padding"
+                android:paddingRight="@dimen/cmv_padding"
+                android:paddingTop="@dimen/cmv_padding"
+                android:text="@string/skill_title"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/skill_title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
