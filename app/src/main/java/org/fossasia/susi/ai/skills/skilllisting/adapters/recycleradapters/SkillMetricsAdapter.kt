@@ -93,6 +93,9 @@ class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetric
     }
 
     override fun onItemClicked(position: Int) {
+        if (position == 0) {
+            return
+        }
         showGroupWiseSkillsFragment(metrics.groups[position])
     }
 
