@@ -455,7 +455,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             tvPostFeedbackDesc.visibility = View.VISIBLE
             layoutPostFeedback.visibility = View.VISIBLE
             buttonPost.setOnClickListener {
-                if (etFeedback.text.toString().isNotEmpty()) {
+                if (etFeedback.text.trim().toString().isNotEmpty()) {
                     val queryObject = PostFeedback(skillData.model, skillData.group, skillData.language,
                             skillData.skillTag, etFeedback.text.toString(), PrefManager.getToken().toString())
 
