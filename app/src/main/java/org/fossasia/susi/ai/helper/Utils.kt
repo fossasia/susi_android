@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.helper
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 
 object Utils {
@@ -16,8 +17,8 @@ object Utils {
     }
 
     fun getImageLink(skillData: SkillData): String {
-        return "BaseUrl.SUSI_DEFAULT_BASE_URL + \"/cms/getImage.png?\"" + "model=" + "$skillData.model" + "&language=" + "$skillData.language" + "&group=" +
-                StringBuffer(skillData.group.replace(" ", "%20")).toString() + "&image=" + "$skillData.image"
+        return "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=" +
+                StringBuffer(skillData.group.replace(" ", "%20")).toString() + "&image=${skillData.image}"
     }
 
 }
