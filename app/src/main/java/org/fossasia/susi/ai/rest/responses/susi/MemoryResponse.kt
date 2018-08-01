@@ -9,14 +9,11 @@ import com.google.gson.annotations.SerializedName
  * Created by chiragw15 on 25/5/17.
  */
 
-class MemoryResponse {
+data class MemoryResponse(
 
-    @SerializedName("cognitions")
-    @Expose
-    var cognitionsList: List<SusiResponse> = ArrayList()
+        @SerializedName("cognitions")
+        var cognitionsList: List<SusiResponse> = ArrayList(),
 
-    @SerializedName("session")
-    @Expose
-    var session: Session? = null
+        var session: Session? = null
 
-}
+)
