@@ -9,7 +9,6 @@ import io.realm.RealmObject;
  * <h1>Kotlin Data class to parse data object in retrofit response from susi client.</h1>
  */
 public class Datum extends RealmObject {
-
     @SerializedName("0")
     @Expose
     private String _0;
@@ -193,5 +192,4 @@ public class Datum extends RealmObject {
     public void setLink(String link) {
         this.link = link;
     }
-
 }

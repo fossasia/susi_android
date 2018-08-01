@@ -14,11 +14,9 @@ data class GetSkillFeedbackResponse(
         val session: Session? = null,
         val accepted: Boolean = false,
         val message: String = "",
-
         @SerializedName("feedback")
         @Expose
         var feedbackList: List<Feedback> = ArrayList(),
-
         @SerializedName("skill_name")
         @Expose
         var skillName: String = ""

@@ -6,21 +6,21 @@ import com.google.gson.annotations.SerializedName
  * Created by meeera on 30/6/17.
  */
 
-data class UserSetting (
+data class UserSetting(
 
-    /**
-     * Gets session
-     *
-     * @return the session
-     */
-    @SerializedName("session")
-    val session: Session? = null,
+        /**
+         * Gets session
+         *
+         * @return the session
+         */
+        @SerializedName("session")
+        val session: Session? = null,
 
-    /**
-     * Gets settings
-     *
-     * @return the settings
-     */
-    @SerializedName("settings")
-    val settings: Settings? = null
+        /**
+         * Gets settings
+         *
+         * @return the settings
+         */
+        @SerializedName("settings")
+        val settings: Settings? = null
 )

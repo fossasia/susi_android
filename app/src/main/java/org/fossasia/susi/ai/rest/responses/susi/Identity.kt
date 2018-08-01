@@ -12,14 +12,9 @@ import kotlinx.android.parcel.Parcelize
 class Identity : Parcelable {
 
     @SerializedName("name")
-    @Expose
     val name: String? = null
-
     @SerializedName("type")
-    @Expose
     val type: String? = null
-
     @SerializedName("anonymous")
-    @Expose
     val anonymous: Boolean = false
 }
