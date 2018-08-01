@@ -96,8 +96,10 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
 
     //initiates hotword detection
     override fun initiateHotwordDetection() {
+        if (BuildConfig.FLAVOR.equals("fdroid"))
+            return
         if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
-                chatView!!.checkPermission(utilModel.permissionsToGet()[1]) && BuildConfig.FLAVOR.equals("playStore")) {
+                chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
             if (utilModel.isArmDevice() && utilModel.checkMicInput()) {
                 utilModel.copyAssetstoSD()
                 chatView?.initHotword()
