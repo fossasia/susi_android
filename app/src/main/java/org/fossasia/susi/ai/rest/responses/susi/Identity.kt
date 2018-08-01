@@ -1,14 +1,15 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
 /**
  * <h1>Kotlin Data class to parse identity object in retrofit response from susi client.</h1>
  */
-
-class Identity : Serializable {
+@Parcelize
+class Identity : Parcelable {
 
     @SerializedName("name")
     @Expose

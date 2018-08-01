@@ -63,7 +63,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         fun newInstance(skillData: SkillData, skillGroup: String, skillTag: String): SkillDetailsFragment {
             val fragment = SkillDetailsFragment()
             val bundle = Bundle()
-            bundle.putSerializable(SKILL_KEY, skillData as Serializable)
+            bundle.putParcelable(SKILL_KEY, skillData)
             bundle.putString(SKILL_GROUP, skillGroup)
             bundle.putString(SKILL_TAG, skillTag)
             fragment.arguments = bundle
@@ -75,7 +75,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         skillDetailsPresenter = SkillDetailsPresenter(this)
         skillDetailsPresenter.onAttach(this)
-        skillData = arguments?.getSerializable(
+        skillData = arguments?.getParcelable(
                 SKILL_KEY) as SkillData
         skillGroup = (arguments as Bundle).getString(SKILL_GROUP)
         skillTag = (arguments as Bundle).getString(SKILL_TAG)
