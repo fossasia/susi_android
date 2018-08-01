@@ -34,7 +34,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_chat.*
-import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
