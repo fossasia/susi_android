@@ -6,9 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.helper.CircleTransform
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewHolder
@@ -42,7 +40,7 @@ class AllReviewsAdapter(val context: Context, val feedbackList: List<Feedback>?)
                 if (feedbackList[position].email != null &&
                         !TextUtils.isEmpty(feedbackList[position].email)) {
                     Utils.setAvatar(context, feedbackList.get(position).email, holder.avatar)
-                    holder.feedbackEmail?.text = feedbackList[position].email
+                    Utils.truncateEmailAtEnd(feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
                 }
                 if (feedbackList[position].timestamp != null &&
                         !TextUtils.isEmpty(feedbackList[position].timestamp)) {
