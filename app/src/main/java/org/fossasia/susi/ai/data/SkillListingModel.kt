@@ -33,7 +33,7 @@ class SkillListingModel : ISkillListingModel {
             }
 
             override fun onFailure(call: Call<ListGroupsResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onGroupFetchFailure(t)
             }
         })
@@ -50,7 +50,7 @@ class SkillListingModel : ISkillListingModel {
             }
 
             override fun onFailure(call: Call<ListSkillsResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onSkillFetchFailure(t)
             }
         })

@@ -285,7 +285,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
 
             @Override
             public void onFailure(Call<SkillRatingResponse> call, Throwable t) {
-                t.printStackTrace();
+                Timber.e(t);
                 switch (polarity) {
                     case Constant.POSITIVE:
                         if (thumbsUp != null) {
