@@ -20,6 +20,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 /**
  * Created by saurabh on 1/10/16.
@@ -47,7 +48,7 @@ public class ClientBuilder {
             retrofit = RetrofitInstance.getRetrofit();
             susiService = getSusiApi();
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 
