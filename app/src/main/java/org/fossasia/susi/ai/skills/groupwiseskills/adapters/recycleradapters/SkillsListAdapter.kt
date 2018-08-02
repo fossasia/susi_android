@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
+import org.fossasia.susi.ai.helper.CircleTransform
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.groupwiseskills.adapters.viewholders.SkillViewHolder
@@ -52,6 +53,7 @@ class SkillsListAdapter(val context: Context, private val skillDetails: GroupWis
                         .append(imageUrl).toString())
                         .fit().centerCrop()
                         .error(R.drawable.ic_susi)
+                        .transform(CircleTransform())
                         .into(holder.skillImage)
             }
 
