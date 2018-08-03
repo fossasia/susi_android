@@ -98,6 +98,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         })
         dialogBuilder.setNegativeButton("Cancel", { dialog, whichButton ->
+            dialog.dismiss()
         }).show()
     }
 
