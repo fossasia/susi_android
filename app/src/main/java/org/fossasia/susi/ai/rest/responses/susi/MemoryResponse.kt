@@ -9,10 +9,7 @@ import com.google.gson.annotations.SerializedName
  */
 
 data class MemoryResponse(
-
         @SerializedName("cognitions")
         var cognitionsList: List<SusiResponse> = ArrayList(),
-
         var session: Session? = null
-
 )

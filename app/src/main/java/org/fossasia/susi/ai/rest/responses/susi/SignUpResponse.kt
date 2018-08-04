@@ -6,9 +6,7 @@ package org.fossasia.susi.ai.rest.responses.susi
  * Created by saurabh on 12/10/16.
  */
 
-data class SignUpResponse (
-
-    val message: String? = null,
-    val session: Session? = null
-
+data class SignUpResponse(
+        val message: String? = null,
+        val session: Session? = null
 )
