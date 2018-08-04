@@ -5,6 +5,7 @@ import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import timber.log.Timber
 import java.net.URI
 
 object Utils {
@@ -18,8 +19,10 @@ object Utils {
     }
 
     fun getImageLink(skillData: SkillData): String {
-        val uri = URI("${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}")
-        return uri.toASCIIString()
+        val s = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}"
+                .replace(" ","%20")
+        Timber.d("SUSI URI" + s)
+        return s;
     }
 
 }
