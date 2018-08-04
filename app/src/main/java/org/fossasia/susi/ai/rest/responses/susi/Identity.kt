@@ -10,7 +10,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 class Identity : Parcelable {
-
     @SerializedName("name")
     val name: String? = null
     @SerializedName("type")
