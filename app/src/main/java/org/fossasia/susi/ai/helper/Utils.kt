@@ -6,7 +6,6 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import timber.log.Timber
-import java.net.URI
 
 object Utils {
     fun setSkillsImage(skillData: SkillData, imageView: ImageView) {
@@ -22,7 +21,8 @@ object Utils {
         val s = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}"
                 .replace(" ","%20")
         Timber.d("SUSI URI" + s)
-        return s;
+        ValidateUtils.validateUrl(s)
+        return s
     }
 
 }
