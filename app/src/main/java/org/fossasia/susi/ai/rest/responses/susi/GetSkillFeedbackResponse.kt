@@ -1,13 +1,15 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
 /**
  *
  * Created by arundhati24 on 27/06/2018
  */
+@Parcelize
 data class GetSkillFeedbackResponse(
         val session: Session? = null,
         val accepted: Boolean = false,
@@ -20,4 +22,4 @@ data class GetSkillFeedbackResponse(
         @SerializedName("skill_name")
         @Expose
         var skillName: String = ""
-) : Serializable
+) : Parcelable

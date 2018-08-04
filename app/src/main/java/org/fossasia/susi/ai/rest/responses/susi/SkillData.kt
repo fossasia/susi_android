@@ -1,14 +1,16 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
 /**
  *
  * Created by chiragw15 on 16/8/17.
  */
-class SkillData : Serializable {
+@Parcelize
+class SkillData : Parcelable {
 
     @SerializedName("model")
     @Expose
