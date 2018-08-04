@@ -9,14 +9,11 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatDelegate
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RatingBar
-import android.widget.TextView
 import android.widget.Toast
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.Description
@@ -24,13 +21,13 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_skill_details.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
@@ -54,7 +51,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private lateinit var skillData: SkillData
     private lateinit var skillGroup: String
     private lateinit var skillTag: String
-    private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
 
     private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
@@ -111,11 +107,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private fun setImage() {
         skillDetailImage.setImageResource(R.drawable.ic_susi)
         if (skillData.image != null && !skillData.image.isEmpty()) {
-            Picasso.with(activity?.applicationContext).load(StringBuilder(imageLink)
-                    .append(skillGroup).append("/en/").append(skillData.image).toString())
-                    .error(R.drawable.ic_susi)
-                    .fit().centerCrop()
-                    .into(skillDetailImage)
+            Utils.setSkillsImage(skillData, skillDetailImage)
         }
     }
 
