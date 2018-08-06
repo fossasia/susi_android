@@ -20,7 +20,8 @@ import java.net.UnknownHostException
  */
 class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter,
         ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener,
-        ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener {
+        ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener,
+        ISkillDetailsModel.OnReportSendListener {
 
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
     private var skillDetailsView: ISkillDetailsView? = null
@@ -79,6 +80,10 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
         }
     }
 
+    override fun sendReport(map: Map<String, String>) {
+        skillDetailsModel.sendReport(map, this)
+    }
+
     override fun onUpdateFeedbackError(throwable: Throwable) {
         if (throwable is UnknownHostException) {
             if (NetworkUtils.isNetworkConnected()) {
@@ -134,6 +139,19 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
             skillDetailsView?.updateFeedbackList(response.body())
         } else {
             Timber.d("Could not fetch feedback")
+        }
+    }
+
+    override fun reportSendError(throwable: Throwable) {
+        Timber.d(throwable)
+        skillDetailsView?.updateSkillReportStatus("Coudn't report the skill")
+    }
+
+    override fun reportSendSuccess(response: Response<ReportSkillResponse>) {
+        if (response.code() == 422) {
+            skillDetailsView?.updateSkillReportStatus("Skill Already Reported")
+        } else {
+            skillDetailsView?.updateSkillReportStatus("Reported Successfully")
         }
     }
 
