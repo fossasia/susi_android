@@ -20,6 +20,8 @@ interface ISkillDetailsPresenter {
 
     fun cancelUserRating()
 
+    fun sendReport(map: Map<String, String>)
+
     fun postFeedback(queryObject: PostFeedback)
 
     fun cancelPostFeedback()
