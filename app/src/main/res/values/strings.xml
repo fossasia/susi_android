@@ -398,4 +398,7 @@
     <string name="metric_newest">\"SUSI, what are the newest skills?\"</string>
     <string name="metrics_top_games">\"SUSI, what are your top games?\"</string>
     <string name="message_no_skills_found">No skills found.</string>
+
+    <string name="report_skill">Report Skill</string>
+    <string name="report_send">Send Report</string>
 </resources>

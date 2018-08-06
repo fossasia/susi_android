@@ -4,10 +4,7 @@ import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.rest.ClientBuilder
-import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
-import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
-import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
-import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,6 +26,7 @@ class SkillDetailsModel : ISkillDetailsModel {
     private lateinit var updateUserRatingResponseCall: Call<GetRatingByUserResponse>
     private lateinit var updateFeedbackResponseCall: Call<PostSkillFeedbackResponse>
     private lateinit var fetchFeedbackResponseCall: Call<GetSkillFeedbackResponse>
+    private lateinit var reportSkillResponseCall: Call<ReportSkillResponse>
 
     /**
      * Posts a request the fiveStarRateSkill.json API
@@ -111,6 +109,24 @@ class SkillDetailsModel : ISkillDetailsModel {
             }
         })
     }
+
+    override fun sendReport(map: Map<String, String>, listener: ISkillDetailsModel.OnReportSendListener) {
+
+        reportSkillResponseCall = ClientBuilder.getSusiApi().reportSkill(map)
+
+        reportSkillResponseCall.enqueue(object : Callback<ReportSkillResponse> {
+            override fun onResponse(call: Call<ReportSkillResponse>?, response: Response<ReportSkillResponse>) {
+                listener.reportSendSuccess(response)
+            }
+
+            override fun onFailure(call: Call<ReportSkillResponse>?, t: Throwable) {
+                Timber.e(t)
+                listener.reportSendError(t)
+            }
+        })
+
+    }
+
 
     override fun cancelUpdateRatings() {
         updateRatingsResponseCall.cancel()

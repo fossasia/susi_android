@@ -2,10 +2,7 @@ package org.fossasia.susi.ai.data.contract
 
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
-import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
-import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
-import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
-import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.*
 import retrofit2.Response
 
 /**
@@ -35,6 +32,11 @@ interface ISkillDetailsModel {
         fun onFetchFeedbackModelSuccess(response: Response<GetSkillFeedbackResponse>)
     }
 
+    interface OnReportSendListener {
+        fun reportSendError(throwable: Throwable)
+        fun reportSendSuccess(response: Response<ReportSkillResponse>)
+    }
+
     fun fiveStarRateSkill(map: Map<String, String>, listener: OnUpdateRatingsFinishedListener)
 
     fun cancelUpdateRatings()
@@ -50,4 +52,6 @@ interface ISkillDetailsModel {
     fun fetchFeedback(query: FetchFeedbackQuery, listener: OnFetchFeedbackFinishedListener)
 
     fun cancelFetchFeedback()
+
+    fun sendReport(map: Map<String, String>, listener: OnReportSendListener)
 }

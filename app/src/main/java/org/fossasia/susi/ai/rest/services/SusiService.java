@@ -12,6 +12,7 @@ import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse;
 import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse;
 import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
@@ -199,5 +200,18 @@ public interface SusiService {
     @GET("/cms/getSkillMetricsData.json")
     Call<ListSkillMetricsResponse> fetchSkillMetricsData(@Query("model") String model,
                                                          @Query("language") String language);
+
+    /**
+     * Report a skill
+     * @param query A query  map consisting of the following key value pairs
+     *              model       Model of the skill(Eg. general)
+     *              group       Group of the skill(Eg. Knowledge)
+     *              skill       Skill to be reported
+     *              feedback    The report/msg send by the user
+     *              accessToken access token of the user
+     * @return the call
+     */
+    @POST("cms/reportSkill.json")
+    Call<ReportSkillResponse> reportSkill(@QueryMap Map<String, String> query);
 
 }

@@ -9,11 +9,13 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.Description
@@ -93,6 +95,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         setImage()
         setName()
         setAuthor()
+        setReportButton()
         setTryButton()
         setShareButton()
         setDescription()
@@ -115,6 +118,36 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         skillDetailTitle.text = activity?.getString(R.string.no_skill_name)
         if (skillData.skillName != null && !skillData.skillName.isEmpty()) {
             skillDetailTitle.text = skillData.skillName
+        }
+    }
+
+    private fun setReportButton() {
+        reportSkill.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val view = layoutInflater.inflate(R.layout.alert_report_skill, null)
+            val reportMsgText = view.findViewById(R.id.reportMsg) as EditText
+            dialogBuilder.setView(view)
+            dialogBuilder.setTitle(R.string.report_skill)
+
+            dialogBuilder.setPositiveButton(R.string.report_send) { dialog, whichButton ->
+                if (PrefManager.getToken() != null && reportMsgText.text.isNotEmpty()) {
+                    val map: MutableMap<String, String> = HashMap()
+                    map.put("model", skillData.model)
+                    map.put("group", skillData.group)
+                    map.put("skill", skillTag)
+                    map.put("feedback", reportMsgText.text.toString())
+                    map.put("access_token", PrefManager.getToken().toString())
+                    skillDetailsPresenter.sendReport(map)
+                } else {
+                    updateSkillReportStatus(getString(R.string.error))
+                }
+            }
+
+            dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
+                dialog.dismiss()
+            }
+
+            dialogBuilder.show()
         }
     }
 
@@ -545,6 +578,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>")
             }
         }
+    }
+
+    override fun updateSkillReportStatus(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
