@@ -6,11 +6,9 @@ import org.junit.Test
 
 class UtilsTest {
 
-    val skillData: SkillData = SkillData()
-
     @Test
     fun verifyImageLink() {
-        val str = Utils.getImageLink(skillData)
+        val str = Utils.getImageLink()
         val yes = ValidateUtils.validateUrl(str)
         assertTrue(yes)
     }
