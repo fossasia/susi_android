@@ -20,9 +20,8 @@ object Utils {
 
     fun getImageLink(skillData: SkillData): String {
         val link = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}"
-                .replace(" ","%20")
-        //Timber.d("SUSI URI" + link)
+                .replace(" ", "%20")
+        Timber.d("SUSI URI" + link)
         return link
     }
-
 }
