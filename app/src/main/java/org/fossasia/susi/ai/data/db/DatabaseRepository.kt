@@ -138,7 +138,7 @@ class DatabaseRepository : IDatabaseRepository {
 
                 listener.onDatabaseUpdateSuccess()
             }
-        }) { error -> error.printStackTrace() }
+        }) { error -> Timber.e(error) }
     }
 
     override fun closeDatabase() {

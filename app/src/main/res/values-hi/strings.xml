@@ -197,6 +197,7 @@
     <string name="positive_50">सकारात्मक: 50</string>
     <string name="negative_50">नकारात्मक: 50</string>
     <string name="content_type_dynamic">सामग्री प्रकार: गतिशील</string>
+    <string name="content_type_static">सामग्री का प्रकार: स्टेटिक</string>
     <string name="developer_privacy_policy">डेवलपर्स गोपनीयता नीति</string>
     <string name="terms_of_use">उपयोग की शर्तें</string>
     <string name="how_can_i_help">में आपकी कैसे मदद कर सकता हूं?</string>
@@ -205,4 +206,96 @@
     <string name="time_9am">सुबह के 9 बजे</string>
     <string name="rss_item_link">www.link_here.com</string>
 
+    <string name="menu_item_about">सूसी के बारे में</string>
+    <string name="menu_item_settings">सेटिंग्स</string>
+    <string name="skill_unrated">कौशल अभी तक रेट नहीं किया गया है।</string>
+    <string name="skill_not_found">अभी तक कोई कौशल नहीं मिला है।</string>
+
+    <string name="settings_devices">उपकरण</string>
+    <string name="cancel">रद्द करें</string>
+
+    <string name="check_email">अपना ईमेल देखें!</string>
+    <string name="reset_password_text">हमने आपको अपना पासवर्ड रीसेट करने के लिए एक लिंक के साथ एक ईमेल भेजा है।</string>
+
+    <string name="error_custom_server">कृपया सुनिश्चित करें कि आपने सही कस्टम सर्वर यूआरएल दर्ज किया है क्योंकि दर्ज यूआरएल गलत है।</string>
+
+    <string name="logout_confirmation">क्या आप लॉग आउट करना चाहते हैं?</string>
+
+    <string name="pref_devices_not_connected">कोई उपकरण संयोजित नहीं है।</string>
+    <string name="settings_devices_setup">डिवाइस सेटअप स्क्रीन पर जाने के लिए यहां क्लिक करें।</string>
+
+    <string name="voice_settings">सूसी आवाज सेटिंग्स</string>
+    <string name="change_voice">सूसी की आवाज बदलने के लिए यहां क्लिक करें</string>
+    <string name="change_voice_summary">सूसी की आवाज़ बदलने के लिए यहां से टेक्स्ट टू स्पीच सेटिंग्स बदलें।</string>
+
+    <string name="share_message">संदेश साझा करें</string>
+    <string name="share_skill">कौशल साझा करें</string>
+
+    <!-- Devices String-->
+    <string name="connect_success">डिवाइस सफलतापूर्वक कनेक्ट हो गया है!</string>
+    <string name="auth_success">प्रमाणीकरण प्रमाण पत्र सफलतापूर्वक भेजा गया!</string>
+    <string name="wifi_success">वाईफाई प्रमाण पत्र सफलतापूर्वक भेजा गया!</string>
+    <string name="config_success">डिवाइस सफलतापूर्वक कॉन्फ़िगर किया गया!</string>
+    <string name="connection_error">कनेक्शन विफल रहा</string>
+    <string name="wifi_error">वाईफ़ाई प्रमाण पत्र भेजा नहीं जा सका। कृपया पुन: प्रयास करें।</string>
+    <string name="auth_error">प्रमाणीकरण प्रमाण पत्र भेजा नहीं जा सका। कृपया पुन: प्रयास करें।</string>
+    <string name="config_error">स्पीकर का विन्यास विफल रहा।</string>
+    <string name="device_title">उपकरण</string>
+    <string name="scan_devices">उपकरणों के लिए स्कैनिंग किया जा रहा है ...</string>
+    <string name="no_device_found">कोई यंत्र नहीं मिले।</string>
+    <string name="setup_tut">यदि आप एक नया डिवाइस स्थापित कर रहे हैं, तो सुनिश्चित करें कि यह आस-पास है और दीवार आउटलेट में प्लग है।</string>
+    <string name="no_wifi_found">कोई वाईफाई-नेटवर्क नहीं मिला।</string>
+    <string name="setup_wifi">सुनिश्चित करें कि आपके पास वाईफाई कनेक्शन उपलब्ध हैं।</string>
+
+    <string name="negative">नकारात्मक</string>
+    <string name="positive">सकारात्मक</string>
+
+    <string name="search_skill">कौशल खोजें</string>
+
+    <string name="link_unavailable">लिंक उपलब्ध नहीं है।</string>
+
+    <!-- Five Star Skill Rating -->
+
+    <string name="average_rating">औसत रेटिंग</string>
+    <string name="total_rating">कुल रेटिंग</string>
+    <string name="rate_skill">इस कौशल को रेट करें।</string>
+    <string name="rate_awesome">बहुत बढ़िया! मुझे यह पसंद है।</string>
+    <string name="rate_great">बढ़िया</string>
+    <string name="rate_good">अच्छा</string>
+    <string name="rate_improvement">कुछ सुधार की जरूरत है</string>
+    <string name="rate_hate">बुरा</string>
+    <string name="skill_unrated_for_anonymous_user">कौशल अभी तक रेट नहीं किया गया है। कौशल को रेट करने के लिए कृपया लॉगिन करें।</string>
+    <string name="toast_thank_for_rating">इस कौशल को रेट करने के लिए धन्यवाद।</string>
+
+    <string name="location_access">स्थान पहुंच प्रदान करें</string>
+    <string name="location_access_message">कृपया डिवाइस स्थान चालू करें क्योंकि आस-पास के वाईफाई नेटवर्क का पता लगाने की आवश्यकता है।</string>
+    <string name="set_up">सेट अप</string>
+    <string name="connecting_device">अपने डिवाइस से कनेक्ट कर रहा है ...</string>
+    <string name="device_name">सुसी एआई</string>
+    <string name="connection_success">सफलतापूर्वक कनेक्ट!</string>
+    <string name="choose_wifi">एक वाई-फाई चुनें</string>
+    <string name="enter_password">पासवर्ड दर्ज करे</string>
+    <string name="enter_password_mail">अपने खाते के लिए पासवर्ड दर्ज करें \n</string>
+
+    <!-- Feedback System -->
+
+    <string name="button_post">भेजें</string>
+    <string name="desc_post_feedback">अपनी अमूल्य प्रतिक्रिया यहां लिखें।</string>
+    <string name="example_feedback">उदाहरण प्रतिक्रिया</string>
+    <string name="feedback_section">प्रतिक्रिया</string>
+    <string name="hint_feedback">कौशल प्रतिक्रिया</string>
+    <string name="post_feedback_for_anonymous_user">प्रतिक्रिया पोस्ट करने के लिए कृपया लॉगिन करें।</string>
+    <string name="see_all_reviews">सभी समीक्षा देखें</string>
+    <string name="toast_empty_feedback">पोस्ट करने के लिए कृपया प्रतिक्रिया दर्ज करें</string>
+    <string name="toast_feedback_updated">कौशल प्रतिक्रिया अद्यतन</string>
+
+    <!-- Metrics -->
+
+    <string name="metric_rating">\"सूसी, आपके उच्चतम रेटेड कौशल क्या हैं?\"</string>
+    <string name="metric_usage">\"सूसी, आपके सबसे ज्यादा इस्तेमाल किए जाने वाले कौशल क्या हैं?\"</string>
+    <string name="metric_latest">\"सूसी, हाल ही में अद्यतन कौशल क्या हैं?\"</string>
+    <string name="metric_feedback">\"सूसी, अधिकांश प्रतिक्रिया के साथ कौशल क्या हैं?\"</string>
+    <string name="metric_newest">\"सूसी, नवीनतम कौशल क्या हैं?\"</string>
+    <string name="metrics_top_games">\"सूसी, आपके शीर्ष खेल क्या हैं?\"</string>
+    <string name="message_no_skills_found">कोई कौशल नहीं मिला।</string>
 </resources>

@@ -40,7 +40,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     lateinit var receiverWifi: WifiReceiver
     lateinit var recyclerAdapter: DevicesAdapter
     private var filter: IntentFilter? = null
-    private var b = false
     private val PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION = 1
     private val VIEW_AVAILABLE_DEVICES = 1
     private val VIEW_AVAILABLE_WIFI = 0
@@ -72,7 +71,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
         receiverWifi = WifiReceiver()
         context?.registerReceiver(receiverWifi, filter)
-        b = true
     }
 
     override fun askForPermissions() {
@@ -100,9 +98,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         })
         dialogBuilder.setNegativeButton("Cancel", { dialog, whichButton ->
-        })
-        val b = dialogBuilder.create()
-        b.show()
+            dialog.dismiss()
+        }).show()
     }
 
     override fun startScan(isDevice: Boolean) {
@@ -176,7 +173,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun unregister() {
-        b = false
         onPause()
     }
 
@@ -210,9 +206,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                     Timber.d("Wifi changes")
                     if (p1.getParcelableExtra<Parcelable>(WifiManager.EXTRA_NEW_STATE) == SupplicantState.COMPLETED) {
                         Timber.d("Wifi Changes #2")
-                        val wi = mainWifi.connectionInfo
-                        if (wi != null) {
-                            val ssid = wi.ssid
+                        val wifiInfo = mainWifi.connectionInfo
+                        if (wifiInfo != null) {
+                            val ssid = wifiInfo.ssid
                             Timber.d(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
                                 Timber.d("Going to make connection")
