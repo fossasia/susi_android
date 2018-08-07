@@ -74,10 +74,10 @@ class ChatActivityTest {
         onView(withId(R.id.rv_chat_feed)).check(matches(isDisplayed()))
 
         // checks if layout container for chat box is present
-//        onView(withId(R.id.send_message_layout)).check(matches(isDisplayed()))
+        onView(withId(R.id.send_message_layout)).check(matches(isDisplayed()))
 
         // checks if message box is present
-//        onView(withId(R.id.et_message)).check(matches(isDisplayed()))
+        onView(withId(R.id.et_message)).check(matches(isDisplayed()))
 
         // checks if microphone button is present
         onView(withId(R.id.btnSpeak)).check(matches(isDisplayed()))

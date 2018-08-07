@@ -117,14 +117,11 @@ dependencies {
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
 
     //unit test
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     androidTestImplementation "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
-    androidTestImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 
     //realm adapter
     implementation "io.realm:android-adapters:${rootConfiguration.realmVersion}"
