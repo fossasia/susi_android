@@ -6,7 +6,6 @@ package org.fossasia.susi.ai.rest.responses.susi
  */
 
 data class ChangeSettingResponse(
-
         /**
          * Gets session
          *
@@ -19,6 +18,5 @@ data class ChangeSettingResponse(
          *
          * @return the message
          */
-
         val message: String? = null
 )
