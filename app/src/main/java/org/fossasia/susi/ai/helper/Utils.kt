@@ -18,6 +18,7 @@ object Utils {
         Picasso.with(imageView.context)
                 .load(getImageLink(skillData))
                 .error(R.drawable.ic_susi)
+                .transform(CircleTransform())
                 .fit()
                 .centerCrop()
                 .into(imageView)
