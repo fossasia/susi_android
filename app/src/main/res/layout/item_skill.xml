@@ -55,10 +55,11 @@
                     android:maxLines="3"
                     android:padding="@dimen/standard_content_padding"
                     android:textAlignment="center"
-                    android:textColor="@color/md_grey_800"
+                    android:textColor="@color/md_grey_700"
                     android:textSize="@dimen/skill_example"
                     android:textStyle="italic"
-                    tools:text="@string/sample_website_description" />
+                    tools:text="@string/sample_website_description"
+                    android:fontFamily="sans-serif"/>
             </LinearLayout>
 
             <TextView
@@ -70,10 +71,11 @@
                 android:maxLines="1"
                 android:paddingLeft="@dimen/cmv_padding"
                 android:paddingRight="@dimen/cmv_padding"
-                android:paddingTop="@dimen/cmv_padding"
+                android:paddingTop="@dimen/standard_content_padding"
                 android:text="@string/skill_title"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/skill_title" />
+                android:textSize="@dimen/skill_title"
+                android:fontFamily="sans-serif"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
