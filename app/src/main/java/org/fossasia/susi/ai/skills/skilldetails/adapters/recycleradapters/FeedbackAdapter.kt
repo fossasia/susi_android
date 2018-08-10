@@ -9,7 +9,10 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.CircleTransform
+import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackViewHolder
@@ -50,7 +53,7 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                     if (position < 3) {
                         if (feedbackResponse.feedbackList[position].email != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
-                            holder.initials.text = feedbackResponse.feedbackList[position].email?.substring(0, 2)
+                            Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).email, holder.avatar)
                             holder.feedbackEmail?.text = feedbackResponse.feedbackList[position].email
                         }
                         if (feedbackResponse.feedbackList[position].timestamp != null &&
@@ -95,4 +98,5 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
         intent.putExtra("feedbackResponse", feedbackResponse)
         context.startActivity(intent)
     }
+
 }
