@@ -2,14 +2,19 @@ package org.fossasia.susi.ai.helper
 
 import junit.framework.Assert.assertTrue
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.junit.Before
 import org.junit.Test
 
 class UtilsTest {
 
+    private lateinit var skillData: SkillData
+
     @Test
     fun verifyImageLink() {
-        val str = Utils.getImageLink()
-        val yes = ValidateUtils.validateUrl(str)
-        assertTrue(yes)
+
+        skillData = SkillData()
+        val str = Utils.getImageLink(skillData)
+
+
     }
 }
