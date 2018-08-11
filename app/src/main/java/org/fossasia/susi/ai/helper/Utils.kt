@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.helper
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
@@ -26,7 +27,7 @@ object Utils {
     fun getImageLink(skillData: SkillData): String {
         val link = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}"
                 .replace(" ", "%20")
-        Timber.d("SUSI URI" + link)
+        Timber.d("SUSI URI ${link}")
         return link
     }
 
