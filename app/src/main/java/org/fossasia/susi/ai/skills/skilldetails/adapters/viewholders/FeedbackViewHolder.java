@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,8 +20,8 @@ public class FeedbackViewHolder extends RecyclerView.ViewHolder implements View.
     @BindView(R.id.itemFeedback)
     public LinearLayout itemFeedback;
 
-    @BindView(R.id.tvInitials)
-    public TextView initials;
+    @BindView(R.id.avatar)
+    public ImageView avatar;
 
     @BindView(R.id.tvEmail)
     public TextView feedbackEmail;
