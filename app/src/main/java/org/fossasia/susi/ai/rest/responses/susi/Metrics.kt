@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
  * Created by arundhati24 on 12/07/2018
  */
 data class Metrics(
+        val staffPicks: List<SkillData> = ArrayList(),
         val feedback: List<SkillData> = ArrayList(),
         val usage: List<SkillData> = ArrayList(),
         val rating: List<SkillData> = ArrayList(),
