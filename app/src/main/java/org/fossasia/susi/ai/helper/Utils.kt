@@ -1,13 +1,11 @@
 package org.fossasia.susi.ai.helper
 
-import android.support.annotation.VisibleForTesting
 import android.content.Context
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import java.net.URI
 import timber.log.Timber
 import java.security.MessageDigest
 
@@ -27,17 +25,10 @@ object Utils {
 
     fun getImageLink(skillData: SkillData): String {
         val link = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}"
-                .replace(" ","%20")
+                .replace(" ", "%20")
         Timber.d("SUSI URI" + link)
         return link
     }
-
-//    @VisibleForTesting
-//    fun getImageLink(): String {
-//        val link = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=model&language=language&group=String1 and String2&image=image1 and image2"
-//              //  .replace(" ","%20")
-//        return link
-//    }
 
     fun setAvatar(context: Context, email: String?, imageView: ImageView) {
         val imageUrl: String = GRAVATAR_URL + toMd5Hash(email) + ".jpg"
