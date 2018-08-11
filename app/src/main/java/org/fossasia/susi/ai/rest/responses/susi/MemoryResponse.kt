@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -9,14 +8,8 @@ import com.google.gson.annotations.SerializedName
  * Created by chiragw15 on 25/5/17.
  */
 
-class MemoryResponse {
-
-    @SerializedName("cognitions")
-    @Expose
-    var cognitionsList: List<SusiResponse> = ArrayList()
-
-    @SerializedName("session")
-    @Expose
-    var session: Session? = null
-
-}
+data class MemoryResponse(
+        @SerializedName("cognitions")
+        var cognitionsList: List<SusiResponse> = ArrayList(),
+        var session: Session? = null
+)

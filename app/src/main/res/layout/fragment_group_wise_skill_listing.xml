@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/default_bg">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/groupWiseSkills"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ProgressBar
+            android:id="@+id/progressSkillWait"
+            android:layout_width="@dimen/progress_bar_size"
+            android:layout_height="@dimen/progress_bar_size"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/errorSkillFetch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/padding_very_large"
+            android:text="@string/error_skill_listing"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_large"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/messageNoSkillsFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/padding_very_large"
+            android:text="@string/message_no_skills_found"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/text_size_large"
+            android:visibility="gone" />
+    </FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

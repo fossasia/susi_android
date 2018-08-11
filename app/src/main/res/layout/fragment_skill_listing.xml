@@ -29,7 +29,7 @@
             android:padding="16dp"
             android:text="@string/error_skill_listing"
             android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_large"
             android:visibility="gone" />
     </FrameLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 /**
  * Created by arundhati24 on 12/07/2018.
  */
-public class SkillGroupViewHolder extends RecyclerView.ViewHolder {
+public class SkillGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     @BindView(R.id.group_parent)
     public LinearLayout groupParent;
@@ -23,8 +23,25 @@ public class SkillGroupViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.ic_arrow)
     public ImageView arrowIcon;
 
-    public SkillGroupViewHolder(View itemView) {
+    private ClickListener listener;
+    private int adapterOffset;
+
+    public SkillGroupViewHolder(View itemView, int adapterOffset, ClickListener clickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        this.listener = clickListener;
+        itemView.setOnClickListener(this);
+        this.adapterOffset = adapterOffset;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (listener != null) {
+            listener.onItemClicked(getAdapterPosition() - adapterOffset);
+        }
+    }
+
+    public interface ClickListener {
+        void onItemClicked(int position);
     }
 }

@@ -8,9 +8,11 @@ import android.net.wifi.WifiManager
 import android.os.AsyncTask
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.DeviceModel
+import org.fossasia.susi.ai.data.device.DeviceModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
+import org.fossasia.susi.ai.data.device.SpeakerAuth
+import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
@@ -149,7 +151,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.wifi_error))
-        deviceConnectView?.showPopUpDialog()
     }
 
     override fun onSendAuthSuccess() {
@@ -163,7 +164,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d("AUTH - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.auth_error))
-        makeConfigRequest()
     }
 
     override fun onSetConfigSuccess() {
@@ -191,14 +191,14 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun makeConfigRequest() {
         Timber.d("In here : CONFIG REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
-        deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
+        deviceModel.setConfiguration(SpeakerConfiguration("google", "google", "y", "n"), this@DeviceConnectPresenter)
     }
 
     override fun makeAuthRequest(password: String) {
         Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
-        deviceModel.sendAuthCredentials("y", PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(),
-                password, this@DeviceConnectPresenter)
+        deviceModel.sendAuthCredentials(SpeakerAuth("y", PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(),
+                password), this@DeviceConnectPresenter)
     }
 
 }
