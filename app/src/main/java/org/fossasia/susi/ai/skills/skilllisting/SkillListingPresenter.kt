@@ -98,6 +98,15 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
             if (metricsData != null) {
                 metrics.metricsList.clear()
                 metrics.metricsGroupTitles.clear()
+                if (metricsData?.staffPicks != null && metricsData?.staffPicks?.size != null) {
+                    //TODO : Make this comparison null safe
+                    if (metricsData?.staffPicks?.size!! > 0) {
+                        metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_staff_picks))
+                        metrics.metricsList.add(metricsData?.staffPicks)
+                        skillListingView?.updateAdapter(metrics)
+                    }
+                }
+
                 if (metricsData?.rating != null) {
                     if (metricsData?.rating?.size as Int > 0) {
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_rating))

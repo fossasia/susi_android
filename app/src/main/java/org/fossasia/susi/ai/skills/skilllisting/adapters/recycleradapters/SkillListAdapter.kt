@@ -6,10 +6,8 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.Transformation
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.helper.CircleTransform
+import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
@@ -21,7 +19,6 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHo
 class SkillListAdapter(val context: Context, private val skillDetails: List<SkillData>?, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
-    private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
     private val clickListener: SkillViewHolder.ClickListener = this
 
     @NonNull
@@ -43,12 +40,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
             if (skillData.image == null || skillData.image.isEmpty()) {
                 holder.previewImageView?.setImageResource(R.drawable.ic_susi)
             } else {
-                Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
-                        .append(skillDetails[position].group.replace(" ", "%20")).append("/en/").append(skillData.image).toString())
-                        .fit().centerCrop()
-                        .error(R.drawable.ic_susi)
-                        .transform(CircleTransform())
-                        .into(holder.previewImageView)
+              Utils.setSkillsImage(skillData, holder.previewImageView)
             }
 
             if (skillData.skillRating != null) {
