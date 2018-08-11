@@ -1,12 +1,12 @@
 package org.fossasia.susi.ai.helper
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import java.net.URI
 import timber.log.Timber
 import java.security.MessageDigest
 
@@ -24,6 +24,13 @@ object Utils {
                 .into(imageView)
     }
 
+    fun getImageLink(skillData: SkillData): String {
+        val link = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}"
+                .replace(" ", "%20")
+        Timber.d("SUSI URI ${link}")
+        return link
+    }
+
     fun setAvatar(context: Context, email: String?, imageView: ImageView) {
         val imageUrl: String = GRAVATAR_URL + toMd5Hash(email) + ".jpg"
         Picasso.with(context)
@@ -32,11 +39,6 @@ object Utils {
                 .error(R.drawable.ic_susi)
                 .transform(CircleTransform())
                 .into(imageView)
-    }
-
-    fun getImageLink(skillData: SkillData): String {
-        val uri = URI("${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}")
-        return uri.toASCIIString()
     }
 
     fun toMd5Hash(email: String?): String? {
