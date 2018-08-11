@@ -396,7 +396,9 @@
 
     <string name="metric_rating">\"SUSI, What are your highest rated skills?\"</string>
     <string name="metric_usage">\"SUSI, what are your most used skills?\"</string>
-    <string name="metric_latest">\"SUSI, what are the latest skills?\"</string>
+    <string name="metric_latest">\"SUSI, what are the recently updated skills?\"</string>
     <string name="metric_feedback">\"SUSI, what are the skills with most feedback?\"</string>
+    <string name="metric_newest">\"SUSI, what are the newest skills?\"</string>
+    <string name="metrics_top_games">\"SUSI, what are your top games?\"</string>
     <string name="message_no_skills_found">No skills found.</string>
 </resources>

@@ -5,6 +5,7 @@ import org.fossasia.susi.ai.rest.responses.susi.Datum;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import timber.log.Timber;
 
 /**
  * <h1>Model Class extending realm object to store messaged in local database.</h1>
@@ -103,7 +104,7 @@ public class ChatMessage extends RealmObject {
         try {
             this.webLinkData = webLinkData;
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 

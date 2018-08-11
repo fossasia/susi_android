@@ -21,8 +21,6 @@ public class SkillViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public ImageView previewImageView;
     @BindView(R.id.skill_preview_title)
     public TextView skillPreviewTitle;
-    @BindView(R.id.skill_preview_description)
-    public TextView skillPreviewDescription;
     @BindView(R.id.skill_preview_example)
     public TextView skillPreviewExample;
     @BindView(R.id.cv_rating_bar)
