@@ -313,12 +313,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         /* logout on clicking loginLogout */
         loginLogout.setOnPreferenceClickListener {
-            val d = AlertDialog.Builder(activity as SkillsActivity)
-            d.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
+            val dialog = AlertDialog.Builder(activity as SkillsActivity)
+            dialog.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                 settingsPresenter.loginLogout()
             }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
-            val alert = d.create()
+            val alert = dialog.create()
             alert.setTitle(getString(R.string.logout))
             alert.show()
             true
