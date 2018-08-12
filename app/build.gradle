@@ -27,8 +27,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 12
-        versionName "1.0.11"
+        versionCode 13
+        versionName "1.0.12"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -63,6 +63,13 @@ android {
     lintOptions {
         abortOnError false
         disable 'InvalidPackage'
+    }
+
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
     }
 }
 
@@ -114,6 +121,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
+    testImplementation 'junit:junit:4.12'
 
     //realm adapter
     implementation "io.realm:android-adapters:${rootConfiguration.realmVersion}"

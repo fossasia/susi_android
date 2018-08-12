@@ -50,9 +50,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     private var source = Constant.IP
     private var isDetectionOn = false
     var check = false
-    var atHome = true
-    var backPressedOnce = false
-    var id: Long = 0;
+    var id: Long = 0
     var identifier: String = ""
     var tableItem: TableItem? = null
 
