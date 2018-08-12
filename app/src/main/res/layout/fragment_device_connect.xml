@@ -81,7 +81,7 @@
         android:layout_margin="@dimen/message_card_margin_small"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanDevice"
+        app:layout_constraintTop_toBottomOf="@+id/scanHelp"
         android:id="@+id/wifiList"
         >
     </android.support.v7.widget.RecyclerView>
