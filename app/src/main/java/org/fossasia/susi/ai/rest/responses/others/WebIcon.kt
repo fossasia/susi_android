@@ -9,11 +9,8 @@ import com.google.gson.annotations.SerializedName
  * Created by mayank on 12-12-2016.
  */
 
-class WebIcon {
-
+data class WebIcon(
     @SerializedName("URL")
-    @Expose
     var url: String? = null
-
-}
+)
 

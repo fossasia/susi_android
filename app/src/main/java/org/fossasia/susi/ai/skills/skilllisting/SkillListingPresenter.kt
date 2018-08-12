@@ -98,6 +98,15 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
             if (metricsData != null) {
                 metrics.metricsList.clear()
                 metrics.metricsGroupTitles.clear()
+                if (metricsData?.staffPicks != null && metricsData?.staffPicks?.size != null) {
+                    //TODO : Make this comparison null safe
+                    if (metricsData?.staffPicks?.size!! > 0) {
+                        metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_staff_picks))
+                        metrics.metricsList.add(metricsData?.staffPicks)
+                        skillListingView?.updateAdapter(metrics)
+                    }
+                }
+
                 if (metricsData?.rating != null) {
                     if (metricsData?.rating?.size as Int > 0) {
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_rating))
@@ -114,6 +123,17 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
                     }
                 }
 
+                if (metricsData?.newest != null) {
+                    val size = metricsData?.newest?.size
+                    if (size is Int) {
+                        if (size > 0) {
+                            metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_newest))
+                            metrics.metricsList.add(metricsData?.newest)
+                            skillListingView?.updateAdapter(metrics)
+                        }
+                    }
+                }
+
                 if (metricsData?.latest != null) {
                     if (metricsData?.latest?.size as Int > 0) {
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_latest))
@@ -127,6 +147,17 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_feedback))
                         metrics.metricsList.add(metricsData?.feedback)
                         skillListingView?.updateAdapter(metrics)
+                    }
+                }
+
+                if (metricsData?.topGames != null) {
+                    val size = metricsData?.feedback?.size
+                    if (size is Int) {
+                        if (size > 0) {
+                            metrics.metricsGroupTitles.add(utilModel.getString(R.string.metrics_top_games))
+                            metrics.metricsList.add(metricsData?.topGames)
+                            skillListingView?.updateAdapter(metrics)
+                        }
                     }
                 }
 

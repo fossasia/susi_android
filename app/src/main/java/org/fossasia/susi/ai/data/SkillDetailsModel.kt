@@ -53,7 +53,7 @@ class SkillDetailsModel : ISkillDetailsModel {
             }
 
             override fun onFailure(call: Call<FiveStarSkillRatingResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onError(t)
             }
         })
@@ -68,7 +68,7 @@ class SkillDetailsModel : ISkillDetailsModel {
             }
 
             override fun onFailure(call: Call<GetRatingByUserResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onUpdateUserRatingError(t)
             }
         })

@@ -17,6 +17,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
+import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
@@ -34,12 +35,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
+    private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
 
     private var mSearchAction: MenuItem? = null
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
     private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
     private var text: String = ""
+    private var group: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +63,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return true
     }
 
-    private fun exitActivity() {
+    private fun exitActivity(context: Context) {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        val intent = Intent(this@SkillsActivity, ChatActivity::class.java)
+        val intent = Intent(context, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
@@ -71,9 +74,11 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         if (supportFragmentManager.popBackStackImmediate(TAG_SKILLS_FRAGMENT, 0)) {
             title = getString(R.string.skills_activity)
+        } else if (supportFragmentManager.popBackStackImmediate(TAG_GROUP_WISE_SKILLS_FRAGMENT, 0)) {
+            title = getString(R.string.skills_activity)
         } else {
             finish()
-            exitActivity()
+            exitActivity(this)
         }
     }
 
@@ -205,6 +210,15 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         (this).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, skillDetailsFragment)
                 .addToBackStack(SkillDetailsFragment().toString())
+                .commit()
+    }
+
+    override fun loadGroupWiseSkillsFragment(group: String) {
+        handleOnLoadingFragment()
+        val groupWiseSkillsFragment = GroupWiseSkillsFragment.newInstance(group)
+        (this).supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, groupWiseSkillsFragment)
+                .addToBackStack(GroupWiseSkillsFragment().toString())
                 .commit()
     }
 

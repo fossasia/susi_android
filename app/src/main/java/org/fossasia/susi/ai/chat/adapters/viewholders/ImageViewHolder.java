@@ -64,7 +64,7 @@ public class ImageViewHolder extends MessageViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void setView(ChatMessage model) {
+    public void setView(final ChatMessage model) {
         this.model = model;
 
         if (model != null) {
@@ -93,35 +93,42 @@ public class ImageViewHolder extends MessageViewHolder {
             thumbsDown.setVisibility(View.GONE);
         } else {
             thumbsUp.setVisibility(View.VISIBLE);
-            thumbsDown.setVisibility(View.INVISIBLE);
+            thumbsDown.setVisibility(View.VISIBLE);
         }
 
-        if (model.isPositiveRated()) {
-            thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+        if (model.isPositiveRated() || model.isNegativeRated()) {
+            thumbsUp.setVisibility(View.GONE);
+            thumbsDown.setVisibility(View.GONE);
         } else {
-            thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
-        }
-        timeStamp.setText(model.getTimeStamp());
-    }
-
-    @OnClick
-    public void thumbsUpClick() {
-        thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
-        if (!model.isPositiveRated() && !model.isNegativeRated()) {
-            rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), itemView.getContext());
-            setRating(true, true);
-        } else if (model.isPositiveRated() && !model.isNegativeRated()) {
-            setRating(false, true);
             thumbsUp.setImageResource(R.drawable.thumbs_up_outline);
-            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
-            SystemClock.sleep(500);
-            rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
-            setRating(true, false);
-        } else if (!model.isPositiveRated() && model.isNegativeRated()) {
-            rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), itemView.getContext());
-            setRating(false, false);
             thumbsDown.setImageResource(R.drawable.thumbs_down_outline);
         }
+
+        timeStamp.setText(model.getTimeStamp());
+
+        thumbsUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Timber.d(model.isPositiveRated() + " " + model.isNegativeRated());
+                if (!model.isPositiveRated() && !model.isNegativeRated()) {
+                    thumbsUp.setImageResource(R.drawable.thumbs_up_solid);
+                    rateSusiSkill(Constant.POSITIVE, model.getSkillLocation(), itemView.getContext());
+                    setRating(true, true);
+                }
+            }
+        });
+
+        thumbsDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Timber.d(model.isPositiveRated() + " " + model.isNegativeRated());
+                if (!model.isPositiveRated() && !model.isNegativeRated()) {
+                    thumbsDown.setImageResource(R.drawable.thumbs_down_solid);
+                    rateSusiSkill(Constant.NEGATIVE, model.getSkillLocation(), itemView.getContext());
+                    setRating(true, false);
+                }
+            }
+        });
     }
 
     // a function to rate the susi skill

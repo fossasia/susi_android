@@ -27,8 +27,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 11
-        versionName "1.0.10"
+        versionCode 13
+        versionName "1.0.12"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -53,13 +53,10 @@ android {
     productFlavors {
         fdroid {
             dimension "default"
-            applicationIdSuffix ".fdroid"
-            versionNameSuffix "-FDroid"
         }
 
         playStore {
             dimension "default"
-            versionNameSuffix "-PlayStore"
         }
     }
 
@@ -67,6 +64,10 @@ android {
         abortOnError false
         disable 'InvalidPackage'
     }
+}
+
+androidExtensions {
+    experimental = true
 }
 
 dependencies {

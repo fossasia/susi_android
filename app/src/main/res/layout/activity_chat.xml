@@ -86,7 +86,7 @@
                             android:background="@android:color/transparent"
                             android:cursorVisible="true"
                             android:hint="@string/send_msg_hint"
-                            android:inputType="textNoSuggestions|textVisiblePassword"
+                            android:inputType="text"
                             android:scrollbars="vertical"
                             android:textCursorDrawable="@null"
                             android:theme="@style/sendMessageEditTextTheme" />

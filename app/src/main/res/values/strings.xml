@@ -287,7 +287,7 @@
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><font color='#4184f3'>skills.susi.ai</font></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
 
     <!-- Intro Strings -->
-    <string name="author_name">Author: Author name</string>
+    <string name="author_name">Author name</string>
 
     <string name="content_type_dynamic">Content Type: Dynamic</string>
     <string name="content_type_static">Content Type: Static</string>
@@ -392,8 +392,12 @@
 
     <!-- Metrics -->
 
+    <string name="metric_staff_picks">Staff Picks</string>
     <string name="metric_rating">\"SUSI, What are your highest rated skills?\"</string>
     <string name="metric_usage">\"SUSI, what are your most used skills?\"</string>
-    <string name="metric_latest">\"SUSI, what are the latest skills?\"</string>
+    <string name="metric_latest">\"SUSI, what are the recently updated skills?\"</string>
     <string name="metric_feedback">\"SUSI, what are the skills with most feedback?\"</string>
+    <string name="metric_newest">\"SUSI, what are the newest skills?\"</string>
+    <string name="metrics_top_games">\"SUSI, what are your top games?\"</string>
+    <string name="message_no_skills_found">No skills found.</string>
 </resources>

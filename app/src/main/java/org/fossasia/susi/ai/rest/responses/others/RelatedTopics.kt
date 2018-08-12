@@ -9,21 +9,13 @@ import com.google.gson.annotations.SerializedName
  * Created by mayank on 09-12-2016.
  */
 
-class RelatedTopics {
-
+data class RelatedTopics (
     @SerializedName("FirstURL")
-    @Expose
-    var url: String? = null
-
+    var url: String? = null,
     @SerializedName("Text")
-    @Expose
-    var text: String? = null
-
+    var text: String? = null,
     @SerializedName("Icon")
-    @Expose
-    var icon: WebIcon? = null
-
+    var icon: WebIcon? = null,
     @SerializedName("Result")
-    @Expose
     var result: String? = null
-}
+)
