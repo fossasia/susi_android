@@ -366,12 +366,14 @@
     <string name="location_access">Provide Location Access</string>
     <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
     <string name="set_up">SET UP</string>
+    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker.</string>
     <string name="connecting_device">Connecting to your device...</string>
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
-    <string name="choose_wifi">Choose a Wi-Fi</string>
+    <string name="choose_wifi">Connect to Wi-Fi</string>
     <string name="enter_password">Enter the Password for \n</string>
-    <string name="enter_password_mail">Enter the password for your account \n</string>
+    <string name="thanks_wifi">Thanks for entering the Wi-Fi credentials\n</string>
+    <string name="enter_password_mail">This is the final step, please enter your SUSI.AI account\'s password to successfully connect to the speaker</string>
 
 
     <!-- Feedback System -->

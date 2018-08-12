@@ -239,7 +239,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         val utilModel = UtilModel(activity as DeviceActivity)
         val view = LayoutInflater.from(activity).inflate(R.layout.get_password, null)
         val alertDialog = AlertDialog.Builder(activity as DeviceActivity).create()
-        alertDialog.setTitle(utilModel.getString(R.string.enter_password_mail))
+        alertDialog.setTitle(utilModel.getString(R.string.thanks_wifi))
+        alertDialog.setMessage(utilModel.getString(R.string.enter_password_mail))
         alertDialog.setCancelable(false)
 
         val password = view.findViewById<EditText>(R.id.edt_pass)
