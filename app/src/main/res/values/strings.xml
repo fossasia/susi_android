@@ -386,6 +386,7 @@
     <string name="placeholder_initials">AB</string>
     <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
     <string name="see_all_reviews">See All Reviews</string>
+    <string name="reviews">Reviews</string>
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
 
