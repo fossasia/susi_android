@@ -117,10 +117,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setAuthor() {
-        skillDetailAuthor.text = "Author : ${activity?.getString(R.string.no_skill_author)}"
+        skillDetailAuthor.text = "by ${activity?.getString(R.string.no_skill_author)}"
         if (skillData.author != null && !skillData.author.isEmpty()) {
             if (skillData.authorUrl == null || skillData.authorUrl.isEmpty())
-                skillDetailAuthor.text = "Author : ${skillData.skillName}"
+                skillDetailAuthor.text = "by ${skillData.skillName}"
             else {
                 skillDetailAuthor.setOnClickListener({
                     try {
@@ -133,9 +133,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                     }
                 })
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    skillDetailAuthor.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
+                    skillDetailAuthor.text = Html.fromHtml("by <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
                 } else {
-                    skillDetailAuthor.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>")
+                    skillDetailAuthor.text = Html.fromHtml("by <a href=\"${skillData.authorUrl}\">${skillData.author}</a>")
                 }
             }
         }
@@ -389,6 +389,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
         //Set label count to 5 as we are using 5 star rating system
         xAxis.setLabelCount(5)
+        xAxis.textColor = ContextCompat.getColor(skillRatingChart.context, R.color.md_grey_800)
         xAxis.valueFormatter = XAxisValueFormatter(values)
 
         //Add a list of bar entries

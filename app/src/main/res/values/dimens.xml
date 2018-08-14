@@ -34,12 +34,15 @@
     <dimen name="text_size_very_large">22sp</dimen>
     <dimen name="text_size_extra_large">24sp</dimen>
 
+    <!-- Skill details -->
+
+    <dimen name="button_width_skill_details">96dp</dimen>
+    <dimen name="button_height_skill_details">48dp</dimen>
+    <dimen name="skill_image_dimensions">136dp</dimen>
+
     <dimen name="activity_landscape_width">300dp</dimen>
 
     <dimen name="button_width">250dp</dimen>
-
-    <dimen name="button_width_skill_details">100dp</dimen>
-    <dimen name="button_height_skill_details">40dp</dimen>
 
     <dimen name="cmv_corner_radius">15dp</dimen>
     <dimen name="cmv_padding">10dp</dimen>
