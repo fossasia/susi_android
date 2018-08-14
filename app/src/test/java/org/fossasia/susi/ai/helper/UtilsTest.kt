@@ -1,12 +1,25 @@
 package org.fossasia.susi.ai.helper
 
 import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
-import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.junit.Before
 import org.junit.Test
+import org.fossasia.susi.ai.rest.responses.susi.SkillData
 
+/**
+ *
+ * Created by arundhati24 on 03/08/2018.
+ */
 class UtilsTest {
+    @Test
+    fun testTruncateEmailAtEnd() {
+        assertEquals("testuser@ ...", Utils.truncateEmailAtEnd("testuser@example.com"))
+        assertEquals(null, Utils.truncateEmailAtEnd("testuser"))
+        assertEquals(null, Utils.truncateEmailAtEnd(""))
+        assertEquals(null, Utils.truncateEmailAtEnd(" "))
+        assertEquals(null, Utils.truncateEmailAtEnd(null))
+        assertEquals("test.user@ ...", Utils.truncateEmailAtEnd("test.user@example.com"))
+        assertEquals("test_user@ ...", Utils.truncateEmailAtEnd("test_user@example.com"))
+        assertEquals("test123@ ...", Utils.truncateEmailAtEnd("test123@example.com"))
+    }
 
     @Test
     fun verifyImageLink() {

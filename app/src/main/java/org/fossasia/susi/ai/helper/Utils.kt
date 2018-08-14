@@ -60,4 +60,14 @@ object Utils {
         return result.toString()
     }
 
+    fun truncateEmailAtEnd(email: String?): String? {
+        if (!email.isNullOrEmpty()) {
+            val truncateAt = email?.indexOf('@')
+            if (truncateAt != null && truncateAt != -1) {
+                return email.substring(0, truncateAt.plus(1)) + " ..."
+            }
+        }
+        return null
+    }
+
 }
