@@ -10,13 +10,13 @@
         android:id="@+id/background_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginLeft="@dimen/message_card_margin_medium"
-        android:layout_marginTop="@dimen/message_card_margin_small"
-        android:padding="@dimen/padding_chatbubble_large"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/padding_large"
         android:orientation="vertical"
         android:background="@drawable/rounded_layout"
-        android:layout_marginStart="@dimen/message_card_margin_medium">
+        android:layout_marginStart="@dimen/margin_medium">
 
         <TextView
             android:id="@+id/text"
@@ -24,11 +24,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="start|left"
             android:maxWidth="@dimen/message_layout_max_width"
-            android:paddingBottom="@dimen/message_textview_bottom_padding"
+            android:paddingBottom="@dimen/padding_small"
             android:text="@string/hello_world"
             android:textColor="@color/message_text_color"
             android:textColorLink="@color/link_text"
-            android:textSize="@dimen/message_text_size" />
+            android:textSize="@dimen/text_size_medium" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,7 +43,7 @@
                 android:gravity="bottom"
                 android:text="@string/time_9am"
                 android:textColor="@color/timestamp_color"
-                android:textSize="@dimen/timestamp_size" />
+                android:textSize="@dimen/text_size_very_small" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -57,8 +57,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/thumbs_up_outline"
-                        android:layout_marginRight="@dimen/message_card_margin_small"
-                        android:layout_marginEnd="@dimen/message_card_margin_small" />
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:layout_marginEnd="@dimen/margin_small" />
 
                 <ImageView
                     android:id="@+id/thumbs_down"
