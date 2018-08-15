@@ -10,12 +10,12 @@
         android:id="@+id/background_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginRight="@dimen/message_card_margin_medium"
-        android:layout_marginTop="@dimen/message_card_margin_small"
-        android:padding="@dimen/padding_chatbubble_large"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/padding_large"
         android:background="@drawable/rounded_layout_grey"
-        android:layout_marginEnd="@dimen/message_card_margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
         android:orientation="vertical">
 
         <TextView
@@ -25,18 +25,18 @@
             android:layout_gravity="end"
             android:gravity="end"
             android:maxWidth="@dimen/message_layout_max_width"
-            android:paddingBottom="@dimen/message_textview_bottom_padding"
+            android:paddingBottom="@dimen/padding_small"
             android:text="@string/sample_website_description"
             android:textColor="@color/message_text_color"
-            android:textSize="@dimen/message_text_size" />
+            android:textSize="@dimen/text_size_medium" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:gravity="center"
-                android:paddingLeft="@dimen/timestamp_layout_padding"
-                android:paddingStart="@dimen/timestamp_layout_padding">
+                android:paddingLeft="@dimen/padding_medium"
+                android:paddingStart="@dimen/padding_medium">
 
             <TextView
                 android:id="@+id/timestamp"
@@ -45,12 +45,12 @@
                 android:gravity="bottom"
                 android:text="@string/time_9am"
                 android:textColor="@color/timestamp_color"
-                android:textSize="@dimen/timestamp_size" />
+                android:textSize="@dimen/text_size_very_small" />
 
                 <ImageView
                     android:id="@+id/received_tick"
-                    android:layout_width="@dimen/timestamp_size"
-                    android:layout_height="@dimen/timestamp_size"
+                    android:layout_width="@dimen/text_size_very_small"
+                    android:layout_height="@dimen/text_size_very_small"
                     android:layout_marginLeft="@dimen/margin_small"
                     app:srcCompat="@drawable/ic_clock"
                     android:layout_marginStart="@dimen/margin_small" />

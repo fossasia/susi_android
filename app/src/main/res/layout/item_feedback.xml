@@ -69,8 +69,8 @@
             android:layout_width="@dimen/arrow_width"
             android:layout_height="@dimen/arrow_height"
             android:layout_gravity="center_vertical"
-            android:paddingLeft="@dimen/padding_large"
-            android:paddingStart="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_moderate"
+            android:paddingStart="@dimen/padding_moderate"
             android:src="@drawable/ic_right_facing_arrow" />
 
     </LinearLayout>

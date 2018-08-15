@@ -8,7 +8,7 @@
         android:id="@+id/edtSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_moderate"
         android:background="@null"
         android:hint="@string/search_skill"
         android:imeOptions="actionSearch"

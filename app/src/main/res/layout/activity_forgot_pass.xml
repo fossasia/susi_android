@@ -15,7 +15,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_mail_outline_black_24dp" />
 
