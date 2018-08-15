@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingEnd="15dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="15dp"
-    android:paddingStart="16dp"
+    android:paddingEnd="@dimen/padding_large"
+    android:paddingLeft="@dimen/padding_large"
+    android:paddingRight="@dimen/padding_large"
+    android:paddingStart="@dimen/padding_large"
     android:paddingTop="10dp">
 
     <android.support.v7.widget.AppCompatCheckBox
