@@ -450,19 +450,6 @@
                 android:textColor="@color/md_black_1000"
                 android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/skillDetailPolicy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/developer_privacy_policy" />
-
-            <TextView
-                android:id="@+id/skillDetailTerms"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/terms_of_use" />
-
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

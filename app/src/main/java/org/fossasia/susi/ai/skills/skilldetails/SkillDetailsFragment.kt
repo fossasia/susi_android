@@ -100,8 +100,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         setRating()
         setFeedback()
         setDynamicContent()
-        setPolicy()
-        setTerms()
     }
 
     private fun setImage() {
@@ -499,50 +497,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 skillDetailContent.text = context?.getString(R.string.content_type_dynamic)
             } else {
                 skillDetailContent.text = context?.getString(R.string.content_type_static)
-            }
-        }
-    }
-
-    private fun setPolicy() {
-        if (skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
-            skillDetailPolicy.visibility = View.GONE
-        } else {
-            skillDetailAuthor.setOnClickListener({
-                try {
-                    var uri = Uri.parse(skillData.developerPrivacyPolicy)
-                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
-                    var customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(context, uri) //launching through custom tabs
-                } catch (e: Exception) {
-                    Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
-                }
-            })
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                skillDetailPolicy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>", Html.FROM_HTML_MODE_COMPACT)
-            } else {
-                skillDetailPolicy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>")
-            }
-        }
-    }
-
-    private fun setTerms() {
-        if (skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
-            skillDetailTerms.visibility = View.GONE
-        } else {
-            skillDetailAuthor.setOnClickListener({
-                try {
-                    var uri = Uri.parse(skillData.termsOfUse)
-                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
-                    var customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(context, uri) //launching through custom tabs
-                } catch (e: Exception) {
-                    Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
-                }
-            })
-            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>", Html.FROM_HTML_MODE_COMPACT)
-            } else {
-                skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>")
             }
         }
     }
