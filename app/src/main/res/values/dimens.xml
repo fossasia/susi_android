@@ -29,7 +29,6 @@
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_title">18sp</dimen>
     <dimen name="text_size_moderate">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_very_large">22sp</dimen>
@@ -98,4 +97,9 @@
     <dimen name="arrow_width">16dp</dimen>
     <dimen name="arrow_height">16dp</dimen>
     <dimen name="arrow_padding_large">56dp</dimen>
+
+    <!-- Avatar dimensions -->
+
+    <dimen name="avatar_size">48dp</dimen>
+
 </resources>

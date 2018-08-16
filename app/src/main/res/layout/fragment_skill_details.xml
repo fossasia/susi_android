@@ -387,6 +387,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/desc_post_feedback"
+                android:textSize="@dimen/text_size_normal"
                 android:visibility="gone" />
 
             <LinearLayout
@@ -407,7 +408,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_feedback"
-                        android:inputType="text" />
+                        android:inputType="text"
+                        android:textSize="@dimen/text_size_normal" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -430,12 +432,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/post_feedback_for_anonymous_user"
+                android:textSize="@dimen/text_size_normal"
                 android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvFeedback"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="@dimen/padding_small" />
 
             <TextView
                 android:id="@+id/skillDetailContent"
