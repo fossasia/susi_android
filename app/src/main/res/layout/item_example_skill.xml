@@ -1,14 +1,13 @@
- <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/background_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:padding="10dp"
-        android:background="@drawable/rounded_layout"
-     android:layout_marginStart="@dimen/margin_medium">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_small"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginRight="@dimen/margin_small"
+    android:background="@drawable/rounded_layout"
+    android:padding="@dimen/padding_moderate">
 
     <TextView
         android:id="@+id/text"
@@ -18,7 +17,7 @@
         android:maxWidth="@dimen/message_layout_max_width"
         android:paddingBottom="@dimen/padding_small"
         android:text="@string/hello_world"
-        android:textColor="@color/message_text_color"
+        android:textColor="@color/md_grey_700"
         android:textSize="@dimen/text_size_medium" />
 
 </LinearLayout>

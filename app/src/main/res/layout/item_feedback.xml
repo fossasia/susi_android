@@ -13,9 +13,7 @@
         android:background="@color/md_white_1000"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/padding_small"
-        android:paddingLeft="@dimen/padding_small"
-        android:paddingRight="@dimen/padding_small"
-        android:paddingStart="@dimen/padding_small">
+        android:paddingRight="@dimen/padding_small">
 
         <ImageView
             android:id="@+id/avatar"
@@ -25,9 +23,9 @@
             android:layout_marginBottom="@dimen/padding_small"
             android:layout_marginEnd="@dimen/padding_small"
             android:layout_marginRight="@dimen/padding_small"
-            android:background="@color/md_white_1000"
             android:gravity="top"
             android:textAllCaps="true"
+            android:background="@color/md_white_1000"
             android:textColor="@color/md_white_1000" />
 
         <LinearLayout
@@ -46,7 +44,7 @@
                 android:background="@color/md_white_1000"
                 android:includeFontPadding="false"
                 android:text="@string/placeholder_email"
-                android:textColor="@color/md_black_1000"
+                android:textColor="@color/md_grey_800"
                 android:textSize="@dimen/text_size_normal"
                 app:fontFamily="sans-serif" />
 
@@ -56,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:background="@color/md_white_1000"
                 android:includeFontPadding="false"
-                android:text="@string/placeholder_date"
                 android:textSize="@dimen/text_size_small"
                 app:fontFamily="sans-serif" />
 
@@ -64,12 +61,12 @@
                 android:id="@+id/tvFeedback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/md_white_1000"
-                android:includeFontPadding="false"
                 android:text="@string/example_feedback"
                 android:textColor="@color/md_grey_700"
-                android:textSize="@dimen/text_size_normal"
-                app:fontFamily="sans-serif" />
+                app:fontFamily="sans-serif"
+                android:includeFontPadding="false"
+                android:background="@color/md_white_1000"
+                android:textSize="@dimen/text_size_normal" />
 
         </LinearLayout>
     </LinearLayout>
