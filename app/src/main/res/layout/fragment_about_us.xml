@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_bottom"
+            android:layout_marginBottom="@dimen/margin_extra_large"
             android:layout_marginTop="@dimen/margin_medium"
             android:orientation="vertical">
 
@@ -22,9 +22,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:layout_margin="@dimen/message_layout_margin"
+                android:layout_margin="@dimen/margin_small"
                 android:focusable="true"
-                app:cardCornerRadius="@dimen/message_layout_margin"
+                app:cardCornerRadius="@dimen/margin_small"
                 android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
@@ -44,10 +44,10 @@
                         android:id="@+id/about_susi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_moderate"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_about"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
@@ -59,7 +59,7 @@
                 android:layout_margin="@dimen/margin_small"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardCornerRadius="@dimen/message_layout_margin"
+                app:cardCornerRadius="@dimen/margin_small"
                 android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_contributors_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 
@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small"
-                app:cardCornerRadius="@dimen/message_layout_margin"
+                app:cardCornerRadius="@dimen/margin_small"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground">
@@ -120,7 +120,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_skill_cms_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 
@@ -129,7 +129,7 @@
             <!-- About Reporting Issues -->
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                app:cardCornerRadius="@dimen/message_layout_margin"
+                app:cardCornerRadius="@dimen/margin_small"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_small"
                 android:clickable="true"
@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_report_issues_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 
@@ -172,7 +172,7 @@
                 android:layout_marginLeft="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
                 android:clickable="true"
-                app:cardCornerRadius="@dimen/message_layout_margin"
+                app:cardCornerRadius="@dimen/margin_small"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground">
 
@@ -197,7 +197,7 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_license_information_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 

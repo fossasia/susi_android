@@ -8,13 +8,13 @@
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/message_layout_margin"
+        android:layout_margin="@dimen/margin_small"
         app:cardBackgroundColor="@color/susi_message_bg">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/message_layout_margin">
+            android:padding="@dimen/margin_small">
 
             <ImageView
                 android:id="@+id/youtube_view"
@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/play_video"
-                android:layout_width="@dimen/padding_img"
-                android:layout_height="@dimen/padding_img"
+                android:layout_width="@dimen/padding_extra_large"
+                android:layout_height="@dimen/padding_extra_large"
                 android:layout_centerInParent="true"
                 app:srcCompat="@drawable/ic_play_circle_filled_white_24dp" />
         </RelativeLayout>

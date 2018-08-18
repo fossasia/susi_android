@@ -55,7 +55,7 @@ public class AppResCopy {
                 Timber.i("copy to %s ok!", sdcardDstDir);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Timber.e(e);
         }
     }
 

@@ -2,11 +2,11 @@
 <resources>
     <string-array name="languagentries">
         <item>English</item>
-        <item>German</item>
-        <item>Spanish</item>
-        <item>French</item>
-        <item>Italian</item>
-        <item>Hindi</item>
+        <item>Deutsche</item>
+        <item>Español</item>
+        <item>français</item>
+        <item>italiano</item>
+        <item>हिंदी</item>
     </string-array>
 
     <string-array name="languagentry">

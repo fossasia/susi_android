@@ -21,4 +21,6 @@ ext {
     picassoVersion = '2.5.2'
     timberVersion = '4.7.0'
     customTabsVersion = '25.1.0'
+    jUnitVersion = '4.12'
+    mockitoCoreVersion = '1.10.19'
 }

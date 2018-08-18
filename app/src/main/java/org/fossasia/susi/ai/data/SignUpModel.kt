@@ -6,6 +6,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  * Model of Login
@@ -30,7 +31,7 @@ class SignUpModel : ISignUpModel {
             }
 
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onError(t)
             }
         })
