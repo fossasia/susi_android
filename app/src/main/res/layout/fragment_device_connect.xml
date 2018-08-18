@@ -9,18 +9,27 @@
         android:id="@+id/scanDevice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/scan_message_margin_top"
+        android:layout_marginTop="@dimen/margin_extra_large"
         android:gravity="center"
         android:visibility="gone"
         android:text="@string/scan_devices"
         android:textAppearance="?android:textAppearanceLarge"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/scanHelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/device_help"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/scanDevice" />
+
     <ProgressBar
         android:id="@+id/scanProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/scan_progress_margin_top"
+        android:layout_marginTop="@dimen/margin_moderate"
         android:visibility="gone"
         app:layout_constraintLeft_toRightOf="parent"
         app:layout_constraintRight_toLeftOf="parent"
@@ -45,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/device_setup_margin_top"
         android:gravity="center"
-        android:padding="@dimen/padding_large"
+        android:padding="@dimen/padding_moderate"
         android:text="@string/setup_tut"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/noDeviceFound" />
@@ -53,7 +62,7 @@
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/padding_large"
+        android:layout_margin="@dimen/padding_moderate"
         android:id="@+id/addDeviceButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,17 +71,17 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/message_card_margin_small"
+        android:layout_margin="@dimen/margin_small"
         android:id="@+id/deviceList"
         >
     </android.support.v7.widget.RecyclerView>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/message_card_margin_small"
+        android:layout_margin="@dimen/margin_small"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanDevice"
+        app:layout_constraintTop_toBottomOf="@+id/scanHelp"
         android:id="@+id/wifiList"
         >
     </android.support.v7.widget.RecyclerView>

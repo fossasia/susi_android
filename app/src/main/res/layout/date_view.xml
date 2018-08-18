@@ -12,8 +12,8 @@
         android:id="@+id/date"
         android:layout_width="@dimen/date_layout_width"
         android:layout_height="@dimen/date_layout_height"
-        android:layout_marginTop="@dimen/message_layout_margin"
+        android:layout_marginTop="@dimen/margin_small"
         android:gravity="center"
         android:textColor="@color/timestamp_color"
-        android:textSize="@dimen/date_text_size" />
+        android:textSize="@dimen/text_size_small" />
 </LinearLayout>

@@ -64,6 +64,13 @@ android {
         abortOnError false
         disable 'InvalidPackage'
     }
+
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
 }
 
 androidExtensions {
@@ -110,10 +117,13 @@ dependencies {
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
 
     //unit test
+    testImplementation "junit:junit:${rootConfiguration.jUnitVersion}"
+    testImplementation "org.mockito:mockito-core:${rootConfiguration.mockitoCoreVersion}"
     androidTestImplementation "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
+    testImplementation 'junit:junit:4.12'
 
     //realm adapter
     implementation "io.realm:android-adapters:${rootConfiguration.realmVersion}"

@@ -113,6 +113,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         wifiList.visibility = View.GONE
+        scanHelp.visibility = View.GONE
         deviceList.visibility = View.VISIBLE
         deviceList.layoutManager = LinearLayoutManager(context)
         deviceList.setHasFixedSize(true)
@@ -128,6 +129,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanProgress.visibility = View.VISIBLE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
+        scanHelp.visibility = View.GONE
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
@@ -226,6 +228,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanDevice.setText(R.string.choose_wifi)
         scanList.remove("SUSI.AI")
         scanProgress.visibility = View.GONE
+        scanHelp.visibility = View.VISIBLE
         deviceList.visibility = View.GONE
         addDeviceButton.visibility = View.GONE
         wifiList.visibility = View.VISIBLE
@@ -239,7 +242,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         val utilModel = UtilModel(activity as DeviceActivity)
         val view = LayoutInflater.from(activity).inflate(R.layout.get_password, null)
         val alertDialog = AlertDialog.Builder(activity as DeviceActivity).create()
-        alertDialog.setTitle(utilModel.getString(R.string.enter_password_mail))
+        alertDialog.setTitle(utilModel.getString(R.string.thanks_wifi))
+        alertDialog.setMessage(utilModel.getString(R.string.enter_password_mail))
         alertDialog.setCancelable(false)
 
         val password = view.findViewById<EditText>(R.id.edt_pass)

@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:background="@color/default_bg"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/margin_large"
+        android:paddingRight="@dimen/margin_large"
         android:weightSum="1"
         tools:context="org.fossasia.susi.ai.login.LoginActivity">
 
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="@dimen/margin_extremely_large"
             android:layout_marginTop="24dp"
             android:contentDescription="@string/activity_login_imageview_description"
             app:srcCompat="@drawable/ic_susi_blue" />
@@ -96,7 +96,7 @@
             android:layout_marginTop="15dp"
             android:background="?selectableItemBackground"
             android:text="@string/activity_login_forgot_pass"
-            android:textSize="@dimen/message_text_size"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:typeface="monospace" />
 
@@ -108,7 +108,7 @@
             android:layout_marginTop="15dp"
             android:background="?selectableItemBackground"
             android:text="@string/activity_login_skip"
-            android:textSize="@dimen/message_text_size"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:typeface="monospace" />
 
@@ -118,11 +118,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:background="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/activity_login_sign_up"
-            android:textSize="@dimen/message_text_size"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>
