@@ -188,11 +188,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setExamples() {
-        if (skillData.examples != null) {
+        if (skillData.examples != null && skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skillDetailExamples.layoutManager = mLayoutManager
             skillDetailExamples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
+        } else {
+            skillDetailExample.visibility = View.GONE
+            skillDetailExamples.visibility = View.GONE
         }
     }
 
