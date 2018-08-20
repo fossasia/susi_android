@@ -29,18 +29,20 @@
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_title">18sp</dimen>
     <dimen name="text_size_moderate">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_very_large">22sp</dimen>
     <dimen name="text_size_extra_large">24sp</dimen>
 
+    <!-- Skill details -->
+
+    <dimen name="button_width_skill_details">96dp</dimen>
+    <dimen name="button_height_skill_details">48dp</dimen>
+    <dimen name="skill_image_dimensions">136dp</dimen>
+
     <dimen name="activity_landscape_width">300dp</dimen>
 
     <dimen name="button_width">250dp</dimen>
-
-    <dimen name="button_width_skill_details">100dp</dimen>
-    <dimen name="button_height_skill_details">40dp</dimen>
 
     <dimen name="cmv_corner_radius">15dp</dimen>
     <dimen name="cmv_padding">10dp</dimen>
@@ -98,4 +100,9 @@
     <dimen name="arrow_width">16dp</dimen>
     <dimen name="arrow_height">16dp</dimen>
     <dimen name="arrow_padding_large">56dp</dimen>
+
+    <!-- Avatar dimensions -->
+
+    <dimen name="avatar_size">48dp</dimen>
+
 </resources>
