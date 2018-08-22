@@ -114,6 +114,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:background="@color/md_white_1000"
                 android:text="@string/examples"
+                android:id="@+id/skillDetailExample"
                 android:textColor="@color/md_grey_700"
                 android:textSize="@dimen/text_size_large"
                 app:fontFamily="sans-serif" />
