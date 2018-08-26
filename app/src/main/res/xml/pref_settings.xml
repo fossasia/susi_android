@@ -18,7 +18,7 @@
 
     <PreferenceCategory android:title="@string/settings_title">
         <SwitchPreference
-            android:id="@+id/enter_key_pref"
+            android:id="@+id/enter_send"
             android:defaultValue="true"
             android:key="@string/settings_enterPreference_key"
             android:summary="@string/settings_enterPreference_summary"
@@ -52,7 +52,7 @@
 
     <PreferenceCategory android:title="@string/settings_speech">
         <SwitchPreference
-            android:id="@+id/speech_pref"
+            android:id="@+id/speech_output"
             android:defaultValue="true"
             android:key="@string/settings_speechPreference_key"
             android:summary="@string/settings_speechPreference_summary"
