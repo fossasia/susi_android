@@ -44,6 +44,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private val VIEW_AVAILABLE_DEVICES = 1
     private val VIEW_AVAILABLE_WIFI = 0
     private var checkDevice: Boolean = false
+    private val REQUEST_LOCATION = 0
+    private val REQUEST_WIFI = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -88,18 +90,32 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun showLocationIntentDialog() {
         val dialogBuilder = AlertDialog.Builder(activity as DeviceActivity)
         dialogBuilder.setView(R.layout.select_dialog_item_material)
-
         dialogBuilder.setTitle(R.string.location_access)
         dialogBuilder.setMessage(R.string.location_access_message)
-        dialogBuilder.setPositiveButton("NEXT", { dialog, whichButton ->
-
+        dialogBuilder.setPositiveButton(R.string.next, { dialog, whichButton ->
             val callGPSSettingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivityForResult(callGPSSettingIntent, 0)
+            startActivityForResult(callGPSSettingIntent, REQUEST_LOCATION)
 
         })
-        dialogBuilder.setNegativeButton("Cancel", { dialog, whichButton ->
+
+        dialogBuilder.setNegativeButton(R.string.cancel, { dialog, whichButton ->
+        })
+
+        dialogBuilder.create().show()
+    }
+
+    override fun showWifiIntentDialog() {
+        var dialogBuilder = AlertDialog.Builder(activity as DeviceActivity)
+        dialogBuilder.setView(R.layout.select_dialog_item_material)
+        dialogBuilder.setTitle(R.string.wifi_access);
+        dialogBuilder.setMessage(R.string.wifi_access_message)
+        dialogBuilder.setPositiveButton(R.string.next) { dialog, whichButton ->
+            val wifiIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
+            startActivityForResult(wifiIntent, REQUEST_WIFI)
+        }
+        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
             dialog.dismiss()
-        }).show()
+        }.show()
     }
 
     override fun startScan(isDevice: Boolean) {
@@ -152,9 +168,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == 0) {
+        if (requestCode == REQUEST_WIFI || requestCode == REQUEST_LOCATION) {
             deviceConnectPresenter.searchDevices()
-
             Timber.d("Onactivityresult")
         }
     }

@@ -364,7 +364,9 @@
     <string name="digit_five">5</string>
 
     <string name="location_access">Provide Location Access</string>
-    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
+    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby Wi-Fi networks available.</string>
+    <string name="wifi_access">Provide Wi-Fi Access</string>
+    <string name="wifi_access_message">Please turn on the Wi-Fi in order to search for the nearby Wi-Fi networks available. </string>
     <string name="set_up">SET UP</string>
     <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker.</string>
     <string name="connecting_device">Connecting to your device...</string>
