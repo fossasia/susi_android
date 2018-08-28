@@ -25,7 +25,7 @@
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:background="@color/md_white_1000"
-                android:padding="@dimen/padding_large"
+                android:padding="@dimen/padding_moderate"
                 android:scaleType="centerInside"
                 app:srcCompat="@drawable/ic_user"
                 tools:ignore="ContentDescription" />
@@ -49,7 +49,7 @@
                     android:paddingStart="@dimen/cmv_padding"
                     android:text="@string/skill_name"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="@dimen/skill_title"
+                    android:textSize="@dimen/text_size_moderate"
                     android:textStyle="bold" />
 
                 <TextView
@@ -62,7 +62,7 @@
                     android:paddingStart="@dimen/cmv_padding"
                     android:text="@string/author_name"
                     android:textColor="@color/md_grey_800"
-                    android:textSize="@dimen/skill_description" />
+                    android:textSize="@dimen/text_size_medium" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -104,7 +104,7 @@
                     android:paddingStart="@dimen/cmv_padding"
                     android:text="@string/examples"
                     android:textColor="@color/md_grey_800"
-                    android:textSize="@dimen/skill_example"
+                    android:textSize="@dimen/text_size_normal"
                     android:typeface="monospace" />
             </LinearLayout>
         </LinearLayout>

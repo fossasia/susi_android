@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/margin_large"
+    android:padding="@dimen/margin_moderate"
     android:id="@+id/layout_wifi"
     android:orientation="horizontal">
 
@@ -11,14 +11,14 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margin_large"
+        android:padding="@dimen/margin_moderate"
         app:srcCompat="@drawable/ic_perm_scan_wifi_black_24dp" />
         <TextView
             android:id="@+id/wifi_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="@dimen/message_layout_margin"
-            android:padding="@dimen/margin_large"
+            android:layout_marginRight="@dimen/margin_small"
+            android:padding="@dimen/margin_moderate"
             />
 </LinearLayout>

@@ -14,10 +14,11 @@
         android:gravity="center_vertical"
         android:padding="@dimen/padding_small"
         android:text="@string/sample_group"
-        android:textColor="@color/md_black_1000"
-        android:textSize="@dimen/skill_title"
+        android:textColor="@color/md_grey_700"
+        android:textSize="@dimen/text_size_moderate"
         android:textStyle="bold"
-        android:typeface="serif" />
+        android:typeface="serif"
+        android:fontFamily="sans-serif"/>
 
     <ImageView
         android:id="@+id/ic_arrow"
@@ -26,8 +27,8 @@
         android:layout_gravity="center_vertical"
         android:background="@color/md_white_1000"
         android:gravity="center"
-        android:paddingEnd="@dimen/padding_large"
-        android:paddingRight="@dimen/padding_large"
+        android:paddingEnd="@dimen/padding_moderate"
+        android:paddingRight="@dimen/padding_moderate"
         android:src="@drawable/ic_right_facing_arrow"
         android:visibility="gone" />
 

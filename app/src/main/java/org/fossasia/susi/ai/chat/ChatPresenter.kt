@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.chat
 
 import android.os.Handler
+import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -49,9 +50,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     private var source = Constant.IP
     private var isDetectionOn = false
     var check = false
-    var atHome = true
-    var backPressedOnce = false
-    var id: Long = 0;
+    var id: Long = 0
     var identifier: String = ""
     var tableItem: TableItem? = null
 
@@ -95,6 +94,8 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
 
     //initiates hotword detection
     override fun initiateHotwordDetection() {
+        if (BuildConfig.FLAVOR.equals("fdroid"))
+            return
         if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
                 chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
             if (utilModel.isArmDevice() && utilModel.checkMicInput()) {

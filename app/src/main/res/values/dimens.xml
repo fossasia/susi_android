@@ -1,13 +1,48 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
+
+    <!-- margin specifics -->
+
+    <dimen name="margin_extra_small">1dp</dimen>
+    <dimen name="margin_very_small">2dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_moderate">10dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_very_large">32dp</dimen>
+    <dimen name="margin_extra_large">40dp</dimen>
+    <dimen name="margin_extremely_large">64dp</dimen>
+
+    <!-- padding specifics -->
+
+    <dimen name="padding_extra_small">0.8dp</dimen>
+    <dimen name="padding_very_small">2dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_moderate">10dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_very_large">32dp</dimen>
+    <dimen name="padding_extra_large">40dp</dimen>
+
+    <!-- text size -->
+
+    <dimen name="text_size_very_small">10sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_moderate">18sp</dimen>
+    <dimen name="text_size_large">20sp</dimen>
+    <dimen name="text_size_very_large">22sp</dimen>
+    <dimen name="text_size_extra_large">24sp</dimen>
+
+    <!-- Skill details -->
+
+    <dimen name="button_width_skill_details">96dp</dimen>
+    <dimen name="button_height_skill_details">48dp</dimen>
+    <dimen name="skill_image_dimensions">136dp</dimen>
+
     <dimen name="activity_landscape_width">300dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="button_width">250dp</dimen>
-
-    <dimen name="button_width_skill_details">100dp</dimen>
-    <dimen name="button_height_skill_details">40dp</dimen>
 
     <dimen name="cmv_corner_radius">15dp</dimen>
     <dimen name="cmv_padding">10dp</dimen>
@@ -16,37 +51,14 @@
 
     <dimen name="date_layout_height">30dp</dimen>
     <dimen name="date_layout_width">100dp</dimen>
-    <dimen name="date_text_size">12sp</dimen>
 
     <dimen name="link_preview_max_width">220dp</dimen>
 
     <dimen name="map_view_height">180dp</dimen>
 
-    <dimen name="margin_bottom">40dp</dimen>
-    <dimen name="margin_card">8dp</dimen>
-    <dimen name="margin_large">10dp</dimen>
-    <dimen name="margin_very_large">16dp</dimen>
-    <dimen name="margin_medium">8dp</dimen>
-    <dimen name="margin_small">5dp</dimen>
-    <dimen name="margin_top">60dp</dimen>
-    <dimen name="margin_very_small">2dp</dimen>
-
-    <dimen name="message_card_margin_medium">6dp</dimen>
-    <dimen name="message_card_margin_small">4dp</dimen>
-    <dimen name="message_layout_margin">4dp</dimen>
     <dimen name="message_layout_max_width">250dp</dimen>
-    <dimen name="message_text_size">16sp</dimen>
-    <dimen name="message_textview_bottom_padding">3dp</dimen>
 
     <dimen name="messagelayout_minwidth">40dp</dimen>
-
-    <dimen name="padding_chatbubble_large">15dp</dimen>
-    <dimen name="padding_chatbubble_small">5dp</dimen>
-    <dimen name="padding_img">40dp</dimen>
-    <dimen name="padding_large">10dp</dimen>
-    <dimen name="padding_small">5dp</dimen>
-    <dimen name="padding_very_small">0.8dp</dimen>
-    <dimen name="padding_very_large">16dp</dimen>
 
     <dimen name="piechart_layout_height">300dp</dimen>
 
@@ -54,60 +66,31 @@
 
     <dimen name="progress_bar_size">50dp</dimen>
 
-    <dimen name="skill_description">16sp</dimen>
-    <dimen name="skill_example">14sp</dimen>
+    <dimen name="radius_skill_card_corner">4dp</dimen>
+
     <dimen name="skill_image_size">80dp</dimen>
     <dimen name="skill_min_height">60dp</dimen>
-    <dimen name="skill_title">18sp</dimen>
-
-    <dimen name="standard_content_padding">5dp</dimen>
-
-    <dimen name="text_size_very_small">10sp</dimen>
-    <dimen name="text_size_small">12sp</dimen>
-    <dimen name="text_size_medium">16sp</dimen>
-    <dimen name="text_size_large">20sp</dimen>
-    <dimen name="text_size_very_large">24sp</dimen>
-    <dimen name="text_size_normal">22sp</dimen>
-
-    <dimen name="timestamp_layout_padding">8dp</dimen>
-    <dimen name="timestamp_size">10sp</dimen>
 
     <dimen name="toolbar_logo_height">22dp</dimen>
     <dimen name="toolbar_logo_width">110dp</dimen>
 
-    <dimen name="webpreview_content_height">63dp</dimen>
-    <dimen name="webpreview_headline_height">32dp</dimen>
-    <dimen name="webpreview_layout_height">95dp</dimen>
+    <!-- web preview specifics -->
 
+    <dimen name="webpreview_content_height">64dp</dimen>
+    <dimen name="webpreview_headline_height">32dp</dimen>
+    <dimen name="webpreview_layout_height">96dp</dimen>
     <dimen name="websearch_card_width">225dp</dimen>
 
     <!-- intro dimensions -->
-    <dimen name="desc_padding">40dp</dimen>
 
     <dimen name="dots_height">30dp</dimen>
     <dimen name="dots_margin_bottom">20dp</dimen>
 
-    <dimen name="fab_margin">16dp</dimen>
-
     <dimen name="img_width_height">120dp</dimen>
     <dimen name="tv_initials_width_height">56dp</dimen>
 
-    <dimen name="intro_desc_padding">10dp</dimen>
-    <dimen name="intro_desc_textsize">14sp</dimen>
-    <dimen name="intro_desc_textsize2">16sp</dimen>
-    <dimen name="intro_header_margin_bottom">10dp</dimen>
-    <dimen name="intro_header_margin_top">40dp</dimen>
-    <dimen name="intro_image_margin_bottom">10dp</dimen>
-    <dimen name="intro_image_margin_top">1dp</dimen>
-
     <dimen name="mobile_image_size">342dp</dimen>
 
-    <dimen name="slide_desc">16dp</dimen>
-    <dimen name="slide_title">30sp</dimen>
-    <dimen name="table_bottom_margin">30dp</dimen>
-
-    <dimen name="scan_message_margin_top">40dp</dimen>
-    <dimen name="scan_progress_margin_top">10dp</dimen>
     <dimen name="device_setup_margin_top">20dp</dimen>
 
     <dimen name="rating_bar_layout_width">100dp</dimen>
@@ -117,4 +100,9 @@
     <dimen name="arrow_width">16dp</dimen>
     <dimen name="arrow_height">16dp</dimen>
     <dimen name="arrow_padding_large">56dp</dimen>
+
+    <!-- Avatar dimensions -->
+
+    <dimen name="avatar_size">48dp</dimen>
+
 </resources>
