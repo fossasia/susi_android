@@ -65,7 +65,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private var example: String = ""
     private var isConfigurationChanged = false
     private val enterAsSend: Boolean by lazy {
-        PrefManager.getBoolean(Constant.ENTER_SEND, false)
+        PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
 
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->

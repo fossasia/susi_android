@@ -154,9 +154,9 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
             val settings: Settings? = response.body().settings
 
             if (settings != null) {
-                utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
-                utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, settings.speechAlways)
-                utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, settings.speechOutput)
+                utilModel.putBooleanPref(R.string.settings_enterPreference_key, settings.enterSend)
+                utilModel.putBooleanPref(R.string.settings_speechAlways_key, settings.speechAlways)
+                utilModel.putBooleanPref(R.string.settings_speechPreference_key, settings.speechOutput)
                 if (settings.language == "default") {
                     utilModel.setLanguage("en")
                 } else {
