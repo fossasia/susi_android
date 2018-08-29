@@ -16,6 +16,8 @@ interface IDeviceConnectPresenter {
 
     fun checkLocationEnabled()
 
+    fun checkWifiEnabled()
+
     fun availableDevices(list: List<ScanResult>)
 
     fun connectToDevice(networkSSID: String)
