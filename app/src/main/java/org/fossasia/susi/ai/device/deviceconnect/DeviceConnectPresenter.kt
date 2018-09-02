@@ -29,6 +29,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     private var deviceModel: IDeviceModel = DeviceModel()
     private var isLocationOn = false
     private var SSID: String? = null
+    private var isWifiEnabled = false
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(deviceActivity)
 
@@ -41,13 +42,17 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d(checkPermissions.toString() + "Check")
         if (checkPermissions) {
             checkLocationEnabled()
-            if (isLocationOn) {
-                Timber.d("Location ON")
+            checkWifiEnabled()
+            if (isLocationOn && isWifiEnabled) {
+                Timber.d("Location ON, WI-FI ON")
                 deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
 
                 deviceConnectView?.startScan(true)
             } else {
-                deviceConnectView?.showLocationIntentDialog()
+                if (!isWifiEnabled)
+                    deviceConnectView?.showWifiIntentDialog()
+                if (!isLocationOn)
+                    deviceConnectView?.showLocationIntentDialog()
             }
         } else {
             deviceConnectView?.askForPermissions()
@@ -90,6 +95,10 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun isPermissionGranted(b: Boolean) {
         checkPermissions = b
+    }
+
+    override fun checkWifiEnabled() {
+        isWifiEnabled = mWifiManager.isWifiEnabled
     }
 
     override fun checkLocationEnabled() {

@@ -371,6 +371,8 @@
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
     <string name="choose_wifi">Connect to Wi-Fi</string>
+    <string name="wifi_access">Provide Wi-Fi access</string>
+    <string name="wifi_access_message">To search available networks, turn Wi-Fi on</string>
     <string name="enter_password">Enter the Password for \n</string>
     <string name="thanks_wifi">Thanks for entering the Wi-Fi credentials\n</string>
     <string name="enter_password_mail">This is the final step, please enter your SUSI.AI account\'s password to successfully connect to the speaker</string>
