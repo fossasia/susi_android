@@ -9,11 +9,13 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.Description
@@ -93,6 +95,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         setImage()
         setName()
         setAuthor()
+        setReportButton()
         setTryButton()
         setShareButton()
         setDescription()
@@ -100,6 +103,8 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         setRating()
         setFeedback()
         setDynamicContent()
+        setPolicy()
+        setTerms()
     }
 
     private fun setImage() {
@@ -116,11 +121,41 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         }
     }
 
+    private fun setReportButton() {
+        reportSkill.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val view = layoutInflater.inflate(R.layout.alert_report_skill, null)
+            val reportMsgText = view.findViewById(R.id.reportMsg) as EditText
+            dialogBuilder.setView(view)
+            dialogBuilder.setTitle(R.string.report_skill)
+
+            dialogBuilder.setPositiveButton(R.string.report_send) { dialog, whichButton ->
+                if (PrefManager.getToken() != null && reportMsgText.text.isNotEmpty()) {
+                    val map: MutableMap<String, String> = HashMap()
+                    map.put("access_token", PrefManager.getToken().toString())
+                    map.put("feedback", reportMsgText.text.toString())
+                    map.put("skill", skillTag)
+                    map.put("group", skillData.group)
+                    map.put("model", skillData.model)
+                    skillDetailsPresenter.sendReport(map)
+                } else {
+                    updateSkillReportStatus(getString(R.string.error))
+                }
+            }
+
+            dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
+                dialog.dismiss()
+            }
+
+            dialogBuilder.show()
+        }
+    }
+
     private fun setAuthor() {
-        skillDetailAuthor.text = "by ${activity?.getString(R.string.no_skill_author)}"
+        skillDetailAuthor.text = "Author : ${activity?.getString(R.string.no_skill_author)}"
         if (skillData.author != null && !skillData.author.isEmpty()) {
             if (skillData.authorUrl == null || skillData.authorUrl.isEmpty())
-                skillDetailAuthor.text = "by ${skillData.skillName}"
+                skillDetailAuthor.text = "Author : ${skillData.skillName}"
             else {
                 skillDetailAuthor.setOnClickListener({
                     try {
@@ -133,9 +168,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                     }
                 })
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    skillDetailAuthor.text = Html.fromHtml("by <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
+                    skillDetailAuthor.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
                 } else {
-                    skillDetailAuthor.text = Html.fromHtml("by <a href=\"${skillData.authorUrl}\">${skillData.author}</a>")
+                    skillDetailAuthor.text = Html.fromHtml("Author : <a href=\"${skillData.authorUrl}\">${skillData.author}</a>")
                 }
             }
         }
@@ -392,7 +427,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
         //Set label count to 5 as we are using 5 star rating system
         xAxis.setLabelCount(5)
-        xAxis.textColor = ContextCompat.getColor(skillRatingChart.context, R.color.md_grey_800)
         xAxis.valueFormatter = XAxisValueFormatter(values)
 
         //Add a list of bar entries
@@ -503,6 +537,54 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 skillDetailContent.text = context?.getString(R.string.content_type_static)
             }
         }
+    }
+
+    private fun setPolicy() {
+        if (skillData.developerPrivacyPolicy == null || skillData.developerPrivacyPolicy.isEmpty()) {
+            skillDetailPolicy.visibility = View.GONE
+        } else {
+            skillDetailAuthor.setOnClickListener({
+                try {
+                    var uri = Uri.parse(skillData.developerPrivacyPolicy)
+                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
+                    var customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(context, uri) //launching through custom tabs
+                } catch (e: Exception) {
+                    Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+                }
+            })
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                skillDetailPolicy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>", Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                skillDetailPolicy.text = Html.fromHtml("<a href=\"${skillData.developerPrivacyPolicy}\">Developer's Privacy Policy</a>")
+            }
+        }
+    }
+
+    private fun setTerms() {
+        if (skillData.termsOfUse == null || skillData.termsOfUse.isEmpty()) {
+            skillDetailTerms.visibility = View.GONE
+        } else {
+            skillDetailAuthor.setOnClickListener({
+                try {
+                    var uri = Uri.parse(skillData.termsOfUse)
+                    var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
+                    var customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(context, uri) //launching through custom tabs
+                } catch (e: Exception) {
+                    Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
+                }
+            })
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>", Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                skillDetailTerms.text = Html.fromHtml("<a href=\"${skillData.termsOfUse}\">Terms of use</a>")
+            }
+        }
+    }
+
+    override fun updateSkillReportStatus(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

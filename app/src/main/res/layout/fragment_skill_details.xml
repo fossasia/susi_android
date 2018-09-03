@@ -7,30 +7,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_white_1000"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_white_1000"
-            android:paddingBottom="@dimen/padding_moderate"
-            android:paddingTop="@dimen/padding_large">
+            android:padding="@dimen/padding_large">
 
             <ImageView
                 android:id="@+id/skillDetailImage"
-                android:layout_width="@dimen/skill_image_dimensions"
-                android:layout_height="@dimen/skill_image_dimensions"
-                android:layout_gravity="center"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="@color/md_white_1000"
-                android:padding="@dimen/padding_large"
                 app:srcCompat="@drawable/ic_susi" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
                 android:background="@color/md_white_1000"
                 android:orientation="vertical">
 
@@ -41,53 +37,16 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:background="@color/md_white_1000"
                     android:text="@string/skill_name"
-                    android:textColor="@color/md_grey_700"
-                    android:textSize="@dimen/text_size_large"
-                    app:fontFamily="sans-serif" />
+                    android:textColor="@color/md_black_1000"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/skillDetailAuthor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:background="@color/md_white_1000"
-                    android:text="@string/author_name"
-                    android:textColor="@color/md_grey_700"
-                    android:textSize="@dimen/text_size_normal"
-                    app:fontFamily="sans-serif" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/md_white_1000"
-                    android:gravity="start"
-                    android:orientation="horizontal"
-                    android:paddingEnd="@dimen/padding_small"
-                    android:paddingRight="@dimen/padding_small"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:paddingTop="@dimen/padding_large">
-
-                    <Button
-                        android:id="@+id/skillDetailTryButton"
-                        android:layout_width="@dimen/button_width_skill_details"
-                        android:layout_height="@dimen/button_height_skill_details"
-                        android:layout_marginBottom="@dimen/margin_small"
-                        android:layout_marginEnd="@dimen/margin_small"
-                        android:layout_marginRight="@dimen/margin_small"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:text="@string/try_it"
-                        android:textColor="@color/md_white_1000" />
-
-                    <Button
-                        android:id="@+id/skillDetailShareButton"
-                        android:layout_width="@dimen/button_width_skill_details"
-                        android:layout_height="@dimen/button_height_skill_details"
-                        android:layout_marginBottom="@dimen/margin_small"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:drawableTint="@color/md_white_1000"
-                        android:text="@string/action_share"
-                        android:textColor="@color/md_white_1000" />
-                </LinearLayout>
-
+                    android:text="@string/author_name" />
             </LinearLayout>
 
         </LinearLayout>
@@ -96,15 +55,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/md_white_1000"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/skillDetailTryButton"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@color/colorPrimary"
+                android:text="@string/try_it"
+                android:textColor="@color/md_white_1000" />
+
+            <Button
+                android:id="@+id/skillDetailShareButton"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@color/colorPrimary"
+                android:drawableTint="@color/md_white_1000"
+                android:padding="@dimen/padding_moderate"
+                android:text="@string/action_share"
+                android:textColor="@color/md_white_1000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/padding_large">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/description"
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/skillDetailDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:background="@color/md_white_1000"
                 android:text="@string/description_long"
                 android:textSize="16sp" />
 
@@ -112,37 +110,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/md_white_1000"
                 android:text="@string/examples"
-                android:id="@+id/skillDetailExample"
-                android:textColor="@color/md_grey_700"
-                android:textSize="@dimen/text_size_large"
-                app:fontFamily="sans-serif" />
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/text_size_normal" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/skillDetailExamples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:background="@color/md_white_1000" />
+                android:layout_marginTop="@dimen/margin_medium" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/md_white_1000"
-                android:paddingBottom="@dimen/padding_small"
                 android:text="@string/rating"
-                android:textColor="@color/md_grey_700"
-                android:textSize="@dimen/text_size_large"
-                app:fontFamily="sans-serif" />
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/tvFiveStarSkillRatingBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_moderate"
-                android:background="@color/md_white_1000"
                 android:gravity="center_horizontal"
                 android:text="@string/rate_skill"
                 android:textSize="@dimen/text_size_medium"
@@ -155,7 +145,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/md_white_1000"
                 android:numStars="0"
                 android:rating="0"
                 android:stepSize="1"
@@ -168,7 +157,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/md_white_1000"
                 android:paddingBottom="@dimen/padding_small"
                 android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
@@ -197,9 +185,7 @@
                         android:layout_gravity="center_horizontal"
                         android:background="@color/md_white_1000"
                         android:text="@string/placeholder_average_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_extra_large"
-                        app:fontFamily="sans-serif" />
+                        android:textSize="@dimen/text_size_extra_large" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -207,9 +193,7 @@
                         android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
                         android:text="@string/average_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_very_small"
-                        app:fontFamily="sans-serif" />
+                        android:textSize="@dimen/text_size_very_small" />
 
                 </LinearLayout>
 
@@ -234,15 +218,14 @@
                             android:background="@color/md_white_1000"
                             android:gravity="end"
                             android:text="@string/digit_five"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
+                            android:textColor="@color/md_grey_600" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/md_white_1000"
                             android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
+                            android:tint="@color/md_grey_600" />
 
                     </LinearLayout>
 
@@ -259,15 +242,14 @@
                             android:background="@color/md_white_1000"
                             android:gravity="end"
                             android:text="@string/digit_four"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
+                            android:textColor="@color/md_grey_600" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/md_white_1000"
                             android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
+                            android:tint="@color/md_grey_600" />
 
                     </LinearLayout>
 
@@ -284,15 +266,14 @@
                             android:background="@color/md_white_1000"
                             android:gravity="end"
                             android:text="@string/digit_three"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
+                            android:textColor="@color/md_grey_600" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/md_white_1000"
                             android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
+                            android:tint="@color/md_grey_600" />
 
                     </LinearLayout>
 
@@ -309,15 +290,14 @@
                             android:background="@color/md_white_1000"
                             android:gravity="end"
                             android:text="@string/digit_two"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
+                            android:textColor="@color/md_grey_600" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/md_white_1000"
                             android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
+                            android:tint="@color/md_grey_600" />
 
                     </LinearLayout>
 
@@ -334,15 +314,14 @@
                             android:layout_gravity="end"
                             android:background="@color/md_white_1000"
                             android:text="@string/digit_one"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
+                            android:textColor="@color/md_grey_600" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@color/md_white_1000"
                             android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
+                            android:tint="@color/md_grey_600" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -373,9 +352,7 @@
                         android:layout_gravity="center_horizontal"
                         android:background="@color/md_white_1000"
                         android:text="@string/placeholder_total_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_extra_large"
-                        app:fontFamily="sans-serif" />
+                        android:textSize="@dimen/text_size_extra_large" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -383,9 +360,7 @@
                         android:background="@color/md_white_1000"
                         android:gravity="center_horizontal"
                         android:text="@string/total_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_very_small"
-                        app:fontFamily="sans-serif" />
+                        android:textSize="@dimen/text_size_very_small" />
 
                 </LinearLayout>
 
@@ -397,43 +372,44 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/margin_small"
-                android:background="@color/md_white_1000"
                 android:visibility="gone" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_large"
-                android:background="@color/md_white_1000"
                 android:text="@string/feedback_section"
-                android:textColor="@color/md_grey_700"
-                android:textSize="@dimen/text_size_large"
-                app:fontFamily="sans-serif" />
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/text_size_normal" />
 
             <TextView
                 android:id="@+id/tvPostFeedbackDesc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/md_white_1000"
                 android:text="@string/desc_post_feedback"
-                android:textSize="@dimen/text_size_normal"
                 android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/layoutPostFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/md_white_1000"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <android.support.v7.widget.AppCompatEditText
-                    android:id="@+id/etFeedback"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/feedback"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:hint="@string/hint_feedback" />
+                    android:layout_weight="1">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/etFeedback"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_feedback"
+                        android:inputType="text" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <Button
                     android:id="@+id/buttonPost"
@@ -441,7 +417,7 @@
                     android:layout_height="@dimen/button_height_skill_details"
                     android:layout_gravity="bottom"
                     android:layout_marginBottom="@dimen/margin_small"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:backgroundTint="@color/md_cyan_300"
                     android:text="@string/button_post"
                     android:textAllCaps="true"
                     android:textColor="@color/md_white_1000" />
@@ -453,29 +429,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/md_white_1000"
-                android:padding="@dimen/padding_small"
                 android:text="@string/post_feedback_for_anonymous_user"
-                android:textSize="@dimen/text_size_normal"
                 android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvFeedback"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/md_white_1000"
-                android:padding="@dimen/padding_small" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/skillDetailContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
-                android:background="@color/md_white_1000"
                 android:text="@string/content_type_dynamic"
-                android:textColor="@color/md_grey_700"
-                android:textSize="@dimen/text_size_large"
-                app:fontFamily="sans-serif" />
+                android:textColor="@color/md_black_1000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/skillDetailPolicy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text="@string/developer_privacy_policy" />
+
+            <TextView
+                android:id="@+id/skillDetailTerms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/terms_of_use" />
 
         </LinearLayout>
     </LinearLayout>
