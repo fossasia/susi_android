@@ -51,13 +51,13 @@
         <activity
             android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:windowSoftInputMode="adjustNothing"
             tools:replace="android:theme" />
 
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="adjustNothing" />
 
         <!--
         For Developers:

@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
@@ -121,6 +123,54 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         logIn()
         cancelLogin()
         onEditorAction()
+        logInbuttonEnable()
+    }
+
+    private fun logInbuttonEnable() {
+        var emailEmpty = true
+        var passwordEmpty = true
+        logIn.isEnabled = false
+        emailInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().trim() != "") {
+                    emailEmpty = false
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                } else {
+                    emailEmpty = true
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                }
+            }
+
+        })
+        passwordInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s.toString().trim() != "") {
+                    passwordEmpty = false
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                } else {
+                    passwordEmpty = true
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                }
+            }
+
+        })
+
     }
 
     private fun showURL() {

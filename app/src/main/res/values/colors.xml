@@ -3,6 +3,7 @@
     <color name="colorPrimary">#4184f3</color>
     <color name="colorPrimaryDark">#4184f3</color>
     <color name="colorAccent">#000000</color>
+    <color name="colorPrimaryLight">#5e9aff</color>
 
     <!-- google's material design colours from http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
 

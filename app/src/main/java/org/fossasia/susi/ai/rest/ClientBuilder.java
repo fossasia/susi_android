@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.rest;
 
+import org.fossasia.susi.ai.dataclasses.ReportSkillQuery;
 import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery;
 import org.fossasia.susi.ai.dataclasses.SkillRatingQuery;
 import org.fossasia.susi.ai.dataclasses.SkillsListQuery;
@@ -8,6 +9,7 @@ import org.fossasia.susi.ai.helper.PrefManager;
 import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor;
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse;
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse;
+import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse;
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse;
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse;
 import org.fossasia.susi.ai.rest.services.SusiService;
@@ -93,5 +95,15 @@ public class ClientBuilder {
         queryMap.put("filter_name", queryObject.getFilterName());
         queryMap.put("filter_type", queryObject.getFilterType());
         return getSusiApi().fetchListSkills(queryMap);
+    }
+
+    public static Call<ReportSkillResponse> sendReportCall(ReportSkillQuery queryObject) {
+        Map<String, String> map = new HashMap();
+        map.put("access_token", queryObject.getAccessToken());
+        map.put("feedback", queryObject.getFeedback());
+        map.put("skill", queryObject.getSkill());
+        map.put("group", queryObject.getGroup());
+        map.put("model", queryObject.getModel());
+        return getSusiApi().reportSkill(map);
     }
 }

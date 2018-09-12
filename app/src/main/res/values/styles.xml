@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorHint">@color/md_grey_300</item>
     </style>
 
     <style name="Chat_Theme" parent="AppTheme">
@@ -20,6 +21,11 @@
     <style name="ForgetPass_Theme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="EditTextThemeLogin" parent="AppTheme">
+        <item name="colorControlActivated">@color/md_grey_300</item>
+        <item name="colorControlHighlight">@color/md_grey_300</item>
     </style>
 
     <style name="PreferencesThemeDark" parent="PreferenceFixTheme">
