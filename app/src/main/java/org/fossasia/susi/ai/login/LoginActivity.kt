@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
@@ -121,6 +123,55 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         logIn()
         cancelLogin()
         onEditorAction()
+        logInbuttonEnable()
+    }
+
+    private fun logInbuttonEnable() {
+        var emailEmpty = true
+        var passwordEmpty = true
+        logIn.isEnabled = false
+        emailInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(emailInputString: Editable?) {
+                //nothing to do after text change
+            }
+
+            override fun beforeTextChanged(emailInputString: CharSequence?, start: Int, count: Int, after: Int) {
+                //nothing to do before text change
+            }
+
+            override fun onTextChanged(emailInputString: CharSequence?, start: Int, before: Int, count: Int) {
+                if (emailInputString.toString().trim() != "") {
+                    emailEmpty = false
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                } else {
+                    emailEmpty = true
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                }
+            }
+
+        })
+
+        passwordInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(passwordInputString: Editable?) {
+                //nothing to do after text change
+            }
+
+            override fun beforeTextChanged(passwordInputString: CharSequence?, start: Int, count: Int, after: Int) {
+                //nothing to do before text change
+            }
+
+            override fun onTextChanged(passwordInputString: CharSequence?, start: Int, before: Int, count: Int) {
+                if (passwordInputString.toString().trim() != "") {
+                    passwordEmpty = false
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                } else {
+                    passwordEmpty = true
+                    logIn.isEnabled = !(emailEmpty || passwordEmpty)
+                }
+            }
+
+        })
+
     }
 
     private fun showURL() {

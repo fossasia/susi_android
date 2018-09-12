@@ -1,9 +1,12 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.data.SkillDetailsModel
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
+import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.rest.responses.susi.*
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
@@ -20,10 +23,12 @@ import java.net.UnknownHostException
  */
 class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter,
         ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener,
-        ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener {
+        ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener,
+        ISkillDetailsModel.OnReportSendListener {
 
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
     private var skillDetailsView: ISkillDetailsView? = null
+    private val utilModel: UtilModel = UtilModel(skillDetailsFragment.requireContext())
 
     override fun onAttach(skillDetailsView: ISkillDetailsView) {
         this.skillDetailsView = skillDetailsView
@@ -68,6 +73,10 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
                 Timber.e(throwable.toString())
             }
         }
+    }
+
+    override fun sendReport(queryObject: ReportSkillQuery) {
+        skillDetailsModel.sendReport(queryObject, this)
     }
 
     override fun onUpdateUserRatingError(throwable: Throwable) {
@@ -134,6 +143,19 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
             skillDetailsView?.updateFeedbackList(response.body())
         } else {
             Timber.d("Could not fetch feedback")
+        }
+    }
+
+    override fun reportSendError(throwable: Throwable) {
+        Timber.e(throwable)
+        skillDetailsView?.updateSkillReportStatus(utilModel.getString(R.string.report_error))
+    }
+
+    override fun reportSendSuccess(response: Response<ReportSkillResponse>) {
+        if (response.code() == 422) {
+            skillDetailsView?.updateSkillReportStatus(utilModel.getString(R.string.reported_already))
+        } else {
+            skillDetailsView?.updateSkillReportStatus(utilModel.getString(R.string.report_send_success))
         }
     }
 
