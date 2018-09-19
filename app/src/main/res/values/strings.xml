@@ -406,4 +406,13 @@
     <string name="metric_newest">\"SUSI, what are the newest skills?\"</string>
     <string name="metrics_top_games">\"SUSI, what are your top games?\"</string>
     <string name="message_no_skills_found">No skills found.</string>
+
+    <!--Report Skill -->
+
+    <string name="report_skill">Flag as inappropriate</string>
+    <string name="report_send">Send report</string>
+    <string name="report_error">Error reporting skill. Please try again later</string>
+    <string name="report_send_success">Skill reported successfully</string>
+    <string name="reported_already">Skill already reported</string>
+
 </resources>
