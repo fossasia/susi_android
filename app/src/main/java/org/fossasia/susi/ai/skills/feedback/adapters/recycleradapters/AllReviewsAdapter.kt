@@ -7,6 +7,8 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewHolder
@@ -40,7 +42,15 @@ class AllReviewsAdapter(val context: Context, val feedbackList: List<Feedback>?)
                 if (feedbackList[position].email != null &&
                         !TextUtils.isEmpty(feedbackList[position].email)) {
                     Utils.setAvatar(context, feedbackList.get(position).email, holder.avatar)
-                    Utils.truncateEmailAtEnd(feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
+                    if (PrefManager.getToken() != null) {
+                        if (!feedbackList.get(position).email.equals(PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(), true)) {
+                            Utils.truncateEmailAtEnd(feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
+                        } else {
+                            holder.feedbackEmail.text = feedbackList.get(position).email
+                        }
+                    } else {
+                        Utils.truncateEmailAtEnd(feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
+                    }
                 }
                 if (feedbackList[position].timestamp != null &&
                         !TextUtils.isEmpty(feedbackList[position].timestamp)) {

@@ -9,11 +9,13 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.Description
@@ -26,6 +28,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
+import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
@@ -93,6 +96,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         setImage()
         setName()
         setAuthor()
+        setReportButton()
         setTryButton()
         setShareButton()
         setDescription()
@@ -113,6 +117,38 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         skillDetailTitle.text = activity?.getString(R.string.no_skill_name)
         if (skillData.skillName != null && !skillData.skillName.isEmpty()) {
             skillDetailTitle.text = skillData.skillName
+        }
+    }
+
+    private fun setReportButton() {
+
+        if(PrefManager.getToken().isNotEmpty()){
+            reportSkill.visibility = View.VISIBLE
+        }
+
+        reportSkill.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val view = layoutInflater.inflate(R.layout.alert_report_skill, null)
+            val reportedUserMessage = view.findViewById(R.id.report_message) as EditText
+            dialogBuilder.setView(view)
+            dialogBuilder.setTitle(R.string.report_skill)
+
+            dialogBuilder.setPositiveButton(R.string.report_send) { dialog, whichButton ->
+                if (PrefManager.getToken() != null && reportedUserMessage.text.isNotEmpty()) {
+                    val queryObject = ReportSkillQuery(skillData.model, skillData.group, skillTag,
+                            reportedUserMessage.text.toString(), PrefManager.getToken().toString())
+
+                    skillDetailsPresenter.sendReport(queryObject)
+                } else {
+                    updateSkillReportStatus(getString(R.string.error))
+                }
+            }
+
+            dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
+                dialog.dismiss()
+            }
+
+            dialogBuilder.show()
         }
     }
 
@@ -188,11 +224,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setExamples() {
-        if (skillData.examples != null) {
+        if (skillData.examples != null && skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skillDetailExamples.layoutManager = mLayoutManager
             skillDetailExamples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
+        } else {
+            skillDetailExample.visibility = View.GONE
+            skillDetailExamples.visibility = View.GONE
         }
     }
 
@@ -500,6 +539,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 skillDetailContent.text = context?.getString(R.string.content_type_static)
             }
         }
+    }
+
+    override fun updateSkillReportStatus(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
