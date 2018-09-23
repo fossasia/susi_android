@@ -188,11 +188,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setExamples() {
-        if (skillData.examples != null) {
+        if (skillData.examples != null && skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skillDetailExamples.layoutManager = mLayoutManager
             skillDetailExamples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
+        } else {
+            skillDetailExample.visibility = View.GONE
+            skillDetailExamples.visibility = View.GONE
         }
     }
 
@@ -454,6 +457,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 } else {
                     Toast.makeText(context, getString(R.string.toast_empty_feedback), Toast.LENGTH_SHORT).show()
                 }
+
+                updateFeedback()
+                setFeedback()
+
             }
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
