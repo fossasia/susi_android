@@ -51,6 +51,7 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@color/md_white_1000"
+                    android:fontFamily="sans-serif"
                     android:gravity="center"
                     android:maxLines="3"
                     android:padding="@dimen/padding_small"
@@ -58,8 +59,7 @@
                     android:textColor="@color/md_grey_700"
                     android:textSize="@dimen/text_size_normal"
                     android:textStyle="italic"
-                    tools:text="@string/sample_website_description"
-                    android:fontFamily="sans-serif"/>
+                    tools:text="@string/sample_website_description" />
             </LinearLayout>
 
             <TextView
@@ -68,33 +68,48 @@
                 android:layout_height="wrap_content"
                 android:background="@color/default_bg"
                 android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
                 android:maxLines="1"
                 android:paddingLeft="@dimen/cmv_padding"
                 android:paddingRight="@dimen/cmv_padding"
                 android:paddingTop="@dimen/padding_small"
                 android:text="@string/skill_title"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/text_size_moderate"
-                android:fontFamily="sans-serif"/>
+                android:textSize="@dimen/text_size_moderate" />
+
+
+            <RatingBar
+                android:id="@+id/cv_rating_bar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="@dimen/rating_bar_layout_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:numStars="5"
+                android:padding="@dimen/cmv_padding"
+                android:theme="@style/RatingBar" />
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <RatingBar
-                    android:id="@+id/cv_rating_bar"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="@dimen/rating_bar_layout_width"
+                <TextView
+                    android:id="@+id/total_ratings"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:padding="@dimen/cmv_padding"
-                    android:theme="@style/RatingBar" />
+                    android:layout_marginLeft="@dimen/margin_extra_large"
+                    android:paddingBottom="@dimen/cmv_padding"
+                    android:paddingTop="@dimen/cmv_padding"
+                    android:text="@string/total_ratings"
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/cv_total_ratings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_extra_large"
                     android:paddingBottom="@dimen/cmv_padding"
                     android:paddingTop="@dimen/cmv_padding"
                     android:text="@string/digit_zero"

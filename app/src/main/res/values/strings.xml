@@ -414,5 +414,6 @@
     <string name="report_error">Error reporting skill. Please try again later</string>
     <string name="report_send_success">Skill reported successfully</string>
     <string name="reported_already">Skill already reported</string>
+    <string name="total_ratings">Total Ratings :</string>
 
 </resources>
