@@ -21,7 +21,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="@dimen/padding_small"
                 android:layout_gravity="center"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
@@ -59,7 +59,7 @@
                 android:focusable="true"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:padding="5dp">
+                android:padding="@dimen/padding_small">
 
 
                 <LinearLayout
@@ -93,7 +93,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="@dimen/padding_small"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground">
@@ -129,7 +129,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="@dimen/padding_small"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground">
