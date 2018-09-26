@@ -6,6 +6,9 @@
         android:icon="@drawable/ic_settings_24dp"
         android:title="@string/menu_item_settings" />
     <item
+        android:id="@+id/menu_login"
+        android:title="Log In" />
+    <item
         android:id="@+id/menu_about"
         android:icon="@drawable/ic_about"
         android:title="@string/menu_item_about" />
