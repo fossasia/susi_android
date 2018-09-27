@@ -41,10 +41,6 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
     override fun onAttach(loginView: ILoginView) {
         this.loginView = loginView
 
-        if (utilModel.getAnonymity()) {
-            loginView.skipLogin()
-            return
-        }
 
         if (utilModel.isLoggedIn()) {
             loginView.skipLogin()
