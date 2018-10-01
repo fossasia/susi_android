@@ -15,6 +15,10 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.login.LoginActivity
+import org.fossasia.susi.ai.login.WelcomeActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
@@ -60,6 +64,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.skills_activity_menu, menu)
+
+        if (PrefManager.getBoolean("logged_in", false)) {
+            val loginMenuItem = menu?.findItem(R.id.menu_login)
+            loginMenuItem?.isVisible = false
+        }
+
         return true
     }
 
@@ -96,6 +106,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                         .add(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
                         .addToBackStack(TAG_SETTINGS_FRAGMENT)
                         .commit()
+            }
+
+            R.id.menu_login -> {
+                val intent = Intent(this, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
             }
 
             R.id.menu_about -> {

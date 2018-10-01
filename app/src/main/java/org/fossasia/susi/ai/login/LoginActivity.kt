@@ -72,6 +72,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(Constant.FIRST_TIME, true)
         startActivity(intent)
+        PrefManager.putBoolean("logged_in", true)
         finish()
     }
 
