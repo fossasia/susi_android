@@ -29,7 +29,7 @@
             android:layout_alignParentTop="true"
             android:layout_margin="10dp"
             android:onClick="openSettings"
-            app:backgroundTint="@color/colorPrimaryDark"
+            app:backgroundTint="@color/colorPrimary"
             app:fabSize="mini"
             app:srcCompat="@drawable/letter_s" />
 
