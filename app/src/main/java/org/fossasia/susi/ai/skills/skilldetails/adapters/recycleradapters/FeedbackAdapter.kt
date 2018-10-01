@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
@@ -52,7 +54,15 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                         if (feedbackResponse.feedbackList[position].email != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
                             Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).email, holder.avatar)
-                            Utils.truncateEmailAtEnd(feedbackResponse.feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
+                            if (PrefManager.getToken() != null) {
+                                if (!feedbackResponse.feedbackList.get(position).email.equals(PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(), true)) {
+                                    Utils.truncateEmailAtEnd(feedbackResponse.feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
+                                } else {
+                                    holder.feedbackEmail.text = feedbackResponse.feedbackList.get(position).email
+                                }
+                            } else {
+                                Utils.truncateEmailAtEnd(feedbackResponse.feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
+                            }
                         }
                         if (feedbackResponse.feedbackList[position].timestamp != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {

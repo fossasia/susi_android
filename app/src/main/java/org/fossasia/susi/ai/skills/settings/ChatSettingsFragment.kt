@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.ActivityCompat
@@ -65,6 +66,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private val packageName = "ai.susi";
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
+
         addPreferencesFromResource(R.xml.pref_settings)
 
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_settings)
