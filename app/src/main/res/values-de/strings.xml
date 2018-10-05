@@ -15,7 +15,6 @@
     <string name="search">Suche</string>
     <string name="select_background">Hintergrund auswählen</string>
     <string name="background_no_wall">no_wall</string>
-    <string name="enter_send" translatable="false">Enter_send</string>
     <string name="id">id</string>
     <string name="no_internet_connection"> Keine Internetverbindung!!</string>
     <string name="updated_successfully">Erfolgreich aktualisiert!</string>
@@ -62,11 +61,6 @@
     <string name="settings_enterPreference_label">Geben Sie als Send ein</string>
     <string name="setting_mic_input">Mic Eingang</string>
     <string name="setting_hotword_detection">Hotword-Erkennung (Beta)</string>
-    <string name="setting_mic_key" translatable="false">mic_input</string>
-    <string name="setting_hotword_key" translatable="false">hotword_detection</string>
-    <string name="settings_enterPreference_key" translatable="false">enter_send</string>
-    <string name="settings_speechPreference_key" translatable="false">speech_output</string>
-    <string name="settings_speechAlways_key" translatable="false">speech_always</string>
     <string name="hello_world">Hallo Welt!</string>
     <string name="speech_prompt">Sag etwas&#8230;</string>
     <string name="speech_not_supported">Es tut uns leid! Ihr Gerät unterstützt keine Spracheingabe</string>
@@ -111,7 +105,6 @@
     <string name="activity_login_forgot_pass">Passwort vergessen?</string>
     <string name="activity_login_sign_up">Melden Sie sich für SUSI an</string>
     <string name="activity_login_skip">Überspringen</string>
-    <string name="activity_login_imageview_description" translatable="false">SUSI Logo</string>
     <string name="unknown_answer">Ich weiß es nicht.</string>
     <string name="settings_mic">Mic-Einstellungen</string>
     <string name="settings_speech">Spracheinstellungen</string>
@@ -156,6 +149,5 @@
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, versuch es! -%s. Du wirst es lieben!</string>
     <string name="error_msg_retry">Bitte wiederholen Sie erneut</string>
-    <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="logout">Ausloggen</string>
 </resources>

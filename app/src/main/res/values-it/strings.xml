@@ -14,7 +14,6 @@
     <string name="search">cerca</string>
     <string name="select_background">Seleziona sfondo</string>
     <string name="background_no_wall">no_wall</string>
-    <string name="enter_send" translatable="false">Enter_send</string>
     <string name="id">id</string>
     <string name="no_internet_connection">Nessuna Connessione Internet Disponibile!!</string>
     <string name="updated_successfully"> aggiornato con successo!</string>
@@ -55,11 +54,6 @@
     <string name="settings_enterPreference_label">Inserisci Come Invia</string>
     <string name="setting_mic_input">Ingresso microfono</string>
     <string name="setting_hotword_detection">Rilevamento (Beta) di Hotword</string>
-    <string name="setting_mic_key" translatable="false">mic_input</string>
-    <string name="setting_hotword_key" translatable="false">hotword_detection</string>
-    <string name="settings_enterPreference_key" translatable="false">enter_send</string>
-    <string name="settings_speechPreference_key" translatable="false">speech_output</string>
-    <string name="settings_speechAlways_key" translatable="false">speech_always</string>
     <string name="hello_world">Hello world!</string>
     <string name="speech_prompt">dí qualcosa &#8230;</string>
     <string name="speech_not_supported">mi dispiace! Il tuo dispositivo non supporta l\'input vocale</string>
@@ -110,7 +104,6 @@
     <string name="activity_login_forgot_pass">Ha dimenticato la password?</string>
     <string name="activity_login_sign_up">Registrati per SUSI</string>
     <string name="activity_login_skip">Saltare</string>
-    <string name="activity_login_imageview_description" translatable="false">SUSI Logo</string>
     <string name="unknown_answer">Non lo so.</string>
     <string name="settings_mic">Impostazioni del Mic</string>
     <string name="settings_speech">Impostazioni vocali</string>
@@ -155,6 +148,5 @@
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, prova questo! - %s . Lo amerai!</string>
     <string name="error_msg_retry">Riprova nuovamente</string>
-    <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="logout">Logout</string>
 </resources>

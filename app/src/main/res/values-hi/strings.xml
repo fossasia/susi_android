@@ -15,7 +15,6 @@
     <string name="search">खोज</string>
     <string name="select_background">पृष्ठभूमि का चयन करें</string>
     <string name="background_no_wall">नहीं पृष्ठभूमि</string>
-    <string name="enter_send" translatable="false">भेजें दर्ज करें</string>
     <string name="id">आईडी</string>
     <string name="no_internet_connection">इंटरनेट कनेक्शन उपलब्ध नहीं है !!</string>
     <string name="updated_successfully">अद्यतन सफलतापूर्ण हो गया!</string>
@@ -54,6 +53,7 @@
     <string name="settings_enterPreference_label">भेजें के रूप में दर्ज करें</string>
     <string name="setting_mic_input">माइक्र इनपुट</string>
     <string name="setting_hotword_detection">हॉटवर्ड डिटेक्शन (बीटा)</string>
+
     <string name="setting_mic_key" translatable="false">mic_input</string>
     <string name="setting_hotword_key" translatable="false">हॉटवर्ड डिटेक्शन</string>
     <string name="settings_enterPreference_key" translatable="false">enter_send</string>
@@ -111,7 +111,6 @@
     <string name="activity_login_forgot_pass">पासवर्ड भूल गए?</string>
     <string name="activity_login_sign_up">सुसी के लिए साइन अप करें</string>
     <string name="activity_login_skip">छोड़ें</string>
-    <string name="activity_login_imageview_description" translatable="false">सुसी प्रतीक चिन्ह</string>
     <string name="unknown_answer">मुझे नहीं पता।</string>
     <string name="settings_mic">माइक सेटिंग्स</string>
     <string name="settings_speech">भाषण सेटिंग</string>
@@ -159,7 +158,6 @@
     <!--Share App strings-->
     <string name="promo_msg_template">हे, कोशिश करो! -% s आप इसे प्यार करेंगे!</string>
     <string name="error_msg_retry">कृपया फिर से प्रयास करें</string>
-    <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="logout">लोग आउट</string>
     <string name="skills">कौशल</string>
     <string name="skill_title">कौशल शीर्षक</string>

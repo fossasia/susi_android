@@ -192,6 +192,8 @@
     <string name="unknown_host_exception">Unknown Host Exception</string>
     <string name="check_email">Check your email!</string>
     <string name="reset_password_text">We just sent you an email with a link to reset \n your password.</string>
+    <string name="invalid_credentials_title">Invalid credentials.</string>
+    <string name="invalid_credentials">Invalid credentials. Please try again</string>
 
     <!-- Settings Activity-->
     <string name="Continue">Continue</string>
@@ -377,6 +379,8 @@
     <string name="device_name">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
     <string name="choose_wifi">Connect to Wi-Fi</string>
+    <string name="wifi_access">Provide Wi-Fi access</string>
+    <string name="wifi_access_message">To search available networks, turn Wi-Fi on</string>
     <string name="enter_password">Enter the Password for \n</string>
     <string name="thanks_wifi">Thanks for entering the Wi-Fi credentials\n</string>
     <string name="enter_password_mail">This is the final step, please enter your SUSI.AI account\'s password to successfully connect to the speaker</string>
@@ -408,4 +412,13 @@
     <string name="metric_newest">\"SUSI, what are the newest skills?\"</string>
     <string name="metrics_top_games">\"SUSI, what are your top games?\"</string>
     <string name="message_no_skills_found">No skills found.</string>
+
+    <!--Report Skill -->
+
+    <string name="report_skill">Flag as inappropriate</string>
+    <string name="report_send">Send report</string>
+    <string name="report_error">Error reporting skill. Please try again later</string>
+    <string name="report_send_success">Skill reported successfully</string>
+    <string name="reported_already">Skill already reported</string>
+
 </resources>

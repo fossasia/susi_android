@@ -14,7 +14,6 @@
     <string name="search">Buscar</string>
     <string name="select_background">Seleccionar fondo</string>
     <string name="background_no_wall">no_wall</string>
-    <string name="enter_send" translatable="false">Enter_send</string>
     <string name="id">id</string>
     <string name="no_internet_connection">Conexión a Internet No Disponible!!</string>
     <string name="updated_successfully">actualizado exitosamente!</string>
@@ -61,11 +60,6 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="settings_enterPreference_label">Introducir como Enviar</string>
     <string name="setting_mic_input">Entrada de micrófono</string>
     <string name="setting_hotword_detection">Detección de Hotword (Beta)</string>
-    <string name="setting_mic_key" translatable="false">mic_input</string>
-    <string name="setting_hotword_key" translatable="false">hotword_detection</string>
-    <string name="settings_enterPreference_key" translatable="false">enter_send</string>
-    <string name="settings_speechPreference_key" translatable="false">speech_output</string>
-    <string name="settings_speechAlways_key" translatable="false">speech_always</string>
     <string name="hello_world">Hola Mundo!</string>
     <string name="speech_prompt">Di algo&#8230;</string>
     <string name="speech_not_supported">¡Lo siento! Su dispositivo no admite la entrada de voz</string>
@@ -110,7 +104,6 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="activity_login_forgot_pass">Olvidó Contraseña?</string>
     <string name="activity_login_sign_up">Inscríbase en SUSI</string>
     <string name="activity_login_skip">Omitir</string>
-    <string name="activity_login_imageview_description" translatable="false">Logotipo de SUSI</string>
     <string name="unknown_answer">No lo sé.</string>
     <string name="settings_mic">Ajustes del Mic</string>
     <string name="settings_speech">Configuración de Voz</string>
@@ -155,6 +148,5 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <!--Share App strings-->
     <string name="promo_msg_template">Oye, prueba esto! - %s . Lo amarás!</string>
     <string name="error_msg_retry">Por favor, vuelva a intentarlo</string>
-    <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
     <string name="logout">Logout</string>
 </resources>

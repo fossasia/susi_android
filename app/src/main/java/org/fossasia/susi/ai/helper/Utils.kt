@@ -31,10 +31,9 @@ object Utils {
         return link
     }
 
-    fun setAvatar(context: Context, email: String?, imageView: ImageView) {
-        val imageUrl: String = GRAVATAR_URL + toMd5Hash(email) + ".jpg"
+    fun setAvatar(context: Context, avatarUrl: String?, imageView: ImageView) {
         Picasso.with(context)
-                .load(imageUrl)
+                .load(avatarUrl)
                 .fit().centerCrop()
                 .error(R.drawable.ic_susi)
                 .transform(CircleTransform())
