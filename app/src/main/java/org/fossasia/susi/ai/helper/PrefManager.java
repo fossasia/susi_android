@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 
 import org.fossasia.susi.ai.MainApplication;
+import org.fossasia.susi.ai.R;
 import org.fossasia.susi.ai.rest.clients.BaseUrl;
 import org.fossasia.susi.ai.rest.responses.susi.SusiBaseUrls;
 
@@ -25,8 +26,7 @@ public class PrefManager {
     private static Gson gson = new Gson();
 
     private static SharedPreferences getPreferences() {
-        return PreferenceManager.getDefaultSharedPreferences(MainApplication.getInstance()
-                .getApplicationContext());
+        return PreferenceManager.getDefaultSharedPreferences(getContext());
     }
 
     /**
@@ -107,8 +107,8 @@ public class PrefManager {
      * @param preferenceDefaultValue the preference default value
      * @return the boolean
      */
-    public static boolean getBoolean(String preferenceKey, boolean preferenceDefaultValue) {
-        return getPreferences().getBoolean(preferenceKey, preferenceDefaultValue);
+    public static boolean getBoolean(int preferenceKey, boolean preferenceDefaultValue) {
+        return getPreferences().getBoolean(getContext().getString(preferenceKey), preferenceDefaultValue);
     }
 
     /**
@@ -117,8 +117,8 @@ public class PrefManager {
      * @param preferenceKey   the preference key
      * @param preferenceValue the preference value
      */
-    public static void putBoolean(String preferenceKey, boolean preferenceValue) {
-        getPreferences().edit().putBoolean(preferenceKey, preferenceValue).apply();
+    public static void putBoolean(int preferenceKey, boolean preferenceValue) {
+        getPreferences().edit().putBoolean(getContext().getString(preferenceKey), preferenceValue).apply();
     }
 
     /**
@@ -169,7 +169,7 @@ public class PrefManager {
      */
     public static String getSusiRunningBaseUrl() {
 
-        if (getBoolean("is_susi_server_selected", true)) {
+        if (getBoolean(R.string.susi_server_selected_key, true)) {
             return getString(SUSI_RUNNING_BASE_URL, BaseUrl.SUSI_DEFAULT_BASE_URL);
         }
         return getString("custom_server", "null");
@@ -238,7 +238,7 @@ public class PrefManager {
      * @return the boolean
      */
     public static boolean checkSpeechOutputPref() {
-        return PrefManager.getBoolean(Constant.SPEECH_OUTPUT, true);
+        return PrefManager.getBoolean(R.string.settings_speechPreference_key, true);
     }
 
     /**
@@ -247,7 +247,7 @@ public class PrefManager {
      * @return the boolean
      */
     public static boolean checkSpeechAlwaysPref() {
-        return PrefManager.getBoolean(Constant.SPEECH_ALWAYS, false);
+        return PrefManager.getBoolean(R.string.settings_speechAlways_key, false);
     }
 
     /**
@@ -256,7 +256,7 @@ public class PrefManager {
      * @return the boolean
      */
     public static boolean checkHotwordPref() {
-        return PrefManager.getBoolean(Constant.HOTWORD_DETECTION, false);
+        return PrefManager.getBoolean(R.string.hotword_detection_key, false);
     }
 
     /**
@@ -266,6 +266,10 @@ public class PrefManager {
      */
     public static boolean checkMicInput(Context context) {
         return MediaUtil.INSTANCE.isAvailableForVoiceInput(context);
+    }
+
+    private static Context getContext() {
+        return MainApplication.getInstance().getApplicationContext();
     }
 }
 

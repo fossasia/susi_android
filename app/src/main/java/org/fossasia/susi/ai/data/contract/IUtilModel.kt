@@ -20,8 +20,10 @@ interface IUtilModel {
     fun setServer(isSusiServer: Boolean)
     fun setCustomURL(url: String)
     fun getString(id: Int): String
+    fun getBooleanPref(prefName: Int, defaultValue: Boolean): Boolean
     fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean
     fun putBooleanPref(prefName: String, value: Boolean)
+    fun putBooleanPref(prefName: Int, value: Boolean)
     fun checkMicInput(): Boolean
     fun copyAssetstoSD()
     fun permissionsToGet(): Array<String>
