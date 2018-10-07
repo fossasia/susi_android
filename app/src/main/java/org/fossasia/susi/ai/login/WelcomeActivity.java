@@ -31,7 +31,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (PrefManager.getBoolean("activity_executed", false)) {
+        if (PrefManager.getBoolean(R.string.activity_executed_key, false)) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();

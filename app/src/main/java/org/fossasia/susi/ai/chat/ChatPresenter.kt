@@ -75,9 +75,9 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     override fun checkPreferences() {
-        micCheck = utilModel.getBooleanPref(Constant.MIC_INPUT, true)
-        chatView?.checkMicPref(utilModel.getBooleanPref(Constant.MIC_INPUT, true))
-        chatView?.checkEnterKeyPref(utilModel.getBooleanPref(Constant.ENTER_SEND, false))
+        micCheck = PrefManager.getBoolean(R.string.setting_mic_key, true)
+        chatView?.checkMicPref(PrefManager.getBoolean(R.string.setting_mic_key, true))
+        chatView?.checkEnterKeyPref(PrefManager.getBoolean(R.string.settings_enterPreference_key, false))
     }
 
     override fun micCheck(): Boolean {
@@ -103,10 +103,10 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 chatView?.initHotword()
                 startHotwordDetection()
             } else {
-                utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
-                if (utilModel.getBooleanPref(Constant.NOTIFY_USER, true)) {
+                utilModel.putBooleanPref(R.string.hotword_detection_key, false)
+                if (utilModel.getBooleanPref(R.string.notify_user_key, true)) {
                     chatView?.showToast(utilModel.getString(R.string.error_hotword))
-                    utilModel.putBooleanPref(Constant.NOTIFY_USER, false)
+                    utilModel.putBooleanPref(R.string.notify_user_key, false)
                 }
             }
         }
@@ -117,7 +117,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     override fun startHotwordDetection() {
-        if (!isDetectionOn && utilModel.getBooleanPref(Constant.HOTWORD_DETECTION, false)) {
+        if (!isDetectionOn && utilModel.getBooleanPref(R.string.hotword_detection_key, false)) {
             chatView?.startRecording()
             isDetectionOn = true
         }
@@ -138,10 +138,10 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     override fun disableMicInput(boolean: Boolean) {
         if (boolean) {
             micCheck = false
-            PrefManager.putBoolean(Constant.MIC_INPUT, false)
+            PrefManager.putBoolean(R.string.setting_mic_key, false)
         } else {
             micCheck = utilModel.checkMicInput()
-            PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
+            PrefManager.putBoolean(R.string.setting_mic_key, utilModel.checkMicInput())
             chatView?.checkMicPref(micCheck)
         }
     }
@@ -543,7 +543,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         }
 
         if (!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
-            PrefManager.putBoolean(Constant.MIC_INPUT, utilModel.checkMicInput())
+            PrefManager.putBoolean(R.string.setting_mic_key, utilModel.checkMicInput())
         }
     }
 

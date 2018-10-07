@@ -75,21 +75,27 @@
     <string name="hello_world">Hello world!</string>
 
     <string name="know_more">Know more</string>
+    <string name="activity_executed_key" translatable="false">activity_executed</string>
+    <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
+    <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
+    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
+    <string name="notify_user_key" translatable="false">notify_user</string>
+
 
     <string name="setting_mic_input">Mic input</string>
     <string name="setting_hotword_detection">Hotword Detection (Beta)</string>
-    <string name="setting_mic_key" translatable="false">micInput</string>
+    <string name="setting_mic_key" translatable="false">mic_input</string>
     <string name="setting_hotword_key" translatable="false">hotword_detection</string>
 
-    <string name="settings_enterPreference_key" translatable="false">enterAsSend</string>
+    <string name="settings_enterPreference_key" translatable="false">enter_send</string>
     <string name="settings_enterPreference_label">↵ to send</string>
     <string name="settings_enterPreference_summary">Send message by clicking ↵ on the keyboard</string>
     <string name="settings_hotwordPreference_summary">Enable \"Hotword Detection\" to interact with SUSI in hands-free mode</string>
     <string name="settings_micPreference_summary">Enable mic to give voice input</string>
     <string name="settings_speechAlwaysPreference_summary">Enable speech output regardless of input type</string>
-    <string name="settings_speechAlways_key" translatable="false">speechOutputAlways</string>
+    <string name="settings_speechAlways_key" translatable="false">speech_always</string>
     <string name="settings_speechAlways_label">Speech output always on</string>
-    <string name="settings_speechPreference_key" translatable="false">speechOutput</string>
+    <string name="settings_speechPreference_key" translatable="false">speech_output</string>
     <string name="settings_speechPreference_label">Speech output</string>
     <string name="settings_speechPreference_summary">Enable speech output only for speech input</string>
     <string name="speech_not_supported">Sorry, your device doesn\'t support speech input</string>

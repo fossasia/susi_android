@@ -4,6 +4,7 @@ import android.Manifest
 import ai.kitt.snowboy.AppResCopy
 import android.content.Context
 import android.os.Build
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.contract.IUtilModel
 import org.fossasia.susi.ai.helper.*
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
@@ -24,11 +25,11 @@ class UtilModel(val context: Context) : IUtilModel {
     }
 
     override fun saveAnonymity(isAnonymous: Boolean) {
-        PrefManager.putBoolean(Constant.ANONYMOUS_LOGGED_IN, isAnonymous)
+        PrefManager.putBoolean(R.string.anonymous_logged_in_key, isAnonymous)
     }
 
     override fun getAnonymity(): Boolean {
-        return PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)
+        return PrefManager.getBoolean(R.string.anonymous_logged_in_key, false)
     }
 
     override fun saveEmail(email: String) {
@@ -53,7 +54,7 @@ class UtilModel(val context: Context) : IUtilModel {
     }
 
     override fun setServer(isSusiServer: Boolean) {
-        PrefManager.putBoolean(Constant.SUSI_SERVER, isSusiServer)
+        PrefManager.putBoolean(R.string.susi_server_selected_key, isSusiServer)
     }
 
     override fun setCustomURL(url: String) {
@@ -64,11 +65,11 @@ class UtilModel(val context: Context) : IUtilModel {
         return context.getString(id)
     }
 
-    override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
+    override fun getBooleanPref(prefName: Int, defaultValue: Boolean): Boolean {
         return PrefManager.getBoolean(prefName, defaultValue)
     }
 
-    override fun putBooleanPref(prefName: String, value: Boolean) {
+    override fun putBooleanPref(prefName: Int, value: Boolean) {
         PrefManager.putBoolean(prefName, value)
     }
 
@@ -98,4 +99,10 @@ class UtilModel(val context: Context) : IUtilModel {
         PrefManager.clearPrefs()
     }
 
+    override fun putBooleanPref(prefName: String, value: Boolean) {
+    }
+
+    override fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean {
+        return false
+    }
 }

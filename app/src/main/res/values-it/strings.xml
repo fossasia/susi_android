@@ -60,6 +60,12 @@
     <string name="tap_on_mic">Toccare il microfono per parlare</string>
     <string name="know_more">Saperne di più</string>
 
+    <string name="activity_executed_key" translatable="false">activity_executed</string>
+    <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
+    <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
+    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
+    <string name="notify_user_key" translatable="false">notify_user</string>
+
     <!--Error Messages-->
     <string name="error_crop_not_supported">Spiacenti - il tuo dispositivo non supporta l\'azione di ritaglia!</string>
     <string name="error_occurred_try_again">si è verificato un errore, riprova più tardi!</string>
