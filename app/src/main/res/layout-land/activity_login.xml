@@ -130,8 +130,9 @@
                 android:background="?selectableItemBackground"
                 android:gravity="center"
                 android:text="@string/activity_login_sign_up"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:typeface="monospace"/>
 
         </LinearLayout>
     </ScrollView>
