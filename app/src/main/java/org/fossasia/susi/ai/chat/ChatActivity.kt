@@ -287,6 +287,11 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     }
 
+    fun enableVoiceInput() {
+        btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
+        btnSpeak.isEnabled = true
+    }
+
     override fun showWaitingDots() {
         recyclerAdapter.showDots()
     }
@@ -341,6 +346,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
+                btnSpeak.isEnabled = false
                 textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
             })
