@@ -310,7 +310,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
         return new ResponseListener() {
             @Override
             public void onData(MetaData data) {
-                if (!PrefManager.hasTokenExpired() || PrefManager.getBoolean(Constant.ANONYMOUS_LOGGED_IN, false)) {
+                if (!PrefManager.hasTokenExpired() || PrefManager.getBoolean(R.string.anonymous_logged_in_key, false)) {
                     realm.beginTransaction();
                     Realm realm = Realm.getDefaultInstance();
                     WebLink link = realm.createObject(WebLink.class);
