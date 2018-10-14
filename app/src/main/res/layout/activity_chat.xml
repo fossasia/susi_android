@@ -57,9 +57,11 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/md_grey_300" />
+                android:background="@color/md_grey_100" />
 
             <android.support.v7.widget.CardView
+                android:id="@+id/with_keyboard"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardPreventCornerOverlap="false">
@@ -101,6 +103,50 @@
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_very_small">
 
+                        <ImageView
+                            android:id="@+id/btnSpeak_wK"
+                            android:layout_width="30dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:paddingTop="2dp"
+                            app:srcCompat="@drawable/ic_mic_24dp" />
+
+                    </FrameLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/without_keyboard"
+                app:cardElevation="0dp"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardPreventCornerOverlap="false">
+                <LinearLayout
+                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/padding_medium">
+                    <FrameLayout
+                        android:background="@android:color/transparent"
+                        android:id="@+id/without_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="77"
+                        android:layout_marginBottom="@dimen/margin_small"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:layout_marginTop="@dimen/margin_very_small">
+                        <ImageView
+                            android:id="@+id/btn_keyboard"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/baseline_keyboard_24" />
                         <ImageView
                             android:id="@+id/btnSpeak"
                             android:layout_width="30dp"

@@ -21,6 +21,7 @@ import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.CardView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
@@ -73,6 +74,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
             textToSpeech?.stop()
         }
     }
+    private var input_held = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,6 +100,17 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 chatPresenter.startComputingThread()
             }
         }
+        
+        val cardViewWithK = findViewById<CardView>(R.id.with_keyboard)
+        val cardViewWithoutK = findViewById<CardView>(R.id.without_keyboard)
+        val keyboard = findViewById<View>(R.id.btn_keyboard)
+        keyboard.setOnClickListener {
+            if(!input_held){
+                cardViewWithK.visibility = View.VISIBLE
+                cardViewWithoutK.visibility = View.GONE
+            }
+
+        }
     }
 
     // This method is used to set up the UI components
@@ -121,6 +134,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     private fun setEditText() {
+        setUpWkButton()
         val watch = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 //do whatever you want to do before text change in input edit text
@@ -128,8 +142,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 if (charSequence.toString().trim { it <= ' ' }.isNotEmpty() || !chatPresenter.micCheck()) {
-                    btnSpeak.setImageResource(R.drawable.ic_send_fab)
-                    btnSpeak.setOnClickListener({
+                    btnSpeak_wK.setImageResource(R.drawable.ic_send_fab)
+                    btnSpeak_wK.setOnClickListener {
                         chatPresenter.check(false)
                         val chatMessage = askSusiMessage.text.toString().trim({ it <= ' ' })
                         val splits = chatMessage.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
@@ -138,13 +152,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
                             chatPresenter.sendMessage(message, askSusiMessage.text.toString())
                             askSusiMessage.setText("")
                         }
-                    })
-                } else {
-                    btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
-                    btnSpeak.setOnClickListener {
-                        textToSpeech?.stop()
-                        chatPresenter.startSpeechInput()
                     }
+                } else {
+                    setUpWkButton()
                 }
             }
 
@@ -185,6 +195,29 @@ class ChatActivity : AppCompatActivity(), IChatView {
             }
             false
         })
+    }
+
+    private fun setUpWkButton() {
+        btnSpeak_wK.setImageResource(R.drawable.ic_mic_24dp)
+        btnSpeak_wK.setOnClickListener {
+            textToSpeech?.stop()
+            input_held = true
+            btnSpeak.isEnabled = true
+            btnSpeak.isClickable = true
+            startKeyboard()
+        }
+    }
+
+    private fun startKeyboard(){
+        val cardViewWithK = findViewById<CardView>(R.id.with_keyboard)
+        val cardViewWithoutK = findViewById<CardView>(R.id.without_keyboard)
+        cardViewWithK.visibility = View.GONE
+        cardViewWithoutK.visibility = View.VISIBLE
+        setUpWkButton()
+        checkMicPref(true)
+        chatPresenter.check(true)
+        btnSpeak.visibility = View.INVISIBLE
+        chatPresenter.startSpeechInput()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration?) {
@@ -288,8 +321,11 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun enableVoiceInput() {
+        btnSpeak.visibility = View.VISIBLE
         btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
         btnSpeak.isEnabled = true
+        btnSpeak.isClickable = true
+        input_held = false
     }
 
     override fun showWaitingDots() {
@@ -347,6 +383,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
                 btnSpeak.isEnabled = false
+                btnSpeak.isClickable = false
+                input_held = true
+                btnSpeak.visibility = View.INVISIBLE
                 textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
             })
