@@ -11,5 +11,6 @@ import kotlinx.android.parcel.Parcelize
 data class Feedback(
         var feedback: String? = "",
         var email: String? = "",
-        var timestamp: String? = ""
+        var timestamp: String? = "",
+        var avatar: String? = ""
 ) : Parcelable

@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.settings
 
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.SettingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISettingModel
@@ -35,10 +36,10 @@ class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, IS
     override fun enableMic(): Boolean {
         return if ((settingView?.micPermission()) as Boolean) {
             if (!utilModel.checkMicInput())
-                utilModel.putBooleanPref(Constant.MIC_INPUT, false)
+                utilModel.putBooleanPref(R.string.setting_mic_key, false)
             utilModel.checkMicInput()
         } else {
-            utilModel.putBooleanPref(Constant.MIC_INPUT, false)
+            utilModel.putBooleanPref(R.string.setting_mic_key, false)
             false
         }
     }
@@ -48,11 +49,11 @@ class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, IS
             return if (utilModel.checkMicInput() && utilModel.isArmDevice()) {
                 true
             } else {
-                utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
+                utilModel.putBooleanPref(R.string.hotword_detection_key, false)
                 false
             }
         } else {
-            utilModel.putBooleanPref(Constant.HOTWORD_DETECTION, false)
+            utilModel.putBooleanPref(R.string.hotword_detection_key, false)
             false
         }
     }
@@ -140,7 +141,7 @@ class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, IS
                 return
             }
         } else {
-            utilModel.putBooleanPref(Constant.SUSI_SERVER, true)
+            utilModel.putBooleanPref(R.string.susi_server_selected_key, true)
         }
         settingView?.setServerSuccessful()
     }

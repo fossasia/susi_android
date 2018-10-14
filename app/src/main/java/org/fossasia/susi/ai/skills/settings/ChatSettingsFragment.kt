@@ -77,14 +77,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         rate = preferenceManager.findPreference(Constant.RATE)
         server = preferenceManager.findPreference(Constant.SELECT_SERVER)
-        micSettings = preferenceManager.findPreference(Constant.MIC_INPUT)
+        micSettings = preferenceManager.findPreference(getString(R.string.setting_mic_key))
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
-        enterSend = preferenceManager.findPreference(Constant.ENTER_SEND)
-        speechOutput = preferenceManager.findPreference(Constant.SPEECH_OUTPUT)
-        speechAlways = preferenceManager.findPreference(Constant.SPEECH_ALWAYS)
+        enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
+        speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key))
+        speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key))
         displayEmail = preferenceManager.findPreference("display_email")
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
@@ -199,22 +199,22 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         if (!settingsPresenter.getAnonymity()) {
             micSettings.setOnPreferenceClickListener {
-                settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
+                settingsPresenter.sendSetting(getString(R.string.setting_mic_key), (PrefManager.getBoolean(R.string.setting_mic_key, false)).toString(), 1)
                 true
             }
 
             enterSend.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.ENTER_SEND, newValue.toString(), 1)
+                settingsPresenter.sendSetting(getString(R.string.settings_enterPreference_key), newValue.toString(), 1)
                 true
             }
 
             speechAlways.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_ALWAYS, newValue.toString(), 1)
+                settingsPresenter.sendSetting(getString(R.string.settings_speechAlways_key), newValue.toString(), 1)
                 true
             }
 
             speechOutput.setOnPreferenceChangeListener { _, newValue ->
-                settingsPresenter.sendSetting(Constant.SPEECH_OUTPUT, newValue.toString(), 1)
+                settingsPresenter.sendSetting(getString(R.string.settings_speechPreference_key), newValue.toString(), 1)
                 true
             }
         }
@@ -251,7 +251,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         inputUrl = promptsView?.findViewById(R.id.input_url) as TextInputLayout
         val inputUrlText = promptsView.findViewById(R.id.input_url_text) as TextInputEditText
         val customerServer = promptsView.findViewById(R.id.customer_server) as AppCompatCheckBox
-        if (PrefManager.getBoolean(Constant.SUSI_SERVER, true)) {
+        if (PrefManager.getBoolean(R.string.susi_server_selected_key, true)) {
             inputUrl.visibility = View.GONE
             flag = false
         } else {
