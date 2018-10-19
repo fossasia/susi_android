@@ -12,6 +12,7 @@ import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.helper.NetworkUtils
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
@@ -99,6 +100,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         }
 
         this.email = email
+        PrefManager.putString(Constant.EMAIL, this.email)
         loginView?.showProgress(true)
         loginModel.login(email.trim({ it <= ' ' }).toLowerCase(), password, this)
     }

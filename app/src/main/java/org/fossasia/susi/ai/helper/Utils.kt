@@ -3,9 +3,11 @@ package org.fossasia.susi.ai.helper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.ImageView
+import android.widget.TextView
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
+import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import timber.log.Timber
 import java.security.MessageDigest
@@ -67,6 +69,22 @@ object Utils {
             }
         }
         return null
+    }
+
+    fun setUsername(feedback: Feedback, feedbackEmail: TextView) {
+        if (!feedback.userName.isNullOrEmpty()) {
+            feedbackEmail.text = feedback.userName
+        } else {
+            if (PrefManager.getToken() != null) {
+                if (!feedback.email.equals(PrefManager.getString(Constant.EMAIL, null), true)) {
+                    Utils.truncateEmailAtEnd(feedback.email)?.let { feedbackEmail?.text = it }
+                } else {
+                    feedbackEmail.text = feedback.email
+                }
+            } else {
+                Utils.truncateEmailAtEnd(feedback.email)?.let { feedbackEmail?.text = it }
+            }
+        }
     }
 
 }
