@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skilldetails.contract
 
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
+import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 
 /**
  * The interface for SkillDetails Presenter
@@ -19,6 +20,8 @@ interface ISkillDetailsPresenter {
     fun updateUserRating(map: Map<String, String>)
 
     fun cancelUserRating()
+
+    fun sendReport(queryObject: ReportSkillQuery)
 
     fun postFeedback(queryObject: PostFeedback)
 
