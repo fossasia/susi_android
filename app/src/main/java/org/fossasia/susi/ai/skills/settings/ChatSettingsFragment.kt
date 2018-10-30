@@ -308,7 +308,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         loginLogout.title = loginMessage
         displayEmail.title = message
 
-        /*   set Mic preferences    */
+        // Set mic preferences
         micSettings.setOnPreferenceClickListener {
             settingsPresenter.sendSetting(Constant.MIC_INPUT, (PrefManager.getBoolean(Constant.MIC_INPUT, false)).toString(), 1)
             true
