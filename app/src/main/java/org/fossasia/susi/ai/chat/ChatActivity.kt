@@ -65,7 +65,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private var example: String = ""
     private var isConfigurationChanged = false
     private val enterAsSend: Boolean by lazy {
-        PrefManager.getBoolean(Constant.ENTER_SEND, false)
+        PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
 
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
@@ -287,6 +287,11 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     }
 
+    fun enableVoiceInput() {
+        btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
+        btnSpeak.isEnabled = true
+    }
+
     override fun showWaitingDots() {
         recyclerAdapter.showDots()
     }
@@ -341,6 +346,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
+                btnSpeak.isEnabled = false
                 textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
             })
