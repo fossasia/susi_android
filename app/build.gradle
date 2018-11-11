@@ -25,6 +25,10 @@ android {
                 YOUTUBE_API_KEY: YOUTUBE_API_KEY
         ]
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -81,6 +85,7 @@ dependencies {
     implementation "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.android.support:customtabs:${rootConfiguration.supportLibraryVersion}"
 
     //piechart
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
@@ -90,9 +95,6 @@ dependencies {
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
-
-    //Chrome custom tabs
-    implementation "com.android.support:customtabs:${customTabsVersion}"
 
     //butterknife
     implementation "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"

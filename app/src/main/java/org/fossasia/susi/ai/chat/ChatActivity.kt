@@ -199,7 +199,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         rv_chat_feed.layoutManager = linearLayoutManager
         rv_chat_feed.setHasFixedSize(false)
-        recyclerAdapter = ChatFeedRecyclerAdapter(chatMessageDatabaseList, true, true)
+        recyclerAdapter = ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true)
         rv_chat_feed.adapter = recyclerAdapter
 
         rv_chat_feed.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->

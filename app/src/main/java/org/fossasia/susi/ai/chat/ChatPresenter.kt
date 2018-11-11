@@ -39,7 +39,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     private var utilModel: UtilModel = UtilModel(chatActivity)
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
     private lateinit var locationHelper: LocationHelper
-    private val nonDeliveredMessages = LinkedList<Pair<String, Long>>()
+    private val nonDeliveredMessages = LinkedList<Pair<String?, Long>>()
     private var newMessageIndex: Long = 0
     private var micCheck = false
     var latitude: Double = 0.0
@@ -288,7 +288,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
 
     //Gets Location of user using gps and network
     override fun getLocationFromLocationService() {
-        locationHelper = LocationHelper(MainApplication.getInstance().applicationContext)
+        locationHelper = LocationHelper(MainApplication.instance.applicationContext)
         getLocation()
     }
 
@@ -373,16 +373,16 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
                 val query = nonDeliveredMessages.first.first
                 val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT) == Constant.DEFAULT) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
-                val data: MutableMap<String, String> = HashMap()
-                data.put("timezoneOffset", timezoneOffset.toString())
-                data.put("longitude", longitude.toString())
-                data.put("latitude", latitude.toString())
-                data.put("geosource", source)
-                data.put("language", language)
-                data.put("country_code", countryCode.toString())
-                data.put("country_name", countryName.toString())
-                data.put("device_type", deviceType)
-                data.put("q", query)
+                val data: MutableMap<String, String?> = HashMap()
+                data["timezoneOffset"] = timezoneOffset.toString()
+                data["longitude"] = longitude.toString()
+                data["latitude"] = latitude.toString()
+                data["geosource"] = source
+                data["language"] = language
+                data["country_code"] = countryCode.toString()
+                data["country_name"] = countryName.toString()
+                data["device_type"] = deviceType
+                data["q"] = query
                 chatModel.getSusiMessage(data, this)
 
             } else run {

@@ -75,7 +75,7 @@ object Utils {
         if (!feedback.userName.isNullOrEmpty()) {
             feedbackEmail.text = feedback.userName
         } else {
-            if (PrefManager.getToken() != null) {
+            if (PrefManager.token != null) {
                 if (!feedback.email.equals(PrefManager.getString(Constant.EMAIL, null), true)) {
                     Utils.truncateEmailAtEnd(feedback.email)?.let { feedbackEmail?.text = it }
                 } else {
