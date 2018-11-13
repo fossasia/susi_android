@@ -53,16 +53,8 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                     if (position < 3) {
                         if (feedbackResponse.feedbackList[position].email != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
-                            Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).email, holder.avatar)
-                            if (PrefManager.getToken() != null) {
-                                if (!feedbackResponse.feedbackList.get(position).email.equals(PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(), true)) {
-                                    Utils.truncateEmailAtEnd(feedbackResponse.feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
-                                } else {
-                                    holder.feedbackEmail.text = feedbackResponse.feedbackList.get(position).email
-                                }
-                            } else {
-                                Utils.truncateEmailAtEnd(feedbackResponse.feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
-                            }
+                            Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).avatar, holder.avatar)
+                            Utils.setUsername(feedbackResponse.feedbackList.get(position), holder.feedbackEmail)
                         }
                         if (feedbackResponse.feedbackList[position].timestamp != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {

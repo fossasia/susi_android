@@ -59,6 +59,12 @@
     <string name="tap_on_mic">Toque no microfone para falar</string>
     <string name="know_more">Saiba mais</string>
 
+    <string name="activity_executed_key" translatable="false">activity_executed</string>
+    <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
+    <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
+    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
+    <string name="notify_user_key" translatable="false">notify_user</string>
+
     <!--Error Messages-->
     <string name="error_occurred_try_again">Ocorreu um erro, tente novamente!</string>
     <string name="error_invalid_token">Chave de Acesso Inválida!</string>
