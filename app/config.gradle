@@ -4,7 +4,7 @@ ext {
     targetSdkVersion = 27
 
     //Libraries
-    supportLibraryVersion = '27.1.1'
+    supportLibraryVersion = '28.0.0'
     leakCanaryVersion = '1.5.4'
     mpAndroidChartVersion = 'v3.0.3'
     butterKnifeVersion = '8.8.1'
@@ -20,7 +20,7 @@ ext {
     kotlinVersion = '1.2.41'
     picassoVersion = '2.5.2'
     timberVersion = '4.7.0'
-    customTabsVersion = '25.1.0'
+    customTabsVersion = '28.0.0'
     jUnitVersion = '4.12'
     mockitoCoreVersion = '1.10.19'
 }
