@@ -72,10 +72,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun onBackPressed() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-
         var count:Int=supportFragmentManager.backStackEntryCount
         supportFragmentManager.popBackStack()
-
         if(count==1){
             finish()
             exitActivity(this)
@@ -83,8 +81,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             title=getString(R.string.skills_activity)
         }else
             title=getString(R.string.skills_activity)
-
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -213,7 +209,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         this.supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillDetailsFragment,SkillDetailsFragment().toString())
+                .add(R.id.fragment_container, skillDetailsFragment)
                 .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }
