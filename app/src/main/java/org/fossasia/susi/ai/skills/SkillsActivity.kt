@@ -72,14 +72,19 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun onBackPressed() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        if (supportFragmentManager.popBackStackImmediate(TAG_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
-        } else if (supportFragmentManager.popBackStackImmediate(TAG_GROUP_WISE_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
-        } else {
+
+        var count:Int=supportFragmentManager.backStackEntryCount
+        supportFragmentManager.popBackStack()
+
+        if(count==1){
             finish()
             exitActivity(this)
-        }
+        }else if(count==2){
+            title=getString(R.string.skills_activity)
+        }else
+            title=getString(R.string.skills_activity)
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -207,8 +212,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
-        (this).supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillDetailsFragment)
+        this.supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, skillDetailsFragment,SkillDetailsFragment().toString())
                 .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }
@@ -216,9 +221,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     override fun loadGroupWiseSkillsFragment(group: String) {
         handleOnLoadingFragment()
         val groupWiseSkillsFragment = GroupWiseSkillsFragment.newInstance(group)
-        (this).supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, groupWiseSkillsFragment)
-                .addToBackStack(GroupWiseSkillsFragment().toString())
+        this.supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, groupWiseSkillsFragment,"TAG_GROUP_WISE_SKILLS_FRAGMENT")
+                .addToBackStack(TAG_GROUP_WISE_SKILLS_FRAGMENT)
                 .commit()
     }
 
