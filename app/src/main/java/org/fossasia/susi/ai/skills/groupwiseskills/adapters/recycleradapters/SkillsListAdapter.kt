@@ -49,7 +49,7 @@ class SkillsListAdapter(val context: Context, private val skillDetails: GroupWis
                 holder.skillImage?.setImageResource(R.drawable.ic_susi)
             } else {
                 val imageUrl: String = skillDetails.skillsList.get(position).group.replace(" ", "%20") + "/en/" + skillData.image
-                Picasso.with(context.applicationContext).load(StringBuilder(imageLink)
+                Picasso.get().load(StringBuilder(imageLink)
                         .append(imageUrl).toString())
                         .fit().centerCrop()
                         .error(R.drawable.ic_susi)

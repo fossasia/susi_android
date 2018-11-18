@@ -8,7 +8,7 @@ import org.fossasia.susi.ai.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import pl.tajchert.sample.DotsTextView;
+import pl.tajchert.waitingdots.DotsTextView;
 
 /**
  * <h1>Typing dots view holder</h1>

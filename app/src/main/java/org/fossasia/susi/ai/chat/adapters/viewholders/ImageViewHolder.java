@@ -70,7 +70,7 @@ public class ImageViewHolder extends MessageViewHolder {
         if (model != null) {
             imageURL = model.getContent();
             try {
-                Picasso.with(itemView.getContext())
+                Picasso.get()
                         .load(imageURL)
                         .placeholder(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_susi))
                         .into(imageView);

@@ -77,7 +77,7 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
             if (iconUrl != null && !iconUrl.isEmpty()) {
                 holder.previewImageView.setVisibility(View.VISIBLE);
                 Timber.v(iconUrl);
-                Picasso.with(context).load(iconUrl)
+                Picasso.get().load(iconUrl)
                         .into(holder.previewImageView, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
@@ -85,9 +85,11 @@ public class WebSearchAdapter extends RecyclerView.Adapter<SearchResultHolder> {
                             }
 
                             @Override
-                            public void onError() {
+                            public void onError(Exception e) {
                                 holder.previewImageView.setVisibility(View.GONE);
                             }
+
+
                         });
 
             } else {

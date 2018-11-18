@@ -45,7 +45,7 @@ public class YoutubeVideoViewHolder extends MessageViewHolder {
                 videoId = model.getIdentifier();
                 String img_url = "http://img.youtube.com/vi/" + videoId + "/0.jpg";
 
-                Picasso.with(itemView.getContext()).load(img_url).
+                Picasso.get().load(img_url).
                         placeholder(ContextCompat.getDrawable(itemView.getContext(), R.drawable.ic_susi))
                         .into(playerView);
             } catch (Exception e) {

@@ -45,6 +45,7 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
 import pl.tajchert.sample.DotsTextView;
+import pl.tajchert.waitingdots.DotsTextView;
 
 /**
  * <h1>Main adapter to display chat feed as a recycler view.</h1>
