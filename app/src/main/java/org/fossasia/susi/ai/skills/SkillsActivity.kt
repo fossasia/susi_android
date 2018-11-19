@@ -72,14 +72,17 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun onBackPressed() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        if (supportFragmentManager.popBackStackImmediate(TAG_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
-        } else if (supportFragmentManager.popBackStackImmediate(TAG_GROUP_WISE_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
-        } else {
+        supportFragmentManager.popBackStack()
+        val f: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (f is GroupWiseSkillsFragment ){
+            title=getString(R.string.skills_activity)
+        }else if(f is SkillDetailsFragment){
+            title=getString(R.string.skills_activity)
+        }else if(f is SkillListingFragment){
             finish()
             exitActivity(this)
-        }
+        }else
+            title=getString(R.string.skills_activity)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
