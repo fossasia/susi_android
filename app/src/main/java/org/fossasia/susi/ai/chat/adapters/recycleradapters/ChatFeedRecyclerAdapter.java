@@ -44,7 +44,6 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmRecyclerViewAdapter;
 import io.realm.RealmResults;
-import pl.tajchert.sample.DotsTextView;
 import pl.tajchert.waitingdots.DotsTextView;
 
 /**
@@ -88,14 +87,13 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
     /**
      * Instantiates a new Chat feed recycler adapter.
      *
-     * @param context    the context
-     * @param data       the data
-     * @param autoUpdate the auto update
+     * @param data    the data
+     * @param autoUpdate the auto aupdate
+     * @param updateOnModification the update on modification
      */
-    public ChatFeedRecyclerAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate) {
-        super(context, data, autoUpdate);
+    public ChatFeedRecyclerAdapter(@Nullable OrderedRealmCollection<ChatMessage> data, boolean autoUpdate, boolean updateOnModification) {
+        super(data, autoUpdate, updateOnModification);
         this.clickListener = this;
-        currContext = context;
         lastMsgCount = getItemCount();
         RealmChangeListener<RealmResults> listener = new RealmChangeListener<RealmResults>() {
             @Override
@@ -111,7 +109,7 @@ public class ChatFeedRecyclerAdapter extends RealmRecyclerViewAdapter<ChatMessag
             RealmResults realmResults = (RealmResults) data;
             realmResults.addChangeListener(listener);
         }
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(currContext);
         View view = inflater.inflate(R.layout.item_waiting_dots, null);
         dotsHolder = new TypingDotsHolder(view);
         DotsTextView dots = dotsHolder.dotsTextView;

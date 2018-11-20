@@ -485,7 +485,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             tvPostFeedbackDesc.visibility = View.VISIBLE
             layoutPostFeedback.visibility = View.VISIBLE
             buttonPost.setOnClickListener {
-                if (etFeedback.text.trim().toString().isNotEmpty()) {
+                if (etFeedback.text?.trim().toString().isNotEmpty()) {
                     val queryObject = PostFeedback(skillData.model, skillData.group, skillData.language,
                             skillData.skillTag, etFeedback.text.toString(), PrefManager.getToken().toString())
 
@@ -507,10 +507,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      */
     override fun updateFeedback() {
         Toast.makeText(context, getString(R.string.toast_feedback_updated), Toast.LENGTH_SHORT).show()
-        etFeedback.text.clear()
+        etFeedback.text?.clear()
         etFeedback.dispatchWindowFocusChanged(true)
         etFeedback.clearFocus()
-        etFeedback.text.clear()
+        etFeedback.text?.clear()
         etFeedback.dispatchWindowFocusChanged(true)
         etFeedback.clearFocus()
     }

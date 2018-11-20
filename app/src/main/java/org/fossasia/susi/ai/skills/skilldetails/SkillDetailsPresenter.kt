@@ -111,8 +111,8 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
     override fun onSkillDetailsModelSuccess(response: Response<FiveStarSkillRatingResponse>) {
 
         if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
-            skillDetailsView?.updateRatings(response.body().ratings)
+            Timber.d(response.body()!!.message)
+            skillDetailsView?.updateRatings(response.body()!!.ratings)
         } else {
             Timber.d("Could not update the ratings")
         }
@@ -121,8 +121,8 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
     override fun onUpdateUserRatingModelSuccess(response: Response<GetRatingByUserResponse>) {
 
         if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
-            skillDetailsView?.updateUserRating(response.body().ratings?.stars)
+            Timber.d(response.body()!!.message)
+            skillDetailsView?.updateUserRating(response.body()!!.ratings?.stars)
         } else {
             Timber.d("Could not update the user ratings")
         }
@@ -130,7 +130,7 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
 
     override fun onUpdateFeedbackModelSuccess(response: Response<PostSkillFeedbackResponse>) {
         if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
+            Timber.d(response.body()!!.message)
             skillDetailsView?.updateFeedback()
         } else {
             Timber.d("Could not update feedback")
@@ -139,8 +139,8 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
 
     override fun onFetchFeedbackModelSuccess(response: Response<GetSkillFeedbackResponse>) {
         if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
-            skillDetailsView?.updateFeedbackList(response.body())
+            Timber.d(response.body()!!.message)
+            skillDetailsView?.updateFeedbackList(response.body()!!)
         } else {
             Timber.d("Could not fetch feedback")
         }
