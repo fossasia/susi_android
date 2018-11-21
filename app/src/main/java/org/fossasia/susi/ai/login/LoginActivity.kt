@@ -131,16 +131,16 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         var passwordEmpty = true
         logIn.isEnabled = false
         emailInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
+            override fun afterTextChanged(emailInputString: Editable?) {
+                //nothing to do after text change
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+            override fun beforeTextChanged(emailInputString: CharSequence?, start: Int, count: Int, after: Int) {
+                //nothing to do before text change
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().trim() != "") {
+            override fun onTextChanged(emailInputString: CharSequence?, start: Int, before: Int, count: Int) {
+                if (emailInputString.toString().trim() != "") {
                     emailEmpty = false
                     logIn.isEnabled = !(emailEmpty || passwordEmpty)
                 } else {
@@ -150,17 +150,18 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             }
 
         })
+
         passwordInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-
+            override fun afterTextChanged(passwordInputString: Editable?) {
+                //nothing to do after text change
             }
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
+            override fun beforeTextChanged(passwordInputString: CharSequence?, start: Int, count: Int, after: Int) {
+                //nothing to do before text change
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s.toString().trim() != "") {
+            override fun onTextChanged(passwordInputString: CharSequence?, start: Int, before: Int, count: Int) {
+                if (passwordInputString.toString().trim() != "") {
                     passwordEmpty = false
                     logIn.isEnabled = !(emailEmpty || passwordEmpty)
                 } else {
