@@ -121,7 +121,12 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setReportButton() {
+<<<<<<< HEAD
+        if (PrefManager.getToken().isNotEmpty()) {
+=======
+        
         if (!PrefManager.getToken().isNullOrEmpty()) {
+>>>>>>> d427760e55adf4e15a3b8cde9f90faf2631bde76
             reportSkill.visibility = View.VISIBLE
         }
 
