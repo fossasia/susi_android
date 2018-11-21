@@ -17,4 +17,6 @@ interface ISkillDetailsView {
     fun updateFeedback()
 
     fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse)
+
+    fun updateSkillReportStatus(message: String)
 }

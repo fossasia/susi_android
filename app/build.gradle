@@ -9,17 +9,6 @@ apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
 
-buildscript {
-
-}
-
-//apply plugin: 'io.fabric'
-
-repositories {
-    mavenCentral()
-}
-
-
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
 
@@ -27,8 +16,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 13
-        versionName "1.0.12"
+        versionCode 14
+        versionName "1.0.13"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -71,6 +60,10 @@ android {
             includeAndroidResources = true
         }
     }
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
 }
 
 androidExtensions {

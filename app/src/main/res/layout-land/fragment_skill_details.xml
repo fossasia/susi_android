@@ -55,16 +55,25 @@
                     android:textSize="@dimen/text_size_normal"
                     app:fontFamily="sans-serif" />
 
+                <TextView
+                    android:id="@+id/skillDetailDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/md_white_1000"
+                    android:text="@string/description_long"
+                    android:textSize="16sp" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:background="@color/md_white_1000"
-                    android:gravity="start"
+                    android:gravity="right"
                     android:orientation="horizontal"
                     android:paddingEnd="@dimen/padding_small"
                     android:paddingRight="@dimen/padding_small"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:paddingTop="@dimen/padding_large">
+                    android:paddingTop="@dimen/padding_small">
 
                     <Button
                         android:id="@+id/skillDetailTryButton"
@@ -97,24 +106,19 @@
             android:layout_height="wrap_content"
             android:background="@color/md_white_1000"
             android:orientation="vertical"
-            android:padding="@dimen/padding_large">
+            android:paddingBottom="@dimen/padding_large"
+            android:paddingEnd="@dimen/padding_large"
+            android:paddingLeft="@dimen/padding_large"
+            android:paddingRight="@dimen/padding_large"
+            android:paddingStart="@dimen/padding_large">
 
             <TextView
-                android:id="@+id/skillDetailDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:background="@color/md_white_1000"
-                android:text="@string/description_long"
-                android:textSize="16sp" />
-
-            <TextView
+                android:id="@+id/skillDetailExample"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 android:background="@color/md_white_1000"
                 android:text="@string/examples"
-                android:id="@+id/skillDetailExample"
                 android:textColor="@color/md_grey_700"
                 android:textSize="@dimen/text_size_large"
                 app:fontFamily="sans-serif" />
@@ -175,219 +179,244 @@
                 android:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/skill_rating_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/md_white_1000"
+                android:layout_height="@dimen/link_preview_max_width"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/md_white_1000"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_moderate">
-
-                    <!-- Display average skill rating -->
-                    <TextView
-                        android:id="@+id/tvAverageRating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@color/md_white_1000"
-                        android:text="@string/placeholder_average_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_extra_large"
-                        app:fontFamily="sans-serif" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/md_white_1000"
-                        android:gravity="center_horizontal"
-                        android:text="@string/average_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_very_small"
-                        app:fontFamily="sans-serif" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/md_white_1000"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/md_white_1000"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/padding_extra_small">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:gravity="end"
-                            android:text="@string/digit_five"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/md_white_1000"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/padding_extra_small">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:gravity="end"
-                            android:text="@string/digit_four"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/md_white_1000"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/padding_extra_small">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:gravity="end"
-                            android:text="@string/digit_three"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/md_white_1000"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/padding_extra_small">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:gravity="end"
-                            android:text="@string/digit_two"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/md_white_1000"
-                        android:orientation="horizontal"
-                        android:padding="@dimen/padding_extra_small">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:background="@color/md_white_1000"
-                            android:text="@string/digit_one"
-                            android:textColor="@color/md_grey_700"
-                            app:fontFamily="sans-serif" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/md_white_1000"
-                            android:src="@drawable/baseline_star_rate_black_18dp"
-                            android:tint="@color/md_grey_700" />
-
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Add a Horizontal Bar Chart using MPAndroidChart library -->
-                <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/skill_rating_chart"
-                    android:layout_width="0dp"
-                    android:layout_height="128dp"
+                    android:id="@+id/skill_rating_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@color/md_white_1000"
-                    android:paddingBottom="@dimen/padding_moderate"
-                    android:paddingTop="@dimen/padding_moderate" />
+                    android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/md_white_1000"
-                    android:orientation="vertical"
-                    android:padding="@dimen/padding_moderate">
-
-                    <!-- Display average skill rating -->
-                    <TextView
-                        android:id="@+id/tvTotalRating"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@color/md_white_1000"
-                        android:text="@string/placeholder_total_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_extra_large"
-                        app:fontFamily="sans-serif" />
+                        android:layout_gravity="top|center_vertical"
+                        android:orientation="vertical">
 
-                    <TextView
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/md_white_1000"
+                            android:orientation="vertical"
+                            android:padding="@dimen/padding_moderate">
+
+                            <!-- Display average skill rating -->
+                            <TextView
+                                android:id="@+id/tvAverageRating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@color/md_white_1000"
+                                android:text="@string/placeholder_average_rating"
+                                android:textColor="@color/md_grey_700"
+                                android:textSize="@dimen/text_size_extra_large"
+                                app:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:gravity="center_horizontal"
+                                android:text="@string/average_rating"
+                                android:textColor="@color/md_grey_700"
+                                android:textSize="@dimen/text_size_very_small"
+                                app:fontFamily="sans-serif" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/md_white_1000"
+                            android:orientation="vertical"
+                            android:padding="@dimen/padding_moderate">
+
+                            <!-- Display average skill rating -->
+                            <TextView
+                                android:id="@+id/tvTotalRating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@color/md_white_1000"
+                                android:text="@string/placeholder_total_rating"
+                                android:textColor="@color/md_grey_700"
+                                android:textSize="@dimen/text_size_extra_large"
+                                app:fontFamily="sans-serif" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:gravity="center_horizontal"
+                                android:text="@string/total_rating"
+                                android:textColor="@color/md_grey_700"
+                                android:textSize="@dimen/text_size_very_small"
+                                app:fontFamily="sans-serif" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="top|center_vertical"
                         android:background="@color/md_white_1000"
-                        android:gravity="center_horizontal"
-                        android:text="@string/total_rating"
-                        android:textColor="@color/md_grey_700"
-                        android:textSize="@dimen/text_size_very_small"
-                        app:fontFamily="sans-serif" />
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/padding_extra_small">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:gravity="end"
+                                android:text="@string/digit_five"
+                                android:textColor="@color/md_grey_700"
+                                app:fontFamily="sans-serif" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:src="@drawable/baseline_star_rate_black_18dp"
+                                android:tint="@color/md_grey_700" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/padding_extra_small">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:gravity="end"
+                                android:text="@string/digit_four"
+                                android:textColor="@color/md_grey_700"
+                                app:fontFamily="sans-serif" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:src="@drawable/baseline_star_rate_black_18dp"
+                                android:tint="@color/md_grey_700" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/padding_extra_small">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:gravity="end"
+                                android:text="@string/digit_three"
+                                android:textColor="@color/md_grey_700"
+                                app:fontFamily="sans-serif" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:src="@drawable/baseline_star_rate_black_18dp"
+                                android:tint="@color/md_grey_700" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/padding_extra_small">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:gravity="end"
+                                android:text="@string/digit_two"
+                                android:textColor="@color/md_grey_700"
+                                app:fontFamily="sans-serif" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:src="@drawable/baseline_star_rate_black_18dp"
+                                android:tint="@color/md_grey_700" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/md_white_1000"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/padding_extra_small">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:background="@color/md_white_1000"
+                                android:text="@string/digit_one"
+                                android:textColor="@color/md_grey_700"
+                                app:fontFamily="sans-serif" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@color/md_white_1000"
+                                android:src="@drawable/baseline_star_rate_black_18dp"
+                                android:tint="@color/md_grey_700" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Add a Horizontal Bar Chart using MPAndroidChart library -->
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/skill_rating_chart"
+                        android:layout_width="0dp"
+                        android:layout_height="128dp"
+                        android:layout_gravity="top|center_vertical"
+                        android:layout_weight="1"
+                        android:background="@color/md_white_1000"
+                        android:paddingBottom="@dimen/padding_moderate"
+                        android:paddingTop="@dimen/padding_moderate" />
 
                 </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvFeedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/md_white_1000"
+                    android:padding="@dimen/padding_small" />
 
             </LinearLayout>
 
@@ -459,13 +488,6 @@
                 android:textSize="@dimen/text_size_normal"
                 android:visibility="gone" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvFeedback"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/md_white_1000"
-                android:padding="@dimen/padding_small" />
-
             <TextView
                 android:id="@+id/skillDetailContent"
                 android:layout_width="wrap_content"
@@ -476,15 +498,6 @@
                 android:textColor="@color/md_grey_700"
                 android:textSize="@dimen/text_size_large"
                 app:fontFamily="sans-serif" />
-
-            <TextView
-                android:id="@+id/reportSkill"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/md_white_1000"
-                android:text="@string/report_skill"
-                android:textSize="@dimen/text_size_medium"
-                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

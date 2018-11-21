@@ -3,9 +3,11 @@ package org.fossasia.susi.ai.helper
 import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.ImageView
+import android.widget.TextView
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
+import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import timber.log.Timber
 import java.security.MessageDigest
@@ -31,10 +33,9 @@ object Utils {
         return link
     }
 
-    fun setAvatar(context: Context, email: String?, imageView: ImageView) {
-        val imageUrl: String = GRAVATAR_URL + toMd5Hash(email) + ".jpg"
+    fun setAvatar(context: Context, avatarUrl: String?, imageView: ImageView) {
         Picasso.with(context)
-                .load(imageUrl)
+                .load(avatarUrl)
                 .fit().centerCrop()
                 .error(R.drawable.ic_susi)
                 .transform(CircleTransform())
@@ -68,6 +69,22 @@ object Utils {
             }
         }
         return null
+    }
+
+    fun setUsername(feedback: Feedback, feedbackEmail: TextView) {
+        if (!feedback.userName.isNullOrEmpty()) {
+            feedbackEmail.text = feedback.userName
+        } else {
+            if (PrefManager.getToken() != null) {
+                if (!feedback.email.equals(PrefManager.getString(Constant.EMAIL, null), true)) {
+                    Utils.truncateEmailAtEnd(feedback.email)?.let { feedbackEmail?.text = it }
+                } else {
+                    feedbackEmail.text = feedback.email
+                }
+            } else {
+                Utils.truncateEmailAtEnd(feedback.email)?.let { feedbackEmail?.text = it }
+            }
+        }
     }
 
 }
