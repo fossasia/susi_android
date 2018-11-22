@@ -77,7 +77,7 @@ androidExtensions {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //noinspection GradleCompatible
+
     implementation "com.android.support:appcompat-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:recyclerview-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
@@ -109,13 +109,13 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${rootConfiguration.okHttpVersion}"
 
     //For Link Previews
-    implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}"
+    implementation "org.jsoup:jsoup:${rootConfiguration.jsoupVersion}" // required
     implementation "io.github.ponnamkarthik:richlinkpreview:${rootConfiguration.linkPreviewVersion}"
 
     //preference UI
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
 
-    //unit test
+    //Unit Test
     testImplementation "junit:junit:${rootConfiguration.jUnitVersion}"
     testImplementation "org.mockito:mockito-core:${rootConfiguration.mockitoCoreVersion}"
     androidTestImplementation "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
