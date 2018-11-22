@@ -109,4 +109,9 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         skillListingPresenter.onDetach()
         super.onDestroyView()
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = getString(R.string.skills_activity)
+    }
 }

@@ -64,25 +64,25 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     private fun exitActivity(context: Context) {
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        val intent = Intent(context, ChatActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
+        var backStackEntryCount=supportFragmentManager.backStackEntryCount
+        supportFragmentManager.popBackStack()
+        if(backStackEntryCount==1) {
+            finish()
+            //exitActivity(this)
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {
+        exitActivity(this)
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        supportFragmentManager.popBackStack()
-        val f: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (f is GroupWiseSkillsFragment ){
-            title=getString(R.string.skills_activity)
-        }else if(f is SkillDetailsFragment){
-            title=getString(R.string.skills_activity)
-        }else if(f is SkillListingFragment){
-            finish()
-            exitActivity(this)
-        }else
-            title=getString(R.string.skills_activity)
+        supportFragmentManager.addOnBackStackChangedListener {
+            val currentFragment: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            currentFragment?.onResume()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
