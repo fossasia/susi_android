@@ -161,7 +161,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         askSusiMessage.addTextChangedListener(watch)
 
-        askSusiMessage.setOnEditorActionListener({ _, actionId, _ ->
+        askSusiMessage.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 val message = askSusiMessage.text.toString().trim({ it <= ' ' })
@@ -172,7 +172,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 handled = true
             }
             handled
-        })
+        }
 
         askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
             if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
@@ -202,26 +202,29 @@ class ChatActivity : AppCompatActivity(), IChatView {
         recyclerAdapter = ChatFeedRecyclerAdapter(chatMessageDatabaseList, true, true)
         rv_chat_feed.adapter = recyclerAdapter
 
-        rv_chat_feed.addOnLayoutChangeListener({ _, _, _, _, bottom, _, _, _, oldBottom ->
+        rv_chat_feed.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
             if (isConfigurationChanged) {
                 isConfigurationChanged = false
             } else {
                 if (bottom < oldBottom) {
                     rv_chat_feed.postDelayed({
-                        var scrollTo = (rv_chat_feed.adapter as ChatFeedRecyclerAdapter).itemCount - 1
+                        var scrollTo = rv_chat_feed.adapter?.itemCount
+                        if (scrollTo!=null){
+                            scrollTo -= 1
                         scrollTo = if (scrollTo >= 0) scrollTo else 0
                         rv_chat_feed.scrollToPosition(scrollTo)
+                        }
                     }, 10)
                 }
             }
-        })
+        }
 
         rv_chat_feed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             @SuppressLint("RestrictedApi")
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rv_chat_feed.adapter!!.itemCount - 5) {
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rv_chat_feed.adapter?.itemCount!!.minus(5)) {
                     btnScrollToEnd.isEnabled = true
                     btnScrollToEnd.visibility = View.VISIBLE
                 } else {
