@@ -160,93 +160,92 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     override fun onRetrieveSuccess(response: Response<MemoryResponse>?) {
-        if (response != null && response.isSuccessful && response.body() != null) {
-            val allMessages = response.body()?.cognitionsList
-            if (allMessages != null) {
-                if (allMessages.isEmpty()) {
-                    chatView?.showToast("No messages found")
-                } else {
-                    var c: Long
-                    for (i in allMessages.size - 1 downTo 0) {
-                        val query = allMessages[i].query
-                        val queryDate = allMessages[i].queryDate
-                        val answerDate = allMessages[i].answerDate
+        val res = response?.body()
+        if (response != null && response.isSuccessful && res != null) {
+            val allMessages = res.cognitionsList
+            if (allMessages.isEmpty()) {
+                chatView?.showToast("No messages found")
+            } else {
+                var c: Long
+                for (i in allMessages.size - 1 downTo 0) {
+                    val query = allMessages[i].query
+                    val queryDate = allMessages[i].queryDate
+                    val answerDate = allMessages[i].answerDate
 
-                        val urlList = ParseSusiResponseHelper.extractUrls(query)
-                        val isHavingLink = !urlList.isEmpty()
+                    val urlList = ParseSusiResponseHelper.extractUrls(query)
+                    val isHavingLink = !urlList.isEmpty()
 
-                        newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
+                    newMessageIndex = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
 
-                        if (newMessageIndex == 0L) {
+                    if (newMessageIndex == 0L) {
+                        databaseRepository.updateDatabase(ChatArgs(
+                                prevId = newMessageIndex,
+                                isDate = true,
+                                date = DateTimeHelper.getDate(queryDate),
+                                timeStamp = DateTimeHelper.getTime(queryDate)),
+                                this)
+                    } else {
+                        val prevDate = DateTimeHelper.getDate(allMessages[i + 1].queryDate)
+
+                        if (DateTimeHelper.getDate(queryDate) != prevDate) {
                             databaseRepository.updateDatabase(ChatArgs(
                                     prevId = newMessageIndex,
                                     isDate = true,
                                     date = DateTimeHelper.getDate(queryDate),
                                     timeStamp = DateTimeHelper.getTime(queryDate)),
                                     this)
-                        } else {
-                            val prevDate = DateTimeHelper.getDate(allMessages[i + 1].queryDate)
-
-                            if (DateTimeHelper.getDate(queryDate) != prevDate) {
-                                databaseRepository.updateDatabase(ChatArgs(
-                                        prevId = newMessageIndex,
-                                        isDate = true,
-                                        date = DateTimeHelper.getDate(queryDate),
-                                        timeStamp = DateTimeHelper.getTime(queryDate)),
-                                        this)
-                            }
                         }
+                    }
 
-                        c = newMessageIndex
+                    c = newMessageIndex
+                    databaseRepository.updateDatabase(ChatArgs(
+                            prevId = newMessageIndex,
+                            message = query,
+                            date = DateTimeHelper.getDate(queryDate),
+                            timeStamp = DateTimeHelper.getTime(queryDate),
+                            mine = true,
+                            isHavingLink = isHavingLink),
+                            this)
+
+                    if (allMessages[i].answers.isEmpty()) {
                         databaseRepository.updateDatabase(ChatArgs(
-                                prevId = newMessageIndex,
-                                message = query,
-                                date = DateTimeHelper.getDate(queryDate),
-                                timeStamp = DateTimeHelper.getTime(queryDate),
-                                mine = true,
-                                isHavingLink = isHavingLink),
+                                prevId = c,
+                                message = utilModel.getString(R.string.error_internet_connectivity),
+                                date = DateTimeHelper.date,
+                                timeStamp = DateTimeHelper.currentTime,
+                                actionType = Constant.ANSWER),
                                 this)
+                        continue
+                    }
 
-                        if (allMessages[i].answers.isEmpty()) {
+                    val actionSize = allMessages[i].answers[0].actions.size
+
+                    for (j in 0 until actionSize) {
+                        val psh = ParseSusiResponseHelper()
+                        psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
+                        try {
+                            databaseRepository.updateDatabase(ChatArgs(prevId = c,
+                                    message = psh.answer,
+                                    date = DateTimeHelper.getDate(answerDate),
+                                    timeStamp = DateTimeHelper.getTime(answerDate),
+                                    actionType = psh.actionType,
+                                    mapData = psh.mapData,
+                                    isHavingLink = psh.isHavingLink,
+                                    datumList = psh.datumList,
+                                    webSearch = psh.webSearch,
+                                    tableItem = psh.tableData,
+                                    identifier = psh.identifier,
+                                    skillLocation = allMessages[i].answers[0].skills[0]),
+                                    this)
+                        } catch (e: Exception) {
+                            Timber.e(e)
                             databaseRepository.updateDatabase(ChatArgs(
                                     prevId = c,
                                     message = utilModel.getString(R.string.error_internet_connectivity),
                                     date = DateTimeHelper.date,
                                     timeStamp = DateTimeHelper.currentTime,
-                                    actionType = Constant.ANSWER),
-                                    this)
-                            continue
-                        }
-
-                        val actionSize = allMessages[i].answers[0].actions.size
-
-                        for (j in 0 until actionSize) {
-                            val psh = ParseSusiResponseHelper()
-                            psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
-                            try {
-                                databaseRepository.updateDatabase(ChatArgs(prevId = c,
-                                        message = psh.answer,
-                                        date = DateTimeHelper.getDate(answerDate),
-                                        timeStamp = DateTimeHelper.getTime(answerDate),
-                                        actionType = psh.actionType,
-                                        mapData = psh.mapData,
-                                        isHavingLink = psh.isHavingLink,
-                                        datumList = psh.datumList,
-                                        webSearch = psh.webSearch,
-                                        tableItem = psh.tableData,
-                                        identifier = psh.identifier,
-                                        skillLocation = allMessages[i].answers[0].skills[0]),
-                                        this)
-                            } catch (e: Exception) {
-                                Timber.e(e)
-                                databaseRepository.updateDatabase(ChatArgs(
-                                        prevId = c,
-                                        message = utilModel.getString(R.string.error_internet_connectivity),
-                                        date = DateTimeHelper.date,
-                                        timeStamp = DateTimeHelper.currentTime,
-                                        actionType = Constant.ANSWER
-                                ), this)
-                            }
+                                    actionType = Constant.ANSWER
+                            ), this)
                         }
                     }
                 }
@@ -270,16 +269,15 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     override fun onLocationSuccess(response: Response<LocationResponse>) {
-        if (response.isSuccessful && response.body() != null) {
+        val res = response.body()
+        if (response.isSuccessful && res != null) {
             try {
-                val loc = response.body()?.loc
-                val s = loc?.split(",".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
-                if (s!=null){
+                val loc = res.loc
+                val s = loc.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 latitude = s[0].toDouble()
                 longitude = s[1].toDouble()
-                }
                 source = Constant.IP
-                countryCode = response.body()?.country
+                countryCode = res.country
                 val locale = Locale("", countryCode)
                 countryName = locale.displayCountry
             } catch (e: Exception) {
@@ -425,6 +423,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     override fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?) {
+        val res = response?.body()
 
         if (nonDeliveredMessages.isEmpty())
             return
@@ -433,10 +432,10 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         val query = nonDeliveredMessages.first.first
         nonDeliveredMessages.pop()
 
-        if (response != null && response.isSuccessful && response.body() != null) {
-            val susiResponse = response.body()
+        if (response != null && response.isSuccessful && res != null) {
+            val susiResponse = res
 
-            if (response.body()?.answers!!.isEmpty()) {
+            if (res.answers.isEmpty()) {
                 databaseRepository.updateDatabase(ChatArgs(
                         prevId = id,
                         message = utilModel.getString(R.string.error_internet_connectivity),
@@ -448,17 +447,15 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 return
             }
 
-            val actionSize = response.body()!!.answers[0].actions.size
-            val date = response.body()!!.answerDate
+            val actionSize = res.answers[0].actions.size
+            val date = res.answerDate
 
             for (i in 0 until actionSize) {
-                val delay = response.body()!!.answers[0].actions[i].delay
+                val delay = res.answers[0].actions[i].delay
                 val handler = Handler()
                 handler.postDelayed({
                     val psh = ParseSusiResponseHelper()
-                    if (susiResponse != null) {
-                        psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
-                    }
+                    psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
 
                     var setMessage = psh.answer
                     if (psh.actionType == Constant.TABLE) {
@@ -475,30 +472,26 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                         if (psh.isHavingLink) {
                             speechReply = setMessage.substring(0, setMessage.indexOf("http"))
                         }
-                        if (susiResponse != null) {
-                            chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
-                        }
+                        chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
                     } else if (psh.actionType == Constant.STOP) {
                         setMessage = psh.stop
                         chatView?.stopMic()
                     }
                     try {
-                        if (susiResponse != null) {
-                            databaseRepository.updateDatabase(ChatArgs(
-                                    prevId = id,
-                                    message = setMessage,
-                                    date = DateTimeHelper.getDate(date),
-                                    timeStamp = DateTimeHelper.getTime(date),
-                                    actionType = psh.actionType,
-                                    mapData = psh.mapData,
-                                    isHavingLink = psh.isHavingLink,
-                                    datumList = psh.datumList,
-                                    webSearch = psh.webSearch,
-                                    tableItem = tableItem,
-                                    identifier = identifier,
-                                    skillLocation = susiResponse.answers[0].skills[0]
-                            ), this)
-                        }
+                        databaseRepository.updateDatabase(ChatArgs(
+                                prevId = id,
+                                message = setMessage,
+                                date = DateTimeHelper.getDate(date),
+                                timeStamp = DateTimeHelper.getTime(date),
+                                actionType = psh.actionType,
+                                mapData = psh.mapData,
+                                isHavingLink = psh.isHavingLink,
+                                datumList = psh.datumList,
+                                webSearch = psh.webSearch,
+                                tableItem = tableItem,
+                                identifier = identifier,
+                                skillLocation = susiResponse.answers[0].skills[0]
+                        ), this)
                     } catch (e: Exception) {
                         Timber.e(e)
                         databaseRepository.updateDatabase(ChatArgs(
