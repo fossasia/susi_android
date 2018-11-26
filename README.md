@@ -1,4 +1,4 @@
-# SUSI.AI Android App
+![SUSI.AI](https://fossasia.org/img/SUSI.AI.png)
 
 Dev [![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)
 Master [![CircleCI](https://circleci.com/gh/fossasia/susi_android/tree/master.svg?style=svg)](https://circleci.com/gh/fossasia/susi_android/tree/master)
