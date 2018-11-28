@@ -109,29 +109,29 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
      * with the help of the updateRatings method
      */
     override fun onSkillDetailsModelSuccess(response: Response<FiveStarSkillRatingResponse>) {
-        val res = response.body()
-        if (response.isSuccessful && res != null) {
-            Timber.d(res.message)
-            skillDetailsView?.updateRatings(res.ratings)
+        val fiveStarSkillRatingResponse = response.body()
+        if (response.isSuccessful && fiveStarSkillRatingResponse != null) {
+            Timber.d(fiveStarSkillRatingResponse.message)
+            skillDetailsView?.updateRatings(fiveStarSkillRatingResponse.ratings)
         } else {
             Timber.d("Could not update the ratings")
         }
     }
 
     override fun onUpdateUserRatingModelSuccess(response: Response<GetRatingByUserResponse>) {
-        val res = response.body()
-        if (response.isSuccessful && res != null) {
-            Timber.d(res.message)
-            skillDetailsView?.updateUserRating(res.ratings?.stars)
+        val getRatingByUserResponse = response.body()
+        if (response.isSuccessful && getRatingByUserResponse != null) {
+            Timber.d(getRatingByUserResponse.message)
+            skillDetailsView?.updateUserRating(getRatingByUserResponse.ratings?.stars)
         } else {
             Timber.d("Could not update the user ratings")
         }
     }
 
     override fun onUpdateFeedbackModelSuccess(response: Response<PostSkillFeedbackResponse>) {
-        val res = response.body()
-        if (response.isSuccessful && res != null) {
-            Timber.d(res.message)
+        val postSkillFeedbackResponse = response.body()
+        if (response.isSuccessful && postSkillFeedbackResponse != null) {
+            Timber.d(postSkillFeedbackResponse.message)
             skillDetailsView?.updateFeedback()
         } else {
             Timber.d("Could not update feedback")
@@ -139,10 +139,10 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
     }
 
     override fun onFetchFeedbackModelSuccess(response: Response<GetSkillFeedbackResponse>) {
-        val res = response.body()
-        if (response.isSuccessful && res != null) {
-            Timber.d(res.message)
-            skillDetailsView?.updateFeedbackList(res)
+        val getSkillFeedbackResponse = response.body()
+        if (response.isSuccessful && getSkillFeedbackResponse != null) {
+            Timber.d(getSkillFeedbackResponse.message)
+            skillDetailsView?.updateFeedbackList(getSkillFeedbackResponse)
         } else {
             Timber.d("Could not fetch feedback")
         }
