@@ -4,20 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/default_bg"
+    android:background="@color/colorPrimaryDark"
     tools:context="org.fossasia.susi.ai.signup.SignUpActivity">
 
     <LinearLayout
         android:id="@+id/activity_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/default_bg"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
         android:paddingBottom="@dimen/margin_large"
         android:paddingLeft="@dimen/padding_large"
         android:paddingRight="@dimen/margin_large"
-        android:paddingTop="@dimen/margin_large">
+        android:paddingTop="@dimen/margin_large"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <TextView
+            android:id="@+id/signUpText"
+            android:layout_width="@dimen/activity_landscape_width"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_extremely_large"
+            android:gravity="center"
+            android:text="@string/sign_up_text"
+            android:textColor="@color/md_grey_300"
+            android:textSize="@dimen/text_size_large"
+            android:textStyle="italic" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/email"
@@ -28,10 +41,15 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:backgroundTint="@color/md_grey_50"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                app:theme="@style/Login_Theme" />
+                android:theme="@style/EditTextThemeLogin" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -45,10 +63,15 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:backgroundTint="@color/md_grey_50"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                app:theme="@style/Login_Theme" />
+                android:theme="@style/EditTextThemeLogin" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -62,18 +85,29 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
+                android:backgroundTint="@color/md_grey_50"
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                app:theme="@style/Login_Theme" />
+                android:theme="@style/EditTextThemeLogin" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/customServerSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="@string/custom_server" />
+            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginRight="@dimen/margin_large"
+            android:layout_marginStart="@dimen/margin_large"
+            android:buttonTint="@color/md_grey_300"
+            android:text="@string/custom_server"
+            android:textColor="@color/md_grey_300" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/inputUrlSignUp"
@@ -85,16 +119,27 @@
             <android.support.design.widget.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_large"
+                android:layout_marginLeft="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_large"
                 android:hint="@string/url_input"
-                android:inputType="textUri" />
+                android:inputType="textUri"
+                android:theme="@style/EditTextThemeLogin" />
         </android.support.design.widget.TextInputLayout>
 
         <Button
             android:id="@+id/signUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginRight="@dimen/margin_large"
+            android:layout_marginStart="@dimen/margin_large"
             android:layout_marginTop="@dimen/margin_large"
             android:background="@drawable/rounded_button"
-            android:text="@string/sign_up" />
+            android:text="@string/sign_up"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/text_size_moderate" />
     </LinearLayout>
 </ScrollView>
