@@ -2,7 +2,6 @@
 
     <!-- margin specifics -->
 
-    <dimen name="margin_negative_large">-16dp</dimen>
     <dimen name="margin_extra_small">1dp</dimen>
     <dimen name="margin_very_small">2dp</dimen>
     <dimen name="margin_small">4dp</dimen>
