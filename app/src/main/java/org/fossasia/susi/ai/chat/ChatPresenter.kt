@@ -160,8 +160,9 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     override fun onRetrieveSuccess(response: Response<MemoryResponse>?) {
-        if (response != null && response.isSuccessful && response.body() != null) {
-            val allMessages = response.body().cognitionsList
+        val memoryResponse = response?.body()
+        if (response != null && response.isSuccessful && memoryResponse != null) {
+            val allMessages = memoryResponse.cognitionsList
             if (allMessages.isEmpty()) {
                 chatView?.showToast("No messages found")
             } else {
@@ -268,14 +269,15 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     }
 
     override fun onLocationSuccess(response: Response<LocationResponse>) {
-        if (response.isSuccessful && response.body() != null) {
+        val locationResponse = response.body()
+        if (response.isSuccessful && locationResponse != null) {
             try {
-                val loc = response.body().loc
+                val loc = locationResponse.loc
                 val s = loc.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 latitude = s[0].toDouble()
                 longitude = s[1].toDouble()
                 source = Constant.IP
-                countryCode = response.body().country
+                countryCode = locationResponse.country
                 val locale = Locale("", countryCode)
                 countryName = locale.displayCountry
             } catch (e: Exception) {
@@ -428,11 +430,9 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         id = nonDeliveredMessages.first.second
         val query = nonDeliveredMessages.first.first
         nonDeliveredMessages.pop()
-
-        if (response != null && response.isSuccessful && response.body() != null) {
-            val susiResponse = response.body()
-
-            if (response.body().answers.isEmpty()) {
+        val susiResponse = response?.body()
+        if (response != null && response.isSuccessful && susiResponse != null) {
+            if (susiResponse.answers.isEmpty()) {
                 databaseRepository.updateDatabase(ChatArgs(
                         prevId = id,
                         message = utilModel.getString(R.string.error_internet_connectivity),
@@ -444,11 +444,11 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 return
             }
 
-            val actionSize = response.body().answers[0].actions.size
-            val date = response.body().answerDate
+            val actionSize = susiResponse.answers[0].actions.size
+            val date = susiResponse.answerDate
 
             for (i in 0 until actionSize) {
-                val delay = response.body().answers[0].actions[i].delay
+                val delay = susiResponse.answers[0].actions[i].delay
                 val handler = Handler()
                 handler.postDelayed({
                     val psh = ParseSusiResponseHelper()

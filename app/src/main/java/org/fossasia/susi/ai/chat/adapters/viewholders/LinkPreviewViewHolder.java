@@ -213,7 +213,7 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
 
             Timber.i(model.getWebLinkData().getImageURL());
             if (!model.getWebLinkData().getImageURL().equals("")) {
-                Picasso.with(currContext.getApplicationContext()).load(model.getWebLinkData().getImageURL())
+                Picasso.get().load(model.getWebLinkData().getImageURL())
                         .fit().centerCrop()
                         .into(previewImageView);
             } else {
@@ -343,8 +343,8 @@ public class LinkPreviewViewHolder extends MessageViewHolder {
                             link.setImageURL("");
                         } else {
                             previewImageView.setVisibility(View.VISIBLE);
-                            Picasso.with(itemView.getContext()).
-                                    load(imageLink)
+                            Picasso.get()
+                                    .load(imageLink)
                                     .fit()
                                     .centerCrop()
                                     .into(previewImageView);

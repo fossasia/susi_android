@@ -53,16 +53,18 @@ public class MapViewHolder extends RecyclerView.ViewHolder {
                 final MapHelper mapHelper = new MapHelper(new MapData(model.getLatitude(), model.getLongitude(), model.getZoom()));
                 Timber.v(mapHelper.getMapURL());
 
-                Picasso.with(currContext.getApplicationContext()).load(mapHelper.getMapURL())
+                Picasso.get().load(mapHelper.getMapURL())
                         .into(mapImage, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
                             }
 
                             @Override
-                            public void onError() {
+                            public void onError(Exception e) {
                                 Timber.d("map image can't loaded");
                             }
+
+
                         });
 
                 mapImage.setOnClickListener(new View.OnClickListener() {
