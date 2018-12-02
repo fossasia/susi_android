@@ -12,6 +12,7 @@ import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.helper.NetworkUtils
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
@@ -25,7 +26,6 @@ import java.net.UnknownHostException
 /**
  * Presenter for Login
  * The P in MVP
- *
  * Created by chiragw15 on 4/7/17.
  */
 class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginModel.OnLoginFinishedListener, IForgotPasswordModel.OnFinishListener {
@@ -99,6 +99,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         }
 
         this.email = email
+        PrefManager.putString(Constant.EMAIL, this.email)
         loginView?.showProgress(true)
         loginModel.login(email.trim({ it <= ' ' }).toLowerCase(), password, this)
     }
@@ -134,11 +135,11 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
             utilModel.saveAnonymity(false)
             loginModel.getUserSetting(this)
 
-            message = response.body().message.toString()
+            message = response.body()!!.message.toString()
         } else if (response.code() == 422) {
             loginView?.showProgress(false)
-            loginView?.onLoginError(utilModel.getString(R.string.password_invalid_title),
-                    utilModel.getString(R.string.password_invalid))
+            loginView?.onLoginError(utilModel.getString(R.string.invalid_credentials_title),
+                    utilModel.getString(R.string.invalid_credentials))
         } else {
             loginView?.showProgress(false)
             loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error),
@@ -151,12 +152,12 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         loginView?.showProgress(false)
 
         if (response.isSuccessful && response.body() != null) {
-            val settings: Settings? = response.body().settings
+            val settings: Settings? = response.body()!!.settings
 
             if (settings != null) {
-                utilModel.putBooleanPref(Constant.ENTER_SEND, settings.enterSend)
-                utilModel.putBooleanPref(Constant.SPEECH_ALWAYS, settings.speechAlways)
-                utilModel.putBooleanPref(Constant.SPEECH_OUTPUT, settings.speechOutput)
+                utilModel.putBooleanPref(R.string.settings_enterPreference_key, settings.enterSend)
+                utilModel.putBooleanPref(R.string.settings_speechAlways_key, settings.speechAlways)
+                utilModel.putBooleanPref(R.string.settings_speechPreference_key, settings.speechOutput)
                 if (settings.language == "default") {
                     utilModel.setLanguage("en")
                 } else {

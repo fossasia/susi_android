@@ -1,9 +1,12 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.data.SkillDetailsModel
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
+import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.rest.responses.susi.*
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
@@ -20,10 +23,12 @@ import java.net.UnknownHostException
  */
 class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter,
         ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener,
-        ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener {
+        ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener,
+        ISkillDetailsModel.OnReportSendListener {
 
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
     private var skillDetailsView: ISkillDetailsView? = null
+    private val utilModel: UtilModel = UtilModel(skillDetailsFragment.requireContext())
 
     override fun onAttach(skillDetailsView: ISkillDetailsView) {
         this.skillDetailsView = skillDetailsView
@@ -70,6 +75,10 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
         }
     }
 
+    override fun sendReport(queryObject: ReportSkillQuery) {
+        skillDetailsModel.sendReport(queryObject, this)
+    }
+
     override fun onUpdateUserRatingError(throwable: Throwable) {
 
         if (throwable is UnknownHostException) {
@@ -100,28 +109,29 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
      * with the help of the updateRatings method
      */
     override fun onSkillDetailsModelSuccess(response: Response<FiveStarSkillRatingResponse>) {
-
-        if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
-            skillDetailsView?.updateRatings(response.body().ratings)
+        val fiveStarSkillRatingResponse = response.body()
+        if (response.isSuccessful && fiveStarSkillRatingResponse != null) {
+            Timber.d(fiveStarSkillRatingResponse.message)
+            skillDetailsView?.updateRatings(fiveStarSkillRatingResponse.ratings)
         } else {
             Timber.d("Could not update the ratings")
         }
     }
 
     override fun onUpdateUserRatingModelSuccess(response: Response<GetRatingByUserResponse>) {
-
-        if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
-            skillDetailsView?.updateUserRating(response.body().ratings?.stars)
+        val getRatingByUserResponse = response.body()
+        if (response.isSuccessful && getRatingByUserResponse != null) {
+            Timber.d(getRatingByUserResponse.message)
+            skillDetailsView?.updateUserRating(getRatingByUserResponse.ratings?.stars)
         } else {
             Timber.d("Could not update the user ratings")
         }
     }
 
     override fun onUpdateFeedbackModelSuccess(response: Response<PostSkillFeedbackResponse>) {
-        if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
+        val postSkillFeedbackResponse = response.body()
+        if (response.isSuccessful && postSkillFeedbackResponse != null) {
+            Timber.d(postSkillFeedbackResponse.message)
             skillDetailsView?.updateFeedback()
         } else {
             Timber.d("Could not update feedback")
@@ -129,11 +139,25 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
     }
 
     override fun onFetchFeedbackModelSuccess(response: Response<GetSkillFeedbackResponse>) {
-        if (response.isSuccessful && response.body() != null) {
-            Timber.d(response.body().message)
-            skillDetailsView?.updateFeedbackList(response.body())
+        val getSkillFeedbackResponse = response.body()
+        if (response.isSuccessful && getSkillFeedbackResponse != null) {
+            Timber.d(getSkillFeedbackResponse.message)
+            skillDetailsView?.updateFeedbackList(getSkillFeedbackResponse)
         } else {
             Timber.d("Could not fetch feedback")
+        }
+    }
+
+    override fun reportSendError(throwable: Throwable) {
+        Timber.e(throwable)
+        skillDetailsView?.updateSkillReportStatus(utilModel.getString(R.string.report_error))
+    }
+
+    override fun reportSendSuccess(response: Response<ReportSkillResponse>) {
+        if (response.code() == 422) {
+            skillDetailsView?.updateSkillReportStatus(utilModel.getString(R.string.reported_already))
+        } else {
+            skillDetailsView?.updateSkillReportStatus(utilModel.getString(R.string.report_send_success))
         }
     }
 

@@ -29,6 +29,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     private var deviceModel: IDeviceModel = DeviceModel()
     private var isLocationOn = false
     private var SSID: String? = null
+    private var isWifiEnabled = false
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(deviceActivity)
 
@@ -41,13 +42,17 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d(checkPermissions.toString() + "Check")
         if (checkPermissions) {
             checkLocationEnabled()
-            if (isLocationOn) {
-                Timber.d("Location ON")
+            checkWifiEnabled()
+            if (isLocationOn && isWifiEnabled) {
+                Timber.d("Location ON, WI-FI ON")
                 deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
 
                 deviceConnectView?.startScan(true)
             } else {
-                deviceConnectView?.showLocationIntentDialog()
+                if (!isWifiEnabled)
+                    deviceConnectView?.showWifiIntentDialog()
+                if (!isLocationOn)
+                    deviceConnectView?.showLocationIntentDialog()
             }
         } else {
             deviceConnectView?.askForPermissions()
@@ -92,8 +97,12 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         checkPermissions = b
     }
 
+    override fun checkWifiEnabled() {
+        isWifiEnabled = mWifiManager.isWifiEnabled
+    }
+
     override fun checkLocationEnabled() {
-        val locationManager = MainApplication.getInstance().applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = MainApplication.instance.applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             isLocationOn = true
         } else {
@@ -197,8 +206,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun makeAuthRequest(password: String) {
         Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
-        deviceModel.sendAuthCredentials(SpeakerAuth("y", PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(),
-                password), this@DeviceConnectPresenter)
+        val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
+        deviceModel.sendAuthCredentials(SpeakerAuth("y", email!!, password), this@DeviceConnectPresenter)
     }
 
 }

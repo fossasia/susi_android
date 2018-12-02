@@ -32,16 +32,16 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
   <tr>
     <td><img src="docs/_static/login.png" height = "480" width="270"></td>
     <td><img src="docs/_static/signup.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/message.png" height = "480" width="270"></td>
-  </tr>
-  <tr>
     <td><img src="docs/_static/voice_input.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/skills.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/skill_detail.png" height = "480" width="270"></td>
   </tr>
   <tr>
-    <td><img src="docs/_static/message_map.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/message_select.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/chat.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/skills_list.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/skills.png" height = "480" width="270"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/_static/groupwise_skills.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/rating_and_feedback.png" height = "480" width="270"></td>
     <td><img src="docs/_static/settings.png" height = "480" width="270"></td>
   </tr>
 </table>
@@ -115,7 +115,10 @@ We have the following branches
 
 	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
 	 - _versionName_ : **String** : User visible version of the app. To be changed following [semantic versioning](http://semver.org/)
- * **apk** This branch contains two apk's, that are automatically generated on the merged pull request a) debug apk and b) release apk.
+ * **apk** This branch contains many apk files, that are automatically generated on the merged pull request a) debug apk for Fdroid and Playstore b) release apk for Fdroid and Playstore
+    - There are multiple files in the apk branch of the project, this branch consists of all the APK files and other files that are relevant when an APK is generated.
+    - Once a pull request is merged, the previous APK branch is deleted and a new APK branch is created.
+    - If a PR is merged in development branch then the new APKs for the development branch are generated whereas the APKs corresponding to the master branch are not regenerated and simply the previously generated files are added.
 
 ### Code practices
 

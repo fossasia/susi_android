@@ -4,6 +4,7 @@ import ai.kitt.snowboy.MsgEnum
 import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -65,7 +66,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private var example: String = ""
     private var isConfigurationChanged = false
     private val enterAsSend: Boolean by lazy {
-        PrefManager.getBoolean(Constant.ENTER_SEND, false)
+        PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
 
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
@@ -160,7 +161,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         askSusiMessage.addTextChangedListener(watch)
 
-        askSusiMessage.setOnEditorActionListener({ _, actionId, _ ->
+        askSusiMessage.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 val message = askSusiMessage.text.toString().trim({ it <= ' ' })
@@ -171,7 +172,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 handled = true
             }
             handled
-        })
+        }
 
         askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
             if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
@@ -201,25 +202,29 @@ class ChatActivity : AppCompatActivity(), IChatView {
         recyclerAdapter = ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true)
         rv_chat_feed.adapter = recyclerAdapter
 
-        rv_chat_feed.addOnLayoutChangeListener({ _, _, _, _, bottom, _, _, _, oldBottom ->
+        rv_chat_feed.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
             if (isConfigurationChanged) {
                 isConfigurationChanged = false
             } else {
                 if (bottom < oldBottom) {
                     rv_chat_feed.postDelayed({
-                        var scrollTo = rv_chat_feed.adapter.itemCount - 1
-                        scrollTo = if (scrollTo >= 0) scrollTo else 0
-                        rv_chat_feed.scrollToPosition(scrollTo)
+                        val scroll = rv_chat_feed.adapter?.itemCount?.minus(1)
+                        val scrollTo:Int
+                        if (scroll != null){
+                            scrollTo = if (scroll >= 0) scroll else 0
+                            rv_chat_feed.scrollToPosition(scrollTo)
+                        }
                     }, 10)
                 }
             }
-        })
+        }
 
         rv_chat_feed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            @SuppressLint("RestrictedApi")
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rv_chat_feed.adapter.itemCount - 5) {
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rv_chat_feed.adapter?.itemCount!!.minus(5)) {
                     btnScrollToEnd.isEnabled = true
                     btnScrollToEnd.visibility = View.VISIBLE
                 } else {
@@ -287,6 +292,11 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     }
 
+    fun enableVoiceInput() {
+        btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
+        btnSpeak.isEnabled = true
+    }
+
     override fun showWaitingDots() {
         recyclerAdapter.showDots()
     }
@@ -341,6 +351,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
             btnSpeak.setOnClickListener({
+                btnSpeak.isEnabled = false
                 textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
             })
@@ -407,7 +418,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun scrollToEnd(view: View) {
-        rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
+        rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter!!.itemCount - 1)
     }
 
     fun openSettings(view: View) {

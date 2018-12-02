@@ -9,11 +9,13 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.components.Description
@@ -26,6 +28,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
+import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
@@ -40,10 +43,6 @@ import java.io.Serializable
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-/**
- *
- * Created by chiragw15 on 24/8/17.
- */
 class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     private lateinit var skillDetailsPresenter: ISkillDetailsPresenter
@@ -60,7 +59,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         const val SKILL_KEY = "skill_key"
         const val SKILL_TAG = "skill_tag"
         const val SKILL_GROUP = "skill_group"
-        fun newInstance(skillData: SkillData, skillGroup: String, skillTag: String): SkillDetailsFragment {
+        fun newInstance(skillData: SkillData?, skillGroup: String?, skillTag: String): SkillDetailsFragment {
             val fragment = SkillDetailsFragment()
             val bundle = Bundle()
             bundle.putParcelable(SKILL_KEY, skillData)
@@ -93,6 +92,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         setImage()
         setName()
         setAuthor()
+        setReportButton()
         setTryButton()
         setShareButton()
         setDescription()
@@ -104,34 +104,66 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     private fun setImage() {
         skillDetailImage.setImageResource(R.drawable.ic_susi)
-        if (skillData.image != null && !skillData.image.isEmpty()) {
+        if (!skillData.image.isEmpty()) {
             Utils.setSkillsImage(skillData, skillDetailImage)
         }
     }
 
     private fun setName() {
         skillDetailTitle.text = activity?.getString(R.string.no_skill_name)
-        if (skillData.skillName != null && !skillData.skillName.isEmpty()) {
+        if (!skillData.skillName.isEmpty()) {
             skillDetailTitle.text = skillData.skillName
+        }
+    }
+
+    private fun setReportButton() {
+
+        if (PrefManager.token != null) {
+            reportSkill.visibility = View.VISIBLE
+        }
+
+        reportSkill.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(requireContext())
+            val view = layoutInflater.inflate(R.layout.alert_report_skill, null)
+            val reportedUserMessage = view.findViewById(R.id.report_message) as EditText
+            dialogBuilder.setView(view)
+            dialogBuilder.setTitle(R.string.report_skill)
+
+            dialogBuilder.setPositiveButton(R.string.report_send) { dialog, whichButton ->
+                if (PrefManager.token != null && reportedUserMessage.text.isNotEmpty()) {
+                    val queryObject = ReportSkillQuery(skillData.model, skillData.group, skillTag,
+                            reportedUserMessage.text.toString(), PrefManager.token.toString())
+
+                    skillDetailsPresenter.sendReport(queryObject)
+                } else {
+                    updateSkillReportStatus(getString(R.string.error))
+                }
+            }
+
+            dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
+                dialog.dismiss()
+            }
+
+            dialogBuilder.show()
         }
     }
 
     private fun setAuthor() {
         skillDetailAuthor.text = "by ${activity?.getString(R.string.no_skill_author)}"
-        if (skillData.author != null && !skillData.author.isEmpty()) {
-            if (skillData.authorUrl == null || skillData.authorUrl.isEmpty())
+        if (!skillData.author.isEmpty()) {
+            if (skillData.authorUrl.isEmpty())
                 skillDetailAuthor.text = "by ${skillData.skillName}"
             else {
-                skillDetailAuthor.setOnClickListener({
+                skillDetailAuthor.setOnClickListener {
                     try {
-                        var uri = Uri.parse(skillData.authorUrl)
-                        var builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
-                        var customTabsIntent = builder.build()
+                        val uri = Uri.parse(skillData.authorUrl)
+                        val builder: CustomTabsIntent.Builder = CustomTabsIntent.Builder() //custom tabs intent builder
+                        val customTabsIntent = builder.build()
                         customTabsIntent.launchUrl(context, uri) //launching through custom tabs
                     } catch (e: Exception) {
                         Toast.makeText(context, getString(R.string.link_unavailable), Toast.LENGTH_SHORT).show()
                     }
-                })
+                }
                 if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     skillDetailAuthor.text = Html.fromHtml("by <a href=\"${skillData.authorUrl}\">${skillData.author}</a>", Html.FROM_HTML_MODE_COMPACT)
                 } else {
@@ -142,14 +174,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setTryButton() {
-        if (skillData.examples == null || skillData.examples.isEmpty())
+        if (skillData.examples.isEmpty())
             skillDetailTryButton.visibility = View.GONE
 
         skillDetailTryButton.setOnClickListener {
             activity?.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(activity, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            if (skillData.examples != null && skillData.examples.isNotEmpty())
+            if (skillData.examples.isNotEmpty())
                 intent.putExtra("example", skillData.examples[0])
             else
                 intent.putExtra("example", "")
@@ -159,7 +191,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setShareButton() {
-        if (skillTag == null || skillTag.isEmpty()) {
+        if (skillTag.isEmpty()) {
             skillDetailShareButton.visibility = View.GONE
             return
         }
@@ -182,13 +214,13 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     private fun setDescription() {
         skillDetailDescription.text = activity?.getString(R.string.no_skill_description)
-        if (skillData.descriptions != null && !skillData.descriptions.isEmpty()) {
+        if (!skillData.descriptions.isEmpty()) {
             skillDetailDescription.text = skillData.descriptions
         }
     }
 
     private fun setExamples() {
-        if (skillData.examples != null && skillData.examples.isNotEmpty()) {
+        if (skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skillDetailExamples.layoutManager = mLayoutManager
@@ -211,13 +243,13 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private fun setRating() {
 
         //If the user is logged in, set up the five star skill rating bar
-        if (PrefManager.getToken() != null) {
+        if (PrefManager.token != null) {
             val map: MutableMap<String, String> = HashMap()
             map.put("model", skillData.model)
             map.put("group", skillData.group)
             map.put("language", skillData.language)
             map.put("skill", skillTag)
-            map.put("access_token", PrefManager.getToken().toString())
+            map.put("access_token", PrefManager.token.toString())
             skillDetailsPresenter.updateUserRating(map)
             setUpFiveStarRatingBar()
         }
@@ -234,7 +266,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 } else {
                     skill_rating_view.visibility = View.GONE
                     tv_unrated_skill.visibility = View.VISIBLE
-                    if (PrefManager.getToken() != null) {
+                    if (PrefManager.token != null) {
                         tv_unrated_skill.text = getString(R.string.skill_unrated)
                     } else {
                         tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
@@ -244,7 +276,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         } else {
             skill_rating_view.visibility = View.GONE
             tv_unrated_skill.visibility = View.VISIBLE
-            if (PrefManager.getToken() != null) {
+            if (PrefManager.token != null) {
                 tv_unrated_skill.text = getString(R.string.skill_unrated)
             } else {
                 tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
@@ -264,7 +296,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         fiveStarSkillRatingBar.visibility = View.VISIBLE
 
         //Set up the OnRatingCarChange listener to change the rating scale text view contents accordingly
-        fiveStarSkillRatingBar.setOnRatingBarChangeListener({ ratingBar, v, fromUser ->
+        fiveStarSkillRatingBar.setOnRatingBarChangeListener { ratingBar, v, fromUser ->
 
             tvFiveStarSkillRatingScale.visibility = View.VISIBLE
 
@@ -278,19 +310,19 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             map.put("language", skillData.language)
             map.put("skill", skillTag)
             map.put("stars", v.toInt().toString())
-            map.put("access_token", PrefManager.getToken().toString())
+            map.put("access_token", PrefManager.token.toString())
             skillDetailsPresenter.updateRatings(map)
 
-            tvFiveStarSkillRatingScale.setText(v.toString())
+            tvFiveStarSkillRatingScale.text = v.toString()
             when (ratingBar.rating.toInt()) {
                 1 -> tvFiveStarSkillRatingScale.setText(R.string.rate_hate)
                 2 -> tvFiveStarSkillRatingScale.setText(R.string.rate_improvement)
                 3 -> tvFiveStarSkillRatingScale.setText(R.string.rate_good)
                 4 -> tvFiveStarSkillRatingScale.setText(R.string.rate_great)
                 5 -> tvFiveStarSkillRatingScale.setText(R.string.rate_awesome)
-                else -> tvFiveStarSkillRatingScale.setText("")
+                else -> tvFiveStarSkillRatingScale.text = ""
             }
-        })
+        }
     }
 
     /**
@@ -445,13 +477,13 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      * If the user is logged in, show the post feedback section otherwise display an appropriate message
      */
     private fun setFeedback() {
-        if (PrefManager.getToken() != null) {
+        if (PrefManager.token != null) {
             tvPostFeedbackDesc.visibility = View.VISIBLE
             layoutPostFeedback.visibility = View.VISIBLE
             buttonPost.setOnClickListener {
-                if (etFeedback.text.trim().toString().isNotEmpty()) {
+                if (etFeedback.text?.trim().toString().isNotEmpty()) {
                     val queryObject = PostFeedback(skillData.model, skillData.group, skillData.language,
-                            skillData.skillTag, etFeedback.text.toString(), PrefManager.getToken().toString())
+                            skillData.skillTag, etFeedback.text.toString(), PrefManager.token.toString())
 
                     skillDetailsPresenter.postFeedback(queryObject)
                 } else {
@@ -475,10 +507,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      */
     override fun updateFeedback() {
         Toast.makeText(context, getString(R.string.toast_feedback_updated), Toast.LENGTH_SHORT).show()
-        etFeedback.text.clear()
+        etFeedback.text?.clear()
         etFeedback.dispatchWindowFocusChanged(true)
         etFeedback.clearFocus()
-        etFeedback.text.clear()
+        etFeedback.text?.clear()
         etFeedback.dispatchWindowFocusChanged(true)
         etFeedback.clearFocus()
     }
@@ -489,12 +521,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      * @param list : Contains the list of Feedback objects received from the getSkillFeedback.json API
      */
     override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
-        if (feedbackResponse != null) {
-            val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-            rvFeedback.setHasFixedSize(true)
-            rvFeedback.layoutManager = mLayoutManager
-            rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
-        }
+        val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        rvFeedback.setHasFixedSize(true)
+        rvFeedback.layoutManager = mLayoutManager
+        rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
     }
 
     private fun setDynamicContent() {
@@ -507,6 +537,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 skillDetailContent.text = context?.getString(R.string.content_type_static)
             }
         }
+    }
+
+    override fun updateSkillReportStatus(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

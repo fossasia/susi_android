@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        PrefManager.putBoolean("activity_executed", true)
+        PrefManager.putBoolean(R.string.activity_executed_key, true)
 
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         logIn.isEnabled = true
     }
 
-    override fun attachEmails(savedEmails: MutableSet<String>?) {
+    override fun attachEmails(savedEmails: Set<String>?) {
         if (savedEmails != null)
             emailInput.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }

@@ -16,9 +16,9 @@ class ConstraintsHelper(dimension: Int, context: Context) : RecyclerView.ItemDec
     private val space: Int = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dimension.toFloat(),
             context.resources.displayMetrics).toInt()
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
-        if (parent.getChildAdapterPosition(view) == state!!.itemCount - 1 && outRect.right < space) {
+        if (parent.getChildAdapterPosition(view) == state.itemCount - 1 && outRect.right < space) {
             outRect.right = space
             outRect.left = 0
         }

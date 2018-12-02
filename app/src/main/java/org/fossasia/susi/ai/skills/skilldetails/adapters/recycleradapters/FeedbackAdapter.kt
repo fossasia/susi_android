@@ -10,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
@@ -51,8 +53,8 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                     if (position < 3) {
                         if (feedbackResponse.feedbackList[position].email != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
-                            Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).email, holder.avatar)
-                            Utils.truncateEmailAtEnd(feedbackResponse.feedbackList.get(position).email)?.let { holder.feedbackEmail?.text = it }
+                            Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).avatar, holder.avatar)
+                            Utils.setUsername(feedbackResponse.feedbackList.get(position), holder.feedbackEmail)
                         }
                         if (feedbackResponse.feedbackList[position].timestamp != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
