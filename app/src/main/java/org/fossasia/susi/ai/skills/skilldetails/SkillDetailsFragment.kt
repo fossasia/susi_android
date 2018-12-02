@@ -489,6 +489,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 } else {
                     Toast.makeText(context, getString(R.string.toast_empty_feedback), Toast.LENGTH_SHORT).show()
                 }
+
+                updateFeedback()
+                setFeedback()
+
             }
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
