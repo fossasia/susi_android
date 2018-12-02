@@ -5,10 +5,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-/**
- *
- * Created by arundhati24 on 27/06/2018
- */
 @Parcelize
 data class GetSkillFeedbackResponse(
         val session: Session? = null,

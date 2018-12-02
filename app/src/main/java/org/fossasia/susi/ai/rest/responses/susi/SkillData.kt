@@ -5,10 +5,6 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-/**
- *
- * Created by chiragw15 on 16/8/17.
- */
 @Parcelize
 data class SkillData(
         val model: String = "",

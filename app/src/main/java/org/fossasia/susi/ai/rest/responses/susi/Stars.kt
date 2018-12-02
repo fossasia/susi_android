@@ -4,10 +4,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-/**
- *
- * Created by arundhati24 on 05/06/18.
- */
 @Parcelize
 data class Stars(
         @SerializedName("one_star")

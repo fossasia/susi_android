@@ -12,10 +12,6 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
-/**
- *
- * Created by chiragw15 on 15/8/17.
- */
 class SkillListAdapter(val context: Context, private val skillDetails: List<SkillData>?, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
@@ -26,19 +22,19 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
         if (skillDetails != null) {
             val skillData = skillDetails.toTypedArray()[position]
 
-            if (skillData.skillName == null || skillData.skillName.isEmpty()) {
-                holder.skillPreviewTitle?.text = context.getString(R.string.no_skill_name)
+            if (skillData.skillName.isEmpty()) {
+                holder.skillPreviewTitle.text = context.getString(R.string.no_skill_name)
             } else {
-                holder.skillPreviewTitle?.text = skillData.skillName
+                holder.skillPreviewTitle.text = skillData.skillName
             }
 
-            if (skillData.examples == null || skillData.examples.isEmpty())
-                holder.skillPreviewExample?.text = StringBuilder("\"").append("\"")
+            if (skillData.examples.isEmpty())
+                holder.skillPreviewExample.text = StringBuilder("\"").append("\"")
             else
-                holder.skillPreviewExample?.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
+                holder.skillPreviewExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
 
-            if (skillData.image == null || skillData.image.isEmpty()) {
-                holder.previewImageView?.setImageResource(R.drawable.ic_susi)
+            if (skillData.image.isEmpty()) {
+                holder.previewImageView.setImageResource(R.drawable.ic_susi)
             } else {
               Utils.setSkillsImage(skillData, holder.previewImageView)
             }
@@ -57,24 +53,19 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
     }
 
     override fun onItemClicked(position: Int) {
-        var skillTag: String? = ""
-        if ((skillDetails as List<SkillData>)[position].skillTag != null) {
-            skillTag = skillDetails.toTypedArray()[position].skillTag
-        } else {
-            skillTag = ""
-        }
-        val skillData = skillDetails[position]
-        val skillGroup = skillDetails[position].group.replace(" ", "%20")
+        val skillTag = skillDetails?.toTypedArray()?.get(position)?.skillTag ?: ""
+        val skillData = skillDetails?.get(position)
+        val skillGroup = skillDetails?.get(position)?.group?.replace(" ", "%20")
         showSkillDetailFragment(skillData, skillGroup, skillTag)
     }
 
-    private fun showSkillDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+    private fun showSkillDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
         skillCallback.loadDetailFragment(skillData, skillGroup, skillTag)
     }
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillViewHolder {
-        val itemView = LayoutInflater.from(parent?.context)
+        val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_skill, parent, false)
         return SkillViewHolder(itemView, clickListener)
     }

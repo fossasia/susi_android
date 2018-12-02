@@ -16,10 +16,6 @@ import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHolder
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillGroupViewHolder
 
-/**
- *
- * Created by arundhati24 on 12/07/2018.
- */
 class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetrics, val skillCallback: SkillFragmentCallback) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), SkillGroupViewHolder.ClickListener {
 
@@ -32,34 +28,30 @@ class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetric
     @NonNull
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is GroupViewHolder) {
-            if (metrics != null) {
-                if (metrics.metricsList[position] != null) {
-                    holder.groupName?.text = metrics.metricsGroupTitles[position]
-                }
-
-                skillAdapterSnapHelper = StartSnapHelper()
-                holder.skillList?.setHasFixedSize(true)
-                val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                holder.skillList?.layoutManager = mLayoutManager
-                holder.skillList?.adapter = SkillListAdapter(context, metrics.metricsList[position], skillCallback)
-                holder.skillList?.onFlingListener = null
-                skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
+            if (metrics.metricsList[position] != null) {
+                holder.groupName.text = metrics.metricsGroupTitles[position]
             }
+
+            skillAdapterSnapHelper = StartSnapHelper()
+            holder.skillList.setHasFixedSize(true)
+            val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            holder.skillList.layoutManager = mLayoutManager
+            holder.skillList.adapter = SkillListAdapter(context, metrics.metricsList[position], skillCallback)
+            holder.skillList.onFlingListener = null
+            skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)
         }
 
         if (holder is SkillGroupViewHolder) {
-            if (metrics.groups != null) {
-                if (position - metrics.metricsList.size == 0) {
-                    holder.groupParent.setBackgroundColor(ContextCompat.getColor(context, R.color.default_bg))
-                    holder.groupName.setBackgroundColor(ContextCompat.getColor(context, R.color.default_bg))
-                    holder.arrowIcon.visibility = View.GONE
-                } else {
-                    holder.groupParent.setBackgroundColor(ContextCompat.getColor(context, R.color.md_white_1000))
-                    holder.groupName.setBackgroundColor(ContextCompat.getColor(context, R.color.md_white_1000))
-                    holder.arrowIcon.visibility = View.VISIBLE
-                }
-                holder.groupName.text = metrics.groups[position - metrics.metricsList.size]
+            if (position - metrics.metricsList.size == 0) {
+                holder.groupParent.setBackgroundColor(ContextCompat.getColor(context, R.color.default_bg))
+                holder.groupName.setBackgroundColor(ContextCompat.getColor(context, R.color.default_bg))
+                holder.arrowIcon.visibility = View.GONE
+            } else {
+                holder.groupParent.setBackgroundColor(ContextCompat.getColor(context, R.color.md_white_1000))
+                holder.groupName.setBackgroundColor(ContextCompat.getColor(context, R.color.md_white_1000))
+                holder.arrowIcon.visibility = View.VISIBLE
             }
+            holder.groupName.text = metrics.groups[position - metrics.metricsList.size]
         }
     }
 
@@ -81,14 +73,14 @@ class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetric
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == VIEW_TYPE_METRIC) {
+        return if (viewType == VIEW_TYPE_METRIC) {
             val itemView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_skill_group, parent, false)
-            return GroupViewHolder(itemView)
+            GroupViewHolder(itemView)
         } else {
             val itemView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_skill_group_list, parent, false)
-            return SkillGroupViewHolder(itemView, metrics.metricsList.size, clickListener)
+            SkillGroupViewHolder(itemView, metrics.metricsList.size, clickListener)
         }
     }
 

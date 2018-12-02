@@ -109,7 +109,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         logIn.isEnabled = true
     }
 
-    override fun attachEmails(savedEmails: MutableSet<String>?) {
+    override fun attachEmails(savedEmails: Set<String>?) {
         if (savedEmails != null)
             emailInput.setAdapter(ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList<String>(savedEmails)))
     }

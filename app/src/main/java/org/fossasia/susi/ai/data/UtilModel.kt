@@ -36,14 +36,14 @@ class UtilModel(val context: Context) : IUtilModel {
 
     override fun saveEmail(email: String) {
         val savedEmails = mutableSetOf<String>()
-        if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null)
-            savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL))
+        val storedEmails = PrefManager.getStringSet(Constant.SAVED_EMAIL)
+        storedEmails?.let { savedEmails.addAll(it) }
         savedEmails.add(email)
         PrefManager.putString(Constant.SAVE_EMAIL, email)
         PrefManager.putStringSet(Constant.SAVED_EMAIL, savedEmails)
     }
 
-    override fun getSavedEmails(): MutableSet<String>? {
+    override fun getSavedEmails(): Set<String>? {
         return PrefManager.getStringSet(Constant.SAVED_EMAIL)
     }
 
