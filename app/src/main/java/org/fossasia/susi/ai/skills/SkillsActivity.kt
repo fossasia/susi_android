@@ -64,7 +64,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     private fun exitActivity(context: Context) {
-        val lastFragment: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        var lastFragment: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
         supportFragmentManager.popBackStack()
         if(lastFragment is SkillListingFragment){
             finish()
