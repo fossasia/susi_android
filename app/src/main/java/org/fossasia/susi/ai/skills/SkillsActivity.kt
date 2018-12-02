@@ -64,11 +64,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     private fun exitActivity(context: Context) {
-        var backStackEntryCount=supportFragmentManager.backStackEntryCount
+        val lastFragment: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
         supportFragmentManager.popBackStack()
-        if(backStackEntryCount==1) {
+        if(lastFragment is SkillListingFragment){
             finish()
-            //exitActivity(this)
             overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(context, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
