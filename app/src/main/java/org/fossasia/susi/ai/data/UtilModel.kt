@@ -17,11 +17,13 @@ import retrofit2.Response
  */
 
 class UtilModel(val context: Context) : IUtilModel {
-
     override fun saveToken(response: Response<LoginResponse>) {
-        PrefManager.putString(Constant.ACCESS_TOKEN, response.body().accessToken as String)
-        val validity = System.currentTimeMillis() + response.body().validSeconds * 1000
-        PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
+        val loginResponse = response.body()
+        if (loginResponse != null) {
+            PrefManager.putString(Constant.ACCESS_TOKEN, loginResponse.accessToken as String)
+            val validity = System.currentTimeMillis() + loginResponse.validSeconds * 1000
+            PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
+        }
     }
 
     override fun saveAnonymity(isAnonymous: Boolean) {

@@ -17,7 +17,7 @@ object Utils {
     private val GRAVATAR_URL = "https://www.gravatar.com/avatar/"
 
     fun setSkillsImage(skillData: SkillData, imageView: ImageView) {
-        Picasso.with(imageView.context)
+        Picasso.get()
                 .load(getImageLink(skillData))
                 .error(R.drawable.ic_susi)
                 .transform(CircleTransform())
@@ -34,7 +34,7 @@ object Utils {
     }
 
     fun setAvatar(context: Context, avatarUrl: String?, imageView: ImageView) {
-        Picasso.with(context)
+        Picasso.get()
                 .load(avatarUrl)
                 .fit().centerCrop()
                 .error(R.drawable.ic_susi)
