@@ -101,7 +101,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         groupWiseSkills.visibility = View.VISIBLE
         this.skills.skillsList.clear()
         this.skills.skillsList.addAll(skills.skillsList)
-        groupWiseSkills.addItemDecoration(SimpleDividerItemDecoration(context, this.skills.skillsList.size))
+        groupWiseSkills.addItemDecoration(SimpleDividerItemDecoration(requireContext(), this.skills.skillsList.size))
         skillsAdapter.notifyDataSetChanged()
     }
 

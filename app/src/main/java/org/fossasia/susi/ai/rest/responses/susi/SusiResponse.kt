@@ -4,10 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 import java.util.ArrayList
 
-/**
- * <h1>Kotlin Data class to parse retrofit response from susi client.</h1>
- */
-
 data class SusiResponse(
         @SerializedName("client_id")
         val clientId: String? = null,

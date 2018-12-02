@@ -1,9 +1,5 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
-/**
- *
- * Created by arundhati24 on 12/07/2018
- */
 data class ListSkillMetricsResponse(
         val session: Session? = null,
         val accepted: Boolean = false,
