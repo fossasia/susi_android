@@ -208,11 +208,11 @@ class ChatActivity : AppCompatActivity(), IChatView {
             } else {
                 if (bottom < oldBottom) {
                     rv_chat_feed.postDelayed({
-                        var scrollTo = rv_chat_feed.adapter?.itemCount
-                        if (scrollTo!=null){
-                            scrollTo -= 1
-                        scrollTo = if (scrollTo >= 0) scrollTo else 0
-                        rv_chat_feed.scrollToPosition(scrollTo)
+                        val scroll = rv_chat_feed.adapter?.itemCount?.minus(1)
+                        val scrollTo:Int
+                        if (scroll != null){
+                            scrollTo = if (scroll >= 0) scroll else 0
+                            rv_chat_feed.scrollToPosition(scrollTo)
                         }
                     }, 10)
                 }
