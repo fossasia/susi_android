@@ -63,10 +63,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return true
     }
 
-    private fun exitActivity(context: Context) {
-        val lastFragment: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        supportFragmentManager.popBackStack()
-        if(lastFragment is SkillListingFragment){
+    private fun backHandler (context: Context) {
+        val lastFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (lastFragment == null) {
             finish()
             overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(context, ChatActivity::class.java)
@@ -76,11 +76,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun onBackPressed() {
-        exitActivity(this)
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        supportFragmentManager.addOnBackStackChangedListener {
-            val currentFragment: android.support.v4.app.Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
-            currentFragment?.onResume()
+            super.onBackPressed()
+            backHandler (this)
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            supportFragmentManager.addOnBackStackChangedListener {
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                currentFragment?.onResume()
         }
     }
 
