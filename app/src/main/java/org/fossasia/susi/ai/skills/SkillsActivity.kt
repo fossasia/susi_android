@@ -55,6 +55,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -63,22 +64,25 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return true
     }
 
-    private fun exitActivity(context: Context) {
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        val intent = Intent(context, ChatActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
+    private fun backHandler(context: Context) {
+        val lastFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (lastFragment == null) {
+            finish()
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
+        backHandler(this)
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        if (supportFragmentManager.popBackStackImmediate(TAG_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
-        } else if (supportFragmentManager.popBackStackImmediate(TAG_GROUP_WISE_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
-        } else {
-            finish()
-            exitActivity(this)
+        supportFragmentManager.addOnBackStackChangedListener {
+            val currentFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
+            currentFragment?.onResume()
         }
     }
 
