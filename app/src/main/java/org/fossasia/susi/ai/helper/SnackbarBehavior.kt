@@ -22,19 +22,19 @@ class SnackbarBehavior
  */
 (context: Context, attrs: AttributeSet) : CoordinatorLayout.Behavior<ViewGroup>(context, attrs) {
 
-    override fun layoutDependsOn(parent: CoordinatorLayout?, child: ViewGroup?, dependency: View?): Boolean {
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: ViewGroup, dependency: View): Boolean {
         return dependency is Snackbar.SnackbarLayout
     }
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout?, child: ViewGroup?, dependency: View?): Boolean {
-        val params = child!!.layoutParams as CoordinatorLayout.LayoutParams
-        params.bottomMargin = parent!!.height - dependency!!.y.toInt()
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: ViewGroup, dependency: View): Boolean {
+        val params = child.layoutParams as CoordinatorLayout.LayoutParams
+        params.bottomMargin = parent.height - dependency.y.toInt()
         child.layoutParams = params
         return true
     }
 
-    override fun onDependentViewRemoved(parent: CoordinatorLayout?, child: ViewGroup?, dependency: View?) {
-        val params = child!!.layoutParams as CoordinatorLayout.LayoutParams
+    override fun onDependentViewRemoved(parent: CoordinatorLayout, child: ViewGroup, dependency: View) {
+        val params = child.layoutParams as CoordinatorLayout.LayoutParams
         params.bottomMargin = 0
         child.layoutParams = params
     }

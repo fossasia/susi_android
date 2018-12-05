@@ -22,7 +22,7 @@ class SignUpModel : ISignUpModel {
 
     override fun signUp(email: String, password: String, listener: ISignUpModel.OnSignUpFinishedListener) {
 
-        authResponseCall = ClientBuilder.getSusiApi()
+        authResponseCall = ClientBuilder.susiApi
                 .signUp(email, password)
 
         authResponseCall.enqueue(object : Callback<SignUpResponse> {

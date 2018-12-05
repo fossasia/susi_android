@@ -12,17 +12,11 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-/**
- * The Model of Chat Activity.
- *
- * The M in MVP
- * Created by chiragw15 on 9/7/17.
- */
 class ChatModel : IChatModel {
 
 
     override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
-        val call = ClientBuilder.getSusiApi().chatHistory
+        val call = ClientBuilder.susiApi.chatHistory
         call.enqueue(object : Callback<MemoryResponse> {
             override fun onResponse(call: Call<MemoryResponse>, response: Response<MemoryResponse>?) {
                 listener.onRetrieveSuccess(response)
@@ -36,7 +30,7 @@ class ChatModel : IChatModel {
     }
 
     override fun getLocationFromIP(listener: IChatModel.OnLocationFromIPReceivedListener) {
-        val locationService = LocationClient.getClient().create(LocationService::class.java)
+        val locationService = LocationClient.retrofit.create(LocationService::class.java)
 
         locationService.locationUsingIP.enqueue(object : Callback<LocationResponse> {
             override fun onResponse(call: Call<LocationResponse>, response: Response<LocationResponse>) {
@@ -49,9 +43,9 @@ class ChatModel : IChatModel {
         })
     }
 
-    override fun getSusiMessage(map: Map<String, String>, listener: IChatModel.OnMessageFromSusiReceivedListener) {
+    override fun getSusiMessage(map: Map<String, String?>, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        ClientBuilder.getSusiApi().getSusiResponse(map).enqueue(
+        ClientBuilder.susiApi.getSusiResponse(map).enqueue(
                 object : Callback<SusiResponse> {
                     override fun onResponse(call: Call<SusiResponse>, response: Response<SusiResponse>?) {
                         listener.onSusiMessageReceivedSuccess(response)

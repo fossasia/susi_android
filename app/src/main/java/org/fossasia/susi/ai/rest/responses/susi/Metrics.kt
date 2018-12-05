@@ -2,10 +2,6 @@ package org.fossasia.susi.ai.rest.responses.susi
 
 import com.google.gson.annotations.SerializedName
 
-/**
- *
- * Created by arundhati24 on 12/07/2018
- */
 data class Metrics(
         val staffPicks: List<SkillData> = ArrayList(),
         val feedback: List<SkillData> = ArrayList(),

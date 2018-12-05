@@ -208,7 +208,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
-    override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+    override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()

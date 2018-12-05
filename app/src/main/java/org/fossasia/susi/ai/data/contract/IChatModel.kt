@@ -5,11 +5,6 @@ import org.fossasia.susi.ai.rest.responses.susi.MemoryResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import retrofit2.Response
 
-/**
- * The interface for Chat Model
- *
- * Created by chiragw15 on 9/7/17.
- */
 interface IChatModel {
 
     interface OnRetrievingMessagesFinishedListener {
@@ -26,7 +21,7 @@ interface IChatModel {
         fun onSusiMessageReceivedFailure(t: Throwable)
     }
 
-    fun getSusiMessage(map: Map<String, String>, listener: OnMessageFromSusiReceivedListener)
+    fun getSusiMessage(map: Map<String, String?>, listener: OnMessageFromSusiReceivedListener)
 
     fun retrieveOldMessages(listener: OnRetrievingMessagesFinishedListener)
     fun getLocationFromIP(listener: OnLocationFromIPReceivedListener)

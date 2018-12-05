@@ -4,6 +4,7 @@ import android.util.Patterns
 import io.realm.RealmList
 import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.data.model.TableItem
+import org.fossasia.susi.ai.dataclasses.SkillRatingQuery
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
@@ -133,6 +134,21 @@ class ParseSusiResponseHelper {
                 Timber.e(e)
             }
             return susiLocation
+        }
+
+        fun getSkillRatingQuery(locationUrl: String): SkillRatingQuery? {
+            return try {
+                val locationArray = locationUrl.split("/")
+                val model = locationArray[3]
+                val group = locationArray[4]
+                val language = locationArray[5]
+                val skill = locationArray[6].split(".")[0]
+
+                SkillRatingQuery(model, group, language, skill)
+            } catch (e: Exception) {
+                Timber.e(e)
+                null
+            }
         }
     }
 }

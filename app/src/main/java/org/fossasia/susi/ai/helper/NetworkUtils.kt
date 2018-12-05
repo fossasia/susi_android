@@ -10,7 +10,7 @@ import org.fossasia.susi.ai.MainApplication
 class NetworkUtils {
     companion object {
         fun isNetworkConnected(): Boolean {
-            val connectivityManager = MainApplication.getInstance()
+            val connectivityManager = MainApplication.instance
                     .applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val info = connectivityManager.activeNetworkInfo
             return info != null && info.isConnected
