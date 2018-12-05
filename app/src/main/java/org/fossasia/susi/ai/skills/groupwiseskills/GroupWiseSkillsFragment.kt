@@ -123,4 +123,9 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         groupWiseSkillsPresenter.onDetach()
         super.onDestroyView()
     }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = this.skills.group
+    }
 }
