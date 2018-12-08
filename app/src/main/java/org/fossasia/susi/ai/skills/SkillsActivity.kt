@@ -77,7 +77,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun onBackPressed() {
-
         if (!isSearchOpened) {
             super.onBackPressed()
             backHandler(this)
@@ -92,7 +91,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             action?.setDisplayShowTitleEnabled(true)
             mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
-            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
