@@ -77,12 +77,20 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        backHandler(this)
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        supportFragmentManager.addOnBackStackChangedListener {
-            val currentFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
-            currentFragment?.onResume()
+        if (!isSearchOpened) {
+            super.onBackPressed()
+            backHandler(this)
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            supportFragmentManager.addOnBackStackChangedListener {
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                currentFragment?.onResume()
+            }
+        } else {
+            val action = supportActionBar
+            action?.setDisplayShowCustomEnabled(false)
+            action?.setDisplayShowTitleEnabled(true)
+            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            isSearchOpened = false
         }
     }
 
