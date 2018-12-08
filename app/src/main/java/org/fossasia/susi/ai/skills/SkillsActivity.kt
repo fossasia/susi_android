@@ -77,13 +77,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun onBackPressed() {
-        if (isSearchOpened) {
-            val action = supportActionBar
-            action!!.setDisplayShowCustomEnabled(false)
-            action.setDisplayShowTitleEnabled(true)
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
-            isSearchOpened = false
-        }else {
+
+        if (!isSearchOpened) {
             super.onBackPressed()
             backHandler(this)
             overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
@@ -91,7 +86,13 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
                 currentFragment?.onResume()
             }
-        }
+        } else {
+            val action = supportActionBar
+            action?.setDisplayShowCustomEnabled(false)
+            action?.setDisplayShowTitleEnabled(true)
+            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            isSearchOpened = false
+            }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
