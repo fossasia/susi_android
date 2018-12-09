@@ -25,6 +25,10 @@ android {
                 YOUTUBE_API_KEY: YOUTUBE_API_KEY
         ]
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -60,10 +64,12 @@ android {
             includeAndroidResources = true
         }
     }
+
 }
 
 repositories {
     maven { url "https://jitpack.io" }
+    mavenCentral()
 }
 
 androidExtensions {
@@ -72,23 +78,23 @@ androidExtensions {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation "com.android.support:appcompat-v7:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.android.support:exifinterface:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:recyclerview-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
+    implementation "com.android.support:customtabs:${rootConfiguration.supportLibraryVersion}"
 
     //piechart
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
 
     //Leak Canary
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
-
-    //Chrome custom tabs
-    implementation "com.android.support:customtabs:${customTabsVersion}"
 
     //butterknife
     implementation "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"
@@ -109,14 +115,13 @@ dependencies {
     //preference UI
     implementation "com.takisoft.fix:preference-v7:${rootConfiguration.preferenceVersion}"
 
-    //unit test
+    //Unit Test
     testImplementation "junit:junit:${rootConfiguration.jUnitVersion}"
     testImplementation "org.mockito:mockito-core:${rootConfiguration.mockitoCoreVersion}"
     androidTestImplementation "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
     androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
-    testImplementation 'junit:junit:4.12'
 
     //realm adapter
     implementation "io.realm:android-adapters:${rootConfiguration.realmVersion}"
