@@ -342,7 +342,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         nonDeliveredMessages.add(Pair(query, newMessageIndex))
         databaseRepository.updateDatabase(ChatArgs(
                 prevId = newMessageIndex,
-                message = actual,
+                message = actual.trim(),
                 date = DateTimeHelper.date,
                 timeStamp = DateTimeHelper.currentTime,
                 mine = true,
