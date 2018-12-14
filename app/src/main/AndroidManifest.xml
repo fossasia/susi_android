@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".chat.ChatActivity"
+            android:name=".chat.Cha   n  9x+tActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Chat_Theme"
