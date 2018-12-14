@@ -36,7 +36,9 @@ public class SusiAssistantSession extends VoiceInteractionSession {
                     "My Name is Susi",
                     Toast.LENGTH_LONG
             ).show();
-            mContext.startActivity(new Intent(mContext,WelcomeActivity.class));
+            Intent intent = new Intent(mContext,WelcomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
         }
 
     }
