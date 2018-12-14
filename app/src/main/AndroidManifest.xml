@@ -98,6 +98,19 @@
             android:name="com.google.android.youtube.API_KEY"
             android:value="${YOUTUBE_API_KEY}" />
 
+        <service android:name=".rest.assitsessions.SusiAssistantService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION">
+            <meta-data android:name="android.voice_interaction"
+                android:resource="@xml/susi_assistant_config" />
+            <intent-filter>
+                <action android:name="android.service.voice.VoiceInteractionService"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".rest.assitsessions.SusiAssistantSessionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION">
+        </service>
+
     </application>
 
 </manifest>
