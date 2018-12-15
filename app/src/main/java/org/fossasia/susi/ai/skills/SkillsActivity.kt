@@ -15,6 +15,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
@@ -210,12 +211,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun hideKeyboard() {
-        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (currentFocus != null)
-            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
-    }
-
     override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
@@ -235,7 +230,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     fun handleOnLoadingFragment() {
-        hideKeyboard()
+        hideSoftKeyboard(this, window.decorView)
         if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
             action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
