@@ -4,10 +4,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-/**
- *
- * @author arundhati24
- */
 @Parcelize
 data class Feedback(
         var feedback: String? = "",

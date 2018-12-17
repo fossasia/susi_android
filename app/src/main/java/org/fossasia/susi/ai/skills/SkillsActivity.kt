@@ -15,6 +15,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
@@ -55,6 +56,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -63,22 +65,33 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return true
     }
 
-    private fun exitActivity(context: Context) {
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        val intent = Intent(context, ChatActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
+    private fun backHandler(context: Context) {
+        val lastFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (lastFragment == null) {
+            finish()
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        if (supportFragmentManager.popBackStackImmediate(TAG_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
-        } else if (supportFragmentManager.popBackStackImmediate(TAG_GROUP_WISE_SKILLS_FRAGMENT, 0)) {
-            title = getString(R.string.skills_activity)
+        if (!isSearchOpened) {
+            super.onBackPressed()
+            backHandler(this)
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            supportFragmentManager.addOnBackStackChangedListener {
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                currentFragment?.onResume()
+            }
         } else {
-            finish()
-            exitActivity(this)
+            val action = supportActionBar
+            action?.setDisplayShowCustomEnabled(false)
+            action?.setDisplayShowTitleEnabled(true)
+            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            isSearchOpened = false
         }
     }
 
@@ -198,13 +211,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    fun hideKeyboard() {
-        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (currentFocus != null)
-            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
-    }
-
-    override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+    override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()
@@ -223,7 +230,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     fun handleOnLoadingFragment() {
-        hideKeyboard()
+        hideSoftKeyboard(this, window.decorView)
         if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
             action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar

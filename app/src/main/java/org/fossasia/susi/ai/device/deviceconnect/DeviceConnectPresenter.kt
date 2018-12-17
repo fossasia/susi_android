@@ -102,7 +102,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     }
 
     override fun checkLocationEnabled() {
-        val locationManager = MainApplication.getInstance().applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = MainApplication.instance.applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             isLocationOn = true
         } else {
@@ -206,8 +206,8 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     override fun makeAuthRequest(password: String) {
         Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
-        deviceModel.sendAuthCredentials(SpeakerAuth("y", PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString(),
-                password), this@DeviceConnectPresenter)
+        val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
+        deviceModel.sendAuthCredentials(SpeakerAuth("y", email!!, password), this@DeviceConnectPresenter)
     }
 
 }

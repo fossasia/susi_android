@@ -14,7 +14,7 @@ interface IUtilModel {
     fun saveAnonymity(isAnonymous: Boolean)
     fun getAnonymity(): Boolean
     fun saveEmail(email: String)
-    fun getSavedEmails(): MutableSet<String>?
+    fun getSavedEmails(): Set<String>?
     fun isLoggedIn(): Boolean
     fun clearToken()
     fun setServer(isSusiServer: Boolean)

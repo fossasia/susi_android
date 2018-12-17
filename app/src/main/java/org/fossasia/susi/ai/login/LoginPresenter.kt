@@ -26,7 +26,6 @@ import java.net.UnknownHostException
 /**
  * Presenter for Login
  * The P in MVP
- *
  * Created by chiragw15 on 4/7/17.
  */
 class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginModel.OnLoginFinishedListener, IForgotPasswordModel.OnFinishListener {
@@ -136,7 +135,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
             utilModel.saveAnonymity(false)
             loginModel.getUserSetting(this)
 
-            message = response.body().message.toString()
+            message = response.body()!!.message.toString()
         } else if (response.code() == 422) {
             loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.invalid_credentials_title),
@@ -153,7 +152,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         loginView?.showProgress(false)
 
         if (response.isSuccessful && response.body() != null) {
-            val settings: Settings? = response.body().settings
+            val settings: Settings? = response.body()!!.settings
 
             if (settings != null) {
                 utilModel.putBooleanPref(R.string.settings_enterPreference_key, settings.enterSend)
