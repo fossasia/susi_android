@@ -115,7 +115,10 @@ We have the following branches
 
 	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
 	 - _versionName_ : **String** : User visible version of the app. To be changed following [semantic versioning](http://semver.org/)
- * **apk** This branch contains two apk's, that are automatically generated on the merged pull request a) debug apk and b) release apk.
+ * **apk** This branch contains many apk files, that are automatically generated on the merged pull request a) debug apk for Fdroid and Playstore b) release apk for Fdroid and Playstore
+    - There are multiple files in the apk branch of the project, this branch consists of all the APK files and other files that are relevant when an APK is generated.
+    - Once a pull request is merged, the previous APK branch is deleted and a new APK branch is created.
+    - If a PR is merged in development branch then the new APKs for the development branch are generated whereas the APKs corresponding to the master branch are not regenerated and simply the previously generated files are added.
 
 ### Code practices
 

@@ -1,9 +1,5 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
-/**
- *
- * Created by arundhati24 on 6/6/2018
- */
 data class FiveStarSkillRatingResponse(
         val ratings: Stars? = null,
         val session: Session? = null,

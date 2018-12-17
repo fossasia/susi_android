@@ -49,11 +49,9 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     override fun onGroupFetchSuccess(response: Response<ListGroupsResponse>) {
         if (response.isSuccessful && response.body() != null) {
             Timber.d("GROUPS FETCHED")
-            groupsCount = response.body().groups.size
-            metrics.groups = response.body().groups as MutableList<String>
-            if (metrics.groups != null) {
-                skillListingView?.updateAdapter(metrics)
-            }
+            groupsCount = response.body()!!.groups.size
+            metrics.groups = response.body()!!.groups as MutableList<String>
+            skillListingView?.updateAdapter(metrics)
         } else {
             Timber.d("GROUPS NOT FETCHED")
             skillListingView?.visibilityProgressBar(false)
@@ -70,7 +68,7 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
             Timber.d("SKILLS FETCHED")
-            val responseSkillMap = response.body().filteredSkillsData
+            val responseSkillMap = response.body()!!.filteredSkillsData
             if (responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
             }
@@ -94,7 +92,7 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
             Timber.d("METRICS FETCHED")
-            metricsData = response.body().metrics
+            metricsData = response.body()!!.metrics
             if (metricsData != null) {
                 metrics.metricsList.clear()
                 metrics.metricsGroupTitles.clear()

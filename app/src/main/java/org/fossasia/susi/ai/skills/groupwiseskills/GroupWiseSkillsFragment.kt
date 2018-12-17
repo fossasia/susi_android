@@ -101,7 +101,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         groupWiseSkills.visibility = View.VISIBLE
         this.skills.skillsList.clear()
         this.skills.skillsList.addAll(skills.skillsList)
-        groupWiseSkills.addItemDecoration(SimpleDividerItemDecoration(context, this.skills.skillsList.size))
+        groupWiseSkills.addItemDecoration(SimpleDividerItemDecoration(requireContext(), this.skills.skillsList.size))
         skillsAdapter.notifyDataSetChanged()
     }
 
@@ -122,5 +122,10 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     override fun onDestroyView() {
         groupWiseSkillsPresenter.onDetach()
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = this.skills.group
     }
 }

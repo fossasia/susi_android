@@ -87,7 +87,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         this.metrics.groups.add(0, "CATEGORIES")
         this.metrics.groups.add(1, "All")
         this.metrics.groups.addAll(metrics.groups)
-        skillMetrics.addItemDecoration(SimpleDividerItemDecoration(context, this.metrics.metricsList.size))
+        skillMetrics.addItemDecoration(SimpleDividerItemDecoration(requireContext(), this.metrics.metricsList.size))
         skillMetricsAdapter.notifyDataSetChanged()
     }
 
@@ -108,5 +108,10 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     override fun onDestroyView() {
         skillListingPresenter.onDetach()
         super.onDestroyView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.title = getString(R.string.skills_activity)
     }
 }
