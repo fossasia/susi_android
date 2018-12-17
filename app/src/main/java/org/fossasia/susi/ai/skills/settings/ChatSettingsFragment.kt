@@ -96,7 +96,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (!utilModel.isLoggedIn())
             displayEmail.title = "Not logged in"
         else
-            displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL).iterator().next().toString()
+            displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
 
         setLanguage()
         if (settingsPresenter.getAnonymity()) {
@@ -105,7 +105,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             loginLogout.title = "Logout"
         }
 
-        if (PrefManager.getToken() == null) {
+        if (PrefManager.token == null) {
             deviceName.isVisible = false
             setupDevice.isVisible = false
             preferenceManager.findPreference("device_section").isVisible = false

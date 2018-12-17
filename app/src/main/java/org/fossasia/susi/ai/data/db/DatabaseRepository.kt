@@ -42,7 +42,7 @@ class DatabaseRepository : IDatabaseRepository {
     }
 
     override fun getAllMessages(): RealmResults<ChatMessage> {
-        return realm.where(ChatMessage::class.java).findAllSorted(Constant.ID)
+        return realm.where(ChatMessage::class.java).findAll().sort(Constant.ID)
     }
 
     override fun getSearchResults(query: String): RealmResults<ChatMessage> {
@@ -60,8 +60,8 @@ class DatabaseRepository : IDatabaseRepository {
             val chatMessage = bgRealm.createObject(ChatMessage::class.java, id)
             chatMessage.content = chatArgs.message
             chatMessage.date = chatArgs.date
-            chatMessage.setIsDate(chatArgs.isDate)
-            chatMessage.setIsMine(chatArgs.mine)
+            chatMessage.isDate = chatArgs.isDate
+            chatMessage.isMine = chatArgs.mine
             chatMessage.timeStamp = chatArgs.timeStamp
             chatMessage.isHavingLink = chatArgs.isHavingLink
             if (chatArgs.mine)
@@ -78,16 +78,22 @@ class DatabaseRepository : IDatabaseRepository {
                 if (chatArgs.tableItem != null) {
                     val columnRealmList = RealmList<TableColumn>()
                     val tableDataRealmList = RealmList<TableData>()
-                    for (column in chatArgs.tableItem.columns) {
-                        val realmColumn = bgRealm.createObject(TableColumn::class.java)
-                        realmColumn.columnName = column
-                        columnRealmList.add(realmColumn)
+                    val columns = chatArgs.tableItem.columns
+                    if (columns != null) {
+                        for (column in columns) {
+                            val realmColumn = bgRealm.createObject(TableColumn::class.java)
+                            realmColumn.columnName = column
+                            columnRealmList.add(realmColumn)
+                        }
                     }
                     chatMessage.tableColumns = columnRealmList
-                    for (tableData in chatArgs.tableItem.tableData) {
-                        val realmData = bgRealm.createObject(TableData::class.java)
-                        realmData.tableData = tableData
-                        tableDataRealmList.add(realmData)
+                    val tableData = chatArgs.tableItem.tableData
+                    if (tableData != null) {
+                        for (tableDatum in tableData) {
+                            val realmData = bgRealm.createObject(TableData::class.java)
+                            realmData.tableData = tableDatum
+                            tableDataRealmList.add(realmData)
+                        }
                     }
                     chatMessage.tableData = tableDataRealmList
                 }

@@ -21,7 +21,7 @@
         android:paddingRight="@dimen/padding_moderate"
         android:paddingTop="@dimen/padding_moderate">
 
-        <pl.tajchert.sample.DotsTextView
+        <pl.tajchert.waitingdots.DotsTextView
             android:id="@+id/dots"
             android:layout_width="@dimen/messagelayout_minwidth"
             android:layout_height="wrap_content"

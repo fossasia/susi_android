@@ -2,10 +2,6 @@ package org.fossasia.susi.ai.rest.responses.susi
 
 import com.google.gson.annotations.SerializedName
 
-/**
- * <h1>Kotlin Data class to parse action types in retrofit response from susi client.</h1>
- */
-
 data class Action(
         val delay: Long = 0,
         val expression: String = "",

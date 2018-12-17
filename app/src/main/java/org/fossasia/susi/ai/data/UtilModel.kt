@@ -17,11 +17,13 @@ import retrofit2.Response
  */
 
 class UtilModel(val context: Context) : IUtilModel {
-
     override fun saveToken(response: Response<LoginResponse>) {
-        PrefManager.putString(Constant.ACCESS_TOKEN, response.body().accessToken as String)
-        val validity = System.currentTimeMillis() + response.body().validSeconds * 1000
-        PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
+        val loginResponse = response.body()
+        if (loginResponse != null) {
+            PrefManager.putString(Constant.ACCESS_TOKEN, loginResponse.accessToken as String)
+            val validity = System.currentTimeMillis() + loginResponse.validSeconds * 1000
+            PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
+        }
     }
 
     override fun saveAnonymity(isAnonymous: Boolean) {
@@ -34,14 +36,14 @@ class UtilModel(val context: Context) : IUtilModel {
 
     override fun saveEmail(email: String) {
         val savedEmails = mutableSetOf<String>()
-        if (PrefManager.getStringSet(Constant.SAVED_EMAIL) != null)
-            savedEmails.addAll(PrefManager.getStringSet(Constant.SAVED_EMAIL))
+        val storedEmails = PrefManager.getStringSet(Constant.SAVED_EMAIL)
+        storedEmails?.let { savedEmails.addAll(it) }
         savedEmails.add(email)
         PrefManager.putString(Constant.SAVE_EMAIL, email)
         PrefManager.putStringSet(Constant.SAVED_EMAIL, savedEmails)
     }
 
-    override fun getSavedEmails(): MutableSet<String>? {
+    override fun getSavedEmails(): Set<String>? {
         return PrefManager.getStringSet(Constant.SAVED_EMAIL)
     }
 
