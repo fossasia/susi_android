@@ -259,7 +259,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             flag = true
         }
         customerServer.isChecked = flag
-        inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null))
+        inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, " "))
         customerServer.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked)
                 inputUrl.visibility = View.VISIBLE
