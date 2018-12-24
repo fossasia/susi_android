@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.helper
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
 import com.google.gson.Gson

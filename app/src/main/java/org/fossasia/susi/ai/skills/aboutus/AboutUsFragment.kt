@@ -11,7 +11,11 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_about_us.*
+import kotlinx.android.synthetic.main.fragment_about_us.about_susi
+import kotlinx.android.synthetic.main.fragment_about_us.contributors_desc
+import kotlinx.android.synthetic.main.fragment_about_us.susi_skill_cms_desc
+import kotlinx.android.synthetic.main.fragment_about_us.susi_report_issues_desc
+import kotlinx.android.synthetic.main.fragment_about_us.susi_license_info_desc
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity
 
