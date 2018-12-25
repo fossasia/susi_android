@@ -6,7 +6,10 @@ import android.content.Context
 import android.os.Build
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.contract.IUtilModel
-import org.fossasia.susi.ai.helper.*
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.MediaUtil
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Response
 
