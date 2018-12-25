@@ -5,7 +5,9 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
-import org.fossasia.susi.ai.data.model.*
+import org.fossasia.susi.ai.data.model.ChatMessage
+import org.fossasia.susi.ai.data.model.TableColumn
+import org.fossasia.susi.ai.data.model.TableData
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.Datum

@@ -1,8 +1,5 @@
 package org.fossasia.susi.ai.dataclasses
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-
 /**
  *
  * Created by arundhati24 on 08/07/2018

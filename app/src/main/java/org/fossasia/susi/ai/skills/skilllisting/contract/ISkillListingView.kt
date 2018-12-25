@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.skills.skilllisting.contract
 
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
-import org.fossasia.susi.ai.rest.responses.susi.SkillData
 
 /**
  *

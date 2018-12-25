@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 
 import android.content.Context
 import android.net.Uri
-import android.os.SystemClock
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.view.View
@@ -15,14 +14,11 @@ import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
 import org.fossasia.susi.ai.data.model.ChatMessage
-import org.fossasia.susi.ai.dataclasses.SkillRatingQuery
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
 
-import butterknife.BindView
 import butterknife.ButterKnife
-import butterknife.OnClick
 import io.realm.Realm
 import kotterknife.bindView
 import retrofit2.Call

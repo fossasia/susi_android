@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.*
+import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
+import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.groupWiseSkills
+import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.swipeRefreshLayout
+import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.progressSkillWait
+import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.messageNoSkillsFound
+import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.errorSkillFetch
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
