@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.helper
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager

@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.rest.responses.susi
 
 import android.os.Parcelable
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
