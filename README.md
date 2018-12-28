@@ -134,6 +134,10 @@ Please help us follow the best practice to make it easy for the reviewer as well
 
 * Before you join development, please set up the project on your local machine, run it and go through the application completely. Press on any button you can find and see where it leads to. Explore. (Don't worry ... Nothing will happen to the app or to you due to the exploring :wink: Only thing that will happen is, you'll be more familiar with what is where and might even get some cool ideas on how to improve various aspects of the app.)
 * If you would like to work on an issue, drop in a comment at the issue. If it is already assigned to someone, but there is no sign of any work being done, please free to drop in a comment so that the issue can be assigned to you if the previous assignee has dropped it entirely.
+*For setting up on your local machine, you need to follow the following steps:-
+*1) Open terminal 
+*2) Type git clone and paste the url
+*3) You will now have all the files on your system in the folder named susi_android. 
 
 ## For Developers: Adding Fabric API KEY
 1. Go to AndroidManifest.xml
