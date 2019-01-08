@@ -46,35 +46,11 @@ class AboutUsFragment : Fragment() {
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        if (Build.VERSION.SDK_INT >= 24) {
-            about_susi.text = Html.fromHtml(getString(R.string.susi_about), Html.FROM_HTML_OPTION_USE_CSS_COLORS) // for 24 api and more
-        } else {
-            about_susi.text = Html.fromHtml(getString(R.string.susi_about)) // or for older api
-        }
-
-        if (Build.VERSION.SDK_INT >= 24) {
-            contributors_desc.text = Html.fromHtml(getString(R.string.susi_contributors_desc), Html.FROM_HTML_OPTION_USE_CSS_COLORS) // for 24 api and more
-        } else {
-            contributors_desc.text = Html.fromHtml(getString(R.string.susi_contributors_desc)) // or for older api
-        }
-
-        if (Build.VERSION.SDK_INT >= 24) {
-            susi_skill_cms_desc.text = Html.fromHtml(getString(R.string.susi_skill_cms_desc), Html.FROM_HTML_OPTION_USE_CSS_COLORS) // for 24 api and more
-        } else {
-            susi_skill_cms_desc.text = Html.fromHtml(getString(R.string.susi_skill_cms_desc)) // or for older api
-        }
-
-        if (Build.VERSION.SDK_INT >= 24) {
-            susi_license_info_desc.text = Html.fromHtml(getString(R.string.susi_license_information_desc), Html.FROM_HTML_OPTION_USE_CSS_COLORS) // for 24 api and more
-        } else {
-            susi_license_info_desc.text = Html.fromHtml(getString(R.string.susi_license_information_desc)) // or for older api
-        }
-
-        if (Build.VERSION.SDK_INT >= 24) {
-            susi_report_issues_desc.text = Html.fromHtml(getString(R.string.susi_report_issues_desc), Html.FROM_HTML_OPTION_USE_CSS_COLORS) // for 24 api and more
-        } else {
-            susi_report_issues_desc.text = Html.fromHtml(getString(R.string.susi_report_issues_desc)) // or for older api
-        }
+        about_susi.text = Html.fromHtml(getString(R.string.susi_about))
+        contributors_desc.text = Html.fromHtml(getString(R.string.susi_contributors_desc))
+        susi_skill_cms_desc.text = Html.fromHtml(getString(R.string.susi_skill_cms_desc))
+        susi_license_info_desc.text = Html.fromHtml(getString(R.string.susi_license_information_desc))
+        susi_report_issues_desc.text = Html.fromHtml(getString(R.string.susi_report_issues_desc))
 
 
         about_susi.setOnClickListener{
