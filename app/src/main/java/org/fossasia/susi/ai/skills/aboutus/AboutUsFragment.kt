@@ -45,11 +45,9 @@ class AboutUsFragment : Fragment() {
     }
 
     private fun htmlConverter(resourceId: Int): Spanned{
-        if(Build.VERSION.SDK_INT>24){
-            return Html.fromHtml(getString(resourceId),Html.FROM_HTML_OPTION_USE_CSS_COLORS)
-        }
-        else{
-            return Html.fromHtml(getString(resourceId))
+        return when {
+            Build.VERSION.SDK_INT>24 -> Html.fromHtml(getString(resourceId),Html.FROM_HTML_OPTION_USE_CSS_COLORS)
+            else -> @Suppress("DEPRECATION") Html.fromHtml(getString(resourceId))
         }
     }
 
