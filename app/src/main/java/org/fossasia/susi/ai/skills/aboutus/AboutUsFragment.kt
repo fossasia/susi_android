@@ -8,6 +8,7 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.text.Html
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -43,14 +44,23 @@ class AboutUsFragment : Fragment() {
         super.onPrepareOptionsMenu(menu)
     }
 
+    private fun htmlConverter(resourceId: Int): Spanned{
+        if(Build.VERSION.SDK_INT>24){
+            return Html.fromHtml(getString(resourceId),Html.FROM_HTML_OPTION_USE_CSS_COLORS)
+        }
+        else{
+            return Html.fromHtml(getString(resourceId))
+        }
+    }
+
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        about_susi.text = Html.fromHtml(getString(R.string.susi_about))
-        contributors_desc.text = Html.fromHtml(getString(R.string.susi_contributors_desc))
-        susi_skill_cms_desc.text = Html.fromHtml(getString(R.string.susi_skill_cms_desc))
-        susi_license_info_desc.text = Html.fromHtml(getString(R.string.susi_license_information_desc))
-        susi_report_issues_desc.text = Html.fromHtml(getString(R.string.susi_report_issues_desc))
+        about_susi.text = htmlConverter(R.string.susi_about)
+        contributors_desc.text = htmlConverter(R.string.susi_contributors_desc)
+        susi_skill_cms_desc.text = htmlConverter(R.string.susi_skill_cms_desc)
+        susi_license_info_desc.text = htmlConverter(R.string.susi_license_information_desc)
+        susi_report_issues_desc.text = htmlConverter(R.string.susi_report_issues_desc)
 
 
         about_susi.setOnClickListener{
