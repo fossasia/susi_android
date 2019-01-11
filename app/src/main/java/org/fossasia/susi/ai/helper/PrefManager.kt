@@ -57,7 +57,7 @@ object PrefManager {
         get() = if (hasTokenExpired()) null else getString(Constant.ACCESS_TOKEN, null)
 
     private val context: Context
-        get() = MainApplication.instance?.applicationContext!!
+        get() = MainApplication.instance.applicationContext
 
     /**
      * Clear prefs.

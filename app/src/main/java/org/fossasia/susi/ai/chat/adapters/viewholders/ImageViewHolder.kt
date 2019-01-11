@@ -45,10 +45,12 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
         if (model != null) {
             imageURL = model.content
             try {
-                Picasso.get()
-                        .load(imageURL)
-                        .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)!!)
-                        .into(imageView)
+                ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)?.let {
+                    Picasso.get()
+                            .load(imageURL)
+                            .placeholder(it)
+                            .into(imageView)
+                }
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -83,7 +85,7 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
             Timber.d("%s %s", model?.isPositiveRated, model?.isNegativeRated)
             if (model != null && !model.isPositiveRated && !model.isNegativeRated) {
                 thumbsUp.setImageResource(R.drawable.thumbs_up_solid)
-                rateSusiSkill(Constant.POSITIVE, model.skillLocation!!, itemView.context)
+                model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, itemView.context) }
                 setRating(true, true)
             }
         }
@@ -92,7 +94,7 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
             Timber.d("%s %s", model?.isPositiveRated, model?.isNegativeRated)
             if (model != null && !model.isPositiveRated && !model.isNegativeRated) {
                 thumbsDown.setImageResource(R.drawable.thumbs_down_solid)
-                rateSusiSkill(Constant.NEGATIVE, model.skillLocation!!, itemView.context)
+                model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, itemView.context) }
                 setRating(true, false)
             }
         }

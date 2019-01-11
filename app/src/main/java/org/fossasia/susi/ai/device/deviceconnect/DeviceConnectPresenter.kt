@@ -207,7 +207,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
-        deviceModel.sendAuthCredentials(SpeakerAuth("y", email!!, password), this@DeviceConnectPresenter)
+        email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
     }
 
 }

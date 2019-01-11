@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills
 
 import android.content.Context
 import android.content.Intent
+import android.hardware.input.InputManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -132,19 +133,19 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
         if (isSearchOpened) { //test if the search is open
             hideSoftKeyboard(this, window.decorView)
-            action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true) //show the title in the action bar
+            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
             //add the search icon in the action bar
             mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         } else { //open the search entry
 
-            action!!.setDisplayShowCustomEnabled(true) //enable it to display a
+            action?.setDisplayShowCustomEnabled(true) //enable it to display a
             // custom view in the action bar.
-            action.setCustomView(R.layout.search_bar)//add the custom view
-            action.setDisplayShowTitleEnabled(false) //hide the title
+            action?.setCustomView(R.layout.search_bar)//add the custom view
+            action?.setDisplayShowTitleEnabled(false) //hide the title
 
-            edtSearch = action.customView.findViewById(R.id.edtSearch) as EditText //the text editor
+            edtSearch = action?.customView?.findViewById(R.id.edtSearch) //the text editor
 
             //this is a listener to do a search when users enters query in editText
             edtSearch?.addTextChangedListener(object : TextWatcher {
@@ -233,8 +234,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         hideSoftKeyboard(this, window.decorView)
         if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
-            action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true)
+            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action?.setDisplayShowTitleEnabled(true)
             mSearchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
             isSearchOpened = false
         }

@@ -213,8 +213,9 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
     }
 
     override fun getItemCount(): Int {
-        return if (data != null && data!!.isValid) {
-            data!!.size + 1
+        val data = data
+        return if (data != null && data.isValid) {
+            data.size + 1
         } else 0
     }
 
@@ -244,26 +245,26 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ChatViewHolder) {
-            holder.setView(data!![position], getItemViewType(position), currContext)
+            holder.setView(data?.get(position), getItemViewType(position), currContext)
         } else if (holder is MapViewHolder) {
-            holder.setView(data!![position], currContext)
+            holder.setView(data?.get(position), currContext)
         } else if (holder is YoutubeVideoViewHolder) {
-            holder.setPlayerView(data!![position])
+            holder.setPlayerView(data?.get(position))
         } else if (holder is PieChartViewHolder) {
-            holder.setView(data!![position])
+            holder.setView(data?.get(position))
         } else if (holder is TableViewHolder) {
-            holder.setView(data!![position])
+            holder.setView(data?.get(position))
         } else if (holder is LinkPreviewViewHolder) {
             setOnLinkLongClickListener(position, holder)
-            holder.setView(data!![position], getItemViewType(position), currContext)
+            data?.get(position)?.let { holder.setView(it, getItemViewType(position), currContext) }
         } else if (holder is SearchResultsListHolder && getItemViewType(position) == SEARCH_RESULT) {
-            holder.setView(data!![position], false, currContext)
+            holder.setView(data?.get(position), false, currContext)
         } else if (holder is SearchResultsListHolder && getItemViewType(position) == WEB_SEARCH) {
-            holder.setView(data!![position], true, currContext)
+            holder.setView(data?.get(position), true, currContext)
         } else if (holder is DateViewHolder) {
-            holder.textDate.text = data!![position].date
+            holder.textDate.text = data?.get(position)?.date
         } else if (holder is ImageViewHolder) {
-            holder.setView(data!![position])
+            holder.setView(data?.get(position))
         }
     }
 
@@ -305,8 +306,10 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
      * Scroll to bottom
      */
     private fun scrollToBottom() {
-        if (data != null && !data!!.isEmpty() && recyclerView != null) {
-            recyclerView!!.smoothScrollToPosition(itemCount - 1)
+        val data = data
+        val recyclerView = recyclerView
+        if (data != null && !data.isEmpty() && recyclerView != null) {
+            recyclerView.smoothScrollToPosition(itemCount - 1)
         }
     }
 
@@ -343,7 +346,8 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
     override fun onItemLongClicked(position: Int): Boolean {
         val holder = recyclerView?.findViewHolderForAdapterPosition(position)
         val viewType = getItemViewType(position)
-        setBackGroundColor(holder!!, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE)
+        if (holder != null)
+            setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE)
 
         val optionList = ArrayList<Pair<String, Drawable>>()
         optionList.add(Pair("Copy", currContext.resources.getDrawable(R.drawable.ic_content_copy_white_24dp)))
@@ -355,7 +359,8 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
         dialog.setCancelable(true)
 
         dialog.setAdapter(arrayAdapter) { _, which ->
-            setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE)
+            if (holder != null)
+                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE)
             when (which) {
                 0 -> {
                     setClipboard(getItem(position)?.content)
@@ -367,7 +372,10 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
             }
         }
 
-        dialog.setOnCancelListener { setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE) }
+        dialog.setOnCancelListener {
+            if (holder != null)
+                setBackGroundColor(holder, false, viewType == USER_WITHLINK || viewType == USER_MESSAGE)
+        }
 
         val alert = dialog.create()
         val lp = WindowManager.LayoutParams()
@@ -375,7 +383,7 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
         lp.width = 500
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
         alert.show()
-        alert.window!!.attributes = lp
+        alert.window?.attributes = lp
         return true
     }
 
