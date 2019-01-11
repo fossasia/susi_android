@@ -131,7 +131,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val action = supportActionBar //get the actionbar
 
         if (isSearchOpened) { //test if the search is open
-
+            hideSoftKeyboard(this, window.decorView)
             action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action.setDisplayShowTitleEnabled(true) //show the title in the action bar
             //add the search icon in the action bar
