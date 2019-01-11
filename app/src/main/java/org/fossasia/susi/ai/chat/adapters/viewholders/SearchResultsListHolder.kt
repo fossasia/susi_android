@@ -44,8 +44,8 @@ class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                 val webSearchList = model.webSearchList
                 if (webSearchList == null || webSearchList.size == 0) {
                     val apiService = WebSearchClient.retrofit.create(WebSearchService::class.java)
-                    val call = apiService.getResult(webquery!!)
-                    call.enqueue(object : Callback<WebSearch> {
+                    val call = webquery?.let { apiService.getResult(it) }
+                    call?.enqueue(object : Callback<WebSearch> {
                         override fun onResponse(call: Call<WebSearch>, response: Response<WebSearch>) {
                             Timber.e(response.toString())
                             if (response.body() != null) {
@@ -63,10 +63,10 @@ class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                                             val realm = Realm.getDefaultInstance()
                                             val webSearch = realm.createObject(WebSearchModel::class.java)
                                             try {
-                                                val tempStr = htmlText!!.split("\">".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                                                val tempStr2 = tempStr[tempStr.size - 1].split("</a>".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                                                webSearch.headline = tempStr2[0]
-                                                webSearch.body = tempStr2[tempStr2.size - 1]
+                                                val tempStr = htmlText?.split("\">".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
+                                                val tempStr2 = tempStr?.get(tempStr.size - 1)?.split("</a>".toRegex())?.dropLastWhile { it.isEmpty() }?.toTypedArray()
+                                                webSearch.headline = tempStr2?.get(0)
+                                                webSearch.body = tempStr2?.get(tempStr2.size - 1)
                                             } catch (e: Exception) {
                                                 webSearch.body = text
                                                 webSearch.headline = webquery

@@ -35,7 +35,7 @@ class GroupWiseSkillsPresenter(val groupWiseSkillsFragment: GroupWiseSkillsFragm
         groupWiseSkillsView?.visibilityProgressBar(false)
         if (response.isSuccessful && response.body() != null) {
             Timber.d("GROUP WISE SKILLS FETCHED")
-            val responseSkillList = response.body()!!.filteredSkillsData
+            val responseSkillList = response.body()?.filteredSkillsData
             if (responseSkillList != null && responseSkillList.isNotEmpty()) {
                 skills.skillsList.clear()
                 skills.skillsList = responseSkillList as MutableList<SkillData>

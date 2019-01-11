@@ -103,17 +103,20 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
     override fun initiateHotwordDetection() {
         if (BuildConfig.FLAVOR.equals("fdroid"))
             return
-        if (chatView!!.checkPermission(utilModel.permissionsToGet()[2]) &&
-                chatView!!.checkPermission(utilModel.permissionsToGet()[1])) {
-            if (utilModel.isArmDevice() && utilModel.checkMicInput()) {
-                utilModel.copyAssetstoSD()
-                chatView?.initHotword()
-                startHotwordDetection()
-            } else {
-                utilModel.putBooleanPref(R.string.hotword_detection_key, false)
-                if (utilModel.getBooleanPref(R.string.notify_user_key, true)) {
-                    chatView?.showToast(utilModel.getString(R.string.error_hotword))
-                    utilModel.putBooleanPref(R.string.notify_user_key, false)
+        val view = chatView
+        if (view != null) {
+            if (view.checkPermission(utilModel.permissionsToGet()[2]) &&
+                    view.checkPermission(utilModel.permissionsToGet()[1])) {
+                if (utilModel.isArmDevice() && utilModel.checkMicInput()) {
+                    utilModel.copyAssetstoSD()
+                    chatView?.initHotword()
+                    startHotwordDetection()
+                } else {
+                    utilModel.putBooleanPref(R.string.hotword_detection_key, false)
+                    if (utilModel.getBooleanPref(R.string.notify_user_key, true)) {
+                        chatView?.showToast(utilModel.getString(R.string.error_hotword))
+                        utilModel.putBooleanPref(R.string.notify_user_key, false)
+                    }
                 }
             }
         }

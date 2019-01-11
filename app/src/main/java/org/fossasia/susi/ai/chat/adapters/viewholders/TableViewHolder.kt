@@ -130,11 +130,11 @@ class TableViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
                 if (!response.isSuccessful || response.body() == null) {
                     when (polarity) {
                         Constant.POSITIVE -> {
-                            thumbsUp!!.setImageResource(R.drawable.thumbs_up_outline)
+                            thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
                             setRating(false, true)
                         }
                         Constant.NEGATIVE -> {
-                            thumbsDown!!.setImageResource(R.drawable.thumbs_down_outline)
+                            thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
                             setRating(false, false)
                         }
                     }
@@ -148,11 +148,11 @@ class TableViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
                 Timber.d(t)
                 when (polarity) {
                     Constant.POSITIVE -> {
-                        thumbsUp!!.setImageResource(R.drawable.thumbs_up_outline)
+                        thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
                         setRating(false, true)
                     }
                     Constant.NEGATIVE -> {
-                        thumbsDown!!.setImageResource(R.drawable.thumbs_down_outline)
+                        thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
                         setRating(false, false)
                     }
                 }

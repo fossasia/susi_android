@@ -32,7 +32,7 @@ class WebSearchAdapter(private val context: Context, private val searchResults: 
         holder.descriptionTextView.visibility = View.GONE
         holder.titleTextView.visibility = View.GONE
         holder.previewImageView.visibility = View.GONE
-        val webSearch = searchResults!![position]
+        val webSearch = searchResults?.get(position)
         if (webSearch != null) {
             val title = webSearch.headline
             val text = webSearch.body

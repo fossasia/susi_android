@@ -51,10 +51,11 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onGroupFetchSuccess(response: Response<ListGroupsResponse>) {
-        if (response.isSuccessful && response.body() != null) {
+        val groupsResponse = response.body()
+        if (response.isSuccessful && groupsResponse != null) {
             Timber.d("GROUPS FETCHED")
-            groupsCount = response.body()!!.groups.size
-            metrics.groups = response.body()!!.groups as MutableList<String>
+            groupsCount = groupsResponse.groups.size
+            metrics.groups = groupsResponse.groups as MutableList<String>
             skillListingView?.updateAdapter(metrics)
         } else {
             Timber.d("GROUPS NOT FETCHED")
@@ -69,10 +70,11 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
+        val skillsResponse = response.body()
         skillListingView?.visibilityProgressBar(false)
-        if (response.isSuccessful && response.body() != null) {
+        if (response.isSuccessful && skillsResponse != null) {
             Timber.d("SKILLS FETCHED")
-            val responseSkillMap = response.body()!!.filteredSkillsData
+            val responseSkillMap = skillsResponse.filteredSkillsData
             if (responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
             }
@@ -93,10 +95,11 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onSkillMetricsFetchSuccess(response: Response<ListSkillMetricsResponse>) {
+        val skillsMetricsResponse = response.body()
         skillListingView?.visibilityProgressBar(false)
-        if (response.isSuccessful && response.body() != null) {
+        if (response.isSuccessful && skillsMetricsResponse != null) {
             Timber.d("METRICS FETCHED")
-            metricsData = response.body()!!.metrics
+            metricsData = skillsMetricsResponse.metrics
             if (metricsData != null) {
                 metrics.metricsList.clear()
                 metrics.metricsGroupTitles.clear()
