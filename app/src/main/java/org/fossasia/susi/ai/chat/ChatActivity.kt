@@ -422,11 +422,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun scrollToEnd(view: View) {
-        rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter!!.itemCount - 1)
+        rv_chat_feed.adapter?.itemCount?.minus(1)?.let { rv_chat_feed.smoothScrollToPosition(it) }
     }
 
-    fun openSettings(view: View) {
-        val i = Intent(this, SkillsActivity::class.java)
+    fun openSettings(view: View) { val i = Intent(this, SkillsActivity::class.java)
         startActivity(i)
         finish()
     }

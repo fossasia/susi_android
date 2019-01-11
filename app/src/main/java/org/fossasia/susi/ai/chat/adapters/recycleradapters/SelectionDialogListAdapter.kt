@@ -42,8 +42,8 @@ class SelectionDialogListAdapter(context: Context, private val list: List<Pair<S
         }
 
         val holder = view.tag as ViewHolder
-        holder.option!!.text = list[position].first
-        holder.icon!!.setImageDrawable(list[position].second)
+        holder.option?.text = list[position].first
+        holder.icon?.setImageDrawable(list[position].second)
         return view
     }
 }

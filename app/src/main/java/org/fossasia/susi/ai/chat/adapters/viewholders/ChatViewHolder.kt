@@ -101,7 +101,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             Timber.d("%s %s", model.isPositiveRated, model.isNegativeRated)
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsUp?.setImageResource(R.drawable.thumbs_up_solid)
-                                rateSusiSkill(Constant.POSITIVE, model.skillLocation!!, context)
+                                model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, context) }
                                 setRating(true, true)
                             }
                         }
@@ -110,7 +110,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             Timber.d("%s %s", model.isPositiveRated, model.isNegativeRated)
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsDown?.setImageResource(R.drawable.thumbs_down_solid)
-                                rateSusiSkill(Constant.NEGATIVE, model.skillLocation!!, context)
+                                model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, context) }
                                 setRating(true, false)
                             }
                         }
@@ -144,11 +144,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                 if (!response.isSuccessful || response.body() == null) {
                     when (polarity) {
                         Constant.POSITIVE -> if (thumbsUp != null) {
-                            thumbsUp!!.setImageResource(R.drawable.thumbs_up_outline)
+                            thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
                             setRating(false, true)
                         }
                         Constant.NEGATIVE -> if (thumbsDown != null) {
-                            thumbsDown!!.setImageResource(R.drawable.thumbs_down_outline)
+                            thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
                             setRating(false, false)
                         }
                     }
@@ -160,11 +160,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                 Timber.e(t)
                 when (polarity) {
                     Constant.POSITIVE -> if (thumbsUp != null) {
-                        thumbsUp!!.setImageResource(R.drawable.thumbs_up_outline)
+                        thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
                         setRating(false, true)
                     }
                     Constant.NEGATIVE -> if (thumbsDown != null) {
-                        thumbsDown!!.setImageResource(R.drawable.thumbs_down_outline)
+                        thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
                         setRating(false, false)
                     }
                 }

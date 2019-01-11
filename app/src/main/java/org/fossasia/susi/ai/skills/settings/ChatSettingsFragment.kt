@@ -290,9 +290,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 .setPositiveButton(getString(R.string.ok), null)
         resetPasswordAlert = builder.create()
         resetPasswordAlert.show()
-        resetPasswordAlert.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
+        resetPasswordAlert.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
                 .LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-        resetPasswordAlert.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        resetPasswordAlert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         setupPasswordWatcher()
         resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             settingsPresenter.resetPassword(password.editText?.text.toString(), newPassword.editText?.text.toString(), conPassword.editText?.text.toString())

@@ -70,8 +70,8 @@ class LocationHelper
 
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (locationManager != null) {
-                    locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
-                    location = locationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
+                    location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                     if (location != null) {
                         source = "network"
                         canGetLocation = true
@@ -83,8 +83,8 @@ class LocationHelper
 
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (locationManager != null) {
-                    locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
-                    location = locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
+                    location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                     if (location != null) {
                         source = "gps"
                         canGetLocation = true
@@ -115,7 +115,7 @@ class LocationHelper
         val mContext = weakContext.get()
         if (mContext != null && locationManager != null) {
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager!!.removeUpdates(this)
+                locationManager?.removeUpdates(this)
             }
         }
     }
