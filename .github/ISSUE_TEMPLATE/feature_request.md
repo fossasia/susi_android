@@ -1,3 +1,9 @@
+---
+name: Feature request
+about: Suggest an feature for the project
+
+---
+
 **Describe the feature you'd like**
 
 <!-- A clear and concise description of what you want to happen.-->

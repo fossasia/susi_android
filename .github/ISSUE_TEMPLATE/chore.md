@@ -1,3 +1,9 @@
+---
+name: Chore
+about: Issues related to docs, workflow, dependency and others
+
+---
+
 **Describe the chore**
 
 <!--Please state here what you want to do.-->

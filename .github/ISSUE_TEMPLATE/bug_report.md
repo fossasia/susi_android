@@ -1,3 +1,9 @@
+---
+name: Bug report
+about: Create a bug report to help us improve
+
+---
+
 **Describe the bug**
 
 <!--Please state here what is currently happening.-->
