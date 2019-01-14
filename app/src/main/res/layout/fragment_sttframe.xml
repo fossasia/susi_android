@@ -11,7 +11,7 @@
         android:layout_margin="@dimen/margin_large"
         android:text="@string/how_can_i_help"
         android:textColor="@color/md_black_1000"
-        android:textSize="40sp" />
+        android:textSize="@dimen/text_size_extra_extra_large" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/linearLayout"
         android:layout_margin="@dimen/margin_large"
-        android:textSize="15sp"
+        android:textSize="@dimen/text_size_normal_medium"
         android:textColor="@color/md_black_1000"
         android:layout_centerInParent="true"/>
 </RelativeLayout>
