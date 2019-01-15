@@ -99,24 +99,24 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_moderate"
                 android:background="?selectableItemBackground"
                 android:paddingLeft="48dp"
                 android:text="@string/activity_login_forgot_pass"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 android:typeface="monospace"
-                android:paddingStart="48dp" />
+                android:paddingStart="@dimen/padding_extra_extra_large" />
 
             <TextView
                 android:id="@+id/skip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_moderate"
                 android:background="?selectableItemBackground"
                 android:text="@string/activity_login_skip"
-                android:textSize="16sp"
+                android:textSize="@dimen/text_size_medium"
                 android:textStyle="bold"
                 android:typeface="monospace" />
 
@@ -125,12 +125,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10sp"
+                android:layout_marginBottom="@dimen/margin_small_medium"
+                android:layout_marginTop="@dimen/margin_moderate"
                 android:background="?selectableItemBackground"
                 android:gravity="center"
                 android:text="@string/activity_login_sign_up"
-                android:textSize="18sp"
+                android:textSize="@dimen/text_size_moderate"
                 android:textStyle="bold" />
 
         </LinearLayout>
