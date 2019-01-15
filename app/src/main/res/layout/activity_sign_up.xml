@@ -72,7 +72,7 @@
             android:id="@+id/customServerSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/margin_small_medium"
             android:text="@string/custom_server" />
 
         <android.support.design.widget.TextInputLayout

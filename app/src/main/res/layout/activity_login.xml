@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/margin_extremely_large"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/margin_top"
             android:contentDescription="@string/activity_login_imageview_description"
             app:srcCompat="@drawable/ic_susi_blue" />
 
@@ -60,7 +60,7 @@
             android:id="@+id/customServer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/margin_bottom"
             android:text="@string/custom_server" />
 
         <android.support.design.widget.TextInputLayout
