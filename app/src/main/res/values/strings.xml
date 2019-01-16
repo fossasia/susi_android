@@ -50,6 +50,9 @@
     <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
     <string name="password_invalid_title">Invalid Password</string>
 
+    <string name="email_not_registered">The email you entered is not registered with us. Please try again.</string>
+    <string name="email_not_registered_title">Email Registration</string>
+
     <string name="search">Search</string>
 
     <string name="select_background">Select background</string>
