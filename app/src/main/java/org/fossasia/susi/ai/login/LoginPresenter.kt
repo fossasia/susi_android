@@ -140,6 +140,10 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
             loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.invalid_credentials_title),
                     utilModel.getString(R.string.invalid_credentials))
+        } else if (response.code() == 401) {
+            loginView?.showProgress(false)
+            loginView?.onLoginError(utilModel.getString(R.string.email_not_registered_title),
+                    utilModel.getString(R.string.email_not_registered))
         } else {
             loginView?.showProgress(false)
             loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error),
