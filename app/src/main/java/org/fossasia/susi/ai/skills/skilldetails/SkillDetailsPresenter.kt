@@ -8,7 +8,11 @@ import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.NetworkUtils
-import org.fossasia.susi.ai.rest.responses.susi.*
+import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
+import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import retrofit2.Response

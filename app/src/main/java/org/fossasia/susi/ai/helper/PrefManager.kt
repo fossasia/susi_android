@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.helper
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
 import com.google.gson.Gson
@@ -58,7 +57,7 @@ object PrefManager {
         get() = if (hasTokenExpired()) null else getString(Constant.ACCESS_TOKEN, null)
 
     private val context: Context
-        get() = MainApplication.instance?.applicationContext!!
+        get() = MainApplication.instance.applicationContext
 
     /**
      * Clear prefs.

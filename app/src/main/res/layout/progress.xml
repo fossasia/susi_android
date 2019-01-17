@@ -8,9 +8,9 @@
 
     <ProgressBar
         android:id="@+id/loader"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="5dp"
+        android:layout_width="@dimen/width_large"
+        android:layout_height="@dimen/height_large"
+        android:layout_marginEnd="@dimen/margin_small_medium"
         tools:ignore="RtlCompat" />
 
     <TextView

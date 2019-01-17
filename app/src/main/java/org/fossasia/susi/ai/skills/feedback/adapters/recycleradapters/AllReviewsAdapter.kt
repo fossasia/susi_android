@@ -7,12 +7,9 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewHolder
-import org.w3c.dom.Text
 
 /**
  *

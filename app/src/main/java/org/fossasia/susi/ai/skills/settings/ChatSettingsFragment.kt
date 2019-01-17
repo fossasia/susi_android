@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.ActivityCompat
@@ -259,7 +258,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             flag = true
         }
         customerServer.isChecked = flag
-        inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null))
+        inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, ""))
         customerServer.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked)
                 inputUrl.visibility = View.VISIBLE
@@ -291,9 +290,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 .setPositiveButton(getString(R.string.ok), null)
         resetPasswordAlert = builder.create()
         resetPasswordAlert.show()
-        resetPasswordAlert.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
+        resetPasswordAlert.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
                 .LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-        resetPasswordAlert.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        resetPasswordAlert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         setupPasswordWatcher()
         resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             settingsPresenter.resetPassword(password.editText?.text.toString(), newPassword.editText?.text.toString(), conPassword.editText?.text.toString())

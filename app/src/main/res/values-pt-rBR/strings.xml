@@ -41,6 +41,8 @@
     <string name="exit">Pressione novamente para sair</string>
     <string name="message_copied">Mensagem Copiada</string>
     <string name="error_cancelling_signUp_process_text">Você tem certeza, quer para o processo de registro? Você não pode usar o paa Susi sem uma conta.</string>
+    <string name="email_not_registered">O e-mail que você digitou não está registrado conosco. Por favor, tente novamente.</string>
+    <string name="email_not_registered_title">Registro de email</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Enviar mensagem clicando no Enter do teclado</string>

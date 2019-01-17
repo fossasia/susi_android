@@ -32,6 +32,8 @@
     <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
     <string name="hotword_detection_key" translatable="false">hotword_detection</string>
     <string name="notify_user_key" translatable="false">notify_user</string>
+    <string name="email_not_registered">El correo electrónico que ha introducido no se ha registrado con nosotros. Inténtalo de nuevo.</string>
+    <string name="email_not_registered_title">registro de email</string>
 
     <string name="signup">Gracias por registrarte</string>
     <string name="signup_msg">Hemos enviado un correo electrónico a la dirección que proporcionó. Por favor, utilice el

@@ -14,14 +14,14 @@
         android:id="@+id/customer_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="@dimen/margin_small_medium"
         android:text="@string/custom_server" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_moderate"
         android:visibility="gone"
         app:errorEnabled="true">
 

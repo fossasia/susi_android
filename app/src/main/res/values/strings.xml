@@ -50,6 +50,9 @@
     <string name="password_invalid">The password you entered is incorrect. Please try again.</string>
     <string name="password_invalid_title">Invalid Password</string>
 
+    <string name="email_not_registered">The email you entered is not registered with us. Please try again.</string>
+    <string name="email_not_registered_title">Email Registration</string>
+
     <string name="search">Search</string>
 
     <string name="select_background">Select background</string>
@@ -290,7 +293,7 @@
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues"><font color='#4184f3'>Github Repository Issue Tracker</font></a>.</string>
 
     <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">http://www.skills.susi.ai</string>
+    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><font color='#4184f3'>skills.susi.ai</font></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
 
     <!-- Intro Strings -->

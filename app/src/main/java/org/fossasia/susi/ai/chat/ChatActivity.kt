@@ -34,7 +34,11 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.activity_chat.askSusiMessage
+import kotlinx.android.synthetic.main.activity_chat.rv_chat_feed
+import kotlinx.android.synthetic.main.activity_chat.btnSpeak
+import kotlinx.android.synthetic.main.activity_chat.btnScrollToEnd
+import kotlinx.android.synthetic.main.activity_chat.coordinator_layout
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -44,7 +48,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.skills.SkillsActivity
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 
 /**
  * The Chat Activity. Does all the main processes including
@@ -418,11 +422,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun scrollToEnd(view: View) {
-        rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter!!.itemCount - 1)
+        rv_chat_feed.adapter?.itemCount?.minus(1)?.let { rv_chat_feed.smoothScrollToPosition(it) }
     }
 
-    fun openSettings(view: View) {
-        val i = Intent(this, SkillsActivity::class.java)
+    fun openSettings(view: View) { val i = Intent(this, SkillsActivity::class.java)
         startActivity(i)
         finish()
     }

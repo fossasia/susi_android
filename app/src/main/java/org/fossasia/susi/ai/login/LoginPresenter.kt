@@ -135,11 +135,15 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
             utilModel.saveAnonymity(false)
             loginModel.getUserSetting(this)
 
-            message = response.body()!!.message.toString()
+            message = response.body()?.message.toString()
         } else if (response.code() == 422) {
             loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.invalid_credentials_title),
                     utilModel.getString(R.string.invalid_credentials))
+        } else if (response.code() == 401) {
+            loginView?.showProgress(false)
+            loginView?.onLoginError(utilModel.getString(R.string.email_not_registered_title),
+                    utilModel.getString(R.string.email_not_registered))
         } else {
             loginView?.showProgress(false)
             loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error),
@@ -150,9 +154,9 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
     override fun onSuccessSetting(response: Response<UserSetting>) {
 
         loginView?.showProgress(false)
-
-        if (response.isSuccessful && response.body() != null) {
-            val settings: Settings? = response.body()!!.settings
+        val userSetting = response.body()
+        if (response.isSuccessful && userSetting != null) {
+            val settings: Settings? = userSetting.settings
 
             if (settings != null) {
                 utilModel.putBooleanPref(R.string.settings_enterPreference_key, settings.enterSend)
