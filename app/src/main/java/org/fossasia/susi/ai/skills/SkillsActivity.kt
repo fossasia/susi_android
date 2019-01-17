@@ -57,6 +57,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
+        supportFragmentManager.addOnBackStackChangedListener {
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                currentFragment?.onResume()
+            }
 
     }
 
@@ -83,10 +87,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             super.onBackPressed()
             backHandler(this)
             overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-            supportFragmentManager.addOnBackStackChangedListener {
-                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-                currentFragment?.onResume()
-            }
         } else {
             val action = supportActionBar
             action?.setDisplayShowCustomEnabled(false)
