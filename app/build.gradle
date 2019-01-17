@@ -132,6 +132,9 @@ dependencies {
     //Youtube API
     playStoreImplementation files('libs/YouTubeAndroidPlayerApi.jar')
 
+    //Shimmer effect
+    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+
     //Timber
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
 

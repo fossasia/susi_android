@@ -12,7 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
 import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
-import kotlinx.android.synthetic.main.fragment_skill_listing.progressSkillWait
+import kotlinx.android.synthetic.main.fragment_skill_listing.shimmerSearch
 import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch;
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
@@ -65,7 +65,13 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        if (boolean) progressSkillWait.visibility = View.VISIBLE else progressSkillWait.visibility = View.GONE
+        if (boolean) {
+            shimmerSearch.visibility = View.VISIBLE
+            shimmerSearch.startShimmer()
+        } else {
+            shimmerSearch.stopShimmer()
+            shimmerSearch.visibility = View.GONE
+        }
     }
 
     override fun displayError() {
