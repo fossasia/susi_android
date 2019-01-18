@@ -553,6 +553,7 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
             for(i in 0..(c-1)){
                 permissionToGet[i] = permissionsGranted[i]
             }
+
             chatView?.askForPermission(permissionToGet)
         }
 
