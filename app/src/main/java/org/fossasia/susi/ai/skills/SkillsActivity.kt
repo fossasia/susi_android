@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.skills
 
 import android.content.Context
 import android.content.Intent
-import android.hardware.input.InputManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -62,6 +61,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 currentFragment?.onResume()
             }
 
+        supportFragmentManager.addOnBackStackChangedListener {
+            invalidateOptionsMenu()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -209,6 +211,11 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         mSearchAction = menu?.findItem(R.id.action_search)
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        when (currentFragment) {
+            is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
+            else -> menu?.setGroupVisible(R.id.menu_items, false)
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 
