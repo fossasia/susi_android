@@ -64,6 +64,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         supportFragmentManager.addOnBackStackChangedListener {
             invalidateOptionsMenu()
         }
+
+        skills = skillFragment.skills
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
