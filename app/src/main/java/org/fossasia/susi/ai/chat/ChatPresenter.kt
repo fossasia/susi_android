@@ -27,7 +27,7 @@ import timber.log.Timber
 import java.util.LinkedList
 import java.util.Locale
 import java.util.TimeZone
-import java.util.Date;
+import java.util.Date
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.HashMap
 
@@ -549,7 +549,11 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         }
 
         if (c > 0) {
-            chatView?.askForPermission(permissionsGranted)
+            val permissionToGet = arrayOfNulls<String>(c)
+            for(i in 0..(c-1)){
+                permissionToGet[i] = permissionsGranted[i]
+            }
+            chatView?.askForPermission(permissionToGet)
         }
 
         if (!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
