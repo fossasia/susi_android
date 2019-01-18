@@ -123,6 +123,7 @@
             android:gravity="center"
             android:text="@string/activity_login_sign_up"
             android:textSize="@dimen/text_size_medium"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:typeface="monospace" />
     </LinearLayout>
 </ScrollView>
