@@ -52,8 +52,10 @@ class DatabaseRepository : IDatabaseRepository {
                 query, Case.INSENSITIVE).findAll()
     }
 
-    override fun updateDatabase(chatArgs: ChatArgs,
-                                listener: IDatabaseRepository.OnDatabaseUpdateListener) {
+    override fun updateDatabase(
+        chatArgs: ChatArgs,
+        listener: IDatabaseRepository.OnDatabaseUpdateListener
+    ) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
         listener.updateMessageCount()

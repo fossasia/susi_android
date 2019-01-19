@@ -42,7 +42,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
     /**
      * Inflate ChatView
      *
-     * @param model    the ChatMessage object
+     * @param model the ChatMessage object
      * @param viewType the viewType
      */
     fun setView(model: ChatMessage?, viewType: Int, context: Context) {
@@ -119,7 +119,6 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
         }
     }
 
@@ -170,7 +169,6 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 }

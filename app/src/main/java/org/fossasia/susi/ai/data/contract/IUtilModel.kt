@@ -30,5 +30,4 @@ interface IUtilModel {
     fun isArmDevice(): Boolean
     fun setLanguage(language: String)
     fun clearPrefs()
-
 }

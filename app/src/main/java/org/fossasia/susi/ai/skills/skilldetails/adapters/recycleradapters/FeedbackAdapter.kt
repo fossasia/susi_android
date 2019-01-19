@@ -62,7 +62,6 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                             } else {
                                 holder.feedbackDate.text = ""
                             }
-
                         }
                         if (feedbackResponse.feedbackList[position].feedback != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {

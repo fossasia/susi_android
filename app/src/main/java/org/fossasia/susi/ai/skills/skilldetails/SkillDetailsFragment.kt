@@ -490,7 +490,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
                 updateFeedback()
                 setFeedback()
-
             }
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE

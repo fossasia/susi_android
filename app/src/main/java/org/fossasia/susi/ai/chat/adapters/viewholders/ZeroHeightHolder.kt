@@ -11,5 +11,4 @@ import kotterknife.bindView
 class ZeroHeightHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val chatMessage: RelativeLayout by bindView(R.id.chatMessageView)
-
 }

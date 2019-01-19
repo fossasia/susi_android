@@ -172,5 +172,4 @@ class TableViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
         }
         realm.commitTransaction()
     }
-
 }

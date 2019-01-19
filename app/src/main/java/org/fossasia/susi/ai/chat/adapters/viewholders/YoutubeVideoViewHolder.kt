@@ -7,7 +7,6 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.IYoutubeVid
 import org.fossasia.susi.ai.chat.YoutubeVid
 import org.fossasia.susi.ai.data.model.ChatMessage
 
@@ -38,7 +37,6 @@ class YoutubeVideoViewHolder(view: View, clickListener: MessageViewHolder.ClickL
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
         }
 
         val youtubeVid = YoutubeVid(itemView.context)

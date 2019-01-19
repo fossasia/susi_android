@@ -178,7 +178,6 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         loginView?.onLoginSuccess(message)
     }
 
-
     override fun onDetach() {
         loginView = null
     }
@@ -233,5 +232,4 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
     override fun cancelSignup() {
         forgotPasswordModel.cancelSignup()
     }
-
 }

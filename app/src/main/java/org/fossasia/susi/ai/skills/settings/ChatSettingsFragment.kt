@@ -28,7 +28,6 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 
-
 /**
  * The Fragment for Settings Activity
  *
@@ -61,7 +60,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
     private var flag = true
-    private val packageName = "ai.susi";
+    private val packageName = "ai.susi"
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
 
@@ -371,7 +370,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!hasFocus)
                 settingsPresenter.checkForPassword(conPassword.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
         }
-
     }
 
     override fun onDestroyView() {
