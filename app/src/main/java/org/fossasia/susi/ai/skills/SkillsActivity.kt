@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.skills
 
 import android.content.Context
 import android.content.Intent
-import android.hardware.input.InputManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -16,7 +15,6 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
-import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
@@ -57,11 +55,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
-        supportFragmentManager.addOnBackStackChangedListener {
-                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-                currentFragment?.onResume()
-            }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -70,29 +63,22 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return true
     }
 
-    private fun backHandler(context: Context) {
-        val lastFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
-
-        if (lastFragment == null) {
-            finish()
-            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-            val intent = Intent(context, ChatActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-        }
+    private fun exitActivity(context: Context) {
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        val intent = Intent(context, ChatActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
     }
 
     override fun onBackPressed() {
-        if (!isSearchOpened) {
-            super.onBackPressed()
-            backHandler(this)
-            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        if (supportFragmentManager.popBackStackImmediate(TAG_SKILLS_FRAGMENT, 0)) {
+            title = getString(R.string.skills_activity)
+        } else if (supportFragmentManager.popBackStackImmediate(TAG_GROUP_WISE_SKILLS_FRAGMENT, 0)) {
+            title = getString(R.string.skills_activity)
         } else {
-            val action = supportActionBar
-            action?.setDisplayShowCustomEnabled(false)
-            action?.setDisplayShowTitleEnabled(true)
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
-            isSearchOpened = false
+            finish()
+            exitActivity(this)
         }
     }
 
@@ -132,20 +118,20 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val action = supportActionBar //get the actionbar
 
         if (isSearchOpened) { //test if the search is open
-            hideSoftKeyboard(this, window.decorView)
-            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
+
+            action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action.setDisplayShowTitleEnabled(true) //show the title in the action bar
             //add the search icon in the action bar
             mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         } else { //open the search entry
 
-            action?.setDisplayShowCustomEnabled(true) //enable it to display a
+            action!!.setDisplayShowCustomEnabled(true) //enable it to display a
             // custom view in the action bar.
-            action?.setCustomView(R.layout.search_bar)//add the custom view
-            action?.setDisplayShowTitleEnabled(false) //hide the title
+            action.setCustomView(R.layout.search_bar)//add the custom view
+            action.setDisplayShowTitleEnabled(false) //hide the title
 
-            edtSearch = action?.customView?.findViewById(R.id.edtSearch) //the text editor
+            edtSearch = action.customView.findViewById(R.id.edtSearch) as EditText //the text editor
 
             //this is a listener to do a search when users enters query in editText
             edtSearch?.addTextChangedListener(object : TextWatcher {
@@ -212,7 +198,13 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
+    fun hideKeyboard() {
+        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (currentFocus != null)
+            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
+    }
+
+    override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()
@@ -231,11 +223,11 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     fun handleOnLoadingFragment() {
-        hideSoftKeyboard(this, window.decorView)
+        hideKeyboard()
         if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
-            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action?.setDisplayShowTitleEnabled(true)
+            action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action.setDisplayShowTitleEnabled(true)
             mSearchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
             isSearchOpened = false
         }
