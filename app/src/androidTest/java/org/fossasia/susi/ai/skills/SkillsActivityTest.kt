@@ -24,7 +24,6 @@ import java.io.IOException
 @LargeTest
 class SkillsActivityTest {
 
-
     @Rule
     @JvmField
     val mActivityRule = ActivityTestRule(SkillsActivity::class.java)

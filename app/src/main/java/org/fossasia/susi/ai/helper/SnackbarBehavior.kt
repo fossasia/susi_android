@@ -18,7 +18,7 @@ class SnackbarBehavior
 
  * @param context the context
  * *
- * @param attrs   the attrs
+ * @param attrs the attrs
  */
 (context: Context, attrs: AttributeSet) : CoordinatorLayout.Behavior<ViewGroup>(context, attrs) {
 

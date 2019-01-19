@@ -9,21 +9,21 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 
-
 interface DeviceApi {
 
     @GET("/wifi_credentials")
-    fun wifiCredentials(@Query("wifissid") ssid: String,
-                        @Query("wifipassd") pass: String): Call<SpeakerWifiResponse>
-
+    fun wifiCredentials(
+        @Query("wifissid") ssid: String,
+        @Query("wifipassd") pass: String
+    ): Call<SpeakerWifiResponse>
 
     @GET("/config")
     fun ttSSettings(@QueryMap query: Map<String, String>): Call<SpeakerConfigResponse>
 
-
     @GET("/auth")
-    fun authCredentials(@Query("choice") choice: String,
-                        @Query("email") email: String,
-                        @Query("password") password: String): Call<SpeakerAuthResponse>
-
+    fun authCredentials(
+        @Query("choice") choice: String,
+        @Query("email") email: String,
+        @Query("password") password: String
+    ): Call<SpeakerAuthResponse>
 }

@@ -179,8 +179,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
 
         askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
-            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
-                    && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
+            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend &&
+                    (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
                 val message = askSusiMessage.text.toString().trim({ it <= ' ' })
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
@@ -213,8 +213,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 if (bottom < oldBottom) {
                     rv_chat_feed.postDelayed({
                         val scroll = rv_chat_feed.adapter?.itemCount?.minus(1)
-                        val scrollTo:Int
-                        if (scroll != null){
+                        val scrollTo: Int
+                        if (scroll != null) {
                             scrollTo = if (scroll >= 0) scroll else 0
                             rv_chat_feed.scrollToPosition(scrollTo)
                         }
@@ -293,7 +293,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 audioFocus.abandonAudioFocus(afChangeListener)
             }
         }
-
     }
 
     fun enableVoiceInput() {
@@ -484,7 +483,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.stopHotwordDetection()
 
         textToSpeech?.stop()
-
     }
 
     override fun onDestroy() {
@@ -520,5 +518,4 @@ class ChatActivity : AppCompatActivity(), IChatView {
         Timber.d(videoId)
         youtubeVid.playYoutubeVid(videoId)
     }
-
 }

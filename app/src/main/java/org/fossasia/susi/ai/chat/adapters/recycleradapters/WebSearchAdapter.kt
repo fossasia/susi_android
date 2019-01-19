@@ -67,7 +67,6 @@ class WebSearchAdapter(private val context: Context, private val searchResults: 
                                 holder.previewImageView.visibility = View.GONE
                             }
                         })
-
             } else {
                 holder.previewImageView.visibility = View.GONE
             }
@@ -78,7 +77,7 @@ class WebSearchAdapter(private val context: Context, private val searchResults: 
             holder.previewLayout.setOnClickListener {
                 if (linkurl != null) {
                     val webpage = Uri.parse(linkurl)
-                    val builder = CustomTabsIntent.Builder()  //custom tabs intent builder
+                    val builder = CustomTabsIntent.Builder() //custom tabs intent builder
                     val customTabsIntent = builder.build()
                     customTabsIntent.launchUrl(context, webpage) //launching through custom tabs
                 }
@@ -90,4 +89,3 @@ class WebSearchAdapter(private val context: Context, private val searchResults: 
         return searchResults?.size ?: 0
     }
 }
-

@@ -19,8 +19,8 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillGroupV
 class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetrics, val skillCallback: SkillFragmentCallback) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(), SkillGroupViewHolder.ClickListener {
 
-    private val VIEW_TYPE_METRIC = 0;
-    private val VIEW_TYPE_GROUP = 1;
+    private val VIEW_TYPE_METRIC = 0
+    private val VIEW_TYPE_GROUP = 1
     private lateinit var skillAdapterSnapHelper: SnapHelper
 
     private val clickListener: SkillGroupViewHolder.ClickListener = this

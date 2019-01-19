@@ -75,7 +75,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
             // deviceConnectView?.unregister()
         }
-
     }
 
     override fun availableDevices(list: List<ScanResult>) {
@@ -136,7 +135,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
         override fun onPostExecute(result: Void?) {
             Timber.d("Connected")
-
         }
     }
 
@@ -209,5 +207,4 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
     }
-
 }

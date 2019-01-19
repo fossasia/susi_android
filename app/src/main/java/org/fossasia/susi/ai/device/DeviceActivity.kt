@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.device
 
-
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
@@ -8,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
-
 
 /*
 *   Created by batbrain7 on 20/06/18

@@ -35,7 +35,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
             if (skillData.image.isEmpty()) {
                 holder.previewImageView.setImageResource(R.drawable.ic_susi)
             } else {
-              Utils.setSkillsImage(skillData, holder.previewImageView)
+                Utils.setSkillsImage(skillData, holder.previewImageView)
             }
 
             if (skillData.skillRating != null) {

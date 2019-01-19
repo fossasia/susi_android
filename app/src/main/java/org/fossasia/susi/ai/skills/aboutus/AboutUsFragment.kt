@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.skills.aboutus
 
-
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.NonNull
@@ -18,12 +17,14 @@ import kotlinx.android.synthetic.main.fragment_about_us.susi_license_info_desc
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity
 
-
 class AboutUsFragment : Fragment() {
 
     @NonNull
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_about_us)
         val rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         setHasOptionsMenu(true)

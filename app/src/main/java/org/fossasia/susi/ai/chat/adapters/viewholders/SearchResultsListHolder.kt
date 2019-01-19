@@ -33,9 +33,9 @@ class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView
     /**
      * Inflate search_list
      *
-     * @param model          the ChatMessage object
+     * @param model the ChatMessage object
      * @param isClientSearch the boolean value to find client search type
-     * @param currContext    the Context
+     * @param currContext the Context
      */
     fun setView(model: ChatMessage?, isClientSearch: Boolean, currContext: Context) {
         if (isClientSearch) {
@@ -79,7 +79,6 @@ class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                                         } catch (e: Exception) {
                                             Timber.e(e)
                                         }
-
                                     }
                                 }
 

@@ -23,7 +23,6 @@ import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
-
 /**
  * <h1>The Skills activity.</h1>
  * <h2>This activity is used to display SUSI Skills in the app.</h2>
@@ -73,7 +72,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     private fun backHandler(context: Context) {
-        val lastFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val lastFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (lastFragment == null) {
             finish()

@@ -27,7 +27,7 @@ import timber.log.Timber
 import java.util.LinkedList
 import java.util.Locale
 import java.util.TimeZone
-import java.util.Date;
+import java.util.Date
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.HashMap
 
@@ -78,7 +78,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         chatView?.setupAdapter(databaseRepository.getAllMessages())
 
         getPermissions()
-
     }
 
     override fun checkPreferences() {
@@ -394,7 +393,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 data["device_type"] = deviceType
                 data["q"] = query
                 chatModel.getSusiMessage(data, this)
-
             } else run {
                 queueExecuting.set(false)
                 chatView?.hideWaitingDots()
@@ -471,7 +469,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                         // Play youtube video
                         identifier = psh.identifier
                         chatView?.playVideo(identifier)
-
                     } else if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = psh.answer
 

@@ -82,7 +82,6 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         this.email = email
         signUpView?.showProgress(true)
         signUpModel.signUp(email.trim({ it <= ' ' }).toLowerCase(), password, this)
-
     }
 
     override fun onError(throwable: Throwable) {
@@ -106,7 +105,6 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         if (response.isSuccessful && response.body() != null) {
             signUpView?.alertSuccess()
             signUpView?.clearField()
-
         } else {
             if (response.code() == 422) {
                 signUpView?.alertFailure()
@@ -180,5 +178,4 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
     override fun cancelSignup() {
         forgotPasswordModel.cancelSignup()
     }
-
 }

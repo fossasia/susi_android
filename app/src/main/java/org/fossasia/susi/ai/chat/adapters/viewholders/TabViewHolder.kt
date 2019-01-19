@@ -10,5 +10,4 @@ import kotterknife.bindView
 class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val view: RecyclerView by bindView(R.id.parentLayout)
-
 }

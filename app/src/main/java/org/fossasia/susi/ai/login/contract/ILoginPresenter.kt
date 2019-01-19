@@ -20,5 +20,4 @@ interface ILoginPresenter {
     fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean)
 
     fun cancelSignup()
-
 }

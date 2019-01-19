@@ -96,7 +96,6 @@ class LocationHelper
         } catch (e: Exception) {
             Timber.e(e)
         }
-
     }
 
     /**
