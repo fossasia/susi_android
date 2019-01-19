@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.widget.AppCompatCheckBox
-import android.view.Menu
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -217,16 +216,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 true
             }
         }
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val itemSettings = menu.findItem(R.id.menu_settings)
-        itemSettings.isVisible = false
-        val itemAbout = menu.findItem(R.id.menu_about)
-        itemAbout.isVisible = false
-        val searchoption = menu.findItem(R.id.action_search)
-        searchoption.isVisible = false
-        super.onPrepareOptionsMenu(menu)
     }
 
     private fun setLanguage() {
