@@ -25,7 +25,7 @@ object DateTimeHelper {
     val currentTime: String
         get() {
             val delegate = "hh:mm aaa"
-            return DateFormat.format(delegate, Calendar.getInstance().time) as String
+            return DateFormat.format(delegate, Calendar.getInstance().time).toString()
         }
 
     /**

@@ -67,7 +67,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainWifi = context?.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        deviceConnectPresenter = DeviceConnectPresenter(activity as DeviceActivity, mainWifi)
+        deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
         receiverWifi = WifiReceiver()
         deviceConnectPresenter.searchDevices()
@@ -99,19 +99,18 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun showLocationIntentDialog() {
-        val dialogBuilder = AlertDialog.Builder(activity as DeviceActivity)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setView(R.layout.select_dialog_item_material)
 
         dialogBuilder.setTitle(R.string.location_access)
         dialogBuilder.setMessage(R.string.location_access_message)
-        dialogBuilder.setPositiveButton(R.string.next, { dialog, whichButton ->
-
+        dialogBuilder.setPositiveButton(R.string.next) { _, _ ->
             val callGPSSettingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivityForResult(callGPSSettingIntent, REQUEST_LOCATION_ACCESS)
-        })
-        dialogBuilder.setNegativeButton(R.string.cancel, { dialog, whichButton ->
+        }
+        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
             dialog.dismiss()
-        }).show()
+        }?.show()
     }
 
     /**

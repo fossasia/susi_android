@@ -90,7 +90,7 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
     }
 
     override fun onItemClicked(position: Int) {
-        (context as Activity).overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        if (context is Activity) context.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, FeedbackActivity::class.java)
         intent.putExtra("feedbackResponse", feedbackResponse)
         context.startActivity(intent)

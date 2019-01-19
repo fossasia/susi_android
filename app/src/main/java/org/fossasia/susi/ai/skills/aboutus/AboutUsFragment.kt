@@ -25,7 +25,8 @@ class AboutUsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_about_us)
+        val thisActivity = activity
+        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_about_us)
         val rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         setHasOptionsMenu(true)
         return rootView
