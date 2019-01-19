@@ -23,7 +23,7 @@ class UtilModel(val context: Context) : IUtilModel {
     override fun saveToken(response: Response<LoginResponse>) {
         val loginResponse = response.body()
         if (loginResponse != null) {
-            PrefManager.putString(Constant.ACCESS_TOKEN, loginResponse.accessToken as String)
+            PrefManager.putString(Constant.ACCESS_TOKEN, loginResponse.accessToken)
             val validity = System.currentTimeMillis() + loginResponse.validSeconds * 1000
             PrefManager.putLong(Constant.TOKEN_VALIDITY, validity)
         }
@@ -63,7 +63,7 @@ class UtilModel(val context: Context) : IUtilModel {
     }
 
     override fun setCustomURL(url: String) {
-        PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url) as String)
+        PrefManager.putString(Constant.CUSTOM_SERVER, CredentialHelper.getValidURL(url))
     }
 
     override fun getString(id: Int): String {

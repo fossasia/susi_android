@@ -145,9 +145,10 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
                 return
             }
             if (CredentialHelper.isURLValid(url)) {
-                if (CredentialHelper.getValidURL(url) != null) {
+                val validUrl = CredentialHelper.getValidURL(url)
+                if (validUrl != null) {
                     utilModel.setServer(false)
-                    utilModel.setCustomURL(CredentialHelper.getValidURL(url) as String)
+                    utilModel.setCustomURL(validUrl)
                 } else {
                     signUpView?.invalidCredentials(false, Constant.INPUT_URL)
                     return

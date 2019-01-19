@@ -34,8 +34,8 @@ class SnackbarBehavior
     }
 
     override fun onDependentViewRemoved(parent: CoordinatorLayout, child: ViewGroup, dependency: View) {
-        val params = child.layoutParams as CoordinatorLayout.LayoutParams
-        params.bottomMargin = 0
+        val params = child.layoutParams
+        if (params is CoordinatorLayout.LayoutParams) params.bottomMargin = 0
         child.layoutParams = params
     }
 }

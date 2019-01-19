@@ -167,7 +167,7 @@ object PrefManager {
      * @param preferenceKey the preference key
      * @param preferenceValue the preference value
      */
-    fun putString(preferenceKey: String, preferenceValue: String) {
+    fun putString(preferenceKey: String, preferenceValue: String?) {
         preferences.edit().putString(preferenceKey, preferenceValue).apply()
     }
 

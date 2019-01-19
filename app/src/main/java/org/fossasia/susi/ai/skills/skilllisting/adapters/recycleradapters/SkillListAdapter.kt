@@ -38,11 +38,10 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
                 Utils.setSkillsImage(skillData, holder.previewImageView)
             }
 
-            if (skillData.skillRating != null) {
-                if (skillData.skillRating?.stars != null) {
-                    holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar as Float
-                    holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
-                }
+            val stars = skillData.skillRating?.stars
+            if (stars != null) {
+                holder.skillRatingBar.rating = stars.averageStar
+                holder.totalRatings.text = stars.totalStar.toString()
             }
         }
     }
