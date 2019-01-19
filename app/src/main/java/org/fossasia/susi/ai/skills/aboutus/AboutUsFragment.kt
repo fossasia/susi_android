@@ -7,6 +7,7 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -28,6 +29,16 @@ class AboutUsFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         setHasOptionsMenu(true)
         return rootView
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val itemAbout = menu.findItem(R.id.menu_about)
+        itemAbout.isVisible = false
+        val itemSettings = menu.findItem(R.id.menu_settings)
+        itemSettings.isVisible = false
+        val searchoption = menu.findItem(R.id.action_search)
+        searchoption.isVisible = false
+        super.onPrepareOptionsMenu(menu)
     }
 
     @NonNull
