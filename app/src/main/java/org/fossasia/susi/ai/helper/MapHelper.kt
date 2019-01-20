@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.helper
 
+import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.data.model.MapData
 
 /**
@@ -48,7 +49,7 @@ class MapHelper
     }
 
     companion object {
-        val MY_TOKEN="pk.eyJ1IjoibmlsMTIzIiwiYSI6ImNqcXVkMWl1aDA2dmc0Mm10ZjBiYjJ1ZnUifQ.C7pKaawp7pV4uG9rpY9GjQ" //create your own token by register on www.mapbox.com
+        var MY_TOKEN : String= BuildConfig.Static_Map_Api //create your own token by register on www.mapbox.com
         private const val BASE_URL = "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/"
         private var URL_SCHEME = BASE_URL + "%f,%f,%f/%sx%s?access_token="+ MY_TOKEN
         private const val MAP_URL = "https://www.openstreetmap.org/#map="
