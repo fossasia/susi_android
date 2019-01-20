@@ -6,11 +6,11 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class GetSkillFeedbackResponse(
-        val session: Session? = null,
-        val accepted: Boolean = false,
-        val message: String = "",
-        @SerializedName("feedback")
-        var feedbackList: List<Feedback> = ArrayList(),
-        @SerializedName("skill_name")
-        var skillName: String = ""
+    val session: Session? = null,
+    val accepted: Boolean = false,
+    val message: String = "",
+    @SerializedName("feedback")
+    var feedbackList: List<Feedback> = ArrayList(),
+    @SerializedName("skill_name")
+    var skillName: String = ""
 ) : Parcelable

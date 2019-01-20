@@ -178,7 +178,6 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         loginView?.onLoginSuccess(message)
     }
 
-
     override fun onDetach() {
         loginView = null
     }
@@ -200,9 +199,10 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
                 return
             }
             if (CredentialHelper.isURLValid(url)) {
-                if (CredentialHelper.getValidURL(url) != null) {
+                val validUrl = CredentialHelper.getValidURL(url)
+                if (validUrl != null) {
                     utilModel.setServer(false)
-                    utilModel.setCustomURL(CredentialHelper.getValidURL(url) as String)
+                    utilModel.setCustomURL(validUrl)
                 } else {
                     loginView?.invalidCredentials(false, Constant.INPUT_URL)
                     return
@@ -233,5 +233,4 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
     override fun cancelSignup() {
         forgotPasswordModel.cancelSignup()
     }
-
 }

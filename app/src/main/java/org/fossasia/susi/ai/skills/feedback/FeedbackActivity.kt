@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.skills.feedback
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_feedback.rvAllFeedback;
+import kotlinx.android.synthetic.main.activity_feedback.rvAllFeedback
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.adapters.recycleradapters.AllReviewsAdapter

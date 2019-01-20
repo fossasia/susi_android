@@ -31,7 +31,6 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_chat.askSusiMessage
@@ -46,6 +45,7 @@ import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.skills.SkillsActivity
 import timber.log.Timber
 import java.util.Locale
@@ -179,8 +179,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
 
         askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
-            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
-                    && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
+            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend &&
+                    (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
                 val message = askSusiMessage.text.toString().trim({ it <= ' ' })
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
@@ -213,8 +213,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 if (bottom < oldBottom) {
                     rv_chat_feed.postDelayed({
                         val scroll = rv_chat_feed.adapter?.itemCount?.minus(1)
-                        val scrollTo:Int
-                        if (scroll != null){
+                        val scrollTo: Int
+                        if (scroll != null) {
                             scrollTo = if (scroll >= 0) scroll else 0
                             rv_chat_feed.scrollToPosition(scrollTo)
                         }
@@ -255,7 +255,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
         }
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
+        hideSoftKeyboard(this, window.decorView)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.speechToTextFrame, STTfragment())
         ft.addToBackStack(null)
@@ -290,10 +290,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 ttsParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = this@ChatActivity.packageName
                 textToSpeech?.language = Locale(language)
                 textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
-                audioFocus.abandonAudioFocus(afChangeListener)
+                audioFocus?.abandonAudioFocus(afChangeListener)
             }
         }
-
     }
 
     fun enableVoiceInput() {
@@ -484,7 +483,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.stopHotwordDetection()
 
         textToSpeech?.stop()
-
     }
 
     override fun onDestroy() {
@@ -520,5 +518,4 @@ class ChatActivity : AppCompatActivity(), IChatView {
         Timber.d(videoId)
         youtubeVid.playYoutubeVid(videoId)
     }
-
 }

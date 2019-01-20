@@ -59,7 +59,7 @@ object CredentialHelper {
     /**
      * Is url valid boolean.
 
-     * @param url     the url
+     * @param url the url
      * *
      * @return the boolean
      */
@@ -80,7 +80,7 @@ object CredentialHelper {
     /**
      * Gets valid url.
 
-     * @param url     the url
+     * @param url the url
      * *
      * @return the valid url
      */
@@ -97,7 +97,6 @@ object CredentialHelper {
             Timber.e(e)
             null
         }
-
     }
 
     /**
@@ -105,7 +104,7 @@ object CredentialHelper {
 
      * @param inputLayout the input layout
      * *
-     * @param context     the context
+     * @param context the context
      * *
      * @return the boolean
      */

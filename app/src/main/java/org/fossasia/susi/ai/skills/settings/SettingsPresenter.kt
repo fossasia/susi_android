@@ -145,6 +145,4 @@ class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, IS
         }
         settingView?.setServerSuccessful()
     }
-
-
 }

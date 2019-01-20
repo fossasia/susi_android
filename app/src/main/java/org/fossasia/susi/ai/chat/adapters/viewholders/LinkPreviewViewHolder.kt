@@ -121,7 +121,7 @@ class LinkPreviewViewHolder(itemView: View, listener: MessageViewHolder.ClickLis
     /**
      * Inflate Link Preview
      *
-     * @param model       the ChatMessage object
+     * @param model the ChatMessage object
      * @param currContext the Context
      */
     fun setView(model: ChatMessage, viewType: Int, currContext: Context) {
@@ -176,7 +176,6 @@ class LinkPreviewViewHolder(itemView: View, listener: MessageViewHolder.ClickLis
                     setRating(true, false)
                 }
             }
-
         }
 
         text.text = answerText
@@ -294,7 +293,6 @@ class LinkPreviewViewHolder(itemView: View, listener: MessageViewHolder.ClickLis
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 }

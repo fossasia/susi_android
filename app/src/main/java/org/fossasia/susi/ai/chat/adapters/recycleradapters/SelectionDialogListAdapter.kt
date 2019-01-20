@@ -20,30 +20,33 @@ import org.fossasia.susi.ai.R
  */
 
 class SelectionDialogListAdapter(context: Context, private val list: List<Pair<String, Drawable>>) : ArrayAdapter<Pair<String, Drawable>>(context, R.layout.item_selection_dialog_list, list) {
-    private val context: Activity = context as Activity
 
     internal class ViewHolder {
         var option: TextView? = null
         var icon: ImageView? = null
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view: View
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
+        var view: View? = null
 
         if (convertView == null) {
-            val inflator = context.layoutInflater
-            view = inflator.inflate(R.layout.item_selection_dialog_list, null)
+            val context = this.context
+            if (context is Activity) view = context.layoutInflater.inflate(R.layout.item_selection_dialog_list, null)
             val viewHolder = ViewHolder()
-            viewHolder.option = view.findViewById<View>(R.id.option) as TextView
-            viewHolder.icon = view.findViewById<View>(R.id.icon) as ImageView
-            view.tag = viewHolder
+            val textView = view?.findViewById<TextView>(R.id.option)
+            viewHolder.option = textView
+            val imageView = view?.findViewById<ImageView>(R.id.icon)
+            viewHolder.icon = imageView
+            view?.tag = viewHolder
         } else {
             view = convertView
         }
 
-        val holder = view.tag as ViewHolder
-        holder.option?.text = list[position].first
-        holder.icon?.setImageDrawable(list[position].second)
+        val holder = view?.tag
+        if (holder is ViewHolder) {
+            holder.option?.text = list[position].first
+            holder.icon?.setImageDrawable(list[position].second)
+        }
         return view
     }
 }

@@ -27,16 +27,16 @@ class ChatBubbleLayout : FrameLayout {
 
      * @param context the context
      * *
-     * @param attrs   the attrs
+     * @param attrs the attrs
      */
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
     /**
      * Instantiates a new Chat bubble layout.
 
-     * @param context      the context
+     * @param context the context
      * *
-     * @param attrs        the attrs
+     * @param attrs the attrs
      * *
      * @param defStyleAttr the def style attr
      */
@@ -45,13 +45,13 @@ class ChatBubbleLayout : FrameLayout {
     /**
      * Instantiates a new Chat bubble layout.
 
-     * @param context      the context
+     * @param context the context
      * *
-     * @param attrs        the attrs
+     * @param attrs the attrs
      * *
      * @param defStyleAttr the def style attr
      * *
-     * @param defStyleRes  the def style res
+     * @param defStyleRes the def style res
      */
     @TargetApi(21)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
@@ -98,7 +98,6 @@ class ChatBubbleLayout : FrameLayout {
             } else {
                 (childDateView.layoutParams as FrameLayout.LayoutParams).bottomMargin = bottomMargin
             }
-
         } else {
             finalFramelayoutWidth = Math.max(finalFrameLayoutRequiredWidth,
                     childTextView.measuredWidth + viewPaddingLeftNRight)

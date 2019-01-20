@@ -29,7 +29,6 @@ class PieChartViewHolder(view: View, listener: MessageViewHolder.ClickListener) 
     val pieChart: PieChart by bindView(R.id.piechart)
     val timeStamp: TextView by bindView(R.id.timestamp)
 
-
     init {
         ButterKnife.bind(this, itemView)
     }
@@ -89,7 +88,6 @@ class PieChartViewHolder(view: View, listener: MessageViewHolder.ClickListener) 
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
         }
     }
 }
