@@ -11,6 +11,9 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
+          name: Add SDK 28
+          command: echo yes | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-28"
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
@@ -20,6 +23,9 @@ jobs:
       - run:
           name: lint check
           command: ./gradlew lint
+      - run:
+          name: spotless check
+          command: ./gradlew spotlessCheck
       - run:
           name: Run Tests
           command: ./gradlew build

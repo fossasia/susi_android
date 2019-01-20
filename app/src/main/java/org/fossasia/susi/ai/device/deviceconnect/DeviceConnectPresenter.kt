@@ -13,14 +13,13 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
 import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
-import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
 
-class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
+class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
         IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener {
 
     private var mWifiManager = manager
@@ -31,7 +30,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
     private var SSID: String? = null
     private var isWifiEnabled = false
     lateinit var connections: ArrayList<String>
-    private var utilModel: UtilModel = UtilModel(deviceActivity)
+    private var utilModel: UtilModel = UtilModel(context)
 
     override fun onAttach(deviceConnectView: IDeviceConnectView) {
         this.deviceConnectView = deviceConnectView
@@ -75,7 +74,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
             deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.no_device_found), utilModel.getString(R.string.setup_tut))
             // deviceConnectView?.unregister()
         }
-
     }
 
     override fun availableDevices(list: List<ScanResult>) {
@@ -103,11 +101,7 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
     override fun checkLocationEnabled() {
         val locationManager = MainApplication.instance.applicationContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            isLocationOn = true
-        } else {
-            isLocationOn = false
-        }
+        isLocationOn = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
     override fun connectToDevice(networkSSID: String) {
@@ -136,7 +130,6 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
 
         override fun onPostExecute(result: Void?) {
             Timber.d("Connected")
-
         }
     }
 
@@ -209,5 +202,4 @@ class DeviceConnectPresenter(deviceActivity: DeviceActivity, manager: WifiManage
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
     }
-
 }

@@ -24,6 +24,4 @@ object RetrofitInstance {
                 .client(httpClient.build())
                 .build()
     }
-
-
 }

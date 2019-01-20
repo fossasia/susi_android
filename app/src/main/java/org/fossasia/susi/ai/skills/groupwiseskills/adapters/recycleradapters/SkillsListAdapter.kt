@@ -56,12 +56,10 @@ class SkillsListAdapter(val context: Context, private val skillDetails: GroupWis
                         .transform(CircleTransform())
                         .into(holder.skillImage)
             }
-
-            if (skillData.skillRating != null) {
-                if (skillData.skillRating?.stars != null) {
-                    holder.skillRating?.rating = skillData.skillRating?.stars?.averageStar as Float
-                    holder.skillTotalRatings?.text = skillData.skillRating?.stars?.totalStar.toString()
-                }
+            val stars = skillData.skillRating?.stars
+            if (stars != null) {
+                holder.skillRating.rating = stars.averageStar
+                holder.skillTotalRatings.text = stars.totalStar.toString()
             }
         }
     }

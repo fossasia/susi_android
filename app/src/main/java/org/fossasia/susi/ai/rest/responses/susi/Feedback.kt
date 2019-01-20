@@ -6,10 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Feedback(
-        var feedback: String? = "",
-        var email: String? = "",
-        var timestamp: String? = "",
-        @SerializedName("user_name")
-        var userName: String = "",
-        var avatar: String? = ""
+    var feedback: String? = "",
+    var email: String? = "",
+    var timestamp: String? = "",
+    @SerializedName("user_name")
+    var userName: String = "",
+    var avatar: String? = ""
 ) : Parcelable

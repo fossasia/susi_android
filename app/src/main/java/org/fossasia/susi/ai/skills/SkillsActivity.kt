@@ -22,7 +22,6 @@ import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
-
 /**
  * <h1>The Skills activity.</h1>
  * <h2>This activity is used to display SUSI Skills in the app.</h2>
@@ -68,6 +67,17 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val intent = Intent(context, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
+    }
+    private fun backHandler(context: Context) {
+        val lastFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (lastFragment == null) {
+            finish()
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun onBackPressed() {
@@ -204,7 +214,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
-    override fun loadDetailFragment(skillData: SkillData, skillGroup: String, skillTag: String) {
+    override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()

@@ -3,7 +3,9 @@ package org.fossasia.susi.ai.helper
 import android.text.format.DateFormat
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.TimeZone
+import java.util.Calendar
 
 /**
  * <h1>Helper class to get current date and time. Also to parse date and time from server.</h1>
@@ -23,7 +25,7 @@ object DateTimeHelper {
     val currentTime: String
         get() {
             val delegate = "hh:mm aaa"
-            return DateFormat.format(delegate, Calendar.getInstance().time) as String
+            return DateFormat.format(delegate, Calendar.getInstance().time).toString()
         }
 
     /**
