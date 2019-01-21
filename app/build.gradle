@@ -8,7 +8,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
-def STATIC_API_KEY = '"'+System.getenv('MY_TOKEN')+'"' ?: '"DEFAULT"'
+def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
@@ -35,12 +35,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'
-            buildConfigField "String", "STATIC_API_KEY", STATIC_API_KEY
+            buildConfigField "String", "MAPBOX_API_KEY", MAPBOX_API_KEY
         }
 
         debug {
             buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'
-            buildConfigField "String", "STATIC_API_KEY", STATIC_API_KEY
+            buildConfigField "String", "MAPBOX_API_KEY", MAPBOX_API_KEY
         }
     }
 
