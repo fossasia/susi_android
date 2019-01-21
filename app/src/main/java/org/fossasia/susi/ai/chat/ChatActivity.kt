@@ -255,6 +255,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
         if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
         }
+
+        if(currentFocus!=null)
         (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.speechToTextFrame, STTfragment())
