@@ -85,7 +85,6 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
             } else {
                 skillListingFragment.updateSkillsAdapter(skills)
             }
-
         } else {
             Timber.d("SKILLS NOT FETCHED")
             skillListingView?.visibilityProgressBar(false)
