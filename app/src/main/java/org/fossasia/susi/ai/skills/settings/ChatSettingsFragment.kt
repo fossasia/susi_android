@@ -13,7 +13,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.widget.AppCompatCheckBox
-import android.view.Menu
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -28,7 +27,6 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
-
 
 /**
  * The Fragment for Settings Activity
@@ -62,13 +60,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
     private var flag = true
-    private val packageName = "ai.susi";
+    private val packageName = "ai.susi"
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.pref_settings)
 
-        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_settings)
+        val thisActivity = activity
+        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
 
@@ -118,7 +117,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
             val intent = Intent(context, SkillsActivity::class.java)
             startActivity(intent)
-            (context as Activity).finish()
+            val context = this.context
+            if (context is Activity) context.finish()
             true
         }
         rate.setOnPreferenceClickListener {
@@ -143,12 +143,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         loginLogout.setOnPreferenceClickListener {
             if (!settingsPresenter.getAnonymity()) {
-                val d = AlertDialog.Builder(activity as SkillsActivity)
-                d.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                     settingsPresenter.loginLogout()
                 }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
-                val alert = d.create()
+                val alert = builder.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
@@ -217,16 +217,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 true
             }
         }
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val itemSettings = menu.findItem(R.id.menu_settings)
-        itemSettings.isVisible = false
-        val itemAbout = menu.findItem(R.id.menu_about)
-        itemAbout.isVisible = false
-        val searchoption = menu.findItem(R.id.action_search)
-        searchoption.isVisible = false
-        super.onPrepareOptionsMenu(menu)
     }
 
     private fun setLanguage() {
@@ -382,7 +372,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!hasFocus)
                 settingsPresenter.checkForPassword(conPassword.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
         }
-
     }
 
     override fun onDestroyView() {

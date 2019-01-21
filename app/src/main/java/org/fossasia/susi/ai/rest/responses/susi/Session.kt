@@ -5,5 +5,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Session(
-        val identity: Identity? = null
+    val identity: Identity? = null
 ) : Parcelable

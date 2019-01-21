@@ -20,5 +20,4 @@ class DeviceViewHolder(itemView: View, private var devicePresenter: DeviceConnec
         val ssid = speakerName.text.toString()
         devicePresenter.connectToDevice(ssid)
     }
-
 }

@@ -74,14 +74,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         skillDetailsPresenter.onAttach(this)
         skillData = arguments?.getParcelable(
                 SKILL_KEY) as SkillData
-        skillGroup = (arguments as Bundle).getString(SKILL_GROUP)
-        skillTag = (arguments as Bundle).getString(SKILL_TAG)
+        skillGroup = arguments?.getString(SKILL_GROUP).toString()
+        skillTag = arguments?.getString(SKILL_TAG).toString()
         return inflater.inflate(R.layout.fragment_skill_details, container, false)
     }
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        skillData?.skillName?.let { activity?.title = skillData.skillName }
+        skillData.skillName.let { activity?.title = skillData.skillName }
         setupUI()
         super.onViewCreated(view, savedInstanceState)
     }
@@ -401,12 +401,12 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      */
     private fun setData() {
 
-        val totalUsers: Int = skillData.skillRating?.stars?.totalStar as Int
-        val oneStarUsers: Int = skillData.skillRating?.stars?.oneStar as Int
-        val twoStarUsers: Int = skillData.skillRating?.stars?.twoStar as Int
-        val threeStarUsers: Int = skillData.skillRating?.stars?.threeStar as Int
-        val fourStarUsers: Int = skillData.skillRating?.stars?.fourStar as Int
-        val fiveStarUsers: Int = skillData.skillRating?.stars?.fiveStar as Int
+        val totalUsers: Int? = skillData.skillRating?.stars?.totalStar
+        val oneStarUsers: Int? = skillData.skillRating?.stars?.oneStar
+        val twoStarUsers: Int? = skillData.skillRating?.stars?.twoStar
+        val threeStarUsers: Int? = skillData.skillRating?.stars?.threeStar
+        val fourStarUsers: Int? = skillData.skillRating?.stars?.fourStar
+        val fiveStarUsers: Int? = skillData.skillRating?.stars?.fiveStar
 
         val oneStarUsersPercent: Float = calcPercentageOfUsers(oneStarUsers, totalUsers)
         val twoStarUsersPercent: Float = calcPercentageOfUsers(twoStarUsers, totalUsers)
@@ -465,8 +465,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      * @param actualNumberOfUsers : Actual number of users corresponding to a rating
      * @param totalNumberOfUsers : Total number of ratings for a skill
      */
-    private fun calcPercentageOfUsers(actualNumberOfUsers: Int, totalNumberOfUsers: Int): Float {
-        return (actualNumberOfUsers * 100f) / totalNumberOfUsers
+    private fun calcPercentageOfUsers(actualNumberOfUsers: Int?, totalNumberOfUsers: Int?): Float {
+        return if (actualNumberOfUsers != null && totalNumberOfUsers != null) {
+            (actualNumberOfUsers * 100f) / totalNumberOfUsers
+        } else 0.1f
     }
 
     /**
@@ -490,7 +492,6 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
                 updateFeedback()
                 setFeedback()
-
             }
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE

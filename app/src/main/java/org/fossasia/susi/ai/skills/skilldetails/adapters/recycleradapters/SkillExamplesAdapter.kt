@@ -33,20 +33,20 @@ class SkillExamplesAdapter(val context: Context, val examples: List<String>) : R
 
     @NonNull
     override fun onBindViewHolder(holder: SkillExampleViewHolder, position: Int) {
-        if (examples[position] != null && !examples[position].isEmpty()) {
-            holder.example?.text = examples[position]
+        if (!examples[position].isEmpty()) {
+            holder.example.text = examples[position]
         }
     }
 
     override fun onItemClicked(position: Int) {
-        (context as Activity).overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        if (context is Activity) context.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        if (examples != null && examples.isNotEmpty() && examples[position] != null)
+        if (examples.isNotEmpty())
             intent.putExtra("example", examples[position])
         else
             intent.putExtra("example", "")
         context.startActivity(intent)
-        (context as Activity).finish()
+        if (context is Activity) context.finish()
     }
 }

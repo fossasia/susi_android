@@ -38,7 +38,7 @@
             android:id="@+id/password"
             android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/margin_small"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
@@ -55,7 +55,7 @@
             android:id="@+id/confirmPassword"
             android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="@dimen/margin_small"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
@@ -72,7 +72,7 @@
             android:id="@+id/customServerSignUp"
             android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/margin_small_medium"
             android:text="@string/custom_server" />
 
         <android.support.design.widget.TextInputLayout

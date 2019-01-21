@@ -5,34 +5,49 @@
     <dimen name="margin_extra_small">1dp</dimen>
     <dimen name="margin_very_small">2dp</dimen>
     <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_small_medium">5dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_moderate">10dp</dimen>
     <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_top">24dp</dimen>
+    <dimen name="margin_bottom">5dp</dimen>
     <dimen name="margin_very_large">32dp</dimen>
     <dimen name="margin_extra_large">40dp</dimen>
     <dimen name="margin_extremely_large">64dp</dimen>
+
+    <!-- dimnesions specifics -->
+
+    <dimen name="height_very_small">1dp</dimen>
+    <dimen name="width_very_small">1dp</dimen>
+    <dimen name="height_large">45dp</dimen>
+    <dimen name="width_large">45dp</dimen>
+    <dimen name="height_very_large">128dp</dimen>
 
     <!-- padding specifics -->
 
     <dimen name="padding_extra_small">0.8dp</dimen>
     <dimen name="padding_very_small">2dp</dimen>
     <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_small_medium">5dp</dimen>
     <dimen name="padding_medium">8dp</dimen>
     <dimen name="padding_moderate">10dp</dimen>
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_very_large">32dp</dimen>
     <dimen name="padding_extra_large">40dp</dimen>
+    <dimen name="padding_extra_extra_large">48dp</dimen>
 
     <!-- text size -->
 
     <dimen name="text_size_very_small">10sp</dimen>
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_normal">14sp</dimen>
+    <dimen name="text_size_normal_medium">15sp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="text_size_moderate">18sp</dimen>
     <dimen name="text_size_large">20sp</dimen>
     <dimen name="text_size_very_large">22sp</dimen>
     <dimen name="text_size_extra_large">24sp</dimen>
+    <dimen name="text_size_extra_extra_large">40sp</dimen>
 
     <!-- Skill details -->
 
@@ -67,6 +82,11 @@
     <dimen name="progress_bar_size">50dp</dimen>
 
     <dimen name="radius_skill_card_corner">4dp</dimen>
+
+    <dimen name="height_image_chat_activity">36dp</dimen>
+    <dimen name="width_image_chat_activity">30dp</dimen>
+    
+    <dimen name="forgot_password_image_size">80dp</dimen>
 
     <dimen name="skill_image_size">80dp</dimen>
     <dimen name="skill_min_height">60dp</dimen>

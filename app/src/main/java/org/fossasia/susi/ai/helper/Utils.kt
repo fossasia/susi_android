@@ -30,7 +30,7 @@ object Utils {
     fun getImageLink(skillData: SkillData): String {
         val link = "${BaseUrl.SUSI_DEFAULT_BASE_URL}/cms/getImage.png?model=${skillData.model}&language=${skillData.language}&group=${skillData.group}&image=${skillData.image}"
                 .replace(" ", "%20")
-        Timber.d("SUSI URI ${link}")
+        Timber.d("SUSI URI $link")
         return link
     }
 
@@ -92,5 +92,4 @@ object Utils {
         val inputManager: InputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.SHOW_FORCED)
     }
-
 }

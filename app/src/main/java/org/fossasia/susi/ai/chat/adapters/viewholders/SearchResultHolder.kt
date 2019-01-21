@@ -17,5 +17,4 @@ class SearchResultHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val descriptionTextView: TextView by bindView(R.id.link_preview_description)
     val previewLayout: LinearLayout by bindView(R.id.preview_layout)
     val previewTextLayout: LinearLayout by bindView(R.id.link_preview_text_layout)
-
 }

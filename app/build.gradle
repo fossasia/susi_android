@@ -1,3 +1,7 @@
+plugins {
+    id "com.diffplug.gradle.spotless" version "3.16.0"
+}
+
 def rootConfiguration = {}
 apply from: project(':app').file('config.gradle'), to: rootConfiguration
 
@@ -58,6 +62,7 @@ android {
 
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
         disable 'InvalidPackage'
     }
 
@@ -68,6 +73,13 @@ android {
         }
     }
 
+}
+
+spotless {
+    kotlin {
+        ktlint()
+        target '**/*.kt'
+    }
 }
 
 repositories {

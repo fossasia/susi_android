@@ -66,11 +66,10 @@ object PrefManager {
         preferences.edit().clear().apply()
     }
 
-
     /**
      * Gets int.
      *
-     * @param preferenceKey          the preference key
+     * @param preferenceKey the preference key
      * @param preferenceDefaultValue the preference default value
      * @return the int
      */
@@ -81,7 +80,7 @@ object PrefManager {
     /**
      * Put int.
      *
-     * @param preferenceKey   the preference key
+     * @param preferenceKey the preference key
      * @param preferenceValue the preference value
      */
     fun putInt(preferenceKey: String, preferenceValue: Int) {
@@ -91,7 +90,7 @@ object PrefManager {
     /**
      * Gets long.
      *
-     * @param preferenceKey          the preference key
+     * @param preferenceKey the preference key
      * @param preferenceDefaultValue the preference default value
      * @return the long
      */
@@ -102,7 +101,7 @@ object PrefManager {
     /**
      * Put long.
      *
-     * @param preferenceKey   the preference key
+     * @param preferenceKey the preference key
      * @param preferenceValue the preference value
      */
     fun putLong(preferenceKey: String, preferenceValue: Long) {
@@ -112,7 +111,7 @@ object PrefManager {
     /**
      * Gets float.
      *
-     * @param preferenceKey          the preference key
+     * @param preferenceKey the preference key
      * @param preferenceDefaultValue the preference default value
      * @return the float
      */
@@ -123,7 +122,7 @@ object PrefManager {
     /**
      * Put float.
      *
-     * @param preferenceKey   the preference key
+     * @param preferenceKey the preference key
      * @param preferenceValue the preference value
      */
     fun putFloat(preferenceKey: String, preferenceValue: Float) {
@@ -133,7 +132,7 @@ object PrefManager {
     /**
      * Gets boolean.
      *
-     * @param preferenceKey          the preference key
+     * @param preferenceKey the preference key
      * @param preferenceDefaultValue the preference default value
      * @return the boolean
      */
@@ -144,7 +143,7 @@ object PrefManager {
     /**
      * Put boolean.
      *
-     * @param preferenceKey   the preference key
+     * @param preferenceKey the preference key
      * @param preferenceValue the preference value
      */
     fun putBoolean(preferenceKey: Int, preferenceValue: Boolean) {
@@ -154,7 +153,7 @@ object PrefManager {
     /**
      * Gets string.
      *
-     * @param preferenceKey          the preference key
+     * @param preferenceKey the preference key
      * @param preferenceDefaultValue the preference default value
      * @return the string
      */
@@ -165,10 +164,10 @@ object PrefManager {
     /**
      * Put string.
      *
-     * @param preferenceKey   the preference key
+     * @param preferenceKey the preference key
      * @param preferenceValue the preference value
      */
-    fun putString(preferenceKey: String, preferenceValue: String) {
+    fun putString(preferenceKey: String, preferenceValue: String?) {
         preferences.edit().putString(preferenceKey, preferenceValue).apply()
     }
 
@@ -176,7 +175,7 @@ object PrefManager {
      * Put string set.
      *
      * @param preferencesKey the preferences key
-     * @param values         the values
+     * @param values the values
      */
     fun putStringSet(preferencesKey: String, values: Set<String>) {
         preferences.edit().putStringSet(preferencesKey, values).apply()
@@ -200,7 +199,6 @@ object PrefManager {
     fun saveBaseUrls(susiBaseUrls: SusiBaseUrls) {
         putString(SUSI_BASE_URLS, gson.toJson(susiBaseUrls))
     }
-
 
     /**
      * Has token expired boolean.
@@ -258,5 +256,3 @@ object PrefManager {
         return MediaUtil.isAvailableForVoiceInput(context)
     }
 }
-
-

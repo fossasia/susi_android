@@ -24,7 +24,7 @@ import timber.log.Timber
 private const val YOUTUBE_KEY = "com.google.android.youtube.API_KEY"
 
 class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
-    private val RECOVERY_REQUEST = 1;
+    private val RECOVERY_REQUEST = 1
     private lateinit var playerStateChangeListener: MyPlayerStateChangeListener
     private lateinit var playbackEventListener: MyPlaybackEventListener
     private var youtubeId: String = ""
@@ -60,8 +60,8 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
     }
 
     override fun onInitializationSuccess(p0: YouTubePlayer.Provider?, p1: YouTubePlayer?, p2: Boolean) {
-        p1?.setPlayerStateChangeListener(playerStateChangeListener);
-        p1?.setPlaybackEventListener(playbackEventListener);
+        p1?.setPlayerStateChangeListener(playerStateChangeListener)
+        p1?.setPlaybackEventListener(playbackEventListener)
         if (!p2 && youtubeId != null) {
             p1?.loadVideo(youtubeId)
         }
@@ -69,10 +69,10 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
 
     override fun onInitializationFailure(p0: YouTubePlayer.Provider?, p1: YouTubeInitializationResult?) {
         if (p1?.isUserRecoverableError()!!) {
-            p1.getErrorDialog(this, RECOVERY_REQUEST).show();
+            p1.getErrorDialog(this, RECOVERY_REQUEST).show()
         } else {
-            val error = String.format(getString(R.string.player_error), p1.toString());
-            Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show();
+            val error = String.format(getString(R.string.player_error), p1.toString())
+            Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -109,7 +109,6 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         override fun onPaused() {
             //To change body of created functions use File | Settings | File Templates.
         }
-
     }
 
     class MyPlayerStateChangeListener : YouTubePlayer.PlayerStateChangeListener {
@@ -136,6 +135,5 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         override fun onError(p0: YouTubePlayer.ErrorReason?) {
             //To change body of created functions use File | Settings | File Templates.
         }
-
     }
 }

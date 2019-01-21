@@ -38,7 +38,7 @@ class GroupWiseSkillsPresenter(val groupWiseSkillsFragment: GroupWiseSkillsFragm
             val responseSkillList = response.body()?.filteredSkillsData
             if (responseSkillList != null && responseSkillList.isNotEmpty()) {
                 skills.skillsList.clear()
-                skills.skillsList = responseSkillList as MutableList<SkillData>
+                if (responseSkillList is MutableList<SkillData>) skills.skillsList = responseSkillList
                 groupWiseSkillsView?.updateAdapter(skills)
             } else {
                 groupWiseSkillsView?.showEmptySkillsListMessage()

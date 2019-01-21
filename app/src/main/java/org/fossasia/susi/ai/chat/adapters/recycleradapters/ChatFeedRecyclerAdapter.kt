@@ -99,7 +99,6 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
         realm?.close()
     }
 
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(viewGroup.context)
@@ -196,7 +195,6 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
         else if (!item.isMine && item.isHavingLink)
             return SUSI_WITHLINK
         else if (item.isMine && !item.isHavingLink) return USER_MESSAGE
-
 
         return when (item.actionType) {
             Constant.ANCHOR -> SUSI_MESSAGE

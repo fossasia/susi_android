@@ -82,7 +82,6 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         this.email = email
         signUpView?.showProgress(true)
         signUpModel.signUp(email.trim({ it <= ' ' }).toLowerCase(), password, this)
-
     }
 
     override fun onError(throwable: Throwable) {
@@ -106,7 +105,6 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         if (response.isSuccessful && response.body() != null) {
             signUpView?.alertSuccess()
             signUpView?.clearField()
-
         } else {
             if (response.code() == 422) {
                 signUpView?.alertFailure()
@@ -147,9 +145,10 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
                 return
             }
             if (CredentialHelper.isURLValid(url)) {
-                if (CredentialHelper.getValidURL(url) != null) {
+                val validUrl = CredentialHelper.getValidURL(url)
+                if (validUrl != null) {
                     utilModel.setServer(false)
-                    utilModel.setCustomURL(CredentialHelper.getValidURL(url) as String)
+                    utilModel.setCustomURL(validUrl)
                 } else {
                     signUpView?.invalidCredentials(false, Constant.INPUT_URL)
                     return
@@ -180,5 +179,4 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
     override fun cancelSignup() {
         forgotPasswordModel.cancelSignup()
     }
-
 }

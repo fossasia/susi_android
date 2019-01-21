@@ -25,10 +25,7 @@ class DatabaseRepository : IDatabaseRepository {
 
     override fun getMessageCount(): Long {
         val temp = realm.where(ChatMessage::class.java).max(Constant.ID)
-        return if (temp == null)
-            -1
-        else
-            temp as Long
+        return temp?.toLong() ?: -1
     }
 
     override fun getAMessage(index: Long): ChatMessage? {
@@ -52,8 +49,10 @@ class DatabaseRepository : IDatabaseRepository {
                 query, Case.INSENSITIVE).findAll()
     }
 
-    override fun updateDatabase(chatArgs: ChatArgs,
-                                listener: IDatabaseRepository.OnDatabaseUpdateListener) {
+    override fun updateDatabase(
+        chatArgs: ChatArgs,
+        listener: IDatabaseRepository.OnDatabaseUpdateListener
+    ) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
         listener.updateMessageCount()

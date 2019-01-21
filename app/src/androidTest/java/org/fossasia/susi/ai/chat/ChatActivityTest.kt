@@ -38,7 +38,6 @@ class ChatActivityTest {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
 
-
     @Rule
     @JvmField
     val mActivityRule = ActivityTestRule(ChatActivity::class.java)
@@ -46,7 +45,7 @@ class ChatActivityTest {
     /**
      * Unlock screen.
      *
-     * @throws IOException          the io exception
+     * @throws IOException the io exception
      * @throws InterruptedException the interrupted exception
      */
     @Before
