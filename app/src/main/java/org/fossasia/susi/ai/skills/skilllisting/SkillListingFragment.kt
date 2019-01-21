@@ -6,14 +6,14 @@ import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SnapHelper;
+import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
 import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
 import kotlinx.android.synthetic.main.fragment_skill_listing.progressSkillWait
-import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch;
+import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
 import org.fossasia.susi.ai.helper.StartSnapHelper

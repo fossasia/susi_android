@@ -110,7 +110,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     }
 
     override fun onAttach(context: Context) {
-        super.onAttach(context);
+        super.onAttach(context)
         if (context is SkillFragmentCallback) {
             skillCallback = context
         } else {

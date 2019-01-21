@@ -5,7 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Identity(
-        val name: String? = null,
-        val type: String? = null,
-        val anonymous: Boolean = false
+    val name: String? = null,
+    val type: String? = null,
+    val anonymous: Boolean = false
 ) : Parcelable

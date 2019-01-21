@@ -17,5 +17,4 @@ class AllReviewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val feedbackEmail: TextView by bindView(R.id.tvEmail)
     val feedbackDate: TextView by bindView(R.id.tvDate)
     val feedback: TextView by bindView(R.id.tvFeedback)
-
 }

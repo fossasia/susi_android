@@ -11,5 +11,4 @@ import kotterknife.bindView
 class DateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val textDate: TextView by bindView(R.id.date)
-
 }

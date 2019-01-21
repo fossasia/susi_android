@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.View
 
-
 /**
  * Created by mayanktripathi on 22/06/17.
  */
@@ -23,5 +22,4 @@ class ConstraintsHelper(dimension: Int, context: Context) : RecyclerView.ItemDec
             outRect.left = 0
         }
     }
-
 }

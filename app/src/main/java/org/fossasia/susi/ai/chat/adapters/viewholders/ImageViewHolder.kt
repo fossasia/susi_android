@@ -54,7 +54,6 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
         }
 
         imageView.setOnClickListener {
@@ -148,5 +147,4 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
             }
         }
     }
-
 }

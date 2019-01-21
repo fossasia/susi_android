@@ -14,7 +14,6 @@ import timber.log.Timber
 
 class ChatModel : IChatModel {
 
-
     override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
         val call = ClientBuilder.susiApi.chatHistory
         call.enqueue(object : Callback<MemoryResponse> {

@@ -64,8 +64,8 @@ class WelcomeActivity : AppCompatActivity() {
         ImageViewPager = findViewById<View>(R.id.pager) as ViewPager
         val tabLayout = findViewById<View>(R.id.tabDots) as TabLayout
         tabLayout.setupWithViewPager(ImageViewPager, true)
-        btnSkip = findViewById<View>(R.id.btn_skip) as Button
-        btnNext = findViewById<View>(R.id.btn_next) as Button
+        btnSkip = findViewById(R.id.btn_skip)
+        btnNext = findViewById(R.id.btn_next)
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
 
         val myViewPagerAdapter = MyViewPagerAdapter()
@@ -117,8 +117,7 @@ class WelcomeActivity : AppCompatActivity() {
         }
 
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-            val view = `object` as View
-            container.removeView(view)
+            if (`object` is View) container.removeView(`object`)
         }
     }
 }

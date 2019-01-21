@@ -10,7 +10,6 @@ import android.view.View
  * Created by robinkamboj on 04/01/18.
  */
 
-
 class StartSnapHelper : LinearSnapHelper() {
 
     private var mVerticalHelper: OrientationHelper? = null
@@ -21,8 +20,10 @@ class StartSnapHelper : LinearSnapHelper() {
         super.attachToRecyclerView(recyclerView)
     }
 
-    override fun calculateDistanceToFinalSnap(layoutManager: RecyclerView.LayoutManager,
-                                              targetView: View): IntArray? {
+    override fun calculateDistanceToFinalSnap(
+        layoutManager: RecyclerView.LayoutManager,
+        targetView: View
+    ): IntArray? {
         val out = IntArray(2)
 
         if (layoutManager.canScrollHorizontally()) {
@@ -49,15 +50,16 @@ class StartSnapHelper : LinearSnapHelper() {
                 getStartView(layoutManager, getVerticalHelper(layoutManager))
             }
         } else super.findSnapView(layoutManager)
-
     }
 
     private fun distanceToStart(targetView: View, helper: OrientationHelper): Int {
         return helper.getDecoratedStart(targetView) - helper.startAfterPadding
     }
 
-    private fun getStartView(layoutManager: RecyclerView.LayoutManager,
-                             helper: OrientationHelper): View? {
+    private fun getStartView(
+        layoutManager: RecyclerView.LayoutManager,
+        helper: OrientationHelper
+    ): View? {
 
         if (layoutManager is LinearLayoutManager) {
             val firstChild = layoutManager.findFirstVisibleItemPosition()
