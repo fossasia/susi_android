@@ -83,7 +83,7 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
                 skillListingModel.fetchSkills(metrics.groups[count], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
                 count++
             } else {
-                skillListingFragment.updateSkillsAdapter(skills);
+                skillListingFragment.updateSkillsAdapter(skills)
             }
 
         } else {
