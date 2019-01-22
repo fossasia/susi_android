@@ -43,7 +43,7 @@
         <activity
             android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
-            android:windowSoftInputMode="adjustpan" />
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".login.LoginActivity"
