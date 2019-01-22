@@ -49,9 +49,9 @@ class MapHelper
     }
 
     companion object {
-        var MAPBOX_STATIC_MAP_KEY : String= BuildConfig.MAPBOX_API_KEY //create your own token by register on www.mapbox.com
+        var MAPBOX_STATIC_MAP_KEY : String = BuildConfig.MAPBOX_API_KEY //create your own token by register on www.mapbox.com
         private const val BASE_URL = "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/"
-        private var URL_SCHEME = BASE_URL + "%f,%f,%f/%sx%s?access_token="+ MAPBOX_STATIC_MAP_KEY
+        private var URL_SCHEME = BASE_URL + "%f,%f,%f/%sx%s?access_token=" + MAPBOX_STATIC_MAP_KEY
         private const val MAP_URL = "https://www.openstreetmap.org/#map="
         private val MAP_URL_SCHEME = "$MAP_URL%f/%f/%f"
         private const val width = 340
