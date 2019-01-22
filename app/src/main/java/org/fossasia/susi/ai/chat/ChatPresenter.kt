@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.chat
 
+import android.content.Context
 import android.os.Handler
 import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.MainApplication
@@ -27,7 +28,7 @@ import timber.log.Timber
 import java.util.LinkedList
 import java.util.Locale
 import java.util.TimeZone
-import java.util.Date;
+import java.util.Date
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.HashMap
 
@@ -37,13 +38,13 @@ import kotlin.collections.HashMap
  * The P in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
+class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.OnDatabaseUpdateListener {
 
     private var chatView: IChatView? = null
     var chatModel: IChatModel = ChatModel()
-    private var utilModel: UtilModel = UtilModel(chatActivity)
+    private var utilModel: UtilModel = UtilModel(context)
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
     private lateinit var locationHelper: LocationHelper
     private val nonDeliveredMessages = LinkedList<Pair<String?, Long>>()
@@ -78,7 +79,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
         chatView?.setupAdapter(databaseRepository.getAllMessages())
 
         getPermissions()
-
     }
 
     override fun checkPreferences() {
@@ -394,7 +394,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                 data["device_type"] = deviceType
                 data["q"] = query
                 chatModel.getSusiMessage(data, this)
-
             } else run {
                 queueExecuting.set(false)
                 chatView?.hideWaitingDots()
@@ -471,7 +470,6 @@ class ChatPresenter(chatActivity: ChatActivity) : IChatPresenter, IChatModel.OnR
                         // Play youtube video
                         identifier = psh.identifier
                         chatView?.playVideo(identifier)
-
                     } else if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = psh.answer
 

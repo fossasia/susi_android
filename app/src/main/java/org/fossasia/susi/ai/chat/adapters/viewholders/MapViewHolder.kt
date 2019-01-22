@@ -26,7 +26,7 @@ class MapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     /**
      * Inflate MapView
      *
-     * @param model       the ChatMessage object
+     * @param model the ChatMessage object
      * @param currContext the Context
      */
     fun setView(model: ChatMessage?, currContext: Context) {
@@ -60,11 +60,9 @@ class MapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                         customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.webLink)) //launching through custom tabs
                     }
                 }
-
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
         }
     }
 }

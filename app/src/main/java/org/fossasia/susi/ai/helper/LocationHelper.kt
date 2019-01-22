@@ -59,16 +59,16 @@ class LocationHelper
      * Gets location.
      */
     fun getLocation() {
-        val mContext = weakContext.get()
+        val context = weakContext.get()
         var location: Location?
-        if (mContext == null) {
+        if (context == null) {
             return
         }
         try {
-            locationManager = mContext
+            locationManager = context
                     .getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (locationManager != null) {
                     locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
                     location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
@@ -81,7 +81,7 @@ class LocationHelper
                 }
             }
 
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (locationManager != null) {
                     locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
                     location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
@@ -96,7 +96,6 @@ class LocationHelper
         } catch (e: Exception) {
             Timber.e(e)
         }
-
     }
 
     /**

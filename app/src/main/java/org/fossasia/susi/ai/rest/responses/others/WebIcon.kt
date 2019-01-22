@@ -12,4 +12,3 @@ data class WebIcon(
     @SerializedName("URL")
     var url: String? = null
 )
-

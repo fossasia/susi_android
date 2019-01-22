@@ -12,5 +12,4 @@ class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val groupName: TextView by bindView(R.id.groupName)
     val skillList: RecyclerView by bindView(R.id.skill_list)
-
 }
