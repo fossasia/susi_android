@@ -55,8 +55,7 @@ class ParseSusiResponseHelper {
                         if (l < num_links)
                             answer += "\n" + urlList[l]
                     }
-
-
+                    
                     isHavingLink = true
                     if (urlList.isEmpty()) isHavingLink = false
                 }
