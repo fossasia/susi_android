@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.chat
 
+import android.annotation.SuppressLint
 import android.util.Patterns
 import io.realm.RealmList
 import org.fossasia.susi.ai.data.model.MapData
@@ -28,6 +29,7 @@ class ParseSusiResponseHelper {
     var isHavingLink = false
     var tableData: TableItem? = null
 
+    @SuppressLint("NewApi")
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
         actionType = susiResponse.answers[0].actions[i].type
@@ -42,7 +44,19 @@ class ParseSusiResponseHelper {
 
             Constant.ANSWER -> try {
                 answer = susiResponse.answers[0].actions[i].expression
-                val urlList = extractUrls(answer)
+
+                //get the Urls stored in 'data' of the answer object
+                val text = susiResponse.answers[0].data[0].getOrDefault("object","none") //requires api warning suppressed
+                val urlList = extractUrls(text)
+
+                //appending the Urls to the answer
+                //num_links is the maximum number of links to be appended
+                val num_links = 1
+                for (l in urlList.indices){
+                    if(l<num_links)
+                        answer += "\n" + urlList[l]
+                }
+
                 isHavingLink = true
                 if (urlList.isEmpty()) isHavingLink = false
             } catch (e: Exception) {
