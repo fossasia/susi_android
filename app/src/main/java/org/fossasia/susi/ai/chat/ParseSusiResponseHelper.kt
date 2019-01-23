@@ -29,7 +29,6 @@ class ParseSusiResponseHelper {
     var isHavingLink = false
     var tableData: TableItem? = null
 
-    @SuppressLint("NewApi")
     fun parseSusiResponse(susiResponse: SusiResponse, i: Int, error: String) {
 
         actionType = susiResponse.answers[0].actions[i].type
@@ -46,8 +45,8 @@ class ParseSusiResponseHelper {
                 answer = susiResponse.answers[0].actions[i].expression
 
                 //get the Urls stored in 'data' of the answer object
-                val text = susiResponse.answers[0].data[0].getOrDefault("object", "none") //requires api warning suppressed
-                val urlList = extractUrls(text)
+                val text = susiResponse.answers[0].data[0].get("object") //requires api warning suppressed
+                val urlList = extractUrls(text!!)
 
                 //appending the Urls to the answer
                 //num_links is the maximum number of links to be appended
