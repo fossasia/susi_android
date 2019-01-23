@@ -348,8 +348,8 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
             setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE)
 
         val optionList = ArrayList<Pair<String, Drawable>>()
-        optionList.add(Pair("Copy", currContext.resources.getDrawable(R.drawable.ic_content_copy_white_24dp)))
-        optionList.add(Pair("Share", currContext.resources.getDrawable(R.drawable.ic_share_white_24dp)))
+        optionList.add(Pair("Copy", currContext.resources.getDrawable(R.drawable.ic_content_copy_grey_24dp)))
+        optionList.add(Pair("Share", currContext.resources.getDrawable(R.drawable.ic_share_grey_24dp)))
 
         val dialog = AlertDialog.Builder(currContext)
         val arrayAdapter = SelectionDialogListAdapter(currContext, optionList)
