@@ -547,7 +547,17 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
         }
 
         if (c > 0) {
-            chatView?.askForPermission(permissionsGranted)
+
+            // the array permissionsGranted contains the 'c' permissions which are currently denied
+            // and then (3-c) null values.
+            // creating a new array that stores the first c(non null) values of permissionsGranted
+            val permissionsToGet = arrayOfNulls<String>(c)
+            for (k in permissionsToGet.indices) {
+                permissionsToGet[k] = permissionsGranted[k]
+            }
+
+            //and then passing the new array to the function
+            chatView?.askForPermission(permissionsToGet)
         }
 
         if (!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
