@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.chat
 
-import android.annotation.SuppressLint
 import android.util.Patterns
 import io.realm.RealmList
 import org.fossasia.susi.ai.data.model.MapData
