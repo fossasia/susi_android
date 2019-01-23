@@ -46,14 +46,14 @@ class ParseSusiResponseHelper {
                 answer = susiResponse.answers[0].actions[i].expression
 
                 //get the Urls stored in 'data' of the answer object
-                val text = susiResponse.answers[0].data[0].getOrDefault("object","none") //requires api warning suppressed
+                val text = susiResponse.answers[0].data[0].getOrDefault("object", "none") //requires api warning suppressed
                 val urlList = extractUrls(text)
 
                 //appending the Urls to the answer
                 //num_links is the maximum number of links to be appended
                 val num_links = 1
-                for (l in urlList.indices){
-                    if(l<num_links)
+                for (l in urlList.indices) {
+                    if (l<num_links)
                         answer += "\n" + urlList[l]
                 }
 
