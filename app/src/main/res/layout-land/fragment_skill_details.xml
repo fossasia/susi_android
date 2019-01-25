@@ -499,6 +499,15 @@
                 android:textSize="@dimen/text_size_large"
                 app:fontFamily="sans-serif" />
 
+            <TextView
+                android:id="@+id/reportSkill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/md_white_1000"
+                android:text="@string/report_skill"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone" />
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>
