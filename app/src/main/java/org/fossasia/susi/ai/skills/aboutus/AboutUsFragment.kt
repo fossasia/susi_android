@@ -34,29 +34,29 @@ class AboutUsFragment : Fragment() {
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        about_susi.setOnClickListener({
+        about_susi.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_about_susi))
             launchCustomtTab(uri)
-        })
+        }
 
-        contributors_desc.setOnClickListener({
+        contributors_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_contributors))
             launchCustomtTab(uri)
-        })
+        }
 
-        susi_skill_cms_desc.setOnClickListener({
+        susi_skill_cms_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_skill_cms))
             launchCustomtTab(uri)
-        })
+        }
 
-        susi_report_issues_desc.setOnClickListener({
+        susi_report_issues_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_report_issue))
             launchCustomtTab(uri)
-        })
-        susi_license_info_desc.setOnClickListener({
+        }
+        susi_license_info_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_license))
             launchCustomtTab(uri)
-        })
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
