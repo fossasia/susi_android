@@ -1,3 +1,7 @@
+plugins {
+    id "com.diffplug.gradle.spotless" version "3.16.0"
+}
+
 def rootConfiguration = {}
 apply from: project(':app').file('config.gradle'), to: rootConfiguration
 
@@ -8,6 +12,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
+def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
@@ -34,10 +39,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'
+            buildConfigField "String", "MAPBOX_API_KEY", MAPBOX_API_KEY
         }
 
         debug {
             buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'
+            buildConfigField "String", "MAPBOX_API_KEY", MAPBOX_API_KEY
         }
     }
 
@@ -55,6 +62,7 @@ android {
 
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
         disable 'InvalidPackage'
     }
 
@@ -65,6 +73,13 @@ android {
         }
     }
 
+}
+
+spotless {
+    kotlin {
+        ktlint()
+        target '**/*.kt'
+    }
 }
 
 repositories {

@@ -10,8 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
@@ -64,7 +62,6 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
                             } else {
                                 holder.feedbackDate.text = ""
                             }
-
                         }
                         if (feedbackResponse.feedbackList[position].feedback != null &&
                                 !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
@@ -93,7 +90,7 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
     }
 
     override fun onItemClicked(position: Int) {
-        (context as Activity).overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        if (context is Activity) context.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, FeedbackActivity::class.java)
         intent.putExtra("feedbackResponse", feedbackResponse)
         context.startActivity(intent)

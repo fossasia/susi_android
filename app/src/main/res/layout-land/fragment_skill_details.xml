@@ -401,7 +401,7 @@
                     <com.github.mikephil.charting.charts.HorizontalBarChart
                         android:id="@+id/skill_rating_chart"
                         android:layout_width="0dp"
-                        android:layout_height="128dp"
+                        android:layout_height="@dimen/height_very_large"
                         android:layout_gravity="top|center_vertical"
                         android:layout_weight="1"
                         android:background="@color/md_white_1000"
@@ -498,6 +498,15 @@
                 android:textColor="@color/md_grey_700"
                 android:textSize="@dimen/text_size_large"
                 app:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/reportSkill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/md_white_1000"
+                android:text="@string/report_skill"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone" />
 
         </LinearLayout>
     </LinearLayout>

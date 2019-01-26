@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 
 import android.content.Context
 import android.net.Uri
-import android.os.SystemClock
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
 import android.view.View
@@ -15,14 +14,11 @@ import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
 import org.fossasia.susi.ai.data.model.ChatMessage
-import org.fossasia.susi.ai.dataclasses.SkillRatingQuery
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
 
-import butterknife.BindView
 import butterknife.ButterKnife
-import butterknife.OnClick
 import io.realm.Realm
 import kotterknife.bindView
 import retrofit2.Call
@@ -49,14 +45,15 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
         if (model != null) {
             imageURL = model.content
             try {
-                Picasso.get()
-                        .load(imageURL)
-                        .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)!!)
-                        .into(imageView)
+                ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)?.let {
+                    Picasso.get()
+                            .load(imageURL)
+                            .placeholder(it)
+                            .into(imageView)
+                }
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
         }
 
         imageView.setOnClickListener {
@@ -87,7 +84,7 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
             Timber.d("%s %s", model?.isPositiveRated, model?.isNegativeRated)
             if (model != null && !model.isPositiveRated && !model.isNegativeRated) {
                 thumbsUp.setImageResource(R.drawable.thumbs_up_solid)
-                rateSusiSkill(Constant.POSITIVE, model.skillLocation!!, itemView.context)
+                model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, itemView.context) }
                 setRating(true, true)
             }
         }
@@ -96,7 +93,7 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
             Timber.d("%s %s", model?.isPositiveRated, model?.isNegativeRated)
             if (model != null && !model.isPositiveRated && !model.isNegativeRated) {
                 thumbsDown.setImageResource(R.drawable.thumbs_down_solid)
-                rateSusiSkill(Constant.NEGATIVE, model.skillLocation!!, itemView.context)
+                model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, itemView.context) }
                 setRating(true, false)
             }
         }
@@ -150,5 +147,4 @@ class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickList
             }
         }
     }
-
 }

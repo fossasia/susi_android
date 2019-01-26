@@ -145,6 +145,8 @@
     <string name="pref_rate_summary">Bewerte SUSI App auf Play Store</string>
     <string name="pref_share_title">SUSI teilen</string>
     <string name="pref_share_summary">SUSI App mit deinen Freunden teilen.</string>
+    <string name="email_not_registered">Die von Ihnen eingegebene E-Mail ist nicht bei uns registriert. Bitte versuche es erneut.</string>
+    <string name="email_not_registered_title">E-Mail Registrierung</string>
 
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, versuch es! -%s. Du wirst es lieben!</string>

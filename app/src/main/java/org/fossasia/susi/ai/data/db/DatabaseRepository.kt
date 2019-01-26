@@ -5,7 +5,9 @@ import io.realm.Realm
 import io.realm.RealmList
 import io.realm.RealmResults
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
-import org.fossasia.susi.ai.data.model.*
+import org.fossasia.susi.ai.data.model.ChatMessage
+import org.fossasia.susi.ai.data.model.TableColumn
+import org.fossasia.susi.ai.data.model.TableData
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.Datum
@@ -23,10 +25,7 @@ class DatabaseRepository : IDatabaseRepository {
 
     override fun getMessageCount(): Long {
         val temp = realm.where(ChatMessage::class.java).max(Constant.ID)
-        return if (temp == null)
-            -1
-        else
-            temp as Long
+        return temp?.toLong() ?: -1
     }
 
     override fun getAMessage(index: Long): ChatMessage? {
@@ -50,8 +49,10 @@ class DatabaseRepository : IDatabaseRepository {
                 query, Case.INSENSITIVE).findAll()
     }
 
-    override fun updateDatabase(chatArgs: ChatArgs,
-                                listener: IDatabaseRepository.OnDatabaseUpdateListener) {
+    override fun updateDatabase(
+        chatArgs: ChatArgs,
+        listener: IDatabaseRepository.OnDatabaseUpdateListener
+    ) {
 
         val id = PrefManager.getLong(Constant.MESSAGE_COUNT, 0)
         listener.updateMessageCount()

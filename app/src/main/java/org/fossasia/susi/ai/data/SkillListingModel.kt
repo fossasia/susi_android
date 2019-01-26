@@ -22,7 +22,6 @@ class SkillListingModel : ISkillListingModel {
     private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
     private lateinit var authResponseCallMetrics: Call<ListSkillMetricsResponse>
 
-
     override fun fetchGroups(listener: ISkillListingModel.OnFetchGroupsFinishedListener) {
 
         authResponseCallGroups = ClientBuilder.susiApi.fetchListGroups()

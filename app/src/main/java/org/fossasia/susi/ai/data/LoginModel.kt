@@ -55,8 +55,6 @@ class LoginModel : ILoginModel {
             override fun onResponse(call: Call<UserSetting>?, response: Response<UserSetting>) {
                 listener.onSuccessSetting(response)
             }
-
         })
     }
-
 }

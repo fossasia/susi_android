@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.ActivityCompat
@@ -14,7 +13,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
 import android.support.v7.preference.Preference
 import android.support.v7.widget.AppCompatCheckBox
-import android.view.Menu
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
@@ -29,7 +27,6 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
-
 
 /**
  * The Fragment for Settings Activity
@@ -63,13 +60,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
     private var flag = true
-    private val packageName = "ai.susi";
+    private val packageName = "ai.susi"
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.pref_settings)
 
-        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_settings)
+        val thisActivity = activity
+        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
 
@@ -119,7 +117,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
             val intent = Intent(context, SkillsActivity::class.java)
             startActivity(intent)
-            (context as Activity).finish()
+            val context = this.context
+            if (context is Activity) context.finish()
             true
         }
         rate.setOnPreferenceClickListener {
@@ -144,12 +143,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         loginLogout.setOnPreferenceClickListener {
             if (!settingsPresenter.getAnonymity()) {
-                val d = AlertDialog.Builder(activity as SkillsActivity)
-                d.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                     settingsPresenter.loginLogout()
                 }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
-                val alert = d.create()
+                val alert = builder.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
@@ -220,16 +219,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        val itemSettings = menu.findItem(R.id.menu_settings)
-        itemSettings.isVisible = false
-        val itemAbout = menu.findItem(R.id.menu_about)
-        itemAbout.isVisible = false
-        val searchoption = menu.findItem(R.id.action_search)
-        searchoption.isVisible = false
-        super.onPrepareOptionsMenu(menu)
-    }
-
     private fun setLanguage() {
         try {
             if (querylanguage.entries.isNotEmpty()) {
@@ -259,7 +248,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             flag = true
         }
         customerServer.isChecked = flag
-        inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, null))
+        inputUrlText.setText(PrefManager.getString(Constant.CUSTOM_SERVER, ""))
         customerServer.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked)
                 inputUrl.visibility = View.VISIBLE
@@ -291,9 +280,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 .setPositiveButton(getString(R.string.ok), null)
         resetPasswordAlert = builder.create()
         resetPasswordAlert.show()
-        resetPasswordAlert.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
+        resetPasswordAlert.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager
                 .LayoutParams.FLAG_ALT_FOCUSABLE_IM)
-        resetPasswordAlert.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        resetPasswordAlert.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         setupPasswordWatcher()
         resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
             settingsPresenter.resetPassword(password.editText?.text.toString(), newPassword.editText?.text.toString(), conPassword.editText?.text.toString())
@@ -383,7 +372,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!hasFocus)
                 settingsPresenter.checkForPassword(conPassword.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
         }
-
     }
 
     override fun onDestroyView() {

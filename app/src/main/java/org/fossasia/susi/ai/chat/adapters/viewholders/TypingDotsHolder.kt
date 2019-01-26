@@ -13,5 +13,4 @@ class TypingDotsHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val dotsTextView: DotsTextView by bindView(R.id.dots)
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)
-
 }

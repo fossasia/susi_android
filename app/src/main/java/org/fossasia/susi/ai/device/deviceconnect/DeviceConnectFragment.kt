@@ -1,8 +1,10 @@
 package org.fossasia.susi.ai.device.deviceconnect
 
-
 import android.Manifest
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.wifi.SupplicantState
@@ -18,8 +20,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import kotlinx.android.synthetic.main.fragment_device_connect.*
-
+import kotlinx.android.synthetic.main.fragment_device_connect.noDeviceFound
+import kotlinx.android.synthetic.main.fragment_device_connect.deviceTutorial
+import kotlinx.android.synthetic.main.fragment_device_connect.addDeviceButton
+import kotlinx.android.synthetic.main.fragment_device_connect.scanDevice
+import kotlinx.android.synthetic.main.fragment_device_connect.scanProgress
+import kotlinx.android.synthetic.main.fragment_device_connect.wifiList
+import kotlinx.android.synthetic.main.fragment_device_connect.scanHelp
+import kotlinx.android.synthetic.main.fragment_device_connect.deviceList
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.device.DeviceActivity
@@ -44,11 +52,14 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private val VIEW_AVAILABLE_DEVICES = 1
     private val VIEW_AVAILABLE_WIFI = 0
     private var checkDevice: Boolean = false
-    private val REQUEST_LOCATION_ACCESS = 101;
-    private val REQUEST_WIFI_ACCESS = 102;
+    private val REQUEST_LOCATION_ACCESS = 101
+    private val REQUEST_WIFI_ACCESS = 102
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_device_connect, container, false)
     }
@@ -56,7 +67,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainWifi = context?.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        deviceConnectPresenter = DeviceConnectPresenter(activity as DeviceActivity, mainWifi)
+        deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
         receiverWifi = WifiReceiver()
         deviceConnectPresenter.searchDevices()
@@ -88,20 +99,18 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun showLocationIntentDialog() {
-        val dialogBuilder = AlertDialog.Builder(activity as DeviceActivity)
+        val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setView(R.layout.select_dialog_item_material)
 
         dialogBuilder.setTitle(R.string.location_access)
         dialogBuilder.setMessage(R.string.location_access_message)
-        dialogBuilder.setPositiveButton(R.string.next, { dialog, whichButton ->
-
+        dialogBuilder.setPositiveButton(R.string.next) { _, _ ->
             val callGPSSettingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
             startActivityForResult(callGPSSettingIntent, REQUEST_LOCATION_ACCESS)
-
-        })
-        dialogBuilder.setNegativeButton(R.string.cancel, { dialog, whichButton ->
+        }
+        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
             dialog.dismiss()
-        }).show()
+        }?.show()
     }
 
     /**
@@ -111,7 +120,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         var dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setView(R.layout.select_dialog_item_material)
 
-        dialogBuilder.setTitle(R.string.wifi_access);
+        dialogBuilder.setTitle(R.string.wifi_access)
         dialogBuilder.setMessage(R.string.wifi_access_message)
         dialogBuilder.setPositiveButton(R.string.next) { dialog, whichButton ->
             val wifiIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
@@ -141,7 +150,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceList.setHasFixedSize(true)
         recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_DEVICES)
         deviceList.adapter = recyclerAdapter
-
     }
 
     override fun showProgress(title: String?) {

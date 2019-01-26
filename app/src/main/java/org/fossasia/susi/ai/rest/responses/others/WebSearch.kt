@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.rest.responses.others
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 /**

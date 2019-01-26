@@ -27,12 +27,12 @@ class WelcomeActivity : AppCompatActivity() {
     private val viewPagerPageChangeListener = object : ViewPager.OnPageChangeListener {
 
         override fun onPageSelected(position: Int) {
-            if (position == layouts!!.size - 1) {
-                btnNext!!.text = getString(R.string.start)
-                btnSkip!!.visibility = View.GONE
+            if (position == layouts?.size?.minus(1)) {
+                btnNext?.text = getString(R.string.start)
+                btnSkip?.visibility = View.GONE
             } else {
-                btnNext!!.text = getString(R.string.next)
-                btnSkip!!.visibility = View.VISIBLE
+                btnNext?.text = getString(R.string.next)
+                btnSkip?.visibility = View.VISIBLE
             }
         }
 
@@ -64,30 +64,33 @@ class WelcomeActivity : AppCompatActivity() {
         ImageViewPager = findViewById<View>(R.id.pager) as ViewPager
         val tabLayout = findViewById<View>(R.id.tabDots) as TabLayout
         tabLayout.setupWithViewPager(ImageViewPager, true)
-        btnSkip = findViewById<View>(R.id.btn_skip) as Button
-        btnNext = findViewById<View>(R.id.btn_next) as Button
+        btnSkip = findViewById(R.id.btn_skip)
+        btnNext = findViewById(R.id.btn_next)
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
 
         val myViewPagerAdapter = MyViewPagerAdapter()
-        ImageViewPager!!.adapter = myViewPagerAdapter
-        ImageViewPager!!.addOnPageChangeListener(viewPagerPageChangeListener)
+        ImageViewPager?.adapter = myViewPagerAdapter
+        ImageViewPager?.addOnPageChangeListener(viewPagerPageChangeListener)
 
-        btnSkip!!.setOnClickListener { launchHomeScreen() }
-        btnNext!!.setOnClickListener {
+        btnSkip?.setOnClickListener { launchHomeScreen() }
+        btnNext?.setOnClickListener {
             // checking for last page
             // if last page home screen will be launched
             val current = getItem(1)
-            if (current < layouts!!.size) {
-                //  to next screen
-                ImageViewPager!!.currentItem = current
-            } else {
-                launchHomeScreen()
+            val mLayouts = layouts
+            if (mLayouts != null && current != null) {
+                if (current < mLayouts.size) {
+                    //  to next screen
+                    ImageViewPager?.currentItem = current
+                } else {
+                    launchHomeScreen()
+                }
             }
         }
     }
 
-    private fun getItem(i: Int): Int {
-        return ImageViewPager!!.currentItem + i
+    private fun getItem(i: Int): Int? {
+        return ImageViewPager?.currentItem?.plus(i)
     }
 
     private fun launchHomeScreen() {
@@ -114,8 +117,7 @@ class WelcomeActivity : AppCompatActivity() {
         }
 
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-            val view = `object` as View
-            container.removeView(view)
+            if (`object` is View) container.removeView(`object`)
         }
     }
 }

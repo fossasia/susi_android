@@ -56,7 +56,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             }
         }
 
-        val bundle = intent.extras;
+        val bundle = intent.extras
         val string = bundle?.getString("email")
         if (string != null)
             email.editText?.setText(string)
@@ -75,7 +75,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         signUpPresenter = SignUpPresenter(this)
         signUpPresenter.onAttach(this)
-
     }
 
     private fun addListeners() {

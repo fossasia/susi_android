@@ -16,6 +16,7 @@ import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
@@ -67,6 +68,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun onLoginSuccess(message: String?) {
+        hideSoftKeyboard(this, window.decorView)
         Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
         val intent = Intent(this@LoginActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK

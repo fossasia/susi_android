@@ -42,6 +42,8 @@
     <string name="message_copied">संदेश कॉपी किया गया</string>
     <string name="error_cancelling_signUp_process_text">क्या आप निश्चित हैं, आप साइन अप की प्रक्रिया को रोकना चाहते हैं? आप बिना किसी खाते के सुशी ऐप का उपयोग करने में सक्षम नहीं होंगे।</string>
 
+    <string name="email_not_registered">आपके द्वारा दर्ज किया गया ईमेल पता हमारे पास पंजीकृत नहीं है। कृपया पुन: प्रयास करें।</string>
+    <string name="email_not_registered_title">ईमेल पंजीकरण</string>
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">कीबोर्ड पर एन्टर बटन पर क्लिक करके संदेश भेजें</string>
     <string name="settings_micPreference_summary">ध्वनि इनपुट देने के लिए माइक सक्षम करें</string>
@@ -302,4 +304,28 @@
     <string name="metric_newest">\"सूसी, नवीनतम कौशल क्या हैं?\"</string>
     <string name="metrics_top_games">\"सूसी, आपके शीर्ष खेल क्या हैं?\"</string>
     <string name="message_no_skills_found">कोई कौशल नहीं मिला।</string>
+    <string name="reported_already">पहले से ही सूचना दी</string>
+    <string name="report_send_success">"रिपोर्ट भेजें सफलता  "</string>
+    <string name="report_error">त्रुटि की रिपोर्ट करें</string>
+    <string name="report_send">रिपोर्ट भेजें</string>
+    <string name="report_skill">रिपोर्ट कौशल</string>
+    <string name="metric_staff_picks">मैट्रिक कर्मचारी उठाता</string>
+    <string name="reviews">समीक्षा</string>
+    <string name="placeholder_initials">प्लेसहोल्डर आद्याक्षर</string>
+    <string name="placeholder_email">प्लेसहोल्डर ईमेल</string>
+    <string name="placeholder_date">प्लेसहोल्डर दिनांक</string>
+    <string name="thanks_wifi">धन्यवाद वाईफ़ाई</string>
+    <string name="wifi_access_message">वाईफ़ाई का उपयोग संदेश</string>
+    <string name="wifi_access">वाईफाई का उपयोग</string>
+    <string name="device_help">डिवाइस की मदद</string>
+    <string name="digit_zero">अंक शून्य</string>
+    <string name="digit_one">अंक एक</string>
+    <string name="digit_two">अंक दो</string>
+    <string name="digit_three">अंक तीन</string>
+    <string name="digit_four">अंक चार</string>
+    <string name="digit_five">अंक पाँच</string>
+    <string name="placeholder_average_rating">प्लेसहोल्डर औसत रेटिंग</string>
+    <string name="placeholder_total_rating">प्लेसहोल्डर कुल रेटिंग</string>
+    <string name="invalid_credentials">अवैध प्रत्यय पत्र</string>
+    <string name="invalid_credentials_title">अमान्य क्रेडेंशियल्स शीर्षक</string>
 </resources>

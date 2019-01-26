@@ -32,6 +32,5 @@ object AndroidHelper {
             Timber.e(e)
             false
         }
-
     }
 }

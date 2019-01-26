@@ -1,4 +1,10 @@
-**Actual Behaviour**
+---
+name: Bug report
+about: Create a bug report to help us improve
+
+---
+
+**Describe the bug**
 
 <!--Please state here what is currently happening.-->
 
@@ -17,6 +23,13 @@
 **Screenshots of the issue**
 
 <!--Where-ever possible add a screenshot of the issue.-->
+
+**Smartphone Info:**
+<!-- Please complete the following information -->
+|               | |
+|---------------|-|
+|Device         |<!-- [e.g. Moto G5 Plus] -->|
+|Android Version|<!-- [e.g. Oreo 8.1] -->    |
 
 **Would you like to work on the issue?**
 

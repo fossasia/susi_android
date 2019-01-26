@@ -53,7 +53,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/height_very_small"
         android:layout_above="@id/btn_next"
         android:alpha=".5"
         android:background="@android:color/white" />

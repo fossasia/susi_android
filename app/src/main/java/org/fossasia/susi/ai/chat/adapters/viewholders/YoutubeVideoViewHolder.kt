@@ -7,7 +7,6 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.IYoutubeVid
 import org.fossasia.susi.ai.chat.YoutubeVid
 import org.fossasia.susi.ai.data.model.ChatMessage
 
@@ -20,7 +19,6 @@ class YoutubeVideoViewHolder(view: View, clickListener: MessageViewHolder.ClickL
     private val playBtn: ImageView by bindView(R.id.play_video)
     private var model: ChatMessage? = null
     private var videoId: String? = null
-    private var youtubeVid: IYoutubeVid? = null
 
     fun setPlayerView(model: ChatMessage?) {
         this.model = model
@@ -30,17 +28,18 @@ class YoutubeVideoViewHolder(view: View, clickListener: MessageViewHolder.ClickL
                 videoId = model.identifier
                 val imgUrl = "http://img.youtube.com/vi/$videoId/0.jpg"
 
-                Picasso.get()
-                        .load(imgUrl)
-                        .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)!!)
-                        .into(playerView)
+                ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)?.let {
+                    Picasso.get()
+                            .load(imgUrl)
+                            .placeholder(it)
+                            .into(playerView)
+                }
             } catch (e: Exception) {
                 Timber.e(e)
             }
-
         }
 
-        youtubeVid = YoutubeVid(itemView.context)
-        playBtn.setOnClickListener { youtubeVid!!.playYoutubeVid(videoId!!) }
+        val youtubeVid = YoutubeVid(itemView.context)
+        playBtn.setOnClickListener { videoId?.let { id -> youtubeVid.playYoutubeVid(id) } }
     }
 }

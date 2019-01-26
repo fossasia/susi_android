@@ -15,13 +15,13 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
-
 
 /**
  * <h1>The Skills activity.</h1>
@@ -55,7 +55,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
+        supportFragmentManager.addOnBackStackChangedListener {
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                currentFragment?.onResume()
+            }
 
+        supportFragmentManager.addOnBackStackChangedListener {
+            invalidateOptionsMenu()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -65,7 +72,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     private fun backHandler(context: Context) {
-        val lastFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
+        val lastFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
         if (lastFragment == null) {
             finish()
@@ -77,12 +84,16 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        backHandler(this)
-        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        supportFragmentManager.addOnBackStackChangedListener {
-            val currentFragment= supportFragmentManager.findFragmentById(R.id.fragment_container)
-            currentFragment?.onResume()
+        if (!isSearchOpened) {
+            super.onBackPressed()
+            backHandler(this)
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        } else {
+            val action = supportActionBar
+            action?.setDisplayShowCustomEnabled(false)
+            action?.setDisplayShowTitleEnabled(true)
+            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            isSearchOpened = false
         }
     }
 
@@ -122,20 +133,20 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val action = supportActionBar //get the actionbar
 
         if (isSearchOpened) { //test if the search is open
-
-            action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true) //show the title in the action bar
+            hideSoftKeyboard(this, window.decorView)
+            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
             //add the search icon in the action bar
             mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         } else { //open the search entry
 
-            action!!.setDisplayShowCustomEnabled(true) //enable it to display a
+            action?.setDisplayShowCustomEnabled(true) //enable it to display a
             // custom view in the action bar.
-            action.setCustomView(R.layout.search_bar)//add the custom view
-            action.setDisplayShowTitleEnabled(false) //hide the title
+            action?.setCustomView(R.layout.search_bar)//add the custom view
+            action?.setDisplayShowTitleEnabled(false) //hide the title
 
-            edtSearch = action.customView.findViewById(R.id.edtSearch) as EditText //the text editor
+            edtSearch = action?.customView?.findViewById(R.id.edtSearch) //the text editor
 
             //this is a listener to do a search when users enters query in editText
             edtSearch?.addTextChangedListener(object : TextWatcher {
@@ -199,13 +210,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         mSearchAction = menu?.findItem(R.id.action_search)
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        when (currentFragment) {
+            is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
+            else -> menu?.setGroupVisible(R.id.menu_items, false)
+        }
         return super.onPrepareOptionsMenu(menu)
-    }
-
-    fun hideKeyboard() {
-        val inputManager: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (currentFocus != null)
-            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
     override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
@@ -227,11 +237,11 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     fun handleOnLoadingFragment() {
-        hideKeyboard()
+        hideSoftKeyboard(this, window.decorView)
         if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
-            action!!.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action.setDisplayShowTitleEnabled(true)
+            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action?.setDisplayShowTitleEnabled(true)
             mSearchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
             isSearchOpened = false
         }

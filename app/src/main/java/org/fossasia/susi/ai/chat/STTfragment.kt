@@ -8,13 +8,13 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.fragment_sttframe.*
+import kotlinx.android.synthetic.main.activity_chat.fabsetting
+import kotlinx.android.synthetic.main.fragment_sttframe.speechProgress
+import kotlinx.android.synthetic.main.fragment_sttframe.txtChat
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import timber.log.Timber
@@ -25,16 +25,18 @@ import timber.log.Timber
 class STTfragment : Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
+    private val thisActivity = activity
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        chatPresenter = ChatPresenter(activity as ChatActivity)
+        chatPresenter = ChatPresenter(requireContext())
     }
 
     @NonNull
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
-        (activity as ChatActivity).fabsetting.hide()
+        if (thisActivity is ChatActivity)
+            thisActivity.fabsetting.hide()
         promptSpeechInput()
         return rootView
     }
@@ -63,7 +65,8 @@ class STTfragment : Fragment() {
                 }
                 if (speechProgress != null)
                     speechProgress.onResultOrOnError()
-                (activity as ChatActivity).setText(voiceResults[0])
+                val thisActivity = activity
+                if (thisActivity is ChatActivity) thisActivity.setText(voiceResults[0])
                 recognizer.destroy()
                 if ((activity as ChatActivity).recordingThread != null) {
                     chatPresenter.startHotwordDetection()
@@ -122,9 +125,9 @@ class STTfragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-	    if (activity is ChatActivity) {
-            (activity as ChatActivity).enableVoiceInput()
-            (activity as ChatActivity).fabsetting.show()
+        if (thisActivity is ChatActivity) {
+            thisActivity.enableVoiceInput()
+            thisActivity.fabsetting.show()
         }
         recognizer.cancel()
         recognizer.destroy()

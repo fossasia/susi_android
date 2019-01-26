@@ -50,7 +50,7 @@ object CredentialHelper {
     fun clearFields(vararg layouts: TextInputLayout) {
         for (inputLayout in layouts) {
             if (inputLayout.editText != null) {
-                inputLayout.editText!!.text = null
+                inputLayout.editText?.text = null
             }
             inputLayout.error = null
         }
@@ -59,7 +59,7 @@ object CredentialHelper {
     /**
      * Is url valid boolean.
 
-     * @param url     the url
+     * @param url the url
      * *
      * @return the boolean
      */
@@ -80,7 +80,7 @@ object CredentialHelper {
     /**
      * Gets valid url.
 
-     * @param url     the url
+     * @param url the url
      * *
      * @return the valid url
      */
@@ -97,7 +97,6 @@ object CredentialHelper {
             Timber.e(e)
             null
         }
-
     }
 
     /**
@@ -105,12 +104,12 @@ object CredentialHelper {
 
      * @param inputLayout the input layout
      * *
-     * @param context     the context
+     * @param context the context
      * *
      * @return the boolean
      */
     fun checkIfEmpty(inputLayout: TextInputLayout, context: Context): Boolean {
-        return if (TextUtils.isEmpty(inputLayout.editText!!.text.toString())) {
+        return if (TextUtils.isEmpty(inputLayout.editText?.text.toString())) {
             inputLayout.error = context.getString(R.string.field_cannot_be_empty)
             true
         } else {

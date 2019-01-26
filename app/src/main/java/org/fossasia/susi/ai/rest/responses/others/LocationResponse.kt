@@ -1,7 +1,5 @@
 package org.fossasia.susi.ai.rest.responses.others
 
-import com.google.gson.annotations.SerializedName
-
 /**
  * <h1>Kotlin Data class to parse retrofit response from location client.</h1>
  *

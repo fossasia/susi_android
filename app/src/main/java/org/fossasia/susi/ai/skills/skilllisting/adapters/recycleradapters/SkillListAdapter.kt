@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters
 
 import android.content.Context
 import android.support.annotation.NonNull
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -36,14 +35,13 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
             if (skillData.image.isEmpty()) {
                 holder.previewImageView.setImageResource(R.drawable.ic_susi)
             } else {
-              Utils.setSkillsImage(skillData, holder.previewImageView)
+                Utils.setSkillsImage(skillData, holder.previewImageView)
             }
 
-            if (skillData.skillRating != null) {
-                if (skillData.skillRating?.stars != null) {
-                    holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar as Float
-                    holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
-                }
+            val stars = skillData.skillRating?.stars
+            if (stars != null) {
+                holder.skillRatingBar.rating = stars.averageStar
+                holder.totalRatings.text = stars.totalStar.toString()
             }
         }
     }

@@ -63,24 +63,28 @@ interface SusiService {
     /**
      * Sign up call.
      *
-     * @param email    the email
+     * @param email the email
      * @param password the password
      * @return the call
      */
     @POST("/aaa/signup.json")
-    fun signUp(@Query("signup") email: String,
-               @Query("password") password: String): Call<SignUpResponse>
+    fun signUp(
+        @Query("signup") email: String,
+        @Query("password") password: String
+    ): Call<SignUpResponse>
 
     /**
      * Login call.
      *
-     * @param email    the email
+     * @param email the email
      * @param password the password
      * @return the call
      */
     @POST("/aaa/login.json?type=access-token")
-    fun login(@Query("login") email: String,
-              @Query("password") password: String): Call<LoginResponse>
+    fun login(
+        @Query("login") email: String,
+        @Query("password") password: String
+    ): Call<LoginResponse>
 
     /**
      * Forgot password call.
@@ -99,9 +103,11 @@ interface SusiService {
      * @return the call
      */
     @POST("/aaa/changeUserSettings.json")
-    fun changeSettingResponse(@Query("key1") key: String,
-                              @Query("value1") value: String,
-                              @Query("count") count: Int): Call<ChangeSettingResponse>
+    fun changeSettingResponse(
+        @Query("key1") key: String,
+        @Query("value1") value: String,
+        @Query("count") count: Int
+    ): Call<ChangeSettingResponse>
 
     /**
      * Send user rating to the server
@@ -141,9 +147,11 @@ interface SusiService {
      * @return the call
      */
     @POST("/aaa/changepassword.json")
-    fun resetPasswordResponse(@Query("changepassword") email: String,
-                              @Query("password") password: String,
-                              @Query("newpassword") newPassword: String): Call<ResetPasswordResponse>
+    fun resetPasswordResponse(
+        @Query("changepassword") email: String,
+        @Query("password") password: String,
+        @Query("newpassword") newPassword: String
+    ): Call<ResetPasswordResponse>
 
     /**
      * Post feedback provided by user
@@ -165,7 +173,6 @@ interface SusiService {
      */
     @GET("/cms/getGroups.json")
     fun fetchListGroups(): Call<ListGroupsResponse>
-
 
     @GET("/cms/getSkillList.json")
     fun fetchListSkills(@QueryMap query: Map<String, String>): Call<ListSkillsResponse>
@@ -189,13 +196,15 @@ interface SusiService {
     /**
      * Get skills based on different metrics from the server
      *
-     * @param model    Model of the skill (e.g. general)
+     * @param model Model of the skill (e.g. general)
      * @param language Language directory in which the skill resides (e.g. en)
      * @return the call
      */
     @GET("/cms/getSkillMetricsData.json")
-    fun fetchSkillMetricsData(@Query("model") model: String,
-                              @Query("language") language: String): Call<ListSkillMetricsResponse>
+    fun fetchSkillMetricsData(
+        @Query("model") model: String,
+        @Query("language") language: String
+    ): Call<ListSkillMetricsResponse>
 
     /**
      * Report a skill

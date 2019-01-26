@@ -13,5 +13,4 @@ class VerticalCellViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     val column: TextView by bindView(R.id.column)
     val data: TextView by bindView(R.id.data_item)
     val linkData: TextView by bindView(R.id.data_item_link)
-
 }
