@@ -183,7 +183,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
             if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
                     && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
                 val message = askSusiMessage.text.toString().trim { it <= ' ' }
-
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
                     askSusiMessage.setText("")
