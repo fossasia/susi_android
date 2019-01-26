@@ -180,8 +180,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
 
-            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
-                    && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
+            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend &&
+                    (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
                 val message = askSusiMessage.text.toString().trim { it <= ' ' }
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
@@ -425,7 +425,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
         rv_chat_feed.adapter?.itemCount?.minus(1)?.let { rv_chat_feed.smoothScrollToPosition(it) }
     }
 
-    fun openSettings(view: View) { val i = Intent(this, SkillsActivity::class.java)
+    fun openSettings(view: View) {
+        val i = Intent(this, SkillsActivity::class.java)
         startActivity(i)
         finish()
     }
