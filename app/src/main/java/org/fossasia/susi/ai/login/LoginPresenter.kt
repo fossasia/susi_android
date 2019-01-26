@@ -96,7 +96,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
             }
         } else {
             utilModel.setServer(true)
-        }l
+        }
 
         this.email = email
         PrefManager.putString(Constant.EMAIL, this.email)
