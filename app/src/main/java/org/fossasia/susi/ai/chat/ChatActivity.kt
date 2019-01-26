@@ -130,10 +130,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 if (charSequence.toString().trim { it <= ' ' }.isNotEmpty() || !chatPresenter.micCheck()) {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
-                    btnSpeak.setOnClickListener{
+                    btnSpeak.setOnClickListener {
                         chatPresenter.check(false)
-                        val chatMessage = askSusiMessage.text.toString().trim{ it <= ' ' }
-                        val splits = chatMessage.split("\n".toRegex()).dropLastWhile{ it.isEmpty() }
+                        val chatMessage = askSusiMessage.text.toString().trim { it <= ' ' }
+                        val splits = chatMessage.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
                         val message = splits.joinToString(" ")
                         if (!chatMessage.isEmpty()) {
                             chatPresenter.sendMessage(message, askSusiMessage.text.toString())
@@ -164,7 +164,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         askSusiMessage.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                val message = askSusiMessage.text.toString().trim{ it <= ' ' }
+                val message = askSusiMessage.text.toString().trim { it <= ' ' }
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
                     askSusiMessage.setText("")
@@ -177,7 +177,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
             if (i == KeyEvent.KEYCODE_ENTER && enterAsSend
                     && (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
-                val message = askSusiMessage.text.toString().trim{ it <= ' ' }
+                val message = askSusiMessage.text.toString().trim { it <= ' ' }
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
                     askSusiMessage.setText("")
@@ -209,8 +209,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 if (bottom < oldBottom) {
                     rv_chat_feed.postDelayed({
                         val scroll = rv_chat_feed.adapter?.itemCount?.minus(1)
-                        val scrollTo:Int
-                        if (scroll != null){
+                        val scrollTo: Int
+                        if (scroll != null) {
                             scrollTo = if (scroll >= 0) scroll else 0
                             rv_chat_feed.scrollToPosition(scrollTo)
                         }
@@ -350,7 +350,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         if (micCheck) {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
-            btnSpeak.setOnClickListener{
+            btnSpeak.setOnClickListener {
                 btnSpeak.isEnabled = false
                 textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
@@ -358,8 +358,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
         } else {
             chatPresenter.check(false)
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
-            btnSpeak.setOnClickListener{
-                val message = askSusiMessage.text.toString().trim{ it <= ' ' }
+            btnSpeak.setOnClickListener {
+                val message = askSusiMessage.text.toString().trim { it <= ' ' }
                 if (!message.isEmpty()) {
                     chatPresenter.sendMessage(message, askSusiMessage.text.toString())
                     askSusiMessage.setText("")

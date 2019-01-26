@@ -159,7 +159,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     private fun cancelLogin() {
-        progressDialog.setOnCancelListener{
+        progressDialog.setOnCancelListener {
             loginPresenter.cancelLogin()
             logIn.isEnabled = true
         }
