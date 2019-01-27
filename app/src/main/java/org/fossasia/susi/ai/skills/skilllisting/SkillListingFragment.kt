@@ -94,6 +94,15 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         skillMetricsAdapter.notifyDataSetChanged()
     }
 
+    override fun updateSkillsAdapter(skills: ArrayList<Pair<String, List<SkillData>>>) {
+        swipe_refresh_layout.isRefreshing = false
+        if (errorSkillFetch.visibility == View.VISIBLE) {
+            errorSkillFetch.visibility = View.GONE
+        }
+        this.skills.clear()
+        this.skills.addAll(skills)
+    }
+
     override fun onRefresh() {
         setUPAdapter()
         skillListingPresenter.getMetrics(swipe_refresh_layout.isRefreshing)
