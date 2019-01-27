@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.helper
 
+import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.data.model.MapData
 
 /**
@@ -41,15 +42,16 @@ class MapHelper
             val latitude = mapData.latitude
             val longitude = mapData.longitude
             val zoom = mapData.zoom
-            mapURL = String.format(URL_SCHEME, latitude, longitude, zoom, width, height)
+            mapURL = String.format(URL_SCHEME, longitude, latitude, zoom, width, height)
             webLink = String.format(MAP_URL_SCHEME, zoom, latitude, longitude)
             isParseSuccessful = true
         }
     }
 
     companion object {
-        private const val BASE_URL = "http://staticmap.openstreetmap.de/staticmap.php?"
-        private val URL_SCHEME = BASE_URL + "center=%f,%f&zoom=%f&size=%sx%s"
+        val MAPBOX_STATIC_MAP_KEY = BuildConfig.MAPBOX_API_KEY //create your own token by register on www.mapbox.com
+        private const val BASE_URL = "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/"
+        private var URL_SCHEME = BASE_URL + "%f,%f,%f/%sx%s?access_token=" + MAPBOX_STATIC_MAP_KEY
         private const val MAP_URL = "https://www.openstreetmap.org/#map="
         private val MAP_URL_SCHEME = "$MAP_URL%f/%f/%f"
         private const val width = 340
