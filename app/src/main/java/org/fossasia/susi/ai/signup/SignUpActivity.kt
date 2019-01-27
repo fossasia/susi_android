@@ -190,10 +190,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     private fun cancelSignUp() {
-        progressDialog.setOnCancelListener({
+        progressDialog.setOnCancelListener {
             signUpPresenter.cancelSignUp()
             signUp.isEnabled = true
-        })
+        }
     }
 
     override fun onSignUpError(title: String?, message: String?) {

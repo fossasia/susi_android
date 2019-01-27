@@ -81,7 +81,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
 
         this.email = email
         signUpView?.showProgress(true)
-        signUpModel.signUp(email.trim({ it <= ' ' }).toLowerCase(), password, this)
+        signUpModel.signUp(email.trim { it <= ' ' }.toLowerCase(), password, this)
     }
 
     override fun onError(throwable: Throwable) {
@@ -162,7 +162,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         }
         this.email = email
         signUpView?.showForgotPasswordProgress(true)
-        forgotPasswordModel.requestPassword(email.trim({ it <= ' ' }), this)
+        forgotPasswordModel.requestPassword(email.trim { it <= ' ' }, this)
     }
 
     override fun onForgotPasswordModelSuccess(response: Response<ForgotPasswordResponse>) {
