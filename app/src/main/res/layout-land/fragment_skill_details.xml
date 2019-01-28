@@ -288,8 +288,8 @@
                                 app:fontFamily="sans-serif" />
 
                             <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:background="@color/md_white_1000"
                                 app:srcCompat="@drawable/baseline_star_rate_black_18dp"
                                 android:tint="@color/md_grey_700" />
@@ -313,8 +313,8 @@
                                 app:fontFamily="sans-serif" />
 
                             <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:background="@color/md_white_1000"
                                 app:srcCompat="@drawable/baseline_star_rate_black_18dp"
                                 android:tint="@color/md_grey_700" />
@@ -338,8 +338,8 @@
                                 app:fontFamily="sans-serif" />
 
                             <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:background="@color/md_white_1000"
                                 app:srcCompat="@drawable/baseline_star_rate_black_18dp"
                                 android:tint="@color/md_grey_700" />
@@ -363,8 +363,8 @@
                                 app:fontFamily="sans-serif" />
 
                             <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:background="@color/md_white_1000"
                                 app:srcCompat="@drawable/baseline_star_rate_black_18dp"
                                 android:tint="@color/md_grey_700" />
@@ -388,8 +388,8 @@
                                 app:fontFamily="sans-serif" />
 
                             <ImageView
-                                android:layout_width="18dp"
-                                android:layout_height="18dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:background="@color/md_white_1000"
                                 app:srcCompat="@drawable/baseline_star_rate_black_18dp"
                                 android:tint="@color/md_grey_700" />
