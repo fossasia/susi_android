@@ -31,6 +31,8 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
     private lateinit var playerView: YouTubePlayerView
     private var apikey = ""
 
+    private var yourApiKey = "YOUR_API_KEY"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.youtube_player)
@@ -38,8 +40,8 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         apikey = this.packageManager.getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA)
                 .metaData.getString(YOUTUBE_KEY)
 
-        if ("YOUR_API_KEY".equals(apikey)) {
-            Toast.makeText(applicationContext, "API KEY not set.", Toast.LENGTH_LONG).show()
+        if (yourApiKey.equals(apikey)) {
+            Toast.makeText(applicationContext, context.getString(org.fossasia.susi.ai.R.string.api_key_not_set), Toast.LENGTH_LONG).show()
             finish()
         } else {
             init()
@@ -80,8 +82,8 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RECOVERY_REQUEST) {
             // Retry initialization if user performed a recovery action
-            if ("YOUR_API_KEY".equals(apikey)) {
-                Toast.makeText(applicationContext, "API KEY not set.", Toast.LENGTH_LONG).show()
+            if (yourApiKey.equals(apikey)) {
+                Toast.makeText(applicationContext, context.getString(org.fossasia.susi.ai.R.string.api_key_not_set), Toast.LENGTH_LONG).show()
                 finish()
             } else {
                 playerView.initialize(apikey, this)
