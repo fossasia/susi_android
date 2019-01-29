@@ -414,9 +414,9 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
          */
         fun extractLinks(text: String): List<String> {
             val links = ArrayList<String>()
-            val m = Patterns.WEB_URL.matcher(text)
-            while (m.find()) {
-                val url = m.group()
+            val match = Patterns.WEB_URL.matcher(text)
+            while (match.find()) {
+                val url = match.group()
                 links.add(url)
             }
             return links
