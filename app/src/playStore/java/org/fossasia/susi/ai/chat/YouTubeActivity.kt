@@ -22,6 +22,7 @@ import timber.log.Timber
  */
 
 private const val YOUTUBE_KEY = "com.google.android.youtube.API_KEY"
+private const val yourApiKey = "YOUR_API_KEY"
 
 class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListener {
     private val RECOVERY_REQUEST = 1
@@ -38,8 +39,8 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         apikey = this.packageManager.getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA)
                 .metaData.getString(YOUTUBE_KEY)
 
-        if ("YOUR_API_KEY".equals(apikey)) {
-            Toast.makeText(applicationContext, "API KEY not set.", Toast.LENGTH_LONG).show()
+        if (yourApiKey.equals(apikey)) {
+            Toast.makeText(applicationContext, applicationContext.getString(org.fossasia.susi.ai.R.string.api_key_not_set), Toast.LENGTH_LONG).show()
             finish()
         } else {
             init()
@@ -80,8 +81,8 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RECOVERY_REQUEST) {
             // Retry initialization if user performed a recovery action
-            if ("YOUR_API_KEY".equals(apikey)) {
-                Toast.makeText(applicationContext, "API KEY not set.", Toast.LENGTH_LONG).show()
+            if (yourApiKey.equals(apikey)) {
+                Toast.makeText(applicationContext, applicationContext.getString(org.fossasia.susi.ai.R.string.api_key_not_set), Toast.LENGTH_LONG).show()
                 finish()
             } else {
                 playerView.initialize(apikey, this)

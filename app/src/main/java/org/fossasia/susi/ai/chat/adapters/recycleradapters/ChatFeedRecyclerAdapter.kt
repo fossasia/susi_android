@@ -286,7 +286,7 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
      */
     private fun setClipboard(text: String?) {
         val clipboard = currContext.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager?
-        val clip = android.content.ClipData.newPlainText("Copied Text", text)
+        val clip = android.content.ClipData.newPlainText(currContext.getString(R.string.copied_text), text)
         if (clipboard != null) {
             clipboard.primaryClip = clip
         }
