@@ -339,8 +339,8 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
                     timeStamp = DateTimeHelper.currentTime),
                     this)
         } else {
-            val s = databaseRepository.getAMessage(newMessageIndex - 1)?.date
-            if (DateTimeHelper.date != s) {
+            val date = databaseRepository.getAMessage(newMessageIndex - 1)?.date
+            if (DateTimeHelper.date != date) {
                 databaseRepository.updateDatabase(ChatArgs(
                         prevId = newMessageIndex,
                         isDate = true,
@@ -537,16 +537,16 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
         val permissionsRequired = utilModel.permissionsToGet()
 
         val permissionsGranted = arrayOfNulls<String>(3)
-        var c = 0
+        var counter = 0
 
         for (permission in permissionsRequired) {
             if (!(chatView?.checkPermission(permission) as Boolean)) {
-                permissionsGranted[c] = permission
-                c++
+                permissionsGranted[counter] = permission
+                counter++
             }
         }
 
-        if (c > 0) {
+        if (counter > 0) {
             chatView?.askForPermission(permissionsGranted)
         }
 
