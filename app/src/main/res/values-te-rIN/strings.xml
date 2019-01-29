@@ -252,8 +252,8 @@
     <string name="metric_newest">SUSI, ?</string>
     <string name="metrics_top_games">SUSI, ?</string>
     <string name="message_no_skills_found"></string>
-    <string name="report_skill">ு</string>
-    <string name="report_send"></string>
+    <string name="report_skill">తగనిదిగా ఫ్లాగ్ చేయండి</string>
+    <string name="report_send">నివేదిక పంపండి</string>
     <string name="report_error"></string>
     <string name="report_send_success"></string>
     <string name="reported_already"></string>
