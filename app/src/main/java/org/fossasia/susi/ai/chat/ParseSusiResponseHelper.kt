@@ -49,10 +49,10 @@ class ParseSusiResponseHelper {
                     val urlList = extractUrls(text)
 
                     //appending the Urls to the answer
-                    //num_links is the maximum number of links to be appended
-                    val num_links = 1
+                    //numLinks is the maximum number of links to be appended
+                    val numLinks = 1
                     for (l in urlList.indices) {
-                        if (l < num_links)
+                        if (l < numLinks)
                             answer += "\n" + urlList[l]
                     }
 
