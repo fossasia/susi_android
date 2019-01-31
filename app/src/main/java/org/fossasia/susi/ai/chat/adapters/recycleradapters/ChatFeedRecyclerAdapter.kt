@@ -286,7 +286,7 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
      */
     private fun setClipboard(text: String?) {
         val clipboard = currContext.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager?
-        val clip = android.content.ClipData.newPlainText("Copied Text", text)
+        val clip = android.content.ClipData.newPlainText(currContext.getString(R.string.copied_text), text)
         if (clipboard != null) {
             clipboard.primaryClip = clip
         }
@@ -414,9 +414,9 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
          */
         fun extractLinks(text: String): List<String> {
             val links = ArrayList<String>()
-            val m = Patterns.WEB_URL.matcher(text)
-            while (m.find()) {
-                val url = m.group()
+            val match = Patterns.WEB_URL.matcher(text)
+            while (match.find()) {
+                val url = match.group()
                 links.add(url)
             }
             return links

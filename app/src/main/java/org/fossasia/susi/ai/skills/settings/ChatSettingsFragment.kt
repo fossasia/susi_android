@@ -83,7 +83,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
         speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key))
         speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key))
-        displayEmail = preferenceManager.findPreference("display_email")
+        displayEmail = preferenceManager.findPreference(getString(R.string.settings_displayEmail_key))
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
@@ -106,7 +106,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (PrefManager.token == null) {
             deviceName.isVisible = false
             setupDevice.isVisible = false
-            preferenceManager.findPreference("device_section").isVisible = false
+            preferenceManager.findPreference(getString(R.string.settings_deviceSection_key)).isVisible = false
         }
 
         querylanguage.setOnPreferenceChangeListener { _, newValue ->

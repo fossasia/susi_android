@@ -14,11 +14,11 @@ class DevicesAdapter(private val itemList: List<String>, private val devicePrese
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewCode == 1) {
-            val v = LayoutInflater.from(parent.context).inflate(R.layout.device_layout, parent, false)
-            DeviceViewHolder(v, devicePresenter as DeviceConnectPresenter)
+            val deviceLayout = LayoutInflater.from(parent.context).inflate(R.layout.device_layout, parent, false)
+            DeviceViewHolder(deviceLayout, devicePresenter as DeviceConnectPresenter)
         } else {
-            val v = LayoutInflater.from(parent.context).inflate(R.layout.layout_wifi_item, parent, false)
-            WifiViewHolder(v, devicePresenter as DeviceConnectPresenter)
+            val layoutWifiItem = LayoutInflater.from(parent.context).inflate(R.layout.layout_wifi_item, parent, false)
+            WifiViewHolder(layoutWifiItem, devicePresenter as DeviceConnectPresenter)
         }
     }
 

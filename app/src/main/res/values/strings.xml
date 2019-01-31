@@ -104,6 +104,8 @@
     <string name="speech_not_supported">Sorry, your device doesn\'t support speech input</string>
     <string name="speech_prompt">Say something…</string>
     <string name="tap_on_mic">Tap the mic icon to speak</string>
+    <string name="settings_deviceSection_key" translatable="false">device_section</string>
+    <string name="settings_displayEmail_key" translatable="false">display_email</string>
 
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action.</string>
@@ -404,6 +406,8 @@
     <string name="reviews">Reviews</string>
     <string name="toast_empty_feedback">Please enter a feedback to post</string>
     <string name="toast_feedback_updated">Skill feedback updated</string>
+    <string name="api_key_not_set">API KEY not set.</string>
+    <string name="copied_text">Copied Text</string>
 
     <!-- Metrics -->
 

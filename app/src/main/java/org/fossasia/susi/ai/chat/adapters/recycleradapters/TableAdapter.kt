@@ -20,8 +20,8 @@ class TableAdapter(private val column: List<String?>, private val data: List<Str
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabViewHolder {
         context = parent.context
-        val v = LayoutInflater.from(context).inflate(R.layout.table_item, parent, false)
-        return TabViewHolder(v)
+        val tableItem = LayoutInflater.from(context).inflate(R.layout.table_item, parent, false)
+        return TabViewHolder(tableItem)
     }
 
     override fun onBindViewHolder(holder: TabViewHolder, position: Int) {
