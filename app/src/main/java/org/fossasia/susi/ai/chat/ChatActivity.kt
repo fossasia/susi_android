@@ -3,14 +3,20 @@ package org.fossasia.susi.ai.chat
 import ai.kitt.snowboy.MsgEnum
 import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
-
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.net.ConnectivityManager
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
@@ -21,25 +27,28 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-
 import io.realm.RealmResults
-
-import kotlinx.android.synthetic.main.activity_chat.*
-
+import kotlinx.android.synthetic.main.activity_chat.askSusiMessage
+import kotlinx.android.synthetic.main.activity_chat.rv_chat_feed
+import kotlinx.android.synthetic.main.activity_chat.btnSpeak
+import kotlinx.android.synthetic.main.activity_chat.btnScrollToEnd
+import kotlinx.android.synthetic.main.activity_chat.coordinator_layout
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.skills.SkillsActivity
-
-import java.util.*
+import timber.log.Timber
+import java.util.Locale
 
 /**
  * The Chat Activity. Does all the main processes including
@@ -48,20 +57,23 @@ import java.util.*
  * The V in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatActivity: AppCompatActivity(), IChatView {
-
-    val TAG: String = ChatActivity::class.java.name
+class ChatActivity : AppCompatActivity(), IChatView {
 
     lateinit var chatPresenter: IChatPresenter
-    val PERM_REQ_CODE = 1
-    lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
-    var textToSpeech: TextToSpeech? = null
+    lateinit var youtubeVid: IYoutubeVid
+    private val PERM_REQ_CODE = 1
+    private lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
+    private var textToSpeech: TextToSpeech? = null
     var recordingThread: RecordingThread? = null
-    lateinit var networkStateReceiver: BroadcastReceiver
-    lateinit var progressDialog: ProgressDialog
-    var example: String = ""
+    private lateinit var networkStateReceiver: BroadcastReceiver
+    private lateinit var progressDialog: ProgressDialog
+    private var example: String = ""
+    private var isConfigurationChanged = false
+    private val enterAsSend: Boolean by lazy {
+        PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
+    }
 
-    val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+    private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             textToSpeech?.stop()
         }
@@ -76,13 +88,14 @@ class ChatActivity: AppCompatActivity(), IChatView {
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
 
+        youtubeVid = YoutubeVid(this)
         setUpUI()
         initializationMethod(firstRun)
 
-        if(intent.getStringExtra("example") != null) {
-            example = intent.getStringExtra("example")
+        example = if (intent.getStringExtra("example") != null) {
+            intent.getStringExtra("example")
         } else {
-            example = ""
+            ""
         }
 
         networkStateReceiver = object : BroadcastReceiver() {
@@ -94,7 +107,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     // This method is used to set up the UI components
     // of Chat Activity like Adapter, Toolbar, Background, Theme, etc
-    fun setUpUI() {
+    private fun setUpUI() {
         chatPresenter.setUp()
         chatPresenter.checkPreferences()
         setEditText()
@@ -103,7 +116,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     // This method is used to call all other methods
     // which should run every time when the Chat Activity is started
     // like getting user location, initialization of TTS and hotword etc
-    fun initializationMethod(firstRun: Boolean) {
+    private fun initializationMethod(firstRun: Boolean) {
         chatPresenter.retrieveOldMessages(firstRun)
         chatPresenter.getLocationFromIP()
         chatPresenter.getLocationFromLocationService()
@@ -112,7 +125,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         compensateTTSDelay()
     }
 
-    fun setEditText() {
+    private fun setEditText() {
         val watch = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 //do whatever you want to do before text change in input edit text
@@ -121,16 +134,16 @@ class ChatActivity: AppCompatActivity(), IChatView {
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 if (charSequence.toString().trim { it <= ' ' }.isNotEmpty() || !chatPresenter.micCheck()) {
                     btnSpeak.setImageResource(R.drawable.ic_send_fab)
-                    btnSpeak.setOnClickListener ({
+                    btnSpeak.setOnClickListener {
                         chatPresenter.check(false)
-                        val chat_message = et_message.text.toString().trim({ it <= ' ' })
-                        val splits = chat_message.split("\n".toRegex()).dropLastWhile({ it.isEmpty() })
+                        val chatMessage = askSusiMessage.text.toString().trim { it <= ' ' }
+                        val splits = chatMessage.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
                         val message = splits.joinToString(" ")
-                        if (!chat_message.isEmpty()) {
-                            chatPresenter.sendMessage(message, et_message.text.toString())
-                            et_message.setText("")
+                        if (!chatMessage.isEmpty()) {
+                            chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                            askSusiMessage.setText("")
                         }
-                    })
+                    }
                 } else {
                     btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
                     btnSpeak.setOnClickListener {
@@ -145,25 +158,44 @@ class ChatActivity: AppCompatActivity(), IChatView {
             }
         }
 
-        et_message.setSingleLine(false)
-        et_message.maxLines = 4
-        et_message.isVerticalScrollBarEnabled = true
-        et_message.setHorizontallyScrolling(false)
+        askSusiMessage.setSingleLine(false)
+        askSusiMessage.maxLines = 4
+        askSusiMessage.isVerticalScrollBarEnabled = true
+        askSusiMessage.setHorizontallyScrolling(false)
 
-        et_message.addTextChangedListener(watch)
+        askSusiMessage.addTextChangedListener(watch)
 
-        et_message.setOnEditorActionListener({ _, actionId, _ ->
+        askSusiMessage.setOnEditorActionListener { _, actionId, _ ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                val message = et_message.text.toString().trim({ it <= ' ' })
+                val message = askSusiMessage.text.toString().trim { it <= ' ' }
                 if (!message.isEmpty()) {
-                    chatPresenter.sendMessage(message, et_message.text.toString())
-                    et_message.setText("")
+                    chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                    askSusiMessage.setText("")
                 }
                 handled = true
             }
             handled
+        }
+
+        askSusiMessage.setOnKeyListener(View.OnKeyListener { view, i, keyEvent ->
+
+            if (i == KeyEvent.KEYCODE_ENTER && enterAsSend &&
+                    (keyEvent.action == KeyEvent.ACTION_UP || keyEvent.action == KeyEvent.ACTION_DOWN)) {
+                val message = askSusiMessage.text.toString().trim { it <= ' ' }
+                if (!message.isEmpty()) {
+                    chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                    askSusiMessage.setText("")
+                }
+                return@OnKeyListener true
+            }
+            false
         })
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        isConfigurationChanged = true
     }
 
     override fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>) {
@@ -175,21 +207,29 @@ class ChatActivity: AppCompatActivity(), IChatView {
         recyclerAdapter = ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true)
         rv_chat_feed.adapter = recyclerAdapter
 
-        rv_chat_feed.addOnLayoutChangeListener({ _, _, _, _, bottom, _, _, _, oldBottom ->
-            if (bottom < oldBottom) {
-                rv_chat_feed.postDelayed({
-                    var scrollTo = rv_chat_feed.adapter.itemCount - 1
-                    scrollTo = if (scrollTo >= 0) scrollTo else 0
-                    rv_chat_feed.scrollToPosition(scrollTo)
-                }, 10)
+        rv_chat_feed.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+            if (isConfigurationChanged) {
+                isConfigurationChanged = false
+            } else {
+                if (bottom < oldBottom) {
+                    rv_chat_feed.postDelayed({
+                        val scroll = rv_chat_feed.adapter?.itemCount?.minus(1)
+                        val scrollTo: Int
+                        if (scroll != null) {
+                            scrollTo = if (scroll >= 0) scroll else 0
+                            rv_chat_feed.scrollToPosition(scrollTo)
+                        }
+                    }, 10)
+                }
             }
-        })
+        }
 
         rv_chat_feed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            @SuppressLint("RestrictedApi")
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rv_chat_feed.adapter.itemCount - 5) {
+                if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rv_chat_feed.adapter?.itemCount!!.minus(5)) {
                     btnScrollToEnd.isEnabled = true
                     btnScrollToEnd.visibility = View.VISIBLE
                 } else {
@@ -200,11 +240,11 @@ class ChatActivity: AppCompatActivity(), IChatView {
         })
     }
 
-    fun compensateTTSDelay() {
+    private fun compensateTTSDelay() {
         Handler().post {
             textToSpeech = TextToSpeech(applicationContext, TextToSpeech.OnInitListener { status ->
                 if (status != TextToSpeech.ERROR) {
-                    val locale = textToSpeech?.getLanguage()
+                    val locale = textToSpeech?.language
                     textToSpeech?.language = locale
                 }
             })
@@ -213,18 +253,18 @@ class ChatActivity: AppCompatActivity(), IChatView {
 
     //Take user's speech as input and send the message
     override fun promptSpeechInput() {
-        if ( recordingThread != null) {
+        if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
         }
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(currentFocus.windowToken, 0)
+        hideSoftKeyboard(this, window.decorView)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.sttframe, STTfragment())
+        ft.replace(R.id.speechToTextFrame, STTfragment())
         ft.addToBackStack(null)
         ft.commit()
     }
 
     //Replies user with Speech
-     override fun voiceReply(reply: String, language: String) {
+    override fun voiceReply(reply: String, language: String) {
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
@@ -248,14 +288,17 @@ class ChatActivity: AppCompatActivity(), IChatView {
                 })
 
                 val ttsParams = HashMap<String, String>()
-                ttsParams.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
-                        this@ChatActivity.packageName)
+                ttsParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = this@ChatActivity.packageName
                 textToSpeech?.language = Locale(language)
                 textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
-                audioFocus.abandonAudioFocus(afChangeListener)
+                audioFocus?.abandonAudioFocus(afChangeListener)
             }
         }
+    }
 
+    fun enableVoiceInput() {
+        btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
+        btnSpeak.isEnabled = true
     }
 
     override fun showWaitingDots() {
@@ -311,28 +354,30 @@ class ChatActivity: AppCompatActivity(), IChatView {
         if (micCheck) {
             chatPresenter.check(true)
             btnSpeak.setImageResource(R.drawable.ic_mic_24dp)
-            btnSpeak.setOnClickListener({
+            btnSpeak.setOnClickListener {
+                btnSpeak.isEnabled = false
                 textToSpeech?.stop()
                 chatPresenter.startSpeechInput()
-            })
+            }
         } else {
             chatPresenter.check(false)
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
-            btnSpeak.setOnClickListener({
-                val message = et_message.text.toString().trim({ it <= ' ' })
+            btnSpeak.setOnClickListener {
+                val message = askSusiMessage.text.toString().trim { it <= ' ' }
                 if (!message.isEmpty()) {
-                    chatPresenter.sendMessage(message, et_message.text.toString())
-                    et_message.setText("")
+                    chatPresenter.sendMessage(message, askSusiMessage.text.toString())
+                    askSusiMessage.setText("")
                 }
-            })
+            }
         }
     }
 
     override fun checkEnterKeyPref(isChecked: Boolean) {
         if (isChecked) {
-            et_message.imeOptions = EditorInfo.IME_ACTION_SEND
+            askSusiMessage.imeOptions = EditorInfo.IME_ACTION_SEND
+            askSusiMessage.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD //setting this programmatically works for all devices
         } else {
-            et_message.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
+            askSusiMessage.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }
     }
 
@@ -377,7 +422,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
     }
 
     fun scrollToEnd(view: View) {
-        rv_chat_feed.smoothScrollToPosition(rv_chat_feed.adapter.itemCount - 1)
+        rv_chat_feed.adapter?.itemCount?.minus(1)?.let { rv_chat_feed.smoothScrollToPosition(it) }
     }
 
     fun openSettings(view: View) {
@@ -397,14 +442,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
         progressDialog.dismiss()
     }
 
-    override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 0) {
-            chatPresenter.exitChatActivity()
-        } else {
-            supportFragmentManager.popBackStackImmediate()
-        }
-    }
-
     override fun finishActivity() {
         finish()
     }
@@ -413,7 +450,7 @@ class ChatActivity: AppCompatActivity(), IChatView {
         super.onResume()
         chatPresenter.getUndeliveredMessages()
 
-        if(!example.isEmpty()) {
+        if (!example.isEmpty()) {
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
         }
@@ -427,9 +464,9 @@ class ChatActivity: AppCompatActivity(), IChatView {
         if (recordingThread != null)
             chatPresenter.startHotwordDetection()
 
-        if (et_message.text.toString().isNotEmpty()) {
+        if (askSusiMessage.text.toString().isNotEmpty()) {
             btnSpeak.setImageResource(R.drawable.ic_send_fab)
-            et_message.setText("")
+            askSusiMessage.setText("")
             chatPresenter.micCheck(false)
         }
 
@@ -448,7 +485,6 @@ class ChatActivity: AppCompatActivity(), IChatView {
             chatPresenter.stopHotwordDetection()
 
         textToSpeech?.stop()
-
     }
 
     override fun onDestroy() {
@@ -458,5 +494,30 @@ class ChatActivity: AppCompatActivity(), IChatView {
         textToSpeech?.setOnUtteranceProgressListener(null)
         textToSpeech?.shutdown()
         chatPresenter.onDetach()
+    }
+
+    override fun stopMic() {
+        onPause()
+        registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+
+        window.setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        )
+
+        if (recordingThread != null)
+            chatPresenter.startHotwordDetection()
+
+        if (askSusiMessage.text.toString().isNotEmpty()) {
+            btnSpeak.setImageResource(R.drawable.ic_send_fab)
+            askSusiMessage.setText("")
+            chatPresenter.micCheck(false)
+        }
+
+        chatPresenter.checkPreferences()
+    }
+
+    override fun playVideo(videoId: String) {
+        Timber.d(videoId)
+        youtubeVid.playYoutubeVid(videoId)
     }
 }

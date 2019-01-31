@@ -18,4 +18,7 @@ interface ISignUpPresenter {
 
     fun checkForPassword(password: String)
 
+    fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean)
+
+    fun cancelSignup()
 }

@@ -9,16 +9,16 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/margin_card"
-        android:layout_marginLeft="@dimen/margin_card"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginTop="@dimen/message_card_margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
         app:cardBackgroundColor="@color/susi_message_bg">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/map_view_height"
-            android:layout_marginBottom="@dimen/margin_large">
+            android:layout_marginBottom="@dimen/margin_moderate">
 
             <ImageView
                 android:id="@+id/map_image"

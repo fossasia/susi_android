@@ -17,5 +17,11 @@ interface ILoginView {
 
     fun onLoginError(title: String?, message: String?)
 
-    fun attachEmails(savedEmails: MutableSet<String>?)
+    fun attachEmails(savedEmails: Set<String>?)
+
+    fun showForgotPasswordProgress(boolean: Boolean)
+
+    fun resetPasswordSuccess()
+
+    fun resetPasswordFailure(title: String?, message: String?, button: String?, color: Int)
 }

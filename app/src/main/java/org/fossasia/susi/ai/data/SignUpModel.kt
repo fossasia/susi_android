@@ -6,6 +6,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  * Model of Login
@@ -15,13 +16,13 @@ import retrofit2.Response
  * Created by mayanktripathi on 10/07/17.
  */
 
-class SignUpModel: ISignUpModel {
+class SignUpModel : ISignUpModel {
 
-    lateinit var authResponseCall: Call<SignUpResponse>
+    private lateinit var authResponseCall: Call<SignUpResponse>
 
     override fun signUp(email: String, password: String, listener: ISignUpModel.OnSignUpFinishedListener) {
 
-        authResponseCall = ClientBuilder().susiApi
+        authResponseCall = ClientBuilder.susiApi
                 .signUp(email, password)
 
         authResponseCall.enqueue(object : Callback<SignUpResponse> {
@@ -30,7 +31,7 @@ class SignUpModel: ISignUpModel {
             }
 
             override fun onFailure(call: Call<SignUpResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onError(t)
             }
         })

@@ -48,4 +48,16 @@
         <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
 
+    <style name="DevicesThemeLight" parent="PreferenceFixTheme.Light">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:background">@color/default_bg</item>
+        <item name="android:windowActionBar">true</item>
+    </style>
+
+    <!-- Theme for rating bar in skill details screen -->
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/md_grey_500</item>
+        <item name="colorControlActivated">@color/md_amber_A200</item>
+    </style>
 </resources>

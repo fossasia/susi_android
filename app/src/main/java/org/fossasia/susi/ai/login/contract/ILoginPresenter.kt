@@ -16,4 +16,8 @@ interface ILoginPresenter {
     fun cancelLogin()
 
     fun onDetach()
+
+    fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean)
+
+    fun cancelSignup()
 }

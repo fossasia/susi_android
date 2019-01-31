@@ -11,6 +11,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.ActivityCompat
+import timber.log.Timber
 
 import java.lang.ref.WeakReference
 
@@ -28,7 +29,7 @@ class LocationHelper
 (context: Context) : Service(), LocationListener {
 
     private var canGetLocation = false
-    private val weakContext: WeakReference<Context>
+    private val weakContext: WeakReference<Context> = WeakReference(context)
 
     /**
      * Gets latitude.
@@ -54,27 +55,23 @@ class LocationHelper
 
     protected var locationManager: LocationManager? = null
 
-    init {
-        weakContext = WeakReference(context)
-    }
-
     /**
      * Gets location.
      */
     fun getLocation() {
-        val mContext = weakContext.get()
+        val context = weakContext.get()
         var location: Location?
-        if (mContext == null) {
+        if (context == null) {
             return
         }
         try {
-            locationManager = mContext
+            locationManager = context
                     .getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (locationManager != null) {
-                    locationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
-                    location = locationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
+                    location = locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                     if (location != null) {
                         source = "network"
                         canGetLocation = true
@@ -84,10 +81,10 @@ class LocationHelper
                 }
             }
 
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 if (locationManager != null) {
-                    locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
-                    location = locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, (5 * 60 * 1000).toLong(), 10f, this)
+                    location = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
                     if (location != null) {
                         source = "gps"
                         canGetLocation = true
@@ -97,9 +94,8 @@ class LocationHelper
                 }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
         }
-
     }
 
     /**
@@ -118,7 +114,7 @@ class LocationHelper
         val mContext = weakContext.get()
         if (mContext != null && locationManager != null) {
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                locationManager!!.removeUpdates(this)
+                locationManager?.removeUpdates(this)
             }
         }
     }

@@ -16,5 +16,4 @@ interface ISettingsView {
     fun checkUrl(isEmpty: Boolean)
     fun onResetPasswordResponse(message: String)
     fun setServerSuccessful()
-
 }

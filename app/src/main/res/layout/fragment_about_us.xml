@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,16 +11,18 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_medium"
             android:orientation="vertical">
 
             <!--About Susi -->
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/padding_small"
+                android:layout_gravity="center"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
                 android:focusable="true">
@@ -33,32 +35,32 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        app:srcCompat="@drawable/ic_susi_blue"
-                        android:padding="@dimen/padding_small"
                         android:layout_gravity="center_horizontal"
-                        />
+                        android:layout_marginTop="@dimen/margin_medium"
+                        android:padding="@dimen/padding_small"
+                        app:srcCompat="@drawable/ic_susi_blue" />
 
                     <TextView
                         android:id="@+id/about_susi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_large"
+                        android:layout_marginTop="@dimen/margin_moderate"
                         android:padding="@dimen/padding_small"
-                        android:textSize="@dimen/message_text_size"
-                        android:text="@string/susi_about"/>
+                        android:text="@string/susi_about"
+                        android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <!-- About Contributors -->
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
+                android:focusable="true"
                 android:clickable="true"
                 android:foreground="?attr/selectableItemBackground"
-                android:focusable="true">
+                android:padding="@dimen/padding_small">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,10 +72,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
                         android:text="@string/susi_contributors"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/contributors_desc"
@@ -81,20 +83,20 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_contributors_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <!-- About Susi Skill Cms -->
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
+                android:padding="@dimen/padding_small"
                 android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:focusable="true">
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -106,10 +108,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
                         android:text="@string/susi_skill_cms"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/susi_skill_cms_desc"
@@ -117,20 +119,20 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_skill_cms_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <!-- About Reporting Issues -->
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
+                android:padding="@dimen/padding_small"
                 android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:focusable="true">
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -142,10 +144,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
                         android:text="@string/susi_report_issues"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/susi_report_issues_desc"
@@ -153,21 +155,23 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_report_issues_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <!-- About Licence Information -->
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
                 android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:focusable="true">
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -179,10 +183,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
-                        android:textColor="@color/colorPrimary"
-                        android:textStyle="bold"
                         android:text="@string/susi_license_information"
-                        android:textSize="@dimen/text_size_large" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/susi_license_info_desc"
@@ -190,11 +194,11 @@
                         android:layout_height="wrap_content"
                         android:padding="@dimen/padding_small"
                         android:text="@string/susi_license_information_desc"
-                        android:textSize="@dimen/message_text_size" />
+                        android:textSize="@dimen/text_size_medium" />
 
                 </LinearLayout>
 
-            </android.support.v7.widget.CardView>
+            </LinearLayout>
 
         </LinearLayout>
 

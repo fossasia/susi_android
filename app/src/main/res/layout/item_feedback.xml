@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/md_white_1000"
+    android:paddingTop="@dimen/padding_small">
+
+    <LinearLayout
+        android:id="@+id/itemFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_white_1000"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_small">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="@dimen/avatar_size"
+            android:layout_height="@dimen/avatar_size"
+            android:layout_gravity="top"
+            android:layout_marginBottom="@dimen/padding_small"
+            android:layout_marginEnd="@dimen/padding_small"
+            android:layout_marginRight="@dimen/padding_small"
+            android:gravity="top"
+            android:textAllCaps="true"
+            android:background="@color/md_white_1000"
+            android:textColor="@color/md_white_1000" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/md_white_1000"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/padding_small"
+            android:paddingStart="@dimen/padding_small">
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/md_white_1000"
+                android:includeFontPadding="false"
+                android:text="@string/placeholder_email"
+                android:textColor="@color/md_grey_800"
+                android:textSize="@dimen/text_size_normal"
+                app:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/md_white_1000"
+                android:includeFontPadding="false"
+                android:textSize="@dimen/text_size_small"
+                app:fontFamily="sans-serif" />
+
+            <TextView
+                android:id="@+id/tvFeedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/example_feedback"
+                android:textColor="@color/md_grey_700"
+                app:fontFamily="sans-serif"
+                android:includeFontPadding="false"
+                android:background="@color/md_white_1000"
+                android:textSize="@dimen/text_size_normal" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/seeAllReviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_white_1000"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/md_white_1000"
+            android:text="@string/see_all_reviews"
+            android:textSize="@dimen/text_size_normal" />
+
+        <ImageView
+            android:layout_width="@dimen/arrow_width"
+            android:layout_height="@dimen/arrow_height"
+            android:layout_gravity="center_vertical"
+            android:background="@color/md_white_1000"
+            android:paddingLeft="@dimen/padding_moderate"
+            android:paddingStart="@dimen/padding_moderate"
+            android:src="@drawable/ic_right_facing_arrow" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

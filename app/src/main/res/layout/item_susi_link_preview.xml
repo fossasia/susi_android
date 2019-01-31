@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginTop="@dimen/margin_very_small">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_very_small">
 
     <LinearLayout
         android:id="@+id/background_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginLeft="@dimen/message_card_margin_medium"
-        android:layout_marginTop="@dimen/message_card_margin_small"
-        android:background="@drawable/rounded_layout">
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@drawable/rounded_layout"
+        android:layout_marginStart="@dimen/margin_medium">
 
         <LinearLayout
             android:layout_width="@dimen/message_layout_max_width"
@@ -24,54 +25,57 @@
                 android:id="@+id/chat_bubble_item_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="end"
                 android:layout_weight="1"
-                android:paddingTop="@dimen/padding_chatbubble_large"
-                android:paddingRight="@dimen/padding_chatbubble_large"
-                android:paddingLeft="@dimen/padding_chatbubble_large"
-                android:paddingBottom="@dimen/padding_chatbubble_small">
+                android:paddingBottom="@dimen/padding_small"
+                android:paddingLeft="@dimen/padding_large"
+                android:paddingRight="@dimen/padding_large"
+                android:paddingTop="@dimen/padding_large">
 
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="@dimen/link_preview_max_width"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|left"
-                    android:maxWidth="@dimen/message_layout_max_width"
-                    android:paddingBottom="@dimen/message_textview_bottom_padding"
                     android:autoLink="web"
-                    android:textColorLink="@color/link_text"
+                    android:maxWidth="@dimen/message_layout_max_width"
+                    android:paddingBottom="@dimen/padding_small"
                     android:text="@string/hello_world"
                     android:textColor="@color/message_text_color"
-                    android:textSize="@dimen/message_text_size" />
+                    android:textColorLink="@color/link_text"
+                    android:textSize="@dimen/text_size_medium" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="end|right|bottom"
                     android:gravity="center"
-                    android:paddingLeft="8dp">
+                    android:paddingLeft="@dimen/padding_medium"
+                    android:paddingStart="@dimen/padding_medium">
 
                     <TextView
                         android:id="@+id/timestamp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="bottom"
-                        android:text="9:00 AM"
+                        android:text="@string/time_9am"
                         android:textColor="@color/timestamp_color"
-                        android:textSize="@dimen/timestamp_size" />
+                        android:textSize="@dimen/text_size_very_small" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:layout_marginLeft="@dimen/margin_medium">
+                        android:gravity="end"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium">
 
                         <ImageView
                             android:id="@+id/thumbs_up"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             app:srcCompat="@drawable/thumbs_up_outline"
-                            android:layout_marginRight="@dimen/message_card_margin_small"/>
+                            android:layout_marginRight="@dimen/margin_small"
+                            android:layout_marginEnd="@dimen/margin_small" />
 
                         <ImageView
                             android:id="@+id/thumbs_down"
@@ -101,9 +105,9 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/preview_layout_height"
-                    android:layout_marginTop="@dimen/message_layout_margin"
-                    android:layout_weight="0.8"
                     android:layout_margin="1dp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_weight="0.8"
                     android:background="@color/susi_message_link_preview_bg"
                     android:orientation="vertical">
 
@@ -112,9 +116,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/webpreview_headline_height"
                         android:background="@color/susi_message_link_preview_bg"
-                        android:maxLines="1"
                         android:gravity="center_vertical"
-                        android:padding="@dimen/standard_content_padding"
+                        android:maxLines="1"
+                        android:padding="@dimen/padding_small"
                         android:textColor="@color/md_grey_800"
                         tools:text="@string/sample_website_headline" />
 
@@ -125,7 +129,7 @@
                         android:layout_gravity="bottom"
                         android:gravity="center_vertical"
                         android:maxLines="2"
-                        android:padding="@dimen/standard_content_padding"
+                        android:padding="@dimen/padding_small"
                         android:textColor="@color/md_grey_600"
                         tools:text="@string/sample_website_description" />
 

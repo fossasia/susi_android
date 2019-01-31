@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_very_small">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/susi_message_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_white_1000"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/skill_image"
+                android:layout_width="@dimen/skill_image_size"
+                android:layout_height="@dimen/skill_image_size"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:background="@color/md_white_1000"
+                android:padding="@dimen/padding_moderate"
+                android:scaleType="centerInside"
+                app:srcCompat="@drawable/ic_user"
+                tools:ignore="ContentDescription" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_white_1000"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/cmv_padding"
+                android:paddingEnd="@dimen/cmv_padding"
+                android:paddingRight="@dimen/cmv_padding"
+                android:paddingTop="@dimen/cmv_padding">
+
+                <TextView
+                    android:id="@+id/skill_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_white_1000"
+                    android:paddingLeft="@dimen/cmv_padding"
+                    android:paddingStart="@dimen/cmv_padding"
+                    android:text="@string/skill_name"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_moderate"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/skill_author_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_white_1000"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/cmv_padding"
+                    android:paddingStart="@dimen/cmv_padding"
+                    android:text="@string/author_name"
+                    android:textColor="@color/md_grey_800"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_white_1000"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/skill_rating"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="@dimen/rating_bar_layout_width"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:numStars="5"
+                        android:paddingBottom="@dimen/cmv_padding"
+                        android:paddingEnd="@dimen/cmv_padding"
+                        android:paddingLeft="@dimen/cmv_padding"
+                        android:paddingRight="@dimen/cmv_padding"
+                        android:paddingStart="@dimen/cmv_padding"
+                        android:theme="@style/RatingBar" />
+
+                    <TextView
+                        android:id="@+id/skill_total_ratings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_white_1000"
+                        android:paddingBottom="@dimen/cmv_padding"
+                        android:text="@string/digit_zero"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/skill_example"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/md_white_1000"
+                    android:paddingLeft="@dimen/cmv_padding"
+                    android:paddingStart="@dimen/cmv_padding"
+                    android:text="@string/examples"
+                    android:textColor="@color/md_grey_800"
+                    android:textSize="@dimen/text_size_normal"
+                    android:typeface="monospace" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

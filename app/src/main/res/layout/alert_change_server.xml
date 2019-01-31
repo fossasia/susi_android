@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingStart="16dp"
-    android:paddingTop="10dp"
-    android:paddingRight="15dp"
-    android:paddingEnd="15dp">
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/padding_large"
+    android:paddingLeft="@dimen/padding_large"
+    android:paddingRight="@dimen/padding_large"
+    android:paddingStart="@dimen/padding_large"
+    android:paddingTop="10dp">
+
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/customer_server"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/customer_server"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="@dimen/margin_small_medium"
+        android:text="@string/custom_server" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_url"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_moderate"
         android:visibility="gone"
-        android:layout_marginTop="10dp"
         app:errorEnabled="true">
 
         <android.support.design.widget.TextInputEditText

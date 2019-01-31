@@ -4,16 +4,17 @@
     android:id="@+id/background_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="right">
+    android:gravity="end">
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginRight="@dimen/message_card_margin_medium"
-        android:layout_marginTop="@dimen/message_card_margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
         app:cardBackgroundColor="@color/user_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        app:contentPadding="@dimen/padding_small"
+        android:layout_marginEnd="@dimen/margin_medium">
 
         <ImageView
             android:layout_width="wrap_content"

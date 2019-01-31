@@ -1,6 +1,8 @@
 package org.fossasia.susi.ai.data.contract
 
+import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import retrofit2.Response
 
@@ -9,19 +11,26 @@ import retrofit2.Response
  * Created by chiragw15 on 16/8/17.
  */
 interface ISkillListingModel {
-    interface onFetchGroupsFinishedListener {
+    interface OnFetchGroupsFinishedListener {
         fun onGroupFetchSuccess(response: Response<ListGroupsResponse>)
         fun onGroupFetchFailure(t: Throwable)
     }
 
-    interface onFetchSkillsFinishedListener {
+    interface OnFetchSkillsFinishedListener {
         fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String)
         fun onSkillFetchFailure(t: Throwable)
     }
 
-    fun fetchGroups(listener: onFetchGroupsFinishedListener)
+    interface OnFetchSkillMetricsFinishedListener {
+        fun onSkillMetricsFetchSuccess(response: Response<ListSkillMetricsResponse>)
+        fun onSkillMetricsFetchFailure(t: Throwable)
+    }
 
-    fun fetchSkills(group: String, listener: onFetchSkillsFinishedListener)
+    fun fetchGroups(listener: OnFetchGroupsFinishedListener)
+
+    fun fetchSkills(group: String, language: String, listener: OnFetchSkillsFinishedListener)
+
+    fun fetchSkillMetrics(query: SkillMetricsDataQuery, listener: OnFetchSkillMetricsFinishedListener)
 
     fun cancelFetch()
 }

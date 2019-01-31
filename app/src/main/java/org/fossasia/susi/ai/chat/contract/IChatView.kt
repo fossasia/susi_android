@@ -28,4 +28,6 @@ interface IChatView {
     fun initHotword()
     fun promptSpeechInput()
     fun finishActivity()
+    fun stopMic()
+    fun playVideo(videoId: String)
 }

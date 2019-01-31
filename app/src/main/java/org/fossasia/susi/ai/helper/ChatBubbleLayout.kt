@@ -27,16 +27,16 @@ class ChatBubbleLayout : FrameLayout {
 
      * @param context the context
      * *
-     * @param attrs   the attrs
+     * @param attrs the attrs
      */
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
     /**
      * Instantiates a new Chat bubble layout.
 
-     * @param context      the context
+     * @param context the context
      * *
-     * @param attrs        the attrs
+     * @param attrs the attrs
      * *
      * @param defStyleAttr the def style attr
      */
@@ -45,13 +45,13 @@ class ChatBubbleLayout : FrameLayout {
     /**
      * Instantiates a new Chat bubble layout.
 
-     * @param context      the context
+     * @param context the context
      * *
-     * @param attrs        the attrs
+     * @param attrs the attrs
      * *
      * @param defStyleAttr the def style attr
      * *
-     * @param defStyleRes  the def style res
+     * @param defStyleRes the def style res
      */
     @TargetApi(21)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {
@@ -63,7 +63,7 @@ class ChatBubbleLayout : FrameLayout {
         val childTextView = getChildAt(0) as TextView
         val childDateView = getChildAt(1)
 
-        val view_width = View.MeasureSpec.getSize(widthMeasureSpec)
+        val viewWidth = View.MeasureSpec.getSize(widthMeasureSpec)
 
         val lineCount = childTextView.lineCount
 
@@ -87,10 +87,10 @@ class ChatBubbleLayout : FrameLayout {
         val lineHeight = childTextView.measuredHeight / lineCount / 2
         val bottomMargin = lineHeight - dateViewHeight / 2
 
-        if (childTextView.measuredWidth + viewPaddingLeftNRight >= view_width || finalFrameLayoutRequiredWidth >= view_width) {
-            finalFramelayoutWidth = view_width
+        if (childTextView.measuredWidth + viewPaddingLeftNRight >= viewWidth || finalFrameLayoutRequiredWidth >= viewWidth) {
+            finalFramelayoutWidth = viewWidth
             finalFrameLayoutHeight = measuredHeight
-            if (finalFrameLayoutRequiredWidth >= view_width) {
+            if (finalFrameLayoutRequiredWidth >= viewWidth) {
                 finalFrameLayoutHeight += dateViewHeight
                 finalFramelayoutWidth = childTextView.measuredWidth + viewPaddingLeftNRight
 
@@ -98,7 +98,6 @@ class ChatBubbleLayout : FrameLayout {
             } else {
                 (childDateView.layoutParams as FrameLayout.LayoutParams).bottomMargin = bottomMargin
             }
-
         } else {
             finalFramelayoutWidth = Math.max(finalFrameLayoutRequiredWidth,
                     childTextView.measuredWidth + viewPaddingLeftNRight)
@@ -106,8 +105,8 @@ class ChatBubbleLayout : FrameLayout {
             (childDateView.layoutParams as FrameLayout.LayoutParams).bottomMargin = bottomMargin
         }
 
-        if (finalFramelayoutWidth > view_width)
-            finalFramelayoutWidth = view_width
+        if (finalFramelayoutWidth > viewWidth)
+            finalFramelayoutWidth = viewWidth
 
         setMeasuredDimension(finalFramelayoutWidth, finalFrameLayoutHeight)
     }

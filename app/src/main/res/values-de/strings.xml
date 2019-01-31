@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--General Strings-->
+    <string name="app_name" translatable="false">Susi</string>
+    <string name="send_msg_hint">Frage Susi etwas..</string>
+    <string name="action_settings">Einstellungen</string>
+    <string name="action_wall_settings">Hintergrundbild</string>
+    <string name="action_share">Aktie</string>
+    <string name="action_log_out">Ausloggen</string>
+    <string name="action_login">Login</string>
+    <string name="settings_title">Chat Einstellungen</string>
+    <string name="server_settings_title">Servereinstellungen</string>
+    <string name="server_pref">Server auswählen</string>
+    <string name="server_select_summary">Wählen Sie den Backend-Server für die App aus.</string>
+    <string name="search">Suche</string>
+    <string name="select_background">Hintergrund auswählen</string>
+    <string name="background_no_wall">no_wall</string>
+    <string name="id">id</string>
+    <string name="no_internet_connection"> Keine Internetverbindung!!</string>
+    <string name="updated_successfully">Erfolgreich aktualisiert!</string>
+    <string name="content" translatable="false">inhalt</string>
+    <string name="not_found">Nicht gefunden</string>
+    <string name="nothing_up_matches_your_query">Nichts oben, das zu Ihrer Abfrage passt</string>
+    <string name="nothing_down_matches_your_query">Nichts unten, das zu Ihrer Abfrage passt</string>
+    <string name="send_message"> Nachricht absenden</string>
+    <string name="hint_voice_input">Sag Etwas...</string>
+    <string name="dialog_retrieve_messages_title">Alte Nachrichten abrufen...</string>
+    <string name="hotword_success">Hotword erkannt</string>
+    <string name="custom_server">Benutzerdefinierter Server</string>
+
+    <string name="signup">Vielen dank für deine Registrierung</string>
+    <string name="signup_msg">Wir haben eine E-Mail an die angegebene Adresse gesendet. Bitte benutzen Sie die
+        Bestätigungslink zur Aktivierung Ihres Kontos und Anmeldung bei susi.</string>
+    <string name="email_invalid">Die eingegebene E-Mail-Adresse gehört nicht zu einem Konto.
+        Bitte überprüfen Sie Ihre E-Mail und versuchen Sie es erneut.</string>
+    <string name="password_invalid">Das angegebene Passwort ist nicht korrek. Bitte versuche es erneut.</string>
+    <string name="forgot_password_mail_sent">E-Mail gesendet</string>
+
+    <string name="activity_executed_key" translatable="false">activity_executed</string>
+    <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
+    <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
+    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
+    <string name="notify_user_key" translatable="false">notify_user</string>
+
+    <string name="websearchnull">Keine Ergebnisse gefunden</string>
+    <string name="error_email">Diese E-Mail Adresse ist bereits vergeben</string>
+    <string name="error_msg">Bitte verwenden Sie die vergessen Passwort, wenn Sie sich nicht an Ihr Passwort erinnern</string>
+    <string name="password_invalid_title">Ungültiges Passwort</string>
+    <string name="exit">Zum Verlassen erneut drücken</string>
+    <string name="message_copied">Nachricht kopiert</string>
+    <string name="error_cancelling_signUp_process_text">Bist du sicher, dass du die Registrierung abbrechen willst? Ohne Nutzerkonto kannst du Susi nicht benutzen.</string>
+
+    <!-- Strings for Using Enter as Send Preference and Speech Output-->
+    <string name="settings_enterPreference_summary">Drücke die Enter-Taste um eine Nachricht zu senden.</string>
+    <string name="settings_micPreference_summary">Aktiviere das Mikrofon um Spracheingaben zu ermöglichen</string>
+    <string name="settings_speechPreference_summary">Aktiviere Sprachausgabe nur für Spracheingabe</string>
+    <string name="settings_speechAlwaysPreference_summary">Aktiviere Sprachausgabe für jegliche Eingaben</string>
+    <string name="settings_hotwordPreference_summary">Aktivieren Sie die Hotword-Erkennung, um mit Susi im Freisprechmodus zu interagieren</string>
+    <string name="settings_speechPreference_label">Sprachausgabe</string>
+    <string name="settings_speechAlways_label">Sprachausgabe immer EIN</string>
+    <string name="settings_enterPreference_label">Geben Sie als Send ein</string>
+    <string name="setting_mic_input">Mic Eingang</string>
+    <string name="setting_hotword_detection">Hotword-Erkennung (Beta)</string>
+    <string name="hello_world">Hallo Welt!</string>
+    <string name="speech_prompt">Sag etwas&#8230;</string>
+    <string name="speech_not_supported">Es tut uns leid! Ihr Gerät unterstützt keine Spracheingabe</string>
+    <string name="tap_on_mic">Tippen Sie auf mic, um zu sprechen</string>
+    <string name="know_more">Mehr wissen</string>
+
+    <!--Error Messages-->
+    <string name="error_crop_not_supported">Entschuldigen Sie Ihr Gerät nicht unterstützt Bild Ernte Aktion!</string>
+    <string name="error_occurred_try_again">Ein Fehler ist aufgetreten. bitte versuche es erneut!</string>
+    <string name="error_invalid_token">Ungültiger Access Token!</string>
+    <string name="error_internet_connectivity">Internetverbindungsproblem!</string>
+    <string name="error_hotword">Entschuldige, dein Telefon unterstützt keine Hotword-Erkennung.</string>
+    <string name="error_rating">Kann nicht rate Skill. Einige Fehler aufgetreten..</string>
+
+    <!--Material Dialog-->
+    <string name="dialog_action_complete">verwendung zu komplette aktion </string>
+    <string name="email">Email</string>
+    <string name="password">Passwort</string>
+    <string name="confirm_password">Bestätige das Passwort</string>
+    <string name="new_password">Neues Kennwort</string>
+    <string name="current_password">Aktuelles Passwort</string>
+    <string name="sign_up">Anmelden</string>
+    <string name="pass_validation_text">Gebe eine Kombination von mindestens 6 Zeichen ein</string>
+    <string name="log_in">Einloggen</string>
+    <string name="field_cannot_be_empty">Dieses Feld kann nicht leer sein</string>
+    <string name="email_cannot_be_empty">E-Mail kann nicht leer sein</string>
+    <string name="password_cannot_be_empty">Passwort kann nicht leer sein</string>
+    <string name="url_cannot_be_empty">URL kann nicht leer sein</string>
+    <string name="copy_items">Kopieren</string>
+    <string name="share_items">Aktie</string>
+    <string name="sample_website_description">Beispieltext Aus einer Website extrahiert</string>
+    <string name="sample_website_headline">Website-Stichprobe</string>
+    <string name="sample_website_link">Website Link</string>
+    <string-array name="dialog_complete_action_items">
+        <item>1. Galerie</item>
+        <item>2. Keine Tapete</item>
+    </string-array>
+
+    <!-- Login Screen-->
+    <string name="activity_login_log_in">Login</string>
+    <string name="activity_login_sing_up">Anmelden</string>
+    <string name="activity_login_forgot_pass">Passwort vergessen?</string>
+    <string name="activity_login_sign_up">Melden Sie sich für SUSI an</string>
+    <string name="activity_login_skip">Überspringen</string>
+    <string name="unknown_answer">Ich weiß es nicht.</string>
+    <string name="settings_mic">Mic-Einstellungen</string>
+    <string name="settings_speech">Spracheinstellungen</string>
+    <string name="settings_misc">Sonstiges</string>
+    <string name="Language">Sprache</string>
+    <string name="action_select_language">Wähle eine Sprache</string>
+
+    <!-- Login Activity-->
+    <string name="invalid_url">ungültige URL</string>
+    <string name="unknown_host_exception">Unbekannte Host-Ausnahme</string>
+    <string name="internet_connection_prompt">Bitte überprüfe deine Internetverbindung</string>
+    <string name="login">Einloggen...</string>
+    <string name="signing_up">Anmeldung...</string>
+    <string name="first_time">FIRST_TIME</string>
+    <string name="ok">OK</string>
+    <string name="invalid_email">Ungültige E-Mail</string>
+    <string name="email_invalid_title">Falsche Email</string>
+
+    <!-- Settings Activity-->
+    <string name="server_change_prompt">Bitte logge dich ein um den Susi Server zu ändern</string>
+    <string name="loading">Laden...</string>
+    <string name="Continue">Fortsetzen</string>
+    <string name="retry">Wiederholen</string>
+    <string name="error">Fehler</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
+
+    <string name="email_id_input">Geben Sie Ihre E-Mail-ID ein</string>
+    <string name="reset">Passwort zurücksetzen</string>
+    <string name="reset_pass_activity">Passwort zurücksetzen</string>
+    <string name="wrong_password">Fehler. Versuche es erneut</string>
+    <string name="error_password_matching">Passwörter stimmen nicht überein</string>
+    <string name="pass_change_dialog"> Passwort wird geändert. Bitte habe ein wenig Geduld.</string>
+    <string name="forgot_pass_activity">Passwort vergessen?</string>
+    <string name="email_pass_not_exists">E-Mail existiert nicht. Bitte stellen Sie sicher, dass Sie Ihre E-Mail korrekt eingegeben haben.</string>
+    <string name="email_token_string_message">Bitte geben Sie das gültige Zugriffstoken ein, das an Ihre E-Mail-ID gesendet wurde.</string>
+    <string name="pref_rate_title">Bewerte Susi</string>
+    <string name="pref_rate_summary">Bewerte SUSI App auf Play Store</string>
+    <string name="pref_share_title">SUSI teilen</string>
+    <string name="pref_share_summary">SUSI App mit deinen Freunden teilen.</string>
+    <string name="email_not_registered">Die von Ihnen eingegebene E-Mail ist nicht bei uns registriert. Bitte versuche es erneut.</string>
+    <string name="email_not_registered_title">E-Mail Registrierung</string>
+
+    <!--Share App strings-->
+    <string name="promo_msg_template">Hey, versuch es! -%s. Du wirst es lieben!</string>
+    <string name="error_msg_retry">Bitte wiederholen Sie erneut</string>
+    <string name="logout">Ausloggen</string>
+</resources>

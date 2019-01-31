@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,13 +15,14 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.SkillExampl
  *
  * Created by chiragw15 on 27/8/17.
  */
-class SkillExamplesAdapter(val context: Context, val examples: List<String>): RecyclerView.Adapter<SkillExampleViewHolder>(),
-        SkillExampleViewHolder.ClickListener{
+class SkillExamplesAdapter(val context: Context, val examples: List<String>) : RecyclerView.Adapter<SkillExampleViewHolder>(),
+        SkillExampleViewHolder.ClickListener {
 
-    val clickListener: SkillExampleViewHolder.ClickListener = this
+    private val clickListener: SkillExampleViewHolder.ClickListener = this
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): SkillExampleViewHolder {
-        val itemView = LayoutInflater.from(parent?.context)
+    @NonNull
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SkillExampleViewHolder {
+        val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_example_skill, parent, false)
         return SkillExampleViewHolder(itemView, clickListener)
     }
@@ -29,21 +31,22 @@ class SkillExamplesAdapter(val context: Context, val examples: List<String>): Re
         return examples.size
     }
 
-    override fun onBindViewHolder(holder: SkillExampleViewHolder?, position: Int) {
-        if(examples[position] != null && !examples[position].isEmpty()) {
-            holder?.example?.text = examples[position]
+    @NonNull
+    override fun onBindViewHolder(holder: SkillExampleViewHolder, position: Int) {
+        if (!examples[position].isEmpty()) {
+            holder.example.text = examples[position]
         }
     }
 
     override fun onItemClicked(position: Int) {
-        (context as Activity).overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        if (context is Activity) context.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        if(examples != null && examples.size !=0 && examples[position] != null)
+        if (examples.isNotEmpty())
             intent.putExtra("example", examples[position])
         else
-            intent.putExtra("example","")
+            intent.putExtra("example", "")
         context.startActivity(intent)
-        (context as Activity).finish()
+        if (context is Activity) context.finish()
     }
 }

@@ -1,28 +1,30 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ISkillListingModel
+import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery
+import org.fossasia.susi.ai.dataclasses.SkillsListQuery
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
+import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
-import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 /**
  *
  * Created by chiragw15 on 16/8/17.
  */
-class SkillListingModel: ISkillListingModel {
+class SkillListingModel : ISkillListingModel {
 
-    lateinit var authResponseCallGroups: Call<ListGroupsResponse>
-    lateinit var authResponseCallSkills: Call<ListSkillsResponse>
+    private lateinit var authResponseCallGroups: Call<ListGroupsResponse>
+    private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
+    private lateinit var authResponseCallMetrics: Call<ListSkillMetricsResponse>
 
-    var clientBuilder: ClientBuilder = ClientBuilder()
+    override fun fetchGroups(listener: ISkillListingModel.OnFetchGroupsFinishedListener) {
 
-    override fun fetchGroups(listener: ISkillListingModel.onFetchGroupsFinishedListener) {
-
-        authResponseCallGroups = clientBuilder.susiApi.fetchListGroups()
+        authResponseCallGroups = ClientBuilder.susiApi.fetchListGroups()
 
         authResponseCallGroups.enqueue(object : Callback<ListGroupsResponse> {
             override fun onResponse(call: Call<ListGroupsResponse>, response: Response<ListGroupsResponse>) {
@@ -30,15 +32,16 @@ class SkillListingModel: ISkillListingModel {
             }
 
             override fun onFailure(call: Call<ListGroupsResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onGroupFetchFailure(t)
             }
         })
     }
 
-    override fun fetchSkills(group: String, listener: ISkillListingModel.onFetchSkillsFinishedListener) {
+    override fun fetchSkills(group: String, language: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
 
-        authResponseCallSkills = clientBuilder.susiApi.fetchListSkills(group)
+        val queryObject = SkillsListQuery(group, language, "true", "descending", "rating")
+        authResponseCallSkills = ClientBuilder.fetchListSkillsCall(queryObject)
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
             override fun onResponse(call: Call<ListSkillsResponse>, response: Response<ListSkillsResponse>) {
@@ -46,8 +49,24 @@ class SkillListingModel: ISkillListingModel {
             }
 
             override fun onFailure(call: Call<ListSkillsResponse>, t: Throwable) {
-                t.printStackTrace()
+                Timber.e(t)
                 listener.onSkillFetchFailure(t)
+            }
+        })
+    }
+
+    override fun fetchSkillMetrics(query: SkillMetricsDataQuery, listener: ISkillListingModel.OnFetchSkillMetricsFinishedListener) {
+
+        authResponseCallMetrics = ClientBuilder.susiApi.fetchSkillMetricsData(query.model, query.language)
+
+        authResponseCallMetrics.enqueue(object : Callback<ListSkillMetricsResponse> {
+            override fun onResponse(call: Call<ListSkillMetricsResponse>, response: Response<ListSkillMetricsResponse>) {
+                listener.onSkillMetricsFetchSuccess(response)
+            }
+
+            override fun onFailure(call: Call<ListSkillMetricsResponse>, t: Throwable) {
+                Timber.e(t)
+                listener.onSkillMetricsFetchFailure(t)
             }
         })
     }
@@ -56,8 +75,9 @@ class SkillListingModel: ISkillListingModel {
         try {
             authResponseCallGroups.cancel()
             authResponseCallSkills.cancel()
+            authResponseCallMetrics.cancel()
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
         }
     }
 }

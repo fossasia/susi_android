@@ -10,7 +10,6 @@ import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.GrantPermissionRule
 import android.support.test.runner.AndroidJUnit4
-import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
 import org.junit.Before
@@ -18,6 +17,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import org.junit.runner.RunWith
+import timber.log.Timber
 import java.io.IOException
 
 /**
@@ -34,7 +34,7 @@ class LoginActivityTest {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )
+    )
 
     @Rule
     @JvmField
@@ -43,7 +43,7 @@ class LoginActivityTest {
     @Before
     @Throws(IOException::class, InterruptedException::class)
     fun unlockScreen() {
-        Log.d(TAG, "running unlockScreen..")
+        Timber.d("running unlockScreen..")
 
         val activity = mActivityRule.activity
         val wakeUpDevice = Runnable {
@@ -56,7 +56,7 @@ class LoginActivityTest {
 
     @Test
     fun testUIViewsPresenceOnLoad() {
-        Log.d(TAG, "running testUIViewsPresenceOnLoad..")
+        Timber.d("running testUIViewsPresenceOnLoad..")
 
         // checks if email input field is present
         onView(withId(R.id.email)).check(matches(isDisplayed()))
@@ -80,10 +80,5 @@ class LoginActivityTest {
         // checks if skip button is present
         onView(withId(R.id.skip)).perform(scrollTo())
         onView(withId(R.id.skip)).check(matches(isDisplayed()))
-
-    }
-
-    companion object {
-        private val TAG = "LoginActivityTest"
     }
 }

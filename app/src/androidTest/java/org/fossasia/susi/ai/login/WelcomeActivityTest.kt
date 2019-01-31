@@ -1,4 +1,4 @@
-package org.fossasia.susi.ai.login;
+package org.fossasia.susi.ai.login
 
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -7,21 +7,18 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.ChatActivityTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import timber.log.Timber
 import java.io.IOException
-
 
 /**
  * Created by collinx on 22-10-2017.
  */
-
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -33,7 +30,7 @@ class WelcomeActivityTest {
     @Before
     @Throws(IOException::class, InterruptedException::class)
     fun unlockScreen() {
-        Log.d(TAG, "running unlockScreen..")
+        Timber.d("running unlockScreen..")
 
         val activity = mActivityRule.activity
         val wakeUpDevice = Runnable {
@@ -46,7 +43,7 @@ class WelcomeActivityTest {
 
     @Test
     fun testUIViewsPresenceOnLoad() {
-        Log.d(TAG, "running testUIViewsPresenceOnLoad..")
+        Timber.d("running testUIViewsPresenceOnLoad..")
 
         // checks if viewpager is displayed or not
         onView(withId(R.id.pager)).check(matches(isDisplayed()))
@@ -59,10 +56,5 @@ class WelcomeActivityTest {
 
         // checks if skip button is present
         onView(withId(R.id.btn_skip)).check(matches(isDisplayed()))
-
-    }
-
-    companion object {
-        private val TAG = "WelcomeActivityTest"
     }
 }

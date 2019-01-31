@@ -8,11 +8,12 @@
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginLeft="@dimen/message_card_margin_medium"
-        android:layout_marginTop="@dimen/message_card_margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
         app:cardBackgroundColor="@color/susi_message_bg"
-        app:contentPadding="@dimen/standard_content_padding">
+        app:contentPadding="@dimen/padding_small"
+        android:layout_marginStart="@dimen/margin_medium">
 
         <ImageView
             android:layout_width="wrap_content"

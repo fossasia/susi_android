@@ -15,7 +15,7 @@
         android:gravity="center"
         android:text="@string/slide_1_title"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/slide_title"
+        android:textSize="@dimen/text_size_moderate"
         android:textStyle="normal" />
 
     <ImageView
@@ -30,11 +30,11 @@
         android:layout_height="0dp"
         android:layout_weight=".2"
         android:gravity="center_horizontal"
-        android:paddingLeft="@dimen/intro_desc_padding"
-        android:paddingRight="@dimen/intro_desc_padding"
+        android:paddingLeft="@dimen/padding_moderate"
+        android:paddingRight="@dimen/padding_moderate"
         android:text="@string/slide_1_desc"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/intro_desc_textsize"
+        android:textSize="@dimen/text_size_normal"
         android:textStyle="normal" />
 
 </LinearLayout>

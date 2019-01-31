@@ -24,6 +24,7 @@
     <string name="hint_voice_input">Diga Algo...</string>
     <string name="dialog_retrieve_messages_title">Recuperando Mensagens Antigas...</string>
     <string name="hotword_success">Hotword detectada</string>
+    <string name="custom_server">servidor customizado</string>
 
     <string name="signup">Obrigado pelo seu registro</string>
     <string name="signup_msg">Enviamos um email para o endereço fornecido. Por favor use o
@@ -40,6 +41,8 @@
     <string name="exit">Pressione novamente para sair</string>
     <string name="message_copied">Mensagem Copiada</string>
     <string name="error_cancelling_signUp_process_text">Você tem certeza, quer para o processo de registro? Você não pode usar o paa Susi sem uma conta.</string>
+    <string name="email_not_registered">O e-mail que você digitou não está registrado conosco. Por favor, tente novamente.</string>
+    <string name="email_not_registered_title">Registro de email</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Enviar mensagem clicando no Enter do teclado</string>
@@ -57,6 +60,12 @@
     <string name="speech_not_supported">Desculpe! Seu dispositivo não suporta entrada de aúdio</string>
     <string name="tap_on_mic">Toque no microfone para falar</string>
     <string name="know_more">Saiba mais</string>
+
+    <string name="activity_executed_key" translatable="false">activity_executed</string>
+    <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
+    <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
+    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
+    <string name="notify_user_key" translatable="false">notify_user</string>
 
     <!--Error Messages-->
     <string name="error_occurred_try_again">Ocorreu um erro, tente novamente!</string>

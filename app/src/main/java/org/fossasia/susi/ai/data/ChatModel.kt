@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.data
 
-import android.util.Log
 import org.fossasia.susi.ai.data.contract.IChatModel
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.clients.LocationClient
@@ -11,36 +10,26 @@ import org.fossasia.susi.ai.rest.services.LocationService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
+import timber.log.Timber
 
-/**
- * The Model of Chat Activity.
- *
- * The M in MVP
- * Created by chiragw15 on 9/7/17.
- */
 class ChatModel : IChatModel {
 
-    val TAG: String = ChatModel::class.java.name
-
-    var clientBuilder: ClientBuilder = ClientBuilder()
-
     override fun retrieveOldMessages(listener: IChatModel.OnRetrievingMessagesFinishedListener) {
-        val call = clientBuilder.susiApi.chatHistory
+        val call = ClientBuilder.susiApi.chatHistory
         call.enqueue(object : Callback<MemoryResponse> {
             override fun onResponse(call: Call<MemoryResponse>, response: Response<MemoryResponse>?) {
                 listener.onRetrieveSuccess(response)
             }
 
             override fun onFailure(call: Call<MemoryResponse>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                Timber.e(t)
                 listener.onRetrieveFailure()
             }
         })
     }
 
     override fun getLocationFromIP(listener: IChatModel.OnLocationFromIPReceivedListener) {
-        val locationService = LocationClient.getClient().create(LocationService::class.java)
+        val locationService = LocationClient.retrofit.create(LocationService::class.java)
 
         locationService.locationUsingIP.enqueue(object : Callback<LocationResponse> {
             override fun onResponse(call: Call<LocationResponse>, response: Response<LocationResponse>) {
@@ -48,15 +37,14 @@ class ChatModel : IChatModel {
             }
 
             override fun onFailure(call: Call<LocationResponse>, t: Throwable) {
-                Log.e(TAG, t.toString())
+                Timber.e(t)
             }
         })
     }
 
-    override fun getSusiMessage(timezoneOffset: Int, longitude: Double, latitude: Double, source: String,
-                                language: String, query: String, listener: IChatModel.OnMessageFromSusiReceivedListener) {
+    override fun getSusiMessage(map: Map<String, String?>, listener: IChatModel.OnMessageFromSusiReceivedListener) {
 
-        clientBuilder.susiApi.getSusiResponse(timezoneOffset, longitude, latitude, source, language, query).enqueue(
+        ClientBuilder.susiApi.getSusiResponse(map).enqueue(
                 object : Callback<SusiResponse> {
                     override fun onResponse(call: Call<SusiResponse>, response: Response<SusiResponse>?) {
                         listener.onSusiMessageReceivedSuccess(response)
@@ -64,9 +52,9 @@ class ChatModel : IChatModel {
 
                     override fun onFailure(call: Call<SusiResponse>, t: Throwable) {
                         if (t.localizedMessage != null) {
-                            Log.d(TAG, t.localizedMessage)
+                            Timber.d(t.localizedMessage)
                         } else {
-                            Log.d(TAG, "An error occurred", t)
+                            Timber.d(t, "An error occurred")
                         }
                         listener.onSusiMessageReceivedFailure(t)
                     }

@@ -16,17 +16,17 @@ import retrofit2.Response
  */
 class ForgotPasswordModel : IForgotPasswordModel {
 
-    lateinit var authResponseCall: Call<ForgotPasswordResponse>
-    override fun requestPassword(email: String, listener: IForgotPasswordModel.onFinishListener) {
-        authResponseCall = ClientBuilder().susiApi.forgotPassword(email)
+    private lateinit var authResponseCall: Call<ForgotPasswordResponse>
+    override fun requestPassword(email: String, listener: IForgotPasswordModel.OnFinishListener) {
+        authResponseCall = ClientBuilder.susiApi.forgotPassword(email)
 
-        authResponseCall.enqueue(object: Callback<ForgotPasswordResponse>{
+        authResponseCall.enqueue(object : Callback<ForgotPasswordResponse> {
             override fun onFailure(call: Call<ForgotPasswordResponse>?, t: Throwable) {
                 listener.onError(t)
             }
 
             override fun onResponse(call: Call<ForgotPasswordResponse>?, response: Response<ForgotPasswordResponse>) {
-                listener.onSuccess(response)
+                listener.onForgotPasswordModelSuccess(response)
             }
         })
     }

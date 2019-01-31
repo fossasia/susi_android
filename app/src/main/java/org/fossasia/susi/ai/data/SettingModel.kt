@@ -13,12 +13,12 @@ import retrofit2.Response
 /**
  * Created by meeera on 14/7/17.
  */
-class SettingModel: ISettingModel {
+class SettingModel : ISettingModel {
 
-    lateinit var settingResponseCall: Call<ChangeSettingResponse>
-    lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
-    override fun sendSetting(key: String, value: String, count: Int, listener: ISettingModel.onSettingFinishListener) {
-        settingResponseCall = ClientBuilder().susiApi
+    private lateinit var settingResponseCall: Call<ChangeSettingResponse>
+    private lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
+    override fun sendSetting(key: String, value: String, count: Int, listener: ISettingModel.OnSettingFinishListener) {
+        settingResponseCall = ClientBuilder.susiApi
                 .changeSettingResponse(key, value, count)
         settingResponseCall.enqueue(object : Callback<ChangeSettingResponse> {
             override fun onFailure(call: Call<ChangeSettingResponse>?, t: Throwable) {
@@ -28,14 +28,13 @@ class SettingModel: ISettingModel {
             override fun onResponse(call: Call<ChangeSettingResponse>?, response: Response<ChangeSettingResponse>) {
                 listener.onSuccess(response)
             }
-
         })
     }
 
-    override fun resetPassword(password: String, newPassword: String, listener: ISettingModel.onSettingFinishListener) {
+    override fun resetPassword(password: String, newPassword: String, listener: ISettingModel.OnSettingFinishListener) {
         val email = PrefManager.getString(Constant.SAVE_EMAIL, null)
-        resetPasswordResponseCall = ClientBuilder().susiApi
-                .resetPasswordResponse(email,password,newPassword)
+        resetPasswordResponseCall = ClientBuilder.susiApi
+                .resetPasswordResponse(email, password, newPassword)
         resetPasswordResponseCall.enqueue(object : Callback<ResetPasswordResponse> {
             override fun onResponse(call: Call<ResetPasswordResponse>?, response: Response<ResetPasswordResponse>?) {
                 listener.onResetPasswordSuccess(response)
@@ -44,8 +43,6 @@ class SettingModel: ISettingModel {
             override fun onFailure(call: Call<ResetPasswordResponse>?, t: Throwable) {
                 listener.onFailure(t)
             }
-
-        } )
+        })
     }
-
 }

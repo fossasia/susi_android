@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/background_layout"
     android:layout_width="match_parent"
@@ -10,22 +9,25 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/message_card_margin_small"
-        android:layout_marginLeft="@dimen/message_card_margin_medium"
-        android:layout_marginTop="@dimen/message_card_margin_small"
-        android:paddingRight="@dimen/padding_large"
-        android:paddingTop="@dimen/padding_large"
-        android:paddingBottom="@dimen/padding_large"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:background="@drawable/rounded_layout"
+        android:paddingBottom="@dimen/padding_moderate"
         android:paddingLeft="@dimen/padding_small"
-        android:background="@drawable/rounded_layout">
+        android:layout_marginStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/padding_moderate"
+        android:paddingStart="@dimen/padding_small"
+        android:paddingRight="@dimen/padding_moderate"
+        android:paddingTop="@dimen/padding_moderate">
 
-        <pl.tajchert.sample.DotsTextView
+        <pl.tajchert.waitingdots.DotsTextView
             android:id="@+id/dots"
             android:layout_width="@dimen/messagelayout_minwidth"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textColor="@color/md_black_1000"
-            android:textSize="@dimen/message_text_size"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="normal|bold"
             app:autoplay="false"
             app:period="1200" />

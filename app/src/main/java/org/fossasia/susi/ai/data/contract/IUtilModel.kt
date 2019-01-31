@@ -14,19 +14,20 @@ interface IUtilModel {
     fun saveAnonymity(isAnonymous: Boolean)
     fun getAnonymity(): Boolean
     fun saveEmail(email: String)
-    fun getSavedEmails(): MutableSet<String>?
+    fun getSavedEmails(): Set<String>?
     fun isLoggedIn(): Boolean
     fun clearToken()
     fun setServer(isSusiServer: Boolean)
     fun setCustomURL(url: String)
     fun getString(id: Int): String
+    fun getBooleanPref(prefName: Int, defaultValue: Boolean): Boolean
     fun getBooleanPref(prefName: String, defaultValue: Boolean): Boolean
     fun putBooleanPref(prefName: String, value: Boolean)
+    fun putBooleanPref(prefName: Int, value: Boolean)
     fun checkMicInput(): Boolean
     fun copyAssetstoSD()
-    fun permissionsToGet() : Array<String>
+    fun permissionsToGet(): Array<String>
     fun isArmDevice(): Boolean
     fun setLanguage(language: String)
     fun clearPrefs()
-
 }

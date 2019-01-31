@@ -10,11 +10,11 @@ import retrofit2.Response
  */
 interface IForgotPasswordModel {
 
-    interface onFinishListener {
+    interface OnFinishListener {
         fun onError(throwable: Throwable)
-        fun onSuccess(response: Response<ForgotPasswordResponse>)
+        fun onForgotPasswordModelSuccess(response: Response<ForgotPasswordResponse>)
     }
 
-    fun requestPassword(email: String, listener: IForgotPasswordModel.onFinishListener)
+    fun requestPassword(email: String, listener: IForgotPasswordModel.OnFinishListener)
     fun cancelSignup()
 }

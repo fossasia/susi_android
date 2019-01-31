@@ -6,32 +6,37 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_chat.*
-import kotlinx.android.synthetic.main.fragment_sttframe.*
+import kotlinx.android.synthetic.main.activity_chat.fabsetting
+import kotlinx.android.synthetic.main.fragment_sttframe.speechProgress
+import kotlinx.android.synthetic.main.fragment_sttframe.txtChat
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
+import timber.log.Timber
 
 /**
  * Created by meeera on 17/8/17.
  */
-class STTfragment : Fragment(){
+class STTfragment : Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
+    private val thisActivity = activity
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        chatPresenter = ChatPresenter(activity as ChatActivity)
+        chatPresenter = ChatPresenter(requireContext())
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var rootView = inflater?.inflate(R.layout.fragment_sttframe, container, false)
-        (activity as ChatActivity).fabsetting.hide()
+    @NonNull
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
+        if (thisActivity is ChatActivity)
+            thisActivity.fabsetting.hide()
         promptSpeechInput()
         return rootView
     }
@@ -45,49 +50,49 @@ class STTfragment : Fragment(){
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
 
         recognizer = SpeechRecognizer
-                .createSpeechRecognizer(activity.applicationContext)
+                .createSpeechRecognizer(activity?.applicationContext)
         val listener = object : RecognitionListener {
             override fun onResults(results: Bundle) {
                 val voiceResults = results
                         .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 if (voiceResults == null) {
-                    Log.e("fragment", "No voice results")
+                    Timber.e("No voice results")
                 } else {
-                    Log.d("fragment", "Printing matches: ")
+                    Timber.d("Printing matches: ")
                     for (match in voiceResults) {
-                        Log.d("fragment", match)
+                        Timber.d(match)
                     }
                 }
-                if (speechprogress != null)
-                    speechprogress.onResultOrOnError()
-                (activity as ChatActivity).setText(voiceResults[0])
+                if (speechProgress != null)
+                    speechProgress.onResultOrOnError()
+                val thisActivity = activity
+                if (thisActivity is ChatActivity) thisActivity.setText(voiceResults[0])
                 recognizer.destroy()
-                if ( (activity as ChatActivity).recordingThread != null ) {
+                if ((activity as ChatActivity).recordingThread != null) {
                     chatPresenter.startHotwordDetection()
                 }
                 (activity as ChatActivity).fabsetting.show()
-                activity.supportFragmentManager.popBackStackImmediate()
+                activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
             override fun onReadyForSpeech(params: Bundle) {
-                Log.d("fragment", "Ready for speech")
+                Timber.d("Ready for speech")
             }
 
             override fun onError(error: Int) {
-                Log.d("fragment",
-                        "Error listening for speech: " + error)
-                Toast.makeText(activity.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
-                if (speechprogress != null)
-                    speechprogress.onResultOrOnError()
+                Timber.d("Error listening for speech: %s", error)
+                Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
+                if (speechProgress != null)
+                    speechProgress.onResultOrOnError()
                 recognizer.destroy()
-                (activity as ChatActivity).fabsetting.show()
-                activity.supportFragmentManager.popBackStackImmediate()
+                activity?.fabsetting?.show()
+                activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
             override fun onBeginningOfSpeech() {
-                Log.d("fragment", "Speech starting")
-                if (speechprogress != null)
-                    speechprogress.onBeginningOfSpeech()
+                Timber.d("Speech starting")
+                if (speechProgress != null)
+                    speechProgress.onBeginningOfSpeech()
             }
 
             override fun onBufferReceived(buffer: ByteArray) {
@@ -95,8 +100,8 @@ class STTfragment : Fragment(){
             }
 
             override fun onEndOfSpeech() {
-                if (speechprogress != null)
-                    speechprogress.onEndOfSpeech()
+                if (speechProgress != null)
+                    speechProgress.onEndOfSpeech()
             }
 
             override fun onEvent(eventType: Int, params: Bundle) {
@@ -106,12 +111,12 @@ class STTfragment : Fragment(){
             override fun onPartialResults(partialResults: Bundle) {
                 val partial = partialResults
                         .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                txtchat?.text = partial[0]
+                txtChat?.text = partial[0]
             }
 
             override fun onRmsChanged(rmsdB: Float) {
-                if (speechprogress != null)
-                    speechprogress.onRmsChanged(rmsdB)
+                if (speechProgress != null)
+                    speechProgress.onRmsChanged(rmsdB)
             }
         }
         recognizer.setRecognitionListener(listener)
@@ -120,7 +125,10 @@ class STTfragment : Fragment(){
 
     override fun onPause() {
         super.onPause()
-        (activity as ChatActivity).fabsetting.show()
+        if (thisActivity is ChatActivity) {
+            thisActivity.enableVoiceInput()
+            thisActivity.fabsetting.show()
+        }
         recognizer.cancel()
         recognizer.destroy()
     }
