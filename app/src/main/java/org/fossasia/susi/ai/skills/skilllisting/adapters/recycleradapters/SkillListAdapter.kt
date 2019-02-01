@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters
 import android.content.Context
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
@@ -21,18 +22,19 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
         if (skillDetails != null) {
             val skillData = skillDetails.toTypedArray()[position]
 
-            if (skillData.skillName == null || skillData.skillName.isEmpty()) {
+            if (TextUtils.isEmpty(skillData.skillName)) {
                 holder.skillPreviewTitle.text = context.getString(R.string.no_skill_name)
             } else {
                 holder.skillPreviewTitle.text = skillData.skillName
             }
 
-            if (skillData.examples == null || skillData.examples.isEmpty())
+            if (skillData.examples == null || skillData.examples.isEmpty()) {
                 holder.skillPreviewExample.text = StringBuilder("\"").append("\"")
-            else
+            } else {
                 holder.skillPreviewExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
+            }
 
-            if (skillData.image == null || skillData.image.isEmpty()) {
+            if (TextUtils.isEmpty(skillData.image)) {
                 holder.previewImageView.setImageResource(R.drawable.ic_susi)
             } else {
                 Utils.setSkillsImage(skillData, holder.previewImageView)
