@@ -21,18 +21,18 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
         if (skillDetails != null) {
             val skillData = skillDetails.toTypedArray()[position]
 
-            if (skillData.skillName == null) {
+            if (skillData.skillName == null || skillData.skillName.isEmpty()) {
                 holder.skillPreviewTitle.text = context.getString(R.string.no_skill_name)
             } else {
                 holder.skillPreviewTitle.text = skillData.skillName
             }
 
-            if (skillData.examples.isEmpty())
+            if (skillData.examples == null || skillData.examples.isEmpty())
                 holder.skillPreviewExample.text = StringBuilder("\"").append("\"")
             else
                 holder.skillPreviewExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
 
-            if (skillData.image.isEmpty()) {
+            if (skillData.image == null || skillData.image.isEmpty()) {
                 holder.previewImageView.setImageResource(R.drawable.ic_susi)
             } else {
                 Utils.setSkillsImage(skillData, holder.previewImageView)
