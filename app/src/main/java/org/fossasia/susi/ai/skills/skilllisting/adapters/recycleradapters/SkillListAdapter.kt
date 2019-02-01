@@ -21,7 +21,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
         if (skillDetails != null) {
             val skillData = skillDetails.toTypedArray()[position]
 
-            if (skillData.skillName.isEmpty()) {
+            if (skillData.skillName == null) {
                 holder.skillPreviewTitle.text = context.getString(R.string.no_skill_name)
             } else {
                 holder.skillPreviewTitle.text = skillData.skillName
