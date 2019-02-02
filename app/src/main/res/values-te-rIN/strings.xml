@@ -161,7 +161,7 @@
     <string name="password">పాస్వర్డ్</string>
     <string name="password_cannot_be_empty">పాస్వర్డ్ ఖాళీగా ఉండకూడదు</string>
     <string name="sample_website_description">నమూనా టెక్స్ట్ నుండి ఒక వెబ్సైట్ తీసుకోబడింది</string>
-    <string name="sample_website_headline"><ఇంటర్నెట్ మోడల్ శీర్షిక/string>
+    <string name="sample_website_headline">ఇంటర్నెట్ మోడల్ శీర్షిక</string>
     <string name="sample_website_link">ఇంటర్నెట్ కనెక్షన్</string>
     <string name="share_items">అంశాలను భాగస్వామ్యం చేయండి</string>
     <string name="sign_up">దయచేసి నమోదు చేయండి</string>
