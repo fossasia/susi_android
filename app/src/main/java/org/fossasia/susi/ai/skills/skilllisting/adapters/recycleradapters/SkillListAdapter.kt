@@ -11,6 +11,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
+
 class SkillListAdapter(val context: Context, private val skillDetails: List<SkillData>?, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
@@ -22,6 +23,8 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
             val skillData = skillDetails.toTypedArray()[position]
 
             if (skillData.skillName.isEmpty()) {
+
+
                 holder.skillPreviewTitle.text = context.getString(R.string.no_skill_name)
             } else {
                 holder.skillPreviewTitle.text = skillData.skillName
