@@ -56,11 +56,7 @@
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
 
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Remember password" />
+
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/customServer"
