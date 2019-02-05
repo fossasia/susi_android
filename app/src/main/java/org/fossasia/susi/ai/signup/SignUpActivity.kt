@@ -56,7 +56,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             }
         }
 
-        val bundle = intent.extras;
+        val bundle = intent.extras
         val string = bundle?.getString("email")
         if (string != null)
             email.editText?.setText(string)
@@ -75,7 +75,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         signUpPresenter = SignUpPresenter(this)
         signUpPresenter.onAttach(this)
-
     }
 
     private fun addListeners() {
@@ -97,7 +96,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString(), confirmPassword.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
         outState.putBoolean(Constant.SERVER, customServerSignUp.isChecked)
-        outState.putBoolean(Constant.SAVE_DIALOG_STATE,checkDialog)
+        outState.putBoolean(Constant.SAVE_DIALOG_STATE, checkDialog)
     }
 
     override fun onBackPressed() {
@@ -191,10 +190,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     private fun cancelSignUp() {
-        progressDialog.setOnCancelListener({
+        progressDialog.setOnCancelListener {
             signUpPresenter.cancelSignUp()
             signUp.isEnabled = true
-        })
+        }
     }
 
     override fun onSignUpError(title: String?, message: String?) {

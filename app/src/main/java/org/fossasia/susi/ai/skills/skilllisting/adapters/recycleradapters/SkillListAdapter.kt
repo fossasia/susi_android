@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters
 import android.content.Context
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
@@ -21,28 +22,28 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
         if (skillDetails != null) {
             val skillData = skillDetails.toTypedArray()[position]
 
-            if (skillData.skillName.isEmpty()) {
+            if (TextUtils.isEmpty(skillData.skillName)) {
                 holder.skillPreviewTitle.text = context.getString(R.string.no_skill_name)
             } else {
                 holder.skillPreviewTitle.text = skillData.skillName
             }
 
-            if (skillData.examples.isEmpty())
+            if (skillData.examples == null || skillData.examples.isEmpty()) {
                 holder.skillPreviewExample.text = StringBuilder("\"").append("\"")
-            else
-                holder.skillPreviewExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
-
-            if (skillData.image.isEmpty()) {
-                holder.previewImageView.setImageResource(R.drawable.ic_susi)
             } else {
-              Utils.setSkillsImage(skillData, holder.previewImageView)
+                holder.skillPreviewExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
             }
 
-            if (skillData.skillRating != null) {
-                if (skillData.skillRating?.stars != null) {
-                    holder.skillRatingBar.rating = skillData.skillRating?.stars?.averageStar as Float
-                    holder.totalRatings.text = skillData.skillRating?.stars?.totalStar.toString()
-                }
+            if (TextUtils.isEmpty(skillData.image)) {
+                holder.previewImageView.setImageResource(R.drawable.ic_susi)
+            } else {
+                Utils.setSkillsImage(skillData, holder.previewImageView)
+            }
+
+            val stars = skillData.skillRating?.stars
+            if (stars != null) {
+                holder.skillRatingBar.rating = stars.averageStar
+                holder.totalRatings.text = stars.totalStar.toString()
             }
         }
     }

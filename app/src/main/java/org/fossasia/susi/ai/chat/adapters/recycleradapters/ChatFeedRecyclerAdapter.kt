@@ -99,7 +99,6 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
         realm?.close()
     }
 
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(viewGroup.context)
@@ -197,7 +196,6 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
             return SUSI_WITHLINK
         else if (item.isMine && !item.isHavingLink) return USER_MESSAGE
 
-
         return when (item.actionType) {
             Constant.ANCHOR -> SUSI_MESSAGE
             Constant.ANSWER -> SUSI_MESSAGE
@@ -288,7 +286,7 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
      */
     private fun setClipboard(text: String?) {
         val clipboard = currContext.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager?
-        val clip = android.content.ClipData.newPlainText("Copied Text", text)
+        val clip = android.content.ClipData.newPlainText(currContext.getString(R.string.copied_text), text)
         if (clipboard != null) {
             clipboard.primaryClip = clip
         }
@@ -350,8 +348,8 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
             setBackGroundColor(holder, true, viewType == USER_WITHLINK || viewType == USER_MESSAGE)
 
         val optionList = ArrayList<Pair<String, Drawable>>()
-        optionList.add(Pair("Copy", currContext.resources.getDrawable(R.drawable.ic_content_copy_white_24dp)))
-        optionList.add(Pair("Share", currContext.resources.getDrawable(R.drawable.ic_share_white_24dp)))
+        optionList.add(Pair("Copy", currContext.resources.getDrawable(R.drawable.ic_content_copy_grey_24dp)))
+        optionList.add(Pair("Share", currContext.resources.getDrawable(R.drawable.ic_share_grey_24dp)))
 
         val dialog = AlertDialog.Builder(currContext)
         val arrayAdapter = SelectionDialogListAdapter(currContext, optionList)
@@ -416,9 +414,9 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
          */
         fun extractLinks(text: String): List<String> {
             val links = ArrayList<String>()
-            val m = Patterns.WEB_URL.matcher(text)
-            while (m.find()) {
-                val url = m.group()
+            val match = Patterns.WEB_URL.matcher(text)
+            while (match.find()) {
+                val url = match.group()
                 links.add(url)
             }
             return links

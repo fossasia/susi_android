@@ -25,16 +25,18 @@ import timber.log.Timber
 class STTfragment : Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
+    private val thisActivity = activity
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        chatPresenter = ChatPresenter(activity as ChatActivity)
+        chatPresenter = ChatPresenter(requireContext())
     }
 
     @NonNull
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
-        (activity as ChatActivity).fabsetting.hide()
+        if (thisActivity is ChatActivity)
+            thisActivity.fabsetting.hide()
         promptSpeechInput()
         return rootView
     }
@@ -63,7 +65,8 @@ class STTfragment : Fragment() {
                 }
                 if (speechProgress != null)
                     speechProgress.onResultOrOnError()
-                (activity as ChatActivity).setText(voiceResults[0])
+                val thisActivity = activity
+                if (thisActivity is ChatActivity) thisActivity.setText(voiceResults[0])
                 recognizer.destroy()
                 if ((activity as ChatActivity).recordingThread != null) {
                     chatPresenter.startHotwordDetection()
@@ -122,9 +125,9 @@ class STTfragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-	    if (activity is ChatActivity) {
-            (activity as ChatActivity).enableVoiceInput()
-            (activity as ChatActivity).fabsetting.show()
+        if (thisActivity is ChatActivity) {
+            thisActivity.enableVoiceInput()
+            thisActivity.fabsetting.show()
         }
         recognizer.cancel()
         recognizer.destroy()

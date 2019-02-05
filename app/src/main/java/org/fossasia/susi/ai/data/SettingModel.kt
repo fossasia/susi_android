@@ -28,7 +28,6 @@ class SettingModel : ISettingModel {
             override fun onResponse(call: Call<ChangeSettingResponse>?, response: Response<ChangeSettingResponse>) {
                 listener.onSuccess(response)
             }
-
         })
     }
 
@@ -44,8 +43,6 @@ class SettingModel : ISettingModel {
             override fun onFailure(call: Call<ResetPasswordResponse>?, t: Throwable) {
                 listener.onFailure(t)
             }
-
         })
     }
-
 }

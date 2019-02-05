@@ -8,7 +8,7 @@ import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.rest.responses.susi.Metrics;
+import org.fossasia.susi.ai.rest.responses.susi.Metrics
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
@@ -57,6 +57,7 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
             groupsCount = groupsResponse.groups.size
             metrics.groups = groupsResponse.groups as MutableList<String>
             skillListingView?.updateAdapter(metrics)
+            skillListingModel.fetchSkills(metrics.groups[0], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
         } else {
             Timber.d("GROUPS NOT FETCHED")
             skillListingView?.visibilityProgressBar(false)
@@ -81,6 +82,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
             if (count != groupsCount) {
                 skillListingModel.fetchSkills(metrics.groups[count], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
                 count++
+            } else {
+                skillListingFragment.updateSkillsAdapter(skills)
             }
         } else {
             Timber.d("SKILLS NOT FETCHED")

@@ -113,9 +113,9 @@ class ParseSusiResponseHelper {
     companion object {
         fun extractUrls(text: String): List<String> {
             val links = ArrayList<String>()
-            val m = Patterns.WEB_URL.matcher(text)
-            while (m.find()) {
-                val url = m.group()
+            val match = Patterns.WEB_URL.matcher(text)
+            while (match.find()) {
+                val url = match.group()
                 links.add(url)
             }
             return links

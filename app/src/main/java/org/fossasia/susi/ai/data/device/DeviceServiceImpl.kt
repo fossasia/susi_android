@@ -11,7 +11,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class DeviceServiceImpl: DeviceService {
+class DeviceServiceImpl : DeviceService {
     private val deviceApi = DeviceClient.retrofit.create(DeviceApi::class.java)
 
     override fun submitConfigSettings(speakerConfig: SpeakerConfiguration, listener: IDeviceModel.onSetConfigurationListener) {

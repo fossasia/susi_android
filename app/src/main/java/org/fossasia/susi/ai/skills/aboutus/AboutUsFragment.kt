@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.skills.aboutus
 
-
 import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.NonNull
@@ -18,13 +17,16 @@ import kotlinx.android.synthetic.main.fragment_about_us.susi_license_info_desc
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity
 
-
 class AboutUsFragment : Fragment() {
 
     @NonNull
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_about_us)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val thisActivity = activity
+        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_about_us)
         val rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         setHasOptionsMenu(true)
         return rootView
@@ -32,29 +34,29 @@ class AboutUsFragment : Fragment() {
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        about_susi.setOnClickListener({
+        about_susi.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_about_susi))
             launchCustomtTab(uri)
-        })
+        }
 
-        contributors_desc.setOnClickListener({
+        contributors_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_contributors))
             launchCustomtTab(uri)
-        })
+        }
 
-        susi_skill_cms_desc.setOnClickListener({
+        susi_skill_cms_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_skill_cms))
             launchCustomtTab(uri)
-        })
+        }
 
-        susi_report_issues_desc.setOnClickListener({
+        susi_report_issues_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_report_issue))
             launchCustomtTab(uri)
-        })
-        susi_license_info_desc.setOnClickListener({
+        }
+        susi_license_info_desc.setOnClickListener {
             val uri = Uri.parse(getString(R.string.url_susi_license))
             launchCustomtTab(uri)
-        })
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 

@@ -25,7 +25,6 @@ import java.io.IOException
 @MediumTest
 class SignUpActivityTest {
 
-
     @Rule
     @JvmField
     val mActivityRule = ActivityTestRule(SignUpActivity::class.java)
@@ -53,7 +52,6 @@ class SignUpActivityTest {
 
         // checks if password input field is present
         onView(withId(R.id.password)).check(matches(isDisplayed()))
-
 
         // checks if confirm password button is present
         onView(withId(R.id.confirmPassword)).check(matches(isDisplayed()))

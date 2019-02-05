@@ -7,7 +7,6 @@ import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.MediumTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
-import android.util.Log
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
 import org.junit.Before
@@ -17,11 +16,9 @@ import org.junit.runner.RunWith
 import timber.log.Timber
 import java.io.IOException
 
-
 /**
  * Created by collinx on 22-10-2017.
  */
-
 
 @RunWith(AndroidJUnit4::class)
 @MediumTest
@@ -59,6 +56,5 @@ class WelcomeActivityTest {
 
         // checks if skip button is present
         onView(withId(R.id.btn_skip)).check(matches(isDisplayed()))
-
     }
 }

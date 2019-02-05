@@ -28,7 +28,6 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 
-
 /**
  * The Fragment for Settings Activity
  *
@@ -61,13 +60,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
     private var flag = true
-    private val packageName = "ai.susi";
+    private val packageName = "ai.susi"
 
     override fun onCreatePreferencesFix(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.pref_settings)
 
-        (activity as SkillsActivity).title = (activity as SkillsActivity).getString(R.string.action_settings)
+        val thisActivity = activity
+        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
 
@@ -83,7 +83,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
         speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key))
         speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key))
-        displayEmail = preferenceManager.findPreference("display_email")
+        displayEmail = preferenceManager.findPreference(getString(R.string.settings_displayEmail_key))
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
@@ -106,7 +106,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (PrefManager.token == null) {
             deviceName.isVisible = false
             setupDevice.isVisible = false
-            preferenceManager.findPreference("device_section").isVisible = false
+            preferenceManager.findPreference(getString(R.string.settings_deviceSection_key)).isVisible = false
         }
 
         querylanguage.setOnPreferenceChangeListener { _, newValue ->
@@ -117,7 +117,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
             val intent = Intent(context, SkillsActivity::class.java)
             startActivity(intent)
-            (context as Activity).finish()
+            val context = this.context
+            if (context is Activity) context.finish()
             true
         }
         rate.setOnPreferenceClickListener {
@@ -142,12 +143,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         loginLogout.setOnPreferenceClickListener {
             if (!settingsPresenter.getAnonymity()) {
-                val d = AlertDialog.Builder(activity as SkillsActivity)
-                d.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                     settingsPresenter.loginLogout()
                 }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
-                val alert = d.create()
+                val alert = builder.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
@@ -371,7 +372,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!hasFocus)
                 settingsPresenter.checkForPassword(conPassword.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
         }
-
     }
 
     override fun onDestroyView() {

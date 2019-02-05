@@ -36,7 +36,7 @@ class SkillDetailsModel : ISkillDetailsModel {
     /**
      * Posts a request the fiveStarRateSkill.json API
      *
-     * @param map  A query map consisting of following key value pairs
+     * @param map A query map consisting of following key value pairs
      *             model       Model of the skill (e.g. general)
      *             group       Group of skill (e.g. Knowledge)
      *             language    Language directory in which the skill resides (e.g. en)
@@ -145,5 +145,4 @@ class SkillDetailsModel : ISkillDetailsModel {
     override fun cancelFetchFeedback() {
         fetchFeedbackResponseCall.cancel()
     }
-
 }
