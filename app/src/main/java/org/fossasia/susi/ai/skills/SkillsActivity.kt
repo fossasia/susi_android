@@ -167,9 +167,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
                 override fun afterTextChanged(s: Editable?) {
                     val currentText = s.toString()
+                    skillFound = performSearch(currentText)
                     //checking that value exist in skills and if not exist comparing the length of the current text to the previous text where the skills are present
-                    if (skillFound || (currentText.length <= text.length)) {
-                        skillFound = performSearch(currentText)
+                    if (skillFound) {
                         text = currentText
                     } else {
                         Toast.makeText(baseContext, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
