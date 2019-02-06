@@ -147,7 +147,7 @@ class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginMode
         } else if (response.code() == 403) {
             loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.unactivate_user),
-                    utilModel.getString(R.string.error_unactivated_user_message));
+                    utilModel.getString(R.string.error_unactivated_user_message))
         } else {
             loginView?.showProgress(false)
             loginView?.onLoginError("${response.code()} " + utilModel.getString(R.string.error),
