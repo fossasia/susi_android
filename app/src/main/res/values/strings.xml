@@ -25,6 +25,9 @@
     <string name="error_email">E-mail address already exists</string>
     <string name="error_msg">Please use the \"Forgot password?\" option to reset your password</string>
 
+    <string name="unactivate_user">Account Not Active</string>
+    <string name="error_unactivated_user_message">Please check your email to activate your account. If not found, check spams folder.</string>
+
     <string name="exit">Press again to exit</string>
 
     <string name="forgot_password_mail_sent">E-mail sent</string>
