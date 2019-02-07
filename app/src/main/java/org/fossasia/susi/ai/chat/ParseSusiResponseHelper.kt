@@ -51,9 +51,9 @@ class ParseSusiResponseHelper {
                     //appending the Urls to the answer
                     //numLinks is the maximum number of links to be appended
                     val numLinks = 1
-                    for (l in urlList.indices) {
-                        if (l < numLinks)
-                            answer += "\n" + urlList[l]
+                    for (link in urlList.indices) {
+                        if (link < numLinks)
+                            answer += "\n" + urlList[link]
                     }
 
                     isHavingLink = true
