@@ -29,7 +29,7 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
             }
 
             if (skillData.examples == null || skillData.examples.isEmpty()) {
-                holder.skillPreviewExample.text = StringBuilder("")
+                holder.skillPreviewExample.text = ""
             } else {
                 holder.skillPreviewExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
             }
