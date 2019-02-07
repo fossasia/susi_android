@@ -84,5 +84,4 @@ class AboutUsFragment : Fragment() {
             else -> @Suppress("DEPRECATION") Html.fromHtml(getString(resourceId))
         }
     }
-
 }
