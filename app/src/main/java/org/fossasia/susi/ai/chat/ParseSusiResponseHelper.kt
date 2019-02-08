@@ -47,17 +47,12 @@ class ParseSusiResponseHelper {
                 val text = susiResponse.answers[0].data[0].get("object") //requires api warning suppressed
                 if (text != null) {
                     val urlList = extractUrls(text)
-
-                    //appending the Urls to the answer
-                    //numLinks is the maximum number of links to be appended
-                    val numLinks = 1
-                    for (link in urlList.indices) {
-                        if (link < numLinks)
-                            answer += "\n" + urlList[link]
-                    }
-
                     isHavingLink = true
-                    if (urlList.isEmpty()) isHavingLink = false
+                    if (urlList.isNotEmpty()) {
+                        answer += "\n" + urlList[0]
+                    } else {
+                        isHavingLink = false
+                    }
                 }
             } catch (e: Exception) {
                 Timber.e(e)
