@@ -42,9 +42,18 @@ class ParseSusiResponseHelper {
 
             Constant.ANSWER -> try {
                 answer = susiResponse.answers[0].actions[i].expression
-                val urlList = extractUrls(answer)
-                isHavingLink = true
-                if (urlList.isEmpty()) isHavingLink = false
+
+                //get the Urls stored in 'data' of the answer object
+                val text = susiResponse.answers[0].data[0].get("object") //requires api warning suppressed
+                if (text != null) {
+                    val urlList = extractUrls(text)
+                    isHavingLink = true
+                    if (urlList.isNotEmpty()) {
+                        answer += "\n" + urlList[0]
+                    } else {
+                        isHavingLink = false
+                    }
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 answer = error
