@@ -41,7 +41,7 @@ class SkillsListAdapter(val context: Context, private val skillDetails: GroupWis
             }
 
             if (skillData.examples == null || skillData.examples.isEmpty())
-                holder.skillExample?.text = StringBuilder("\"").append("\"")
+                holder.skillExample?.text = ""
             else
                 holder.skillExample?.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
 
