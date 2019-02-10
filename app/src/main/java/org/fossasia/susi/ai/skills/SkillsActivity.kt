@@ -110,7 +110,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 handleOnLoadingFragment()
                 val settingsFragment = ChatSettingsFragment()
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
+                        .replace(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
                         .addToBackStack(TAG_SETTINGS_FRAGMENT)
                         .commit()
             }
@@ -119,7 +119,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 handleOnLoadingFragment()
                 val aboutFragment = AboutUsFragment()
                 supportFragmentManager.beginTransaction()
-                        .add(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
+                        .replace(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
                         .addToBackStack(TAG_ABOUT_FRAGMENT)
                         .commit()
             }
