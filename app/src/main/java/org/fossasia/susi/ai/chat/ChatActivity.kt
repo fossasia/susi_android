@@ -5,6 +5,7 @@ import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -519,5 +520,21 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun playVideo(videoId: String) {
         Timber.d(videoId)
         youtubeVid.playYoutubeVid(videoId)
+    }
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Do you really want to exit the app")
+        builder.setNegativeButton("YES") { dialog, id ->
+            if (dialog != null) {
+                finish()
+            }
+        }
+        builder.setPositiveButton("NO") { dialog, id ->
+            if (dialog != null) {
+                dialog.dismiss()
+            }
+        }
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
 }
