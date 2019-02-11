@@ -59,7 +59,7 @@
                     android:textSize="@dimen/text_size_normal"
                     android:textStyle="italic"
                     tools:text="@string/sample_website_description"
-                    android:fontFamily="sans-serif"/>
+                    android:fontFamily="sans-serif" />
             </LinearLayout>
 
             <TextView
@@ -75,7 +75,8 @@
                 android:text="@string/skill_title"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_moderate"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
