@@ -321,7 +321,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     //Initiates hotword detection
     override fun initHotword() {
-        recordingThread = RecordingThread(object : Handler() {
+        recordingThread = RecordingThread(@SuppressLint("HandlerLeak")
+        object : Handler() {
             override fun handleMessage(msg: Message) {
                 val message = MsgEnum.getMsgEnum(msg.what)
                 when (message) {
