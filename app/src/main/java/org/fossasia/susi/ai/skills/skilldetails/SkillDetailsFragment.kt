@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -525,6 +526,15 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         rvFeedback.setHasFixedSize(true)
         rvFeedback.layoutManager = mLayoutManager
         rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
+    }
+
+    /**
+     * Switches to correct layout file on rotation
+     */
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        val activity = activity
+        activity?.supportFragmentManager?.beginTransaction()?.detach(this)?.attach(this)?.commit()
     }
 
     private fun setDynamicContent() {
