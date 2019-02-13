@@ -92,7 +92,7 @@ Around 50% of the App is written in [Kotlin](https://kotlinlang.org/). Kotlin is
 Generally, projects are created using package by layer approach where packages are names by layers like `ui`, `activity`, `fragment`, etc but it quickly becomes unscalable in large projects where a large number of unrelated classes are crammed in one layer and it becomes difficult to navigate through them.  
 Instead, we follow package by feature, which at the cost of flatness of our project, provides us packages of isolated functioning related classes which are likely to be a complete self-sufficient component of the application. Each package contains all related classes of view, presenter, their implementations like Activities and Fragments.  
 A notable exception to this is the `helper` module and data classes like Models and Repositories as they are used in a cross component way.  
-***Note:** The interface contract for Presenter and View is present in `contract` package in each module*
+***Note:** The interface contract for Presenter and View is present in `contract` package in each module.*
 
 #### Separation of concerns
 
@@ -106,15 +106,15 @@ First time contributors can read [ContributionHelp.md](docs/ContributionHelp.md)
 
 ### Branch Policy
 
-We have the following branches
+We have the following branches:
 
  * **development** All development goes on in this branch. If you're making a contribution, you are supposed to make a pull request to _development_. PRs to development branch must pass a build check and a unit-test check on Circle CI.
  * **master** This contains shipped code. After significant features/bugfixes are accumulated on development, we make a version update and make a release.
  	- Please Note that :-
 		> Each push to master branch automatically publishes the application to Play Store as an Alpha Release. Thus, on each merge into master, the versionCode and versionName MUST be changed accordingly in app/build.gradle
 
-	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge
-	 - _versionName_ : **String** : User visible version of the app. To be changed following [semantic versioning](http://semver.org/)
+	 - _versionCode_ : **Integer** : To be monotonically incremented with each merge. Failure to do so will lead to 				publishing error, and thus is a crucial step before any merge.
+	 - _versionName_ : **String** : User visible version of the app. To be changed following [semantic versioning](http://semver.org/).
  * **apk** This branch contains many apk files, that are automatically generated on the merged pull request a) debug apk for Fdroid and Playstore b) release apk for Fdroid and Playstore
     - There are multiple files in the apk branch of the project, this branch consists of all the APK files and other files that are relevant when an APK is generated.
     - Once a pull request is merged, the previous APK branch is deleted and a new APK branch is created.
