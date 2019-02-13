@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Html
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -102,14 +103,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     private fun setImage() {
         skillDetailImage.setImageResource(R.drawable.ic_susi)
-        if (!skillData.image.isEmpty()) {
+        if (!TextUtils.isEmpty(skillData.image)) {
             Utils.setSkillsImage(skillData, skillDetailImage)
         }
     }
 
     private fun setName() {
         skillDetailTitle.text = activity?.getString(R.string.no_skill_name)
-        if (!skillData.skillName.isEmpty()) {
+        if (!TextUtils.isEmpty(skillData.skillName)) {
             skillDetailTitle.text = skillData.skillName
         }
     }
@@ -148,8 +149,8 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     private fun setAuthor() {
         skillDetailAuthor.text = "by ${activity?.getString(R.string.no_skill_author)}"
-        if (!skillData.author.isEmpty()) {
-            if (skillData.authorUrl.isEmpty())
+        if (!TextUtils.isEmpty(skillData.author)) {
+            if (TextUtils.isEmpty(skillData.authorUrl))
                 skillDetailAuthor.text = "by ${skillData.skillName}"
             else {
                 skillDetailAuthor.setOnClickListener {
@@ -172,14 +173,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setTryButton() {
-        if (skillData.examples.isEmpty())
+        if (skillData.examples == null || skillData.examples.isEmpty())
             skillDetailTryButton.visibility = View.GONE
 
         skillDetailTryButton.setOnClickListener {
             activity?.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(activity, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            if (skillData.examples.isNotEmpty())
+            if (skillData.examples != null && skillData.examples.isNotEmpty())
                 intent.putExtra("example", skillData.examples[0])
             else
                 intent.putExtra("example", "")
@@ -189,7 +190,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setShareButton() {
-        if (skillTag.isEmpty()) {
+        if (TextUtils.isEmpty(skillTag)) {
             skillDetailShareButton.visibility = View.GONE
             return
         }
@@ -212,13 +213,13 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     private fun setDescription() {
         skillDetailDescription.text = activity?.getString(R.string.no_skill_description)
-        if (!skillData.descriptions.isEmpty()) {
+        if (!TextUtils.isEmpty(skillData.descriptions)) {
             skillDetailDescription.text = skillData.descriptions
         }
     }
 
     private fun setExamples() {
-        if (skillData.examples.isNotEmpty()) {
+        if (skillData.examples != null && skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
             val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skillDetailExamples.layoutManager = mLayoutManager
@@ -517,7 +518,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     /**
      * Displays the feedback list on the skill details screen
      *
-     * @param list : Contains the list of Feedback objects received from the getSkillFeedback.json API
+     * @param feedbackResponse : Contains the list of Feedback objects received from the getSkillFeedback.json API
      */
     override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
         val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
