@@ -519,7 +519,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     /**
      * Displays the feedback list on the skill details screen
      *
-     * @param list : Contains the list of Feedback objects received from the getSkillFeedback.json API
+     * @param feedbackResponse : Contains the list of Feedback objects received from the getSkillFeedback.json API
      */
     override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
         val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
