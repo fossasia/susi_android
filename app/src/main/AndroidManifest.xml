@@ -96,8 +96,11 @@
         <activity
             android:name=".skills.feedback.FeedbackActivity"
             android:label="See All Reviews"
-            android:parentActivityName=".skills.feedback.FeedbackActivity"
-            android:theme="@style/PreferencesThemeLight" />
+            android:theme="@style/PreferencesThemeLight">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.fossasia.susi.ai.skills.SkillsActivity" />
+        </activity>
 
         <activity
             android:name=".chat.YouTubeActivity"
