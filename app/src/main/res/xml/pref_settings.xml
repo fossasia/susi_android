@@ -6,6 +6,7 @@
     <PreferenceCategory android:title="Login email">
         <PreferenceScreen
             android:key="display_email"
+            android:selectable="false"
             android:title="test email"/>
     </PreferenceCategory>
 
@@ -77,6 +78,7 @@
 
         <PreferenceScreen
             android:key="device"
+            android:selectable="false"
             android:summary="Your device will be shown here when it is connected"
             android:title="@string/pref_devices_not_connected" />
 
