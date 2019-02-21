@@ -199,7 +199,7 @@
 
     <string name="unknown_host_exception">Unknown Host Exception</string>
     <string name="check_email">Check your email!</string>
-    <string name="reset_password_text">We just sent you an email with a link to reset \n your password.</string>
+    <string name="reset_password_text" translatable="false">We just sent you an email with a link to reset \n your password.</string>
     <string name="invalid_credentials_title">Invalid credentials.</string>
     <string name="invalid_credentials">Invalid credentials. Please try again</string>
 
@@ -270,7 +270,7 @@
     <string name="connect_success">Device Connected successfully!</string>
     <string name="auth_success">Authentication credentials sent successfully!</string>
     <string name="wifi_success">Wifi credentials sent successfully!</string>
-    <string name="config_success">Device configured successfully!</string>
+    <string name="config_success">Device config successfully</string>
     <string name="connection_error">Connection failed</string>
     <string name="wifi_error">Wifi credentials not sent.Please try again</string>
     <string name="auth_error">Authentication credentials not sent.Please try again.</string>
