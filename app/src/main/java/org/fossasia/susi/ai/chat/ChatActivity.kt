@@ -389,26 +389,25 @@ class ChatActivity : AppCompatActivity(), IChatView {
         ActivityCompat.requestPermissions(this, permissions, PERM_REQ_CODE)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         when (requestCode) {
             PERM_REQ_CODE -> run {
                 var audioPermissionGiven = false
-                for (i in permissions.indices) {
-                    when (permissions[i]) {
-                        Manifest.permission.ACCESS_FINE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                for ((index, permission) in permissions.withIndex()) {
+                    if (permission == null)
+                        continue
+                    val granted = grantResults.isNotEmpty() && grantResults[index] == PackageManager.PERMISSION_GRANTED
+                    when (permission) {
+                        Manifest.permission.ACCESS_FINE_LOCATION -> if (granted) {
                             chatPresenter.getLocationFromLocationService()
                         }
 
                         Manifest.permission.RECORD_AUDIO -> {
-                            if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                                chatPresenter.disableMicInput(false)
-                            } else {
-                                chatPresenter.disableMicInput(true)
-                            }
-                            audioPermissionGiven = true
+                            chatPresenter.disableMicInput(!granted)
+                            audioPermissionGiven = granted
                         }
 
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE -> if (grantResults.size >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE -> if (granted && audioPermissionGiven) {
                             chatPresenter.initiateHotwordDetection()
                         }
                     }
