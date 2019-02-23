@@ -206,7 +206,6 @@
     <string name="wrong_password">தோல்வி. மீண்டும் முயற்சி செய்</string>
     <string name="yes">ஆம்</string>
     <string name="voice_settings">SUSI குரல் அமைப்புகள்</string>
-    <string name="error_skill_listing">திறமைகளை பெற முடியவில்லை. தயவு செய்து மீண்டும் முயற்சிக்கவும்.</string>
     <string name="no_skill_author">திறன் ஆசிரியர் காணப்படவில்லை</string>
     <string name="reset_password_message">கடவுச்சொல்லை மீட்டமைக்கிறது</string>
     <string name="description">விளக்கம்</string>
@@ -261,5 +260,6 @@
     <string name="placeholder_initials">AB</string>
     <string name="digit_four">௪</string>
     <string name="digit_five">௫</string>
+    <string name="error_skill_listing">நீங்கள் திறமைகளை பெற முடியாது. இணைய இணைப்பைச் சரிபார்க்கவும் அல்லது மீண்டும் முயற்சிக்கவும்.</string>
 
 </resources>
