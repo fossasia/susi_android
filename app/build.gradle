@@ -21,8 +21,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 14
-        versionName "1.0.13"
+        versionCode 15
+        versionName "1.0.14"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
