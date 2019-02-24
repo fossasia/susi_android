@@ -312,7 +312,7 @@
     <color name="susi_message_link_preview_bg">#F5F5F5</color>
 
     <!--Default chat background color-->
-    <color name="default_bg">#f7f7f7</color>
+    <color name="default_bg">#F9FBE7</color>
 
     <!--Background color for date holder-->
     <color name="date_bg">#E3F6FE</color>
