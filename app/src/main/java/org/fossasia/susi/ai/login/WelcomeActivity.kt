@@ -19,20 +19,20 @@ import org.fossasia.susi.ai.helper.PrefManager
 
 class WelcomeActivity : AppCompatActivity() {
 
-    private var ImageViewPager: ViewPager? = null
+    private var imageViewPager: ViewPager? = null
     private var layouts: IntArray? = null
-    private var btnSkip: Button? = null
-    private var btnNext: Button? = null
+    private var skip: Button? = null
+    private var next: Button? = null
 
     private val viewPagerPageChangeListener = object : ViewPager.OnPageChangeListener {
 
         override fun onPageSelected(position: Int) {
             if (position == layouts?.size?.minus(1)) {
-                btnNext?.text = getString(R.string.start)
-                btnSkip?.visibility = View.GONE
+                next?.text = getString(R.string.start)
+                skip?.visibility = View.GONE
             } else {
-                btnNext?.text = getString(R.string.next)
-                btnSkip?.visibility = View.VISIBLE
+                next?.text = getString(R.string.next)
+                skip?.visibility = View.VISIBLE
             }
         }
 
@@ -61,27 +61,27 @@ class WelcomeActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_welcome)
 
-        ImageViewPager = findViewById<View>(R.id.pager) as ViewPager
+        imageViewPager = findViewById<View>(R.id.pager) as ViewPager
         val tabLayout = findViewById<View>(R.id.tabDots) as TabLayout
-        tabLayout.setupWithViewPager(ImageViewPager, true)
-        btnSkip = findViewById(R.id.btn_skip)
-        btnNext = findViewById(R.id.btn_next)
+        tabLayout.setupWithViewPager(imageViewPager, true)
+        skip = findViewById(R.id.btn_skip)
+        next = findViewById(R.id.btn_next)
         layouts = intArrayOf(R.layout.welcome_slide1, R.layout.welcome_slide2, R.layout.welcome_slide3, R.layout.welcome_slide4)
 
         val myViewPagerAdapter = MyViewPagerAdapter()
-        ImageViewPager?.adapter = myViewPagerAdapter
-        ImageViewPager?.addOnPageChangeListener(viewPagerPageChangeListener)
+        imageViewPager?.adapter = myViewPagerAdapter
+        imageViewPager?.addOnPageChangeListener(viewPagerPageChangeListener)
 
-        btnSkip?.setOnClickListener { launchHomeScreen() }
-        btnNext?.setOnClickListener {
+        skip?.setOnClickListener { launchHomeScreen() }
+        next?.setOnClickListener {
             // checking for last page
             // if last page home screen will be launched
             val current = getItem(1)
-            val mLayouts = layouts
-            if (mLayouts != null && current != null) {
-                if (current < mLayouts.size) {
+            val currentLayouts = layouts
+            if (currentLayouts != null && current != null) {
+                if (current < currentLayouts.size) {
                     //  to next screen
-                    ImageViewPager?.currentItem = current
+                    imageViewPager?.currentItem = current
                 } else {
                     launchHomeScreen()
                 }
@@ -90,7 +90,7 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun getItem(i: Int): Int? {
-        return ImageViewPager?.currentItem?.plus(i)
+        return imageViewPager?.currentItem?.plus(i)
     }
 
     private fun launchHomeScreen() {
