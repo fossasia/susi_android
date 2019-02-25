@@ -164,7 +164,7 @@
     <string name="skills">कौशल</string>
     <string name="skill_title">कौशल शीर्षक</string>
     <string name="skills_activity">SUSI.AI कौशल</string>
-    <string name="error_skill_listing">कौशल लाने में असमर्थ कुछ गलत हो गया। बाद में पुन: प्रयास करें।</string>
+    <string name="error_skill_listing">कौशल लाने में असमर्थ। कृपया इंटरनेट कनेक्शन की जाँच करें या बाद में पुनः प्रयास करें।</string>
     <string name="no_skill_author">कौशल लेखक नहीं मिला</string>
     <string name="reset_password_message">पासवर्ड रीसेट करना ..</string>
 

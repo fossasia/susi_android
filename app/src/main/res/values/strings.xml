@@ -249,7 +249,7 @@
     <string name="app_share_url" translatable="false">https://play.google.com/store/apps/details?id=%s</string>
 
     <string name="error_msg_retry">Please Try Again</string>
-    <string name="error_skill_listing">Unable to fetch skills. Please try again later.</string>
+    <string name="error_skill_listing">Unable to fetch skills.Please check internet connection or try again later.</string>
 
     <string name="logout">Log out</string>
 
