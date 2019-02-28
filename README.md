@@ -59,7 +59,7 @@ Please find info about the set up of the Android app in your development environ
 - Realm [Docs](https://realm.io/docs/java/latest/)
 - Retrofit [Docs](http://square.github.io/retrofit/2.x/retrofit/)
 - ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
-- Espresso [Docs](https://google.github.io/android-testing-support-library/docs/espresso/)
+- Espresso [Docs](https://developer.android.com/training/testing/espresso)
 - Tajchert Waiting Dots [Docs](https://github.com/tajchert/WaitingDots)
 - Picasso [Docs](http://square.github.io/picasso/)
 - LeakCanary [Docs](https://github.com/square/leakcanary)
