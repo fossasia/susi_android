@@ -176,7 +176,7 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
             if (allMessages.isEmpty()) {
                 chatView?.showToast("No messages found")
             } else {
-                var c: Long
+                var chat: Long
                 for (i in allMessages.size - 1 downTo 0) {
                     val query = allMessages[i].query
                     val queryDate = allMessages[i].queryDate
@@ -207,7 +207,7 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
                         }
                     }
 
-                    c = newMessageIndex
+                    chat = newMessageIndex
                     databaseRepository.updateDatabase(ChatArgs(
                             prevId = newMessageIndex,
                             message = query,
@@ -219,7 +219,7 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
 
                     if (allMessages[i].answers.isEmpty()) {
                         databaseRepository.updateDatabase(ChatArgs(
-                                prevId = c,
+                                prevId = chat,
                                 message = utilModel.getString(R.string.error_internet_connectivity),
                                 date = DateTimeHelper.date,
                                 timeStamp = DateTimeHelper.currentTime,
@@ -231,26 +231,26 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
                     val actionSize = allMessages[i].answers[0].actions.size
 
                     for (j in 0 until actionSize) {
-                        val psh = ParseSusiResponseHelper()
-                        psh.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
+                        val parseSusiHelper = ParseSusiResponseHelper()
+                        parseSusiHelper.parseSusiResponse(allMessages[i], j, utilModel.getString(R.string.error_occurred_try_again))
                         try {
-                            databaseRepository.updateDatabase(ChatArgs(prevId = c,
-                                    message = psh.answer,
+                            databaseRepository.updateDatabase(ChatArgs(prevId = chat,
+                                    message = parseSusiHelper.answer,
                                     date = DateTimeHelper.getDate(answerDate),
                                     timeStamp = DateTimeHelper.getTime(answerDate),
-                                    actionType = psh.actionType,
-                                    mapData = psh.mapData,
-                                    isHavingLink = psh.isHavingLink,
-                                    datumList = psh.datumList,
-                                    webSearch = psh.webSearch,
-                                    tableItem = psh.tableData,
-                                    identifier = psh.identifier,
+                                    actionType = parseSusiHelper.actionType,
+                                    mapData = parseSusiHelper.mapData,
+                                    isHavingLink = parseSusiHelper.isHavingLink,
+                                    datumList = parseSusiHelper.datumList,
+                                    webSearch = parseSusiHelper.webSearch,
+                                    tableItem = parseSusiHelper.tableData,
+                                    identifier = parseSusiHelper.identifier,
                                     skillLocation = allMessages[i].answers[0].skills[0]),
                                     this)
                         } catch (e: Exception) {
                             Timber.e(e)
                             databaseRepository.updateDatabase(ChatArgs(
-                                    prevId = c,
+                                    prevId = chat,
                                     message = utilModel.getString(R.string.error_internet_connectivity),
                                     date = DateTimeHelper.date,
                                     timeStamp = DateTimeHelper.currentTime,
@@ -282,10 +282,10 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
         val locationResponse = response.body()
         if (response.isSuccessful && locationResponse != null) {
             try {
-                val loc = locationResponse.loc
-                val s = loc.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                latitude = s[0].toDouble()
-                longitude = s[1].toDouble()
+                val location = locationResponse.loc
+                val split = location.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                latitude = split[0].toDouble()
+                longitude = split[1].toDouble()
                 source = Constant.IP
                 countryCode = locationResponse.country
                 val locale = Locale("", countryCode)
@@ -378,13 +378,13 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
         if (!nonDeliveredMessages.isEmpty()) {
             if (NetworkUtils.isNetworkConnected()) {
                 chatView?.showWaitingDots()
-                val tz = TimeZone.getDefault()
+                val timeZone = TimeZone.getDefault()
                 val now = Date()
-                val timezoneOffset = -1 * (tz.getOffset(now.time) / 60000)
+                val timeZoneOffset = -1 * (timeZone.getOffset(now.time) / 60000)
                 val query = nonDeliveredMessages.first.first
                 val language = if (PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT) == Constant.DEFAULT) Locale.getDefault().language else PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT)
                 val data: MutableMap<String, String?> = HashMap()
-                data["timezoneOffset"] = timezoneOffset.toString()
+                data["timezoneOffset"] = timeZoneOffset.toString()
                 data["longitude"] = longitude.toString()
                 data["latitude"] = latitude.toString()
                 data["geosource"] = source
@@ -460,26 +460,26 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
                 val delay = susiResponse.answers[0].actions[i].delay
                 val handler = Handler()
                 handler.postDelayed({
-                    val psh = ParseSusiResponseHelper()
-                    psh.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
+                    val parseSusiHelper = ParseSusiResponseHelper()
+                    parseSusiHelper.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
 
-                    var setMessage = psh.answer
-                    if (psh.actionType == Constant.TABLE) {
-                        tableItem = psh.tableData
-                    } else if (psh.actionType == Constant.VIDEOPLAY || psh.actionType == Constant.AUDIOPLAY) {
+                    var setMessage = parseSusiHelper.answer
+                    if (parseSusiHelper.actionType == Constant.TABLE) {
+                        tableItem = parseSusiHelper.tableData
+                    } else if (parseSusiHelper.actionType == Constant.VIDEOPLAY || parseSusiHelper.actionType == Constant.AUDIOPLAY) {
                         // Play youtube video
-                        identifier = psh.identifier
+                        identifier = parseSusiHelper.identifier
                         chatView?.playVideo(identifier)
-                    } else if (psh.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
-                        setMessage = psh.answer
+                    } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
+                        setMessage = parseSusiHelper.answer
 
                         var speechReply = setMessage
-                        if (psh.isHavingLink) {
+                        if (parseSusiHelper.isHavingLink) {
                             speechReply = setMessage.substring(0, setMessage.indexOf("http"))
                         }
                         chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
-                    } else if (psh.actionType == Constant.STOP) {
-                        setMessage = psh.stop
+                    } else if (parseSusiHelper.actionType == Constant.STOP) {
+                        setMessage = parseSusiHelper.stop
                         chatView?.stopMic()
                     }
                     try {
@@ -488,11 +488,11 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
                                 message = setMessage,
                                 date = DateTimeHelper.getDate(date),
                                 timeStamp = DateTimeHelper.getTime(date),
-                                actionType = psh.actionType,
-                                mapData = psh.mapData,
-                                isHavingLink = psh.isHavingLink,
-                                datumList = psh.datumList,
-                                webSearch = psh.webSearch,
+                                actionType = parseSusiHelper.actionType,
+                                mapData = parseSusiHelper.mapData,
+                                isHavingLink = parseSusiHelper.isHavingLink,
+                                datumList = parseSusiHelper.datumList,
+                                webSearch = parseSusiHelper.webSearch,
                                 tableItem = tableItem,
                                 identifier = identifier,
                                 skillLocation = susiResponse.answers[0].skills[0]

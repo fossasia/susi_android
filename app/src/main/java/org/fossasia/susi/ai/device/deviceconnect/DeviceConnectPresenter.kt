@@ -22,7 +22,7 @@ import timber.log.Timber
 class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
         IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener {
 
-    private var mWifiManager = manager
+    private var wifiManager = manager
     private var deviceConnectView: IDeviceConnectView? = null
     private var checkPermissions = false
     private var deviceModel: IDeviceModel = DeviceModel()
@@ -96,7 +96,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun checkWifiEnabled() {
-        isWifiEnabled = mWifiManager.isWifiEnabled
+        isWifiEnabled = wifiManager.isWifiEnabled
     }
 
     override fun checkLocationEnabled() {
@@ -118,12 +118,12 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
             wifiConfiguration.SSID = "\"" + SSID + "\""
             wifiConfiguration.preSharedKey = "\"" + "password" + "\""
 
-            val networkId = mWifiManager.addNetwork(wifiConfiguration)
+            val networkId = wifiManager.addNetwork(wifiConfiguration)
             if (networkId != -1) {
-                mWifiManager.enableNetwork(networkId, true)
+                wifiManager.enableNetwork(networkId, true)
                 // Use this to permanently save this network
                 // Otherwise, it will disappear after a reboot
-                mWifiManager.saveConfiguration()
+                wifiManager.saveConfiguration()
             }
             return null
         }
