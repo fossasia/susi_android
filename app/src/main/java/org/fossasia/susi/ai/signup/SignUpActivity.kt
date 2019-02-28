@@ -104,7 +104,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         val alertMessage = getString(R.string.error_cancelling_signUp_process_text)
         val dialogTitle = getString(R.string.dialog_cancel_sign_up)
         val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, dialogTitle, alertMessage, dialogClickListener, null,
-                resources.getString(R.string.cancel), resources.getString(R.string.Continue), resources.getColor(R.color
+                resources.getString(R.string.cancel), resources.getString(R.string.stay_here), resources.getColor(R.color
                 .md_blue_500))
         successAlertboxHelper.showAlertBox()
         checkDialog = true
