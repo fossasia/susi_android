@@ -27,6 +27,7 @@ import timber.log.Timber
 import kotterknife.bindOptionalView
 import kotterknife.bindView
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
+import org.fossasia.susi.ai.helper.NetworkUtils
 
 class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int) : MessageViewHolder(view, clickListener) {
 
@@ -53,7 +54,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                     ChatFeedRecyclerAdapter.USER_MESSAGE -> {
                         chatTextView.text = model.content
                         timeStamp.text = model.timeStamp
-                        if (model.isDelivered) {
+                        if (NetworkUtils.isNetworkConnected()) {
                             receivedTick?.setImageResource(R.drawable.ic_check)
                         } else {
                             receivedTick?.setImageResource(R.drawable.ic_clock)
