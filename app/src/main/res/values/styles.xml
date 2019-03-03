@@ -59,4 +59,7 @@
         <item name="colorControlNormal">@color/md_grey_500</item>
         <item name="colorControlActivated">@color/md_amber_A200</item>
     </style>
+    <style name="PreferenceScreen" parent="">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
 </resources>

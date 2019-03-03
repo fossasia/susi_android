@@ -106,6 +106,7 @@
             android:name="com.google.android.youtube.API_KEY"
             android:value="${YOUTUBE_API_KEY}" />
 
+
     </application>
 
 </manifest>
