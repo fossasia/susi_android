@@ -23,6 +23,7 @@ import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.AnimationUtils.animateView
 import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillListAdapter
 import timber.log.Timber
+import java.lang.IllegalArgumentException
 
 /**
  * fragment to show the list of results for the search
@@ -65,7 +66,7 @@ class SearchFragment : Fragment() {
                     ?: throw IllegalStateException("context must be AppCompatActivity")
         }
         skillNames = arguments?.getParcelableArrayList("KEY_ARRAYLIST")
-                ?: throw Exception("parcelable list must be passed as arguments for search fragment")
+                ?: throw IllegalArgumentException("parcelable list must be passed as arguments for search fragment")
         skillNames.sortBy {
             it.skillName
         }
@@ -102,11 +103,6 @@ class SearchFragment : Fragment() {
         }
     }
 
-    <<<<<<< HEAD
-    =======
-
-
-    >>>>>>> 0ec023078edf66e09bcf3749423dc9c891f090f5
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(rootView, savedInstanceState)
         val editText = appActivity?.supportActionBar?.customView?.findViewById<EditText>(R.id.edtSearch)
@@ -115,10 +111,8 @@ class SearchFragment : Fragment() {
         items_list.adapter = infoListAdapter
         items_list.layoutManager = LayoutManagerSmoothScroller(appActivity)
 
-        <<<<<<< HEAD
         initSearchListeners()
         infoListAdapter.submitList(skillNames)
-        ====== =
     }
 
     private fun initSearchListeners() {
