@@ -28,6 +28,7 @@ class SkillListingModel : ISkillListingModel {
 
         authResponseCallGroups.enqueue(object : Callback<ListGroupsResponse> {
             override fun onResponse(call: Call<ListGroupsResponse>, response: Response<ListGroupsResponse>) {
+
                 listener.onGroupFetchSuccess(response)
             }
 
@@ -45,6 +46,13 @@ class SkillListingModel : ISkillListingModel {
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
             override fun onResponse(call: Call<ListSkillsResponse>, response: Response<ListSkillsResponse>) {
+                val body = response.body()
+                body?.apply {
+                    Timber.d("this.group ${this.group}")
+                    Timber.d("skillMap $skillMap")
+                    Timber.d("filteredSkillsData $filteredSkillsData")
+                }
+
                 listener.onSkillFetchSuccess(response, group)
             }
 
@@ -61,11 +69,13 @@ class SkillListingModel : ISkillListingModel {
 
         authResponseCallMetrics.enqueue(object : Callback<ListSkillMetricsResponse> {
             override fun onResponse(call: Call<ListSkillMetricsResponse>, response: Response<ListSkillMetricsResponse>) {
+
                 listener.onSkillMetricsFetchSuccess(response)
             }
 
             override fun onFailure(call: Call<ListSkillMetricsResponse>, t: Throwable) {
                 Timber.e(t)
+
                 listener.onSkillMetricsFetchFailure(t)
             }
         })

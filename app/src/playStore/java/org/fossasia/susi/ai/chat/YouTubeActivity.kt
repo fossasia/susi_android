@@ -15,7 +15,7 @@ import timber.log.Timber
 
 /**
  *
- * This activity plays youtube video in the app, the video ID is received from the server.
+ * This appActivity plays youtube video in the app, the video ID is received from the server.
  *
  * Created by batbrain7 on 16/06/2018
  *

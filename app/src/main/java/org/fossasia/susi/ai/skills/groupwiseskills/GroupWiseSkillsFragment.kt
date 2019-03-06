@@ -1,20 +1,16 @@
 package org.fossasia.susi.ai.skills.groupwiseskills
 
 import android.content.Context
-import android.support.v4.app.Fragment
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.groupWiseSkills
-import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.swipeRefreshLayout
-import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.progressSkillWait
-import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.messageNoSkillsFound
-import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.errorSkillFetch
+import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
@@ -52,6 +48,8 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         if (argument != null) {
             this.skills.group = argument.getString("group")
         }
+        Timber.d("onCreateView")
+
         return inflater.inflate(R.layout.fragment_group_wise_skill_listing, container, false)
     }
 

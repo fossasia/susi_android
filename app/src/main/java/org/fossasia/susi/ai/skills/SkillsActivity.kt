@@ -1,31 +1,30 @@
 package org.fossasia.susi.ai.skills
 
-import android.content.Context
+import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
+import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
+import org.fossasia.susi.ai.skills.skilllisting.SearchFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
+import org.fossasia.susi.ai.skills.skilllisting.SkillListingPresenter
 
 /**
- * <h1>The Skills activity.</h1>
- * <h2>This activity is used to display SUSI Skills in the app.</h2>
+ * <h1>The Skills appActivity.</h1>
+ * <h2>This appActivity is used to display SUSI Skills in the app.</h2>
  *
  * Created by mayanktripathi on 07/07/17.
  */
@@ -36,13 +35,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
+    var searchAction: MenuItem? = null
+    var isSearchOpened = false
+    val SEARCH_FRAGMENT_TAG = "search_fragment_tag"
+    private lateinit var skillNames: ArrayList<SkillData>
 
-    private var searchAction: MenuItem? = null
-    private var isSearchOpened = false
-    private var edtSearch: EditText? = null
     private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
-    private var text: String = ""
-    private var group: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,16 +53,76 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
-        supportFragmentManager.addOnBackStackChangedListener {
-                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-                currentFragment?.onResume()
-            }
+
 
         supportFragmentManager.addOnBackStackChangedListener {
             invalidateOptionsMenu()
         }
-
         skills = skillFragment.skills
+
+    }
+
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        when (fragment) {
+            is SearchFragment -> {
+                val action = supportActionBar
+                action?.setDisplayShowCustomEnabled(false)
+                action?.setDisplayShowTitleEnabled(true)
+                isSearchOpened = false
+                searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+                openSkillsFragment(supportFragmentManager)
+
+            }
+            is SkillListingFragment -> {
+                finish()
+
+                overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+                val intent = Intent(this, ChatActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+
+            }
+            else -> return super.onBackPressed()
+        }
+
+
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        super.onPrepareOptionsMenu(menu)
+
+
+        SkillListingPresenter.showMenuIcon.apply {
+            value = false
+
+        }
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        when (currentFragment) {
+
+            is SkillListingFragment -> {
+                menu?.setGroupVisible(R.id.menu_items, true)
+
+                SkillListingPresenter.showMenuIcon.observe(this, Observer {
+                    it?.let {
+                        if (it)
+                            searchAction = menu?.findItem(R.id.action_search)
+                        menu?.findItem(R.id.action_search)?.isVisible = it
+                    }
+                    if (it == null) {
+                        menu?.findItem(R.id.action_search)?.isVisible = false
+
+                    }
+
+                })
+            }
+            else -> menu?.setGroupVisible(R.id.menu_items, false)
+        }
+
+        return super.onPrepareOptionsMenu(menu)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -73,36 +131,20 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return true
     }
 
-    private fun backHandler(context: Context) {
-        val lastFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-
-        if (lastFragment == null) {
-            finish()
-            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-            val intent = Intent(context, ChatActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (!isSearchOpened) {
-            super.onBackPressed()
-            backHandler(this)
-            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
-        } else {
-            val action = supportActionBar
-            action?.setDisplayShowCustomEnabled(false)
-            action?.setDisplayShowTitleEnabled(true)
-            searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
-            isSearchOpened = false
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        skillNames = skillNames()
+
+
+
         when (item.itemId) {
             android.R.id.home -> {
-                onBackPressed()
+//                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+//                if (!(currentFragment is SkillListingFragment))
+//                    openSkillsFragment(supportFragmentManager)
+//                else {
+//                    super.onBackPressed()
+//                    backHandler(this)
+                onHomeButtonPressed()
                 return true
             }
 
@@ -123,102 +165,51 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                         .addToBackStack(TAG_ABOUT_FRAGMENT)
                         .commit()
             }
-
             R.id.action_search -> {
+                supportActionBar?.setCustomView(R.layout.search_bar)//add the custom view
                 handleMenuSearch()
+                openSearchFragment(supportFragmentManager, skillNames, SEARCH_FRAGMENT_TAG)
+
             }
+
+
         }
         return super.onOptionsItemSelected(item)
     }
 
-    protected fun handleMenuSearch() {
-        val action = supportActionBar //get the actionbar
+    private fun gotoSkillFragment(fragmentManager: FragmentManager) {
 
-        if (isSearchOpened) { //test if the search is open
-            hideSoftKeyboard(this, window.decorView)
-            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
-            //add the search icon in the action bar
-            searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
-            isSearchOpened = false
-        } else { //open the search entry
 
-            action?.setDisplayShowCustomEnabled(true) //enable it to display a
-            // custom view in the action bar.
-            action?.setCustomView(R.layout.search_bar)//add the custom view
-            action?.setDisplayShowTitleEnabled(false) //hide the title
+        if (supportFragmentManager.findFragmentById(R.id.fragment_container) is SkillListingFragment) {
+            finish()
 
-            edtSearch = action?.customView?.findViewById(R.id.edtSearch) //the text editor
-
-            //this is a listener to do a search when users enters query in editText
-            edtSearch?.addTextChangedListener(object : TextWatcher {
-                /**
-                 * Variable used to remove unneccessary invoking of doSearch() method.
-                 */
-                var skillFound = true
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    //no need to implement
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    //no need to implement
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    val currentText = s.toString()
-                    //checking that value exist in skills and if not exist comparing the length of the current text to the previous text where the skills are present
-                    if (skillFound || (currentText.length <= text.length)) {
-                        skillFound = performSearch(currentText)
-                        text = currentText
-                    } else {
-                        Toast.makeText(baseContext, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
-            edtSearch?.requestFocus()
-
-            //open the keyboard focused in the edtSearch
-            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
-            //add the close icon
-            searchAction?.icon = resources.getDrawable(R.drawable.ic_close_search)
-            isSearchOpened = true
-        }
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(this, ChatActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            return
+        } else openSkillsFragment(fragmentManager)
     }
 
-    /*
-     Used to perform search for the query entered by the user
-     Returns true if the skill is found related to search query else false
-     */
-    fun performSearch(query: String): Boolean {
+    private fun onHomeButtonPressed() {
+        // If search fragment wasn't found in the backstack...
 
-        for ((pos, item) in skills.withIndex()) {
-            if (query in item.first) {
-                skillMetrics.scrollToPosition(pos)
-                return true
-            }
+        gotoSkillFragment(supportFragmentManager)
 
-            for (item2 in item.second) {
-                if (query.toLowerCase() in item2.group.toLowerCase()) {
-                    skillMetrics.scrollToPosition(pos)
-                    return true
-                }
-            }
-        }
-        Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
-        return false
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        searchAction = menu?.findItem(R.id.action_search)
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        when (currentFragment) {
-            is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
-            else -> menu?.setGroupVisible(R.id.menu_items, false)
-        }
-        return super.onPrepareOptionsMenu(menu)
+
+    private fun openSearchFragment(fragmentManager: FragmentManager,
+
+
+                                   skillNames: ArrayList<SkillData>,
+                                   searcH_FRAGMENT_TAG: String) {
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.animator.custom_fade_in, R.animator.custom_fade_out, R.animator.custom_fade_in, R.animator.custom_fade_out)
+                .replace(R.id.fragment_container, SearchFragment.getInstance(skillNames), searcH_FRAGMENT_TAG)
+                .commit()
     }
+
 
     override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
         handleOnLoadingFragment()
@@ -238,14 +229,81 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .commit()
     }
 
-    fun handleOnLoadingFragment() {
+    private fun handleOnLoadingFragment() {
         hideSoftKeyboard(this, window.decorView)
         if (isSearchOpened) {
             val action = supportActionBar //get the actionbar
             action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action?.setDisplayShowTitleEnabled(true)
-            searchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
+
             isSearchOpened = false
         }
     }
+
+
+    private fun skillNames(): ArrayList<SkillData> {
+        val list: ArrayList<String> = ArrayList()
+        val skillsData: ArrayList<SkillData> = ArrayList()
+        skills.forEach {
+            if (it.second != null) {
+                it.second.forEach { skilldata ->
+                    var flag = false
+                    list.forEach { skillname ->
+                        if (skilldata.skillName != null && skillname.contains(skilldata.skillName, false)) {
+                            flag = true
+                        }
+                    }
+                    if (skilldata.skillName != null && skilldata.skillName != this.getString(R.string.no_skill_name) && !TextUtils.isEmpty(skilldata.skillName) && !flag) {
+                        list.add(skilldata.skillName)
+                        skillsData.add(skilldata)
+                    }
+
+                }
+            }
+        }
+        return skillsData
+    }
+
+    private fun handleMenuSearch() {
+        val action = supportActionBar //get the actionbar
+        if (isSearchOpened) { //test if the search is open
+            Utils.hideSoftKeyboard(this, window.decorView)
+            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
+            //add the search icon in the action bar
+            searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            isSearchOpened = false
+        } else { //open the search entry
+
+            action?.setDisplayShowCustomEnabled(true) //enable it to display a
+            // custom view in the action bar.
+            action?.setCustomView(R.layout.search_bar)//add the custom view
+            action?.setDisplayShowTitleEnabled(false) //hide the title
+
+            val edtSearch = action?.customView?.findViewById<EditText>(R.id.edtSearch) //the text editor
+
+            edtSearch?.requestFocus()
+            //open the keyboard focused in the edtSearch
+            if (edtSearch != null) {
+                Utils.showSoftKeyboard(this, edtSearch)
+            }
+
+            isSearchOpened = true
+        }
+    }
+
+
+    private fun openSkillsFragment(fragmentManager: FragmentManager) {
+        val action = supportActionBar
+        action?.setDisplayShowCustomEnabled(false)
+        action?.setDisplayShowTitleEnabled(true)
+        isSearchOpened = false
+        searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+        fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, SkillListingFragment())
+                .addToBackStack(TAG_SKILLS_FRAGMENT)
+                .commit()
+    }
 }
+

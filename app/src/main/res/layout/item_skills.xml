@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_very_small">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/susi_message_bg"
+        app:cardCornerRadius="@dimen/radius_skill_card_corner"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:id="@+id/preview_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/default_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/link_preview_text_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:background="@color/md_white_1000"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_moderate">
+
+                <ImageView
+                    android:id="@+id/skill_preview_image"
+                    android:layout_width="@dimen/skill_image_size"
+                    android:layout_height="@dimen/skill_image_size"
+                    android:adjustViewBounds="true"
+                    android:background="@color/md_white_1000"
+                    android:padding="@dimen/margin_small"
+                    android:scaleType="centerInside"
+                    app:srcCompat="@drawable/ic_user" />
+
+                <TextView
+                    android:id="@+id/skill_preview_example"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/skill_image_size"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@color/md_white_1000"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:maxLines="3"
+                    android:padding="@dimen/padding_small"
+                    android:textAlignment="center"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="@dimen/text_size_normal"
+                    android:textStyle="italic"
+                    tools:text="@string/sample_website_description" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/skill_preview_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/default_bg"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/cmv_padding"
+                android:paddingTop="@dimen/padding_small"
+                android:paddingRight="@dimen/cmv_padding"
+                android:text="@string/skill_title"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_moderate" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/cv_rating_bar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="@dimen/rating_bar_layout_width"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    android:padding="@dimen/cmv_padding"
+                    android:theme="@style/RatingBar" />
+
+                <TextView
+                    android:id="@+id/cv_total_ratings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/cmv_padding"
+                    android:paddingBottom="@dimen/cmv_padding"
+                    android:text="@string/digit_zero"
+                    android:textColor="@color/colorPrimary" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

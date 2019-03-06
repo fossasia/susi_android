@@ -10,7 +10,7 @@ import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 
 /*
 *   Created by batbrain7 on 20/06/18
-*   Device activity is where we can setup a new device and also
+*   Device appActivity is where we can setup a new device and also
 *   view the devices currently connected
  */
 

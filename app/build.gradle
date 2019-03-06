@@ -12,7 +12,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
-def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
+def MAPBOX_API_KEY = '"' + System.getenv('MAPBOX_API_KEY') + '"' ?: '"DEFAULT"'
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
@@ -151,4 +151,9 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
+
+
+    implementation "android.arch.lifecycle:livedata"
+
+
 }

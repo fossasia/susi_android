@@ -13,7 +13,7 @@ class AlertboxHelper
 /**
  * Instantiates a new Alertbox helper.
 
- * @param activity the activity
+ * @param activity the appActivity
  * *
  * @param title the title
  * *

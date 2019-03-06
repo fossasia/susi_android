@@ -21,8 +21,8 @@ import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 
 /**
- * <h1>The SignUp activity.</h1>
- * <h2>This activity is used to signUp into the app.</h2>
+ * <h1>The SignUp appActivity.</h1>
+ * <h2>This appActivity is used to signUp into the app.</h2>
  *
  * Created by mayanktripathi on 05/07/17.
  */

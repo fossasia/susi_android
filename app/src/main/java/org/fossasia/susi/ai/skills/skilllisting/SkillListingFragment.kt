@@ -10,19 +10,19 @@ import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
-import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
-import kotlinx.android.synthetic.main.fragment_skill_listing.progressSkillWait
 import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch
+import kotlinx.android.synthetic.main.fragment_skill_listing.progressSkillWait
+import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
+import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
+import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillMetricsAdapter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
-import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import timber.log.Timber
 
 /**
@@ -34,6 +34,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     private lateinit var skillAdapterSnapHelper: SnapHelper
     private lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
+
     private var metrics = SkillsBasedOnMetrics(ArrayList(), ArrayList(), ArrayList())
     private lateinit var skillMetricsAdapter: SkillMetricsAdapter
     private lateinit var skillCallback: SkillFragmentCallback
@@ -50,6 +51,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
         swipe_refresh_layout.setOnRefreshListener(this)
         setUPAdapter()
         skillListingPresenter.getMetrics(swipe_refresh_layout.isRefreshing)
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -95,7 +97,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     }
 
     override fun updateSkillsAdapter(skills: ArrayList<Pair<String, List<SkillData>>>) {
-        swipe_refresh_layout.isRefreshing = false
+        if (swipe_refresh_layout != null) swipe_refresh_layout.isRefreshing = false
         if (errorSkillFetch.visibility == View.VISIBLE) {
             errorSkillFetch.visibility = View.GONE
         }

@@ -22,8 +22,8 @@ import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
 
 /**
- * <h1>The Login activity.</h1>
- * <h2>This activity is used to login into the app.</h2>
+ * <h1>The Login appActivity.</h1>
+ * <h2>This appActivity is used to login into the app.</h2>
  *
  * Created by chiragw15 on 4/7/17.
  */

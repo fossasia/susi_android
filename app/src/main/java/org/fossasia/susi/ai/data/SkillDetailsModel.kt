@@ -52,6 +52,7 @@ class SkillDetailsModel : ISkillDetailsModel {
 
         updateRatingsResponseCall.enqueue(object : Callback<FiveStarSkillRatingResponse> {
             override fun onResponse(call: Call<FiveStarSkillRatingResponse>, response: Response<FiveStarSkillRatingResponse>) {
+
                 listener.onSkillDetailsModelSuccess(response)
             }
 
@@ -67,6 +68,7 @@ class SkillDetailsModel : ISkillDetailsModel {
 
         updateUserRatingResponseCall.enqueue(object : Callback<GetRatingByUserResponse> {
             override fun onResponse(call: Call<GetRatingByUserResponse>, response: Response<GetRatingByUserResponse>) {
+
                 listener.onUpdateUserRatingModelSuccess(response)
             }
 
@@ -82,6 +84,7 @@ class SkillDetailsModel : ISkillDetailsModel {
 
         reportSkillResponseCall.enqueue(object : Callback<ReportSkillResponse> {
             override fun onResponse(call: Call<ReportSkillResponse>?, response: Response<ReportSkillResponse>) {
+
                 listener.reportSendSuccess(response)
             }
 

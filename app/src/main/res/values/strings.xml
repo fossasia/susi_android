@@ -431,4 +431,14 @@
     <string name="report_send_success">Skill reported successfully</string>
     <string name="reported_already">Skill already reported</string>
 
+
+    <string name="show_search_suggestions_key" translatable="false">show_search_suggestions</string>
+    <string name="content_country_key" translatable="false">content_country</string>
+    <string name="default_country_value">GB</string>
+    <string name="enable_search_history_key" translatable="false">enable_search_history</string>
+    <string name="list_view_mode_key" translatable="false">list_view_mode</string>
+    <string name="search_no_results">No results</string>
+    <string name="clear">Clear</string>
+
+
 </resources>

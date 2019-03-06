@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilllisting
 
+import android.arch.lifecycle.MutableLiveData
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.SkillListingModel
 import org.fossasia.susi.ai.data.UtilModel
@@ -8,10 +9,10 @@ import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.rest.responses.susi.Metrics
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
+import org.fossasia.susi.ai.rest.responses.susi.Metrics
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
@@ -25,6 +26,13 @@ import timber.log.Timber
  */
 class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : ISkillListingPresenter, ISkillListingModel.OnFetchGroupsFinishedListener,
         ISkillListingModel.OnFetchSkillsFinishedListener, ISkillListingModel.OnFetchSkillMetricsFinishedListener {
+    companion object {
+        val showMenuIcon: MutableLiveData<Boolean> = MutableLiveData()
+    }
+
+    val a: Int = 0
+    var c: Int = 0
+    var b: Int = 0
 
     private var skillListingModel: ISkillListingModel = SkillListingModel()
     private var skillListingView: ISkillListingView? = null
@@ -55,6 +63,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
         if (response.isSuccessful && groupsResponse != null) {
             Timber.d("GROUPS FETCHED")
             groupsCount = groupsResponse.groups.size
+
+            b = groupsCount
             metrics.groups = groupsResponse.groups as MutableList<String>
             skillListingView?.updateAdapter(metrics)
             skillListingModel.fetchSkills(metrics.groups[0], PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), this)
@@ -75,6 +85,10 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && skillsResponse != null) {
             Timber.d("SKILLS FETCHED")
+            if (c == 0 || c != b) c++
+            if (c != 0 && c == b && showMenuIcon.value != true) showMenuIcon.value = true
+
+            Timber.d("c $c b $b")
             val responseSkillMap = skillsResponse.filteredSkillsData
             if (responseSkillMap.isNotEmpty()) {
                 skills.add(Pair(group, responseSkillMap))
