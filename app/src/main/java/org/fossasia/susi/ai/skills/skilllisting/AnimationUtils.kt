@@ -5,12 +5,10 @@ import android.animation.AnimatorListenerAdapter
 import android.support.v4.view.animation.FastOutSlowInInterpolator
 import android.view.View
 
-
 /**
  * Animation Utils class helps to animate the views
  */
 object AnimationUtils {
-
 
     /**
      * Animate the view
@@ -42,9 +40,7 @@ object AnimationUtils {
         view.visibility = View.VISIBLE
 
         animateLightSlideAndAlpha(view, enterOrExit, duration, delay, execOnEnd)
-
     }
-
 
     private fun animateLightSlideAndAlpha(view: View, enterOrExit: Boolean, duration: Long, delay: Long, execOnEnd: Runnable?) {
         if (enterOrExit) {

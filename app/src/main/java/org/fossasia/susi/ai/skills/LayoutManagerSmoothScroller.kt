@@ -6,13 +6,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSmoothScroller
 import android.support.v7.widget.RecyclerView
 
-
 /**
  * Custom LayoutManager to smoothly scroll the list to the top when the user hits
  * the back space and the results changes by a great amount
  */
 class LayoutManagerSmoothScroller(context: Context) : LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
-
 
     /**
      *  smoothly scrolls the result of the list to the top

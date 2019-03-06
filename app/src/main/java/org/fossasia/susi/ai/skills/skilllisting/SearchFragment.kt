@@ -15,7 +15,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_search.items_list
-import kotlinx.android.synthetic.main.fragment_search.list_panel
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -28,7 +27,7 @@ import timber.log.Timber
 /**
  * fragment to show the list of results for the search
  */
-open class SearchFragment : Fragment() {
+class SearchFragment : Fragment() {
     lateinit var edtSearch: EditText
     private var textWatcher: TextWatcher? = null
     private var searchString: String? = null
@@ -57,108 +56,80 @@ open class SearchFragment : Fragment() {
         }
     }
 
-
     override fun onAttach(activity: Activity?) {
         super.onAttach(activity)
 
         when (context) {
-            is AppCompatActivity -> this.appActivity = context as AppCompatActivity
+
+            is AppCompatActivity -> this.appActivity = context as? AppCompatActivity
+                    ?: throw IllegalStateException("context must be AppCompatActivity")
         }
-        skillNames = arguments?.getParcelableArrayList("KEY_ARRAYLIST")!!
+        skillNames = arguments?.getParcelableArrayList("KEY_ARRAYLIST")
+                ?: throw Exception("parcelable list must be passed as arguments for search fragment")
         skillNames.sortBy {
             it.skillName
-
         }
-        if (context is SkillFragmentCallback) {
-            skillCallback = context as SkillFragmentCallback
-        } else {
-            Timber.e("context is not SkillFragmentCallback")
+        when (context) {
+            is SkillFragmentCallback -> skillCallback = context as? SkillFragmentCallback
+                    ?: throw ClassCastException("context must implements SkillFragmentCallback to perform search")
+            else -> Timber.e("context is not SkillFragmentCallback")
         }
         infoListAdapter = SkillListAdapter(appActivity, skillNames, skillCallback, search = true)
-
-
-    }
-
-    private fun hideKeyboardSearch() {
-        if (edtSearch == null) return
-
-
-        Utils.hideSoftKeyboard(appActivity, edtSearch)
-
-        if (edtSearch != null) edtSearch.clearFocus()
     }
 
     override fun onPause() {
         super.onPause()
-        hideKeyboardSearch()
-
+        Utils.hideSoftKeyboard(appActivity, edtSearch)
+        if (edtSearch != null) edtSearch.clearFocus()
     }
 
     override fun onResume() {
         super.onResume()
 
         if (TextUtils.isEmpty(searchString)) {
-            showKeyboardSearch()
-            showSuggestionsPanel()
+            if (edtSearch != null && edtSearch.requestFocus()) {
+                Utils.showSoftKeyboard(appActivity, edtSearch)
+                edtSearch.clearFocus()
+            }
+            when {
+                items_list != null -> animateView(items_list, true, 200)
+            }
         } else {
-            hideKeyboardSearch()
-            hideListPanel()
+            Utils.hideSoftKeyboard(appActivity, edtSearch)
+            when {
+                items_list != null -> animateView(items_list, false, 200)
+            }
         }
     }
-
-    private fun hideListPanel() {
-        if (list_panel != null) animateView(list_panel, false, 200)
-    }
-
-    private fun showKeyboardSearch() {
-        if (edtSearch == null) return
-
-        if (edtSearch.requestFocus()) {
-            Utils.showSoftKeyboard(appActivity, edtSearch)
-        }
-
-
-    }
-
 
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(rootView, savedInstanceState)
         val editText = appActivity?.supportActionBar?.customView?.findViewById<EditText>(R.id.edtSearch)
         if (editText != null) edtSearch = editText
         edtSearch.setText(searchString)
-        initViews()
+        items_list.adapter = infoListAdapter
+        items_list.layoutManager = LayoutManagerSmoothScroller(appActivity)
 
         initSearchListeners()
         infoListAdapter.submitList(skillNames)
     }
 
-
-    private fun initViews() {
-
-        items_list.adapter = infoListAdapter
-        items_list.layoutManager = LayoutManagerSmoothScroller(appActivity)
-    }
-
-    private fun showSuggestionsPanel() {
-        if (list_panel != null) animateView(list_panel, true, 200)
-    }
-
-
     private fun initSearchListeners() {
 
         edtSearch.setOnClickListener {
 
-            showSuggestionsPanel()
-
+            when {
+                items_list != null -> animateView(items_list, true, 200)
+            }
         }
 
         edtSearch.setOnFocusChangeListener { _: View, hasFocus: Boolean ->
             if (hasFocus) {
-                showSuggestionsPanel()
+                when {
+                    items_list != null -> animateView(items_list, true, 200)
+                }
             }
         }
-
-
 
         if (textWatcher != null) edtSearch.removeTextChangedListener(textWatcher)
         textWatcher = object : TextWatcher {
@@ -170,14 +141,16 @@ open class SearchFragment : Fragment() {
                 val newText = edtSearch.text.toString()
                 // search newText in the list
                 performSearch(newText)
-
             }
         }
         edtSearch.addTextChangedListener(textWatcher)
         edtSearch.setOnEditorActionListener { _, _, event ->
-            if (event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER || event.action == EditorInfo.IME_ACTION_SEARCH)) {
-                performSearch(edtSearch.text.toString())
-                return@setOnEditorActionListener true
+            when {
+                event != null && (event.keyCode == KeyEvent.KEYCODE_ENTER ||
+                        event.action == EditorInfo.IME_ACTION_SEARCH)
+                -> {
+                    performSearch(edtSearch.text.toString())
+                }
             }
             false
         }
@@ -203,14 +176,11 @@ open class SearchFragment : Fragment() {
 
         Timber.d("flag $flag")
 
-
         when (flag) {
             1 -> {
                 items_list.smoothScrollToPosition(0)
                 infoListAdapter.setSkillList(result)
                 infoListAdapter.submitList(result)
-
-
             }
             else -> {
                 infoListAdapter.submitList(result)
@@ -218,7 +188,4 @@ open class SearchFragment : Fragment() {
             }
         }
     }
-
-
 }
-

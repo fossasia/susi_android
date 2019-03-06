@@ -93,11 +93,13 @@ object Utils {
         inputManager.hideSoftInputFromWindow(view.windowToken, InputMethodManager.SHOW_FORCED)
     }
 
+    /**
+     * utility function to show keyboard
+     */
     fun showSoftKeyboard(context: Context?, view: View) {
-        val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm: InputMethodManager = context
+                ?.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+                ?: throw ClassCastException("Wrong type of system service received.")
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-
     }
-
-
 }

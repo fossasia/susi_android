@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
@@ -54,14 +53,11 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .addToBackStack(TAG_SKILLS_FRAGMENT)
                 .commit()
 
-
         supportFragmentManager.addOnBackStackChangedListener {
             invalidateOptionsMenu()
         }
         skills = skillFragment.skills
-
     }
-
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
@@ -74,7 +70,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 isSearchOpened = false
                 searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
                 openSkillsFragment(supportFragmentManager)
-
             }
             is SkillListingFragment -> {
                 finish()
@@ -83,21 +78,16 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 val intent = Intent(this, ChatActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
-
             }
             else -> return super.onBackPressed()
         }
-
-
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
         super.onPrepareOptionsMenu(menu)
 
-
         SkillListingPresenter.showMenuIcon.apply {
             value = false
-
         }
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         when (currentFragment) {
@@ -113,16 +103,13 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                     }
                     if (it == null) {
                         menu?.findItem(R.id.action_search)?.isVisible = false
-
                     }
-
                 })
             }
             else -> menu?.setGroupVisible(R.id.menu_items, false)
         }
 
         return super.onPrepareOptionsMenu(menu)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -134,16 +121,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         skillNames = skillNames()
 
-
-
         when (item.itemId) {
             android.R.id.home -> {
-//                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-//                if (!(currentFragment is SkillListingFragment))
-//                    openSkillsFragment(supportFragmentManager)
-//                else {
-//                    super.onBackPressed()
-//                    backHandler(this)
                 onHomeButtonPressed()
                 return true
             }
@@ -169,16 +148,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 supportActionBar?.setCustomView(R.layout.search_bar)//add the custom view
                 handleMenuSearch()
                 openSearchFragment(supportFragmentManager, skillNames, SEARCH_FRAGMENT_TAG)
-
             }
-
-
         }
         return super.onOptionsItemSelected(item)
     }
 
     private fun gotoSkillFragment(fragmentManager: FragmentManager) {
-
 
         if (supportFragmentManager.findFragmentById(R.id.fragment_container) is SkillListingFragment) {
             finish()
@@ -195,21 +170,19 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         // If search fragment wasn't found in the backstack...
 
         gotoSkillFragment(supportFragmentManager)
-
     }
 
+    private fun openSearchFragment(
+        fragmentManager: FragmentManager,
 
-    private fun openSearchFragment(fragmentManager: FragmentManager,
-
-
-                                   skillNames: ArrayList<SkillData>,
-                                   searcH_FRAGMENT_TAG: String) {
+        skillNames: ArrayList<SkillData>,
+        searcH_FRAGMENT_TAG: String
+    ) {
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.animator.custom_fade_in, R.animator.custom_fade_out, R.animator.custom_fade_in, R.animator.custom_fade_out)
                 .replace(R.id.fragment_container, SearchFragment.getInstance(skillNames), searcH_FRAGMENT_TAG)
                 .commit()
     }
-
 
     override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {
         handleOnLoadingFragment()
@@ -240,27 +213,17 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         }
     }
 
-
     private fun skillNames(): ArrayList<SkillData> {
-        val list: ArrayList<String> = ArrayList()
         val skillsData: ArrayList<SkillData> = ArrayList()
-        skills.forEach {
-            if (it.second != null) {
-                it.second.forEach { skilldata ->
-                    var flag = false
-                    list.forEach { skillname ->
-                        if (skilldata.skillName != null && skillname.contains(skilldata.skillName, false)) {
-                            flag = true
-                        }
-                    }
-                    if (skilldata.skillName != null && skilldata.skillName != this.getString(R.string.no_skill_name) && !TextUtils.isEmpty(skilldata.skillName) && !flag) {
-                        list.add(skilldata.skillName)
-                        skillsData.add(skilldata)
-                    }
+        val skillList = skills
+                .flatMap { it.second }.asSequence()
+                .distinctBy { skillData -> skillData.skillName }
+                .filter { skillData ->
+                    !skillData.skillName.isNullOrBlank() &&
+                            skillData.skillName != getString(R.string.no_skill_name)
+                }.toList()
 
-                }
-            }
-        }
+        skillsData.addAll(skillList)
         return skillsData
     }
 
@@ -292,7 +255,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         }
     }
 
-
     private fun openSkillsFragment(fragmentManager: FragmentManager) {
         val action = supportActionBar
         action?.setDisplayShowCustomEnabled(false)
@@ -306,4 +268,3 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .commit()
     }
 }
-

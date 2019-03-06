@@ -15,7 +15,6 @@ import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 import timber.log.Timber
 
-
 /**
  * adapter to show individual skill
  */
