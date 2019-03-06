@@ -15,7 +15,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_search.items_list
-import kotlinx.android.synthetic.main.fragment_search.list_panel
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -107,7 +106,7 @@ open class SearchFragment : Fragment() {
     }
 
     private fun hideListPanel() {
-        if (list_panel != null) animateView(list_panel, false, 200)
+        if (items_list != null) animateView(items_list, false, 200)
     }
 
     private fun showKeyboardSearch() {
@@ -140,7 +139,7 @@ open class SearchFragment : Fragment() {
     }
 
     private fun showSuggestionsPanel() {
-        if (list_panel != null) animateView(list_panel, true, 200)
+        if (items_list != null) animateView(items_list, true, 200)
     }
 
 
