@@ -102,6 +102,11 @@ class SearchFragment : Fragment() {
         }
     }
 
+    <<<<<<< HEAD
+    =======
+
+
+    >>>>>>> 0ec023078edf66e09bcf3749423dc9c891f090f5
     override fun onViewCreated(rootView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(rootView, savedInstanceState)
         val editText = appActivity?.supportActionBar?.customView?.findViewById<EditText>(R.id.edtSearch)
@@ -110,8 +115,10 @@ class SearchFragment : Fragment() {
         items_list.adapter = infoListAdapter
         items_list.layoutManager = LayoutManagerSmoothScroller(appActivity)
 
+        <<<<<<< HEAD
         initSearchListeners()
         infoListAdapter.submitList(skillNames)
+        ====== =
     }
 
     private fun initSearchListeners() {
