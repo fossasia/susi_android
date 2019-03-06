@@ -5,4 +5,4 @@ jobs:
       - image: circleci/ruby:2.4.1
     steps:
       - checkout
-      - run: notacommand
+      - run: echo " Hello,World! "
