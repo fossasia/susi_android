@@ -7,11 +7,16 @@ import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.text.Html
+import android.text.SpannableString
 import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
+import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_about_us.about_susi
 import kotlinx.android.synthetic.main.fragment_about_us.contributors_desc
 import kotlinx.android.synthetic.main.fragment_about_us.susi_skill_cms_desc
@@ -37,35 +42,67 @@ class AboutUsFragment : Fragment() {
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        about_susi.setOnClickListener {
-            val uri = Uri.parse(getString(R.string.url_about_susi))
-            launchCustomtTab(uri)
+        //aboutUs textview got spanned
+        val aboutUsString = SpannableString(about_susi.text)
+        val clickableSpan=object : ClickableSpan(){
+            override fun onClick(textView: View) {
+                val uri = Uri.parse(getString(R.string.url_about_susi))
+                   launchCustomtTab(uri)
+            }
         }
+        aboutUsString.setSpan(clickableSpan, 0, 7 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        about_susi.text = aboutUsString
+        about_susi.movementMethod = LinkMovementMethod.getInstance()
 
-        contributors_desc.setOnClickListener {
-            val uri = Uri.parse(getString(R.string.url_susi_contributors))
-            launchCustomtTab(uri)
+        //Contributors
+        val contributorsString = SpannableString(contributors_desc.text)
+        val contributorsSpan=object : ClickableSpan(){
+            override fun onClick(textView: View) {
+                val uri = Uri.parse(getString(R.string.url_susi_contributors))
+                launchCustomtTab(uri)
+            }
         }
+        contributorsString.setSpan(contributorsSpan, 13, 25 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        contributors_desc.text = contributorsString
+        contributors_desc.movementMethod = LinkMovementMethod.getInstance()
 
-        susi_skill_cms_desc.setOnClickListener {
-            val uri = Uri.parse(getString(R.string.url_susi_skill_cms))
-            launchCustomtTab(uri)
+        //SUSI_SKILLS_CMS_DESC
+        val skillsString = SpannableString(susi_skill_cms_desc.text)
+        val skillsSpan=object : ClickableSpan(){
+            override fun onClick(textView: View) {
+                val uri = Uri.parse(getString(R.string.url_susi_skill_cms))
+                launchCustomtTab(uri)
+            }
         }
+        skillsString.setSpan(skillsSpan, 71, 86 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        susi_skill_cms_desc.text = skillsString
+        susi_skill_cms_desc.movementMethod = LinkMovementMethod.getInstance()
 
-        susi_report_issues_desc.setOnClickListener {
-            val uri = Uri.parse(getString(R.string.url_susi_report_issue))
-            launchCustomtTab(uri)
+        //SUSI license info description
+        val licenseString = SpannableString(susi_license_info_desc.text)
+        val licenseSpan=object : ClickableSpan(){
+            override fun onClick(textView: View) {
+                val uri = Uri.parse(getString(R.string.url_susi_license))
+                launchCustomtTab(uri)
+            }
         }
-        susi_license_info_desc.setOnClickListener {
-            val uri = Uri.parse(getString(R.string.url_susi_license))
-            launchCustomtTab(uri)
-        }
+        licenseString.setSpan(licenseSpan, 83, 94 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        susi_license_info_desc.text = licenseString
+        susi_license_info_desc.movementMethod = LinkMovementMethod.getInstance()
 
-        about_susi.text = htmlConverter(R.string.susi_about)
-        contributors_desc.text = htmlConverter(R.string.susi_contributors_desc)
-        susi_skill_cms_desc.text = htmlConverter(R.string.susi_skill_cms_desc)
-        susi_license_info_desc.text = htmlConverter(R.string.susi_license_information_desc)
-        susi_report_issues_desc.text = htmlConverter(R.string.susi_report_issues_desc)
+
+        //SUSI report info description
+        val reportString = SpannableString(susi_report_issues_desc.text)
+        val reportSpan=object : ClickableSpan(){
+            override fun onClick(textView: View) {
+                val uri = Uri.parse(getString(R.string.url_susi_report_issue))
+                launchCustomtTab(uri)
+            }
+        }
+        reportString.setSpan(reportSpan, 32, 63 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        susi_report_issues_desc.text = reportString
+        susi_report_issues_desc.movementMethod = LinkMovementMethod.getInstance()
+
 
         super.onViewCreated(view, savedInstanceState)
     }
