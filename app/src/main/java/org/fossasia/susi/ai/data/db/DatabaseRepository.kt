@@ -118,11 +118,11 @@ class DatabaseRepository : IDatabaseRepository {
             if (!chatArgs.mine) {
                 realm.executeTransactionAsync { bgRealm ->
                     try {
-                        val previouschatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", chatArgs.prevId).findFirst()
-                        if (previouschatMessage != null && previouschatMessage.isMine) {
-                            previouschatMessage.isDelivered = true
-                            previouschatMessage.date = chatArgs.date
-                            previouschatMessage.timeStamp = chatArgs.timeStamp
+                        val previousChatMessage = bgRealm.where(ChatMessage::class.java).equalTo("id", chatArgs.prevId).findFirst()
+                        if (previousChatMessage != null && previousChatMessage.isMine) {
+                            previousChatMessage.isDelivered = true
+                            previousChatMessage.date = chatArgs.date
+                            previousChatMessage.timeStamp = chatArgs.timeStamp
                         }
                     } catch (e: Exception) {
                         Timber.e(e)

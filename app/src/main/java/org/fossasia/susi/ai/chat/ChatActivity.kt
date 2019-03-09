@@ -73,7 +73,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
 
-    private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+    private val changeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             textToSpeech?.stop()
         }
@@ -257,10 +257,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.stopHotwordDetection()
         }
         hideSoftKeyboard(this, window.decorView)
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.speechToTextFrame, STTfragment())
-        ft.addToBackStack(null)
-        ft.commit()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.speechToTextFrame, STTfragment())
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
     //Replies user with Speech
@@ -268,7 +268,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
-            val result = audioFocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+            val result = audioFocus.requestAudioFocus(changeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onStart(s: String) {
@@ -291,7 +291,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 ttsParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = this@ChatActivity.packageName
                 textToSpeech?.language = Locale(language)
                 textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
-                audioFocus?.abandonAudioFocus(afChangeListener)
+                audioFocus?.abandonAudioFocus(changeListener)
             }
         }
     }
@@ -425,8 +425,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun openSettings(view: View) {
-        val i = Intent(this, SkillsActivity::class.java)
-        startActivity(i)
+        val intent = Intent(this, SkillsActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
