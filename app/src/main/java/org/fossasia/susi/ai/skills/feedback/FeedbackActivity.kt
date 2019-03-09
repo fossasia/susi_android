@@ -16,6 +16,8 @@ class FeedbackActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
+        val actionBar = supportActionBar
+        actionBar!!.setDisplayHomeAsUpEnabled(true)
         val feedbackResponse = intent.extras.get("feedbackResponse") as GetSkillFeedbackResponse
         if (feedbackResponse != null) {
             title = feedbackResponse.skillName.capitalize() + " " + getString(R.string.reviews)
