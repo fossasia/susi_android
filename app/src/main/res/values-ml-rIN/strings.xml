@@ -254,4 +254,20 @@
     <string name="report_error">വൈദഗ്ധ്യം റിപ്പോർട്ടുചെയ്യുന്നതിൽ പിശക്. പിന്നീട് വീണ്ടും ശ്രമിക്കുക</string>
     <string name="report_send_success">കഴിവുകൾ വിജയകരമായി റിപ്പോർട്ടുചെയ്തു</string>
     <string name="reported_already">ശേഷി ഇതിനകം റിപ്പോർട്ടുചെയ്തു</string>
-</resources>
+
+    <!--About Us String-->
+    <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
+    <string name="susi_about">
+        <a href="https://chat.susi.ai/overview"><![CDATA[<u><font color='#4184f3'>SUSI.AI</u></font>]]></a> ബുദ്ധിമാനായ ഒരു സ്വതന്ത്ര സോഫ്റ്റ്വെയർ സഹായിയാണ്. മ്യൂസിക്ക് പ്ലേബാക്ക് പോലുള്ള പ്രവർത്തനങ്ങൾ നടത്തുന്നതിനും, അലാറമുകൾ സജ്ജീകരിക്കുന്നത്, സ്ട്രീം ചെയ്യുന്ന പോഡ്കാസ്റ്റുകൾ, ഓഡിയോബുക്കുകൾ പ്ലേ ചെയ്യുന്നത്, കാലാവസ്ഥ, ട്രാഫിക്, മറ്റ് റിയൽ ടൈം വിവരങ്ങൾ എന്നിവ ലഭ്യമാക്കുന്നതിനും ഇത് API- കൾ ഉപയോഗിച്ച് ചാറ്റ്, വോയ്സ് ഇടപഴകുകൾ എന്നിവയ്ക്ക് കഴിവുണ്ട്. ബാഹ്യ API കൾ ഉപയോഗിച്ച് കൺസോൾ സേവനങ്ങളായി അധിക പ്രവർത്തനങ്ങൾ ചേർക്കാൻ കഴിയും. SUSI.AI ചോദ്യങ്ങൾക്ക് ഉത്തരം നൽകാനും സന്ദർഭത്തിനനുസൃതമായി ആവശ്യമുള്ള ഫലം നിർവഹിക്കുന്നതിനായി കൂടുതൽ വിവരങ്ങൾ ചോദിക്കാനും കഴിയും. അസിസ്റ്റന്റെ കാമ്പ് SUSI.AI യുടെ "രഹസ്യങ്ങൾ", "വ്യക്തിത്വം" എന്നിവ ഉൾക്കൊള്ളുന്ന SUSI.AI സെർവർ ആണ്.</string>
+    <string name="url_susi_contributors" translatable="false">https://github.com/fossasia/susi_android/graphs/contributors</string>
+    <string name="susi_contributors_desc">വികസിപ്പിച്ചത് <a href="https://github.com/fossasia/susi_android/graphs/contributors"><![CDATA[<u><font color='#4184f3'>സംഭാവന നൽകിയവർ</u></font>]]></a>.</string>
+    <string name="url_susi_license" translatable="false">https://github.com/fossasia/susi_android/blob/master/LICENSE</string>
+    <string name="susi_license_information_desc">ഈ പ്രോജക്റ്റ് നിലവിൽ അപ്പാച്ചെ ലൈസൻസ് പതിപ്പ് 2.0 കീഴിൽ ലൈസൻസ് ചെയ്തിരിക്കുന്നു. എസ് <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><![CDATA[<u><font color='#4184f3'>LICENSE.md</u></font>]]></a>
+    </string>
+    <string name="url_susi_report_issue" translatable="false">https://github.com/fossasia/susi_android/issues</string>
+    <string name="susi_report_issues_desc">ദയവായി എല്ലാ പ്രശ്നങ്ങളും റിപ്പോർട്ടുചെയ്യുക <a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
+    <string name="susi_skill_cms">SUSI Skill CMS</string>
+    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
+    <string name="susi_skill_cms_desc">സുശീലിന് നിരവധി കഴിവുകൾ ഉണ്ട്. നിങ്ങൾക്ക് കഴിവുകളുടെ ശേഖരം നോക്കാം <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>.SUSI Skill Development ലളിതവും രസകരവുമാണ്. നിലവിലുള്ള കഴിവുകൾ നിങ്ങൾക്ക് എഡിറ്റുചെയ്യാനും അല്ലെങ്കിൽ നിങ്ങളുടേതായ ഒന്ന് സൃഷ്ടിക്കാനുമാകും.</string>
+
+    </resources>
