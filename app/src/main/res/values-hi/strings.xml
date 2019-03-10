@@ -167,7 +167,6 @@
     <string name="error_skill_listing">कौशल लाने में असमर्थ। कृपया इंटरनेट कनेक्शन की जाँच करें या बाद में पुनः प्रयास करें।</string>
     <string name="no_skill_author">कौशल लेखक नहीं मिला</string>
     <string name="reset_password_message">पासवर्ड रीसेट करना ..</string>
-
     <!--About Us String-->
     <string name="susi_about"><a href="https://chat.susi.ai/overview">सुसी एआई</a> एक बुद्धिमान ओपन सोर्स व्यक्तिगत सहायक है यह म्यूजिक प्लेबैक, टू-डू सूचियों बनाने, अलार्म सेट करने, पॉडकास्ट स्ट्रीमिंग, ऑडीओबूक चलाने और मौसम, ट्रैफ़िक और अन्य वास्तविक समय की जानकारी प्रदान करने के लिए एपीआई का उपयोग करके चैट और आवाज बातचीत करने में सक्षम है। बाहरी एपीआई का उपयोग कर कंसोल सेवाओं के रूप में अतिरिक्त कार्यशीलताओं को जोड़ा जा सकता है सुशी एआई सवालों के जवाब देने में सक्षम है और संदर्भ के आधार पर वांछित परिणामों को पूरा करने के लिए अतिरिक्त जानकारी मांगेगा। सहायक का मुख्य सुशी एआई सर्वर है जो सूसी एआई के "इंटेलिजेंस" और "व्यक्तित्व" रखता है।</string>
     <string name="susi_contributors">योगदानकर्ता</string>
@@ -179,7 +178,6 @@
     <string name="susi_license_information">लाइसेंस</string>
     <string name="susi_license_information_desc">यह परियोजना वर्तमान में अपाचे लाइसेंस संस्करण 2.0 के तहत लाइसेंस प्राप्त है। एक प्रतिलिप <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
     <string name="url_susi_skill_cms">https://skills.susi.ai</string>
-
     <!-- Intro Strings -->
     <string name="next">आगामी</string>
     <string name="skip">छोड़ें</string>
@@ -329,6 +327,4 @@
     <string name="placeholder_total_rating">प्लेसहोल्डर कुल रेटिंग</string>
     <string name="invalid_credentials">अवैध प्रत्यय पत्र</string>
     <string name="invalid_credentials_title">अमान्य क्रेडेंशियल्स शीर्षक</string>
-
-
 </resources>

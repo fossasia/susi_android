@@ -151,7 +151,6 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="promo_msg_template">Oye, prueba esto! - %s . Lo amarás!</string>
     <string name="error_msg_retry">Por favor, vuelva a intentarlo</string>
     <string name="logout">Logout</string>
-
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
@@ -169,5 +168,4 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="url_susi_skill_cms">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI está teniendo muchas habilidades. Puedes ver la colección de habilidades en <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. El desarrollo de habilidades de SUSI es fácil y divertido. Puedes editar las habilidades existentes o incluso crear las tuyas propias.</string>
-
 </resources>

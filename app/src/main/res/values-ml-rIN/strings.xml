@@ -254,7 +254,6 @@
     <string name="report_error">വൈദഗ്ധ്യം റിപ്പോർട്ടുചെയ്യുന്നതിൽ പിശക്. പിന്നീട് വീണ്ടും ശ്രമിക്കുക</string>
     <string name="report_send_success">കഴിവുകൾ വിജയകരമായി റിപ്പോർട്ടുചെയ്തു</string>
     <string name="reported_already">ശേഷി ഇതിനകം റിപ്പോർട്ടുചെയ്തു</string>
-
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
@@ -269,5 +268,4 @@
     <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="url_susi_skill_cms">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">സുശീലിന് നിരവധി കഴിവുകൾ ഉണ്ട്. നിങ്ങൾക്ക് കഴിവുകളുടെ ശേഖരം നോക്കാം <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>.SUSI Skill Development ലളിതവും രസകരവുമാണ്. നിലവിലുള്ള കഴിവുകൾ നിങ്ങൾക്ക് എഡിറ്റുചെയ്യാനും അല്ലെങ്കിൽ നിങ്ങളുടേതായ ഒന്ന് സൃഷ്ടിക്കാനുമാകും.</string>
-
-    </resources>
+</resources>
