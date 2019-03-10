@@ -51,6 +51,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onGroupFetchSuccess(response: Response<ListGroupsResponse>) {
+        if (skillListingView == null)
+            return
         val groupsResponse = response.body()
         if (response.isSuccessful && groupsResponse != null) {
             Timber.d("GROUPS FETCHED")
@@ -71,6 +73,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
+        if (skillListingView == null)
+            return
         val skillsResponse = response.body()
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && skillsResponse != null) {
@@ -98,6 +102,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onSkillMetricsFetchSuccess(response: Response<ListSkillMetricsResponse>) {
+        if (skillListingView == null)
+            return
         val skillsMetricsResponse = response.body()
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && skillsMetricsResponse != null) {
