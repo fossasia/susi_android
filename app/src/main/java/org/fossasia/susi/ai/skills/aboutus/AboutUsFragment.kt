@@ -47,7 +47,7 @@ class AboutUsFragment : Fragment() {
         val clickableSpan=object : ClickableSpan(){
             override fun onClick(textView: View) {
                 val uri = Uri.parse(getString(R.string.url_about_susi))
-                   launchCustomtTab(uri)
+                launchCustomtTab(uri)
             }
         }
         aboutUsString.setSpan(clickableSpan, 0, 7 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -90,7 +90,6 @@ class AboutUsFragment : Fragment() {
         susi_license_info_desc.text = licenseString
         susi_license_info_desc.movementMethod = LinkMovementMethod.getInstance()
 
-
         //SUSI report info description
         val reportString = SpannableString(susi_report_issues_desc.text)
         val reportSpan=object : ClickableSpan(){
@@ -102,7 +101,6 @@ class AboutUsFragment : Fragment() {
         reportString.setSpan(reportSpan, 32, 63 , Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         susi_report_issues_desc.text = reportString
         susi_report_issues_desc.movementMethod = LinkMovementMethod.getInstance()
-
 
         super.onViewCreated(view, savedInstanceState)
     }
