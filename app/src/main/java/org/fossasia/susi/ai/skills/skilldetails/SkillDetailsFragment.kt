@@ -221,8 +221,8 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private fun setExamples() {
         if (skillData.examples != null && skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
-            val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            skillDetailExamples.layoutManager = mLayoutManager
+            val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            skillDetailExamples.layoutManager = layoutManager
             skillDetailExamples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
         } else {
             skillDetailExample.visibility = View.GONE
@@ -521,9 +521,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      * @param feedbackResponse : Contains the list of Feedback objects received from the getSkillFeedback.json API
      */
     override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
-        val mLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvFeedback.setHasFixedSize(true)
-        rvFeedback.layoutManager = mLayoutManager
+        rvFeedback.layoutManager = layoutManager
         rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
     }
 

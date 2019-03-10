@@ -37,7 +37,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
 
-    private var mSearchAction: MenuItem? = null
+    private var searchAction: MenuItem? = null
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
     private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
@@ -94,7 +94,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             val action = supportActionBar
             action?.setDisplayShowCustomEnabled(false)
             action?.setDisplayShowTitleEnabled(true)
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         }
     }
@@ -139,7 +139,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
             //add the search icon in the action bar
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         } else { //open the search entry
 
@@ -179,10 +179,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             edtSearch?.requestFocus()
 
             //open the keyboard focused in the edtSearch
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
             //add the close icon
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_close_search)
+            searchAction?.icon = resources.getDrawable(R.drawable.ic_close_search)
             isSearchOpened = true
         }
     }
@@ -211,7 +211,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        mSearchAction = menu?.findItem(R.id.action_search)
+        searchAction = menu?.findItem(R.id.action_search)
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         when (currentFragment) {
             is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
@@ -244,7 +244,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             val action = supportActionBar //get the actionbar
             action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action?.setDisplayShowTitleEnabled(true)
-            mSearchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
+            searchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
             isSearchOpened = false
         }
     }

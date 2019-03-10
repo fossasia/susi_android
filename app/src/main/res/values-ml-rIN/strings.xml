@@ -141,7 +141,7 @@
     <string name="change_voice">SUSI- ന്റെ ശബ്ദം മാറ്റുന്നതിന് ഇവിടെ ക്ലിക്കുചെയ്യുക</string>
     <string name="change_voice_summary">സംഭാഷണ ക്രമീകരണങ്ങൾ മാറ്റുക</string>
     <string name="error_msg_retry">വീണ്ടും ശ്രമിക്കുക</string>
-    <string name="error_skill_listing">കഴിവുകൾ നേടുന്നതിന് കഴിയുന്നില്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
+    <string name="error_skill_listing">കഴിവുകൾ നേടുന്നതിന് കഴിയില്ല. ദയവായി ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക അല്ലെങ്കിൽ പിന്നീട് വീണ്ടും ശ്രമിക്കുക.</string>
     <string name="logout">ലോഗൗട്ട് ചെയ്യുക</string>
     <string name="no_skill_author">കഴിവുള്ള എഴുത്തുകാരൻ കണ്ടെത്തിയില്ല</string>
     <string name="promo_msg_template">ഇത് പരീക്ഷിക്കുക</string>

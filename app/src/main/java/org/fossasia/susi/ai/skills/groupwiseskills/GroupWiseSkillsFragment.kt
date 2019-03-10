@@ -68,9 +68,9 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
 
     private fun setUPAdapter() {
         skillAdapterSnapHelper = StartSnapHelper()
-        val mLayoutManager = LinearLayoutManager(activity)
-        mLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        groupWiseSkills.layoutManager = mLayoutManager
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        groupWiseSkills.layoutManager = layoutManager
         skillsAdapter = SkillsListAdapter(requireContext(), skills, skillCallback)
         groupWiseSkills.adapter = skillsAdapter
         groupWiseSkills.onFlingListener = null
