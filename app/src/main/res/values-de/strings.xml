@@ -200,14 +200,11 @@
     <string name="setup_tut">Wenn Sie ein neues Gerät einrichten, stellen Sie sicher, dass es ist  in der Nähe und an eine Steckdose angeschlossen</string>
     <string name="no_wifi_found">Keine WiFi-Netzwerke gefunden</string>
     <!--About Us String-->
-    <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
         <a href="https://chat.susi.ai/overview"><![CDATA[<u><font color='#4184f3'>SUSI.AI</u></font>]]></a> is een intelligente libre-software persoonlijke assistent. Het is geschikt voor chat- en spraakinteractie door API\'s te gebruiken voor het uitvoeren van acties zoals het afspelen van muziek, het maken van takenlijsten, het instellen van alarmen, het streamen van podcasts, het afspelen van audioboeken en het leveren van weer-, verkeers- en andere realtime informatie. Extra functionaliteiten kunnen als consoles worden toegevoegd met behulp van externe API\'s. SUSI.AI kan vragen beantwoorden en afhankelijk van de context om aanvullende informatie vragen om het gewenste resultaat te bereiken. De kern van de assistent is de SUSI.AI-server met de \'intelligentie\' en \'personality\' van SUSI.AI.</string>
     <string name="susi_contributors">medewerkers</string>
-    <string name="url_susi_contributors" translatable="false">https://github.com/fossasia/susi_android/graphs/contributors</string>
     <string name="susi_contributors_desc">Ontwikkeld door <a href="https://github.com/fossasia/susi_android/graphs/contributors"><![CDATA[<u><font color='#4184f3'>medewerkers</u></font>]]></a>.</string>
     <string name="susi_license_information">Licentie</string>
-    <string name="url_susi_license" translatable="false">https://github.com/fossasia/susi_android/blob/master/LICENSE</string>
     <string name="susi_license_information_desc">Dit project is momenteel gelicentieerd onder de Apache-licentieversie 2.0. Volgens de <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><![CDATA[<u><font color='#4184f3'>LICENSE.md</u></font>]]></a>
     </string>
     <string name="susi_report_issues">Problemen melden</string>

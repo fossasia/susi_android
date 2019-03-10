@@ -152,18 +152,14 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="error_msg_retry">Por favor, vuelva a intentarlo</string>
     <string name="logout">Logout</string>
     <!--About Us String-->
-    <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
     <string name="susi_about">
         <a href="https://chat.susi.ai/overview"><![CDATA[<u><font color='#4184f3'>SUSI.AI</u></font>]]></a> es un asistente personal inteligente de software libre. Es capaz de interactuar por chat y voz mediante el uso de API para realizar acciones como la reproducción de música, la confección de listas de tareas, la configuración de alarmas, la transmisión de podcasts, la reproducción de audiolibros y el suministro de información meteorológica, de tráfico y de otro tipo en tiempo real. Se pueden agregar funcionalidades adicionales como servicios de consola utilizando API externas. SUSI.AI puede responder preguntas y, según el contexto, solicitará información adicional para poder lograr el resultado deseado. El núcleo del asistente es el servidor SUSI.AI que contiene la "inteligencia" y la "personalidad" de SUSI.AI.</string>
     <string name="susi_contributors">Contribuyentess</string>
-    <string name="url_susi_contributors" translatable="false">https://github.com/fossasia/susi_android/graphs/contributors</string>
     <string name="susi_contributors_desc">Desarrollado por <a href="https://github.com/fossasia/susi_android/graphs/contributors"><![CDATA[<u><font color='#4184f3'>Contribuyentes</u></font>]]></a>.</string>
     <string name="susi_license_information">Licencia</string>
-    <string name="url_susi_license" translatable="false">https://github.com/fossasia/susi_android/blob/master/LICENSE</string>
     <string name="susi_license_information_desc">Este proyecto está actualmente licenciado bajo la licencia Apache versión 2.0. Según el<a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><![CDATA[<u><font color='#4184f3'>LICENSE.md</u></font>]]></a>
     </string>
     <string name="susi_report_issues">Informar problemas</string>
-    <string name="url_susi_report_issue" translatable="false">https://github.com/fossasia/susi_android/issues</string>
     <string name="susi_report_issues_desc">Por favor, informe todos los problemas en<a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
     <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="url_susi_skill_cms">https://skills.susi.ai</string>
