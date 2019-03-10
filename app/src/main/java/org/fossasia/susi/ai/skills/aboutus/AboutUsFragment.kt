@@ -1,12 +1,10 @@
 package org.fossasia.susi.ai.skills.aboutus
 
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
-import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
@@ -14,7 +12,6 @@ import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_about_us.about_susi
@@ -29,9 +26,9 @@ class AboutUsFragment : Fragment() {
 
     @NonNull
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val thisActivity = activity
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_about_us)
