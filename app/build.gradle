@@ -12,7 +12,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
-def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
+def MAPBOX_API_KEY = '"' + System.getenv('MAPBOX_API_KEY') + '"' ?: '"DEFAULT"'
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
