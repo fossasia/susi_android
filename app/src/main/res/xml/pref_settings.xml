@@ -6,7 +6,7 @@
     <PreferenceCategory android:title="Login email">
         <PreferenceScreen
             android:key="display_email"
-            android:selectable="false"
+            android:selectable="true"
             android:title="test email"/>
     </PreferenceCategory>
 
