@@ -21,17 +21,20 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
+import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_chat.askSusiMessage
 import kotlinx.android.synthetic.main.activity_chat.rv_chat_feed
@@ -57,8 +60,10 @@ import java.util.Locale
  * The V in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatActivity : AppCompatActivity(), IChatView {
+class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureListener,
+        GestureDetector.OnDoubleTapListener {
 
+    private lateinit var mDetector: GestureDetectorCompat
     lateinit var chatPresenter: IChatPresenter
     lateinit var youtubeVid: IYoutubeVid
     private val PERM_REQ_CODE = 1
@@ -82,7 +87,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-
+        mDetector = GestureDetectorCompat(applicationContext, this)
+        mDetector.setOnDoubleTapListener(this)
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
 
         chatPresenter = ChatPresenter(this)
@@ -103,6 +109,68 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 chatPresenter.startComputingThread()
             }
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        return if (mDetector.onTouchEvent(event)) {
+            true
+        } else {
+            super.onTouchEvent(event)
+        }
+    }
+
+    override fun onDown(event: MotionEvent): Boolean {
+
+        return true
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        val X = e1!!.getX() - e2!!.getX()
+        val X_ABS = Math.abs(X)
+        if (X_ABS >= 100 && X_ABS <= 1000) {
+            if (X_ABS > 0) {
+                val intent = Intent(this, SkillsActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+        return true
+    }
+
+    override fun onLongPress(event: MotionEvent) {
+    }
+
+    override fun onScroll(
+        event1: MotionEvent,
+        event2: MotionEvent,
+        distanceX: Float,
+        distanceY: Float
+    ): Boolean {
+
+        return true
+    }
+
+    override fun onShowPress(event: MotionEvent) {
+    }
+
+    override fun onSingleTapUp(event: MotionEvent): Boolean {
+
+        return true
+    }
+
+    override fun onDoubleTap(event: MotionEvent): Boolean {
+
+        return true
+    }
+
+    override fun onDoubleTapEvent(event: MotionEvent): Boolean {
+
+        return true
+    }
+
+    override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
+
+        return true
     }
 
     // This method is used to set up the UI components
