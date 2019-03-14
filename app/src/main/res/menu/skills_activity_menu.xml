@@ -16,5 +16,8 @@
             android:icon="@drawable/ic_open_search"
             android:title="@string/search"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/menu_help"
+            android:title="@string/menu_item_help" />
     </group>
 </menu>
