@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
@@ -16,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
+import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
@@ -35,6 +37,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
+    private val TAG_LOGOUT_FRAGMENT="LoginActivity"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
 
     private var searchAction: MenuItem? = null
@@ -121,6 +124,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
                         .addToBackStack(TAG_ABOUT_FRAGMENT)
+                        .commit()
+            }
+            R.id.menu_logout -> {
+                handleOnLoadingFragment()
+                val logout = LoginActivity()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, logout, TAG_LOGOUT_FRAGMENT)
+                        .addToBackStack(TAG_LOGOUT_FRAGMENT)
                         .commit()
             }
 
@@ -248,4 +259,11 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             isSearchOpened = false
         }
     }
+    private fun Unit.commit() {
+        TODO("not implemented") }
+    private fun Unit.addToBackStack(taG_LOGOUT_FRAGMENT: String) {}
+    private fun FragmentTransaction.replace(fragment_container: Int, logout: LoginActivity, taG_LOGOUT_FRAGMENT: String) {}
+
+    fun showactivity(){}
+
 }
