@@ -20,6 +20,9 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
+import android.content.SharedPreferences;
+import android.widget.CheckBox
+import android.widget.EditText
 
 /**
  * <h1>The Login activity.</h1>
@@ -33,13 +36,15 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
-
+    private val loginPreferences: SharedPreferences? = null
+    private val loginPrefsEditor: SharedPreferences.Editor? = null
+    private val editTextUsername: EditText? = null
+    private val editTextPassword: EditText? = null
+    private val saveLoginCheckBox: CheckBox? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
         PrefManager.putBoolean(R.string.activity_executed_key, true)
-
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
             password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
@@ -59,12 +64,27 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         forgotPasswordProgressDialog.setView(forgotPasswordProgressDialog.getLayoutInflater().inflate(R.layout.progress, null))
 
         addListeners()
-
         cancelRequestPassword()
         requestPassword()
-
+        remember()
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
+
+    }
+
+    private fun remember() {
+        val editTextUsername = findViewById(R.id.emailInput) as EditText
+        val editTextPassword = findViewById(R.id.passwordInput) as EditText
+        val saveLoginCheckBox = findViewById(R.id.remember) as CheckBox
+        val loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
+        val loginPrefsEditor = loginPreferences.edit()
+
+        val saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+            editTextUsername.setText(loginPreferences.getString("username", ""))
+            editTextPassword.setText(loginPreferences.getString("password", ""))
+            saveLoginCheckBox.setChecked(true)
+        }
     }
 
     override fun onLoginSuccess(message: String?) {
@@ -151,6 +171,20 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
         val stringURL = inputUrl.editText?.text.toString()
+        val loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
+        val loginPrefsEditor = loginPreferences.edit()
+        val saveLoginCheckBox = findViewById(R.id.remember) as CheckBox
+
+        if (saveLoginCheckBox.isChecked()) {
+            loginPrefsEditor.putBoolean("saveLogin", true)
+            loginPrefsEditor.putString("username", stringEmail)
+            loginPrefsEditor.putString("password", stringPassword)
+            loginPrefsEditor.commit()
+
+        } else {
+            loginPrefsEditor.clear()
+            loginPrefsEditor.commit()
+        }
 
         logIn.isEnabled = false
         email.error = null
@@ -188,6 +222,16 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun onDestroy() {
         loginPresenter.onDetach()
         super.onDestroy()
+    }
+
+    override fun onRestart() {
+        remember()
+        super.onRestart()
+    }
+
+    override fun onResume() {
+        remember()
+        super.onResume()
     }
 
     override fun resetPasswordSuccess() {

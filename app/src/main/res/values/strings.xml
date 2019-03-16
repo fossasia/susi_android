@@ -149,6 +149,8 @@
     <string name="password">Password</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
 
+    <string name="remember">Remember Me</string>
+
     <string name="sample_website_description">Sample Text Extracted from a website</string>
     <string name="sample_website_headline">Website Sample Headline</string>
     <string name="sample_website_link">Website Link</string>

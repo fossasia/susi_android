@@ -21,8 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/margin_extremely_large"
             android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginBottom="@dimen/margin_extremely_large"
             android:contentDescription="@string/activity_login_imageview_description"
             app:srcCompat="@drawable/ic_susi_blue" />
 
@@ -57,6 +57,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/remember"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom"
+            android:text="@string/remember" />
+
+        <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/customServer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,8 +89,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:background="@drawable/rounded_button"
             android:padding="@dimen/cmv_padding"
             android:text="@string/activity_login_log_in" />
@@ -117,8 +124,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
             android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginBottom="10dp"
             android:background="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/activity_login_sign_up"
