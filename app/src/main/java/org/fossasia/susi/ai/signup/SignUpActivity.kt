@@ -80,6 +80,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private fun addListeners() {
         showURL()
         signUp()
+        signUpToLoginPage()
         cancelSignUp()
     }
 
@@ -186,6 +187,14 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             password.error = null
             if (!hasFocus)
                 signUpPresenter.checkForPassword(password.editText?.text.toString())
+        }
+    }
+
+    private fun signUpToLoginPage() {
+        signUpToLogin.setOnClickListener {
+            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+            intent.putExtra("email", email.editText?.text.toString())
+            startActivity(intent)
         }
     }
 
