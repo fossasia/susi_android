@@ -127,7 +127,7 @@
 
     <dimen name="avatar_size">48dp</dimen>
 
-    <!-- Help Image dimensions -->
-    <dimen name="help_image_height">165dp</dimen>
+    <!-- Help dimensions -->
+    <dimen name="card_radius_help">4dp</dimen>
 
 </resources>
