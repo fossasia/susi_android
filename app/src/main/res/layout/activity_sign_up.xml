@@ -106,7 +106,7 @@
             android:layout_marginTop="@dimen/margin_extra_large"
             android:background="?selectableItemBackground"
             android:gravity="center"
-            android:text="@string/signUpToLogin"
+            android:text="@string/existing_user_login"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:typeface="monospace" />
