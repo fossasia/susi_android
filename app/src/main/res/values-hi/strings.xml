@@ -177,7 +177,6 @@
     <string name="susi_report_issues_desc">कृपया सभी मुद्दों की रिपोर्ट करें <a href="https://github.com/fossasia/susi_android/issues">जिथुब रिपोजिटरी इश्यू ट्रैकर</a>.</string>
     <string name="susi_license_information">लाइसेंस</string>
     <string name="susi_license_information_desc">यह परियोजना वर्तमान में अपाचे लाइसेंस संस्करण 2.0 के तहत लाइसेंस प्राप्त है। एक प्रतिलिप <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
     <!-- Intro Strings -->
     <string name="next">आगामी</string>
     <string name="skip">छोड़ें</string>

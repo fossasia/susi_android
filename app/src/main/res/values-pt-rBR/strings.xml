@@ -149,7 +149,6 @@
     </string>
     <string name="susi_report_issues">Problemas do relatório</string>
     <string name="susi_report_issues_desc">Por favor, relate todos os problemas em <a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
-    <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
+    <string name="susi_skill_cms">SUSI Habilidades CMS</string>
     <string name="susi_skill_cms_desc">O SUSI está tendo muitas habilidades. Você pode olhar para a coleção de habilidades em <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. O desenvolvimento da habilidade SUSI é fácil e divertido. Você pode editar as habilidades existentes ou até mesmo criar as suas próprias habilidades.</string>
 </resources>

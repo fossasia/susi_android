@@ -159,9 +159,8 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="susi_license_information">Licencia</string>
     <string name="susi_license_information_desc">Este proyecto está actualmente licenciado bajo la licencia Apache versión 2.0. Según el<a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><![CDATA[<u><font color='#4184f3'>LICENSE.md</u></font>]]></a>
     </string>
+    <string name="susi_skill_cms">SUSI Habilidades CMS</string>
     <string name="susi_report_issues">Informar problemas</string>
     <string name="susi_report_issues_desc">Por favor, informe todos los problemas en<a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
-    <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI está teniendo muchas habilidades. Puedes ver la colección de habilidades en <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. El desarrollo de habilidades de SUSI es fácil y divertido. Puedes editar las habilidades existentes o incluso crear las tuyas propias.</string>
 </resources>

@@ -207,10 +207,8 @@
     <string name="susi_license_information">Licentie</string>
     <string name="susi_license_information_desc">Dit project is momenteel gelicentieerd onder de Apache-licentieversie 2.0. Volgens de <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><![CDATA[<u><font color='#4184f3'>LICENSE.md</u></font>]]></a>
     </string>
+    <string name="susi_skill_cms">SUSI Kompetenzen CMS</string>
     <string name="susi_report_issues">Problemen melden</string>
-    <string name="url_susi_report_issue" translatable="false">https://github.com/fossasia/susi_android/issues</string>
     <string name="susi_report_issues_desc">Rapporteer alle problemen in<a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
-    <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI heeft veel vaardigheden. Je kunt de verzameling vaardigheden bekijken op <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. SUSI Skill-ontwikkeling is gemakkelijk en leuk. Je kunt bestaande vaardigheden bewerken of zelfs je eigen vaardigheden maken.</string>
 </resources>

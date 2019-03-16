@@ -261,7 +261,6 @@
     <string name="susi_license_information_desc">ഈ പ്രോജക്റ്റ് നിലവിൽ അപ്പാച്ചെ ലൈസൻസ് പതിപ്പ് 2.0 കീഴിൽ ലൈസൻസ് ചെയ്തിരിക്കുന്നു. എസ് <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><![CDATA[<u><font color='#4184f3'>LICENSE.md</u></font>]]></a>
     </string>
     <string name="susi_report_issues_desc">ദയവായി എല്ലാ പ്രശ്നങ്ങളും റിപ്പോർട്ടുചെയ്യുക <a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
-    <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
+    <string name="susi_skill_cms">സൂസി സ്കിൽസ് സിഎംഎസ്</string>
     <string name="susi_skill_cms_desc">സുശീലിന് നിരവധി കഴിവുകൾ ഉണ്ട്. നിങ്ങൾക്ക് കഴിവുകളുടെ ശേഖരം നോക്കാം <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>.SUSI Skill Development ലളിതവും രസകരവുമാണ്. നിലവിലുള്ള കഴിവുകൾ നിങ്ങൾക്ക് എഡിറ്റുചെയ്യാനും അല്ലെങ്കിൽ നിങ്ങളുടേതായ ഒന്ന് സൃഷ്ടിക്കാനുമാകും.</string>
 </resources>
