@@ -205,6 +205,7 @@
 
     <!-- Settings Activity-->
     <string name="Continue">Continue</string>
+    <string name="stay_here">Stay here</string>
 
     <string name="email_id_input">Enter your e-mail ID</string>
     <string name="email_pass_not_exists">E-mail address does not exist. Please make sure you have entered it correctly.</string>
