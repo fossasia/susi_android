@@ -69,12 +69,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         remember()
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
-        
+
         val bundle = intent.extras
         val string = bundle?.getString("email")
         if (string != null)
             email.editText?.setText(string)
-
     }
 
     private fun remember() {
@@ -90,8 +89,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             editTextPassword.setText(loginPreferences.getString("password", ""))
             saveLoginCheckBox.setChecked(true)
         }
-
-     }
+    }
 
     override fun onLoginSuccess(message: String?) {
         hideSoftKeyboard(this, window.decorView)
