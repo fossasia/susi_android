@@ -12,11 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_about_us.about_susi
-import kotlinx.android.synthetic.main.fragment_about_us.contributors_desc
-import kotlinx.android.synthetic.main.fragment_about_us.susi_skill_cms_desc
-import kotlinx.android.synthetic.main.fragment_about_us.susi_report_issues_desc
-import kotlinx.android.synthetic.main.fragment_about_us.susi_license_info_desc
+import kotlinx.android.synthetic.main.fragment_about_us.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity
 
@@ -61,11 +57,16 @@ class AboutUsFragment : Fragment() {
             launchCustomtTab(uri)
         }
 
+        know_more_about_susi.setOnClickListener{
+            val uri= Uri.parse(getString(R.string.susi_know_more_url))
+            launchCustomtTab(uri)
+        }
         about_susi.text = htmlConverter(R.string.susi_about)
         contributors_desc.text = htmlConverter(R.string.susi_contributors_desc)
         susi_skill_cms_desc.text = htmlConverter(R.string.susi_skill_cms_desc)
         susi_license_info_desc.text = htmlConverter(R.string.susi_license_information_desc)
         susi_report_issues_desc.text = htmlConverter(R.string.susi_report_issues_desc)
+        know_more_about_susi.text=htmlConverter(R.string.susi_know_more)
 
         super.onViewCreated(view, savedInstanceState)
     }
