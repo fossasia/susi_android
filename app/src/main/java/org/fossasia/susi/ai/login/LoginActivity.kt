@@ -20,9 +20,7 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
-import android.content.SharedPreferences
 import android.widget.CheckBox
-import android.widget.EditText
 
 /**
  * <h1>The Login activity.</h1>
@@ -36,11 +34,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
-    private val loginPreferences: SharedPreferences? = null
-    private val loginPrefsEditor: SharedPreferences.Editor? = null
-    private val editTextUsername: EditText? = null
-    private val editTextPassword: EditText? = null
-    private val saveLoginCheckBox: CheckBox? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -77,16 +70,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     private fun remember() {
-        val editTextUsername = findViewById<EditText>(R.id.emailInput)
-        val editTextPassword = findViewById<EditText>(R.id.passwordInput)
         val saveLoginCheckBox = findViewById<CheckBox>(R.id.remember)
-        val loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
-        val loginPrefsEditor = loginPreferences.edit()
 
-        val saveLogin = loginPreferences.getBoolean("saveLogin", false)
-        if (saveLogin == true) {
-            editTextUsername.setText(loginPreferences.getString("username", ""))
-            editTextPassword.setText(loginPreferences.getString("password", ""))
+        if (getSharedPreferences("loginPrefs", MODE_PRIVATE).getBoolean("saveLogin", false) == true) {
+            email.editText?.setText(getSharedPreferences("loginPrefs", MODE_PRIVATE).getString("username", ""))
+            password.editText?.setText(getSharedPreferences("loginPrefs", MODE_PRIVATE).getString("password", ""))
             saveLoginCheckBox.setChecked(true)
         }
     }
@@ -175,9 +163,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
         val stringURL = inputUrl.editText?.text.toString()
-        val loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
-        val loginPrefsEditor = loginPreferences.edit()
-        val saveLoginCheckBox = findViewById(R.id.remember) as CheckBox
+        val loginPrefsEditor = getSharedPreferences("loginPrefs", MODE_PRIVATE).edit()
+        val saveLoginCheckBox = findViewById<CheckBox>(R.id.remember)
 
         if (saveLoginCheckBox.isChecked()) {
             loginPrefsEditor.putBoolean("saveLogin", true)
