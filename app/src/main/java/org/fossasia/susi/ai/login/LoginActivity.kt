@@ -20,7 +20,7 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
-import android.content.SharedPreferences;
+import android.content.SharedPreferences
 import android.widget.CheckBox
 import android.widget.EditText
 
@@ -69,17 +69,16 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         remember()
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
-
     }
 
     private fun remember() {
-        val editTextUsername = findViewById(R.id.emailInput) as EditText
-        val editTextPassword = findViewById(R.id.passwordInput) as EditText
-        val saveLoginCheckBox = findViewById(R.id.remember) as CheckBox
+        val editTextUsername = findViewById<EditText>(R.id.emailInput)
+        val editTextPassword = findViewById<EditText>(R.id.passwordInput)
+        val saveLoginCheckBox = findViewById<CheckBox>(R.id.remember)
         val loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE)
         val loginPrefsEditor = loginPreferences.edit()
 
-        val saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        val saveLogin = loginPreferences.getBoolean("saveLogin", false)
         if (saveLogin == true) {
             editTextUsername.setText(loginPreferences.getString("username", ""))
             editTextPassword.setText(loginPreferences.getString("password", ""))
@@ -180,7 +179,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             loginPrefsEditor.putString("username", stringEmail)
             loginPrefsEditor.putString("password", stringPassword)
             loginPrefsEditor.commit()
-
         } else {
             loginPrefsEditor.clear()
             loginPrefsEditor.commit()
