@@ -57,8 +57,8 @@ class AboutUsFragment : Fragment() {
             launchCustomtTab(uri)
         }
 
-        know_more_about_susi.setOnClickListener{
-            val uri= Uri.parse(getString(R.string.susi_know_more_url))
+        know_more_about_susi.setOnClickListener {
+            val uri = Uri.parse(getString(R.string.susi_know_more_url))
             launchCustomtTab(uri)
         }
         about_susi.text = htmlConverter(R.string.susi_about)
@@ -66,7 +66,7 @@ class AboutUsFragment : Fragment() {
         susi_skill_cms_desc.text = htmlConverter(R.string.susi_skill_cms_desc)
         susi_license_info_desc.text = htmlConverter(R.string.susi_license_information_desc)
         susi_report_issues_desc.text = htmlConverter(R.string.susi_report_issues_desc)
-        know_more_about_susi.text=htmlConverter(R.string.susi_know_more)
+        know_more_about_susi.text = htmlConverter(R.string.susi_know_more)
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -81,7 +81,7 @@ class AboutUsFragment : Fragment() {
 
     private fun htmlConverter(resourceId: Int): Spanned {
         return when {
-            Build.VERSION.SDK_INT>24 -> Html.fromHtml(getString(resourceId), Html.FROM_HTML_OPTION_USE_CSS_COLORS)
+            Build.VERSION.SDK_INT > 24 -> Html.fromHtml(getString(resourceId), Html.FROM_HTML_OPTION_USE_CSS_COLORS)
             else -> @Suppress("DEPRECATION") Html.fromHtml(getString(resourceId))
         }
     }
