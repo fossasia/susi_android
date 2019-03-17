@@ -12,7 +12,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
-def MAPBOX_API_KEY = '"' + System.getenv('MAPBOX_API_KEY') + '"' ?: '"DEFAULT"'
+def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
@@ -107,7 +107,6 @@ dependencies {
 
     //Leak Canary
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:support-v4:28.0.0'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
