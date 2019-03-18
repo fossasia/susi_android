@@ -21,9 +21,9 @@ class FeedbackActivity : AppCompatActivity() {
         if (feedbackResponse != null) {
             title = feedbackResponse.skillName.capitalize() + " " + getString(R.string.reviews)
             if (feedbackResponse.feedbackList != null) {
-                val mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+                val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                 rvAllFeedback.setHasFixedSize(true)
-                rvAllFeedback.layoutManager = mLayoutManager
+                rvAllFeedback.layoutManager = layoutManager
                 rvAllFeedback.adapter = AllReviewsAdapter(this, feedbackResponse.feedbackList)
             }
         }

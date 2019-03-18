@@ -92,10 +92,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         // Display login email
         val utilModel = UtilModel(activity as SkillsActivity)
-        if (!utilModel.isLoggedIn())
+        if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
-        else
+            displayEmail.isEnabled = true
+        } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
+            displayEmail.isEnabled = false
+        }
 
         setLanguage()
         if (settingsPresenter.getAnonymity()) {
@@ -155,6 +158,10 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             } else {
                 settingsPresenter.loginLogout()
             }
+            true
+        }
+        displayEmail.setOnPreferenceClickListener {
+            settingsPresenter.loginLogout()
             true
         }
 

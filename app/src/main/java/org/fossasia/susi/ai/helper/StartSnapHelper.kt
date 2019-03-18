@@ -12,8 +12,8 @@ import android.view.View
 
 class StartSnapHelper : LinearSnapHelper() {
 
-    private var mVerticalHelper: OrientationHelper? = null
-    private var mHorizontalHelper: OrientationHelper? = null
+    private var verticalHelper: OrientationHelper? = null
+    private var horizontalHelper: OrientationHelper? = null
 
     @Throws(IllegalStateException::class)
     override fun attachToRecyclerView(recyclerView: RecyclerView?) {
@@ -88,16 +88,16 @@ class StartSnapHelper : LinearSnapHelper() {
     }
 
     private fun getVerticalHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {
-        if (mVerticalHelper == null) {
-            mVerticalHelper = OrientationHelper.createVerticalHelper(layoutManager)
+        if (verticalHelper == null) {
+            verticalHelper = OrientationHelper.createVerticalHelper(layoutManager)
         }
-        return mVerticalHelper!!
+        return verticalHelper!!
     }
 
     private fun getHorizontalHelper(layoutManager: RecyclerView.LayoutManager): OrientationHelper {
-        if (mHorizontalHelper == null) {
-            mHorizontalHelper = OrientationHelper.createHorizontalHelper(layoutManager)
+        if (horizontalHelper == null) {
+            horizontalHelper = OrientationHelper.createHorizontalHelper(layoutManager)
         }
-        return mHorizontalHelper!!
+        return horizontalHelper!!
     }
 }

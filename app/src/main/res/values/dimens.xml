@@ -15,7 +15,7 @@
     <dimen name="margin_extra_large">40dp</dimen>
     <dimen name="margin_extremely_large">64dp</dimen>
 
-    <!-- dimnesions specifics -->
+    <!-- dimensions specifics -->
 
     <dimen name="height_very_small">1dp</dimen>
     <dimen name="width_very_small">1dp</dimen>
