@@ -19,7 +19,8 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackVie
  *
  * Created by arundhati24 on 27/06/2018
  */
-class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedbackResponse) :
+class FeedbackAdapter(val context: Context,
+                      private val feedbackResponse: GetSkillFeedbackResponse) :
         RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
     private val clickListener: FeedbackViewHolder.ClickListener = this
@@ -32,47 +33,43 @@ class FeedbackAdapter(val context: Context, val feedbackResponse: GetSkillFeedba
     }
 
     override fun getItemCount(): Int {
-        if (feedbackResponse != null) {
-            if (feedbackResponse.feedbackList != null) {
-                if (feedbackResponse.feedbackList.size > 4) {
-                    return 4
-                }
-                return feedbackResponse.feedbackList.size
+        if (feedbackResponse.feedbackList.isNotEmpty()) {
+            if (feedbackResponse.feedbackList.size > 4) {
+                return 4
             }
+            return feedbackResponse.feedbackList.size
         }
         return 0
     }
 
     @NonNull
     override fun onBindViewHolder(holder: FeedbackViewHolder, position: Int) {
-        if (feedbackResponse != null) {
-            if (feedbackResponse.feedbackList != null) {
-                if (feedbackResponse.feedbackList[position] != null) {
-                    if (position < 3) {
-                        if (feedbackResponse.feedbackList[position].email != null &&
-                                !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
-                            Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).avatar, holder.avatar)
-                            Utils.setUsername(feedbackResponse.feedbackList.get(position), holder.feedbackEmail)
-                        }
-                        if (feedbackResponse.feedbackList[position].timestamp != null &&
-                                !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
-                            val date: String? = getDate(feedbackResponse.feedbackList[position].timestamp)
-                            if (date != null) {
-                                holder.feedbackDate.text = date
-                            } else {
-                                holder.feedbackDate.text = ""
-                            }
-                        }
-                        if (feedbackResponse.feedbackList[position].feedback != null &&
-                                !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
-                            holder.feedback.text = feedbackResponse.feedbackList[position].feedback
+        if (feedbackResponse.feedbackList.isNotEmpty()) {
+            if (feedbackResponse.feedbackList[position] != null) {
+                if (position < 3) {
+                    if (feedbackResponse.feedbackList[position].email != null &&
+                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
+                        Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).avatar, holder.avatar)
+                        Utils.setUsername(feedbackResponse.feedbackList.get(position), holder.feedbackEmail)
+                    }
+                    if (feedbackResponse.feedbackList[position].timestamp != null &&
+                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
+                        val date: String? = getDate(feedbackResponse.feedbackList[position].timestamp)
+                        if (date != null) {
+                            holder.feedbackDate.text = date
+                        } else {
+                            holder.feedbackDate.text = ""
                         }
                     }
+                    if (feedbackResponse.feedbackList[position].feedback != null &&
+                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
+                        holder.feedback.text = feedbackResponse.feedbackList[position].feedback
+                    }
                 }
-                if (position == 3) {
-                    holder.itemFeedback.visibility = View.GONE
-                    holder.seeAllReviews.visibility = View.VISIBLE
-                }
+            }
+            if (position == 3) {
+                holder.itemFeedback.visibility = View.GONE
+                holder.seeAllReviews.visibility = View.VISIBLE
             }
         }
     }

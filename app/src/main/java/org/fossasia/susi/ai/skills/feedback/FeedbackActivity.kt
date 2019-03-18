@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.skills.feedback
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_feedback.rvAllFeedback
+import kotlinx.android.synthetic.main.activity_feedback.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.adapters.recycleradapters.AllReviewsAdapter
@@ -17,10 +17,10 @@ class FeedbackActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feedback)
 
-        val feedbackResponse = intent.extras.get("feedbackResponse") as GetSkillFeedbackResponse
+        val feedbackResponse: GetSkillFeedbackResponse? = intent.extras.get("feedbackResponse") as GetSkillFeedbackResponse
         if (feedbackResponse != null) {
             title = feedbackResponse.skillName.capitalize() + " " + getString(R.string.reviews)
-            if (feedbackResponse.feedbackList != null) {
+            if (feedbackResponse.feedbackList.isNullOrEmpty()) {
                 val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                 rvAllFeedback.setHasFixedSize(true)
                 rvAllFeedback.layoutManager = layoutManager

@@ -70,7 +70,7 @@ class AboutUsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    fun launchCustomtTab(uri: Uri) {
+    private fun launchCustomtTab(uri: Uri) {
         try {
             CustomTabsIntent.Builder().build().launchUrl(context, uri) //launching through custom tabs
         } catch (e: Exception) {

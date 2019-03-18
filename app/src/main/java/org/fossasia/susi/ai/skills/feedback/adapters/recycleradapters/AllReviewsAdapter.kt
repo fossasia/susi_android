@@ -15,8 +15,10 @@ import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewH
  *
  * Created by arundhati24 on 27/06/2018
  */
-class AllReviewsAdapter(val context: Context, val feedbackList: List<Feedback>?) :
-        RecyclerView.Adapter<AllReviewsViewHolder>() {
+class AllReviewsAdapter(val context: Context,
+                        private val feedbackList: List<Feedback>?) :
+    RecyclerView.Adapter<AllReviewsViewHolder>()
+{
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllReviewsViewHolder {

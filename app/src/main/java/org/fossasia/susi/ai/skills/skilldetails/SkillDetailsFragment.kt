@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -39,8 +40,6 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.Feedba
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
@@ -115,6 +114,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun setReportButton() {
 
         if (PrefManager.token != null) {
@@ -128,7 +128,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             dialogBuilder.setView(view)
             dialogBuilder.setTitle(R.string.report_skill)
 
-            dialogBuilder.setPositiveButton(R.string.report_send) { dialog, whichButton ->
+            dialogBuilder.setPositiveButton(R.string.report_send) { _, _ ->
                 if (PrefManager.token != null && reportedUserMessage.text.isNotEmpty()) {
                     val queryObject = ReportSkillQuery(skillData.model, skillData.group, skillTag,
                             reportedUserMessage.text.toString(), PrefManager.token.toString())
@@ -147,6 +147,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setAuthor() {
         skillDetailAuthor.text = "by ${activity?.getString(R.string.no_skill_author)}"
         if (!TextUtils.isEmpty(skillData.author)) {
@@ -173,14 +174,14 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setTryButton() {
-        if (skillData.examples == null || skillData.examples.isEmpty())
+        if (skillData.examples.isEmpty() || skillData.examples.isEmpty())
             skillDetailTryButton.visibility = View.GONE
 
         skillDetailTryButton.setOnClickListener {
             activity?.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
             val intent = Intent(activity, ChatActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            if (skillData.examples != null && skillData.examples.isNotEmpty())
+            if (skillData.examples.isNotEmpty() && skillData.examples.isNotEmpty())
                 intent.putExtra("example", skillData.examples[0])
             else
                 intent.putExtra("example", "")
@@ -219,7 +220,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     private fun setExamples() {
-        if (skillData.examples != null && skillData.examples.isNotEmpty()) {
+        if (skillData.examples.isNotEmpty() && skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
             val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
             skillDetailExamples.layoutManager = layoutManager
@@ -333,7 +334,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     override fun updateRatings(ratingsObject: Stars?) {
         if (ratingsObject != null) {
             skillData.skillRating?.stars = ratingsObject
-            if (fromUser == true) {
+            if (fromUser) {
                 //Display a toast to notify the user that the rating has been submitted
                 Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
             }
@@ -366,16 +367,16 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         val description = Description()
         description.text = ""
         skillRatingChart.description = description
-        skillRatingChart.legend.setEnabled(false)
+        skillRatingChart.legend.isEnabled = false
         skillRatingChart.setPinchZoom(false)
         skillRatingChart.setDrawValueAboveBar(false)
 
         //Display the axis on the left (contains the labels 1*, 2* and so on)
-        xAxis = skillRatingChart.getXAxis()
+        xAxis = skillRatingChart.xAxis
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(false)
-        xAxis.setPosition(XAxis.XAxisPosition.TOP)
-        xAxis.setEnabled(true)
+        xAxis.position = XAxis.XAxisPosition.TOP
+        xAxis.isEnabled = true
 
         val yLeft = skillRatingChart.axisLeft
         yLeft.axisMaximum = 100f
@@ -422,7 +423,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 fiveStarUsers.toString() + " (" + fiveStarUsersPercent.toInt().toString() + "%)")
 
         //Set label count to 5 as we are using 5 star rating system
-        xAxis.setLabelCount(5)
+        xAxis.labelCount = 5
         xAxis.textColor = ContextCompat.getColor(skillRatingChart.context, R.color.md_grey_800)
         xAxis.valueFormatter = XAxisValueFormatter(values)
 
