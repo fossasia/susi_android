@@ -6,6 +6,9 @@ import android.widget.TextView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 
+/**
+ * ViewHolder for drawing skill example item layout.
+ */
 class SkillExampleViewHolder(
     itemView: View,
     private val listener: SkillExampleViewHolder.ClickListener?

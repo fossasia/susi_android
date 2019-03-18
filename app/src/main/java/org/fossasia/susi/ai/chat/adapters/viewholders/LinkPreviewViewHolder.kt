@@ -34,6 +34,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
+/**
+ * ViewHolder for drawing link preview item layout.
+ */
 class LinkPreviewViewHolder(
     itemView: View,
     listener: MessageViewHolder.ClickListener

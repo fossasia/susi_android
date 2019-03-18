@@ -23,13 +23,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
+/**
+ * ViewHolder for drawing image item layout.
+ */
 class ImageViewHolder(
     itemView: View,
     clickListener: MessageViewHolder.ClickListener
 )
     : MessageViewHolder(itemView, clickListener) {
 
-    val imageView: ImageView by bindView(R.id.image_response)
+    private val imageView: ImageView by bindView(R.id.image_response)
     val timeStamp: TextView by bindView(R.id.timestamp)
     val thumbsUp: ImageView by bindView(R.id.thumbs_up)
     val thumbsDown: ImageView by bindView(R.id.thumbs_down)

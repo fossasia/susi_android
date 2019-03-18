@@ -10,6 +10,9 @@ import org.fossasia.susi.ai.chat.YoutubeVid
 import org.fossasia.susi.ai.data.model.ChatMessage
 import timber.log.Timber
 
+/**
+ * ViewHolder for drawing youtube video item layout.
+ */
 class YoutubeVideoViewHolder(
     view: View,
     clickListener: MessageViewHolder.ClickListener

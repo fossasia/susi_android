@@ -39,12 +39,14 @@ import io.realm.RealmChangeListener
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
+/**
+ * <h1>Adapter to display horizontal list of chat feed.</h1>
+ */
 class ChatFeedRecyclerAdapter(
     private val currContext: Context,
     data: OrderedRealmCollection<ChatMessage>?,
     autoUpdate: Boolean
-)
-    : RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder>(data, autoUpdate),
+) : RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder>(data, autoUpdate),
     MessageViewHolder.ClickListener {
     private var realm: Realm? = null
     private var lastMsgCount: Int = 0

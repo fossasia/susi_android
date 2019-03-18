@@ -25,6 +25,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
+/**
+ * ViewHolder for drawing chat item layout.
+ */
 class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int)
     : MessageViewHolder(view, clickListener) {
 

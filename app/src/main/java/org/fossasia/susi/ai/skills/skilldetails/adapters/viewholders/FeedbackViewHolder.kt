@@ -9,6 +9,9 @@ import butterknife.ButterKnife
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 
+/**
+ * ViewHolder for drawing feed back item layout.
+ */
 class FeedbackViewHolder(
     itemView: View,
     private val listener: FeedbackViewHolder.ClickListener?

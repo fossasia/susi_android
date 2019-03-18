@@ -24,6 +24,9 @@ import retrofit2.Response
 import timber.log.Timber
 import java.util.ArrayList
 
+/**
+ * ViewHolder for drawing table item layout.
+ */
 class TableViewHolder(
     itemView: View,
     clickListener: MessageViewHolder.ClickListener
