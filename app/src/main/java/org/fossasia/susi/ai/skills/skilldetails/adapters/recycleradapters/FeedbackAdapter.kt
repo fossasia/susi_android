@@ -19,8 +19,10 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackVie
  *
  * Created by arundhati24 on 27/06/2018
  */
-class FeedbackAdapter(val context: Context,
-                      private val feedbackResponse: GetSkillFeedbackResponse) :
+class FeedbackAdapter(
+    val context: Context,
+    private val feedbackResponse: GetSkillFeedbackResponse
+) :
         RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
     private val clickListener: FeedbackViewHolder.ClickListener = this

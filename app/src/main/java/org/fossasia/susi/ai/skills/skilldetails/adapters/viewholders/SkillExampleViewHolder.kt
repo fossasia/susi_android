@@ -6,10 +6,11 @@ import android.widget.TextView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 
-class SkillExampleViewHolder(itemView: View,
-                             private val listener: SkillExampleViewHolder.ClickListener?)
-    : RecyclerView.ViewHolder(itemView), View.OnClickListener
-{
+class SkillExampleViewHolder(
+    itemView: View,
+    private val listener: SkillExampleViewHolder.ClickListener?
+)
+    : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val example: TextView by bindView(R.id.text)
 

@@ -31,8 +31,7 @@ import java.net.UnknownHostException
 class LoginPresenter(loginActivity: LoginActivity) :
     ILoginPresenter,
     ILoginModel.OnLoginFinishedListener,
-    IForgotPasswordModel.OnFinishListener
-{
+    IForgotPasswordModel.OnFinishListener {
 
     private var loginModel: LoginModel = LoginModel()
     private var utilModel: UtilModel = UtilModel(loginActivity)

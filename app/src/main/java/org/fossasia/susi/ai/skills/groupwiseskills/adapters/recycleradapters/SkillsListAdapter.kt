@@ -17,9 +17,11 @@ import org.fossasia.susi.ai.skills.groupwiseskills.adapters.viewholders.SkillVie
  *
  * Created by arundhati24 on 16/07/2018.
  */
-class SkillsListAdapter(val context: Context,
-                        private val skillDetails: GroupWiseSkills,
-                        private val skillCallback: SkillFragmentCallback) :
+class SkillsListAdapter(
+    val context: Context,
+    private val skillDetails: GroupWiseSkills,
+    private val skillCallback: SkillFragmentCallback
+) :
         RecyclerView.Adapter<SkillViewHolder>(), SkillViewHolder.ClickListener {
 
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"

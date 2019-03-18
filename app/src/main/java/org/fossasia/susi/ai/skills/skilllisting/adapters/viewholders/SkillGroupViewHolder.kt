@@ -8,11 +8,12 @@ import android.widget.TextView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 
-class SkillGroupViewHolder(itemView: View,
-                           private val adapterOffset: Int,
-                           private val listener: ClickListener?)
-    : RecyclerView.ViewHolder(itemView), View.OnClickListener
-{
+class SkillGroupViewHolder(
+    itemView: View,
+    private val adapterOffset: Int,
+    private val listener: ClickListener?
+)
+    : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val groupParent: LinearLayout by bindView(R.id.group_parent)
     val groupName: TextView by bindView(R.id.group)

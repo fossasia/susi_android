@@ -23,8 +23,7 @@ import retrofit2.Response
  */
 
 class SettingsPresenter(skillsActivity: SkillsActivity)
-    : ISettingsPresenter, ISettingModel.OnSettingFinishListener
-{
+    : ISettingsPresenter, ISettingModel.OnSettingFinishListener {
 
     private var settingModel: SettingModel = SettingModel()
     private var settingView: ISettingsView? = null
