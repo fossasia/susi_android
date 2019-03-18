@@ -14,14 +14,14 @@
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/speaker"
+            app:srcCompat="@drawable/ic_play_arrow_black"
             android:layout_marginLeft="@dimen/margin_moderate"
             android:layout_alignParentLeft="true"
             android:id="@+id/play_about"/>
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/stop_speaker"
+            app:srcCompat="@drawable/ic_stop_black"
             android:layout_marginRight="@dimen/margin_moderate"
             android:layout_alignParentRight="true"
             android:id="@+id/stop_about"/>
