@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills.aboutus
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.support.annotation.NonNull
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
@@ -17,10 +18,14 @@ import kotlinx.android.synthetic.main.fragment_about_us.contributors_desc
 import kotlinx.android.synthetic.main.fragment_about_us.susi_skill_cms_desc
 import kotlinx.android.synthetic.main.fragment_about_us.susi_report_issues_desc
 import kotlinx.android.synthetic.main.fragment_about_us.susi_license_info_desc
+import kotlinx.android.synthetic.main.fragment_about_us.play_about
+import kotlinx.android.synthetic.main.fragment_about_us.stop_about
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity
+import java.util.Locale
 
 class AboutUsFragment : Fragment() {
+    lateinit var speakAboutTts: TextToSpeech
 
     @NonNull
     override fun onCreateView(
@@ -30,6 +35,11 @@ class AboutUsFragment : Fragment() {
     ): View? {
         val thisActivity = activity
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_about_us)
+        speakAboutTts = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+            if (status != TextToSpeech.ERROR) {
+                speakAboutTts.language = Locale.getDefault()
+            }
+        })
         val rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
         setHasOptionsMenu(true)
         return rootView
@@ -67,7 +77,27 @@ class AboutUsFragment : Fragment() {
         susi_license_info_desc.text = htmlConverter(R.string.susi_license_information_desc)
         susi_report_issues_desc.text = htmlConverter(R.string.susi_report_issues_desc)
 
+        play_about.setOnClickListener {
+            val toSpeak = about_susi.text.toString() + contributors_desc.text.toString() + susi_skill_cms_desc.text.toString() + susi_report_issues_desc.text.toString() + susi_license_info_desc.text.toString()
+            speakAboutTts.speak(toSpeak, TextToSpeech.QUEUE_FLUSH, null)
+        }
+
+        stop_about.setOnClickListener {
+            if (speakAboutTts.isSpeaking) {
+                speakAboutTts.stop()
+            } else {
+                Toast.makeText(context, "Not speaking", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onPause() {
+        if (speakAboutTts.isSpeaking) {
+            speakAboutTts.stop()
+        }
+        super.onPause()
     }
 
     fun launchCustomtTab(uri: Uri) {

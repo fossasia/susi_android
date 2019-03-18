@@ -6,6 +6,27 @@
     android:orientation="vertical"
     tools:context="org.fossasia.susi.ai.skills.aboutus.AboutUsFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/about_speak_area">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/speaker"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/play_about"/>
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/stop_speaker"
+            android:layout_marginRight="@dimen/margin_moderate"
+            android:layout_alignParentRight="true"
+            android:id="@+id/stop_about"/>
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
