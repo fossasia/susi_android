@@ -143,10 +143,10 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
     }
 
     override fun onScroll(
-            event1: MotionEvent,
-            event2: MotionEvent,
-            distanceX: Float,
-            distanceY: Float
+        event1: MotionEvent,
+        event2: MotionEvent,
+        distanceX: Float,
+        distanceY: Float
     ): Boolean {
 
         return true
