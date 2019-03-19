@@ -63,7 +63,7 @@ import java.util.Locale
 class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
 
-    private lateinit var mDetector: GestureDetectorCompat
+    private lateinit var gestureDetectorCompat: GestureDetectorCompat
     lateinit var chatPresenter: IChatPresenter
     lateinit var youtubeVid: IYoutubeVid
     private val PERM_REQ_CODE = 1
@@ -87,8 +87,8 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        mDetector = GestureDetectorCompat(applicationContext, this)
-        mDetector.setOnDoubleTapListener(this)
+        gestureDetectorCompat = GestureDetectorCompat(applicationContext, this)
+        gestureDetectorCompat.setOnDoubleTapListener(this)
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
 
         chatPresenter = ChatPresenter(this)
@@ -112,7 +112,7 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        return if (mDetector.onTouchEvent(event)) {
+        return if (gestureDetectorCompat.onTouchEvent(event)) {
             true
         } else {
             super.onTouchEvent(event)
@@ -125,13 +125,15 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
     }
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-        val X = e1!!.getX() - e2!!.getX()
-        val X_ABS = Math.abs(X)
-        if (X_ABS >= 100 && X_ABS <= 1000) {
-            if (X_ABS > 0) {
-                val intent = Intent(this, SkillsActivity::class.java)
-                startActivity(intent)
-                finish()
+        if (e1 != null && e2 != null) {
+            val X = e1!!.getX() - e2!!.getX()
+            val X_ABS = Math.abs(X)
+            if (X_ABS >= 100 && X_ABS <= 1000) {
+                if (X_ABS > 0) {
+                    val intent = Intent(this, SkillsActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         }
         return true
@@ -141,10 +143,10 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
     }
 
     override fun onScroll(
-        event1: MotionEvent,
-        event2: MotionEvent,
-        distanceX: Float,
-        distanceY: Float
+            event1: MotionEvent,
+            event2: MotionEvent,
+            distanceX: Float,
+            distanceY: Float
     ): Boolean {
 
         return true
