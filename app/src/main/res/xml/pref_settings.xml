@@ -3,18 +3,25 @@
     android:title="@string/settings_title">
 
 
-    <PreferenceCategory android:title="Login email">
+    <PreferenceCategory android:title="@string/user_settings_title">
         <PreferenceScreen
             android:key="display_email"
             android:selectable="true"
-            android:title="test email"/>
+            android:title="test email"
+            android:summary="@string/email_settings_summary" />
+        <EditTextPreference
+            android:defaultValue="SUSI"
+            android:key="display_name"
+            android:selectable="true"
+            android:summary="@string/nickname_settings_summary"
+            android:title="Nickname" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/server_settings_title">
         <PreferenceScreen
             android:key="Server_Select"
             android:summary="@string/server_select_summary"
-            android:title="@string/server_pref"/>
+            android:title="@string/server_pref" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_title">
@@ -71,10 +78,11 @@
         android:entries="@array/languagentries"
         android:entryValues="@array/languagentry"
         android:key="Lang_Select"
-        android:title="@string/Language"/>
+        android:title="@string/Language" />
 
-    <PreferenceCategory android:title="@string/settings_devices"
-        android:key="device_section">
+    <PreferenceCategory
+        android:key="device_section"
+        android:title="@string/settings_devices">
 
         <PreferenceScreen
             android:key="device"

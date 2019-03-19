@@ -27,6 +27,7 @@ object Constant {
 
     const val SAVED_EMAIL = "saved_email"
     const val SAVE_EMAIL = "save_email"
+    const val SAVED_NAME = "SUSI"
 
     const val SAVE_DIALOG_STATE = "save_state"
     const val SUSI_SERVER = "is_susi_server_selected"

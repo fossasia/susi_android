@@ -55,6 +55,9 @@
     <string name="settings_enterPreference_label">भेजें के रूप में दर्ज करें</string>
     <string name="setting_mic_input">माइक्र इनपुट</string>
     <string name="setting_hotword_detection">हॉटवर्ड डिटेक्शन (बीटा)</string>
+    <string name="nickname_settings_summary">निक नेम बदलने के लिए क्लिक करें</string>
+    <string name="email_settings_summary">उपयोगकर्ता ईमेल</string>
+    <string name="user_settings_title">उपभोक्ता का विवरण</string>
 
     <string name="setting_mic_key" translatable="false">mic_input</string>
     <string name="setting_hotword_key" translatable="false">हॉटवर्ड डिटेक्शन</string>

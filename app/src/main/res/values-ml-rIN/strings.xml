@@ -254,4 +254,7 @@
     <string name="report_error">വൈദഗ്ധ്യം റിപ്പോർട്ടുചെയ്യുന്നതിൽ പിശക്. പിന്നീട് വീണ്ടും ശ്രമിക്കുക</string>
     <string name="report_send_success">കഴിവുകൾ വിജയകരമായി റിപ്പോർട്ടുചെയ്തു</string>
     <string name="reported_already">ശേഷി ഇതിനകം റിപ്പോർട്ടുചെയ്തു</string>
+    <string name="nickname_settings_summary">വിളിപ്പേര് മാറ്റാൻ ക്ലിക്കുചെയ്യുക</string>
+    <string name="email_settings_summary">ഉപയോക്തൃ ഇമെയിൽ</string>
+    <string name="user_settings_title">ഉപയോക്തൃ വിശദാംശങ്ങൾ</string>
 </resources>

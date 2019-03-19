@@ -26,6 +26,9 @@
     <string name="dialog_retrieve_messages_title">Scaricando i vecchi Messaggi...</string>
     <string name="hotword_success">Hotword rilevata</string>
     <string name="custom_server">server personalizzato</string>
+    <string name="nickname_settings_summary">Clicca per cambiare il nickname</string>
+    <string name="email_settings_summary">Email dell\'utente</string>
+    <string name="user_settings_title">Dettagli utente</string>
 
     <string name="email_not_registered">L\'email che hai inserito non è registrata con noi. Per favore riprova.</string>
     <string name="email_not_registered_title">registrazione email</string>

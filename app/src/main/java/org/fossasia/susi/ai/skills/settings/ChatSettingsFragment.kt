@@ -50,6 +50,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var speechAlways: SwitchPreference
     private lateinit var speechOutput: SwitchPreference
     private lateinit var displayEmail: Preference
+    private lateinit var displayName: Preference
     lateinit var password: TextInputLayout
     private lateinit var newPassword: TextInputLayout
     private lateinit var conPassword: TextInputLayout
@@ -85,6 +86,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key)) as SwitchPreference
         speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key)) as SwitchPreference
         displayEmail = preferenceManager.findPreference(getString(R.string.settings_displayEmail_key))
+        displayName = preferenceManager.findPreference("display_name")
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
@@ -99,6 +101,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
             displayEmail.isEnabled = false
         }
+        displayName.title = PrefManager.getString(Constant.SAVED_NAME, Constant.SAVED_NAME)
 
         setLanguage()
         if (settingsPresenter.getAnonymity()) {
@@ -111,6 +114,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             deviceName.isVisible = false
             setupDevice.isVisible = false
             preferenceManager.findPreference(getString(R.string.settings_deviceSection_key)).isVisible = false
+        }
+
+        displayName.setOnPreferenceChangeListener { _, newValue ->
+            PrefManager.putString(Constant.SAVED_NAME, newValue.toString())
+            displayName.title = PrefManager.getString(Constant.SAVED_NAME, Constant.SAVED_NAME)
+            true
         }
 
         querylanguage.setOnPreferenceChangeListener { _, newValue ->

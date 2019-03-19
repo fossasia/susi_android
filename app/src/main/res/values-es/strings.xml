@@ -67,6 +67,9 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="speech_not_supported">¡Lo siento! Su dispositivo no admite la entrada de voz</string>
     <string name="tap_on_mic">Grifo el mic para hablar</string>
     <string name="know_more">Saber más</string>
+    <string name="nickname_settings_summary">Haga clic para cambiar el apodo</string>
+    <string name="email_settings_summary">email del usuario</string>
+    <string name="user_settings_title">Detalles de usuario</string>
 
     <!--Error Messages-->
     <string name="error_crop_not_supported">Lo sentimos - su dispositivo no es compatible con la acción de cultivo!</string>
