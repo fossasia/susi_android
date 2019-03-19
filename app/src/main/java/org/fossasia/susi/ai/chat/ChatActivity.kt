@@ -126,7 +126,7 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
 
     override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
         if (e1 != null && e2 != null) {
-            val X = e1!!.getX() - e2!!.getX()
+            val X = e1.getX() - e2.getX()
             val X_ABS = Math.abs(X)
             if (X_ABS >= 100 && X_ABS <= 1000) {
                 if (X_ABS > 0) {
