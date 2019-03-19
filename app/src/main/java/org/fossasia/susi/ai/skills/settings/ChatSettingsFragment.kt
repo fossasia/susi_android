@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
+import android.support.v14.preference.SwitchPreference
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
@@ -46,8 +47,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var loginLogout: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
-    private lateinit var speechAlways: Preference
-    private lateinit var speechOutput: Preference
+    private lateinit var speechAlways: SwitchPreference
+    private lateinit var speechOutput: SwitchPreference
     private lateinit var displayEmail: Preference
     lateinit var password: TextInputLayout
     private lateinit var newPassword: TextInputLayout
@@ -81,8 +82,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
-        speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key))
-        speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key))
+        speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key)) as SwitchPreference
+        speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key)) as SwitchPreference
         displayEmail = preferenceManager.findPreference(getString(R.string.settings_displayEmail_key))
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
@@ -91,10 +92,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         // Display login email
         val utilModel = UtilModel(activity as SkillsActivity)
-        if (!utilModel.isLoggedIn())
+        if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
-        else
+            displayEmail.isEnabled = true
+        } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
+            displayEmail.isEnabled = false
+        }
 
         setLanguage()
         if (settingsPresenter.getAnonymity()) {
@@ -156,6 +160,10 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
             true
         }
+        displayEmail.setOnPreferenceClickListener {
+            settingsPresenter.loginLogout()
+            true
+        }
 
         setupDevice.setOnPreferenceClickListener {
 
@@ -209,11 +217,19 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
             speechAlways.setOnPreferenceChangeListener { _, newValue ->
                 settingsPresenter.sendSetting(getString(R.string.settings_speechAlways_key), newValue.toString(), 1)
+                if (newValue.toString() == "true" && speechOutput.isChecked) {
+                    speechOutput.isChecked = false
+                    speechOutput.callChangeListener("false")
+                }
                 true
             }
 
             speechOutput.setOnPreferenceChangeListener { _, newValue ->
                 settingsPresenter.sendSetting(getString(R.string.settings_speechPreference_key), newValue.toString(), 1)
+                if (newValue.toString() == "true" && speechAlways.isChecked) {
+                    speechAlways.isChecked = false
+                    speechAlways.callChangeListener("false")
+                }
                 true
             }
         }

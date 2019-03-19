@@ -65,6 +65,10 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
+        val bundle = intent.extras
+        val string = bundle?.getString("email")
+        if (string != null)
+            email.editText?.setText(string)
     }
 
     override fun onLoginSuccess(message: String?) {

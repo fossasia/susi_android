@@ -7,6 +7,7 @@
         <item>français</item>
         <item>italiano</item>
         <item>हिंदी</item>
+        <item>தமிழ்</item>
     </string-array>
 
     <string-array name="languagentry">
@@ -16,6 +17,7 @@
         <item>fr</item>
         <item>it</item>
         <item>hi</item>
+        <item>ta</item>
     </string-array>
 
     <array name="months">
