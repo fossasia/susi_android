@@ -37,6 +37,7 @@
         Verifica la tua email e prova nuovamente.</string>
     <string name="password_invalid">la password che hai inserito non è corretta. Riprova.</string>
     <string name="forgot_password_mail_sent">Email inviata</string>
+    <string name="terms_condition">नTermini e condizioni</string>
 
     <string name="websearchnull">Nessun Risultato Trovato</string>
     <string name="error_email">l\'indirizzo email esiste già</string>

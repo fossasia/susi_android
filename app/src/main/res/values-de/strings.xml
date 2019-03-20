@@ -199,4 +199,5 @@
     <string name="no_device_found">Keine Geräte gefunden</string>
     <string name="setup_tut">Wenn Sie ein neues Gerät einrichten, stellen Sie sicher, dass es ist  in der Nähe und an eine Steckdose angeschlossen</string>
     <string name="no_wifi_found">Keine WiFi-Netzwerke gefunden</string>
+    <string name="terms_condition">Geschäftsbedingungen</string>
 </resources>

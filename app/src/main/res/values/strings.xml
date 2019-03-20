@@ -159,6 +159,7 @@
 
     <string name="sign_up">Sign Up</string>
     <string name="existing_user_login">Existing User?\n Click here to Login</string>
+    <string name="terms_condition">Terms and Conditions</string>
 
     <string name="url_cannot_be_empty">URL cannot be empty</string>
 
