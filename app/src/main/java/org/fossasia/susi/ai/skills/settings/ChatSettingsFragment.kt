@@ -40,6 +40,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
     private lateinit var settingsPresenter: ISettingsPresenter
+
     private lateinit var rate: Preference
     lateinit var server: Preference
     private lateinit var micSettings: Preference
