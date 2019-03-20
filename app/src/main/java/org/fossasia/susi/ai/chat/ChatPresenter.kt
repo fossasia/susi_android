@@ -38,7 +38,8 @@ import kotlin.collections.HashMap
  * The P in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
+class ChatPresenter(context: Context)
+    : IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.OnDatabaseUpdateListener {
 
@@ -101,7 +102,7 @@ class ChatPresenter(context: Context) : IChatPresenter, IChatModel.OnRetrievingM
 
     //initiates hotword detection
     override fun initiateHotwordDetection() {
-        if (BuildConfig.FLAVOR.equals("fdroid"))
+        if (BuildConfig.FLAVOR == "fdroid")
             return
         val view = chatView
         if (view != null) {
