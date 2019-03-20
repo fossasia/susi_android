@@ -33,6 +33,7 @@ import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
+import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
@@ -497,6 +498,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
             }
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
+            tvAnonymousPostFeedback.setOnClickListener {
+                val intentToLogin = Intent(context, LoginActivity::class.java)
+                startActivity(intentToLogin)
+            }
         }
 
         val query = FetchFeedbackQuery(skillData.model, skillData.group, skillData.language, skillTag)
