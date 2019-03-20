@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var forgotPasswordProgressDialog: AlertDialog
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
-    private lateinit var progressDialog: ProgressDialo
+    private lateinit var progressDialog: ProgressDialog
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
