@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.login
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
@@ -28,12 +29,15 @@ import android.widget.CheckBox
  *
  * Created by chiragw15 on 4/7/17.
  */
+@Suppress("DEPRECATION")
 class LoginActivity : AppCompatActivity(), ILoginView {
 
     lateinit var forgotPasswordProgressDialog: AlertDialog
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
-    private lateinit var progressDialog: ProgressDialog
+    private lateinit var progressDialog: ProgressDialo
+
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -54,7 +58,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
         builder = AlertDialog.Builder(this)
         forgotPasswordProgressDialog = builder.create()
-        forgotPasswordProgressDialog.setView(forgotPasswordProgressDialog.getLayoutInflater().inflate(R.layout.progress, null))
+        forgotPasswordProgressDialog.setView(forgotPasswordProgressDialog.layoutInflater.inflate(R.layout.progress, null))
 
         addListeners()
         cancelRequestPassword()
@@ -237,14 +241,14 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         if (boolean) forgotPasswordProgressDialog.show() else forgotPasswordProgressDialog.dismiss()
     }
 
-    fun cancelRequestPassword() {
+    private fun cancelRequestPassword() {
         progressDialog.setOnCancelListener {
             loginPresenter.cancelSignup()
             forgotPassword.isEnabled = true
         }
     }
 
-    fun requestPassword() {
+    private fun requestPassword() {
         forgotPassword.setOnClickListener {
             val email = emailInput?.text.toString()
             val isPersonalServerChecked = customServer.isChecked
