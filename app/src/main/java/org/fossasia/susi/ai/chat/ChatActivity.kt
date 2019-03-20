@@ -36,11 +36,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_chat.askSusiMessage
-import kotlinx.android.synthetic.main.activity_chat.rv_chat_feed
-import kotlinx.android.synthetic.main.activity_chat.btnSpeak
-import kotlinx.android.synthetic.main.activity_chat.btnScrollToEnd
-import kotlinx.android.synthetic.main.activity_chat.coordinator_layout
+import kotlinx.android.synthetic.main.activity_chat.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -60,6 +56,7 @@ import java.util.Locale
  * The V in MVP
  * Created by chiragw15 on 9/7/17.
  */
+
 class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureListener,
         GestureDetector.OnDoubleTapListener {
 
@@ -328,7 +325,7 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
         }
         hideSoftKeyboard(this, window.decorView)
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.speechToTextFrame, STTfragment())
+        fragmentTransaction.replace(R.id.speechToTextFrame, STTFragment())
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
     }
@@ -351,6 +348,7 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
                             chatPresenter.startHotwordDetection()
                     }
 
+                    @Suppress("OverridingDeprecatedMember")
                     override fun onError(s: String) {
                         if (recordingThread != null)
                             chatPresenter.startHotwordDetection()
@@ -361,7 +359,7 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
                 ttsParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = this@ChatActivity.packageName
                 textToSpeech?.language = Locale(language)
                 textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
-                audioFocus?.abandonAudioFocus(changeListener)
+                audioFocus.abandonAudioFocus(changeListener)
             }
         }
     }
@@ -398,14 +396,10 @@ class ChatActivity : AppCompatActivity(), IChatView, GestureDetector.OnGestureLi
                     MsgEnum.MSG_ACTIVE -> {
                         chatPresenter.hotwordDetected()
                     }
-                    MsgEnum.MSG_INFO -> {
-                    }
-                    MsgEnum.MSG_VAD_SPEECH -> {
-                    }
-                    MsgEnum.MSG_VAD_NOSPEECH -> {
-                    }
-                    MsgEnum.MSG_ERROR -> {
-                    }
+                    MsgEnum.MSG_INFO -> Unit
+                    MsgEnum.MSG_VAD_SPEECH -> Unit
+                    MsgEnum.MSG_VAD_NOSPEECH -> Unit
+                    MsgEnum.MSG_ERROR -> Unit
                     else -> super.handleMessage(msg)
                 }
             }

@@ -96,5 +96,19 @@
             android:layout_marginTop="@dimen/margin_large"
             android:background="@drawable/rounded_button"
             android:text="@string/sign_up" />
+
+        <TextView
+            android:id="@+id/signUpToLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/existing_user_login"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:typeface="monospace" />
     </LinearLayout>
 </ScrollView>
