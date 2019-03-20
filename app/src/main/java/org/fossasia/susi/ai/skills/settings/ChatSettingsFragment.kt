@@ -25,6 +25,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
@@ -37,14 +38,15 @@ import timber.log.Timber
 
 class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
+    private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
     private lateinit var settingsPresenter: ISettingsPresenter
-
     private lateinit var rate: Preference
     lateinit var server: Preference
     private lateinit var micSettings: Preference
     private lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     private lateinit var loginLogout: Preference
+    private lateinit var aboutUs: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
     private lateinit var speechAlways: SwitchPreference
@@ -80,6 +82,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
+        aboutUs = preferenceManager.findPreference(getString(R.string.settings_about_us_key))
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
         speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key)) as SwitchPreference
@@ -130,6 +133,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
+        aboutUs.setOnPreferenceClickListener {
+            val aboutFragment = AboutUsFragment()
+            fragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
+                    ?.addToBackStack(TAG_ABOUT_FRAGMENT)
+                    ?.commit()
+            true
+        }
         share.setOnPreferenceClickListener {
             try {
                 val shareIntent = Intent()

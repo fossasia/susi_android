@@ -108,6 +108,9 @@
             android:key="login_logout"
             android:title="Login" />
 
+        <PreferenceScreen
+            android:key="@string/settings_about_us_key"
+            android:title="@string/settings_about_us" />
     </PreferenceCategory>
 
 
