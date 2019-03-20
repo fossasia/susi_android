@@ -110,5 +110,19 @@
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/signUpToTermsCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/terms_condition"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:typeface="monospace" />
     </LinearLayout>
 </ScrollView>

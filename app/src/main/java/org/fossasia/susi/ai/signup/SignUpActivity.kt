@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -82,6 +83,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         signUp()
         signUpToLoginPage()
         cancelSignUp()
+        signUpToTermsConditionPage()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -195,6 +197,12 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             intent.putExtra("email", email.editText?.text.toString())
             startActivity(intent)
+        }
+    }
+
+    private fun signUpToTermsConditionPage() {
+        signUpToTermsCondition.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://chat.susi.ai/privacy")))
         }
     }
 
