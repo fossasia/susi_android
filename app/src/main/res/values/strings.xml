@@ -302,7 +302,7 @@
     <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="url_susi_skill_cms">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
-    <string name="susi_know_more_url" translatable="false">https://youtu.be/iOpA1mAy3QQ</string>
+    <string name="susi_know_more_url" translatable="false">https://dev.susi.ai</string>
     <string name="susi_know_more"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
 
     <!-- Intro Strings -->
