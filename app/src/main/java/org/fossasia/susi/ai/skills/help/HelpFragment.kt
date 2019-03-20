@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.skills.SkillsActivity
 
 class HelpFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +19,7 @@ class HelpFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val thisActivity = activity
-        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_help)
+        thisActivity?.title = getString(R.string.action_help)
         val rootView = inflater.inflate(R.layout.fragment_help, container, false)
         setHasOptionsMenu(true)
         return rootView
