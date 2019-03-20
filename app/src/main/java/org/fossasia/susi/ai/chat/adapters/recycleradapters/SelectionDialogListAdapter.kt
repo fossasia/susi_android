@@ -19,7 +19,11 @@ import org.fossasia.susi.ai.R
  * Created by chiragw15 on 31/7/17.
  */
 
-class SelectionDialogListAdapter(context: Context, private val list: List<Pair<String, Drawable>>) : ArrayAdapter<Pair<String, Drawable>>(context, R.layout.item_selection_dialog_list, list) {
+class SelectionDialogListAdapter(
+    context: Context,
+    private val list: List<Pair<String, Drawable>>
+)
+    : ArrayAdapter<Pair<String, Drawable>>(context, R.layout.item_selection_dialog_list, list) {
 
     internal class ViewHolder {
         var option: TextView? = null

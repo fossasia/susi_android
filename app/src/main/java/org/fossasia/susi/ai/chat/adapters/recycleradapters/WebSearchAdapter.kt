@@ -7,20 +7,20 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.squareup.picasso.Picasso
-
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultHolder
 import org.fossasia.susi.ai.data.model.WebSearchModel
-
 import timber.log.Timber
-import java.lang.Exception
 
 /**
  * <h1>Adapter to display horizontal list of web search results.</h1>\
  */
-class WebSearchAdapter(private val context: Context, private val searchResults: List<WebSearchModel?>?) : RecyclerView.Adapter<SearchResultHolder>() {
+class WebSearchAdapter(
+    private val context: Context,
+    private val searchResults: List<WebSearchModel?>?
+)
+    : RecyclerView.Adapter<SearchResultHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 

@@ -8,27 +8,31 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-
+import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
-
+import io.realm.Realm
+import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
-
-import butterknife.ButterKnife
-import io.realm.Realm
-import kotterknife.bindView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class ImageViewHolder(itemView: View, clickListener: MessageViewHolder.ClickListener) : MessageViewHolder(itemView, clickListener) {
+/**
+ * ViewHolder for drawing image item layout.
+ */
+class ImageViewHolder(
+    itemView: View,
+    clickListener: MessageViewHolder.ClickListener
+)
+    : MessageViewHolder(itemView, clickListener) {
 
-    val imageView: ImageView by bindView(R.id.image_response)
+    private val imageView: ImageView by bindView(R.id.image_response)
     val timeStamp: TextView by bindView(R.id.timestamp)
     val thumbsUp: ImageView by bindView(R.id.thumbs_up)
     val thumbsDown: ImageView by bindView(R.id.thumbs_down)
