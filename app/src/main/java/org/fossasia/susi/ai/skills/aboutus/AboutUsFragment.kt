@@ -12,11 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_about_us.about_susi
-import kotlinx.android.synthetic.main.fragment_about_us.contributors_desc
-import kotlinx.android.synthetic.main.fragment_about_us.susi_skill_cms_desc
-import kotlinx.android.synthetic.main.fragment_about_us.susi_report_issues_desc
-import kotlinx.android.synthetic.main.fragment_about_us.susi_license_info_desc
+import kotlinx.android.synthetic.main.fragment_about_us.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity
 
@@ -61,16 +57,21 @@ class AboutUsFragment : Fragment() {
             launchCustomtTab(uri)
         }
 
+        know_more_about_susi.setOnClickListener {
+            val uri = Uri.parse(getString(R.string.susi_know_more_url))
+            launchCustomtTab(uri)
+        }
         about_susi.text = htmlConverter(R.string.susi_about)
         contributors_desc.text = htmlConverter(R.string.susi_contributors_desc)
         susi_skill_cms_desc.text = htmlConverter(R.string.susi_skill_cms_desc)
         susi_license_info_desc.text = htmlConverter(R.string.susi_license_information_desc)
         susi_report_issues_desc.text = htmlConverter(R.string.susi_report_issues_desc)
+        know_more_about_susi.text = htmlConverter(R.string.susi_know_more)
 
         super.onViewCreated(view, savedInstanceState)
     }
 
-    fun launchCustomtTab(uri: Uri) {
+    private fun launchCustomtTab(uri: Uri) {
         try {
             CustomTabsIntent.Builder().build().launchUrl(context, uri) //launching through custom tabs
         } catch (e: Exception) {
@@ -80,7 +81,7 @@ class AboutUsFragment : Fragment() {
 
     private fun htmlConverter(resourceId: Int): Spanned {
         return when {
-            Build.VERSION.SDK_INT>24 -> Html.fromHtml(getString(resourceId), Html.FROM_HTML_OPTION_USE_CSS_COLORS)
+            Build.VERSION.SDK_INT > 24 -> Html.fromHtml(getString(resourceId), Html.FROM_HTML_OPTION_USE_CSS_COLORS)
             else -> @Suppress("DEPRECATION") Html.fromHtml(getString(resourceId))
         }
     }

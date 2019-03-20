@@ -156,6 +156,7 @@
     <string name="share_items">Share</string>
 
     <string name="sign_up">Sign Up</string>
+    <string name="existing_user_login">Existing User?\n Click here to Login</string>
 
     <string name="url_cannot_be_empty">URL cannot be empty</string>
 
@@ -205,6 +206,7 @@
 
     <!-- Settings Activity-->
     <string name="Continue">Continue</string>
+    <string name="stay_here">Stay here</string>
 
     <string name="email_id_input">Enter your e-mail ID</string>
     <string name="email_pass_not_exists">E-mail address does not exist. Please make sure you have entered it correctly.</string>
@@ -299,6 +301,8 @@
     <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="url_susi_skill_cms" translatable="false">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
+    <string name="susi_know_more_url" translatable="false">https://youtu.be/iOpA1mAy3QQ</string>
+    <string name="susi_know_more"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
 
     <!-- Intro Strings -->
     <string name="author_name">Author name</string>

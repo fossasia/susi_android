@@ -3,17 +3,21 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
-
 import com.squareup.picasso.Picasso
-
+import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.YoutubeVid
 import org.fossasia.susi.ai.data.model.ChatMessage
-
-import kotterknife.bindView
 import timber.log.Timber
 
-class YoutubeVideoViewHolder(view: View, clickListener: MessageViewHolder.ClickListener) : MessageViewHolder(view, clickListener) {
+/**
+ * ViewHolder for drawing youtube video item layout.
+ */
+class YoutubeVideoViewHolder(
+    view: View,
+    clickListener: MessageViewHolder.ClickListener
+)
+    : MessageViewHolder(view, clickListener) {
 
     private val playerView: ImageView by bindView(R.id.youtube_view)
     private val playButton: ImageView by bindView(R.id.play_video)
