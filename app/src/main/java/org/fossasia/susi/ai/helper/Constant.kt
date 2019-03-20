@@ -82,4 +82,7 @@ object Constant {
 
     //VIDEO ID
     const val VIDEO_ID = "video_id"
+
+    //know more url
+    const val susi_know_more_url = "https://dev.susi.ai/"
 }
