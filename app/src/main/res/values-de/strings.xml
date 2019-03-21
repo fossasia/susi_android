@@ -35,7 +35,6 @@
         Bitte überprüfen Sie Ihre E-Mail und versuchen Sie es erneut.</string>
     <string name="password_invalid">Das angegebene Passwort ist nicht korrek. Bitte versuche es erneut.</string>
     <string name="forgot_password_mail_sent">E-Mail gesendet</string>
-    <string name="activity_signup_skip">Überspringen</string>
 
     <string name="activity_executed_key" translatable="false">activity_executed</string>
     <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>

@@ -173,7 +173,6 @@
     <string name="activity_login_log_in">Log in</string>
     <string name="activity_login_sign_up">Sign up for SUSI</string>
     <string name="activity_login_skip">Skip</string>
-    <string name="activity_signup_skip">Skip</string>
 
     <string name="query_language">Query Language</string>
 
