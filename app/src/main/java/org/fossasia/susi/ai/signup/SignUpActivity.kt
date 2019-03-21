@@ -20,6 +20,9 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.ForgotPass
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
+import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.settings.SettingsPresenter
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 
 /**
  * <h1>The SignUp activity.</h1>
@@ -35,6 +38,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private lateinit var forgotPasswordProgressDialog: Dialog
     private lateinit var builder: AlertDialog.Builder
     private var checkDialog: Boolean = false
+    private lateinit var settingsPresenter: ISettingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +73,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         builder = AlertDialog.Builder(this)
         builder.setView(R.layout.progress)
         forgotPasswordProgressDialog = builder.create()
+        settingsPresenter = SettingsPresenter(SkillsActivity())
 
         addListeners()
 
@@ -194,8 +199,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     private fun signUpToLoginPage() {
         signUpToLogin.setOnClickListener {
+            settingsPresenter.loginLogout()
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             intent.putExtra("email", email.editText?.text.toString())
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
     }
