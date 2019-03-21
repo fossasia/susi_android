@@ -109,6 +109,8 @@
     <string name="tap_on_mic">Tap the mic icon to speak</string>
     <string name="settings_deviceSection_key" translatable="false">device_section</string>
     <string name="settings_displayEmail_key" translatable="false">display_email</string>
+    <string name="settings_about_us">About Us</string>
+    <string name="settings_about_us_key">about_us</string>
 
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action.</string>
