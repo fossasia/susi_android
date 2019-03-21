@@ -247,6 +247,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
     }
 
+    override fun onResume() {
+        val thisActivity = activity
+        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
+        super.onResume()
+    }
     private fun setLanguage() {
         try {
             if (querylanguage.entries.isNotEmpty()) {
