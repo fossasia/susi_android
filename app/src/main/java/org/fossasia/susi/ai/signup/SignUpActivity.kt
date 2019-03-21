@@ -91,7 +91,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     fun skipSignUp() {
         skipSignUp.setOnClickListener {
             val intent = Intent(this@SignUpActivity, ChatActivity::class.java)
-            intent.putExtra(Constant.FIRST_TIME, false)
             startActivity(intent)
             finish()
         }
