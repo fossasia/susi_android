@@ -18,12 +18,14 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
+import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
+import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
@@ -47,6 +49,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     private lateinit var loginLogout: Preference
+    private lateinit var settingSignUp: Preference
     private lateinit var aboutUs: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
@@ -83,6 +86,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
+        settingSignUp = preferenceManager.findPreference("sign_up")
         aboutUs = preferenceManager.findPreference(getString(R.string.settings_about_us_key))
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
@@ -109,6 +113,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             loginLogout.title = "Login"
         } else {
             loginLogout.title = "Logout"
+            settingSignUp.isEnabled = false
         }
 
         if (PrefManager.token == null) {
@@ -170,6 +175,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             } else {
                 settingsPresenter.loginLogout()
             }
+            true
+        }
+        settingSignUp.setOnPreferenceClickListener {
+            val intent = Intent(activity, SignUpActivity::class.java)
+            startActivity(intent)
             true
         }
         displayEmail.setOnPreferenceClickListener {

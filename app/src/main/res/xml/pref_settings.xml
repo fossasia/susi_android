@@ -109,6 +109,10 @@
             android:title="Login" />
 
         <PreferenceScreen
+            android:key="sign_up"
+            android:title="@string/sign_up" />
+
+        <PreferenceScreen
             android:key="@string/settings_about_us_key"
             android:title="@string/settings_about_us" />
     </PreferenceCategory>
