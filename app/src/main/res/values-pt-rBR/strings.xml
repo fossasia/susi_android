@@ -33,6 +33,7 @@
         Por favor verifique seu email e tente novamente.</string>
     <string name="password_invalid">A senha que você digitou está incorreta. Por favor tente novamente.</string>
     <string name="forgot_password_mail_sent">Email enviado</string>
+    <string name="terms_condition">Termos e Condições</string>
 
     <string name="websearchnull">Nenhum Resultado Encontrado</string>
     <string name="error_email">Endereço de Email já exite</string>

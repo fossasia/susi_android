@@ -42,6 +42,7 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
         Comprueba tu correo electrónico y vuelve a intentarlo.</string>
     <string name="password_invalid">La contraseña que ha ingresado es incorrecta. Vuelve a intentarlo.</string>
     <string name="forgot_password_mail_sent">Email enviado</string>
+    <string name="terms_condition">Términos y Condiciones</string>
 
     <string name="websearchnull">No se han encontrado resultados</string>
     <string name="error_email">La dirección de correo ya existe</string>

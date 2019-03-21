@@ -33,6 +33,7 @@
     <string name="email_invalid">आपके द्वारा दर्ज ईमेल एक खाते से संबंधित नहीं है। कृपया अपना ईमेल जांचें और पुनः प्रयास करें।</string>
     <string name="password_invalid">आपके द्वारा दर्ज किया गया पासवर्ड गलत है। कृपया पुन: प्रयास करें।</string>
     <string name="forgot_password_mail_sent">ईमेल भेजा</string>
+    <string name="terms_condition">नियम और शर्तें</string>
 
     <string name="websearchnull">कोई परिणाम नहीं मिला</string>
     <string name="error_email">ईमेल पता पहले से ही मौजूद है</string>
