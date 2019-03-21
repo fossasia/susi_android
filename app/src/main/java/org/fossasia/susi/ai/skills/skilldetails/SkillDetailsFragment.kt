@@ -37,6 +37,9 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
+import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.settings.SettingsPresenter
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.FeedbackAdapter
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
@@ -53,6 +56,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private var fromUser = false
     private lateinit var skillRatingChart: HorizontalBarChart
     private lateinit var xAxis: XAxis
+    private lateinit var settingsPresenter: ISettingsPresenter
 
     companion object {
         const val SKILL_KEY = "skill_key"
@@ -77,6 +81,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 SKILL_KEY) as SkillData
         skillGroup = arguments?.getString(SKILL_GROUP).toString()
         skillTag = arguments?.getString(SKILL_TAG).toString()
+        settingsPresenter = SettingsPresenter(SkillsActivity())
         return inflater.inflate(R.layout.fragment_skill_details, container, false)
     }
 
@@ -499,7 +504,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
             tvAnonymousPostFeedback.setOnClickListener {
+                settingsPresenter.loginLogout()
                 val intentToLogin = Intent(context, LoginActivity::class.java)
+                intentToLogin.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intentToLogin)
             }
         }
