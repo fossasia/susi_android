@@ -21,7 +21,12 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
-import android.widget.CheckBox
+import com.google.android.gms.auth.api.credentials.Credential
+import com.google.android.gms.auth.api.credentials.Credentials
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.auth.api.credentials.CredentialRequest
+import com.google.android.gms.auth.api.credentials.CredentialRequestResponse
+import com.google.android.gms.auth.api.credentials.CredentialsClient
 
 /**
  * <h1>The Login activity.</h1>
@@ -36,12 +41,16 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
-
+    private lateinit var credential: Credential
+    private lateinit var credentialsClient: CredentialsClient
+    private lateinit var credentialRequest: CredentialRequest
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
         PrefManager.putBoolean(R.string.activity_executed_key, true)
+
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())
             password.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[1].toString())
@@ -61,12 +70,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         forgotPasswordProgressDialog.setView(forgotPasswordProgressDialog.layoutInflater.inflate(R.layout.progress, null))
 
         addListeners()
+
         cancelRequestPassword()
         requestPassword()
         remember()
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
-
         val bundle = intent.extras
         val string = bundle?.getString("email")
         if (string != null)
@@ -74,13 +83,18 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     private fun remember() {
-        val saveLoginCheckBox = findViewById<CheckBox>(R.id.remember)
-
-        if (getSharedPreferences("loginPrefs", MODE_PRIVATE).getBoolean("saveLogin", false) == true) {
-            email.editText?.setText(getSharedPreferences("loginPrefs", MODE_PRIVATE).getString("username", ""))
-            password.editText?.setText(getSharedPreferences("loginPrefs", MODE_PRIVATE).getString("password", ""))
-            saveLoginCheckBox.setChecked(true)
-        }
+        credentialsClient = Credentials.getClient(this)
+        credentialRequest = CredentialRequest.Builder()
+                .setPasswordLoginSupported(true)
+                .build()
+        credentialsClient.request(credentialRequest).addOnCompleteListener(
+                OnCompleteListener<CredentialRequestResponse> { task ->
+                    if (task.isSuccessful) {
+                        // See "Handle successful credential requests"
+                        email.editText?.setText(task.result.credential.id)
+                        password.editText?.setText(task.result.credential.password)
+                    }
+                })
     }
 
     override fun onLoginSuccess(message: String?) {
@@ -100,6 +114,15 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         finish()
     }
 
+    override fun onRestart() {
+        remember()
+        super.onRestart()
+    }
+
+    override fun onResume() {
+        remember()
+        super.onResume()
+    }
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
         if (isEmpty) {
             when (what) {
@@ -167,19 +190,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
         val stringURL = inputUrl.editText?.text.toString()
-        val loginPrefsEditor = getSharedPreferences("loginPrefs", MODE_PRIVATE).edit()
-        val saveLoginCheckBox = findViewById<CheckBox>(R.id.remember)
-
-        if (saveLoginCheckBox.isChecked()) {
-            loginPrefsEditor.putBoolean("saveLogin", true)
-            loginPrefsEditor.putString("username", stringEmail)
-            loginPrefsEditor.putString("password", stringPassword)
-            loginPrefsEditor.commit()
-        } else {
-            loginPrefsEditor.clear()
-            loginPrefsEditor.commit()
+        if (remember.isChecked) {
+            credential = Credential.Builder(stringEmail)
+                    .setPassword(stringPassword)
+                    .build()
+            credentialsClient.save(credential)
         }
-
         logIn.isEnabled = false
         email.error = null
         password.error = null
@@ -216,16 +232,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     override fun onDestroy() {
         loginPresenter.onDetach()
         super.onDestroy()
-    }
-
-    override fun onRestart() {
-        remember()
-        super.onRestart()
-    }
-
-    override fun onResume() {
-        remember()
-        super.onResume()
     }
 
     override fun resetPasswordSuccess() {
