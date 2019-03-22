@@ -62,6 +62,5 @@ class SignUpActivityTest {
         // checks if sign up button is present
         onView(withId(R.id.signUp)).perform(scrollTo())
         onView(withId(R.id.signUp)).check(matches(isDisplayed()))
-
     }
 }
