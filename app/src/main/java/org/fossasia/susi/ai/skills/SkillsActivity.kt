@@ -50,17 +50,24 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
-
         val skillFragment = SkillListingFragment()
-        //skills = skillFragment.skills
-        supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
-                .addToBackStack(TAG_SKILLS_FRAGMENT)
-                .commit()
+        val privacyFragment = PrivacyFragment()
+        if (intent.getIntExtra("fromWhere", 0) == 1) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
+                    .addToBackStack(TAG_PRIVACY_FRAGMENT)
+                    .commit()
+        } else {
+            //skills = skillFragment.skills
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                    .addToBackStack(TAG_SKILLS_FRAGMENT)
+                    .commit()
+        }
         supportFragmentManager.addOnBackStackChangedListener {
-                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-                currentFragment?.onResume()
-            }
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            currentFragment?.onResume()
+        }
 
         supportFragmentManager.addOnBackStackChangedListener {
             invalidateOptionsMenu()
