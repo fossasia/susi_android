@@ -13,12 +13,13 @@
             android:title="@string/menu_item_about" />
         <item
             android:id="@+id/menu_login"
-            android:icon="@drawable/ic_about"
             android:title="@string/action_login" />
         <item
             android:id="@+id/menu_signup"
-            android:icon="@drawable/ic_about"
             android:title="@string/sign_up" />
+        <item
+            android:id="@+id/menu_privacy"
+            android:title="@string/menu_item_privacy" />
         <item
             android:id="@+id/action_search"
             android:icon="@drawable/ic_open_search"
