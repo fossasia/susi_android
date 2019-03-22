@@ -13,8 +13,11 @@ class PrivacyFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val thisActivity = activity
         thisActivity?.title = getString(R.string.menu_item_privacy)
         val rootView = inflater.inflate(R.layout.fragment_privacy, container, false)
