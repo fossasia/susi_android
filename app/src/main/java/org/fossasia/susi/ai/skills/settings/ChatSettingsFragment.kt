@@ -249,6 +249,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     override fun onResume() {
         val thisActivity = activity
+        settingsPresenter = SettingsPresenter(activity as SkillsActivity)
+        settingsPresenter.onAttach(this)
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         super.onResume()
     }
