@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,10 +17,15 @@ import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
+import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
+import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
+import org.fossasia.susi.ai.skills.settings.SettingsPresenter
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
@@ -35,20 +41,23 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
+    private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
 
-    private var mSearchAction: MenuItem? = null
+    private var searchAction: MenuItem? = null
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
     private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
     private var text: String = ""
     private var group: String = ""
+    private lateinit var settingsPresenter: ISettingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
 
+        settingsPresenter = SettingsPresenter(this)
         val skillFragment = SkillListingFragment()
         //skills = skillFragment.skills
         supportFragmentManager.beginTransaction()
@@ -70,6 +79,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.skills_activity_menu, menu)
+        if (!settingsPresenter.getAnonymity()) {
+            val loginMenuItem = menu?.findItem(R.id.menu_login)
+            loginMenuItem?.setTitle("Logout")
+            val signUpMenuItem = menu?.findItem(R.id.menu_signup)
+            signUpMenuItem?.setVisible(false)
+        }
         return true
     }
 
@@ -94,7 +109,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             val action = supportActionBar
             action?.setDisplayShowCustomEnabled(false)
             action?.setDisplayShowTitleEnabled(true)
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         }
     }
@@ -124,6 +139,44 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                         .commit()
             }
 
+            R.id.menu_login -> {
+                handleOnLoadingFragment()
+                if (!settingsPresenter.getAnonymity()) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
+                        settingsPresenter.loginLogout()
+                        val intent = Intent(this, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                    }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                    val alert = builder.create()
+                    alert.setTitle(getString(R.string.logout))
+                    alert.show()
+                } else {
+                    settingsPresenter.loginLogout()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            }
+
+            R.id.menu_signup -> {
+                handleOnLoadingFragment()
+                val intent = Intent(this, SignUpActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.menu_privacy -> {
+                handleOnLoadingFragment()
+                val aboutFragment = PrivacyFragment()
+                supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, aboutFragment, TAG_PRIVACY_FRAGMENT)
+                        .addToBackStack(TAG_PRIVACY_FRAGMENT)
+                        .commit()
+            }
+
             R.id.action_search -> {
                 handleMenuSearch()
             }
@@ -139,7 +192,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
             //add the search icon in the action bar
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
+            searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         } else { //open the search entry
 
@@ -179,10 +232,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             edtSearch?.requestFocus()
 
             //open the keyboard focused in the edtSearch
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
+            val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
             //add the close icon
-            mSearchAction?.icon = resources.getDrawable(R.drawable.ic_close_search)
+            searchAction?.icon = resources.getDrawable(R.drawable.ic_close_search)
             isSearchOpened = true
         }
     }
@@ -211,7 +264,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        mSearchAction = menu?.findItem(R.id.action_search)
+        searchAction = menu?.findItem(R.id.action_search)
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         when (currentFragment) {
             is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
@@ -244,7 +297,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             val action = supportActionBar //get the actionbar
             action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
             action?.setDisplayShowTitleEnabled(true)
-            mSearchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
+            searchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
             isSearchOpened = false
         }
     }

@@ -33,11 +33,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import io.realm.RealmResults
-import kotlinx.android.synthetic.main.activity_chat.askSusiMessage
-import kotlinx.android.synthetic.main.activity_chat.rv_chat_feed
-import kotlinx.android.synthetic.main.activity_chat.btnSpeak
-import kotlinx.android.synthetic.main.activity_chat.btnScrollToEnd
-import kotlinx.android.synthetic.main.activity_chat.coordinator_layout
+import kotlinx.android.synthetic.main.activity_chat.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -57,6 +53,7 @@ import java.util.Locale
  * The V in MVP
  * Created by chiragw15 on 9/7/17.
  */
+@Suppress("UNUSED_PARAMETER", "DEPRECATION")
 class ChatActivity : AppCompatActivity(), IChatView {
 
     lateinit var chatPresenter: IChatPresenter
@@ -73,7 +70,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
 
-    private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
+    private val changeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             textToSpeech?.stop()
         }
@@ -257,10 +254,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.stopHotwordDetection()
         }
         hideSoftKeyboard(this, window.decorView)
-        val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.speechToTextFrame, STTfragment())
-        ft.addToBackStack(null)
-        ft.commit()
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.speechToTextFrame, STTFragment())
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
     //Replies user with Speech
@@ -268,7 +265,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
-            val result = audioFocus.requestAudioFocus(afChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+            val result = audioFocus.requestAudioFocus(changeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
             if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
                 textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onStart(s: String) {
@@ -281,6 +278,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
                             chatPresenter.startHotwordDetection()
                     }
 
+                    @Suppress("OverridingDeprecatedMember")
                     override fun onError(s: String) {
                         if (recordingThread != null)
                             chatPresenter.startHotwordDetection()
@@ -291,7 +289,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 ttsParams[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID] = this@ChatActivity.packageName
                 textToSpeech?.language = Locale(language)
                 textToSpeech?.speak(reply, TextToSpeech.QUEUE_FLUSH, ttsParams)
-                audioFocus?.abandonAudioFocus(afChangeListener)
+                audioFocus.abandonAudioFocus(changeListener)
             }
         }
     }
@@ -328,14 +326,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
                     MsgEnum.MSG_ACTIVE -> {
                         chatPresenter.hotwordDetected()
                     }
-                    MsgEnum.MSG_INFO -> {
-                    }
-                    MsgEnum.MSG_VAD_SPEECH -> {
-                    }
-                    MsgEnum.MSG_VAD_NOSPEECH -> {
-                    }
-                    MsgEnum.MSG_ERROR -> {
-                    }
+                    MsgEnum.MSG_INFO -> Unit
+                    MsgEnum.MSG_VAD_SPEECH -> Unit
+                    MsgEnum.MSG_VAD_NOSPEECH -> Unit
+                    MsgEnum.MSG_ERROR -> Unit
                     else -> super.handleMessage(msg)
                 }
             }
@@ -389,26 +383,25 @@ class ChatActivity : AppCompatActivity(), IChatView {
         ActivityCompat.requestPermissions(this, permissions, PERM_REQ_CODE)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
         when (requestCode) {
             PERM_REQ_CODE -> run {
                 var audioPermissionGiven = false
-                for (i in permissions.indices) {
-                    when (permissions[i]) {
-                        Manifest.permission.ACCESS_FINE_LOCATION -> if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                for ((index, permission) in permissions.withIndex()) {
+                    if (permission == null)
+                        continue
+                    val granted = grantResults.isNotEmpty() && grantResults[index] == PackageManager.PERMISSION_GRANTED
+                    when (permission) {
+                        Manifest.permission.ACCESS_FINE_LOCATION -> if (granted) {
                             chatPresenter.getLocationFromLocationService()
                         }
 
                         Manifest.permission.RECORD_AUDIO -> {
-                            if (grantResults.isNotEmpty() && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                                chatPresenter.disableMicInput(false)
-                            } else {
-                                chatPresenter.disableMicInput(true)
-                            }
-                            audioPermissionGiven = true
+                            chatPresenter.disableMicInput(!granted)
+                            audioPermissionGiven = granted
                         }
 
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE -> if (grantResults.size >= 0 && grantResults[i] == PackageManager.PERMISSION_GRANTED && audioPermissionGiven) {
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE -> if (granted && audioPermissionGiven) {
                             chatPresenter.initiateHotwordDetection()
                         }
                     }
@@ -426,8 +419,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun openSettings(view: View) {
-        val i = Intent(this, SkillsActivity::class.java)
-        startActivity(i)
+        val intent = Intent(this, SkillsActivity::class.java)
+        startActivity(intent)
         finish()
     }
 

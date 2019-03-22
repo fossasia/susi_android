@@ -9,7 +9,6 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.responses.susi.Datum
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import timber.log.Timber
-import kotlin.collections.ArrayList
 
 /**
  * Helper class to parse susi response
@@ -95,14 +94,14 @@ class ParseSusiResponseHelper {
                 val listColVal = ArrayList<String>()
                 val listTableData = ArrayList<String>()
 
-                susiResponse.answers.forEach {
-                    it.actions.forEach {
-                        it.columns?.forEach {
-                            listColumn.add(it.key)
-                            listColVal.add(it.value.toString())
+                susiResponse.answers.forEach { answer ->
+                    answer.actions.forEach { action ->
+                        action.columns?.forEach { entry ->
+                            listColumn.add(entry.key)
+                            listColVal.add(entry.value.toString())
                         }
                     }
-                    it.data.forEach {
+                    answer.data.forEach {
                         listColumn.forEach { i ->
                             String
                             listTableData.add(it[i].toString())

@@ -39,7 +39,15 @@ import io.realm.RealmChangeListener
 import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 
-class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRealmCollection<ChatMessage>?, autoUpdate: Boolean) : RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder>(data, autoUpdate), MessageViewHolder.ClickListener {
+/**
+ * <h1>Adapter to display horizontal list of chat feed.</h1>
+ */
+class ChatFeedRecyclerAdapter(
+    private val currContext: Context,
+    data: OrderedRealmCollection<ChatMessage>?,
+    autoUpdate: Boolean
+) : RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder>(data, autoUpdate),
+    MessageViewHolder.ClickListener {
     private var realm: Realm? = null
     private var lastMsgCount: Int = 0
     private var recyclerView: RecyclerView? = null
@@ -71,16 +79,12 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
         nullHolder = ZeroHeightHolder(view1)
     }
 
-    /**
-     * Show dots while susi is typing.
-     */
+    /** Show dots while susi is typing. */
     fun showDots() {
         isSusiTyping = true
     }
 
-    /**
-     * Hide dots when susi is not typing.
-     */
+    /** Hide dots when susi is not typing. */
     fun hideDots() {
         isSusiTyping = false
     }
@@ -315,6 +319,7 @@ class ChatFeedRecyclerAdapter(private val currContext: Context, data: OrderedRea
         // Add something here when needed
     }
 
+    @Suppress("DEPRECATION")
     private fun setBackGroundColor(holder: RecyclerView.ViewHolder, isSelected: Boolean, isUserMessage: Boolean) {
         if (holder is ChatViewHolder) {
             if (isUserMessage)

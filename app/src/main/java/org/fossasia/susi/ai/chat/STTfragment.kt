@@ -12,9 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_chat.fabsetting
-import kotlinx.android.synthetic.main.fragment_sttframe.speechProgress
-import kotlinx.android.synthetic.main.fragment_sttframe.txtChat
+import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.fragment_sttframe.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import timber.log.Timber
@@ -22,7 +21,7 @@ import timber.log.Timber
 /**
  * Created by meeera on 17/8/17.
  */
-class STTfragment : Fragment() {
+class STTFragment : Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
     private val thisActivity = activity
@@ -82,8 +81,7 @@ class STTfragment : Fragment() {
             override fun onError(error: Int) {
                 Timber.d("Error listening for speech: %s", error)
                 Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
-                if (speechProgress != null)
-                    speechProgress.onResultOrOnError()
+                speechProgress?.onResultOrOnError()
                 recognizer.destroy()
                 activity?.fabsetting?.show()
                 activity?.supportFragmentManager?.popBackStackImmediate()
@@ -91,8 +89,7 @@ class STTfragment : Fragment() {
 
             override fun onBeginningOfSpeech() {
                 Timber.d("Speech starting")
-                if (speechProgress != null)
-                    speechProgress.onBeginningOfSpeech()
+                speechProgress?.onBeginningOfSpeech()
             }
 
             override fun onBufferReceived(buffer: ByteArray) {
@@ -100,8 +97,7 @@ class STTfragment : Fragment() {
             }
 
             override fun onEndOfSpeech() {
-                if (speechProgress != null)
-                    speechProgress.onEndOfSpeech()
+                speechProgress?.onEndOfSpeech()
             }
 
             override fun onEvent(eventType: Int, params: Bundle) {
@@ -115,8 +111,7 @@ class STTfragment : Fragment() {
             }
 
             override fun onRmsChanged(rmsdB: Float) {
-                if (speechProgress != null)
-                    speechProgress.onRmsChanged(rmsdB)
+                speechProgress?.onRmsChanged(rmsdB)
             }
         }
         recognizer.setRecognitionListener(listener)

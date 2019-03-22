@@ -28,7 +28,10 @@ import java.net.UnknownHostException
  * The P in MVP
  * Created by chiragw15 on 4/7/17.
  */
-class LoginPresenter(loginActivity: LoginActivity) : ILoginPresenter, ILoginModel.OnLoginFinishedListener, IForgotPasswordModel.OnFinishListener {
+class LoginPresenter(loginActivity: LoginActivity) :
+    ILoginPresenter,
+    ILoginModel.OnLoginFinishedListener,
+    IForgotPasswordModel.OnFinishListener {
 
     private var loginModel: LoginModel = LoginModel()
     private var utilModel: UtilModel = UtilModel(loginActivity)

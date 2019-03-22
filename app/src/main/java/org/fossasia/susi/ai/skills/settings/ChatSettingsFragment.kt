@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
 import android.support.design.widget.TextInputLayout
+import android.support.v14.preference.SwitchPreference
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.preference.ListPreference
@@ -24,6 +25,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
@@ -36,6 +38,7 @@ import timber.log.Timber
 
 class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
+    private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
     private lateinit var settingsPresenter: ISettingsPresenter
 
     private lateinit var rate: Preference
@@ -44,10 +47,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     private lateinit var loginLogout: Preference
+    private lateinit var aboutUs: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
-    private lateinit var speechAlways: Preference
-    private lateinit var speechOutput: Preference
+    private lateinit var speechAlways: SwitchPreference
+    private lateinit var speechOutput: SwitchPreference
     private lateinit var displayEmail: Preference
     lateinit var password: TextInputLayout
     private lateinit var newPassword: TextInputLayout
@@ -79,10 +83,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
+        aboutUs = preferenceManager.findPreference(getString(R.string.settings_about_us_key))
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
-        speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key))
-        speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key))
+        speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key)) as SwitchPreference
+        speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key)) as SwitchPreference
         displayEmail = preferenceManager.findPreference(getString(R.string.settings_displayEmail_key))
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
@@ -91,10 +96,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         // Display login email
         val utilModel = UtilModel(activity as SkillsActivity)
-        if (!utilModel.isLoggedIn())
+        if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
-        else
+            displayEmail.isEnabled = true
+        } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
+            displayEmail.isEnabled = false
+        }
 
         setLanguage()
         if (settingsPresenter.getAnonymity()) {
@@ -126,6 +134,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             true
         }
 
+        aboutUs.setOnPreferenceClickListener {
+            val aboutFragment = AboutUsFragment()
+            fragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
+                    ?.addToBackStack(TAG_ABOUT_FRAGMENT)
+                    ?.commit()
+            true
+        }
         share.setOnPreferenceClickListener {
             try {
                 val shareIntent = Intent()
@@ -154,6 +170,10 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             } else {
                 settingsPresenter.loginLogout()
             }
+            true
+        }
+        displayEmail.setOnPreferenceClickListener {
+            settingsPresenter.loginLogout()
             true
         }
 
@@ -209,16 +229,29 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
             speechAlways.setOnPreferenceChangeListener { _, newValue ->
                 settingsPresenter.sendSetting(getString(R.string.settings_speechAlways_key), newValue.toString(), 1)
+                if (newValue.toString() == "true" && speechOutput.isChecked) {
+                    speechOutput.isChecked = false
+                    speechOutput.callChangeListener("false")
+                }
                 true
             }
 
             speechOutput.setOnPreferenceChangeListener { _, newValue ->
                 settingsPresenter.sendSetting(getString(R.string.settings_speechPreference_key), newValue.toString(), 1)
+                if (newValue.toString() == "true" && speechAlways.isChecked) {
+                    speechAlways.isChecked = false
+                    speechAlways.callChangeListener("false")
+                }
                 true
             }
         }
     }
 
+    override fun onResume() {
+        val thisActivity = activity
+        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
+        super.onResume()
+    }
     private fun setLanguage() {
         try {
             if (querylanguage.entries.isNotEmpty()) {
