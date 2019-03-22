@@ -126,8 +126,10 @@
     <!-- Avatar dimensions -->
 
     <dimen name="avatar_size">48dp</dimen>
-
+  
     <!-- Help dimensions -->
     <dimen name="card_radius_help">4dp</dimen>
-
+  
+    <!-- Privacy dimensions -->
+    <dimen name="card_radius_privacy">4dp</dimen>
 </resources>

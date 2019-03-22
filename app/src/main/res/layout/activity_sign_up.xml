@@ -19,6 +19,15 @@
         android:paddingRight="@dimen/margin_large"
         android:paddingTop="@dimen/margin_large">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/margin_extremely_large"
+            android:layout_marginTop="@dimen/margin_top"
+            android:contentDescription="@string/activity_login_imageview_description"
+            app:srcCompat="@drawable/ic_susi_blue" />
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -96,5 +105,45 @@
             android:layout_marginTop="@dimen/margin_large"
             android:background="@drawable/rounded_button"
             android:text="@string/sign_up" />
+
+        <TextView
+            android:id="@+id/signUpToLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/existing_user_login"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/skipSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_moderate"
+            android:background="?selectableItemBackground"
+            android:text="@string/activity_login_skip"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/signUpToTermsCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:background="?selectableItemBackground"
+            android:gravity="center"
+            android:text="@string/terms_condition"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:typeface="monospace" />
     </LinearLayout>
 </ScrollView>

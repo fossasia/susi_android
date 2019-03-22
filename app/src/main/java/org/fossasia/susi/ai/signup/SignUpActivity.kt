@@ -6,12 +6,14 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
@@ -80,7 +82,18 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private fun addListeners() {
         showURL()
         signUp()
+        signUpToLoginPage()
         cancelSignUp()
+        signUpToTermsConditionPage()
+        skipSignUp()
+    }
+
+    fun skipSignUp() {
+        skipSignUp.setOnClickListener {
+            val intent = Intent(this@SignUpActivity, ChatActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -104,7 +117,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         val alertMessage = getString(R.string.error_cancelling_signUp_process_text)
         val dialogTitle = getString(R.string.dialog_cancel_sign_up)
         val successAlertboxHelper = AlertboxHelper(this@SignUpActivity, dialogTitle, alertMessage, dialogClickListener, null,
-                resources.getString(R.string.cancel), resources.getString(R.string.Continue), resources.getColor(R.color
+                resources.getString(R.string.cancel), resources.getString(R.string.stay_here), resources.getColor(R.color
                 .md_blue_500))
         successAlertboxHelper.showAlertBox()
         checkDialog = true
@@ -186,6 +199,20 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             password.error = null
             if (!hasFocus)
                 signUpPresenter.checkForPassword(password.editText?.text.toString())
+        }
+    }
+
+    private fun signUpToLoginPage() {
+        signUpToLogin.setOnClickListener {
+            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+            intent.putExtra("email", email.editText?.text.toString())
+            startActivity(intent)
+        }
+    }
+
+    private fun signUpToTermsConditionPage() {
+        signUpToTermsCondition.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://chat.susi.ai/privacy")))
         }
     }
 
