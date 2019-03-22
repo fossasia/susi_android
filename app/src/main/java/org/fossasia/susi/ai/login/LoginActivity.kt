@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.login
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
@@ -21,20 +20,21 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
+import android.content.IntentSender
+import android.widget.CheckBox
 import com.google.android.gms.auth.api.credentials.Credential
 import com.google.android.gms.auth.api.credentials.Credentials
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.auth.api.credentials.CredentialRequest
-import com.google.android.gms.auth.api.credentials.CredentialRequestResponse
 import com.google.android.gms.auth.api.credentials.CredentialsClient
-
+import com.google.android.gms.auth.api.credentials.CredentialRequest
+import com.google.android.gms.auth.api.credentials.CredentialPickerConfig
+import com.google.android.gms.auth.api.credentials.HintRequest
 /**
  * <h1>The Login activity.</h1>
  * <h2>This activity is used to login into the app.</h2>
  *
  * Created by chiragw15 on 4/7/17.
  */
-@Suppress("DEPRECATION")
+
 class LoginActivity : AppCompatActivity(), ILoginView {
 
     lateinit var forgotPasswordProgressDialog: AlertDialog
@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     private lateinit var credential: Credential
     private lateinit var credentialsClient: CredentialsClient
     private lateinit var credentialRequest: CredentialRequest
-    @SuppressLint("InflateParams")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -69,11 +69,24 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         forgotPasswordProgressDialog = builder.create()
         forgotPasswordProgressDialog.setView(forgotPasswordProgressDialog.layoutInflater.inflate(R.layout.progress, null))
 
+        credentialsClient = Credentials.getClient(this)
+        val hintRequest = HintRequest.Builder()
+                .setHintPickerConfig(CredentialPickerConfig.Builder()
+                        .setShowCancelButton(true)
+                        .build())
+                .setEmailAddressIdentifierSupported(true)
+                .build()
+
+        val intenthint = credentialsClient.getHintPickerIntent(hintRequest)
+        try {
+            startIntentSenderForResult(intenthint.intentSender, 1, null, 0, 0, 0)
+        } catch (e: IntentSender.SendIntentException) {
+        }
         addListeners()
 
         cancelRequestPassword()
         requestPassword()
-        remember()
+
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
         val bundle = intent.extras
@@ -82,24 +95,25 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             email.editText?.setText(string)
     }
 
-    private fun remember() {
-        credentialsClient = Credentials.getClient(this)
-        credentialRequest = CredentialRequest.Builder()
-                .setPasswordLoginSupported(true)
-                .build()
-        credentialsClient.request(credentialRequest).addOnCompleteListener(
-                OnCompleteListener<CredentialRequestResponse> { task ->
-                    if (task.isSuccessful) {
-                        // See "Handle successful credential requests"
-                        email.editText?.setText(task.result.credential.id)
-                        password.editText?.setText(task.result.credential.password)
-                    }
-                })
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    credential = data.getParcelableExtra(Credential.EXTRA_KEY)
+                    email.editText?.setText(credential.id)
+                    password.editText?.setText(credential.password)
+                }
+            } else {
+                Toast.makeText(this, "Hint Read Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onLoginSuccess(message: String?) {
         hideSoftKeyboard(this, window.decorView)
         Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
+
         val intent = Intent(this@LoginActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(Constant.FIRST_TIME, true)
@@ -114,15 +128,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         finish()
     }
 
-    override fun onRestart() {
-        remember()
-        super.onRestart()
-    }
-
-    override fun onResume() {
-        remember()
-        super.onResume()
-    }
     override fun invalidCredentials(isEmpty: Boolean, what: String) {
         if (isEmpty) {
             when (what) {
@@ -190,11 +195,13 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         val stringEmail = email.editText?.text.toString()
         val stringPassword = password.editText?.text.toString()
         val stringURL = inputUrl.editText?.text.toString()
-        if (remember.isChecked) {
-            credential = Credential.Builder(stringEmail)
+        val rem = findViewById<CheckBox>(R.id.remember)
+        if (rem.isChecked) {
+            val credential = Credential.Builder(stringEmail)
                     .setPassword(stringPassword)
                     .build()
             credentialsClient.save(credential)
+            rem.setChecked(true)
         }
         logIn.isEnabled = false
         email.error = null
