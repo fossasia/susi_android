@@ -121,6 +121,18 @@
             android:typeface="monospace" />
 
         <TextView
+            android:id="@+id/skipSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_moderate"
+            android:background="?selectableItemBackground"
+            android:text="@string/activity_login_skip"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold"
+            android:typeface="monospace" />
+
+        <TextView
             android:id="@+id/signUpToTermsCondition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
