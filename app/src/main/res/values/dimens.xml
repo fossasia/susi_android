@@ -125,4 +125,7 @@
 
     <dimen name="avatar_size">48dp</dimen>
 
+    <!-- Privacy dimensions -->
+    <dimen name="card_radius_privacy">4dp</dimen>
+
 </resources>
