@@ -37,7 +37,6 @@
                         android:text="@string/help_open_setting"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:textStyle="bold" />
 
                     <TextView
@@ -46,7 +45,6 @@
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:text="@string/help_open_setting_desc"
                         android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
@@ -72,7 +70,6 @@
                         android:text="@string/help_signup"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:textStyle="bold" />
 
                     <TextView
@@ -81,7 +78,6 @@
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:text="@string/help_signup_desc"
                         android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
@@ -106,7 +102,6 @@
                         android:paddingRight="@dimen/padding_moderate"
                         android:text="@string/help_change_password"
                         android:textColor="@color/colorPrimary"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
 
@@ -116,7 +111,6 @@
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:text="@string/help_change_password_desc"
                         android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
@@ -142,7 +136,6 @@
                         android:text="@string/help_report_issue"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:textStyle="bold" />
 
                     <TextView
@@ -151,7 +144,6 @@
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:text="@string/help_report_issue_desc"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -178,7 +170,6 @@
                         android:text="@string/help_login"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:textStyle="bold" />
 
                     <TextView
@@ -187,7 +178,6 @@
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:text="@string/help_login_desc"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -214,7 +204,6 @@
                         android:text="@string/help_susi_voice"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:textStyle="bold" />
 
                     <TextView
@@ -223,7 +212,6 @@
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:text="@string/help_susi_voice_desc"
                         android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
@@ -250,7 +238,6 @@
                         android:text="@string/help_susi_skills"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:textStyle="bold" />
 
                     <TextView
@@ -259,7 +246,6 @@
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
-                        card_view:fontFamily="@font/roboto_regular"
                         android:text="@string/help_susi_skills_desc"
                         android:textSize="@dimen/text_size_medium" />
 
