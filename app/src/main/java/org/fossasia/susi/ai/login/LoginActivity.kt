@@ -28,7 +28,7 @@ import com.google.android.gms.auth.api.credentials.CredentialsClient
 import com.google.android.gms.auth.api.credentials.CredentialRequest
 import com.google.android.gms.auth.api.credentials.CredentialPickerConfig
 import com.google.android.gms.auth.api.credentials.HintRequest
-/**
+/*
  * <h1>The Login activity.</h1>
  * <h2>This activity is used to login into the app.</h2>
  *
@@ -81,6 +81,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         try {
             startIntentSenderForResult(intenthint.intentSender, 1, null, 0, 0, 0)
         } catch (e: IntentSender.SendIntentException) {
+            Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
         }
         addListeners()
 
