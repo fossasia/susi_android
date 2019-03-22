@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_about_us.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.skills.SkillsActivity
 
 class AboutUsFragment : Fragment() {
@@ -58,7 +59,7 @@ class AboutUsFragment : Fragment() {
         }
 
         know_more_about_susi.setOnClickListener {
-            val uri = Uri.parse(getString(R.string.susi_know_more_url))
+            val uri = Uri.parse(Constant.susi_know_more_url)
             launchCustomtTab(uri)
         }
         about_susi.text = htmlConverter(R.string.susi_about)
