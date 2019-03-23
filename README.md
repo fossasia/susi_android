@@ -180,6 +180,45 @@ If you are a tester and want to test the app, you have two ways to do that:
 1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/susi-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/susi-release.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will always be the latest one.
 2. **Testing on [appetize.io](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0):** If you don't want to download the APKs, you can simply go on [this](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0) link and use the App on an online simulator. You will always find the latest version of App on that link because it is updated after each PR merge.
 
+## Naming Conventions
+Organising file systems has a big impact on your ability to find the file later on and hence a proper naming convention is necessary while naming files,variables ,ID's ets.You should be consistent and descriptive in naming and organizing files so that it is obvious where to find specific data and what the files contain.
+
+CERTAIN NAMING CONVENTIONS :
+Files:
+1.Try not to make file names too long, since long file names do not work well with all types of software.
+2.Special characters such as  ~ ! @ # $ % ^ & * ( ),<> should be avoided.
+3.File name should depict it's purpose 
+4.All the class files should begin with upper camelcase. For example: signupactivity should be written as SignUpActivity.
+5.The value files should always be in plural.Examples: strings.xml, colors.xml,dimens.xml.
+6.Drawable files:
+Action bar      	ab_	         ab_stacked
+Button	                btn_	         btn_send_pressed
+Dialog	                dialog_	         dialog_top
+Divider	                divider_	 divider_horizontal
+Icon	                ic_	         ic_star.png
+Menu	                menu_	         menu_submenu_bg
+Notification	        notification_	 notification_bg
+Tabs	                tab_	         tab_pressed
+All the files under drawable directory should follow the above format.
+
+
+Layouts:
+1.Layout files should match the name of the Android components that they are intended for but moving the top level component name to the beginning. For example, if we are creating a layout for the SignInActivity, the name of the layout file should be activity_sign_in.xml.
+2. If a layout is inflated by an adapter then it should begin with item_
+   If it is a fragment then , fragment_
+   
+Strings :
+The format for naming strings should be <what>_<description>
+It is always a good practise to separate the words by an underscore in order for the users to understand the use of the string.
+	
+IDs :
+An ID should successfully depict it's purpose and should be of the format <what>_<where>_<description>
+For example, a button for signup activity should be in the form " button_signup_activity" which immediately tells the user that it is a button used in signup activity.
+	
+Everybody contributing to the project are requested to follow these naming conventions in order to maintain uniformity in the code.
+
+
+     
 ## License
 
 This project is currently licensed under the Apache License Version 2.0. A copy of [LICENSE.md](https://github.com/fossasia/susi_android/blob/master/LICENSE) should be present along with the source code. To obtain the software under a different license, please contact FOSSASIA.
