@@ -92,6 +92,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             loginMenuItem?.setTitle("Logout")
             val signUpMenuItem = menu?.findItem(R.id.menu_signup)
             signUpMenuItem?.setVisible(false)
+            signUpMenuItem?.setEnabled(false)
         }
         return true
     }
