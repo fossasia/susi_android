@@ -96,7 +96,7 @@
         <activity
             android:name=".skills.feedback.FeedbackActivity"
             android:label="See All Reviews"
-            android:theme="@style/PreferencesThemeLight" />        
+            android:theme="@style/PreferencesThemeLight" />
 
         <activity
             android:name=".chat.YouTubeActivity"
@@ -107,4 +107,5 @@
             android:value="${YOUTUBE_API_KEY}" />
 
     </application>
+
 </manifest>
