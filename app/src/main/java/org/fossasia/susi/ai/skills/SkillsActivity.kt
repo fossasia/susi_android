@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,11 +17,15 @@ import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
+import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
+import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
 import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
+import org.fossasia.susi.ai.skills.settings.SettingsPresenter
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 
@@ -45,12 +50,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
     private var text: String = ""
     private var group: String = ""
+    private lateinit var settingsPresenter: ISettingsPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
 
+        settingsPresenter = SettingsPresenter(this)
         val skillFragment = SkillListingFragment()
         //skills = skillFragment.skills
         supportFragmentManager.beginTransaction()
@@ -72,6 +79,13 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menuInflater = menuInflater
         menuInflater.inflate(R.menu.skills_activity_menu, menu)
+        if (!settingsPresenter.getAnonymity()) {
+            val loginMenuItem = menu?.findItem(R.id.menu_login)
+            loginMenuItem?.setTitle("Logout")
+            val signUpMenuItem = menu?.findItem(R.id.menu_signup)
+            signUpMenuItem?.setVisible(false)
+            signUpMenuItem?.setEnabled(false)
+        }
         return true
     }
 
@@ -126,6 +140,35 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                         .commit()
             }
 
+            R.id.menu_login -> {
+                handleOnLoadingFragment()
+                if (!settingsPresenter.getAnonymity()) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
+                        settingsPresenter.loginLogout()
+                        val intent = Intent(this, LoginActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                    }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+                    val alert = builder.create()
+                    alert.setTitle(getString(R.string.logout))
+                    alert.show()
+                } else {
+                    settingsPresenter.loginLogout()
+                    val intent = Intent(this, LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                    finish()
+                }
+            }
+
+            R.id.menu_signup -> {
+                handleOnLoadingFragment()
+                val intent = Intent(this, SignUpActivity::class.java)
+                startActivity(intent)
+            }
+
             R.id.menu_privacy -> {
                 handleOnLoadingFragment()
                 val aboutFragment = PrivacyFragment()
@@ -134,6 +177,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                         .addToBackStack(TAG_PRIVACY_FRAGMENT)
                         .commit()
             }
+
             R.id.action_search -> {
                 handleMenuSearch()
             }
