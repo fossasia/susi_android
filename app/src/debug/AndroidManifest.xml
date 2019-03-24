@@ -52,7 +52,6 @@
 
         <activity
             android:name=".skills.feedback.FeedbackActivity"
-            android:label="See All Reviews"
             android:theme="@style/PreferencesThemeLight" />
 
     </application>
