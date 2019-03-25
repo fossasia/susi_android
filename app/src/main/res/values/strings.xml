@@ -347,7 +347,7 @@
 
     <string name="slide_1_desc">Log in on the app using a SUSI.AI account, sign up to create a new account or just skip logging in altogether.</string>
     <string name="slide_1_title">Log in</string>
-    <string name="slide_2_desc">Interact with SUSI.AI by asking questions. Use the microphone button for voice interaction0.</string>
+    <string name="slide_2_desc">Interact with SUSI.AI by asking questions. Use the microphone button for voice interaction.</string>
     <string name="slide_2_title">Chat Interface</string>
     <string name="slide_3_desc">Browse and try your favorite SUSI.AI skill</string>
     <string name="slide_3_title">Skill List</string>
@@ -388,7 +388,7 @@
 
     <string name="location_access">Provide Location Access</string>
     <string name="set_up">SET UP</string>
-    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker.zzzzz</string>
+    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker</string>
     <string name="connecting_device">Connecting to your device...</string>
     <string name="device_name" translatable="false">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>

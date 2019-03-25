@@ -183,7 +183,6 @@
         \nEm todos os casos, a SUSI e seus fornecedores e distribuidores não serão responsáveis ​​por qualquer perda ou dano que não seja razoavelmente previsível.
         \nNós reconhecemos que em alguns países, você pode ter direitos legais como consumidor. Se você estiver usando os Serviços para uma finalidade pessoal, nada nesses termos ou quaisquer termos adicionais limitará os direitos legais do consumidor que não podem ser renunciados por contrato.</string>
     <string name="privacy_business">Utilizações comerciais dos nossos serviços</string>
-    <string name="privacy_business_details"> nas proximidades e conectado a uma tomada de parede</string>
     <string name="privacy_about">Sobre estes termos</string>
     <string name="privacy_about_details">Podemos modificar estes termos ou quaisquer termos adicionais que se apliquem a um Serviço para, por exemplo, refletir alterações na lei ou alterações nos nossos Serviços. Você deve olhar os termos regularmente. Publicaremos avisos de modificações nesses termos na página. Publicaremos avisos de termos adicionais modificados no Serviço aplicável. As alterações não serão aplicadas retroativamente e entrarão em vigor não antes de catorze dias depois de serem publicadas. No entanto, alterações relacionadas a novas funções para um Serviço ou alterações feitas por motivos legais entrarão em vigor imediatamente. Se você não concordar com os termos modificados para um Serviço, deverá interromper seu uso desse Serviço.
         \nSe houver um conflito entre esses termos e os termos adicionais, os termos adicionais controlarão esse conflito. Esses termos controlam o relacionamento entre o SUSI e você. Eles não criam nenhum direito de beneficiário de terceiros.
@@ -331,4 +330,5 @@
     <string name="skill_name">Nome da habilidade</string>
     <string name="no_skill_name">Nome não disponível</string>
     <string name="new_password">Nova senha</string>
+    <string name="privacy_business_details">Se você estiver usando nossos serviços em nome de uma empresa, essa empresa aceita esses termos. Ele isentará e indenizará a SUSI e suas afiliadas, executivos, agentes e funcionários de qualquer reclamação, ação ou ação decorrente ou relacionada ao uso dos Serviços ou violação destes termos, incluindo qualquer responsabilidade ou despesa decorrente de reclamações, perdas. , danos, ações, julgamentos, custos de litígios e honorários advocatícios.</string>
 </resources>
