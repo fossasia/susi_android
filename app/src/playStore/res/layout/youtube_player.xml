@@ -4,12 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".chat.YouTubeActivity">
+    tools:context=".chat.YouTubeActivity"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://schemas.android.com/apk/res/android ">
 
-    <com.google.android.youtube.player.YouTubePlayerView
-        android:id="@+id/youtubePlayer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.google.android.youtube.player.YouTubePlayerView>
+
 
 </LinearLayout>
