@@ -37,13 +37,13 @@ class SkillsListAdapter(
             holder.skillName.text = skillData.skillName
         }
 
-        if (skillData.author.isEmpty()) {
+        if (skillData.author.isEmpty() || skillData.author.equals(context.getString(R.string.default_author_name))) {
             holder.skillAuthorName.text = context.getString(R.string.no_skill_author)
         } else {
             holder.skillAuthorName.text = skillData.author
         }
 
-        if (skillData.examples.isEmpty())
+        if (skillData.examples.isEmpty() || skillData.examples.contains(context.getString(R.string.default_example)))
             holder.skillExample.text = ""
         else
             holder.skillExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
