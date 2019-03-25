@@ -260,13 +260,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
                 querylanguage.setValueIndex(index)
                 querylanguage.summary = querylanguage.entries[index]
-                if (index == 1) setLocate("de")
-                else if (index == 2 ) setLocate("es")
-                else if (index == 3 ) setLocate("fr")
-                else if (index == 4 ) setLocate("it")
-                else if (index == 5 ) setLocate("hi")
-                else if (index == 6 ) setLocate("ta")
-                else setLocate("en")
+                if (index == 1) setLocalLanguage("de")
+                else if (index == 2 ) setLocalLanguage("es")
+                else if (index == 3 ) setLocalLanguage("fr")
+                else if (index == 4 ) setLocalLanguage("it")
+                else if (index == 5 ) setLocalLanguage("hi")
+                else if (index == 6 ) setLocalLanguage("ta")
+                else setLocalLanguage("en")
             }
         } catch (e: Exception) {
             Timber.e(e) //Language not present in app
@@ -276,7 +276,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
     }
 
-    private fun setLocate(Lang: String) {
+    private fun setLocalLanguage(Lang: String) {
         val locale = Locale(Lang)
         Locale.setDefault(locale)
         val config = Configuration()
