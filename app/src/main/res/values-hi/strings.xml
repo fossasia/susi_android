@@ -97,6 +97,8 @@
     <string name="field_cannot_be_empty">यह स्थान खाली नहीं रह सकता</string>
     <string name="email_cannot_be_empty">ईमेल खाली नहीं हो सकता</string>
     <string name="password_cannot_be_empty">पासवर्ड रिक्त नहीं हो सकता</string>
+    <string name="accept_terms_and_conditions">आपको साइन अप करने के लिए नियम और शर्तें स्वीकार करनी चाहिए</string>
+    <string name="accept_terms_conditions">मुझे नियम व शर्तें मंजूर हैं</string>
     <string name="url_cannot_be_empty">URL रिक्त नहीं हो सकता</string>
     <string name="copy_items">प्रतिलिपि</string>
     <string name="share_items">शेयर</string>

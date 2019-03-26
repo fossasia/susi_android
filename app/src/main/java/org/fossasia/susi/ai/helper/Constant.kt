@@ -65,6 +65,7 @@ object Constant {
     const val PASSWORD = "password"
     const val NEW_PASSWORD = "newpassword"
     const val CONFIRM_PASSWORD = "confirm_password"
+    const val ACCEPT_TERMS_AND_CONDITIONS = "accept_terms_and_conditions"
     const val INPUT_URL = "input_url"
 
     //Strings to get results from Database

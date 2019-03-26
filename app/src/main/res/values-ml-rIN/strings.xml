@@ -317,4 +317,6 @@
     <string name="settings_about_us_key">ഞങ്ങളേക്കുറിച്ച്</string>
     <string name="unactivate_user">അക്കൗണ്ട് സജീവമല്ല</string>
     <string name="error_unactivated_user_message">നിങ്ങളുടെ അക്കൗണ്ട് സജീവമാക്കാൻ ദയവായി നിങ്ങളുടെ ഇമെയിൽ പരിശോധിക്കുക. കണ്ടെത്തിയില്ലെങ്കിൽ, സ്പാം ഫോൾഡർ പരിശോധിക്കുക.</string>
+    <string name="accept_terms_and_conditions">സൈൻ അപ് ചെയ്യുന്നതിന് നിങ്ങൾ നിബന്ധനകളും വ്യവസ്ഥകളും അംഗീകരിക്കണം</string>
+    <string name="accept_terms_conditions">നിബന്ധനകളും വ്യവസ്ഥകളും ഞാൻ അംഗീകരിക്കുന്നു</string>
 </resources>

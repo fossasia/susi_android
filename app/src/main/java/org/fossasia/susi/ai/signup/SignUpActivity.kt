@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -175,6 +176,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                 Constant.PASSWORD -> password.error = getString(R.string.password_cannot_be_empty)
                 Constant.INPUT_URL -> inputUrlSignUp.error = getString(R.string.url_cannot_be_empty)
                 Constant.CONFIRM_PASSWORD -> confirmPassword.error = getString(R.string.field_cannot_be_empty)
+                Constant.ACCEPT_TERMS_AND_CONDITIONS -> {
+                    acceptTermsAndConditions.error = getString(R.string.accept_terms_and_conditions)
+                    Toast.makeText(this@SignUpActivity, R.string.accept_terms_and_conditions, Toast.LENGTH_SHORT).show()
+                }
             }
         } else {
             when (what) {
@@ -245,7 +250,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val stringConfirmPassword = confirmPassword.editText?.text.toString()
             val stringURL = inputUrlSignUp.editText?.text.toString()
 
-            signUpPresenter.signUp(stringEmail, stringPassword, stringConfirmPassword, !customServerSignUp.isChecked, stringURL)
+            signUpPresenter.signUp(stringEmail, stringPassword, stringConfirmPassword, !customServerSignUp.isChecked, stringURL, acceptTermsAndConditions.isChecked)
         }
     }
 
