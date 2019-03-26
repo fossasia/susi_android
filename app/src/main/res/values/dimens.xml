@@ -122,6 +122,7 @@
     <dimen name="arrow_width">16dp</dimen>
     <dimen name="arrow_height">16dp</dimen>
     <dimen name="arrow_padding_large">56dp</dimen>
+    <dimen name="activity_horizontal_margin">64dp</dimen>
 
     <!-- Avatar dimensions -->
 

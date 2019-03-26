@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.device.deviceconnect
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -253,6 +254,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun setupWiFiAdapter(scanList: ArrayList<String>) {
         Timber.d("Setup Wifi adapter")
         scanDevice.setText(R.string.choose_wifi)
