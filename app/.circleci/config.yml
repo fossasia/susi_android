@@ -1,103 +1,103 @@
 version: 2.0
 
-  references:
+references:
 
-    workspace_root: &workspace_root
-                      ~/workspace
+  workspace_root: &workspace_root
+                    ~/workspace
 
-    container_config: &container_config
-      docker:
-      - image: circleci/android:api-28
+  container_config: &container_config
+    docker:
+    - image: circleci/android:api-28
 
-      working_directory: *workspace_root
+    working_directory: *workspace_root
 
-      environment:
-        TERM: dumb
-        JVM_OPTS: -Xmx4096m
+    environment:
+      TERM: dumb
+      JVM_OPTS: -Xmx4096m
 
-    attach_workspace: &attach_workspace
-      attach_workspace:
-        at: *workspace_root
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
 
-    general_cache_key: &general_cache_key
-      key: app-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle.properties" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+  general_cache_key: &general_cache_key
+    key: app-{{ checksum "build.gradle.kts" }}-{{ checksum "app/build.gradle.kts" }}-{{ checksum ".circleci/config.yml" }}-{{ checksum "gradle.properties" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
 
-  jobs:
+jobs:
 
-    build:
-      <<: *container_config
-      steps:
-      - checkout
+  build:
+    <<: *container_config
+    steps:
+    - checkout
 
-        - restore_cache:
-            <<: *general_cache_key
-      - run:
-          name: Setup environment
-          command: scripts/ci-setup.sh
-      - save_cache:
+      - restore_cache:
           <<: *general_cache_key
-          paths:
-          - "~/.gradle"
-          - "~/.m2"
-          - "/opt/android-sdk-linux/licenses/"
+    - run:
+        name: Setup environment
+        command: scripts/ci-setup.sh
+    - save_cache:
+        <<: *general_cache_key
+        paths:
+        - "~/.gradle"
+        - "~/.m2"
+        - "/opt/android-sdk-linux/licenses/"
+
+    - run:
+        name: Build
+        command: ./gradlew assembleDebug
+
+    - store_artifacts:
+        path: app/build/outputs/apk/
+        destination: apks/
+
+    - persist_to_workspace:
+        root: *workspace_root
+        paths:
+        - .
+
+  check:
+    <<: *container_config
+    steps:
+    - *attach_workspace
+
+      - restore_cache:
+          <<: *general_cache_key
 
       - run:
-          name: Build
-          command: ./gradlew assembleDebug
+          name: Run checks
+          command: ./gradlew lintDebug ktlintCheck
 
       - store_artifacts:
-          path: app/build/outputs/apk/
-          destination: apks/
+          path: app/build/reports/
+          destination: lint_reports/app/
 
-      - persist_to_workspace:
-          root: *workspace_root
-          paths:
-          - .
+  test:
+    <<: *container_config
+    steps:
+    - *attach_workspace
 
-    check:
-      <<: *container_config
-      steps:
-      - *attach_workspace
+      - restore_cache:
+          <<: *general_cache_key
 
-        - restore_cache:
-            <<: *general_cache_key
+      - run:
+          name: Run tests
+          command: ./gradlew testDebugUnitTest
 
-        - run:
-            name: Run checks
-            command: ./gradlew lintDebug ktlintCheck
+      - store_artifacts:
+          path: app/build/reports/tests/
+          destination: tests_reports/
 
-        - store_artifacts:
-            path: app/build/reports/
-            destination: lint_reports/app/
+      - store_test_results:
+          path: app/build/test-results
 
-    test:
-      <<: *container_config
-      steps:
-      - *attach_workspace
+workflows:
+  version: 2
 
-        - restore_cache:
-            <<: *general_cache_key
-
-        - run:
-            name: Run tests
-            command: ./gradlew testDebugUnitTest
-
-        - store_artifacts:
-            path: app/build/reports/tests/
-            destination: tests_reports/
-
-        - store_test_results:
-            path: app/build/test-results
-
-  workflows:
-    version: 2
-
-      build_check_tests:
-        jobs:
-        - build
-        - check:
-            requires:
-            - build
-        - test:
-            requires:
-            - build
+    build_check_tests:
+      jobs:
+      - build
+      - check:
+          requires:
+          - build
+      - test:
+          requires:
+          - build
