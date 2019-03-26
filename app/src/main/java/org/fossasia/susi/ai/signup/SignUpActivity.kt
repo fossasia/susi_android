@@ -204,8 +204,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     private fun signUpToLoginPage() {
         signUpToLogin.setOnClickListener {
+            signUpPresenter.loginLogout()
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             intent.putExtra("email", email.editText?.text.toString())
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
     }

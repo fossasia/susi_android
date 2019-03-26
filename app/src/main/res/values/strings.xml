@@ -4,6 +4,7 @@
 
     <!--General Strings-->
     <string name="action_about_us">About Us</string>
+    <string name="action_help">Help</string>
     <string name="action_log_out">Log out</string>
     <string name="action_login">Login</string>
     <string name="action_settings">Settings</string>
@@ -40,6 +41,7 @@
 
     <string name="menu_item_about">About</string>
     <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_help">Help</string>
     <string name="menu_item_privacy">Privacy</string>
 
     <string name="message_copied">Message copied</string>
@@ -270,7 +272,7 @@
     <string name="skill_title">Skill Title</string>
 
     <string name="skills">Skills</string>
-    <string name="skills_activity">SUSI.AI Skills</string>
+    <string name="skills_activity" translatable="false">SUSI.AI Skills</string>
 
     <!-- Devices String-->
     <string name="connect_success">Device Connected successfully!</string>
@@ -304,9 +306,9 @@
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
 
     <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
+    <string name="url_susi_skill_cms" translatable="false">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
-    <string name="susi_know_more"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
+    <string name="susi_know_more" translatable="false"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
 
     <!-- Intro Strings -->
     <string name="author_name">Author name</string>
@@ -325,17 +327,17 @@
 
     <string name="how_can_i_help">How can I help you?</string>
 
-    <string name="negative">Negative</string>
+    <string name="negative" translatable="false">Negative</string>
 
     <string name="next">Next</string>
 
     <string name="option">Option</string>
 
-    <string name="positive">Positive</string>
+    <string name="positive" translatable="false">Positive</string>
 
     <string name="rating">Rating</string>
 
-    <string name="rss_item_link">www.link_here.com</string>
+    <string name="rss_item_link" translatable="false">www.link_here.com</string>
 
     <string name="sample_group">Sample Group</string>
 
@@ -358,7 +360,7 @@
 
     <string name="terms_of_use">Terms of use</string>
 
-    <string name="time_9am">9:00 AM</string>
+    <string name="time_9am" translatable="false">9:00 AM</string>
 
     <string name="try_it">Try It</string>
 
@@ -369,8 +371,8 @@
 
     <string name="average_rating">Average Rating</string>
     <string name="total_rating">Total Ratings</string>
-    <string name="placeholder_average_rating">4.4</string>
-    <string name="placeholder_total_rating">64</string>
+    <string name="placeholder_average_rating" translatable="false">4.4</string>
+    <string name="placeholder_total_rating" translatable="false">64</string>
     <string name="rate_skill">Rate this skill</string>
     <string name="rate_awesome">Awesome! I love it.</string>
     <string name="rate_great">Great</string>
@@ -379,19 +381,18 @@
     <string name="rate_hate">Hated it</string>
     <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
     <string name="toast_thank_for_rating">Thank you for rating this skill</string>
-    <string name="digit_zero">0</string>
-    <string name="digit_one">1</string>
-    <string name="digit_two">2</string>
-    <string name="digit_three">3</string>
-    <string name="digit_four">4</string>
-    <string name="digit_five">5</string>
+    <string name="digit_zero" translatable="false">0</string>
+    <string name="digit_one" translatable="false">1</string>
+    <string name="digit_two" translatable="false">2</string>
+    <string name="digit_three" translatable="false">3</string>
+    <string name="digit_four" translatable="false">4</string>
+    <string name="digit_five" translatable="false">5</string>
 
     <string name="location_access">Provide Location Access</string>
-    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
     <string name="set_up">SET UP</string>
-    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker.</string>
+    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker</string>
     <string name="connecting_device">Connecting to your device...</string>
-    <string name="device_name">SUSI.AI</string>
+    <string name="device_name" translatable="false">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
     <string name="choose_wifi">Connect to Wi-Fi</string>
     <string name="wifi_access">Provide Wi-Fi access</string>
@@ -408,9 +409,9 @@
     <string name="example_feedback">Example feedback</string>
     <string name="feedback_section">Feedback</string>
     <string name="hint_feedback">Skill feedback</string>
-    <string name="placeholder_date">25 Jun, 2018</string>
-    <string name="placeholder_email">abc@example.com</string>
-    <string name="placeholder_initials">AB</string>
+    <string name="placeholder_date" translatable="false">25 Jun, 2018</string>
+    <string name="placeholder_email" translatable="false">abc@example.com</string>
+    <string name="placeholder_initials" translatable="false">AB</string>
     <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
     <string name="see_all_reviews">See All Reviews</string>
     <string name="reviews">Reviews</string>
@@ -437,6 +438,22 @@
     <string name="report_error">Error reporting skill. Please try again later</string>
     <string name="report_send_success">Skill reported successfully</string>
     <string name="reported_already">Skill already reported</string>
+
+    <!-- Help -->
+    <string name="help_open_setting">How to open \'Settings\'?</string>
+    <string name="help_open_setting_desc">In the main page click on SUSI logo present st the top right corner. This will open a page. Click on the 3 dot present at top right corner. From the menu that open click on \'Settings\'</string>
+    <string name="help_signup">How to SIgnUp in SUSI.AI?</string>
+    <string name="help_signup_desc">In the Login page click on \'Sign Up for SUSI\'.\n * Enter your email address.\n * Enter your password and confirm it\n After this click on \'SIGN UP\'</string>
+    <string name="help_change_password">How to change Password?</string>
+    <string name="help_change_password_desc"> * Open the \'Settings\' page.\n * Scroll down and click on \'Reset Password\'.\n * Enter your current password and after that entire your new password. \n * Click on \'OK\'.</string>
+    <string name="help_report_issue">How to report an issue?</string>
+    <string name="help_report_issue_desc">Open the \'About Us\' page. Under the \'Report Issues\' section click on  \'Github Repository Issue Tracker\'. This will redirect you to a webpage where you can put up your issue by clicking on \'New Issue\'.</string>
+    <string name="help_login">How to login, if you have opened SUSI without logging in?</string>
+    <string name="help_login_desc">Open \'Settings\' page and scroll down to the bottom. Click on \'Login\'. This will redirect you to the login page.</string>
+    <string name="help_susi_voice">How to use SUSI voice?</string>
+    <string name="help_susi_voice_desc">To use SUSI voice click on the microphone symbol presemt in the bottom right corner of the chats page. You can ask anything to SUSI here. To change various voice settings, go to Settings page and configure SUSI voice accordingly.</string>
+    <string name="help_susi_skills">What skills do SUSI have?</string>
+    <string name="help_susi_skills_desc">To know about the skills that SUSI posses move to \'SUSI.AI Skills\' page. You can reach there just by clicking on the \'SUSI\' logo present at the top right corner of the Chat page.</string>
 
     <!--Privacy -->
     <string name="privacy_welcome">Welcome to SUSI.AI</string>
