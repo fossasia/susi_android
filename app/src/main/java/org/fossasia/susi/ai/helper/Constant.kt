@@ -88,7 +88,7 @@ object Constant {
     const val susi_know_more_url = "https://dev.susi.ai/"
 
     const val SIGN_UP_TO_PRIVACY = "sign_up_to_privacy"
-  
+
     //Visit Website Url
     const val SUSI_VISIT_WEBSITE = "https://chat.susi.ai/"
 }
