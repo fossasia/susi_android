@@ -111,6 +111,10 @@
         <PreferenceScreen
             android:key="@string/settings_about_us_key"
             android:title="@string/settings_about_us" />
+
+        <PreferenceScreen
+            android:key="@string/settings_visit_website_key"
+            android:title="@string/settings_visit_website" />
     </PreferenceCategory>
 
 

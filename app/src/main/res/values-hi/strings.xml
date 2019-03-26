@@ -26,6 +26,7 @@
     <string name="hint_voice_input">कुछ कहें...</string>
     <string name="dialog_retrieve_messages_title">पुराना संदेश पुनर्प्राप्त करना ...</string>
     <string name="hotword_success">हॉटवर्ड का पता चला</string>
+    <string name="settings_visit_website">बेवसाइट देखना</string>
 
     <string name="signup">साइन अप करने के लिए आभार</string>
     <string name="signup_msg">हमने आपके द्वारा प्रदान किए गए पते पर एक ईमेल भेजा है। कृपया का उपयोग करें
