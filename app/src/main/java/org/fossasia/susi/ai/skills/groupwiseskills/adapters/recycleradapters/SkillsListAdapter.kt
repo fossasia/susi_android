@@ -31,7 +31,7 @@ class SkillsListAdapter(
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
         val skillData = skillDetails.skillsList.get(position)
 
-        if (skillData.skillName.isNotEmpty()) {
+        if (skillData.skillName.isEmpty()) {
             holder.skillName.text = context.getString(R.string.no_skill_name)
         } else {
             holder.skillName.text = skillData.skillName

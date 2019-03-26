@@ -54,13 +54,13 @@ class SignUpActivityTest {
         onView(withId(R.id.password)).check(matches(isDisplayed()))
 
         // checks if confirm password button is present
-        onView(withId(R.id.confirm_password)).check(matches(isDisplayed()))
+        onView(withId(R.id.confirmPassword)).check(matches(isDisplayed()))
 
         // checks if checkbox is present
-        onView(withId(R.id.customer_server)).check(matches(isDisplayed()))
+        onView(withId(R.id.customServerSignUp)).check(matches(isDisplayed()))
 
         // checks if sign up button is present
-        onView(withId(R.id.sign_up)).perform(scrollTo())
-        onView(withId(R.id.sign_up)).check(matches(isDisplayed()))
+        onView(withId(R.id.signUp)).perform(scrollTo())
+        onView(withId(R.id.signUp)).check(matches(isDisplayed()))
     }
 }

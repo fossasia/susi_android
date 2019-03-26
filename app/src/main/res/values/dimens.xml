@@ -35,6 +35,7 @@
     <dimen name="padding_very_large">32dp</dimen>
     <dimen name="padding_extra_large">40dp</dimen>
     <dimen name="padding_extra_extra_large">48dp</dimen>
+    <dimen name="padding_extra_extra_extra_large">95dp</dimen>
 
     <!-- text size -->
 
@@ -48,6 +49,7 @@
     <dimen name="text_size_very_large">22sp</dimen>
     <dimen name="text_size_extra_large">24sp</dimen>
     <dimen name="text_size_extra_extra_large">40sp</dimen>
+    <dimen name="text_size_extra_extra_extra_large">48sp</dimen>
 
     <!-- Skill details -->
 
@@ -85,7 +87,7 @@
 
     <dimen name="height_image_chat_activity">36dp</dimen>
     <dimen name="width_image_chat_activity">30dp</dimen>
-    
+
     <dimen name="forgot_password_image_size">80dp</dimen>
 
     <dimen name="skill_image_size">80dp</dimen>
@@ -124,5 +126,10 @@
     <!-- Avatar dimensions -->
 
     <dimen name="avatar_size">48dp</dimen>
-
+  
+    <!-- Help dimensions -->
+    <dimen name="card_radius_help">4dp</dimen>
+  
+    <!-- Privacy dimensions -->
+    <dimen name="card_radius_privacy">4dp</dimen>
 </resources>

@@ -4,6 +4,7 @@
 
     <!--General Strings-->
     <string name="action_about_us">About Us</string>
+    <string name="action_help">Help</string>
     <string name="action_log_out">Log out</string>
     <string name="action_login">Login</string>
     <string name="action_settings">Settings</string>
@@ -40,6 +41,8 @@
 
     <string name="menu_item_about">About</string>
     <string name="menu_item_settings">Settings</string>
+    <string name="menu_item_help">Help</string>
+    <string name="menu_item_privacy">Privacy</string>
 
     <string name="message_copied">Message copied</string>
 
@@ -269,7 +272,7 @@
     <string name="skill_title">Skill Title</string>
 
     <string name="skills">Skills</string>
-    <string name="skills_activity">SUSI.AI Skills</string>
+    <string name="skills_activity" translatable="false">SUSI.AI Skills</string>
 
     <!-- Devices String-->
     <string name="connect_success">Device Connected successfully!</string>
@@ -303,9 +306,9 @@
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
 
     <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
+    <string name="url_susi_skill_cms" translatable="false">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
-    <string name="susi_know_more"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
+    <string name="susi_know_more" translatable="false"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
 
     <!-- Intro Strings -->
     <string name="author_name">Author name</string>
@@ -324,17 +327,17 @@
 
     <string name="how_can_i_help">How can I help you?</string>
 
-    <string name="negative">Negative</string>
+    <string name="negative" translatable="false">Negative</string>
 
     <string name="next">Next</string>
 
     <string name="option">Option</string>
 
-    <string name="positive">Positive</string>
+    <string name="positive" translatable="false">Positive</string>
 
     <string name="rating">Rating</string>
 
-    <string name="rss_item_link">www.link_here.com</string>
+    <string name="rss_item_link" translatable="false">www.link_here.com</string>
 
     <string name="sample_group">Sample Group</string>
 
@@ -357,7 +360,7 @@
 
     <string name="terms_of_use">Terms of use</string>
 
-    <string name="time_9am">9:00 AM</string>
+    <string name="time_9am" translatable="false">9:00 AM</string>
 
     <string name="try_it">Try It</string>
 
@@ -368,8 +371,8 @@
 
     <string name="average_rating">Average Rating</string>
     <string name="total_rating">Total Ratings</string>
-    <string name="placeholder_average_rating">4.4</string>
-    <string name="placeholder_total_rating">64</string>
+    <string name="placeholder_average_rating" translatable="false">4.4</string>
+    <string name="placeholder_total_rating" translatable="false">64</string>
     <string name="rate_skill">Rate this skill</string>
     <string name="rate_awesome">Awesome! I love it.</string>
     <string name="rate_great">Great</string>
@@ -378,19 +381,18 @@
     <string name="rate_hate">Hated it</string>
     <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
     <string name="toast_thank_for_rating">Thank you for rating this skill</string>
-    <string name="digit_zero">0</string>
-    <string name="digit_one">1</string>
-    <string name="digit_two">2</string>
-    <string name="digit_three">3</string>
-    <string name="digit_four">4</string>
-    <string name="digit_five">5</string>
+    <string name="digit_zero" translatable="false">0</string>
+    <string name="digit_one" translatable="false">1</string>
+    <string name="digit_two" translatable="false">2</string>
+    <string name="digit_three" translatable="false">3</string>
+    <string name="digit_four" translatable="false">4</string>
+    <string name="digit_five" translatable="false">5</string>
 
     <string name="location_access">Provide Location Access</string>
-    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
     <string name="set_up">SET UP</string>
-    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker.</string>
+    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker</string>
     <string name="connecting_device">Connecting to your device...</string>
-    <string name="device_name">SUSI.AI</string>
+    <string name="device_name" translatable="false">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
     <string name="choose_wifi">Connect to Wi-Fi</string>
     <string name="wifi_access">Provide Wi-Fi access</string>
@@ -407,9 +409,9 @@
     <string name="example_feedback">Example feedback</string>
     <string name="feedback_section">Feedback</string>
     <string name="hint_feedback">Skill feedback</string>
-    <string name="placeholder_date">25 Jun, 2018</string>
-    <string name="placeholder_email">abc@example.com</string>
-    <string name="placeholder_initials">AB</string>
+    <string name="placeholder_date" translatable="false">25 Jun, 2018</string>
+    <string name="placeholder_email" translatable="false">abc@example.com</string>
+    <string name="placeholder_initials" translatable="false">AB</string>
     <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
     <string name="see_all_reviews">See All Reviews</string>
     <string name="reviews">Reviews</string>
@@ -437,4 +439,70 @@
     <string name="report_send_success">Skill reported successfully</string>
     <string name="reported_already">Skill already reported</string>
 
+    <!-- Help -->
+    <string name="help_open_setting">How to open \'Settings\'?</string>
+    <string name="help_open_setting_desc">In the main page click on SUSI logo present st the top right corner. This will open a page. Click on the 3 dot present at top right corner. From the menu that open click on \'Settings\'</string>
+    <string name="help_signup">How to SIgnUp in SUSI.AI?</string>
+    <string name="help_signup_desc">In the Login page click on \'Sign Up for SUSI\'.\n * Enter your email address.\n * Enter your password and confirm it\n After this click on \'SIGN UP\'</string>
+    <string name="help_change_password">How to change Password?</string>
+    <string name="help_change_password_desc"> * Open the \'Settings\' page.\n * Scroll down and click on \'Reset Password\'.\n * Enter your current password and after that entire your new password. \n * Click on \'OK\'.</string>
+    <string name="help_report_issue">How to report an issue?</string>
+    <string name="help_report_issue_desc">Open the \'About Us\' page. Under the \'Report Issues\' section click on  \'Github Repository Issue Tracker\'. This will redirect you to a webpage where you can put up your issue by clicking on \'New Issue\'.</string>
+    <string name="help_login">How to login, if you have opened SUSI without logging in?</string>
+    <string name="help_login_desc">Open \'Settings\' page and scroll down to the bottom. Click on \'Login\'. This will redirect you to the login page.</string>
+    <string name="help_susi_voice">How to use SUSI voice?</string>
+    <string name="help_susi_voice_desc">To use SUSI voice click on the microphone symbol presemt in the bottom right corner of the chats page. You can ask anything to SUSI here. To change various voice settings, go to Settings page and configure SUSI voice accordingly.</string>
+    <string name="help_susi_skills">What skills do SUSI have?</string>
+    <string name="help_susi_skills_desc">To know about the skills that SUSI posses move to \'SUSI.AI Skills\' page. You can reach there just by clicking on the \'SUSI\' logo present at the top right corner of the Chat page.</string>
+
+    <!--Privacy -->
+    <string name="privacy_welcome">Welcome to SUSI.AI</string>
+    <string name="privacy_welcome_details">Thanks for using our products and services (“Services”). The Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau Than, Can Tho City, Viet Nam. By using our Services, you are agreeing to these terms. Please read them carefully.</string>
+    <string name="privacy_services">Using Our Services</string>
+    <string name="privacy_services_details"> You must follow any policies made available to you within the Services.
+        \nDon’t misuse our Services. For example, don’t interfere with our Services or try to access them using a method other than the interface and the instructions that we provide. You may use our Services only as permitted by law, including applicable export and re-export control laws and regulations. We may suspend or stop providing our Services to you if you do not comply with our terms or policies or if we are investigating suspected misconduct.
+        \nUsing our Services does not give you ownership of any intellectual property rights in our Services or the content you access. You may not use content from our Services unless you obtain permission from its owner or are otherwise permitted by law. These terms do not grant you the right to use any branding or logos used in our Services. Don’t remove, obscure, or alter any legal notices displayed in or along with our Services.
+        \nOur Services display some content that is not SUSI’s. This content is the sole responsibility of the entity that makes it available. We may review content to determine whether it is illegal or violates our policies, and we may remove or refuse to display content that we reasonably believe violates our policies or the law. But that does not necessarily mean that we review content, so please don’t assume that we do.
+        \nIn connection with your use of the Services, we may send you service announcements, administrative messages, and other information. You may opt out of some of those communications.
+        \nSome of our Services are available on mobile devices. Do not use such Services in a way that distracts you and prevents you from obeying traffic or safety laws.
+</string>
+    <string name="privacy_susi_account">Your SUSI Account</string>
+    <string name="privacy_susi_account_details">You may need a SUSI Account in order to use some of our Services. You may create your own SUSI Account, or your SUSI Account may be assigned to you by an administrator, such as your employer or educational institution. If you are using a SUSI Account assigned to you by an administrator, different or additional terms may apply and your administrator may be able to access or disable your account.
+        \nTo protect your SUSI Account, keep your password confidential. You are responsible for the activity that happens on or through your SUSI Account. Try not to reuse your SUSI Account password on third-party applications. If you learn of any unauthorized use of your password or SUSI Account, change your password and take measures to secure your account. </string>
+    <string name="privacy_copyright">Privacy and Copyright Protection</string>
+    <string name="privacy_copyright_details">SUSI’s privacy policies ensure that your personal data is safe and protected. By using our Services, you agree that SUSI can use such data in accordance with our privacy policies.
+        \nWe respond to notices of alleged copyright infringement and terminate accounts of repeat infringers. If you think somebody is violating your copyrights and want to notify us, you can find information about submitting notices and SUSI’s policy about responding to notices on our website.</string>
+    <string name="privacy_content">Your Content in our Services</string>
+    <string name="privacy_content_details">Some of our Services allow you to upload, submit, store, send or receive content. You retain ownership of any intellectual property rights that you hold in that content. In short, what belongs to you stays yours.
+        \nWhen you upload, submit, store, send or receive content to or through our Services, you give SUSI (and those we work with) a worldwide license to use, host, store, reproduce, modify, create derivative works (such as those resulting from translations, adaptations or other changes we make so that your content works better with our Services), communicate, publish, publicly perform, publicly display and distribute such content. The rights you grant in the license are for the limited purpose of operating, promoting, and improving our Services, and to develop new ones. This license continues even if you stop using our Services (for example, for a business listing you have added to SUSI Maps). Some Services may offer you ways to access and remove content that has been provided to that Service. Also, in some of our Services, there are terms or settings that narrow the scope of our use of the content submitted in those Services. Make sure you have the necessary rights to a grant license for any content that you submit to our Services.
+        \nIf you have a SUSI Account, we may display your Profile name, Profile photo, and actions you take on SUSI or on third-party applications connected to your SUSI Account in our Services, including displaying in ads and other commercial contexts. We will respect the choices you make to limit sharing or visibility settings in your SUSI Account.
+</string>
+    <string name="privacy_software">About Software in our Services</string>
+    <string name="privacy_software_details">When a Service requires or includes downloadable software, the software may update automatically on your device once a new version or feature is available. Some Services may let you adjust your automatic update settings.
+        \nSUSI gives you a personal, worldwide, royalty-free, non-assignable and non-exclusive license to use the software provided to you by SUSI as part of the Services. This license is for the sole purpose of enabling you to use and enjoy the benefit of the Services as provided by SUSI, in the manner permitted by these terms.
+        \nMost of our services are offered through Free Software and/or Open Source Software. You may copy, modify, distribute, sell, or lease these applications and share the source code of that software as stated in the License Agreement provided with the Software.
+</string>
+    <string name="privacy_modify">Modifying and Terminating our Services</string>
+    <string name="privacy_modify_details">We are constantly changing and improving our Services. We may add or remove functionalities or features, and we may suspend or stop a Service altogether.
+        \nYou can stop using our Services at any time. SUSI may also stop providing Services to you, or add or create new limits to our Services at any time.
+        \nWe believe that you own your data and preserving your access to such data is important. If we discontinue a Service, where reasonably possible, we will give you reasonable advance notice and a chance to get information out of that Service.</string>
+    <string name="privacy_warranty">Our Warranties and Disclaimers</string>
+    <string name="privacy_warranty_details">We provide our Services using a reasonable level of skill and care and we hope that you will enjoy using them. But there are certain things that we don’t promise about our Services.
+        \nOther than as expressly set out in these terms or additional terms, neither SUSI nor its suppliers or distributors make any specific promises about the Services. For example, we don’t make any commitments about the content within the Services, the specific functions of the Services, or their reliability, availability, or ability to meet your needs. We provide the Services “as is”.
+        \nSome jurisdictions provide for certain warranties, like the implied warranty of merchantability, fitness for a particular purpose and non-infringement. To the extent permitted by law, we exclude all warranties.
+</string>
+    <string name="privacy_liability">Liability for our Services</string>
+    <string name="privacy_liability_details">When permitted by law, SUSI, and SUSI’s suppliers and distributors, will not be responsible for lost profits, revenues, or data, financial losses or indirect, special, consequential, exemplary, or punitive damages.
+        \nTo the extent permitted by law, the total liability of SUSI, and its suppliers and distributors, for any claims under these terms, including for any implied warranties, is limited to the amount you paid us to use the Services (or, if we choose, to supplying you the Services again).
+        \nIn all cases, SUSI, and its suppliers and distributors will not be liable for any loss or damage that is not reasonably foreseeable.
+        \nWe recognize that in some countries, you might have legal rights as a consumer. If you are using the Services for a personal purpose, then nothing in these terms or any additional terms limits any consumer legal rights which may not be waived by contract.</string>
+    <string name="privacy_business">Business uses of our Services</string>
+    <string name="privacy_business_details">If you are using our Services on behalf of a business, that business accepts these terms. It will hold harmless and indemnify SUSI and its affiliates, officers, agents, and employees from any claim, suit or action arising from or related to the use of the Services or violation of these terms, including any liability or expense arising from claims, losses, damages, suits, judgments, litigation costs and attorneys’ fees.</string>
+    <string name="privacy_about">About these Terms</string>
+    <string name="privacy_about_details">We may modify these terms or any additional terms that apply to a Service to, for example, reflect changes to the law or changes to our Services. You should look at the terms regularly. We’ll post notice of modifications to these terms on the page. We’ll post notice of modified additional terms in the applicable Service. Changes will not apply retroactively and will become effective no sooner than fourteen days after they are posted. However,changes addressing new functions for a Service or changes made for legal reasons will be effective immediately. If you do not agree to the modified terms for a Service, you should discontinue your use of that Service.
+        \nIf there is a conflict between these terms and the additional terms, the additional terms will control for that conflict.These terms control the relationship between SUSI and you. They do not create any third party beneficiary rights.
+        \nIf you do not comply with these terms, and we don’t take action right away, doesn’t mean that we are giving up any rights that we may have (such as taking action in the future).
+        \nIf it turns out that a particular term is not enforceable, will not affect any other terms.
+        \nYou agree that the laws of Can Tho, Viet Nam will apply to any disputes arising out of or relating to these terms or the Services. All claims arising out of or relating to these terms or the services will be litigated exclusively in the courts of Can Tho City, Viet Nam, and you and SUSI consent to personal jurisdiction in those courts.
+        \nFor information about how to contact SUSI, please visit our contact page.</string>
 </resources>
