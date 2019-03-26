@@ -24,6 +24,8 @@ class SkillsListAdapter(
 ) :
         RecyclerView.Adapter<SkillViewHolder>(), SkillViewHolder.ClickListener {
 
+    private val DEFAULT_AUTHOR = "<author_name>"
+    private val DEFAULT_EXAMPLE = "<The question that should be shown in public skill displays>"
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
     private val clickListener: SkillViewHolder.ClickListener = this
 
@@ -37,13 +39,13 @@ class SkillsListAdapter(
             holder.skillName.text = skillData.skillName
         }
 
-        if (skillData.author.isEmpty() || skillData.author.equals(context.getString(R.string.default_author_name))) {
+        if (skillData.author.isEmpty() || skillData.author.equals(DEFAULT_AUTHOR)) {
             holder.skillAuthorName.text = context.getString(R.string.no_skill_author)
         } else {
             holder.skillAuthorName.text = skillData.author
         }
 
-        if (skillData.examples.isEmpty() || skillData.examples.contains(context.getString(R.string.default_example)))
+        if (skillData.examples.isEmpty() || skillData.examples.contains(DEFAULT_EXAMPLE))
             holder.skillExample.text = ""
         else
             holder.skillExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")

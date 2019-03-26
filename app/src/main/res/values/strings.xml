@@ -438,10 +438,6 @@
     <string name="report_send_success">Skill reported successfully</string>
     <string name="reported_already">Skill already reported</string>
 
-    <!--Default placeholder values of skills description-->
-    <string name="default_author_name" translatable="false">&lt;author_name&gt;</string>
-    <string name="default_example" translatable="false">&lt;The question that should be shown in public skill displays&gt;</string>
-
     <!--Privacy -->
     <string name="privacy_welcome">Welcome to SUSI.AI</string>
     <string name="privacy_welcome_details">Thanks for using our products and services (“Services”). The Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau Than, Can Tho City, Viet Nam. By using our Services, you are agreeing to these terms. Please read them carefully.</string>
