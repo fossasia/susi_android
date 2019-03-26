@@ -16,6 +16,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -60,7 +61,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         settingsPresenter = SettingsPresenter(this)
         val skillFragment = SkillListingFragment()
         val privacyFragment = PrivacyFragment()
-        if (intent.getIntExtra("fromWhere", 0) == 1) {
+        val bundle = intent.extras
+        val intentValue = bundle?.getBoolean(Constant.FROM_SIGN_UP_ACTIVITY)
+        if (intentValue == true) {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
                     .addToBackStack(TAG_PRIVACY_FRAGMENT)

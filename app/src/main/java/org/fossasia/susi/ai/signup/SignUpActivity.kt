@@ -213,7 +213,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private fun signUpToTermsConditionPage() {
         signUpToTermsCondition.setOnClickListener {
             val intent = Intent(this@SignUpActivity, SkillsActivity::class.java)
-            intent.putExtra("fromWhere", 1)
+            intent.putExtra(Constant.FROM_SIGN_UP_ACTIVITY,true)
             startActivity(intent)
         }
     }
