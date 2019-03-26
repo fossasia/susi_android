@@ -215,7 +215,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private fun signUpToTermsConditionPage() {
         signUpToTermsCondition.setOnClickListener {
             val intent = Intent(this@SignUpActivity, SkillsActivity::class.java)
-            intent.putExtra(Constant.FROM_SIGN_UP_ACTIVITY, true)
+            intent.putExtra(Constant.SIGN_UP_TO_PRIVACY, true)
             startActivity(intent)
         }
     }
