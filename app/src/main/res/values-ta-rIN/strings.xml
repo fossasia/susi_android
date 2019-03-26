@@ -317,4 +317,5 @@
     <string name="error_unactivated_user_message">உங்கள் கணக்கை செயல்படுத்துவதற்கு உங்கள் மின்னஞ்சலை சரிபார்க்கவும். இல்லை என்றால், ஸ்பேம்கள் கோப்புறை சரிபார்க்கவும்.</string>
     <string name="accept_terms_and_conditions">பதிவு செய்ய நீங்கள் விதிமுறைகள் மற்றும் நிபந்தனைகளை ஏற்க வேண்டும்</string>
     <string name="accept_terms_conditions">நான் நியதிகளும் நிபந்தனைகள் ஒத்துகொள்கிறேன்</string>
+    <string name="settings_visit_website">வலைத்தளத்தைப் பார்வையிடவும்</string>
 </resources>
