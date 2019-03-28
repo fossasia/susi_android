@@ -21,6 +21,7 @@ import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
+import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -29,7 +30,9 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
+import android.view.MotionEvent
 import android.view.WindowManager
+import android.view.GestureDetector
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import io.realm.RealmResults
@@ -65,6 +68,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private lateinit var networkStateReceiver: BroadcastReceiver
     private lateinit var progressDialog: ProgressDialog
     private var example: String = ""
+    private var gestureDetectorCompat: GestureDetectorCompat? = null
     private var isConfigurationChanged = false
     private val enterAsSend: Boolean by lazy {
         PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
@@ -81,6 +85,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         setContentView(R.layout.activity_chat)
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
+        gestureDetectorCompat = GestureDetectorCompat(this, MyGestureListener())
 
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
@@ -99,6 +104,25 @@ class ChatActivity : AppCompatActivity(), IChatView {
             override fun onReceive(context: Context, intent: Intent) {
                 chatPresenter.startComputingThread()
             }
+        }
+    }
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        this.gestureDetectorCompat?.onTouchEvent(event)
+        return super.onTouchEvent(event)
+    }
+    internal inner class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
+
+        override fun onFling(
+            event1: MotionEvent,
+            event2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
+        ): Boolean {
+            if (event2.x < event1.x) {
+                val intent = Intent(this@ChatActivity, SkillsActivity::class.java)
+                startActivity(intent)
+            }
+            return true
         }
     }
 
