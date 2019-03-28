@@ -3,9 +3,11 @@ package org.fossasia.susi.ai.chat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -16,15 +18,18 @@ import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
+import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
+import java.util.Locale
 
 /**
  * Created by meeera on 17/8/17.
  */
-class STTFragment : Fragment() {
+class STTFragment : Fragment(), TextToSpeech.OnInitListener {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
     private val thisActivity = activity
+    lateinit var textToSpeech: TextToSpeech
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -36,8 +41,32 @@ class STTFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
         if (thisActivity is ChatActivity)
             thisActivity.fabsetting.hide()
-        promptSpeechInput()
+        textToSpeech = TextToSpeech(context, this)
+        val used_voice_state = PrefManager.getBoolean(R.string.used_voice, false)
+        if (used_voice_state == false) {
+            Handler().postDelayed({
+                speakOut()
+                PrefManager.putBoolean(R.string.used_voice, true)
+            }, 500)
+            Handler().postDelayed({
+                promptSpeechInput()
+            }, 1500)
+        } else {
+            promptSpeechInput()
+        }
+
         return rootView
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            textToSpeech.language = Locale.getDefault()
+        }
+    }
+
+    private fun speakOut() {
+        var text: String = "Hi! How can I help you?"
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 
     private fun promptSpeechInput() {
@@ -123,6 +152,9 @@ class STTFragment : Fragment() {
         if (thisActivity is ChatActivity) {
             thisActivity.enableVoiceInput()
             thisActivity.fabsetting.show()
+        }
+        if (textToSpeech != null) {
+            textToSpeech!!.stop()
         }
         recognizer.cancel()
         recognizer.destroy()

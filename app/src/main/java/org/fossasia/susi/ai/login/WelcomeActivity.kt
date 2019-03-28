@@ -48,6 +48,7 @@ class WelcomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        PrefManager.putBoolean(R.string.used_voice,false)
         if (PrefManager.getBoolean(R.string.activity_executed_key, false)) {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

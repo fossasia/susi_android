@@ -27,6 +27,7 @@
     <string name="hotword_success">Hotword rilevata</string>
     <string name="custom_server">server personalizzato</string>
     <string name="settings_visit_website">Visita il sito web</string>
+    <string name="voice_welcome">Ciao! Come posso aiutarla?</string>
 
     <string name="email_not_registered">L\'email che hai inserito non è registrata con noi. Per favore riprova.</string>
     <string name="email_not_registered_title">registrazione email</string>
