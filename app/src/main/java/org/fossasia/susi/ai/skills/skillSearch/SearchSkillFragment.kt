@@ -75,7 +75,7 @@ class SearchSkillFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         groupWiseSkills.layoutManager = layoutManager
         skillsAdapter = SkillsListAdapter(requireContext(), skills, skillCallback)
-        Timber.e(skills.toString())
+        Timber.d(skills.toString())
         groupWiseSkills.adapter = skillsAdapter
         groupWiseSkills.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(groupWiseSkills)

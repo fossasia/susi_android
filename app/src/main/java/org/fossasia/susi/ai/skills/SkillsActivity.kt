@@ -252,11 +252,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 }
             }
         }
-
-        Timber.e(searchedSkillsList.toString())
-        for (skill in searchedSkillsList)
-            Timber.e(skill.skillName)
-
+        Timber.d(searchedSkillsList.toString())
         if (searchedSkillsList.isEmpty()) {
             Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
             return false
