@@ -237,6 +237,11 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
         var searchedSkillsList: ArrayList<SkillData> = arrayListOf()
 
+        if (skills.isEmpty()) {
+            Toast.makeText(this, R.string.skill_empty, Toast.LENGTH_SHORT).show()
+            return true
+        }
+
         for ( skill_ in skills) {
             var skillDataList: List<SkillData> = skill_.second
             for (skillData in skillDataList) {
