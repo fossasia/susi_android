@@ -6,7 +6,6 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -22,6 +21,7 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.ForgotPass
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
+import org.fossasia.susi.ai.skills.SkillsActivity
 
 /**
  * <h1>The SignUp activity.</h1>
@@ -219,7 +219,9 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     private fun signUpToTermsConditionPage() {
         signUpToTermsCondition.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://chat.susi.ai/privacy")))
+            val intent = Intent(this@SignUpActivity, SkillsActivity::class.java)
+            intent.putExtra(Constant.SIGN_UP_TO_PRIVACY, true)
+            startActivity(intent)
         }
     }
 
