@@ -10,10 +10,6 @@ import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
-import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
-import kotlinx.android.synthetic.main.fragment_skill_listing.progressSkillWait
-import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
 import org.fossasia.susi.ai.helper.StartSnapHelper
@@ -24,6 +20,13 @@ import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import timber.log.Timber
+import android.support.annotation.Nullable
+import com.facebook.shimmer.ShimmerFrameLayout
+import kotlinx.android.synthetic.main.fragment_skill_listing.*
+import android.R.id
+
+
+
 
 /**
  *
@@ -40,7 +43,12 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_skill_listing, container, false)
+        return inflater.inflate(R.layout.fragment_skill_listing,container,false)
+        val container = (R.id.shimmer_view_container) as ShimmerFrameLayout
+        container.startShimmerAnimation()
     }
+
+
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -66,6 +74,13 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     override fun visibilityProgressBar(boolean: Boolean) {
         if (boolean) progressSkillWait.visibility = View.VISIBLE else progressSkillWait.visibility = View.GONE
+        if (boolean) {
+            shimmer_view_container.visibility = View.VISIBLE
+            shimmer_view_container.startShimmerAnimation()
+        } else {
+            shimmer_view_container.stopShimmerAnimation()
+            shimmer_view_container.visibility = View.GONE
+        }
     }
 
     override fun displayError() {

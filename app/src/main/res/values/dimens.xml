@@ -123,6 +123,11 @@
     <dimen name="arrow_height">16dp</dimen>
     <dimen name="arrow_padding_large">56dp</dimen>
     <dimen name="activity_horizontal_margin">64dp</dimen>
+    <!--Shimmer dimensions -->
+    <dimen name="activityPadding">16dp</dimen>
+    <dimen name="placeholderImage">60dp</dimen>
+    <dimen name="placeholderTextHeight">8dp</dimen>
+    <dimen name="padding_10">10dp</dimen>
 
     <!-- Avatar dimensions -->
 
