@@ -64,8 +64,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val skillFragment = SkillListingFragment()
         val privacyFragment = PrivacyFragment()
         val bundle = intent.extras
-        val intentValueSignUpToPrivacy = bundle?.getBoolean(Constant.SIGN_UP_TO_PRIVACY)
-        if (intentValueSignUpToPrivacy == true) {
+        val isSignupToPrivacy = bundle?.getBoolean(Constant.SIGN_UP_TO_PRIVACY)
+        if (isSignupToPrivacy == true) {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
                     .addToBackStack(TAG_PRIVACY_FRAGMENT)
