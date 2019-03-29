@@ -18,6 +18,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -99,6 +100,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             if (utilModel.isLoggedIn()) {
                 loginMenuItem?.setTitle("Logout")
                 val signUpMenuItem = menu?.findItem(R.id.menu_signup)
+                PrefManager.putBoolean(R.string.accepted_terms_and_conditions, true)
                 signUpMenuItem?.setVisible(false)
                 signUpMenuItem?.setEnabled(false)
             }
