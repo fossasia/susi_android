@@ -31,6 +31,7 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
+import android.content.ActivityNotFoundException
 
 /**
  * The Fragment for Settings Activity
@@ -65,6 +66,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var deviceName: Preference
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
+    private lateinit var visitWebsite: Preference
     private var flag = true
     private val packageName = "ai.susi"
 
@@ -95,6 +97,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
         settingsVoice = preferenceManager.findPreference(Constant.VOICE_SETTINGS)
+        visitWebsite = preferenceManager.findPreference(Constant.VISIT_WEBSITE)
 
         // Display login email
         val utilModel = UtilModel(activity as SkillsActivity)
@@ -174,6 +177,17 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
             true
         }
+
+        visitWebsite.setOnPreferenceClickListener {
+            try {
+                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.SUSI_VISIT_WEBSITE))
+                startActivity(openWebsite)
+            } catch (e: ActivityNotFoundException) {
+                showToast("No browser found. Please install a browser to continue.")
+            }
+            true
+        }
+
         displayEmail.setOnPreferenceClickListener {
             settingsPresenter.loginLogout()
             true
@@ -254,6 +268,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         super.onResume()
     }
+
     private fun setLanguage() {
         try {
             if (querylanguage.entries.isNotEmpty()) {

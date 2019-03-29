@@ -114,6 +114,8 @@
     <string name="settings_displayEmail_key" translatable="false">display_email</string>
     <string name="settings_about_us">About Us</string>
     <string name="settings_about_us_key">about_us</string>
+    <string name="settings_visit_website">Visit Website</string>
+    <string name="settings_visit_website_key" translatable="false">visit_website</string>
 
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action.</string>
@@ -144,6 +146,8 @@
     <string name="email_cannot_be_empty">E-mail address cannot be empty</string>
 
     <string name="field_cannot_be_empty">This field cannot be empty</string>
+    <string name="accept_terms_and_conditions">You should accept terms and conditions to Sign Up</string>
+    <string name="accept_terms_conditions">I accept the Terms and Conditions</string>
 
     <string name="log_in">Log in</string>
 

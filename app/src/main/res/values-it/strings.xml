@@ -26,6 +26,7 @@
     <string name="dialog_retrieve_messages_title">Scaricando i vecchi Messaggi...</string>
     <string name="hotword_success">Hotword rilevata</string>
     <string name="custom_server">server personalizzato</string>
+    <string name="settings_visit_website">Visita il sito web</string>
 
     <string name="email_not_registered">L\'email che hai inserito non è registrata con noi. Per favore riprova.</string>
     <string name="email_not_registered_title">registrazione email</string>
@@ -91,6 +92,8 @@
     <string name="field_cannot_be_empty">il campo non può essere vuoto</string>
     <string name="email_cannot_be_empty">Email non può essere vuoto</string>
     <string name="password_cannot_be_empty">Password non può essere vuoto</string>
+    <string name="accept_terms_and_conditions">Devi accettare i termini e le condizioni per registrarti</string>
+    <string name="accept_terms_conditions">Accetto i Termini e le Condizioni</string>
     <string name="url_cannot_be_empty">URL non può essere vuoto</string>
     <string name="copy_items">Copia</string>
     <string name="share_items"> vicino a te.</string>
