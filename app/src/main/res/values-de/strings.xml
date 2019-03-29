@@ -91,6 +91,8 @@
     <string name="email_cannot_be_empty">E-Mail kann nicht leer sein</string>
     <string name="password_cannot_be_empty">Passwort kann nicht leer sein</string>
     <string name="url_cannot_be_empty">URL kann nicht leer sein</string>
+    <string name="accept_terms_and_conditions">Sie sollten die Nutzungsbedingungen akzeptieren, um sich anzumelden</string>
+    <string name="accept_terms_conditions">Ich akzeptiere die allgemeinen Geschäftsbedingungen</string>
     <string name="copy_items">Kopieren</string>
     <string name="sample_website_description">Beispieltext Aus einer Website extrahiert</string>
     <string name="sample_website_headline">Website-Stichprobe</string>

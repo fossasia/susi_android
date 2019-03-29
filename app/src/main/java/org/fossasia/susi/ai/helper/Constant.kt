@@ -66,6 +66,7 @@ object Constant {
     const val PASSWORD = "password"
     const val NEW_PASSWORD = "newpassword"
     const val CONFIRM_PASSWORD = "confirm_password"
+    const val ACCEPT_TERMS_AND_CONDITIONS = "accept_terms_and_conditions"
     const val INPUT_URL = "input_url"
 
     //Strings to get results from Database
@@ -86,6 +87,8 @@ object Constant {
 
     //know more url
     const val susi_know_more_url = "https://dev.susi.ai/"
+
+    const val SIGN_UP_TO_PRIVACY = "sign_up_to_privacy"
 
     //Visit Website Url
     const val SUSI_VISIT_WEBSITE = "https://chat.susi.ai/"

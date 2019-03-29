@@ -148,6 +148,8 @@
     <string name="email_cannot_be_empty">E-mail address cannot be empty</string>
 
     <string name="field_cannot_be_empty">This field cannot be empty</string>
+    <string name="accept_terms_and_conditions">You should accept terms and conditions to Sign Up</string>
+    <string name="accept_terms_conditions">I accept the Terms and Conditions</string>
 
     <string name="log_in">Log in</string>
 

@@ -93,6 +93,8 @@
     <string name="field_cannot_be_empty">il campo non può essere vuoto</string>
     <string name="email_cannot_be_empty">Email non può essere vuoto</string>
     <string name="password_cannot_be_empty">Password non può essere vuoto</string>
+    <string name="accept_terms_and_conditions">Devi accettare i termini e le condizioni per registrarti</string>
+    <string name="accept_terms_conditions">Accetto i Termini e le Condizioni</string>
     <string name="url_cannot_be_empty">URL non può essere vuoto</string>
     <string name="copy_items">Copia</string>
     <string name="share_items"> vicino a te.</string>

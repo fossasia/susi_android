@@ -92,6 +92,8 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="field_cannot_be_empty">Este campo no puede estar vacío</string>
     <string name="email_cannot_be_empty">El correo electrónico no puede estar vacío</string>
     <string name="password_cannot_be_empty">La contraseña no puede estar vacía</string>
+    <string name="accept_terms_and_conditions">Debes aceptar los términos y condiciones para registrarte.</string>
+    <string name="accept_terms_conditions">Acepto los términos y condiciones</string>
     <string name="url_cannot_be_empty">La URL no puede estar vacía</string>
     <string name="copy_items">Copia</string>
     <string name="share_items">Compartir</string>
