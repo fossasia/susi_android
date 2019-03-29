@@ -392,6 +392,14 @@
                         android:textSize="@dimen/text_size_medium" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/accept_terms_conditions"
+                android:id="@+id/acceptTermsAndConditionsPrivacyFragment"
+                android:textSize="@dimen/text_size_normal_medium" />
+
         </LinearLayout>
     </ScrollView>
 

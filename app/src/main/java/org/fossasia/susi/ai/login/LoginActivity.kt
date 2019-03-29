@@ -42,6 +42,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         setContentView(R.layout.activity_login)
 
         PrefManager.putBoolean(R.string.activity_executed_key, true)
+        PrefManager.putBoolean(R.string.accepted_terms_and_conditions, false)
 
         if (savedInstanceState != null) {
             email.editText?.setText(savedInstanceState.getCharSequenceArray(Constant.SAVED_STATES)[0].toString())

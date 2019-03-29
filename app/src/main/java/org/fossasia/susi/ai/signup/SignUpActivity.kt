@@ -18,6 +18,7 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.login.ForgotPass
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
@@ -59,6 +60,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             }
         }
 
+        if (PrefManager.getBoolean(R.string.accepted_terms_and_conditions, false)) {
+            acceptTermsAndConditions.setChecked(true)
+        }
+
         val bundle = intent.extras
         val string = bundle?.getString("email")
         if (string != null)
@@ -91,6 +96,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     fun skipSignUp() {
         skipSignUp.setOnClickListener {
+            PrefManager.putBoolean(R.string.accepted_terms_and_conditions, false)
             val intent = Intent(this@SignUpActivity, ChatActivity::class.java)
             startActivity(intent)
             finish()
@@ -210,6 +216,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private fun signUpToLoginPage() {
         signUpToLogin.setOnClickListener {
             signUpPresenter.loginLogout()
+            PrefManager.putBoolean(R.string.accepted_terms_and_conditions, false)
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             intent.putExtra("email", email.editText?.text.toString())
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK

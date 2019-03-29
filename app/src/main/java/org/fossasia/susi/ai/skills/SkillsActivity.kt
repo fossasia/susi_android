@@ -16,6 +16,7 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.LoginActivity
@@ -47,6 +48,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
 
+    private var utilModel: UtilModel = UtilModel(this)
     private var searchAction: MenuItem? = null
     private var isSearchOpened = false
     private var edtSearch: EditText? = null
@@ -94,11 +96,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         menuInflater.inflate(R.menu.skills_activity_menu, menu)
         if (!settingsPresenter.getAnonymity()) {
             val loginMenuItem = menu?.findItem(R.id.menu_login)
-            loginMenuItem?.setTitle("Logout")
-            val signUpMenuItem = menu?.findItem(R.id.menu_signup)
-            signUpMenuItem?.setVisible(false)
-            signUpMenuItem?.setEnabled(false)
+            if (utilModel.isLoggedIn()) {
+                loginMenuItem?.setTitle("Logout")
+                val signUpMenuItem = menu?.findItem(R.id.menu_signup)
+                signUpMenuItem?.setVisible(false)
+                signUpMenuItem?.setEnabled(false)
+            }
         }
+
         return true
     }
 
@@ -163,7 +168,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
             R.id.menu_login -> {
                 handleOnLoadingFragment()
-                if (!settingsPresenter.getAnonymity()) {
+                if (!settingsPresenter.getAnonymity() && utilModel.isLoggedIn()) {
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                         settingsPresenter.loginLogout()

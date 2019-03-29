@@ -101,6 +101,7 @@ class LoginPresenter(loginActivity: LoginActivity) :
             utilModel.setServer(true)
         }
 
+        PrefManager.putBoolean(R.string.accepted_terms_and_conditions, true)
         this.email = email
         PrefManager.putString(Constant.EMAIL, this.email)
         loginView?.showProgress(true)
