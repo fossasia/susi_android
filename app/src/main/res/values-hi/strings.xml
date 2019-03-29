@@ -43,6 +43,8 @@
     <string name="exit">बाहर निकलने के लिए फिर से दबाएं</string>
     <string name="message_copied">संदेश कॉपी किया गया</string>
     <string name="error_cancelling_signUp_process_text">क्या आप निश्चित हैं, आप साइन अप की प्रक्रिया को रोकना चाहते हैं? आप बिना किसी खाते के सुशी ऐप का उपयोग करने में सक्षम नहीं होंगे।</string>
+    <string name="error_skipping_signUp_process_text">यह साइन अप प्रक्रिया को रद्द कर देगा और आपको चैट पेज पर पुनर्निर्देशित कर देगा।</string>
+    <string name="dialog_skip_sign_up">साइन अप छोड़ें?</string>
 
     <string name="email_not_registered">आपके द्वारा दर्ज किया गया ईमेल पता हमारे पास पंजीकृत नहीं है। कृपया पुन: प्रयास करें।</string>
     <string name="email_not_registered_title">ईमेल पंजीकरण</string>
