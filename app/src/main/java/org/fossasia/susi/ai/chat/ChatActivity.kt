@@ -85,7 +85,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         setContentView(R.layout.activity_chat)
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
-        gestureDetectorCompat = GestureDetectorCompat(this, MyGestureListener())
+        gestureDetectorCompat = GestureDetectorCompat(this, CustomGestureListener())
 
         chatPresenter = ChatPresenter(this)
         chatPresenter.onAttach(this)
@@ -110,7 +110,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         this.gestureDetectorCompat?.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
-    internal inner class MyGestureListener : GestureDetector.SimpleOnGestureListener() {
+    internal inner class CustomGestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
             event1: MotionEvent,
