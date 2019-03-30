@@ -48,6 +48,8 @@
     <string name="exit">Premi di nuovo per uscire</string>
     <string name="message_copied">Messaggio copiato</string>
     <string name="error_cancelling_signUp_process_text">sei sicuro di voler bloccare la registrazione? non potrai usare Susi senza un account.</string>
+    <string name="error_skipping_signUp_process_text">Questo annullerà la procedura di registrazione e ti reindirizzerà alla pagina di chat.</string>
+    <string name="dialog_skip_sign_up">Skip Registrati?</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Invia un messaggio facendo click su invio </string>

@@ -75,6 +75,8 @@
     <string name="error_invalid_token">Chave de Acesso Inválida!</string>
     <string name="error_internet_connectivity">Problema de Conexão!</string>
     <string name="error_hotword">Desculpe, detecção de Hotword não é suportada pelo seu dispositivo.</string>
+    <string name="error_skipping_signUp_process_text">Isso cancelará o processo de inscrição e redirecionará você para a página de bate-papo.</string>
+    <string name="dialog_skip_sign_up">Pular Cadastre-se?</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete a Ação Usando</string>

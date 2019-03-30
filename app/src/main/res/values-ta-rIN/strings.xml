@@ -319,4 +319,6 @@
     <string name="accept_terms_conditions">நான் நியதிகளும் நிபந்தனைகள் ஒத்துகொள்கிறேன்</string>
     <string name="settings_visit_website">வலைத்தளத்தைப் பார்வையிடவும்</string>
     <string name="voice_welcome">வணக்கம்! நான் எப்படி உங்களுக்கு உதவ முடியும்?</string>
+    <string name="error_skipping_signUp_process_text">இது உள்நுழைவு செயல்முறையை ரத்துசெய்து, அரட்டை பக்கத்திற்கு உங்களை திருப்பி விடுகிறது.</string>
+    <string name="dialog_skip_sign_up">உள்நுழையவும்?</string>
 </resources>

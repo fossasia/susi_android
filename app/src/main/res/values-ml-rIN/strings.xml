@@ -321,4 +321,6 @@
     <string name="accept_terms_conditions">നിബന്ധനകളും വ്യവസ്ഥകളും ഞാൻ അംഗീകരിക്കുന്നു</string>
     <string name="settings_visit_website">വെബ്സൈറ്റ് സന്ദർശിക്കുക</string>
     <string name="voice_welcome">ഹായ്! എനിക്ക് നിങ്ങളെ എങ്ങനെ സഹായിക്കാനാകും?</string>
+    <string name="error_skipping_signUp_process_text">ഇത് സൈൻ അപ്പ് പ്രോസസ്സ് റദ്ദാക്കുകയും ചാറ്റ് പേജിലേക്ക് നിങ്ങളെ റീഡയറക്ട് ചെയ്യുകയും ചെയ്യും.</string>
+    <string name="dialog_skip_sign_up">സൈൻ അപ് ചെയ്യണോ?</string>
 </resources>

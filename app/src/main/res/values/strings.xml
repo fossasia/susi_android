@@ -19,6 +19,7 @@
 
     <string name="dialog_retrieve_messages_title">Retrieving old messages…</string>
     <string name="dialog_cancel_sign_up">Cancel sign up?</string>
+    <string name="dialog_skip_sign_up">Skip Sign Up?</string>
 
     <string name="email_invalid">The e-mail address you entered doesn\'t belong to an account. Please check your e-mail and try again.</string>
 
@@ -27,6 +28,7 @@
     <string name="error_cancelling_signUp_process_text">This will cancel the sign up process.</string>
     <string name="error_email">E-mail address already exists</string>
     <string name="error_msg">Please use the \"Forgot password?\" option to reset your password</string>
+    <string name="error_skipping_signUp_process_text">This will cancel the sign up process and redirect you to chat page.</string>
 
     <string name="unactivate_user">Account Not Active</string>
     <string name="error_unactivated_user_message">Please check your email to activate your account. If not found, check spams folder.</string>
