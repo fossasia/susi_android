@@ -106,10 +106,13 @@ class ChatActivity : AppCompatActivity(), IChatView {
             }
         }
     }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         this.gestureDetectorCompat?.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
+
+    //Inner class for handling the gestures
     internal inner class CustomGestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
@@ -118,7 +121,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
             velocityX: Float,
             velocityY: Float
         ): Boolean {
-            if (event2.x < event1.x) {
+            val X = event1.getX() - event2.getX()
+            //Swipe from right to left
+            if (X >= 100 && X <= 1000) {
                 val intent = Intent(this@ChatActivity, SkillsActivity::class.java)
                 startActivity(intent)
             }
