@@ -50,6 +50,8 @@
     <string name="exit">Zum Verlassen erneut drücken</string>
     <string name="message_copied">Nachricht kopiert</string>
     <string name="error_cancelling_signUp_process_text">Bist du sicher, dass du die Registrierung abbrechen willst? Ohne Nutzerkonto kannst du Susi nicht benutzen.</string>
+    <string name="error_skipping_signUp_process_text">Dadurch wird der Anmeldeprozess abgebrochen und Sie werden zur Chat-Seite weitergeleitet.</string>
+    <string name="dialog_skip_sign_up">Anmeldung überspringen?</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Drücke die Enter-Taste um eine Nachricht zu senden.</string>

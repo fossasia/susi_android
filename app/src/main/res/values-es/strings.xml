@@ -52,6 +52,8 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="exit">Oprima nuevamente para salir</string>
     <string name="message_copied">Mensaje copiado</string>
     <string name="error_cancelling_signUp_process_text">¿Estás seguro, quieres detener el proceso de registro? No podrás utilizar la aplicación Susi sin una cuenta.</string>
+    <string name="error_skipping_signUp_process_text">Esto cancelará el proceso de registro y te redirigirá a la página de chat.</string>
+    <string name="dialog_skip_sign_up">Omitir Registrarse?</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Enviar mensaje haciendo clic en el botón Entrar en el teclado</string>
