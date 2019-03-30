@@ -275,13 +275,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
                 querylanguage.setValueIndex(index)
                 querylanguage.summary = querylanguage.entries[index]
-                if (index == 1) setLocalLanguage("de")
-                else if (index == 2 ) setLocalLanguage("es")
-                else if (index == 3 ) setLocalLanguage("fr")
-                else if (index == 4 ) setLocalLanguage("it")
-                else if (index == 5 ) setLocalLanguage("hi")
-                else if (index == 6 ) setLocalLanguage("ta")
-                else setLocalLanguage("en")
+                setLocalLanguage(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
             }
         } catch (e: Exception) {
             Timber.e(e) //Language not present in app
