@@ -126,10 +126,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!settingsPresenter.getAnonymity()) {
                 settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
             }
-            val intent = Intent(context, SkillsActivity::class.java)
-            startActivity(intent)
-            val context = this.context
-            if (context is Activity) context.finish()
             true
         }
         rate.setOnPreferenceClickListener {
