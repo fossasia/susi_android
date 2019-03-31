@@ -242,8 +242,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             return true
         }
 
-        for ( skill_ in skills) {
-            var skillDataList: List<SkillData> = skill_.second
+        for (skill in skills) {
+            var skillDataList: List<SkillData> = skill.second
             for (skillData in skillDataList) {
                 if (skillData.skillName != "" && skillData.skillName != null) {
                     if (skillData.skillName.toLowerCase().contains(query.toLowerCase())) {
