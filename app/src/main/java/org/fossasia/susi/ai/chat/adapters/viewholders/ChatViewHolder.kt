@@ -104,6 +104,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                                 thumbsUp?.setImageResource(R.drawable.thumbs_up_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, context) }
                                 setRating(true, true)
+                                Toast.makeText(context,"Thank you for responding", Toast.LENGTH_SHORT).show()
                             }
                         }
 
@@ -113,6 +114,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                                 thumbsDown?.setImageResource(R.drawable.thumbs_down_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, context) }
                                 setRating(true, false)
+                                Toast.makeText(context,"Thank you for responding", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
