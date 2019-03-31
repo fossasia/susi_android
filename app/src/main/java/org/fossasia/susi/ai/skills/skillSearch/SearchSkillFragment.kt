@@ -57,7 +57,7 @@ class SearchSkillFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         query = arguments?.getString(SEARCH_KEY).toString()
-        skillSet = arguments!!.getParcelableArrayList(SKILL_DATA)
+        skillSet = arguments?.getParcelableArrayList<SkillData>(SKILL_DATA) as List<SkillData>
         skills = GroupWiseSkills(query, skillSet.toMutableList())
 
         activity?.title = this.skills.group
