@@ -123,6 +123,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!settingsPresenter.getAnonymity()) {
                 settingsPresenter.sendSetting(Constant.LANGUAGE, newValue.toString(), 1)
             }
+            Toast.makeText(context,"Changed to ${querylanguage}",Toast.LENGTH_SHORT).show()
             val intent = Intent(context, SkillsActivity::class.java)
             startActivity(intent)
             val context = this.context
