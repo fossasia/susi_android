@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
@@ -29,6 +30,7 @@ import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
+import java.util.Locale
 import android.content.ActivityNotFoundException
 
 /**
@@ -273,6 +275,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
                 querylanguage.setValueIndex(index)
                 querylanguage.summary = querylanguage.entries[index]
+                setLocalLanguage(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
             }
         } catch (e: Exception) {
             Timber.e(e) //Language not present in app
@@ -282,6 +285,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
     }
 
+    private fun setLocalLanguage(Lang: String) {
+        val locale = Locale(Lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        this.resources.updateConfiguration(config, this.resources.displayMetrics)
+    }
     private fun showAlert() {
         val builder = AlertDialog.Builder(requireContext())
         val promptsView = activity?.layoutInflater?.inflate(R.layout.alert_change_server, null)
