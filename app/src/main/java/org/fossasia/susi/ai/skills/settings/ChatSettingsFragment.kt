@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.TextInputEditText
@@ -29,6 +30,8 @@ import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
+import java.util.Locale
+import android.content.ActivityNotFoundException
 
 /**
  * The Fragment for Settings Activity
@@ -63,6 +66,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var deviceName: Preference
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
+    private lateinit var visitWebsite: Preference
     private var flag = true
     private val packageName = "ai.susi"
 
@@ -93,6 +97,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
         settingsVoice = preferenceManager.findPreference(Constant.VOICE_SETTINGS)
+        visitWebsite = preferenceManager.findPreference(Constant.VISIT_WEBSITE)
 
         // Display login email
         val utilModel = UtilModel(activity as SkillsActivity)
@@ -172,6 +177,17 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             }
             true
         }
+
+        visitWebsite.setOnPreferenceClickListener {
+            try {
+                val openWebsite = Intent(Intent.ACTION_VIEW, Uri.parse(Constant.SUSI_VISIT_WEBSITE))
+                startActivity(openWebsite)
+            } catch (e: ActivityNotFoundException) {
+                showToast("No browser found. Please install a browser to continue.")
+            }
+            true
+        }
+
         displayEmail.setOnPreferenceClickListener {
             settingsPresenter.loginLogout()
             true
@@ -252,12 +268,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         super.onResume()
     }
+
     private fun setLanguage() {
         try {
             if (querylanguage.entries.isNotEmpty()) {
                 val index = querylanguage.findIndexOfValue(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
                 querylanguage.setValueIndex(index)
                 querylanguage.summary = querylanguage.entries[index]
+                setLocalLanguage(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
             }
         } catch (e: Exception) {
             Timber.e(e) //Language not present in app
@@ -267,6 +285,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
     }
 
+    private fun setLocalLanguage(Lang: String) {
+        val locale = Locale(Lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.locale = locale
+        this.resources.updateConfiguration(config, this.resources.displayMetrics)
+    }
     private fun showAlert() {
         val builder = AlertDialog.Builder(requireContext())
         val promptsView = activity?.layoutInflater?.inflate(R.layout.alert_change_server, null)
