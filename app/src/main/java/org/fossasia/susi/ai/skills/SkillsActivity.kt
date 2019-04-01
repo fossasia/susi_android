@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -59,6 +60,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark))
+        }
 
         settingsPresenter = SettingsPresenter(this)
         val skillFragment = SkillListingFragment()
