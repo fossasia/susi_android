@@ -96,10 +96,21 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     fun skipSignUp() {
         skipSignUp.setOnClickListener {
-            PrefManager.putBoolean(R.string.accepted_terms_and_conditions, false)
-            val intent = Intent(this@SignUpActivity, ChatActivity::class.java)
-            startActivity(intent)
-            finish()
+            val dialogClickListener = AlertDialog.Builder(this)
+            with(dialogClickListener) {
+                setTitle(R.string.dialog_skip_sign_up)
+                setMessage(R.string.error_skipping_signUp_process_text)
+                setPositiveButton(R.string.yes, DialogInterface.OnClickListener { dialog, id ->
+                    val intent = Intent(this@SignUpActivity, ChatActivity::class.java)
+                    PrefManager.putBoolean(R.string.accepted_terms_and_conditions, false)
+                    startActivity(intent)
+                    finish()
+                })
+                setNegativeButton(android.R.string.no, DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+                })
+                show()
+            }
         }
     }
 
