@@ -37,6 +37,7 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
+import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.FeedbackAdapter
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
@@ -340,217 +341,223 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                 Toast.makeText(context, getString(R.string.toast_thank_for_rating), Toast.LENGTH_SHORT).show()
             }
             setRating()
-        }
-    }
-
-    /**
-     * Show the user rating on the rating bar
-     *
-     * @param updatedRating Updates the rating bar with the user rating
-     *
-     */
-    override fun updateUserRating(updatedRating: Int?) {
-        if (updatedRating != null) {
-            fiveStarSkillRatingBar.rating = updatedRating.toFloat()
-        }
-    }
-
-    /**
-     * Set up the axes along with other necessary details for the horizontal bar chart.
-     */
-    private fun setSkillGraph() {
-        skillRatingChart = skill_rating_chart
-        skillRatingChart.setPinchZoom(false)
-        skillRatingChart.isDoubleTapToZoomEnabled = false
-        skillRatingChart.setScaleEnabled(false)
-
-        skillRatingChart.setDrawBarShadow(false)
-        val description = Description()
-        description.text = ""
-        skillRatingChart.description = description
-        skillRatingChart.legend.isEnabled = false
-        skillRatingChart.setPinchZoom(false)
-        skillRatingChart.setDrawValueAboveBar(false)
-
-        //Display the axis on the left (contains the labels 1*, 2* and so on)
-        xAxis = skillRatingChart.xAxis
-        xAxis.setDrawGridLines(false)
-        xAxis.setDrawAxisLine(false)
-        xAxis.position = XAxis.XAxisPosition.TOP
-        xAxis.isEnabled = true
-
-        val yLeft = skillRatingChart.axisLeft
-        yLeft.axisMaximum = 100f
-        yLeft.axisMinimum = 0f
-        yLeft.isEnabled = false
-
-        val yRight = skillRatingChart.axisRight
-        yRight.setDrawAxisLine(true)
-        yRight.setDrawGridLines(false)
-        yRight.isEnabled = false
-
-        //Set bar entries and add necessary formatting
-        setData()
-
-        //Add animation to the graph
-        skillRatingChart.animateY(2000)
-    }
-
-    /**
-     * Set the bar entries i.e. the percentage of users who rated the skill with
-     * a certain number of stars.
-     *
-     * Set the colors for different bars and the bar width of the bars.
-     */
-    private fun setData() {
-
-        val totalUsers: Int? = skillData.skillRating?.stars?.totalStar
-        val oneStarUsers: Int? = skillData.skillRating?.stars?.oneStar
-        val twoStarUsers: Int? = skillData.skillRating?.stars?.twoStar
-        val threeStarUsers: Int? = skillData.skillRating?.stars?.threeStar
-        val fourStarUsers: Int? = skillData.skillRating?.stars?.fourStar
-        val fiveStarUsers: Int? = skillData.skillRating?.stars?.fiveStar
-
-        val oneStarUsersPercent: Float = calcPercentageOfUsers(oneStarUsers, totalUsers)
-        val twoStarUsersPercent: Float = calcPercentageOfUsers(twoStarUsers, totalUsers)
-        val threeStarUsersPercent: Float = calcPercentageOfUsers(threeStarUsers, totalUsers)
-        val fourStarUsersPercent: Float = calcPercentageOfUsers(fourStarUsers, totalUsers)
-        val fiveStarUsersPercent: Float = calcPercentageOfUsers(fiveStarUsers, totalUsers)
-
-        val values = arrayOf(oneStarUsers.toString() + " (" + oneStarUsersPercent.toInt().toString() + "%)",
-                twoStarUsers.toString() + " (" + twoStarUsersPercent.toInt().toString() + "%)",
-                threeStarUsers.toString() + " (" + threeStarUsersPercent.toInt().toString() + "%)",
-                fourStarUsers.toString() + " (" + fourStarUsersPercent.toInt().toString() + "%)",
-                fiveStarUsers.toString() + " (" + fiveStarUsersPercent.toInt().toString() + "%)")
-
-        //Set label count to 5 as we are using 5 star rating system
-        xAxis.labelCount = 5
-        xAxis.textColor = ContextCompat.getColor(skillRatingChart.context, R.color.md_grey_800)
-        xAxis.valueFormatter = XAxisValueFormatter(values)
-
-        //Add a list of bar entries
-        val entries = ArrayList<BarEntry>()
-        entries.add(BarEntry(0f, calcPercentageOfUsers(oneStarUsers, totalUsers)))
-        entries.add(BarEntry(1f, calcPercentageOfUsers(twoStarUsers, totalUsers)))
-        entries.add(BarEntry(2f, calcPercentageOfUsers(threeStarUsers, totalUsers)))
-        entries.add(BarEntry(3f, calcPercentageOfUsers(fourStarUsers, totalUsers)))
-        entries.add(BarEntry(4f, calcPercentageOfUsers(fiveStarUsers, totalUsers)))
-
-        val barDataSet = BarDataSet(entries, "Bar Data Set")
-        barDataSet.barShadowColor = Color.argb(40, 150, 150, 150)
-        barDataSet.setDrawValues(false)
-
-        //Set the colors for bars with first color for 1*, second for 2* and so on
-        barDataSet.setColors(
-                ContextCompat.getColor(skillRatingChart.context, R.color.md_red_300),
-                ContextCompat.getColor(skillRatingChart.context, R.color.md_orange_300),
-                ContextCompat.getColor(skillRatingChart.context, R.color.md_yellow_300),
-                ContextCompat.getColor(skillRatingChart.context, R.color.md_light_green_300),
-                ContextCompat.getColor(skillRatingChart.context, R.color.md_green_300)
-        )
-
-        val data = BarData(barDataSet)
-
-        //Set the bar width
-        //Note : To increase the spacing between the bars set the value of barWidth to < 1f
-        data.barWidth = 0.9f
-        skillRatingChart.setDrawBarShadow(true)
-
-        //Finally set the data and refresh the graph
-        skillRatingChart.data = data
-        skillRatingChart.setViewPortOffsets(0f, 28f, 128f, 28f)
-        skillRatingChart.invalidate()
-    }
-
-    /**
-     * Returns the percentage of users corresponding to each rating
-     *
-     * @param actualNumberOfUsers : Actual number of users corresponding to a rating
-     * @param totalNumberOfUsers : Total number of ratings for a skill
-     */
-    private fun calcPercentageOfUsers(actualNumberOfUsers: Int?, totalNumberOfUsers: Int?): Float {
-        return if (actualNumberOfUsers != null && totalNumberOfUsers != null) {
-            (actualNumberOfUsers * 100f) / totalNumberOfUsers
-        } else 0.1f
-    }
-
-    /**
-     * Set up the feedback section
-     *
-     * If the user is logged in, show the post feedback section otherwise display an appropriate message
-     */
-    private fun setFeedback() {
-        if (PrefManager.token != null) {
-            tvPostFeedbackDesc.visibility = View.VISIBLE
-            layoutPostFeedback.visibility = View.VISIBLE
-            buttonPost.setOnClickListener {
-                if (etFeedback.text?.trim().toString().isNotEmpty()) {
-                    val queryObject = PostFeedback(skillData.model, skillData.group, skillData.language,
-                            skillData.skillTag, etFeedback.text.toString(), PrefManager.token.toString())
-
-                    skillDetailsPresenter.postFeedback(queryObject)
-                } else {
-                    Toast.makeText(context, getString(R.string.toast_empty_feedback), Toast.LENGTH_SHORT).show()
-                }
-
-                updateFeedback()
-                setFeedback()
-            }
         } else {
-            tvAnonymousPostFeedback.visibility = View.VISIBLE
-            tvAnonymousPostFeedback.setOnClickListener {
+            tv_unrated_skill.visibility = View.VISIBLE
+            tv_unrated_skill.setOnClickListener {
                 val intentToLogin = Intent(context, LoginActivity::class.java)
                 startActivity(intentToLogin)
             }
         }
 
-        val query = FetchFeedbackQuery(skillData.model, skillData.group, skillData.language, skillTag)
-        skillDetailsPresenter.fetchFeedback(query)
-    }
-
-    /**
-     * Displays a toast to show that the feedback has been posted successfully
-     */
-    override fun updateFeedback() {
-        Toast.makeText(context, getString(R.string.toast_feedback_updated), Toast.LENGTH_SHORT).show()
-        etFeedback.text?.clear()
-        etFeedback.dispatchWindowFocusChanged(true)
-        etFeedback.clearFocus()
-        etFeedback.text?.clear()
-        etFeedback.dispatchWindowFocusChanged(true)
-        etFeedback.clearFocus()
-    }
-
-    /**
-     * Displays the feedback list on the skill details screen
-     *
-     * @param feedbackResponse : Contains the list of Feedback objects received from the getSkillFeedback.json API
-     */
-    override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
-        val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        rvFeedback.setHasFixedSize(true)
-        rvFeedback.layoutManager = layoutManager
-        rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
-    }
-
-    private fun setDynamicContent() {
-        if (skillData.dynamicContent == null) {
-            skillDetailContent.visibility = View.GONE
-        } else {
-            if (skillData.dynamicContent!!) {
-                skillDetailContent.text = context?.getString(R.string.content_type_dynamic)
-            } else {
-                skillDetailContent.text = context?.getString(R.string.content_type_static)
+        /**
+         * Show the user rating on the rating bar
+         *
+         * @param updatedRating Updates the rating bar with the user rating
+         *
+         */
+        override fun updateUserRating(updatedRating: Int?) {
+            if (updatedRating != null) {
+                fiveStarSkillRatingBar.rating = updatedRating.toFloat()
             }
         }
-    }
 
-    override fun updateSkillReportStatus(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
+        /**
+         * Set up the axes along with other necessary details for the horizontal bar chart.
+         */
+        private fun setSkillGraph() {
+            skillRatingChart = skill_rating_chart
+            skillRatingChart.setPinchZoom(false)
+            skillRatingChart.isDoubleTapToZoomEnabled = false
+            skillRatingChart.setScaleEnabled(false)
 
-    override fun onDestroyView() {
-        skillDetailsPresenter.onDetach()
-        super.onDestroyView()
+            skillRatingChart.setDrawBarShadow(false)
+            val description = Description()
+            description.text = ""
+            skillRatingChart.description = description
+            skillRatingChart.legend.isEnabled = false
+            skillRatingChart.setPinchZoom(false)
+            skillRatingChart.setDrawValueAboveBar(false)
+
+            //Display the axis on the left (contains the labels 1*, 2* and so on)
+            xAxis = skillRatingChart.xAxis
+            xAxis.setDrawGridLines(false)
+            xAxis.setDrawAxisLine(false)
+            xAxis.position = XAxis.XAxisPosition.TOP
+            xAxis.isEnabled = true
+
+            val yLeft = skillRatingChart.axisLeft
+            yLeft.axisMaximum = 100f
+            yLeft.axisMinimum = 0f
+            yLeft.isEnabled = false
+
+            val yRight = skillRatingChart.axisRight
+            yRight.setDrawAxisLine(true)
+            yRight.setDrawGridLines(false)
+            yRight.isEnabled = false
+
+            //Set bar entries and add necessary formatting
+            setData()
+
+            //Add animation to the graph
+            skillRatingChart.animateY(2000)
+        }
+
+        /**
+         * Set the bar entries i.e. the percentage of users who rated the skill with
+         * a certain number of stars.
+         *
+         * Set the colors for different bars and the bar width of the bars.
+         */
+        private fun setData() {
+
+            val totalUsers: Int? = skillData.skillRating?.stars?.totalStar
+            val oneStarUsers: Int? = skillData.skillRating?.stars?.oneStar
+            val twoStarUsers: Int? = skillData.skillRating?.stars?.twoStar
+            val threeStarUsers: Int? = skillData.skillRating?.stars?.threeStar
+            val fourStarUsers: Int? = skillData.skillRating?.stars?.fourStar
+            val fiveStarUsers: Int? = skillData.skillRating?.stars?.fiveStar
+
+            val oneStarUsersPercent: Float = calcPercentageOfUsers(oneStarUsers, totalUsers)
+            val twoStarUsersPercent: Float = calcPercentageOfUsers(twoStarUsers, totalUsers)
+            val threeStarUsersPercent: Float = calcPercentageOfUsers(threeStarUsers, totalUsers)
+            val fourStarUsersPercent: Float = calcPercentageOfUsers(fourStarUsers, totalUsers)
+            val fiveStarUsersPercent: Float = calcPercentageOfUsers(fiveStarUsers, totalUsers)
+
+            val values = arrayOf(oneStarUsers.toString() + " (" + oneStarUsersPercent.toInt().toString() + "%)",
+                    twoStarUsers.toString() + " (" + twoStarUsersPercent.toInt().toString() + "%)",
+                    threeStarUsers.toString() + " (" + threeStarUsersPercent.toInt().toString() + "%)",
+                    fourStarUsers.toString() + " (" + fourStarUsersPercent.toInt().toString() + "%)",
+                    fiveStarUsers.toString() + " (" + fiveStarUsersPercent.toInt().toString() + "%)")
+
+            //Set label count to 5 as we are using 5 star rating system
+            xAxis.labelCount = 5
+            xAxis.textColor = ContextCompat.getColor(skillRatingChart.context, R.color.md_grey_800)
+            xAxis.valueFormatter = XAxisValueFormatter(values)
+
+            //Add a list of bar entries
+            val entries = ArrayList<BarEntry>()
+            entries.add(BarEntry(0f, calcPercentageOfUsers(oneStarUsers, totalUsers)))
+            entries.add(BarEntry(1f, calcPercentageOfUsers(twoStarUsers, totalUsers)))
+            entries.add(BarEntry(2f, calcPercentageOfUsers(threeStarUsers, totalUsers)))
+            entries.add(BarEntry(3f, calcPercentageOfUsers(fourStarUsers, totalUsers)))
+            entries.add(BarEntry(4f, calcPercentageOfUsers(fiveStarUsers, totalUsers)))
+
+            val barDataSet = BarDataSet(entries, "Bar Data Set")
+            barDataSet.barShadowColor = Color.argb(40, 150, 150, 150)
+            barDataSet.setDrawValues(false)
+
+            //Set the colors for bars with first color for 1*, second for 2* and so on
+            barDataSet.setColors(
+                    ContextCompat.getColor(skillRatingChart.context, R.color.md_red_300),
+                    ContextCompat.getColor(skillRatingChart.context, R.color.md_orange_300),
+                    ContextCompat.getColor(skillRatingChart.context, R.color.md_yellow_300),
+                    ContextCompat.getColor(skillRatingChart.context, R.color.md_light_green_300),
+                    ContextCompat.getColor(skillRatingChart.context, R.color.md_green_300)
+            )
+
+            val data = BarData(barDataSet)
+
+            //Set the bar width
+            //Note : To increase the spacing between the bars set the value of barWidth to < 1f
+            data.barWidth = 0.9f
+            skillRatingChart.setDrawBarShadow(true)
+
+            //Finally set the data and refresh the graph
+            skillRatingChart.data = data
+            skillRatingChart.setViewPortOffsets(0f, 28f, 128f, 28f)
+            skillRatingChart.invalidate()
+        }
+
+        /**
+         * Returns the percentage of users corresponding to each rating
+         *
+         * @param actualNumberOfUsers : Actual number of users corresponding to a rating
+         * @param totalNumberOfUsers : Total number of ratings for a skill
+         */
+        private fun calcPercentageOfUsers(actualNumberOfUsers: Int?, totalNumberOfUsers: Int?): Float {
+            return if (actualNumberOfUsers != null && totalNumberOfUsers != null) {
+                (actualNumberOfUsers * 100f) / totalNumberOfUsers
+            } else 0.1f
+        }
+
+        /**
+         * Set up the feedback section
+         *
+         * If the user is logged in, show the post feedback section otherwise display an appropriate message
+         */
+        private fun setFeedback() {
+            if (PrefManager.token != null) {
+                tvPostFeedbackDesc.visibility = View.VISIBLE
+                layoutPostFeedback.visibility = View.VISIBLE
+                buttonPost.setOnClickListener {
+                    if (etFeedback.text?.trim().toString().isNotEmpty()) {
+                        val queryObject = PostFeedback(skillData.model, skillData.group, skillData.language,
+                                skillData.skillTag, etFeedback.text.toString(), PrefManager.token.toString())
+
+                        skillDetailsPresenter.postFeedback(queryObject)
+                    } else {
+                        Toast.makeText(context, getString(R.string.toast_empty_feedback), Toast.LENGTH_SHORT).show()
+                    }
+
+                    updateFeedback()
+                    setFeedback()
+                }
+            } else {
+                tvAnonymousPostFeedback.visibility = View.VISIBLE
+                tvAnonymousPostFeedback.setOnClickListener {
+                    val intentToLogin = Intent(context, LoginActivity::class.java)
+                    startActivity(intentToLogin)
+                }
+            }
+
+            val query = FetchFeedbackQuery(skillData.model, skillData.group, skillData.language, skillTag)
+            skillDetailsPresenter.fetchFeedback(query)
+        }
+
+        /**
+         * Displays a toast to show that the feedback has been posted successfully
+         */
+        override fun updateFeedback() {
+            Toast.makeText(context, getString(R.string.toast_feedback_updated), Toast.LENGTH_SHORT).show()
+            etFeedback.text?.clear()
+            etFeedback.dispatchWindowFocusChanged(true)
+            etFeedback.clearFocus()
+            etFeedback.text?.clear()
+            etFeedback.dispatchWindowFocusChanged(true)
+            etFeedback.clearFocus()
+        }
+
+        /**
+         * Displays the feedback list on the skill details screen
+         *
+         * @param feedbackResponse : Contains the list of Feedback objects received from the getSkillFeedback.json API
+         */
+        override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
+            val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+            rvFeedback.setHasFixedSize(true)
+            rvFeedback.layoutManager = layoutManager
+            rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
+        }
+
+        private fun setDynamicContent() {
+            if (skillData.dynamicContent == null) {
+                skillDetailContent.visibility = View.GONE
+            } else {
+                if (skillData.dynamicContent!!) {
+                    skillDetailContent.text = context?.getString(R.string.content_type_dynamic)
+                } else {
+                    skillDetailContent.text = context?.getString(R.string.content_type_static)
+                }
+            }
+        }
+
+        override fun updateSkillReportStatus(message: String) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onDestroyView() {
+            skillDetailsPresenter.onDetach()
+            super.onDestroyView()
+        }
     }
 }
