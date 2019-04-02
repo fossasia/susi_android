@@ -450,7 +450,7 @@
     <string name="help_report_issue">How to report an issue?</string>
     <string name="help_report_issue_desc">Open the \'About Us\' page. Under the \'Report Issues\' section click on  \'Github Repository Issue Tracker\'. This will redirect you to a webpage where you can put up your issue by clicking on \'New Issue\'.</string>
     <string name="help_login">How to login, if you have opened SUSI without logging in?</string>
-    <string name="help_login_desc">Open \'Settings\' page and scroll down to the bottom. Click on \'Login\'. This will redirect you to the login page.</string>
+    <string name="help_login_desc">In the chat page click on SUSI logo and you will be directed to Skills page.Open the menu bar(3 vertical dots) and click on Login. This will direct you to Login page.</string>
     <string name="help_susi_voice">How to use SUSI voice?</string>
     <string name="help_susi_voice_desc">To use SUSI voice click on the microphone symbol presemt in the bottom right corner of the chats page. You can ask anything to SUSI here. To change various voice settings, go to Settings page and configure SUSI voice accordingly.</string>
     <string name="help_susi_skills">What skills do SUSI have?</string>

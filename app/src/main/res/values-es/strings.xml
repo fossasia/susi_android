@@ -204,4 +204,5 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
         \nUsted acepta que las leyes de Can Tho, Viet Nam se aplicarán a cualquier disputa que surja de o se relacione con estos términos o los Servicios. Todas las reclamaciones que surjan de o estén relacionadas con estos términos o los servicios se litigarán exclusivamente en los tribunales de Can Tho City, Viet Nam, y usted y SUSI aceptan la jurisdicción personal de dichos tribunales.
         \nPara obtener información sobre cómo ponerse en contacto con SUSI, visite nuestra página de contacto.</string>
     <string name="menu_item_privacy">Intimidad</string>
+    <string name="help_login_desc">En la página de chat, haga clic en el logotipo de SUSI y será dirigido a la página de Habilidades. Abra la barra de menú (3 puntos verticales) y haga clic en Iniciar sesión. Esto será dirigido directamente a la página de inicio de sesión.</string>
 </resources>
