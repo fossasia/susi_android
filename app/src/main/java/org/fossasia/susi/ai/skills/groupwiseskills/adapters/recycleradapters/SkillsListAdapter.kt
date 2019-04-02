@@ -33,33 +33,41 @@ class SkillsListAdapter(
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
         val skillData = skillDetails.skillsList.get(position)
 
-        if (skillData.skillName.isEmpty()) {
-            holder.skillName.text = context.getString(R.string.no_skill_name)
-        } else {
-            holder.skillName.text = skillData.skillName
+        if (skillData.skillName != null) {
+            if (skillData.skillName.isEmpty()) {
+                holder.skillName.text = context.getString(R.string.no_skill_name)
+            } else {
+                holder.skillName.text = skillData.skillName
+            }
         }
 
-        if (skillData.author.isEmpty() || skillData.author.equals(DEFAULT_AUTHOR)) {
-            holder.skillAuthorName.text = context.getString(R.string.no_skill_author)
-        } else {
-            holder.skillAuthorName.text = skillData.author
+        if (skillData.author != null) {
+            if (skillData.author.isEmpty() || skillData.author.equals(DEFAULT_AUTHOR)) {
+                holder.skillAuthorName.text = context.getString(R.string.no_skill_author)
+            } else {
+                holder.skillAuthorName.text = skillData.author
+            }
         }
 
-        if (skillData.examples.isEmpty() || skillData.examples.contains(DEFAULT_EXAMPLE))
-            holder.skillExample.text = ""
-        else
-            holder.skillExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
+        if (skillData.examples != null) {
+            if (skillData.examples.isEmpty() || skillData.examples.contains(DEFAULT_EXAMPLE))
+                holder.skillExample.text = ""
+            else
+                holder.skillExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
+        }
 
-        if (skillData.image.isEmpty()) {
-            holder.skillImage.setImageResource(R.drawable.ic_susi)
-        } else {
-            val imageUrl: String = skillDetails.skillsList.get(position).group.replace(" ", "%20") + "/en/" + skillData.image
-            Picasso.get().load(StringBuilder(imageLink)
-                .append(imageUrl).toString())
-                .fit().centerCrop()
-                .error(R.drawable.ic_susi)
-                .transform(CircleTransform())
-                .into(holder.skillImage)
+        if (skillData.image != null) {
+            if (skillData.image.isEmpty()) {
+                holder.skillImage.setImageResource(R.drawable.ic_susi)
+            } else {
+                val imageUrl: String = skillDetails.skillsList.get(position).group.replace(" ", "%20") + "/en/" + skillData.image
+                Picasso.get().load(StringBuilder(imageLink)
+                        .append(imageUrl).toString())
+                        .fit().centerCrop()
+                        .error(R.drawable.ic_susi)
+                        .transform(CircleTransform())
+                        .into(holder.skillImage)
+            }
         }
         val stars = skillData.skillRating?.stars
         if (stars != null) {
