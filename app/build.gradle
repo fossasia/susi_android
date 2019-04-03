@@ -1,5 +1,5 @@
 plugins {
-    id "com.diffplug.gradle.spotless" version "3.16.0"
+    id "com.diffplug.gradle.spotless" version "3.19.0"
 }
 
 def rootConfiguration = {}
@@ -12,6 +12,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
+//noinspection SpellCheckingInspection
 def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
 
 android {
@@ -21,8 +22,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 14
-        versionName "1.0.13"
+        versionCode 15
+        versionName "1.0.14"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -72,7 +73,6 @@ android {
             includeAndroidResources = true
         }
     }
-
 }
 
 spotless {
@@ -101,12 +101,12 @@ dependencies {
     implementation "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:customtabs:${rootConfiguration.supportLibraryVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 
     //piechart
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
 
     //Leak Canary
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"

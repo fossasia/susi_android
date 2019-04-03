@@ -55,9 +55,9 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     private fun setUPAdapter() {
         skillAdapterSnapHelper = StartSnapHelper()
-        val mLayoutManager = LinearLayoutManager(activity)
-        mLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        skillMetrics.layoutManager = mLayoutManager
+        val layoutManager = LinearLayoutManager(activity)
+        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        skillMetrics.layoutManager = layoutManager
         skillMetricsAdapter = SkillMetricsAdapter(requireContext(), metrics, skillCallback)
         skillMetrics.adapter = skillMetricsAdapter
         skillMetrics.onFlingListener = null

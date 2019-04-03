@@ -10,11 +10,13 @@ interface ISignUpPresenter {
 
     fun onAttach(signUpView: ISignUpView)
 
-    fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String)
+    fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean)
 
     fun onDetach()
 
     fun cancelSignUp()
+
+    fun loginLogout()
 
     fun checkForPassword(password: String)
 

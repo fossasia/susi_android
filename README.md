@@ -59,7 +59,7 @@ Please find info about the set up of the Android app in your development environ
 - Realm [Docs](https://realm.io/docs/java/latest/)
 - Retrofit [Docs](http://square.github.io/retrofit/2.x/retrofit/)
 - ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
-- Espresso [Docs](https://google.github.io/android-testing-support-library/docs/espresso/)
+- Espresso [Docs](https://developer.android.com/training/testing/espresso)
 - Tajchert Waiting Dots [Docs](https://github.com/tajchert/WaitingDots)
 - Picasso [Docs](http://square.github.io/picasso/)
 - LeakCanary [Docs](https://github.com/square/leakcanary)
@@ -177,7 +177,7 @@ Go to AndroidManifest.xml and replace the ${YOUTUBE_API_KEY} with the real youtu
    
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:
-1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/susi-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/susi-release.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will always be the latest one.
+1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/app-fdroid-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/app-fdroid-release-unsigned.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will always be the latest one.
 2. **Testing on [appetize.io](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0):** If you don't want to download the APKs, you can simply go on [this](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0) link and use the App on an online simulator. You will always find the latest version of App on that link because it is updated after each PR merge.
 
 ## License

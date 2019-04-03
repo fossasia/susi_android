@@ -10,30 +10,31 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-
+import io.realm.Realm
+import kotterknife.bindOptionalView
+import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
-import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
+import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
-
-import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-import kotterknife.bindOptionalView
-import kotterknife.bindView
-import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
+/**
+ * ViewHolder for drawing chat item layout.
+ */
+class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int)
+    : MessageViewHolder(view, clickListener) {
 
-class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int) : MessageViewHolder(view, clickListener) {
-
-    val chatTextView: TextView by bindView(R.id.text)
+    private val chatTextView: TextView by bindView(R.id.text)
+    private val receivedTick: ImageView? by bindOptionalView(R.id.received_tick)
     val timeStamp: TextView by bindView(R.id.timestamp)
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)
-    val receivedTick: ImageView? by bindOptionalView(R.id.received_tick)
     val thumbsUp: ImageView? by bindOptionalView(R.id.thumbs_up)
     val thumbsDown: ImageView? by bindOptionalView(R.id.thumbs_down)
 

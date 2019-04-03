@@ -111,9 +111,9 @@ class LocationHelper
      * Remove listener.
      */
     fun removeListener() {
-        val mContext = weakContext.get()
-        if (mContext != null && locationManager != null) {
-            if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        val context = weakContext.get()
+        if (context != null && locationManager != null) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 locationManager?.removeUpdates(this)
             }
         }

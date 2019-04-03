@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog
 
  * Created by meeera on 18/6/17.
  */
+@Suppress("SpellCheckingInspection")
 class AlertboxHelper
 /**
  * Instantiates a new Alertbox helper.
