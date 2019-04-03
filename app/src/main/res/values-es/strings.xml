@@ -31,7 +31,6 @@
     <string name="activity_executed_key" translatable="false">activity_executed</string>
     <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
     <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
-    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
     <string name="notify_user_key" translatable="false">notify_user</string>
     <string name="email_not_registered">El correo electrónico que ha introducido no se ha registrado con nosotros. Inténtalo de nuevo.</string>
     <string name="email_not_registered_title">registro de email</string>
@@ -52,6 +51,8 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="exit">Oprima nuevamente para salir</string>
     <string name="message_copied">Mensaje copiado</string>
     <string name="error_cancelling_signUp_process_text">¿Estás seguro, quieres detener el proceso de registro? No podrás utilizar la aplicación Susi sin una cuenta.</string>
+    <string name="error_skipping_signUp_process_text">Esto cancelará el proceso de registro y te redirigirá a la página de chat.</string>
+    <string name="dialog_skip_sign_up">Omitir Registrarse?</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Enviar mensaje haciendo clic en el botón Entrar en el teclado</string>
@@ -91,6 +92,8 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="field_cannot_be_empty">Este campo no puede estar vacío</string>
     <string name="email_cannot_be_empty">El correo electrónico no puede estar vacío</string>
     <string name="password_cannot_be_empty">La contraseña no puede estar vacía</string>
+    <string name="accept_terms_and_conditions">Debes aceptar los términos y condiciones para registrarte.</string>
+    <string name="accept_terms_conditions">Acepto los términos y condiciones</string>
     <string name="url_cannot_be_empty">La URL no puede estar vacía</string>
     <string name="copy_items">Copia</string>
     <string name="share_items">Compartir</string>

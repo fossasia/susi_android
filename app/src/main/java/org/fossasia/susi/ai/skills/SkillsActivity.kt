@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.Toast
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -61,15 +62,25 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
         settingsPresenter = SettingsPresenter(this)
         val skillFragment = SkillListingFragment()
-        //skills = skillFragment.skills
-        supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
-                .addToBackStack(TAG_SKILLS_FRAGMENT)
-                .commit()
+        val privacyFragment = PrivacyFragment()
+        val bundle = intent.extras
+        val isSignupToPrivacy = bundle?.getBoolean(Constant.SIGN_UP_TO_PRIVACY)
+        if (isSignupToPrivacy == true) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
+                    .addToBackStack(TAG_PRIVACY_FRAGMENT)
+                    .commit()
+        } else {
+            //skills = skillFragment.skills
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
+                    .addToBackStack(TAG_SKILLS_FRAGMENT)
+                    .commit()
+        }
         supportFragmentManager.addOnBackStackChangedListener {
-                val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-                currentFragment?.onResume()
-            }
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            currentFragment?.onResume()
+        }
 
         supportFragmentManager.addOnBackStackChangedListener {
             invalidateOptionsMenu()

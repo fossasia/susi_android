@@ -43,6 +43,8 @@
     <string name="exit">बाहर निकलने के लिए फिर से दबाएं</string>
     <string name="message_copied">संदेश कॉपी किया गया</string>
     <string name="error_cancelling_signUp_process_text">क्या आप निश्चित हैं, आप साइन अप की प्रक्रिया को रोकना चाहते हैं? आप बिना किसी खाते के सुशी ऐप का उपयोग करने में सक्षम नहीं होंगे।</string>
+    <string name="error_skipping_signUp_process_text">यह साइन अप प्रक्रिया को रद्द कर देगा और आपको चैट पेज पर पुनर्निर्देशित कर देगा।</string>
+    <string name="dialog_skip_sign_up">साइन अप छोड़ें?</string>
 
     <string name="email_not_registered">आपके द्वारा दर्ज किया गया ईमेल पता हमारे पास पंजीकृत नहीं है। कृपया पुन: प्रयास करें।</string>
     <string name="email_not_registered_title">ईमेल पंजीकरण</string>
@@ -59,7 +61,6 @@
     <string name="setting_hotword_detection">हॉटवर्ड डिटेक्शन (बीटा)</string>
 
     <string name="setting_mic_key" translatable="false">mic_input</string>
-    <string name="setting_hotword_key" translatable="false">हॉटवर्ड डिटेक्शन</string>
     <string name="settings_enterPreference_key" translatable="false">enter_send</string>
     <string name="settings_speechPreference_key" translatable="false">speech_output</string>
     <string name="settings_speechAlways_key" translatable="false">भाषण आउटपुट हमेशा</string>
@@ -82,7 +83,6 @@
     <string name="activity_executed_key" translatable="false">activity_executed</string>
     <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
     <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
-    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
     <string name="notify_user_key" translatable="false">notify_user</string>
 
     <!--Material Dialog-->
@@ -98,6 +98,8 @@
     <string name="field_cannot_be_empty">यह स्थान खाली नहीं रह सकता</string>
     <string name="email_cannot_be_empty">ईमेल खाली नहीं हो सकता</string>
     <string name="password_cannot_be_empty">पासवर्ड रिक्त नहीं हो सकता</string>
+    <string name="accept_terms_and_conditions">आपको साइन अप करने के लिए नियम और शर्तें स्वीकार करनी चाहिए</string>
+    <string name="accept_terms_conditions">मुझे नियम व शर्तें मंजूर हैं</string>
     <string name="url_cannot_be_empty">URL रिक्त नहीं हो सकता</string>
     <string name="copy_items">प्रतिलिपि</string>
     <string name="share_items">शेयर</string>

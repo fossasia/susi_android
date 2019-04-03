@@ -40,7 +40,6 @@
     <string name="activity_executed_key" translatable="false">activity_executed</string>
     <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
     <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
-    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
     <string name="notify_user_key" translatable="false">notify_user</string>
 
     <string name="websearchnull">Keine Ergebnisse gefunden</string>
@@ -50,6 +49,8 @@
     <string name="exit">Zum Verlassen erneut drücken</string>
     <string name="message_copied">Nachricht kopiert</string>
     <string name="error_cancelling_signUp_process_text">Bist du sicher, dass du die Registrierung abbrechen willst? Ohne Nutzerkonto kannst du Susi nicht benutzen.</string>
+    <string name="error_skipping_signUp_process_text">Dadurch wird der Anmeldeprozess abgebrochen und Sie werden zur Chat-Seite weitergeleitet.</string>
+    <string name="dialog_skip_sign_up">Anmeldung überspringen?</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Drücke die Enter-Taste um eine Nachricht zu senden.</string>
@@ -90,6 +91,8 @@
     <string name="email_cannot_be_empty">E-Mail kann nicht leer sein</string>
     <string name="password_cannot_be_empty">Passwort kann nicht leer sein</string>
     <string name="url_cannot_be_empty">URL kann nicht leer sein</string>
+    <string name="accept_terms_and_conditions">Sie sollten die Nutzungsbedingungen akzeptieren, um sich anzumelden</string>
+    <string name="accept_terms_conditions">Ich akzeptiere die allgemeinen Geschäftsbedingungen</string>
     <string name="copy_items">Kopieren</string>
     <string name="sample_website_description">Beispieltext Aus einer Website extrahiert</string>
     <string name="sample_website_headline">Website-Stichprobe</string>

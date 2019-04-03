@@ -98,6 +98,13 @@
                 android:inputType="textUri" />
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/acceptTermsAndConditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_small_medium"
+            android:text="@string/accept_terms_conditions" />
+
         <Button
             android:id="@+id/signUp"
             android:layout_width="match_parent"

@@ -47,6 +47,8 @@
     <string name="exit">Premi di nuovo per uscire</string>
     <string name="message_copied">Messaggio copiato</string>
     <string name="error_cancelling_signUp_process_text">sei sicuro di voler bloccare la registrazione? non potrai usare Susi senza un account.</string>
+    <string name="error_skipping_signUp_process_text">Questo annullerà la procedura di registrazione e ti reindirizzerà alla pagina di chat.</string>
+    <string name="dialog_skip_sign_up">Skip Registrati?</string>
 
     <!-- Strings for Using Enter as Send Preference and Speech Output-->
     <string name="settings_enterPreference_summary">Invia un messaggio facendo click su invio </string>
@@ -68,7 +70,6 @@
     <string name="activity_executed_key" translatable="false">activity_executed</string>
     <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
     <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
-    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
     <string name="notify_user_key" translatable="false">notify_user</string>
 
     <!--Error Messages-->
@@ -92,6 +93,8 @@
     <string name="field_cannot_be_empty">il campo non può essere vuoto</string>
     <string name="email_cannot_be_empty">Email non può essere vuoto</string>
     <string name="password_cannot_be_empty">Password non può essere vuoto</string>
+    <string name="accept_terms_and_conditions">Devi accettare i termini e le condizioni per registrarti</string>
+    <string name="accept_terms_conditions">Accetto i Termini e le Condizioni</string>
     <string name="url_cannot_be_empty">URL non può essere vuoto</string>
     <string name="copy_items">Copia</string>
     <string name="share_items"> vicino a te.</string>

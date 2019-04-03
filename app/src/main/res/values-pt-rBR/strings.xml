@@ -66,7 +66,6 @@
     <string name="activity_executed_key" translatable="false">activity_executed</string>
     <string name="anonymous_logged_in_key" translatable="false">anonymous_logged_in</string>
     <string name="susi_server_selected_key" translatable="false">is_susi_server_selected</string>
-    <string name="hotword_detection_key" translatable="false">hotword_detection</string>
     <string name="notify_user_key" translatable="false">notify_user</string>
 
     <!--Error Messages-->
@@ -74,6 +73,8 @@
     <string name="error_invalid_token">Chave de Acesso Inválida!</string>
     <string name="error_internet_connectivity">Problema de Conexão!</string>
     <string name="error_hotword">Desculpe, detecção de Hotword não é suportada pelo seu dispositivo.</string>
+    <string name="error_skipping_signUp_process_text">Isso cancelará o processo de inscrição e redirecionará você para a página de bate-papo.</string>
+    <string name="dialog_skip_sign_up">Pular Cadastre-se?</string>
 
     <!--Material Dialog-->
     <string name="dialog_action_complete">Complete a Ação Usando</string>
@@ -85,6 +86,8 @@
     <string name="field_cannot_be_empty">Este campo não pode ser vazio</string>
     <string name="email_cannot_be_empty">Email não pode ser vazio</string>
     <string name="password_cannot_be_empty">Senha não pode ser vazia</string>
+    <string name="accept_terms_and_conditions">Você deve aceitar os termos e condições para se inscrever</string>
+    <string name="accept_terms_conditions">Eu aceito os termos e condições</string>
     <string name="url_cannot_be_empty">URL não pode ser vazia</string>
     <string name="copy_items">Copiar</string>
     <string name="share_items">Compartilhar</string>
