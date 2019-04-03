@@ -21,6 +21,11 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
+import android.support.v4.app.NavUtils
+import android.app.Activity
+import android.content.Context
+import org.fossasia.susi.ai.skills.SkillsActivity
+
 
 /**
  * <h1>The Login activity.</h1>
@@ -35,6 +40,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
+
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +59,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             }
         }
 
+
         progressDialog = ProgressDialog(this)
         progressDialog.setCancelable(false)
         progressDialog.setMessage(getString(R.string.login))
@@ -65,6 +72,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
         cancelRequestPassword()
         requestPassword()
+
 
         loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
@@ -228,4 +236,23 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             loginPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
     }
+    private fun backHandler(context: Context) {
+        val lastFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (lastFragment == null) {
+            finish()
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(context, SkillsActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        backHandler(this)
+    }
+
+
+
 }

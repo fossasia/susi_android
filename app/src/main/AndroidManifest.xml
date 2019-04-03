@@ -50,22 +50,29 @@
         <activity
             android:name=".skills.SkillsActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/PreferencesThemeLight">
+            android:theme="@style/PreferencesThemeLight"
+            >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.chat.ChatActivity" />
         </activity>
 
         <activity
-            android:name=".signup.SignUpActivity"
+             android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateVisible|adjustResize"
-            tools:replace="android:theme" />
+            tools:replace="android:theme"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".skills.SkillsActivity" />
+        </activity>
 
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:parentActivityName=".skills.SkillsActivity"/>
 
         <!--
         For Developers:
@@ -105,6 +112,7 @@
         <meta-data
             android:name="com.google.android.youtube.API_KEY"
             android:value="${YOUTUBE_API_KEY}" />
+
 
     </application>
 
