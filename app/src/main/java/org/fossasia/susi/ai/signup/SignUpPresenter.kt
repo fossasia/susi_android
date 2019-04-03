@@ -41,7 +41,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         this.signUpView = signUpView
     }
 
-    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String) {
+    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean) {
 
         if (email.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.EMAIL)
@@ -53,6 +53,10 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         }
         if (conpass.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
+            return
+        }
+        if (isTermsAndConditionSelected == false) {
+            signUpView?.invalidCredentials(true, Constant.ACCEPT_TERMS_AND_CONDITIONS)
             return
         }
         if (!CredentialHelper.isEmailValid(email)) {
