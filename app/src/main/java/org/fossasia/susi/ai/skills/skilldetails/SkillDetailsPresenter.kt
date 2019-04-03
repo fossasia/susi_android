@@ -4,6 +4,8 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.data.SkillDetailsModel
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.db.DatabaseRepository
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
@@ -13,6 +15,7 @@ import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import retrofit2.Response
@@ -33,9 +36,20 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
     private var skillDetailsView: ISkillDetailsView? = null
     private val utilModel: UtilModel = UtilModel(skillDetailsFragment.requireContext())
+    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
+    private var settingView: ISettingsView? = null
+
 
     override fun onAttach(skillDetailsView: ISkillDetailsView) {
         this.skillDetailsView = skillDetailsView
+    }
+
+    override fun loginLogout() {
+        utilModel.clearToken()
+        utilModel.clearPrefs()
+        utilModel.saveAnonymity(false)
+        databaseRepository.deleteAllMessages()
+        settingView?.startLoginActivity()
     }
 
     override fun updateRatings(map: Map<String, String>) {
