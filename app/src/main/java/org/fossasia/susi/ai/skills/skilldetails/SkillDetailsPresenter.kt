@@ -39,7 +39,6 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
     private var settingView: ISettingsView? = null
 
-
     override fun onAttach(skillDetailsView: ISkillDetailsView) {
         this.skillDetailsView = skillDetailsView
     }
