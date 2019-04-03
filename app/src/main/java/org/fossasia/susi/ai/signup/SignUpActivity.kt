@@ -6,11 +6,11 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -21,6 +21,7 @@ import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.ForgotPass
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
+import org.fossasia.susi.ai.skills.SkillsActivity
 
 /**
  * <h1>The SignUp activity.</h1>
@@ -90,9 +91,20 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     fun skipSignUp() {
         skipSignUp.setOnClickListener {
-            val intent = Intent(this@SignUpActivity, ChatActivity::class.java)
-            startActivity(intent)
-            finish()
+            val dialogClickListener = AlertDialog.Builder(this)
+            with(dialogClickListener) {
+                setTitle(R.string.dialog_skip_sign_up)
+                setMessage(R.string.error_skipping_signUp_process_text)
+                setPositiveButton(R.string.yes, DialogInterface.OnClickListener { dialog, id ->
+                    val intent = Intent(this@SignUpActivity, ChatActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                })
+                setNegativeButton(android.R.string.no, DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+                })
+                show()
+            }
         }
     }
 
@@ -175,6 +187,10 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                 Constant.PASSWORD -> password.error = getString(R.string.password_cannot_be_empty)
                 Constant.INPUT_URL -> inputUrlSignUp.error = getString(R.string.url_cannot_be_empty)
                 Constant.CONFIRM_PASSWORD -> confirmPassword.error = getString(R.string.field_cannot_be_empty)
+                Constant.ACCEPT_TERMS_AND_CONDITIONS -> {
+                    acceptTermsAndConditions.error = getString(R.string.accept_terms_and_conditions)
+                    Toast.makeText(this@SignUpActivity, R.string.accept_terms_and_conditions, Toast.LENGTH_SHORT).show()
+                }
             }
         } else {
             when (what) {
@@ -214,7 +230,9 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     private fun signUpToTermsConditionPage() {
         signUpToTermsCondition.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://chat.susi.ai/privacy")))
+            val intent = Intent(this@SignUpActivity, SkillsActivity::class.java)
+            intent.putExtra(Constant.SIGN_UP_TO_PRIVACY, true)
+            startActivity(intent)
         }
     }
 
@@ -245,7 +263,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             val stringConfirmPassword = confirmPassword.editText?.text.toString()
             val stringURL = inputUrlSignUp.editText?.text.toString()
 
-            signUpPresenter.signUp(stringEmail, stringPassword, stringConfirmPassword, !customServerSignUp.isChecked, stringURL)
+            signUpPresenter.signUp(stringEmail, stringPassword, stringConfirmPassword, !customServerSignUp.isChecked, stringURL, acceptTermsAndConditions.isChecked)
         }
     }
 
