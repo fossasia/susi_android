@@ -42,7 +42,12 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
   <tr>
     <td><img src="docs/_static/groupwise_skills.png" height = "480" width="270"></td>
     <td><img src="docs/_static/rating_and_feedback.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/settings.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/settings1.png" height = "480" width="270"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/_static/settings2.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/help.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/privacy.png" height = "480" width="270"></td>
   </tr>
 </table>
 
