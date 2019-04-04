@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.item_voice_commands.view.voiceCommand
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatPresenter
@@ -34,8 +33,6 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
 
         init {
             view.setOnClickListener {
-                Toast.makeText(context, items[adapterPosition] + "is Clicked", Toast.LENGTH_LONG).show()
-
                 val chatMessage = items[adapterPosition]
                 val splits = chatMessage.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
                 val message = splits.joinToString(" ")
