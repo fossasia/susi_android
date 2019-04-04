@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.login
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -227,5 +228,20 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             forgotPassword.isEnabled = false
             loginPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
+    }
+    private fun backhandle(context: Context) {
+        val lastfragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+        if (lastfragment == null) {
+            finish()
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        backhandle(this)
     }
 }
