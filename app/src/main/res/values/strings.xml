@@ -17,6 +17,7 @@
 
     <string name="dialog_retrieve_messages_title">Retrieving old messages…</string>
     <string name="dialog_cancel_sign_up">Cancel sign up?</string>
+    <string name="dialog_skip_sign_up">Skip Sign Up?</string>
 
     <string name="email_invalid">The e-mail address you entered doesn\'t belong to an account. Please check your e-mail and try again.</string>
 
@@ -25,6 +26,7 @@
     <string name="error_cancelling_signUp_process_text">This will cancel the sign up process.</string>
     <string name="error_email">E-mail address already exists</string>
     <string name="error_msg">Please use the \"Forgot password?\" option to reset your password</string>
+    <string name="error_skipping_signUp_process_text">This will cancel the sign up process and redirect you to chat page.</string>
 
     <string name="unactivate_user">Account Not Active</string>
     <string name="error_unactivated_user_message">Please check your email to activate your account. If not found, check spams folder.</string>
@@ -114,6 +116,8 @@
     <string name="settings_displayEmail_key" translatable="false">display_email</string>
     <string name="settings_about_us">About Us</string>
     <string name="settings_about_us_key">about_us</string>
+    <string name="settings_visit_website">Visit Website</string>
+    <string name="settings_visit_website_key" translatable="false">visit_website</string>
 
     <!--Error Messages-->
     <string name="error_crop_not_supported">Sorry - your device doesn\'t support the crop action.</string>
@@ -144,6 +148,8 @@
     <string name="email_cannot_be_empty">E-mail address cannot be empty</string>
 
     <string name="field_cannot_be_empty">This field cannot be empty</string>
+    <string name="accept_terms_and_conditions">You should accept terms and conditions to Sign Up</string>
+    <string name="accept_terms_conditions">I accept the Terms and Conditions</string>
 
     <string name="log_in">Log in</string>
 
@@ -272,7 +278,7 @@
     <string name="skill_title">Skill Title</string>
 
     <string name="skills">Skills</string>
-    <string name="skills_activity">SUSI.AI Skills</string>
+    <string name="skills_activity" translatable="false">SUSI.AI Skills</string>
 
     <!-- Devices String-->
     <string name="connect_success">Device Connected successfully!</string>
@@ -306,9 +312,9 @@
     <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
 
     <string name="susi_skill_cms">SUSI Skill CMS</string>
-    <string name="url_susi_skill_cms">https://skills.susi.ai</string>
+    <string name="url_susi_skill_cms" translatable="false">https://skills.susi.ai</string>
     <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
-    <string name="susi_know_more"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
+    <string name="susi_know_more" translatable="false"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
 
     <!-- Intro Strings -->
     <string name="author_name">Author name</string>
@@ -327,17 +333,17 @@
 
     <string name="how_can_i_help">How can I help you?</string>
 
-    <string name="negative">Negative</string>
+    <string name="negative" translatable="false">Negative</string>
 
     <string name="next">Next</string>
 
     <string name="option">Option</string>
 
-    <string name="positive">Positive</string>
+    <string name="positive" translatable="false">Positive</string>
 
     <string name="rating">Rating</string>
 
-    <string name="rss_item_link">www.link_here.com</string>
+    <string name="rss_item_link" translatable="false">www.link_here.com</string>
 
     <string name="sample_group">Sample Group</string>
 
@@ -360,7 +366,7 @@
 
     <string name="terms_of_use">Terms of use</string>
 
-    <string name="time_9am">9:00 AM</string>
+    <string name="time_9am" translatable="false">9:00 AM</string>
 
     <string name="try_it">Try It</string>
 
@@ -371,8 +377,8 @@
 
     <string name="average_rating">Average Rating</string>
     <string name="total_rating">Total Ratings</string>
-    <string name="placeholder_average_rating">4.4</string>
-    <string name="placeholder_total_rating">64</string>
+    <string name="placeholder_average_rating" translatable="false">4.4</string>
+    <string name="placeholder_total_rating" translatable="false">64</string>
     <string name="rate_skill">Rate this skill</string>
     <string name="rate_awesome">Awesome! I love it.</string>
     <string name="rate_great">Great</string>
@@ -381,19 +387,19 @@
     <string name="rate_hate">Hated it</string>
     <string name="skill_unrated_for_anonymous_user">Skill not rated yet. Please login to rate the skill.</string>
     <string name="toast_thank_for_rating">Thank you for rating this skill</string>
-    <string name="digit_zero">0</string>
-    <string name="digit_one">1</string>
-    <string name="digit_two">2</string>
-    <string name="digit_three">3</string>
-    <string name="digit_four">4</string>
-    <string name="digit_five">5</string>
+    <string name="digit_zero" translatable="false">0</string>
+    <string name="digit_one" translatable="false">1</string>
+    <string name="digit_two" translatable="false">2</string>
+    <string name="digit_three" translatable="false">3</string>
+    <string name="digit_four" translatable="false">4</string>
+    <string name="digit_five" translatable="false">5</string>
 
     <string name="location_access">Provide Location Access</string>
-    <string name="location_access_message">Please turn on the device\'s location as it is required to detect the nearby wifi networks available.</string>
+    <string name="location_access_message">Please turn on device location as there is a need to locate nearby WiFi networks.</string>
     <string name="set_up">SET UP</string>
-    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker.</string>
+    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker</string>
     <string name="connecting_device">Connecting to your device...</string>
-    <string name="device_name">SUSI.AI</string>
+    <string name="device_name" translatable="false">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
     <string name="choose_wifi">Connect to Wi-Fi</string>
     <string name="wifi_access">Provide Wi-Fi access</string>
@@ -410,9 +416,9 @@
     <string name="example_feedback">Example feedback</string>
     <string name="feedback_section">Feedback</string>
     <string name="hint_feedback">Skill feedback</string>
-    <string name="placeholder_date">25 Jun, 2018</string>
-    <string name="placeholder_email">abc@example.com</string>
-    <string name="placeholder_initials">AB</string>
+    <string name="placeholder_date" translatable="false">25 Jun, 2018</string>
+    <string name="placeholder_email" translatable="false">abc@example.com</string>
+    <string name="placeholder_initials" translatable="false">AB</string>
     <string name="post_feedback_for_anonymous_user">Please login to post feedback</string>
     <string name="see_all_reviews">See All Reviews</string>
     <string name="reviews">Reviews</string>
