@@ -42,7 +42,12 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
   <tr>
     <td><img src="docs/_static/groupwise_skills.png" height = "480" width="270"></td>
     <td><img src="docs/_static/rating_and_feedback.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/settings.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/settings1.png" height = "480" width="270"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/_static/settings2.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/help.png" height = "480" width="270"></td>
+    <td><img src="docs/_static/privacy.png" height = "480" width="270"></td>
   </tr>
 </table>
 
@@ -177,7 +182,7 @@ Go to AndroidManifest.xml and replace the ${YOUTUBE_API_KEY} with the real youtu
    
 ## For Testers: Testing the App
 If you are a tester and want to test the app, you have two ways to do that:
-1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/susi-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/susi-release.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will always be the latest one.
+1. **Installing APK on your device:** You can get debug [APK](https://github.com/fossasia/susi_android/blob/apk/app-fdroid-debug.apk) as well as Release [APK](https://github.com/fossasia/susi_android/blob/apk/app-fdroid-release-unsigned.apk) in apk branch of the repository. After each PR merge, both the APKs are automatically updated. So, just download the APK you want and install it on your device. The APKs will always be the latest one.
 2. **Testing on [appetize.io](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0):** If you don't want to download the APKs, you can simply go on [this](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0) link and use the App on an online simulator. You will always find the latest version of App on that link because it is updated after each PR merge.
 
 ## License
