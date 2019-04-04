@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.signup
 import android.app.AlertDialog
 import android.app.Dialog
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
@@ -113,6 +114,8 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
+        backhandle(this)
         val dialogClickListener = DialogInterface.OnClickListener { _, _ -> super@SignUpActivity.onBackPressed() }
         val alertMessage = getString(R.string.error_cancelling_signUp_process_text)
         val dialogTitle = getString(R.string.dialog_cancel_sign_up)
@@ -272,4 +275,18 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             signUpPresenter.cancelSignup()
         }
     }
+    private fun backhandle(context: Context) {
+        val lastfragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+        if (lastfragment == null) {
+            finish()
+            overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+    }
+
+
+
 }
