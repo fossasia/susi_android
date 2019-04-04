@@ -455,8 +455,8 @@
     <string name="help_susi_voice_desc">To use SUSI voice click on the microphone symbol presemt in the bottom right corner of the chats page. You can ask anything to SUSI here. To change various voice settings, go to Settings page and configure SUSI voice accordingly.</string>
     <string name="help_susi_skills">What skills do SUSI have?</string>
     <string name="help_susi_skills_desc">To know about the skills that SUSI posses move to \'SUSI.AI Skills\' page. You can reach there just by clicking on the \'SUSI\' logo present at the top right corner of the Chat page.</string>
-
-    <!--Privacy -->
+    <string name="help_susi_changevoice">How to change SUSI voice ?</string>
+    <string name ="help_susi_changevoice_desc">In order to change voice and pitch of Susi, go to \'Settings \' and scroll down until you find \'Click here to change SUSI voice\' and change voice according to your preference. </string> <!--Privacy -->
     <string name="privacy_welcome">Welcome to SUSI.AI</string>
     <string name="privacy_welcome_details">Thanks for using our products and services (“Services”). The Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau Than, Can Tho City, Viet Nam. By using our Services, you are agreeing to these terms. Please read them carefully.</string>
     <string name="privacy_services">Using Our Services</string>
