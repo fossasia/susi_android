@@ -9,12 +9,6 @@ import android.widget.TextView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.search.SearchDataFormat
 
-/**
- *THis is the adapter file for binding the search results
- *
- * Created by atm1504 on 01/04/1968
- *
- */
 
 class ChatSearchAdapter (private val searchDataList: ArrayList<SearchDataFormat>) : RecyclerView.Adapter<ChatSearchAdapter.ViewHolder>() {
 

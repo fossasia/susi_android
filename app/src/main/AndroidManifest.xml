@@ -32,23 +32,21 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <!-- Accepts URIs that begin with "https://chat.susi.ai/app" -->
-                <data
-                    android:host="chat.susi.ai"
-                    android:pathPrefix="/app"
-                    android:scheme="https" />
+                <data android:host="chat.susi.ai" android:pathPrefix="/app" android:scheme="https" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".chat.ChatActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/Chat_Theme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+
         <activity
             android:name=".skills.SkillsActivity"
             android:configChanges="orientation|screenSize"
@@ -57,15 +55,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.chat.ChatActivity" />
         </activity>
+
         <activity
             android:name=".signup.SignUpActivity"
             android:theme="@style/SignUp_Theme"
             android:windowSoftInputMode="stateVisible|adjustResize"
             tools:replace="android:theme" />
+
         <activity
             android:name=".login.LoginActivity"
             android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+
         <!--
         For Developers:
         Replace the fabric_api_key to your actual API KEY
@@ -73,6 +74,7 @@
             android:name="io.fabric.ApiKey"
             android:value="fabric_api_key" />
         -->
+
         <activity
             android:name=".device.DeviceActivity"
             android:label="@string/device_title"
@@ -81,6 +83,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.skills.SkillsActivity" />
         </activity>
+
         <activity
             android:name=".login.ForgotPass"
             android:label="Reset Password"
@@ -89,6 +92,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.fossasia.susi.ai.login.LoginActivity" />
         </activity>
+
         <activity
             android:name=".skills.feedback.FeedbackActivity"
             android:label="See All Reviews"
@@ -100,6 +104,7 @@
         <meta-data
             android:name="com.google.android.youtube.API_KEY"
             android:value="${YOUTUBE_API_KEY}" />
+
     </application>
 
 </manifest>

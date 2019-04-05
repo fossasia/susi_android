@@ -15,28 +15,20 @@ import kotlinx.android.synthetic.main.activity_chat_search.chatSearchToolbar
 import kotlinx.android.synthetic.main.activity_chat_search.search_not_found
 import org.fossasia.susi.ai.chat.ChatActivity
 
-/**
- *This Activity handles the operations related
- * to searching of chat messages.
- *
- * Created by atm1504 on 01/04/1968
- *
- */
-
 class ChatSearchActivity : AppCompatActivity() {
 
-    var realm = Realm.getDefaultInstance()
-    var databaseRepository = DatabaseRepository()
-    var query: String? = ""
+    private var realm = Realm.getDefaultInstance()
+    private var databaseRepository = DatabaseRepository()
+    private var query: String = ""
 
-    var searchChat: ArrayList<SearchDataFormat> = ArrayList()
+    val searchChat: ArrayList<SearchDataFormat> = ArrayList()
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         var bundle: Bundle ? = intent.extras
-        query = bundle?.getString("query")
+        query = bundle?.getString("query") as String
         setSupportActionBar(chatSearchToolbar)
 
         setContentView(R.layout.activity_chat_search)
@@ -72,7 +64,7 @@ class ChatSearchActivity : AppCompatActivity() {
         }
     }
 
-    // HAndles the when back is pressedbutton or back is pressed in mobile.
+    // Handles back button action.
     override fun onBackPressed() {
         var intent = Intent(this, ChatActivity::class.java)
         startActivity(intent)
