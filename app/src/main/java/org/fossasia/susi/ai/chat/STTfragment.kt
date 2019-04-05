@@ -8,13 +8,16 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
+import kotlinx.android.synthetic.main.fragment_sttframe.view.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.VoiceCommandsAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import timber.log.Timber
 
@@ -37,9 +40,16 @@ class STTFragment : Fragment() {
         if (thisActivity is ChatActivity)
             thisActivity.fabsetting.hide()
         promptSpeechInput()
+        setupCommands(rootView)
         return rootView
     }
 
+    private fun setupCommands(rootView: View) {
+        var voiceCommand = getResources().getStringArray(R.array.voiceCommands)
+        var voiceCommandsList = voiceCommand.toCollection(ArrayList())
+        rootView.clickableCommands.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rootView.clickableCommands.adapter = VoiceCommandsAdapter(voiceCommandsList, activity)
+    }
     private fun promptSpeechInput() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
