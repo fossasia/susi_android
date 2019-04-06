@@ -73,8 +73,6 @@ class STTFragment : Fragment(), TextToSpeech.OnInitListener {
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
 
-
-
     private fun setupCommands(rootView: View) {
         var voiceCommand = getResources().getStringArray(R.array.voiceCommands)
         var voiceCommandsList = voiceCommand.toCollection(ArrayList())
