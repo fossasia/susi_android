@@ -36,4 +36,15 @@
         <item>Nov</item>
         <item>Dec</item>
     </array>
+
+    <array name="voiceCommands">
+        <item>What is the time now?</item>
+        <item>Which is the largest country in the world?</item>
+        <item>Open WhatsApp</item>
+        <item>Where is Singapore? </item>
+        <item>Show me news headlines</item>
+        <item>Open WhatsApp</item>
+        <item>Who is the president of India?</item>
+    </array>
+
 </resources>
