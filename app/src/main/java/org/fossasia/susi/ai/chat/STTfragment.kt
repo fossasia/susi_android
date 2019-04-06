@@ -10,13 +10,16 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
+import kotlinx.android.synthetic.main.fragment_sttframe.view.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.adapters.recycleradapters.VoiceCommandsAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
@@ -41,6 +44,7 @@ class STTFragment : Fragment(), TextToSpeech.OnInitListener {
         val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
         if (thisActivity is ChatActivity)
             thisActivity.fabsetting.hide()
+
         textToSpeech = TextToSpeech(context, this)
         val used_voice_state = PrefManager.getBoolean(R.string.used_voice, false)
         if (used_voice_state == false) {
@@ -54,7 +58,7 @@ class STTFragment : Fragment(), TextToSpeech.OnInitListener {
         } else {
             promptSpeechInput()
         }
-
+        setupCommands(rootView)
         return rootView
     }
 
@@ -67,6 +71,15 @@ class STTFragment : Fragment(), TextToSpeech.OnInitListener {
     private fun speakOut() {
         var text: String = "Hi! How can I help you?"
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+    }
+
+
+
+    private fun setupCommands(rootView: View) {
+        var voiceCommand = getResources().getStringArray(R.array.voiceCommands)
+        var voiceCommandsList = voiceCommand.toCollection(ArrayList())
+        rootView.clickableCommands.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rootView.clickableCommands.adapter = VoiceCommandsAdapter(voiceCommandsList, activity)
     }
 
     private fun promptSpeechInput() {
