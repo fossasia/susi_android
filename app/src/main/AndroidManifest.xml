@@ -69,7 +69,7 @@
 
         <!--
         For Developers:
-        Replay the fabric_api_key to your actual API KEY
+        Replace the fabric_api_key to your actual API KEY
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="fabric_api_key" />
