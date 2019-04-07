@@ -47,7 +47,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var hotwordSettings: Preference
     lateinit var share: Preference
     private lateinit var loginLogout: Preference
-    private lateinit var aboutUs: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
     private lateinit var speechAlways: SwitchPreference
@@ -83,7 +82,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         hotwordSettings = preferenceManager.findPreference(Constant.HOTWORD_DETECTION)
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
-        aboutUs = preferenceManager.findPreference(getString(R.string.settings_about_us_key))
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
         speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key)) as SwitchPreference
@@ -131,15 +129,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
         rate.setOnPreferenceClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + packageName)))
-            true
-        }
-
-        aboutUs.setOnPreferenceClickListener {
-            val aboutFragment = AboutUsFragment()
-            fragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
-                    ?.addToBackStack(TAG_ABOUT_FRAGMENT)
-                    ?.commit()
             true
         }
         share.setOnPreferenceClickListener {
