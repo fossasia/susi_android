@@ -128,12 +128,14 @@
                     android:orientation="vertical">
 
                     <TextView
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:text="@string/help_report_issue"
+
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_large"
                         android:textStyle="bold" />
