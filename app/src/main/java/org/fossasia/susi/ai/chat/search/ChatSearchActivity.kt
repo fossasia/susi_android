@@ -17,13 +17,13 @@ import org.fossasia.susi.ai.chat.ChatActivity
 
 class ChatSearchActivity : AppCompatActivity() {
 
-    private var realm = Realm.getDefaultInstance()
-    private var databaseRepository = DatabaseRepository()
+    private val realm = Realm.getDefaultInstance()
+    private val databaseRepository = DatabaseRepository()
     private var query: String = ""
 
     val searchChat: ArrayList<SearchDataFormat> = ArrayList()
-    private var mRecyclerView: RecyclerView? = null
-    private var mAdapter: RecyclerView.Adapter<*>? = null
+    private var chatSearchRecyclerView: RecyclerView? = null
+    private var chatSearchAdapter: RecyclerView.Adapter<*>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +37,11 @@ class ChatSearchActivity : AppCompatActivity() {
 
     //Initialise the recylerview and sends the array list to it.
     fun viewQueryString() {
-        mRecyclerView = findViewById(R.id.search_chat_feed)
+        chatSearchRecyclerView = findViewById(R.id.search_chat_feed)
         var mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        mRecyclerView?.layoutManager = mLayoutManager
-        mAdapter = ChatSearchAdapter(searchChat)
-        mRecyclerView?.adapter = mAdapter
+        chatSearchRecyclerView?.layoutManager = mLayoutManager
+        chatSearchAdapter = ChatSearchAdapter(searchChat)
+        chatSearchRecyclerView?.adapter = chatSearchAdapter
     }
 
     //Take data from realm databse according to the query provided
