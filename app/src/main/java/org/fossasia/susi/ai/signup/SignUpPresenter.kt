@@ -137,14 +137,6 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         signUpView = null
     }
 
-    override fun loginLogout() {
-        utilModel.clearToken()
-        utilModel.clearPrefs()
-        utilModel.saveAnonymity(false)
-        databaseRepository.deleteAllMessages()
-        settingView?.startLoginActivity()
-    }
-
     override fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean) {
         if (email.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.EMAIL)

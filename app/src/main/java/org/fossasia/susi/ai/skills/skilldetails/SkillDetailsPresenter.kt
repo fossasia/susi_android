@@ -43,14 +43,6 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
         this.skillDetailsView = skillDetailsView
     }
 
-    override fun loginLogout() {
-        utilModel.clearToken()
-        utilModel.clearPrefs()
-        utilModel.saveAnonymity(false)
-        databaseRepository.deleteAllMessages()
-        settingView?.startLoginActivity()
-    }
-
     override fun updateRatings(map: Map<String, String>) {
         skillDetailsModel.fiveStarRateSkill(map, this)
     }

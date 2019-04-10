@@ -32,6 +32,8 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
+import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
+import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 
 /**
  * The Fragment for Settings Activity
@@ -43,6 +45,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
     private lateinit var settingsPresenter: ISettingsPresenter
+    private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
 
     private lateinit var rate: Preference
     lateinit var server: Preference
@@ -78,6 +81,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
+        loginLogoutModulePresenter = LoginLogoutModulePresenter(activity as SkillsActivity)
 
         setHasOptionsMenu(true)
 
@@ -166,14 +170,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!settingsPresenter.getAnonymity()) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
-                    settingsPresenter.loginLogout()
+                    loginLogoutModulePresenter.loginLogout()
                 }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
                 val alert = builder.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
-                settingsPresenter.loginLogout()
+                loginLogoutModulePresenter.loginLogout()
             }
             true
         }
@@ -189,7 +193,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         displayEmail.setOnPreferenceClickListener {
-            settingsPresenter.loginLogout()
+            loginLogoutModulePresenter.loginLogout()
             true
         }
 

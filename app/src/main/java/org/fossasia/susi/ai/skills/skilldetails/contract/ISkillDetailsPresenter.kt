@@ -33,5 +33,4 @@ interface ISkillDetailsPresenter {
 
     fun onDetach()
 
-    fun loginLogout()
 }
