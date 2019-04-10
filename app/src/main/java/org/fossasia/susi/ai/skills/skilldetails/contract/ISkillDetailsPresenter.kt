@@ -32,5 +32,4 @@ interface ISkillDetailsPresenter {
     fun cancelFetchFeedback()
 
     fun onDetach()
-
 }
