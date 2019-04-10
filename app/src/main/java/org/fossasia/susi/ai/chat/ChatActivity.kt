@@ -156,7 +156,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun openChatSearch(view: View) {
-        if (isSearching == false) {
+        if (isSearching == false || chatSearchInput.getVisibility() == View.VISIBLE) {
             chatSearchInput.setVisibility(View.INVISIBLE)
             hideSoftKeyboard(this, window.decorView)
         } else {
