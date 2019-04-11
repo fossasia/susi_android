@@ -32,6 +32,7 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
+import android.content.Context
 import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
 import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 
@@ -81,7 +82,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
-        loginLogoutModulePresenter = LoginLogoutModulePresenter(activity as SkillsActivity)
+        loginLogoutModulePresenter = LoginLogoutModulePresenter(context as Context)
 
         setHasOptionsMenu(true)
 
