@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -76,7 +75,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         skillDetailsPresenter = SkillDetailsPresenter(this)
-        loginLogoutModulePresenter = LoginLogoutModulePresenter(context as Context)
+        loginLogoutModulePresenter = LoginLogoutModulePresenter(requireContext())
         skillDetailsPresenter.onAttach(this)
         skillData = arguments?.getParcelable(
                 SKILL_KEY) as SkillData
