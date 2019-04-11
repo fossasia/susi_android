@@ -34,6 +34,7 @@ import android.view.MotionEvent
 import android.view.WindowManager
 import android.view.GestureDetector
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -41,6 +42,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
+import org.fossasia.susi.ai.chat.search.ChatSearchActivity
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -70,6 +72,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private var example: String = ""
     private var gestureDetectorCompat: GestureDetectorCompat? = null
     private var isConfigurationChanged = false
+    private var isSearching: Boolean = false
     private val enterAsSend: Boolean by lazy {
         PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
@@ -83,6 +86,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+        isSearching = true
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
         gestureDetectorCompat = GestureDetectorCompat(this, CustomGestureListener())
@@ -149,6 +153,45 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.getUndeliveredMessages()
         chatPresenter.initiateHotwordDetection()
         compensateTTSDelay()
+    }
+
+    fun openChatSearch(view: View) {
+        if (isSearching == false) {
+            chatSearchInput.setVisibility(View.INVISIBLE)
+            hideSoftKeyboard(this, window.decorView)
+        } else {
+            chatSearchInput.setVisibility(View.VISIBLE)
+            handleSearch()
+        }
+    }
+
+    fun handleSearch() {
+        chatSearchInput?.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP && chatSearchInput?.text.toString().isNotEmpty()) {
+                performSearch(chatSearchInput?.text.toString())
+            }
+            true
+        }
+        chatSearchInput?.requestFocus()
+        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(chatSearchInput, InputMethodManager.SHOW_IMPLICIT)
+        isSearching = true
+    }
+
+    fun performSearch(query: String): Boolean {
+        var intent = Intent(this, ChatSearchActivity::class.java)
+        intent.putExtra("query", query)
+        startActivity(intent)
+        return true
+    }
+
+    override fun onBackPressed() {
+        if (isSearching == true) {
+            chatSearchInput.clearFocus()
+            chatSearchInput.setVisibility(View.INVISIBLE)
+            hideSoftKeyboard(this, window.decorView)
+            super.onBackPressed()
+        }
     }
 
     private fun setEditText() {
