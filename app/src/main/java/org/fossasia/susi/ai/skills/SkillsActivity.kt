@@ -280,6 +280,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
             else -> menu?.setGroupVisible(R.id.menu_items, false)
         }
+        val signUpMenuItem = menu?.findItem(R.id.menu_signup)
+        val loginMenuItem = menu?.findItem(R.id.menu_login)
+
+        if (!settingsPresenter.getAnonymity()) {
+            loginMenuItem?.setTitle("Logout")
+            signUpMenuItem?.setVisible(false)
+            signUpMenuItem?.setEnabled(false)
+        }
         return super.onPrepareOptionsMenu(menu)
     }
 
