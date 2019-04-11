@@ -1,0 +1,51 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:gravity="center_vertical"
+    tools:context="org.fossasia.susi.ai.profile.ProfileFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_profile_black_24dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_image"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        tools:text="Amartya Mondal"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:id="@+id/user_name"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="gravity"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_name"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        tools:text="hayyoulistentome@gmail.com"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:id="@+id/user_email"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="gravity"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"/>
+
+</RelativeLayout>

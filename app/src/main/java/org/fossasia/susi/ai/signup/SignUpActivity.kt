@@ -93,7 +93,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         skipSignUp.setOnClickListener {
             val dialogClickListener = AlertDialog.Builder(this)
             with(dialogClickListener) {
-                setTitle(R.string.dialog_skip_sign_up)
+                setTitle(R.string.dialog_cancel_sign_up)
                 setMessage(R.string.error_skipping_signUp_process_text)
                 setPositiveButton(R.string.yes, DialogInterface.OnClickListener { dialog, id ->
                     val intent = Intent(this@SignUpActivity, ChatActivity::class.java)

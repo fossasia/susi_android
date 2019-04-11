@@ -1,0 +1,53 @@
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:gravity="center_vertical"
+    tools:context="org.fossasia.susi.ai.profile.EditProfileFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/edit_profile_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#FF000000"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_profile_black_24dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_profile_image"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        tools:text="Amartya Mondal"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:id="@+id/edit_user_name"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="gravity"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/update_profile"
+        android:layout_below="@id/edit_user_name"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:text="Update"
+        android:textSize="@dimen/text_size_large"
+        android:textStyle="bold"
+        android:background="@color/design_default_color_primary"
+        android:textColor="@color/md_white_1000"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        />
+
+</RelativeLayout>

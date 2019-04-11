@@ -8,6 +8,10 @@
             android:key="display_email"
             android:selectable="true"
             android:title="test email"/>
+        <PreferenceScreen
+            android:key="display_profile"
+            android:selectable="true"
+            android:title="Profile"/>
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/server_settings_title">

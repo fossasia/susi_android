@@ -92,4 +92,9 @@ object Constant {
 
     //Visit Website Url
     const val SUSI_VISIT_WEBSITE = "https://chat.susi.ai/"
+
+    //Profile page constants
+    const val SUSI = "SUSI"
+    const val USER_NAME = "user_name"
+    const val PROFILE_IMAGE_PATH = "profile_image_path"
 }

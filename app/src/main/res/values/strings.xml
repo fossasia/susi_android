@@ -515,4 +515,19 @@
         \nYou agree that the laws of Can Tho, Viet Nam will apply to any disputes arising out of or relating to these terms or the Services. All claims arising out of or relating to these terms or the services will be litigated exclusively in the courts of Can Tho City, Viet Nam, and you and SUSI consent to personal jurisdiction in those courts.
         \nFor information about how to contact SUSI, please visit our contact page.</string>
     <string name="title_activity_chat_search_main">ChatSearchMainActivity</string>
+
+    <!-- Profile related strings-->
+    <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_edit_profile">Edit Profile</string>
+    <string name="not_logged_in">Not Logged In</string>
+    <string name="no_name_added">No name added yet</string>
+    <string name="dialog_profile_update">Update your profile information?</string>
+    <string name="dialog_profile_message">This will update your existing Profile Information.</string>
+    <string name="camera_permission">Permission Denied</string>
+    <string name="update_success">Details has been updated</string>
+    <string name="select_action">Select Action</string>
+    <string name="photo_gallery">Select photo from gallery</string>
+    <string name="photo_camera">Capture photo from camera</string>
+    <string name="image_saved">Image Saved</string>
 </resources>

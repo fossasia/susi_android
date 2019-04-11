@@ -126,10 +126,13 @@
     <!-- Avatar dimensions -->
 
     <dimen name="avatar_size">48dp</dimen>
-  
+
     <!-- Help dimensions -->
     <dimen name="card_radius_help">4dp</dimen>
-  
+
     <!-- Privacy dimensions -->
     <dimen name="card_radius_privacy">4dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

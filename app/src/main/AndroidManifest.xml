@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".MainApplication"
@@ -22,6 +24,9 @@
         android:theme="@style/AppTheme"
         android:vmSafeMode="true">
         <activity android:name=".chat.search.ChatSearchActivity"></activity>
+        <activity
+            android:name=".profile.ProfileActivity"
+            android:label="@string/title_activity_profile"></activity>
         <activity
             android:name=".login.WelcomeActivity"
             android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">

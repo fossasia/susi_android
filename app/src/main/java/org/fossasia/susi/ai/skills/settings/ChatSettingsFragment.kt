@@ -32,6 +32,7 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
+import org.fossasia.susi.ai.profile.ProfileActivity
 
 /**
  * The Fragment for Settings Activity
@@ -51,6 +52,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var share: Preference
     private lateinit var loginLogout: Preference
     private lateinit var aboutUs: Preference
+    private lateinit var profile: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
     private lateinit var speechAlways: SwitchPreference
@@ -93,6 +95,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key)) as SwitchPreference
         speechAlways = preferenceManager.findPreference(getString(R.string.settings_speechAlways_key)) as SwitchPreference
         displayEmail = preferenceManager.findPreference(getString(R.string.settings_displayEmail_key))
+        profile = preferenceManager.findPreference("display_profile")
         querylanguage = preferenceManager.findPreference(Constant.LANG_SELECT) as ListPreference
         deviceName = preferenceManager.findPreference(Constant.DEVICE)
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
@@ -120,6 +123,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             deviceName.isVisible = false
             setupDevice.isVisible = false
             preferenceManager.findPreference(getString(R.string.settings_deviceSection_key)).isVisible = false
+        }
+
+        profile.setOnPreferenceClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
+            startActivity(intent)
+            true
         }
 
         querylanguage.setOnPreferenceChangeListener { _, newValue ->
