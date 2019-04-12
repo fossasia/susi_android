@@ -284,7 +284,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val loginMenuItem = menu?.findItem(R.id.menu_login)
 
         if (!settingsPresenter.getAnonymity()) {
-            loginMenuItem?.setTitle(getString(R.string.action_log_out));
+            loginMenuItem?.setTitle(getString(R.string.action_log_out))
             signUpMenuItem?.setVisible(false)
             signUpMenuItem?.setEnabled(false)
         }
