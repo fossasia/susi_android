@@ -104,11 +104,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
             displayEmail.isEnabled = true
-            resetPassword.isVisible=false
         } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
             displayEmail.isEnabled = false
-            resetPassword.isVisible=true
         }
 
         setLanguage()
@@ -221,13 +219,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         if (!settingsPresenter.getAnonymity()) {
-            resetPassword.isEnabled = true
+            resetPassword.isVisible = true
             resetPassword.setOnPreferenceClickListener {
                 showResetPasswordAlert()
                 true
             }
         } else {
-            resetPassword.isEnabled = false
+            resetPassword.isVisible = false
         }
 
         micSettings.isEnabled = settingsPresenter.enableMic()
