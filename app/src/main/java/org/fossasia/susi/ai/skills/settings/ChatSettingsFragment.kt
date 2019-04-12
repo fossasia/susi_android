@@ -104,9 +104,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
             displayEmail.isEnabled = true
+            resetPassword.isVisible=false
         } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
             displayEmail.isEnabled = false
+            resetPassword.isVisible=true
         }
 
         setLanguage()
