@@ -3,7 +3,6 @@
     <string name="action_about_us">எங்களை பற்றி நடவடிக்கை</string>
     <string name="dialog_cancel_sign_up">உரையாடலை ரத்து செய்யுங்கள்</string>
     <string name="menu_item_about">பற்றி பட்டி உருப்படியை</string>
-    <string name="menu_item_privacy">தனியுரிமை</string>
     <string name="menu_item_settings">மெனு உருப்படி அமைப்புகள்</string>
     <string name="no_skill_name">இல்லை திறன் பெயர்</string>
     <string name="no_skill_description">திறமை விளக்கம் இல்லை</string>
@@ -320,4 +319,8 @@
     <string name="settings_visit_website">வலைத்தளத்தைப் பார்வையிடவும்</string>
     <string name="error_skipping_signUp_process_text">இது உள்நுழைவு செயல்முறையை ரத்துசெய்து, அரட்டை பக்கத்திற்கு உங்களை திருப்பி விடுகிறது.</string>
     <string name="dialog_skip_sign_up">உள்நுழையவும்?</string>
+    <string name="settings_help">உதவி</string>
+    <string name="settings_help_key">உதவி</string>
+    <string name="settings_privacy">தனியுரிமை</string>
+    <string name="settings_privacy_key">தனியுரிமை</string>
 </resources>

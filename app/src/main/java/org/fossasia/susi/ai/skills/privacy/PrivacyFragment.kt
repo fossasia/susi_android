@@ -19,7 +19,7 @@ class PrivacyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val thisActivity = activity
-        thisActivity?.title = getString(R.string.menu_item_privacy)
+        thisActivity?.title = getString(R.string.settings_privacy)
         val rootView = inflater.inflate(R.layout.fragment_privacy, container, false)
         setHasOptionsMenu(true)
         return rootView

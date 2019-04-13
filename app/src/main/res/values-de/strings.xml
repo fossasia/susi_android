@@ -254,7 +254,6 @@
         \nWenn sich herausstellt, dass ein bestimmter Begriff nicht durchsetzbar ist, werden keine anderen Bestimmungen berührt.
         \nSie stimmen zu, dass die Gesetze von Can Tho, Vietnam für alle Streitigkeiten gelten, die sich aus diesen Bedingungen oder den Dienstleistungen ergeben oder sich auf diese beziehen. Alle Ansprüche, die sich aus oder in Bezug auf diese Bedingungen oder die Dienstleistungen ergeben, werden ausschließlich vor den Gerichten von Can Tho City, Vietnam, geführt. Sie und SUSI erklären sich mit der persönlichen Zuständigkeit dieser Gerichte einverstanden.
         \nFür Informationen zur Kontaktaufnahme mit SUSI besuchen Sie bitte unsere Kontaktseite.</string>
-    <string name="menu_item_privacy">Privatsphäre</string>
     <string name="api_key_not_set">API KEY nicht gesetzt.</string>
     <string name="author_name">Autorenname</string>
     <string name="average_rating">durchschnittliche Bewertung</string>
@@ -338,4 +337,8 @@
     <string name="post_feedback_for_anonymous_user">Bitte melden Sie sich an, um ein Feedback zu geben</string>
     <string name="set_up">KONFIGURATION</string>
     <string name="susi_contributors">Mitwirkende</string>
+    <string name="settings_help">Hilfe</string>
+    <string name="settings_help_key">Hilfe</string>
+    <string name="settings_privacy">Privatsphäre</string>
+    <string name="settings_privacy_key">Privatsphäre</string>
 </resources>

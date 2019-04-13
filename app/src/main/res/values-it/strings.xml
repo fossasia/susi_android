@@ -208,7 +208,6 @@
         \nSe risulta che un determinato termine non è applicabile, non influirà su nessun altro termine.
         \n Accetti che le leggi di Can Tho, Viet Nam si applichino a eventuali controversie derivanti da o relative a questi termini o ai Servizi. Tutti i reclami derivanti da o relativi a questi termini o servizi saranno contestati esclusivamente nei tribunali di Can Tho City, Vietnam, e tu e SUSI acconsentite alla giurisdizione personale in tali tribunali.
         \nPer informazioni su come contattare SUSI, visita la nostra pagina di contatto.</string>
-    <string name="menu_item_privacy">Pvita privata</string>
     <string name="action_about_us">riguardo a noi</string>
     <string name="menu_item_about">di</string>
     <string name="menu_item_settings">impostazioni</string>
@@ -337,4 +336,8 @@
     <string name="example_feedback">Feedback di esempio</string>
     <string name="examples">Esempi</string>
     <string name="existing_user_login">Utente esistente?</string>
+    <string name="settings_help">Aiuto</string>
+    <string name="settings_help_key">Aiuto</string>
+    <string name="settings_privacy">vita privata</string>
+    <string name="settings_privacy_key">vita privata</string>
 </resources>

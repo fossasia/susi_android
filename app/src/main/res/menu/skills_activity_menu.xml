@@ -7,26 +7,19 @@
             android:id="@+id/menu_settings"
             android:icon="@drawable/ic_settings_24dp"
             android:title="@string/menu_item_settings" />
-        <item
-            android:id="@+id/menu_about"
-            android:icon="@drawable/ic_about"
-            android:title="@string/menu_item_about" />
+
         <item
             android:id="@+id/menu_login"
             android:title="@string/action_login" />
         <item
             android:id="@+id/menu_signup"
             android:title="@string/sign_up" />
-        <item
-            android:id="@+id/menu_privacy"
-            android:title="@string/menu_item_privacy" />
+
         <item
             android:id="@+id/action_search"
             android:icon="@drawable/ic_open_search"
             android:title="@string/search"
             app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/menu_help"
-            android:title="@string/menu_item_help" />
+
     </group>
 </menu>
