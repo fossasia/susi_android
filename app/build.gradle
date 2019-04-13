@@ -151,4 +151,5 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
 }

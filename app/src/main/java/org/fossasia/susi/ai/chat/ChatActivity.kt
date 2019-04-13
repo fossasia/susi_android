@@ -5,6 +5,7 @@ import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
 import android.Manifest
 import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -12,13 +13,16 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Typeface
 import android.media.AudioManager
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
+import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.view.GestureDetectorCompat
@@ -36,6 +40,9 @@ import android.view.GestureDetector
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import com.getkeepsafe.taptargetview.TapTarget
+import com.getkeepsafe.taptargetview.TapTargetSequence
+import com.getkeepsafe.taptargetview.TapTargetView
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.fossasia.susi.ai.R
@@ -82,7 +89,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
             textToSpeech?.stop()
         }
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -109,6 +115,50 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 chatPresenter.startComputingThread()
             }
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun runTutorial() {
+        TapTargetSequence(this)
+                .targets(
+                        TapTargetView.showFor(this,
+                                TapTarget.forView(findViewById(R.id.searchChat), getString(R.string.search_icon_title), getString(R.string.search_icon_description)).id(1)
+                                        // All options below are optional
+                                        .outerCircleColor(R.color.colorPrimaryDark) // Specify a color for the outer circle
+                                        .outerCircleAlpha(0.96f) // Specify the alpha amount for the outer circle
+                                        .targetCircleColor(R.color.md_lime_50) // Specify a color for the target circle
+                                        .titleTextSize(30) // Specify the size (in sp) of the title text
+                                        .titleTextColor(R.color.chat_screen_color) // Specify the color of the title text
+                                        .descriptionTextSize(20) // Specify the size (in sp) of the description text
+                                        .descriptionTextColor(R.color.chat_screen_color) // Specify the color of the description text
+                                        .textColor(R.color.chat_screen_color) // Specify a color for both the title and description text
+                                        .textTypeface(Typeface.SANS_SERIF) // Specify a typeface for the text
+                                        .dimColor(R.color.colorPrimaryDark) // If set, will dim behind the view with 30% opacity of the given color
+                                        .drawShadow(true)                   // Whether to draw a drop shadow or not
+                                        .cancelable(false)                  // Whether tapping outside the outer circle dismisses the view
+                                        .tintTarget(true)
+                                        .transparentTarget(false)
+                                        .icon(getDrawable(R.drawable.ic_open_search))// Specify whether the target is transparent (displays the content underneath) // Specify a custom drawable to draw as the target
+                                        .targetRadius(100)),
+                        TapTargetView.showFor(this, // `this` is an Activity
+                                TapTarget.forView(findViewById(R.id.fabsetting), getString(R.string.susi_icon_title), getString(R.string.susi_icon_description))
+                                        // All options below are optional
+                                        .outerCircleColor(R.color.colorPrimaryDark)
+                                        .outerCircleAlpha(0.96f)
+                                        .targetCircleColor(R.color.md_lime_50)
+                                        .titleTextSize(30)
+                                        .titleTextColor(R.color.chat_screen_color)
+                                        .descriptionTextSize(20)
+                                        .descriptionTextColor(R.color.chat_screen_color)
+                                        .textColor(R.color.chat_screen_color)
+                                        .textTypeface(Typeface.SANS_SERIF)
+                                        .dimColor(R.color.colorPrimaryDark)
+                                        .drawShadow(true)
+                                        .cancelable(false)
+                                        .tintTarget(true)
+                                        .transparentTarget(false)
+                                        .icon(getDrawable(R.drawable.letter_s))// Specify whether the target is transparent (displays the content underneath) // Specify a custom drawable to draw as the target
+                                        .targetRadius(100)))
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -514,7 +564,12 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun onResume() {
         super.onResume()
         chatPresenter.getUndeliveredMessages()
-
+        val tutorialKey = "Susi"
+        val firstTime = getPreferences(Context.MODE_PRIVATE).getBoolean(tutorialKey, true)
+        if (firstTime) {
+            runTutorial()
+            getPreferences(Context.MODE_PRIVATE).edit().putBoolean(tutorialKey, false).apply()
+        }
         if (!example.isEmpty()) {
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
@@ -585,4 +640,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
         Timber.d(videoId)
         youtubeVid.playYoutubeVid(videoId)
     }
+}
+
+private fun TapTargetSequence.targets(showFor: TapTargetView?, showFor1: TapTargetView?) {
+}
+
+private fun TapTargetSequence.targets(showFor: TapTargetView?, targetRadius: TapTarget?) {
 }
