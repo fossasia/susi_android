@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.text.Editable
-import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import kotlinx.android.synthetic.main.fragment_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.Constant
@@ -30,8 +28,10 @@ import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.settings.SettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.skills.skillSearch.SearchSkillFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
+import timber.log.Timber
 
 /**
  * <h1>The Skills activity.</h1>
@@ -221,40 +221,18 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
         } else { //open the search entry
-
             action?.setDisplayShowCustomEnabled(true) //enable it to display a
             // custom view in the action bar.
             action?.setCustomView(R.layout.search_bar)//add the custom view
             action?.setDisplayShowTitleEnabled(false) //hide the title
 
             edtSearch = action?.customView?.findViewById(R.id.edtSearch) //the text editor
-
-            //this is a listener to do a search when users enters query in editText
-            edtSearch?.addTextChangedListener(object : TextWatcher {
-                /**
-                 * Variable used to remove unneccessary invoking of doSearch() method.
-                 */
-                var skillFound = true
-
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                    //no need to implement
+            edtSearch?.setOnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP && edtSearch?.text.toString().isNotEmpty()) {
+                        performSearch(edtSearch?.text.toString())
                 }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    //no need to implement
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    val currentText = s.toString()
-                    //checking that value exist in skills and if not exist comparing the length of the current text to the previous text where the skills are present
-                    if (skillFound || (currentText.length <= text.length)) {
-                        skillFound = performSearch(currentText)
-                        text = currentText
-                    } else {
-                        Toast.makeText(baseContext, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
+                true
+            }
             edtSearch?.requestFocus()
 
             //open the keyboard focused in the edtSearch
@@ -272,21 +250,31 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
      */
     fun performSearch(query: String): Boolean {
 
-        for ((pos, item) in skills.withIndex()) {
-            if (query in item.first) {
-                skillMetrics.scrollToPosition(pos)
-                return true
-            }
+        var searchedSkillsList: ArrayList<SkillData> = arrayListOf()
 
-            for (item2 in item.second) {
-                if (query.toLowerCase() in item2.group.toLowerCase()) {
-                    skillMetrics.scrollToPosition(pos)
-                    return true
+        if (skills.isEmpty()) {
+            Toast.makeText(this, R.string.skill_empty, Toast.LENGTH_SHORT).show()
+            return true
+        }
+
+        for (skill in skills) {
+            var skillDataList: List<SkillData> = skill.second
+            for (skillData in skillDataList) {
+                if (skillData.skillName != "" && skillData.skillName != null) {
+                    if (skillData.skillName.toLowerCase().contains(query.toLowerCase())) {
+                        searchedSkillsList.add(skillData)
+                    }
                 }
             }
         }
-        Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
-        return false
+        Timber.d(searchedSkillsList.toString())
+        if (searchedSkillsList.isEmpty()) {
+            Toast.makeText(this, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        loadSearchSkillsFragment(searchedSkillsList, query)
+        return true
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
@@ -296,7 +284,24 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
             else -> menu?.setGroupVisible(R.id.menu_items, false)
         }
+        val signUpMenuItem = menu?.findItem(R.id.menu_signup)
+        val loginMenuItem = menu?.findItem(R.id.menu_login)
+
+        if (!settingsPresenter.getAnonymity()) {
+            loginMenuItem?.setTitle(getString(R.string.action_log_out))
+            signUpMenuItem?.setVisible(false)
+            signUpMenuItem?.setEnabled(false)
+        }
         return super.onPrepareOptionsMenu(menu)
+    }
+
+    private fun loadSearchSkillsFragment(searchedSkills: ArrayList<SkillData>, searchQuery: String) {
+        handleOnLoadingFragment()
+        val skillSearchFragment = SearchSkillFragment.newInstance(searchedSkills, searchQuery)
+        (this).supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, skillSearchFragment)
+                .addToBackStack(SearchSkillFragment().toString())
+                .commit()
     }
 
     override fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String) {

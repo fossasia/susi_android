@@ -223,13 +223,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         if (!settingsPresenter.getAnonymity()) {
-            resetPassword.isEnabled = true
+            resetPassword.isVisible = true
             resetPassword.setOnPreferenceClickListener {
                 showResetPasswordAlert()
                 true
             }
         } else {
-            resetPassword.isEnabled = false
+            resetPassword.isVisible = false
         }
 
         micSettings.isEnabled = settingsPresenter.enableMic()
