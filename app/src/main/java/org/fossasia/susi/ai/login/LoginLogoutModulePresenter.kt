@@ -13,7 +13,7 @@ class LoginLogoutModulePresenter(context: Context) : ILoginLogoutModulePresenter
     private val databaseRepository: IDatabaseRepository = DatabaseRepository()
     private val settingView: ISettingsView? = null
 
-    override fun loginLogout() {
+    override fun logout() {
         utilModel.clearToken()
         utilModel.clearPrefs()
         utilModel.saveAnonymity(false)

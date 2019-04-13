@@ -170,14 +170,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!settingsPresenter.getAnonymity()) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
-                    loginLogoutModulePresenter.loginLogout()
+                    loginLogoutModulePresenter.logout()
                 }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
                 val alert = builder.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
-                loginLogoutModulePresenter.loginLogout()
+                loginLogoutModulePresenter.logout()
             }
             true
         }
@@ -193,7 +193,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         displayEmail.setOnPreferenceClickListener {
-            loginLogoutModulePresenter.loginLogout()
+            loginLogoutModulePresenter.logout()
             true
         }
 

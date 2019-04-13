@@ -170,7 +170,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 if (!settingsPresenter.getAnonymity()) {
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
-                        loginLogoutModulePresenter.loginLogout()
+                        loginLogoutModulePresenter.logout()
                         val intent = Intent(this, LoginActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(intent)
@@ -180,7 +180,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                     alert.setTitle(getString(R.string.logout))
                     alert.show()
                 } else {
-                    loginLogoutModulePresenter.loginLogout()
+                    loginLogoutModulePresenter.logout()
                     val intent = Intent(this, LoginActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)

@@ -503,7 +503,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
             tvAnonymousPostFeedback.setOnClickListener {
-                loginLogoutModulePresenter.loginLogout()
+                loginLogoutModulePresenter.logout()
                 val intentToLogin = Intent(context, LoginActivity::class.java)
                 intentToLogin.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intentToLogin)
