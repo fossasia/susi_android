@@ -9,9 +9,9 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 
 class LoginLogoutModulePresenter(context: Context) : ILoginLogoutModulePresenter {
 
-    private var utilModel: UtilModel = UtilModel(context)
-    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
-    private var settingView: ISettingsView? = null
+    private val utilModel: UtilModel = UtilModel(context)
+    private val databaseRepository: IDatabaseRepository = DatabaseRepository()
+    private val settingView: ISettingsView? = null
 
     override fun loginLogout() {
         utilModel.clearToken()
