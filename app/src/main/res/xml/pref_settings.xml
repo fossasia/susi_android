@@ -115,6 +115,13 @@
         <PreferenceScreen
             android:key="@string/settings_visit_website_key"
             android:title="@string/settings_visit_website" />
+        <PreferenceScreen
+            android:key="@string/settings_help_key"
+            android:title="@string/settings_help" />
+        <PreferenceScreen
+            android:key="@string/settings_privacy_key"
+            android:title="@string/settings_privacy" />
+
     </PreferenceCategory>
 
 

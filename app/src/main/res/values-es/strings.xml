@@ -207,7 +207,6 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
         \nSi resulta que un término en particular no es ejecutable, no afectará ningún otro término.
         \nUsted acepta que las leyes de Can Tho, Viet Nam se aplicarán a cualquier disputa que surja de o se relacione con estos términos o los Servicios. Todas las reclamaciones que surjan de o estén relacionadas con estos términos o los servicios se litigarán exclusivamente en los tribunales de Can Tho City, Viet Nam, y usted y SUSI aceptan la jurisdicción personal de dichos tribunales.
         \nPara obtener información sobre cómo ponerse en contacto con SUSI, visite nuestra página de contacto.</string>
-    <string name="menu_item_privacy">Intimidad</string>
     <string name="device_help">Escolha a rede Wi-Fi que você gostaria de usar com seu alto-falante inteligente.zzzzz</string>
     <string name="message_no_skills_found">nenhuma habilidade encontrada</string>
     <string name="query_language">Linguagem de consulta</string>
@@ -239,7 +238,6 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="action_about_us">Sobre nosotros</string>
     <string name="skip">Omitir</string>
     <string name="check_email">Consultar su correo electrónico</string>
-    <string name="menu_item_about">Acerca de</string>
     <string name="total_rating">Calificaciones top</string>
     <string name="skill_title">Título de habilidad</string>
     <string name="voice_settings">Ajustes de voz SUSI</string>

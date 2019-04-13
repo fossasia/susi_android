@@ -194,7 +194,6 @@
         \nSe acontecer que um determinado termo não seja aplicável, não afetará outros termos.
         \nVocê concorda que as leis de Can Tho, Viet Nam serão aplicadas a quaisquer disputas decorrentes ou relacionadas a estes termos ou aos Serviços. Todas as reclamações decorrentes de ou relacionadas a estes termos ou aos serviços serão litigadas exclusivamente nos tribunais de Can Tho City, Vietnã, e você e o SUSI consentem com a jurisdição pessoal nesses tribunais.
         \nPara obter informações sobre como entrar em contato com o SUSI, visite nossa página de contato.</string>
-    <string name="menu_item_privacy">Privacidade</string>
     <string name="how_can_i_help">como posso ajudar ?</string>
     <string name="wifi_error">Credenciais de Wi-Fi não enviadas.Por favor, tente novamente</string>
     <string name="wifi_success">Credenciais Wi-Fi com sucesso!</string>
@@ -215,7 +214,6 @@
     <string name="action_about_us">sobre nós</string>
     <string name="skip">pular</string>
     <string name="check_email">verifique seu e-mail</string>
-    <string name="menu_item_about">sobre</string>
     <string name="total_rating">melhores classificações</string>
     <string name="skill_title">Título de habilidade</string>
     <string name="pref_share_title">compartilhar susi</string>

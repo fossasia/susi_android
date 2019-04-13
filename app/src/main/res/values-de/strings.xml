@@ -159,7 +159,6 @@
     <string name="dialog_cancel_sign_up">Anmeldung abbrechen?</string>
     <string name="unactivate_user">Konto nicht aktiv</string>
     <string name="error_unactivated_user_message">Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu aktivieren. Wenn nicht gefunden, überprüfen Sie den Spam-Ordner.</string>
-    <string name="menu_item_about">Über</string>
     <string name="menu_item_settings">Einstellungen</string>
     <string name="no_skill_name">Name nicht verfügbar</string>
     <string name="no_skill_description">Keine Beschreibung verfügbar</string>
@@ -254,7 +253,6 @@
         \nWenn sich herausstellt, dass ein bestimmter Begriff nicht durchsetzbar ist, werden keine anderen Bestimmungen berührt.
         \nSie stimmen zu, dass die Gesetze von Can Tho, Vietnam für alle Streitigkeiten gelten, die sich aus diesen Bedingungen oder den Dienstleistungen ergeben oder sich auf diese beziehen. Alle Ansprüche, die sich aus oder in Bezug auf diese Bedingungen oder die Dienstleistungen ergeben, werden ausschließlich vor den Gerichten von Can Tho City, Vietnam, geführt. Sie und SUSI erklären sich mit der persönlichen Zuständigkeit dieser Gerichte einverstanden.
         \nFür Informationen zur Kontaktaufnahme mit SUSI besuchen Sie bitte unsere Kontaktseite.</string>
-    <string name="menu_item_privacy">Privatsphäre</string>
     <string name="api_key_not_set">API KEY nicht gesetzt.</string>
     <string name="author_name">Autorenname</string>
     <string name="average_rating">durchschnittliche Bewertung</string>

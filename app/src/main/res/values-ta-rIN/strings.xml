@@ -2,8 +2,6 @@
 <resources>
     <string name="action_about_us">எங்களை பற்றி நடவடிக்கை</string>
     <string name="dialog_cancel_sign_up">உரையாடலை ரத்து செய்யுங்கள்</string>
-    <string name="menu_item_about">பற்றி பட்டி உருப்படியை</string>
-    <string name="menu_item_privacy">தனியுரிமை</string>
     <string name="menu_item_settings">மெனு உருப்படி அமைப்புகள்</string>
     <string name="no_skill_name">இல்லை திறன் பெயர்</string>
     <string name="no_skill_description">திறமை விளக்கம் இல்லை</string>
