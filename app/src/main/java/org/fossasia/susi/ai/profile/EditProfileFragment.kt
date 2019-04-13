@@ -81,11 +81,11 @@ class EditProfileFragment : Fragment() {
                 Manifest.permission.CAMERA)
 
         if (permission != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(requireContext(), R.string.camera_permission, Toast.LENGTH_SHORT).show()
-            edit_profile_image.isClickable = false
+            edit_profile_image.isClickable = true
             makeRequest()
         } else {
-            edit_profile_image.isClickable = true
+            edit_profile_image.isClickable = false
+            Toast.makeText(requireContext(), R.string.camera_permission, Toast.LENGTH_SHORT).show()
         }
     }
 
