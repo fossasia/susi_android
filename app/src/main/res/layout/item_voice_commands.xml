@@ -12,7 +12,10 @@
         android:layout_margin="@dimen/margin_small_medium"
         tools:text="Open WhatsApp"
         android:id="@+id/voiceCommand"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         android:padding="@dimen/padding_moderate"
-        android:textSize="@dimen/text_size_large"/>
+        android:textSize="@dimen/text_size_medium"/>
 
 </LinearLayout>
