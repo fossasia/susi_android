@@ -13,6 +13,6 @@
         tools:text="Open WhatsApp"
         android:id="@+id/voiceCommand"
         android:padding="@dimen/padding_moderate"
-        android:textSize="@dimen/text_size_medium"/>
+        android:textSize="@dimen/text_size_small"/>
 
 </LinearLayout>
