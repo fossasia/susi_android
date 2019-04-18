@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.login
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -145,8 +146,24 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     fun skip() {
-        skip.setOnClickListener { loginPresenter.skipLogin() }
+        skip.setOnClickListener {
+            val dialogClickListener = AlertDialog.Builder(this)
+            with(dialogClickListener) {
+                setTitle(R.string.dialog_skip_login)
+                setMessage(R.string.error_skipping_login_process_text)
+                setPositiveButton(R.string.yes, DialogInterface.OnClickListener { dialog, id ->
+                    val intent = Intent(this@LoginActivity, ChatActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                })
+                setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+                show()
+            }
+        }
     }
+
 
     private fun logIn() {
         logIn.setOnClickListener {

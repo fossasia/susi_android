@@ -338,4 +338,6 @@
     <string name="post_feedback_for_anonymous_user">Bitte melden Sie sich an, um ein Feedback zu geben</string>
     <string name="set_up">KONFIGURATION</string>
     <string name="susi_contributors">Mitwirkende</string>
+    <string name="dialog_skip_login">Login überspringen?</string>
+    <string name="error_skipping_login_process_text">Dadurch wird die Anmeldung abgebrochen und zur Chat-Seite umgeleitet</string>
 </resources>

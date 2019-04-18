@@ -515,4 +515,6 @@
         \nYou agree that the laws of Can Tho, Viet Nam will apply to any disputes arising out of or relating to these terms or the Services. All claims arising out of or relating to these terms or the services will be litigated exclusively in the courts of Can Tho City, Viet Nam, and you and SUSI consent to personal jurisdiction in those courts.
         \nFor information about how to contact SUSI, please visit our contact page.</string>
     <string name="title_activity_chat_search_main">ChatSearchMainActivity</string>
+    <string name="dialog_skip_login">Skip Login?</string>
+    <string name="error_skipping_login_process_text">This will cancel Login and redirect to Chat page</string>
 </resources>

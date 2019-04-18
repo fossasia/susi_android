@@ -337,4 +337,6 @@
     <string name="example_feedback">Feedback di esempio</string>
     <string name="examples">Esempi</string>
     <string name="existing_user_login">Utente esistente?</string>
+    <string name="dialog_skip_login">salta login?</string>
+    <string name="error_skipping_login_process_text">Questo annullerà Login e reindirizza alla pagina Chat</string>
 </resources>

@@ -393,4 +393,6 @@
     <string name="settings_about_us_key">हमारे_बारे_में</string>
     <string name="stay_here">यहीं रुकिए</string>
     <string name="unactivate_user">खाता सक्रिय नहीं है</string>
+    <string name="dialog_skip_login">लॉगिन छोड़ दें?</string>
+    <string name="error_skipping_login_process_text">यह लॉग इन को रद्द कर देगा और चैट पेज पर रीडायरेक्ट करेगा</string>
 </resources>

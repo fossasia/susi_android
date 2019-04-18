@@ -330,4 +330,6 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="feedback_section">realimentación</string>
     <string name="rate_hate">lo odié</string>
     <string name="skill_unrated_for_anonymous_user">Habilidad no clasificada aún. Por favor, inicie sesión para calificar la habilidad.</string>
+    <string name="dialog_skip_login">saltar inicio de sesión?</string>
+    <string name="error_skipping_login_process_text">Esto cancelará el inicio de sesión y redirigirá a la página de chat.</string>
 </resources>
