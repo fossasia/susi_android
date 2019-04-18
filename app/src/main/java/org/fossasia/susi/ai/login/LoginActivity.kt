@@ -145,7 +145,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         }
     }
 
-    fun skip() {
+   private fun skip() {
         skip.setOnClickListener {
             val dialogClickListener = AlertDialog.Builder(this)
             with(dialogClickListener) {
@@ -163,8 +163,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             }
         }
     }
-
-
     private fun logIn() {
         logIn.setOnClickListener {
             startLogin()
