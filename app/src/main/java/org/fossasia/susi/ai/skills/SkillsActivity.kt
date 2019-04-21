@@ -4,11 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -46,6 +45,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_HELP_FRAGMENT = "HelpFragment"
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
+    private var gestureDetectorCompat: GestureDetectorCompat? = null
 
     private var searchAction: MenuItem? = null
     private var isSearchOpened = false
@@ -328,4 +328,30 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             isSearchOpened = false
         }
     }
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        this.gestureDetectorCompat?.onTouchEvent(event)
+        return true
+    }
+
+    //Inner class for handling the gestures
+    internal inner class CustomGestureListener : GestureDetector.SimpleOnGestureListener() {
+        override fun onFling(
+                event1: MotionEvent,
+                event2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+        ): Boolean {
+            val SWIPE = event2.getX() - event1.getX()
+            //Swipe from left to right back to ChatActivity
+            if (SWIPE >= 100 && SWIPE<= 1000) {
+                val intent = Intent(this@SkillsActivity, ChatActivity::class.java)
+                startActivity(intent)
+            }
+
+
+            return true
+        }
+    }
+
+
 }
