@@ -74,7 +74,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_services"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -108,7 +108,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_susi_account"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -142,7 +142,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_copyright"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -176,7 +176,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_content"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -210,7 +210,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_software"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -244,7 +244,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_modify"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -278,7 +278,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_warranty"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -312,7 +312,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_liability"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -346,7 +346,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_business"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
@@ -380,7 +380,7 @@
                         android:gravity="center_horizontal"
                         android:text="@string/privacy_about"
                         android:textAlignment="center"
-                        android:textColor="@color/colorAccent"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="@dimen/text_size_moderate" />
 
 
