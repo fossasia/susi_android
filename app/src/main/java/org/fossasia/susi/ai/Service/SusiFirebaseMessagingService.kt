@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.fossasia.susi.ai.R
 
 class SusiFirebaseMessagingService : FirebaseMessagingService(){
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -49,7 +50,7 @@ class SusiFirebaseMessagingService : FirebaseMessagingService(){
         notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(android.support.v4.R.drawable.notification_icon_background)
+                .setSmallIcon(R.drawable.ic_susi_blue)
                 .setContentTitle(title)
                 .setContentText(content)
         notificationManager.notify(1,notificationBuilder.build())
