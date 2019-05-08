@@ -38,6 +38,7 @@
     <string name="hint_voice_input">Say Something…</string>
 
     <string name="hotword_success">Hotword detected</string>
+    <string name="chat_search_status">Search Not Found</string>
 
     <string name="id">ID</string>
 
@@ -130,6 +131,7 @@
     <string name="no_skill_description">No description available</string>
     <string name="skill_unrated">Skill not rated yet</string>
     <string name="skill_not_found">No skill found yet</string>
+    <string name="skill_empty">Skills to be fetched. Try again later</string>
 
     <!--Material Dialog-->
     <string name="confirm_password">Confirm Password</string>
@@ -461,8 +463,8 @@
     <string name="help_susi_voice_desc">To use SUSI voice click on the microphone symbol presemt in the bottom right corner of the chats page. You can ask anything to SUSI here. To change various voice settings, go to Settings page and configure SUSI voice accordingly.</string>
     <string name="help_susi_skills">What skills do SUSI have?</string>
     <string name="help_susi_skills_desc">To know about the skills that SUSI posses move to \'SUSI.AI Skills\' page. You can reach there just by clicking on the \'SUSI\' logo present at the top right corner of the Chat page.</string>
-
-    <!--Privacy -->
+    <string name="help_susi_changevoice">How to change SUSI voice ?</string>
+    <string name ="help_susi_changevoice_desc">In order to change voice and pitch of Susi, go to \'Settings \' and scroll down until you find \'Click here to change SUSI voice\' and change voice according to your preference. </string> <!--Privacy -->
     <string name="privacy_welcome">Welcome to SUSI.AI</string>
     <string name="privacy_welcome_details">Thanks for using our products and services (“Services”). The Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau Than, Can Tho City, Viet Nam. By using our Services, you are agreeing to these terms. Please read them carefully.</string>
     <string name="privacy_services">Using Our Services</string>
@@ -512,4 +514,5 @@
         \nIf it turns out that a particular term is not enforceable, will not affect any other terms.
         \nYou agree that the laws of Can Tho, Viet Nam will apply to any disputes arising out of or relating to these terms or the Services. All claims arising out of or relating to these terms or the services will be litigated exclusively in the courts of Can Tho City, Viet Nam, and you and SUSI consent to personal jurisdiction in those courts.
         \nFor information about how to contact SUSI, please visit our contact page.</string>
+    <string name="title_activity_chat_search_main">ChatSearchMainActivity</string>
 </resources>
