@@ -10,6 +10,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
+apply plugin: 'com.google.gms.google-services'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
 //noinspection SpellCheckingInspection
@@ -20,8 +21,8 @@ android {
 
     defaultConfig {
         applicationId "ai.susi"
-        minSdkVersion rootConfiguration.minSdkVersion
-        targetSdkVersion rootConfiguration.targetSdkVersion
+        minSdkVersion 16
+        targetSdkVersion 26
         versionCode 15
         versionName "1.0.14"
         vectorDrawables.useSupportLibrary = true
@@ -107,6 +108,7 @@ dependencies {
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
 
     //Leak Canary
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
     debugImplementation "com.squareup.leakcanary:leakcanary-android:${rootConfiguration.leakCanaryVersion}"
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:${rootConfiguration.leakCanaryVersion}"

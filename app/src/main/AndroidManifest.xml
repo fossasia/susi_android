@@ -67,6 +67,12 @@
             android:theme="@style/Login_Theme"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
+        <service android:name=".Service.SusiFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <!--
         For Developers:
         Replace the fabric_api_key to your actual API KEY

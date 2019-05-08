@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "546854123970",
+    "firebase_url": "https://susiandroid-b9b7e.firebaseio.com",
+    "project_id": "susiandroid-b9b7e",
+    "storage_bucket": "susiandroid-b9b7e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:546854123970:android:5f46260d7c809d0a",
+        "android_client_info": {
+          "package_name": "ai.susi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "546854123970-1fqoab2ah7ln9c601dv0gtmh9vdl9864.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ai.susi",
+            "certificate_hash": "a4e596ad083ab0612562d7c919334540da64ab7c"
+          }
+        },
+        {
+          "client_id": "546854123970-462m974geesl45fapic3gfsjaaq000cq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADcnPi0muA3jcV8O0WrXJa_6Z2cqdqrgU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "546854123970-462m974geesl45fapic3gfsjaaq000cq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
