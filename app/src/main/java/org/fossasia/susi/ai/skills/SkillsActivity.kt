@@ -19,9 +19,7 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.signup.SignUpActivity
-import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
-import org.fossasia.susi.ai.skills.help.HelpFragment
 import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 import org.fossasia.susi.ai.skills.settings.SettingsPresenter
@@ -42,8 +40,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     private val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
-    private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
-    private val TAG_HELP_FRAGMENT = "HelpFragment"
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
 
@@ -144,23 +140,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                         .commit()
             }
 
-            R.id.menu_about -> {
-                handleOnLoadingFragment()
-                val aboutFragment = AboutUsFragment()
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
-                        .addToBackStack(TAG_ABOUT_FRAGMENT)
-                        .commit()
-            }
-            R.id.menu_help -> {
-                handleOnLoadingFragment()
-                val helpFragment = HelpFragment()
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, helpFragment, TAG_HELP_FRAGMENT)
-                        .addToBackStack(TAG_HELP_FRAGMENT)
-                        .commit()
-            }
-
             R.id.menu_login -> {
                 handleOnLoadingFragment()
                 if (!settingsPresenter.getAnonymity()) {
@@ -188,15 +167,6 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 handleOnLoadingFragment()
                 val intent = Intent(this, SignUpActivity::class.java)
                 startActivity(intent)
-            }
-
-            R.id.menu_privacy -> {
-                handleOnLoadingFragment()
-                val aboutFragment = PrivacyFragment()
-                supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, aboutFragment, TAG_PRIVACY_FRAGMENT)
-                        .addToBackStack(TAG_PRIVACY_FRAGMENT)
-                        .commit()
             }
 
             R.id.action_search -> {
