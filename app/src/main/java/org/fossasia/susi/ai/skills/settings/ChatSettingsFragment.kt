@@ -55,8 +55,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var share: Preference
     private lateinit var loginLogout: Preference
     private lateinit var aboutUs: Preference
-    private lateinit var help : Preference
-    private lateinit var privacy:Preference
+    private lateinit var help: Preference
+    private lateinit var privacy: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
     private lateinit var speechAlways: SwitchPreference
