@@ -339,4 +339,8 @@
     <string name="post_feedback_for_anonymous_user">Bitte melden Sie sich an, um ein Feedback zu geben</string>
     <string name="set_up">KONFIGURATION</string>
     <string name="susi_contributors">Mitwirkende</string>
+    <string name="settings_help">Hilfe</string>
+    <string name="settings_help_key">Hilfe</string>
+    <string name="settings_privacy">Privatsphäre</string>
+    <string name="settings_privacy_key">Privatsphäre</string>
 </resources>

@@ -338,4 +338,8 @@
     <string name="example_feedback">Feedback di esempio</string>
     <string name="examples">Esempi</string>
     <string name="existing_user_login">Utente esistente?</string>
+    <string name="settings_help">Aiuto</string>
+    <string name="settings_help_key">Aiuto</string>
+    <string name="settings_privacy">vita privata</string>
+    <string name="settings_privacy_key">vita privata</string>
 </resources>
