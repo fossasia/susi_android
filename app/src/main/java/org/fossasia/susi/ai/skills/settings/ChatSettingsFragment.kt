@@ -32,6 +32,8 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
+import org.fossasia.susi.ai.skills.help.HelpFragment
+import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 
 /**
  * The Fragment for Settings Activity
@@ -42,6 +44,8 @@ import android.content.ActivityNotFoundException
 class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
+    private val TAG_HELP_FRAGMENT = "HelpFragment"
+    private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private lateinit var settingsPresenter: ISettingsPresenter
 
     private lateinit var rate: Preference
@@ -51,6 +55,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     lateinit var share: Preference
     private lateinit var loginLogout: Preference
     private lateinit var aboutUs: Preference
+    private lateinit var help: Preference
+    private lateinit var privacy: Preference
     private lateinit var resetPassword: Preference
     private lateinit var enterSend: Preference
     private lateinit var speechAlways: SwitchPreference
@@ -88,6 +94,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         share = preferenceManager.findPreference(Constant.SHARE)
         loginLogout = preferenceManager.findPreference(Constant.LOGIN_LOGOUT)
         aboutUs = preferenceManager.findPreference(getString(R.string.settings_about_us_key))
+        help = preferenceManager.findPreference(getString(R.string.settings_help_key))
+        privacy = preferenceManager.findPreference(getString(R.string.settings_privacy_key))
         resetPassword = preferenceManager.findPreference(Constant.RESET_PASSWORD)
         enterSend = preferenceManager.findPreference(getString(R.string.settings_enterPreference_key))
         speechOutput = preferenceManager.findPreference(getString(R.string.settings_speechPreference_key)) as SwitchPreference
@@ -144,6 +152,24 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             fragmentManager?.beginTransaction()
                     ?.replace(R.id.fragment_container, aboutFragment, TAG_ABOUT_FRAGMENT)
                     ?.addToBackStack(TAG_ABOUT_FRAGMENT)
+                    ?.commit()
+            true
+        }
+
+        help.setOnPreferenceClickListener {
+            val helpFragment = HelpFragment()
+            fragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_container, helpFragment, TAG_HELP_FRAGMENT)
+                    ?.addToBackStack(TAG_HELP_FRAGMENT)
+                    ?.commit()
+            true
+        }
+
+        privacy.setOnPreferenceClickListener {
+            val privacyFragment = PrivacyFragment()
+            fragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
+                    ?.addToBackStack(TAG_PRIVACY_FRAGMENT)
                     ?.commit()
             true
         }

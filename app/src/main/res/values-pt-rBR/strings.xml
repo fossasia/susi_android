@@ -335,4 +335,8 @@
     <string name="no_skill_name">Nome não disponível</string>
     <string name="new_password">Nova senha</string>
     <string name="privacy_business_details">Se você estiver usando nossos serviços em nome de uma empresa, essa empresa aceita esses termos. Ele isentará e indenizará a SUSI e suas afiliadas, executivos, agentes e funcionários de qualquer reclamação, ação ou ação decorrente ou relacionada ao uso dos Serviços ou violação destes termos, incluindo qualquer responsabilidade ou despesa decorrente de reclamações, perdas. , danos, ações, julgamentos, custos de litígios e honorários advocatícios.</string>
+    <string name="settings_help">Socorro</string>
+    <string name="settings_help_key">Socorro</string>
+    <string name="settings_privacy">privacidade</string>
+    <string name="settings_privacy_key">privacidade</string>
 </resources>
