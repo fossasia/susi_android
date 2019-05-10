@@ -173,15 +173,15 @@
     <string name="reset_password_message">पासवर्ड रीसेट करना ..</string>
 
     <!--About Us String-->
-    <string name="susi_about"><a href="https://chat.susi.ai/overview">सुसी एआई</a> एक बुद्धिमान ओपन सोर्स व्यक्तिगत सहायक है यह म्यूजिक प्लेबैक, टू-डू सूचियों बनाने, अलार्म सेट करने, पॉडकास्ट स्ट्रीमिंग, ऑडीओबूक चलाने और मौसम, ट्रैफ़िक और अन्य वास्तविक समय की जानकारी प्रदान करने के लिए एपीआई का उपयोग करके चैट और आवाज बातचीत करने में सक्षम है। बाहरी एपीआई का उपयोग कर कंसोल सेवाओं के रूप में अतिरिक्त कार्यशीलताओं को जोड़ा जा सकता है सुशी एआई सवालों के जवाब देने में सक्षम है और संदर्भ के आधार पर वांछित परिणामों को पूरा करने के लिए अतिरिक्त जानकारी मांगेगा। सहायक का मुख्य सुशी एआई सर्वर है जो सूसी एआई के "इंटेलिजेंस" और "व्यक्तित्व" रखता है।</string>
+    <string name="susi_about"><![CDATA[<a href="https://chat.susi.ai/overview">सुसी एआई</a>]]> एक बुद्धिमान ओपन सोर्स व्यक्तिगत सहायक है यह म्यूजिक प्लेबैक, टू-डू सूचियों बनाने, अलार्म सेट करने, पॉडकास्ट स्ट्रीमिंग, ऑडीओबूक चलाने और मौसम, ट्रैफ़िक और अन्य वास्तविक समय की जानकारी प्रदान करने के लिए एपीआई का उपयोग करके चैट और आवाज बातचीत करने में सक्षम है। बाहरी एपीआई का उपयोग कर कंसोल सेवाओं के रूप में अतिरिक्त कार्यशीलताओं को जोड़ा जा सकता है सुशी एआई सवालों के जवाब देने में सक्षम है और संदर्भ के आधार पर वांछित परिणामों को पूरा करने के लिए अतिरिक्त जानकारी मांगेगा। सहायक का मुख्य सुशी एआई सर्वर है जो सूसी एआई के "इंटेलिजेंस" और "व्यक्तित्व" रखता है।</string>
     <string name="susi_contributors">योगदानकर्ता</string>
-    <string name="susi_contributors_desc">द्वारा विकसित <a href="https://github.com/fossasia/susi_android/graphs/contributors">द्वारा विकसित</a>.</string>
+    <string name="susi_contributors_desc">द्वारा विकसित <![CDATA[<a href="https://github.com/fossasia/susi_android/graphs/contributors">द्वारा विकसित</a>]]>.</string>
     <string name="susi_skill_cms">एसयूएसआई कौशल सेमी</string>
-    <string name="susi_skill_cms_desc">SUSI में कई कौशल हैं आप कौशल के संग्रह को देख सकते हैं<a href="http://www.skills.susi.ai">skills.susi.ai</a>। एसयूएसआई कौशल विकास आसान और मजेदार है आप मौजूदा कौशल को संपादित कर सकते हैं या अपना स्वयं का बना सकते हैं।</string>
+    <string name="susi_skill_cms_desc">SUSI में कई कौशल हैं आप कौशल के संग्रह को देख सकते हैं<![CDATA[a href="http://www.skills.susi.ai">skills.susi.ai</a>]]>। एसयूएसआई कौशल विकास आसान और मजेदार है आप मौजूदा कौशल को संपादित कर सकते हैं या अपना स्वयं का बना सकते हैं।</string>
     <string name="susi_report_issues">रिपोर्ट के मुद्दे</string>
-    <string name="susi_report_issues_desc">कृपया सभी मुद्दों की रिपोर्ट करें <a href="https://github.com/fossasia/susi_android/issues">जिथुब रिपोजिटरी इश्यू ट्रैकर</a>.</string>
+    <string name="susi_report_issues_desc">कृपया सभी मुद्दों की रिपोर्ट करें <![CDATA[<a href="https://github.com/fossasia/susi_android/issues">जिथुब रिपोजिटरी इश्यू ट्रैकर</a>]]>.</string>
     <string name="susi_license_information">लाइसेंस</string>
-    <string name="susi_license_information_desc">यह परियोजना वर्तमान में अपाचे लाइसेंस संस्करण 2.0 के तहत लाइसेंस प्राप्त है। एक प्रतिलिप <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a> </string>
+    <string name="susi_license_information_desc">यह परियोजना वर्तमान में अपाचे लाइसेंस संस्करण 2.0 के तहत लाइसेंस प्राप्त है। एक प्रतिलिप <![CDATA[<a href="https://github.com/fossasia/susi_android/blob/master/LICENSE">LICENSE.md</a>]]> </string>
 
     <!-- Intro Strings -->
     <string name="next">आगामी</string>
