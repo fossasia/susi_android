@@ -341,4 +341,5 @@
     <string name="settings_help_key">Aiuto</string>
     <string name="settings_privacy">vita privata</string>
     <string name="settings_privacy_key">vita privata</string>
+    <string name="rate_chat">Grazie per aver risposto</string>
 </resources>
