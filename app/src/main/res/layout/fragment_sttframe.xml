@@ -16,7 +16,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/clickableCommands"
         android:layout_width="match_parent"
-        android:layout_above="@id/linearLayout"
+        android:layout_above="@id/txtChat"
         android:layout_height="wrap_content" />
 
     <LinearLayout

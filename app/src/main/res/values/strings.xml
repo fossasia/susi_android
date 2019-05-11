@@ -300,23 +300,22 @@
 
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
-    <string name="susi_about">
-        <a href="https://chat.susi.ai/overview"><![CDATA[<u><font color='#4184f3'>SUSI.AI</u></font>]]></a> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. SUSI.AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the SUSI.AI server that holds the "intelligence" and "personality" of SUSI.AI.</string>
+    <string name="susi_about"><![CDATA[<a href="https://chat.susi.ai/overview"><u><font color=\'#4184f3\'>SUSI.AI</u></font></a>]]> is an intelligent libre software personal assistant. It is capable of chat and voice interaction by using APIs to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real time information. Additional functionalities can be added as console services using external APIs. SUSI.AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the SUSI.AI server that holds the "intelligence" and "personality" of SUSI.AI.</string>
     <string name="susi_contributors">Contributors</string>
     <string name="url_susi_contributors" translatable="false">https://github.com/fossasia/susi_android/graphs/contributors</string>
-    <string name="susi_contributors_desc">Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors"><![CDATA[<u><font color='#4184f3'>Contributors</u></font>]]></a>.</string>
+    <string name="susi_contributors_desc"><![CDATA[Developed by <a href="https://github.com/fossasia/susi_android/graphs/contributors"><u><font color='#4184f3'>Contributors</u></font></a>]]>.</string>
     <string name="susi_license_information">License</string>
     <string name="url_susi_license" translatable="false">https://github.com/fossasia/susi_android/blob/master/LICENSE</string>
-    <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. As per the <a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><![CDATA[<u><font color='#4184f3'>LICENSE.md</u></font>]]></a>
+    <string name="susi_license_information_desc">This project is currently licensed under the Apache License Version 2.0. As per the <![CDATA[<a href="https://github.com/fossasia/susi_android/blob/master/LICENSE"><u><font color='#4184f3'>LICENSE.md</u></font></a>]]>
     </string>
     <string name="susi_report_issues">Report Issues</string>
     <string name="url_susi_report_issue" translatable="false">https://github.com/fossasia/susi_android/issues</string>
-    <string name="susi_report_issues_desc">Please report all the issues in <a href="https://github.com/fossasia/susi_android/issues"><![CDATA[<u><font color='#4184f3'>Github Repository Issue Tracker</u></font>]]></a>.</string>
+    <string name="susi_report_issues_desc">Please report all the issues in <![CDATA[<a href="https://github.com/fossasia/susi_android/issues"><u><font color='#4184f3'>Github Repository Issue Tracker</u></font></a>]]>.</string>
 
     <string name="susi_skill_cms">SUSI Skill CMS</string>
     <string name="url_susi_skill_cms" translatable="false">https://skills.susi.ai</string>
-    <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <a href="http://www.skills.susi.ai"><![CDATA[<u><font color='#4184f3'>skills.susi.ai</u></font>]]></a>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
-    <string name="susi_know_more" translatable="false"><![CDATA[<u><font color=\'#4184f3\'>Click here to Know More</u></font>]]></string>
+    <string name="susi_skill_cms_desc">SUSI is having many skills. You can look at the collection of skills at <![CDATA[<a href="http://www.skills.susi.ai"><u><font color='#4184f3'>skills.susi.ai</u></font></a>]]>. SUSI Skill development is easy and fun. You can edit existing skills or even create your own.</string>
+    <string name="susi_know_more" translatable="false"><![CDATA[<a href="https://dev.susi.ai/"><u><font color=\'#4184f3\'>Click here to Know More</font></u></a>]]></string>
 
     <!-- Intro Strings -->
     <string name="author_name">Author name</string>
@@ -450,8 +449,8 @@
 
     <!-- Help -->
     <string name="help_open_setting">How to open \'Settings\'?</string>
-    <string name="help_open_setting_desc">In the main page click on SUSI logo present st the top right corner. This will open a page. Click on the 3 dot present at top right corner. From the menu that open click on \'Settings\'</string>
-    <string name="help_signup">How to SIgnUp in SUSI.AI?</string>
+    <string name="help_open_setting_desc">In the main page click on SUSI logo present at the top right corner. This will open a page. Click on the 3 dot present at top right corner. From the menu that open click on \'Settings\'</string>
+    <string name="help_signup">How to SignUp in SUSI.AI?</string>
     <string name="help_signup_desc">In the Login page click on \'Sign Up for SUSI\'.\n * Enter your email address.\n * Enter your password and confirm it\n After this click on \'SIGN UP\'</string>
     <string name="help_change_password">How to change Password?</string>
     <string name="help_change_password_desc"> * Open the \'Settings\' page.\n * Scroll down and click on \'Reset Password\'.\n * Enter your current password and after that entire your new password. \n * Click on \'OK\'.</string>
@@ -460,13 +459,13 @@
     <string name="help_login">How to login, if you have opened SUSI without logging in?</string>
     <string name="help_login_desc">Open \'Settings\' page and scroll down to the bottom. Click on \'Login\'. This will redirect you to the login page.</string>
     <string name="help_susi_voice">How to use SUSI voice?</string>
-    <string name="help_susi_voice_desc">To use SUSI voice click on the microphone symbol presemt in the bottom right corner of the chats page. You can ask anything to SUSI here. To change various voice settings, go to Settings page and configure SUSI voice accordingly.</string>
+    <string name="help_susi_voice_desc">To use SUSI voice click on the microphone symbol present in the bottom right corner of the chats page. You can ask anything to SUSI here. To change various voice settings, go to Settings page and configure SUSI voice accordingly.</string>
     <string name="help_susi_skills">What skills do SUSI have?</string>
     <string name="help_susi_skills_desc">To know about the skills that SUSI posses move to \'SUSI.AI Skills\' page. You can reach there just by clicking on the \'SUSI\' logo present at the top right corner of the Chat page.</string>
     <string name="help_susi_changevoice">How to change SUSI voice ?</string>
     <string name ="help_susi_changevoice_desc">In order to change voice and pitch of Susi, go to \'Settings \' and scroll down until you find \'Click here to change SUSI voice\' and change voice according to your preference. </string> <!--Privacy -->
     <string name="privacy_welcome">Welcome to SUSI.AI</string>
-    <string name="privacy_welcome_details">Thanks for using our products and services (“Services”). The Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau Than, Can Tho City, Viet Nam. By using our Services, you are agreeing to these terms. Please read them carefully.</string>
+    <string name="privacy_welcome_details">Thanks for using our products and services (“Services”). The Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau Than, Can Tho City, Vietnam. By using our Services, you are agreeing to these terms. Please read them carefully.</string>
     <string name="privacy_services">Using Our Services</string>
     <string name="privacy_services_details"> You must follow any policies made available to you within the Services.
         \nDon’t misuse our Services. For example, don’t interfere with our Services or try to access them using a method other than the interface and the instructions that we provide. You may use our Services only as permitted by law, including applicable export and re-export control laws and regulations. We may suspend or stop providing our Services to you if you do not comply with our terms or policies or if we are investigating suspected misconduct.
@@ -512,7 +511,11 @@
         \nIf there is a conflict between these terms and the additional terms, the additional terms will control for that conflict.These terms control the relationship between SUSI and you. They do not create any third party beneficiary rights.
         \nIf you do not comply with these terms, and we don’t take action right away, doesn’t mean that we are giving up any rights that we may have (such as taking action in the future).
         \nIf it turns out that a particular term is not enforceable, will not affect any other terms.
-        \nYou agree that the laws of Can Tho, Viet Nam will apply to any disputes arising out of or relating to these terms or the Services. All claims arising out of or relating to these terms or the services will be litigated exclusively in the courts of Can Tho City, Viet Nam, and you and SUSI consent to personal jurisdiction in those courts.
+        \nYou agree that the laws of Can Tho, Vietnam will apply to any disputes arising out of or relating to these terms or the Services. All claims arising out of or relating to these terms or the services will be litigated exclusively in the courts of Can Tho City, Vietnam, and you and SUSI consent to personal jurisdiction in those courts.
         \nFor information about how to contact SUSI, please visit our contact page.</string>
     <string name="title_activity_chat_search_main">ChatSearchMainActivity</string>
+    <string name="settings_help">Help</string>
+    <string name="settings_help_key">help</string>
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_privacy_key">privacy</string>
 </resources>

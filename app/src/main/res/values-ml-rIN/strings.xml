@@ -322,4 +322,8 @@
     <string name="settings_visit_website">വെബ്സൈറ്റ് സന്ദർശിക്കുക</string>
     <string name="error_skipping_signUp_process_text">ഇത് സൈൻ അപ്പ് പ്രോസസ്സ് റദ്ദാക്കുകയും ചാറ്റ് പേജിലേക്ക് നിങ്ങളെ റീഡയറക്ട് ചെയ്യുകയും ചെയ്യും.</string>
     <string name="dialog_skip_sign_up">സൈൻ അപ് ചെയ്യണോ?</string>
+    <string name="settings_help">உதவி</string>
+    <string name="settings_help_key">உதவி</string>
+    <string name="settings_privacy">தனியுரிமை</string>
+    <string name="settings_privacy_key">தனியுரிமை</string>
 </resources>
