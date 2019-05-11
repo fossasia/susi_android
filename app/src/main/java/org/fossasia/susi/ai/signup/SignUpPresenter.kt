@@ -12,6 +12,7 @@ import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.helper.NetworkUtils
+import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
@@ -27,7 +28,7 @@ import java.net.UnknownHostException
  * Created by mayanktripathi on 05/07/17.
  */
 
-class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
+class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter,ILoginLogoutModulePresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
 
     private var signUpView: ISignUpView? = null
     private var signUpModel: SignUpModel = SignUpModel()
@@ -137,6 +138,13 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         signUpView = null
     }
 
+    override fun logout(){
+        utilModel.clearToken()
+        utilModel.clearPrefs()
+        utilModel.saveAnonymity(false)
+        databaseRepository.deleteAllMessages()
+        settingView?.startLoginActivity()
+    }
     override fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean) {
         if (email.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.EMAIL)
