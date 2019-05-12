@@ -9,9 +9,13 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.activity_sign_up.email
+import kotlinx.android.synthetic.main.activity_sign_up.password
+import kotlinx.android.synthetic.main.activity_sign_up.signUp
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.login.LoginActivity
@@ -37,6 +41,8 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private lateinit var forgotPasswordProgressDialog: Dialog
     private lateinit var builder: AlertDialog.Builder
     private var checkDialog: Boolean = false
+    var downX = 0.0f
+    var upX = 0.0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +84,33 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         signUpPresenter = SignUpPresenter(this)
         signUpPresenter.onAttach(this)
+
+        handleSignUpGestures()
+    }
+
+    private fun handleSignUpGestures() {
+        signup_scroll_view.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        downX = event.getX()
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        upX = event?.getX()
+
+                        var deltaX = downX - upX
+
+                        if (Math.abs(deltaX) > 200) { //value set to 200 to avoid mild gestures
+                            val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
+                            intent.putExtra("email", email.editText?.text.toString())
+                            startActivity(intent)
+                        }
+                    }
+                }
+                return false
+            }
+        }
+        )
     }
 
     private fun addListeners() {
@@ -100,8 +133,8 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                     startActivity(intent)
                     finish()
                 })
-                setNegativeButton(android.R.string.no, DialogInterface.OnClickListener {
-                    dialog, id -> dialog.cancel()
+                setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
                 })
                 show()
             }

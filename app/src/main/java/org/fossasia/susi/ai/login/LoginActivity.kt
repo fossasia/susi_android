@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
@@ -35,6 +36,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
+    var downX = 0.0f
+    var upX = 0.0f
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +75,32 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         val string = bundle?.getString("email")
         if (string != null)
             email.editText?.setText(string)
+        handleLoginGestures()
+    }
+
+    private fun handleLoginGestures() {
+        login_scroll_view.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        downX = event.getX()
+                    }
+                    MotionEvent.ACTION_UP -> {
+                        upX = event?.getX()
+
+                        var deltaX = downX - upX
+
+                        if (Math.abs(deltaX) > 200) { //Value set to 200 to avoid mild gestures
+                            val intent = Intent(this@LoginActivity, SignUpActivity::class.java)
+                            intent.putExtra("email", email.editText?.text.toString())
+                            startActivity(intent)
+                        }
+                    }
+                }
+                return false
+            }
+        }
+        )
     }
 
     override fun onLoginSuccess(message: String?) {
