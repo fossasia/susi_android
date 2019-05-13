@@ -51,7 +51,7 @@ class HelpFragment : Fragment() {
 
                         var deltaX = downX - upX
 
-                        if (deltaX < -200) { //Hnadling swipe to left only
+                        if (deltaX < -900) { //Hnadling swipe to left only
                             fragmentManager?.beginTransaction()
                                     ?.replace(R.id.fragment_container, ChatSettingsFragment(), TAG_SETTINGS_FRAGMENT)
                                     ?.addToBackStack(TAG_SETTINGS_FRAGMENT)
