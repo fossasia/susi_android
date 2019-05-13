@@ -24,8 +24,8 @@ import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 
 class AboutUsFragment : Fragment() {
 
-    var downX=0.0f
-    var upX=0.0f
+    var downX = 0.0f
+    var upX = 0.0f
     private val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
 
     @NonNull

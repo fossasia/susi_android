@@ -2,7 +2,6 @@ package org.fossasia.susi.ai.skills.privacy
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -13,8 +12,8 @@ import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
 
 class PrivacyFragment : Fragment() {
 
-    var downX=0.0f
-    var upX=0.0f
+    var downX = 0.0f
+    var upX = 0.0f
     private val TAG_SETTINGS_FRAGMENT = "SettingsFragment"
 
     override fun onCreate(savedInstanceState: Bundle?) {
