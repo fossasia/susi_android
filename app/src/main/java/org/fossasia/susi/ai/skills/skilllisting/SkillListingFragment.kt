@@ -40,12 +40,11 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     private lateinit var skillCallback: SkillFragmentCallback
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val rootView: View= inflater.inflate(R.layout.fragment_skill_listing, container, false)
+        val rootView: View = inflater.inflate(R.layout.fragment_skill_listing, container, false)
 
-        val container: ShimmerFrameLayout=rootView.findViewById(R.id.shimmer_view_container)
+        val container: ShimmerFrameLayout = rootView.findViewById(R.id.shimmer_view_container)
         container.startShimmer()
         return rootView
-
     }
 
     @NonNull
