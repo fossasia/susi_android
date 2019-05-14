@@ -63,6 +63,7 @@
     <string name="email_not_registered_title">Email Registration</string>
 
     <string name="search">Search</string>
+    <string name="voice_search">Voice Search</string>
 
     <string name="select_background">Select background</string>
 
@@ -132,6 +133,7 @@
     <string name="skill_unrated">Skill not rated yet</string>
     <string name="skill_not_found">No skill found yet</string>
     <string name="skill_empty">Skills to be fetched. Try again later</string>
+    <string name="error_voice_search">Sorry, your device does not support voice actions.</string>
 
     <!--Material Dialog-->
     <string name="confirm_password">Confirm Password</string>
