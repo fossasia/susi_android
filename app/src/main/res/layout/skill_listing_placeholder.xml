@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_large"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/text_size_moderate"
+        android:layout_margin="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:background="@color/shimmer_background" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium">
+
+            <LinearLayout
+                android:layout_width="@dimen/websearch_card_width"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/skill_image_size"
+                    android:background="@color/shimmer_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_size_normal"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:background="@color/shimmer_background" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="@dimen/rating_bar_layout_width"
+                        android:layout_height="@dimen/text_size_normal"
+                        android:background="@color/shimmer_background" />
+
+                    <View
+                        android:layout_width="@dimen/margin_large"
+                        android:layout_height="@dimen/text_size_normal"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:background="@color/shimmer_background" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/websearch_card_width"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/skill_image_size"
+                    android:background="@color/shimmer_background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/text_size_normal"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:background="@color/shimmer_background" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="@dimen/rating_bar_layout_width"
+                        android:layout_height="@dimen/text_size_normal"
+                        android:background="@color/shimmer_background" />
+
+                    <View
+                        android:layout_width="14dp"
+                        android:layout_height="@dimen/text_size_normal"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:background="@color/shimmer_background" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
