@@ -19,8 +19,6 @@ import org.fossasia.susi.ai.helper.AlertboxHelper
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.login.ForgotPass
-import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
-import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 import org.fossasia.susi.ai.skills.SkillsActivity
