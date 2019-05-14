@@ -45,7 +45,6 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun getMetrics(swipeToRefreshActive: Boolean) {
-        skillListingView?.visibilityProgressBar(!swipeToRefreshActive)
         val queryObject = SkillMetricsDataQuery("general", PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
         skillListingModel.fetchSkillMetrics(queryObject, this)
     }
