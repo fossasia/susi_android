@@ -109,6 +109,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 chatPresenter.startComputingThread()
             }
         }
+        searchChat.visibility=View.VISIBLE
+        fabsetting.visibility=View.VISIBLE
+
+
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -326,6 +330,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.stopHotwordDetection()
         }
         hideSoftKeyboard(this, window.decorView)
+        searchChat.visibility=View.INVISIBLE
+        fabsetting.visibility=View.INVISIBLE
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.speechToTextFrame, STTFragment())
         fragmentTransaction.addToBackStack(null)
@@ -334,6 +340,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
     //Replies user with Speech
     override fun voiceReply(reply: String, language: String) {
+        searchChat.visibility=View.VISIBLE
+        fabsetting.visibility=View.VISIBLE
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
