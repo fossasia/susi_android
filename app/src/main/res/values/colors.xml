@@ -327,4 +327,7 @@
 
     <!--Thumbs down color-->
     <color name="thumbs_down">#d1462f</color>
+
+    <!-- Shimmer background-->
+    <color name="shimmer_background">#dddddd</color>
 </resources>

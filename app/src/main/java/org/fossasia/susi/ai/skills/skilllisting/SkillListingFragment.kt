@@ -10,9 +10,10 @@ import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.facebook.shimmer.ShimmerFrameLayout
+import kotlinx.android.synthetic.main.fragment_skill_listing.shimmer_view_container
 import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
 import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
-import kotlinx.android.synthetic.main.fragment_skill_listing.progressSkillWait
 import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
@@ -39,7 +40,11 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     private lateinit var skillCallback: SkillFragmentCallback
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_skill_listing, container, false)
+        val rootView: View = inflater.inflate(R.layout.fragment_skill_listing, container, false)
+
+        val container: ShimmerFrameLayout = rootView.findViewById(R.id.shimmer_view_container)
+        container.startShimmer()
+        return rootView
     }
 
     @NonNull
@@ -65,7 +70,13 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        if (boolean) progressSkillWait.visibility = View.VISIBLE else progressSkillWait.visibility = View.GONE
+        if (boolean) {
+            shimmer_view_container.visibility = View.VISIBLE
+            shimmer_view_container.startShimmer()
+        } else {
+            shimmer_view_container.stopShimmer()
+            shimmer_view_container.visibility = View.GONE
+        }
     }
 
     override fun displayError() {
@@ -105,6 +116,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     override fun onRefresh() {
         setUPAdapter()
+        shimmer_view_container.startShimmer()
         skillListingPresenter.getMetrics(swipe_refresh_layout.isRefreshing)
     }
 
