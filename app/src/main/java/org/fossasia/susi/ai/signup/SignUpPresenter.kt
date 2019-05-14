@@ -28,7 +28,7 @@ import java.net.UnknownHostException
  * Created by mayanktripathi on 05/07/17.
  */
 
-class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ILoginLogoutModulePresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
+class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
 
     private var signUpView: ISignUpView? = null
     private var signUpModel: SignUpModel = SignUpModel()
@@ -138,7 +138,7 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ILogin
         signUpView = null
     }
 
-    override fun logout() {
+    override fun loginLogout() {
         utilModel.clearToken()
         utilModel.clearPrefs()
         utilModel.saveAnonymity(false)

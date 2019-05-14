@@ -35,7 +35,6 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     private lateinit var signUpPresenter: ISignUpPresenter
-    private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
     private lateinit var progressDialog: ProgressDialog
     private lateinit var forgotPasswordProgressDialog: Dialog
     private lateinit var builder: AlertDialog.Builder
@@ -81,7 +80,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         signUpPresenter = SignUpPresenter(this)
         signUpPresenter.onAttach(this)
-        loginLogoutModulePresenter = LoginLogoutModulePresenter(this)
     }
 
     private fun addListeners() {
@@ -224,7 +222,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
     private fun signUpToLoginPage() {
         signUpToLogin.setOnClickListener {
-            loginLogoutModulePresenter.logout()
+            signUpPresenter.loginLogout()
             val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
             intent.putExtra("email", email.editText?.text.toString())
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
