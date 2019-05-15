@@ -150,5 +150,8 @@ dependencies {
     //Timber
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
 
+    //Shimmer
+    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
 }
