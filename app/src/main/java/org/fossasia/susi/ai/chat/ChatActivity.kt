@@ -328,8 +328,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
             chatPresenter.stopHotwordDetection()
         }
         hideSoftKeyboard(this, window.decorView)
-        searchChat.visibility = View.INVISIBLE
-        fabsetting.visibility = View.INVISIBLE
+        searchChat.visibility = View.GONE
+        fabsetting.visibility = View.GONE
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.speechToTextFrame, STTFragment())
         fragmentTransaction.addToBackStack(null)
