@@ -92,4 +92,7 @@ object Constant {
 
     //Visit Website Url
     const val SUSI_VISIT_WEBSITE = "https://chat.susi.ai/"
+
+    //Voice search request code
+    const val VOICE_SEARCH_REQUEST_CODE = 10
 }

@@ -190,7 +190,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
 
         if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, 10)//Sends the detected query to search
+            startActivityForResult(intent, Constant.VOICE_SEARCH_REQUEST_CODE)//Sends the detected query to search
         } else {
             Toast.makeText(this, R.string.error_voice_search, Toast.LENGTH_SHORT)
         }
