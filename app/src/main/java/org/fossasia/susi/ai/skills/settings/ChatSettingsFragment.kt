@@ -112,9 +112,13 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
             displayEmail.isEnabled = true
+            speechOutput.isEnabled = false
+            speechAlways.isEnabled = false
         } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
             displayEmail.isEnabled = false
+            speechOutput.isEnabled = true
+            speechAlways.isEnabled = true
         }
 
         setLanguage()
@@ -258,7 +262,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         hotwordSettings.isEnabled = settingsPresenter.enableHotword()
 
-        if (!settingsPresenter.getAnonymity()) {
+        if (!settingsPresenter.getAnonymity() && utilModel.isLoggedIn()) {
             micSettings.setOnPreferenceClickListener {
                 settingsPresenter.sendSetting(getString(R.string.setting_mic_key), (PrefManager.getBoolean(R.string.setting_mic_key, false)).toString(), 1)
                 true
