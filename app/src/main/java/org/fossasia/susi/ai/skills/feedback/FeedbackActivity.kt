@@ -23,7 +23,7 @@ class FeedbackActivity : AppCompatActivity() {
         val feedbackResponse: GetSkillFeedbackResponse? = intent.extras.get("feedbackResponse") as GetSkillFeedbackResponse
         if (feedbackResponse != null) {
             title = feedbackResponse.skillName.capitalize() + " " + getString(R.string.reviews)
-            if (feedbackResponse.feedbackList.isNullOrEmpty()) {
+            if (!feedbackResponse.feedbackList.isNullOrEmpty()) {
                 val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                 rvAllFeedback.setHasFixedSize(true)
                 rvAllFeedback.layoutManager = layoutManager
