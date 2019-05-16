@@ -46,6 +46,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
+    private val VOICE_SEARCH_REQUEST_CODE = 10
 
     private var searchAction: MenuItem? = null
     private var isSearchOpened = false
@@ -190,7 +191,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
 
         if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, Constant.VOICE_SEARCH_REQUEST_CODE)//Sends the detected query to search
+            startActivityForResult(intent, VOICE_SEARCH_REQUEST_CODE)//Sends the detected query to search
         } else {
             Toast.makeText(this, R.string.error_voice_search, Toast.LENGTH_SHORT)
         }
@@ -199,7 +200,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            Constant.VOICE_SEARCH_REQUEST_CODE -> if (resultCode == Activity.RESULT_OK && data != null) {
+            VOICE_SEARCH_REQUEST_CODE -> if (resultCode == Activity.RESULT_OK && data != null) {
                 val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
                 performSearch(result[0])
             }
