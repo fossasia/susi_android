@@ -39,6 +39,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
     val thumbsDown: ImageView? by bindOptionalView(R.id.thumbs_down)
 
     private var model: ChatMessage? = null
+    private lateinit var contexts: Context
 
     /**
      * Inflate ChatView
@@ -49,6 +50,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
     fun setView(model: ChatMessage?, viewType: Int, context: Context) {
         if (model != null) {
             this.model = model
+            contexts = context
             try {
                 when (viewType) {
                     ChatFeedRecyclerAdapter.USER_MESSAGE -> {
@@ -104,7 +106,6 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                                 thumbsUp?.setImageResource(R.drawable.thumbs_up_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, context) }
                                 setRating(true, true)
-                                Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
                             }
                         }
 
@@ -114,7 +115,6 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                                 thumbsDown?.setImageResource(R.drawable.thumbs_down_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, context) }
                                 setRating(true, false)
-                                Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
@@ -130,8 +130,10 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         realm.beginTransaction()
         if (which) {
             model?.isPositiveRated = what
+            Toast.makeText(contexts, R.string.rate_chat, Toast.LENGTH_SHORT).show()
         } else {
             model?.isNegativeRated = what
+            Toast.makeText(contexts, R.string.rate_chat, Toast.LENGTH_SHORT).show()
         }
         realm.commitTransaction()
     }
