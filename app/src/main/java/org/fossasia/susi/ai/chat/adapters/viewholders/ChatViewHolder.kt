@@ -130,11 +130,10 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         realm.beginTransaction()
         if (which) {
             model?.isPositiveRated = what
-            Toast.makeText(contexts, R.string.rate_chat, Toast.LENGTH_SHORT).show()
         } else {
             model?.isNegativeRated = what
-            Toast.makeText(contexts, R.string.rate_chat, Toast.LENGTH_SHORT).show()
         }
+        Toast.makeText(contexts, R.string.rate_chat, Toast.LENGTH_SHORT).show()
         realm.commitTransaction()
     }
 
