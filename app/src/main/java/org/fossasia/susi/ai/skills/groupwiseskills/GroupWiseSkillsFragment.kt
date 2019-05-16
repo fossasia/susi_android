@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SnapHelper
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     private var skills = GroupWiseSkills("", ArrayList())
     private lateinit var skillsAdapter: SkillsListAdapter
     private lateinit var skillCallback: SkillFragmentCallback
+    private var isSearching: Boolean = false
 
     companion object {
         private const val SKILL_GROUP = "group"
@@ -63,6 +65,11 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         swipeRefreshLayout.setOnRefreshListener(this)
         setUPAdapter()
         groupWiseSkillsPresenter.getSkills(swipeRefreshLayout.isRefreshing, skills.group)
+        isSearching = true
+        skillWiseSearchEdit.visibility = View.GONE
+        searchSkillGroupWise.setOnClickListener {
+            handleSearchAction()
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -81,6 +88,26 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         progressSkillWait.visibility = if (boolean) View.VISIBLE else View.GONE
     }
 
+    fun handleSearchAction() {
+        if (isSearching == false || skillWiseSearchEdit.getVisibility() == View.VISIBLE) {
+            skillWiseSearchEdit.setVisibility(View.GONE)
+        } else {
+            skillWiseSearchEdit.setVisibility(View.VISIBLE)
+            handleSearch()
+        }
+    }
+
+    fun handleSearch() {
+        skillWiseSearchEdit?.setOnKeyListener { v, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP && skillWiseSearchEdit?.text.toString().isNotEmpty()) {
+                performSearch(skillWiseSearchEdit?.text.toString())
+            }
+            true
+        }
+        skillWiseSearchEdit?.requestFocus()
+        isSearching = true
+    }
+
     fun performSearch(query: String): Boolean {
 
         var searchedSkillsList: ArrayList<SkillData> = arrayListOf()
@@ -91,8 +118,8 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         }
 
         for (skill in skills.skillsList) {
-            if(skill.skillName!="" && skill.skillName!=null){
-                if(skill.skillName.toLowerCase().contains(query.toLowerCase())){
+            if (skill.skillName != "" && skill.skillName != null) {
+                if (skill.skillName.toLowerCase().contains(query.toLowerCase())) {
                     searchedSkillsList.add(skill)
                 }
             }
@@ -110,7 +137,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     private fun loadSearchSkillsFragment(searchedSkills: ArrayList<SkillData>, searchQuery: String) {
         val skillSearchFragment = SearchSkillFragment.newInstance(searchedSkills, searchQuery)
         fragmentManager?.beginTransaction()
-                ?.add(R.id.fragment_container,skillSearchFragment)
+                ?.add(R.id.fragment_container, skillSearchFragment)
                 ?.addToBackStack(SearchSkillFragment().toString())
                 ?.commit()
     }

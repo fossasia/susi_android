@@ -19,17 +19,23 @@
             android:scrollbars="vertical" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/searchChat"
+            android:id="@+id/searchSkillGroupWise"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:onClick="openChatSearch"
             android:background="@drawable/ic_open_search"
             android:layout_gravity="right"
             android:layout_margin="@dimen/margin_moderate"
             app:backgroundTint="@color/md_white_1000"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_open_search" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/margin_extremely_large"
+            android:layout_gravity="left"
+            android:visibility="gone"
+            android:id="@+id/skillWiseSearchEdit" />
 
         <ProgressBar
             android:id="@+id/progressSkillWait"
