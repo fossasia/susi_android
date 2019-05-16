@@ -10,16 +10,20 @@ import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import org.fossasia.susi.ai.helper.StartSnapHelper
+import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.groupwiseskills.adapters.recycleradapters.SkillsListAdapter
 import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsPresenter
 import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsView
+import org.fossasia.susi.ai.skills.skillSearch.SearchSkillFragment
 import timber.log.Timber
+import kotlin.collections.ArrayList
 
 /**
  *
@@ -75,6 +79,40 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
 
     override fun visibilityProgressBar(boolean: Boolean) {
         progressSkillWait.visibility = if (boolean) View.VISIBLE else View.GONE
+    }
+
+    fun performSearch(query: String): Boolean {
+
+        var searchedSkillsList: ArrayList<SkillData> = arrayListOf()
+
+        if (skills.skillsList.isEmpty()) {
+            Toast.makeText(context, R.string.skill_empty, Toast.LENGTH_SHORT).show()
+            return true
+        }
+
+        for (skill in skills.skillsList) {
+            if(skill.skillName!="" && skill.skillName!=null){
+                if(skill.skillName.toLowerCase().contains(query.toLowerCase())){
+                    searchedSkillsList.add(skill)
+                }
+            }
+        }
+        Timber.d(searchedSkillsList.toString())
+        if (searchedSkillsList.isEmpty()) {
+            Toast.makeText(context, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        loadSearchSkillsFragment(searchedSkillsList, query)
+        return true
+    }
+
+    private fun loadSearchSkillsFragment(searchedSkills: ArrayList<SkillData>, searchQuery: String) {
+        val skillSearchFragment = SearchSkillFragment.newInstance(searchedSkills, searchQuery)
+        fragmentManager?.beginTransaction()
+                ?.add(R.id.fragment_container,skillSearchFragment)
+                ?.addToBackStack(SearchSkillFragment().toString())
+                ?.commit()
     }
 
     override fun showEmptySkillsListMessage() {
