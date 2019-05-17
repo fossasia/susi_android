@@ -18,8 +18,8 @@ import java.util.ArrayList
 class TableAdapter(
     private val column: List<String?>,
     private val data: List<String?>
-)
-    : RecyclerView.Adapter<TabViewHolder>() {
+) :
+    RecyclerView.Adapter<TabViewHolder>() {
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabViewHolder {

@@ -304,9 +304,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 setLocalLanguage(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
             }
         } catch (e: Exception) {
-            Timber.e(e) //Language not present in app
+            Timber.e(e) // Language not present in app
             PrefManager.putString(Constant.LANGUAGE, Constant.DEFAULT)
-            querylanguage.setValueIndex(0)//setting language to default - english
+            querylanguage.setValueIndex(0) // setting language to default - english
             querylanguage.summary = querylanguage.entries[0]
         }
     }

@@ -12,8 +12,8 @@ import org.fossasia.susi.ai.R
 class SkillExampleViewHolder(
     itemView: View,
     private val listener: SkillExampleViewHolder.ClickListener?
-)
-    : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val example: TextView by bindView(R.id.text)
 

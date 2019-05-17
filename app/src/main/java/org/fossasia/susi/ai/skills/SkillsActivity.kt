@@ -72,7 +72,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                     .addToBackStack(TAG_PRIVACY_FRAGMENT)
                     .commit()
         } else {
-            //skills = skillFragment.skills
+            // skills = skillFragment.skills
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, skillFragment, TAG_SKILLS_FRAGMENT)
                     .addToBackStack(TAG_SKILLS_FRAGMENT)
@@ -208,22 +208,22 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     }
 
     protected fun handleMenuSearch() {
-        val action = supportActionBar //get the actionbar
+        val action = supportActionBar // get the actionbar
 
-        if (isSearchOpened) { //test if the search is open
+        if (isSearchOpened) { // test if the search is open
             hideSoftKeyboard(this, window.decorView)
-            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
-            action?.setDisplayShowTitleEnabled(true) //show the title in the action bar
-            //add the search icon in the action bar
+            action?.setDisplayShowCustomEnabled(false) // disable a custom view inside the actionbar
+            action?.setDisplayShowTitleEnabled(true) // show the title in the action bar
+            // add the search icon in the action bar
             searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
             isSearchOpened = false
-        } else { //open the search entry
-            action?.setDisplayShowCustomEnabled(true) //enable it to display a
+        } else { // open the search entry
+            action?.setDisplayShowCustomEnabled(true) // enable it to display a
             // custom view in the action bar.
-            action?.setCustomView(R.layout.search_bar)//add the custom view
-            action?.setDisplayShowTitleEnabled(false) //hide the title
+            action?.setCustomView(R.layout.search_bar) // add the custom view
+            action?.setDisplayShowTitleEnabled(false) // hide the title
 
-            edtSearch = action?.customView?.findViewById(R.id.edtSearch) //the text editor
+            edtSearch = action?.customView?.findViewById(R.id.edtSearch) // the text editor
             edtSearch?.setOnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP && edtSearch?.text.toString().isNotEmpty()) {
                         performSearch(edtSearch?.text.toString())
@@ -232,10 +232,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             }
             edtSearch?.requestFocus()
 
-            //open the keyboard focused in the edtSearch
+            // open the keyboard focused in the edtSearch
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
-            //add the close icon
+            // add the close icon
             searchAction?.icon = resources.getDrawable(R.drawable.ic_close_search)
             isSearchOpened = true
         }
@@ -322,8 +322,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     fun handleOnLoadingFragment() {
         hideSoftKeyboard(this, window.decorView)
         if (isSearchOpened) {
-            val action = supportActionBar //get the actionbar
-            action?.setDisplayShowCustomEnabled(false) //disable a custom view inside the actionbar
+            val action = supportActionBar // get the actionbar
+            action?.setDisplayShowCustomEnabled(false) // disable a custom view inside the actionbar
             action?.setDisplayShowTitleEnabled(true)
             searchAction?.icon = ContextCompat.getDrawable(this, R.drawable.ic_open_search)
             isSearchOpened = false
