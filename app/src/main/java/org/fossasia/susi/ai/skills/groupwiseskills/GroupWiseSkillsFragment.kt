@@ -67,6 +67,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         groupWiseSkillsPresenter.getSkills(swipeRefreshLayout.isRefreshing, skills.group)
         isSearching = true
         skillWiseSearchEdit.visibility = View.GONE
+        searchSkillGroupWise.visibility=View.VISIBLE
         searchSkillGroupWise.setOnClickListener {
             handleSearchAction()
         }

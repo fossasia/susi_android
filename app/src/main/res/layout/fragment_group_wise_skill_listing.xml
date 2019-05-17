@@ -25,6 +25,7 @@
             android:background="@drawable/ic_open_search"
             android:layout_gravity="right"
             android:layout_margin="@dimen/margin_moderate"
+            android:visibility="gone"
             app:backgroundTint="@color/md_white_1000"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_open_search" />
