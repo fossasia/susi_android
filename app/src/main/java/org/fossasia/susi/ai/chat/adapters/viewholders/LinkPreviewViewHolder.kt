@@ -40,8 +40,8 @@ import timber.log.Timber
 class LinkPreviewViewHolder(
     itemView: View,
     listener: MessageViewHolder.ClickListener
-)
-    : MessageViewHolder(itemView, listener) {
+) :
+    MessageViewHolder(itemView, listener) {
 
     val text: TextView by bindView(R.id.text)
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)
@@ -242,9 +242,9 @@ class LinkPreviewViewHolder(
 
         previewLayout.setOnClickListener {
             val webpage = Uri.parse(url)
-            val builder = CustomTabsIntent.Builder() //custom tabs intent builder
+            val builder = CustomTabsIntent.Builder() // custom tabs intent builder
             val customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(currContext, webpage) //launching through custom tabs
+            customTabsIntent.launchUrl(currContext, webpage) // launching through custom tabs
         }
     }
 

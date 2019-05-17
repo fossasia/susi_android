@@ -92,49 +92,49 @@ class YouTubeActivity : YouTubeBaseActivity(), YouTubePlayer.OnInitializedListen
 
     class MyPlaybackEventListener : YouTubePlayer.PlaybackEventListener {
         override fun onSeekTo(p0: Int) {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onBuffering(p0: Boolean) {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onPlaying() {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onStopped() {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onPaused() {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
     }
 
     class MyPlayerStateChangeListener : YouTubePlayer.PlayerStateChangeListener {
         override fun onAdStarted() {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onLoading() {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onVideoStarted() {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onLoaded(p0: String?) {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onVideoEnded() {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
 
         override fun onError(p0: YouTubePlayer.ErrorReason?) {
-            //To change body of created functions use File | Settings | File Templates.
+            // To change body of created functions use File | Settings | File Templates.
         }
     }
 }
