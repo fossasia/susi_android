@@ -35,7 +35,7 @@ class ChatSearchActivity : AppCompatActivity() {
         loadQueryList(realm, query)
     }
 
-    //Initialise the recylerview and sends the array list to it.
+    // Initialise the recylerview and sends the array list to it.
     fun viewQueryString() {
         chatSearchRecyclerView = findViewById(R.id.search_chat_feed)
         var mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -44,7 +44,7 @@ class ChatSearchActivity : AppCompatActivity() {
         chatSearchRecyclerView?.adapter = chatSearchAdapter
     }
 
-    //Take data from realm databse according to the query provided
+    // Take data from realm databse according to the query provided
     fun loadQueryList(realm: Realm, query: String?) {
         var result = databaseRepository.getSearchResults(query.toString())
         result.forEach { result ->
@@ -55,7 +55,7 @@ class ChatSearchActivity : AppCompatActivity() {
 
             searchChat.add(searchData)
         }
-        if (searchChat.size>0) {
+        if (searchChat.size> 0) {
             search_not_found.setVisibility(View.INVISIBLE)
             viewQueryString()
         } else {
@@ -72,7 +72,7 @@ class ChatSearchActivity : AppCompatActivity() {
     }
 }
 
-//Custom arraylist to store data as required.
+// Custom arraylist to store data as required.
 class SearchDataFormat {
     var content: String? = null
     var date: String? = null

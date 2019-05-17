@@ -41,7 +41,7 @@ class WelcomeActivity : AppCompatActivity() {
         }
 
         override fun onPageScrollStateChanged(arg0: Int) {
-            //empty body
+            // empty body
         }
     }
 

@@ -9,7 +9,7 @@ import android.widget.TextView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.search.SearchDataFormat
 
-class ChatSearchAdapter (private val searchDataList: ArrayList<SearchDataFormat>) : RecyclerView.Adapter<ChatSearchAdapter.ViewHolder>() {
+class ChatSearchAdapter(private val searchDataList: ArrayList<SearchDataFormat>) : RecyclerView.Adapter<ChatSearchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_chat_search, viewGroup, false)
