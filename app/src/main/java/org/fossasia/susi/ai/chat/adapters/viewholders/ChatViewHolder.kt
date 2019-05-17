@@ -39,7 +39,6 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
     val thumbsDown: ImageView? by bindOptionalView(R.id.thumbs_down)
 
     private var model: ChatMessage? = null
-    private lateinit var contexts: Context
 
     /**
      * Inflate ChatView
@@ -50,7 +49,6 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
     fun setView(model: ChatMessage?, viewType: Int, context: Context) {
         if (model != null) {
             this.model = model
-            contexts = context
             try {
                 when (viewType) {
                     ChatFeedRecyclerAdapter.USER_MESSAGE -> {
@@ -105,7 +103,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsUp?.setImageResource(R.drawable.thumbs_up_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, context) }
-                                setRating(true, true)
+                                setRating(true, true, context)
                             }
                         }
 
@@ -114,7 +112,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsDown?.setImageResource(R.drawable.thumbs_down_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, context) }
-                                setRating(true, false)
+                                setRating(true, false, context)
                             }
                         }
                     }
@@ -125,7 +123,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         }
     }
 
-    private fun setRating(what: Boolean, which: Boolean) {
+    private fun setRating(what: Boolean, which: Boolean, context: Context) {
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         if (which) {
@@ -133,7 +131,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         } else {
             model?.isNegativeRated = what
         }
-        Toast.makeText(contexts, R.string.rate_chat, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
         realm.commitTransaction()
     }
 
@@ -148,11 +146,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                     when (polarity) {
                         Constant.POSITIVE -> if (thumbsUp != null) {
                             thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                            setRating(false, true)
+                            setRating(false, true, context)
                         }
                         Constant.NEGATIVE -> if (thumbsDown != null) {
                             thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                            setRating(false, false)
+                            setRating(false, false, context)
                         }
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
@@ -164,11 +162,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                 when (polarity) {
                     Constant.POSITIVE -> if (thumbsUp != null) {
                         thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                        setRating(false, true)
+                        setRating(false, true, context)
                     }
                     Constant.NEGATIVE -> if (thumbsDown != null) {
                         thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                        setRating(false, false)
+                        setRating(false, false, context)
                     }
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
