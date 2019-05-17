@@ -20,8 +20,8 @@ class VerticalRecyclerAdapter(
     private val context: Context,
     private val cols: List<String?>,
     private val data: List<String?>
-)
-    : RecyclerView.Adapter<VerticalCellViewHolder>() {
+) :
+    RecyclerView.Adapter<VerticalCellViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.table_recylcer_item, parent, false)

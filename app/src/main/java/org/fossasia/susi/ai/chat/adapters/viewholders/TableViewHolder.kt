@@ -30,8 +30,8 @@ import java.util.ArrayList
 class TableViewHolder(
     itemView: View,
     clickListener: MessageViewHolder.ClickListener
-)
-    : MessageViewHolder(itemView, clickListener) {
+) :
+    MessageViewHolder(itemView, clickListener) {
 
     val recyclerView: RecyclerView by bindView(R.id.recyclerView)
     val timeStamp: TextView by bindView(R.id.timestamp)

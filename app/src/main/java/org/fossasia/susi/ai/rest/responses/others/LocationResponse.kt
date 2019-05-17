@@ -6,7 +6,7 @@ package org.fossasia.susi.ai.rest.responses.others
  * Created by chiragw15 on 6/12/16.
  */
 
-data class LocationResponse (
+data class LocationResponse(
     var ip: String? = null,
     var hostname: String? = null,
     var city: String? = null,

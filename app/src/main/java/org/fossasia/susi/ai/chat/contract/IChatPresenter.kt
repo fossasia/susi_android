@@ -7,43 +7,43 @@ package org.fossasia.susi.ai.chat.contract
  */
 interface IChatPresenter {
 
-    //At the start of Activity
+    // At the start of Activity
     fun onAttach(chatView: IChatView)
 
     fun retrieveOldMessages(firstRun: Boolean)
     fun getUndeliveredMessages()
     fun setUp()
 
-    //Preferences and permissions
+    // Preferences and permissions
     fun checkPreferences()
 
     fun check(boolean: Boolean)
     fun micCheck(boolean: Boolean)
     fun micCheck(): Boolean
 
-    //Getting user location
+    // Getting user location
     fun getLocationFromIP()
 
     fun getLocationFromLocationService()
 
-    //Interaction with susi
+    // Interaction with susi
     fun sendMessage(query: String, actual: String)
 
     fun addToNonDeliveredList(query: String, actual: String)
     fun startComputingThread()
 
-    //Hotword Detection
+    // Hotword Detection
     fun initiateHotwordDetection()
 
     fun stopHotwordDetection()
     fun startHotwordDetection()
     fun hotwordDetected()
 
-    //STT and TTS
+    // STT and TTS
     fun startSpeechInput()
 
     fun disableMicInput(boolean: Boolean)
 
-    //Detach
+    // Detach
     fun onDetach()
 }
