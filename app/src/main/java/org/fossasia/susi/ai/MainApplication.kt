@@ -41,13 +41,13 @@ class MainApplication : Application() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(object : Timber.DebugTree() {
-                //Add the line number to the tag
+                // Add the line number to the tag
                 override fun createStackElementTag(element: StackTraceElement): String? {
                     return super.createStackElementTag(element) + ": " + element.lineNumber
                 }
             })
         } else {
-            //Release mode
+            // Release mode
             Timber.plant(ReleaseLogTree())
         }
     }
