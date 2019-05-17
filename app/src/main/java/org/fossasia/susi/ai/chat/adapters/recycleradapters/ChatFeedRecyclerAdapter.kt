@@ -63,7 +63,7 @@ class ChatFeedRecyclerAdapter(
 
         if (data is RealmResults) {
             data.addChangeListener(RealmChangeListener {
-                //only scroll if new is added.
+                // only scroll if new is added.
                 if (lastMsgCount < itemCount) {
                     scrollToBottom()
                 }

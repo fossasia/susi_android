@@ -118,7 +118,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         return super.onTouchEvent(event)
     }
 
-    //Inner class for handling the gestures
+    // Inner class for handling the gestures
     internal inner class CustomGestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
@@ -128,7 +128,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
             velocityY: Float
         ): Boolean {
             val X = event1.getX() - event2.getX()
-            //Swipe from right to left
+            // Swipe from right to left
             if (X >= 100 && X <= 1000) {
                 val intent = Intent(this@ChatActivity, SkillsActivity::class.java)
                 startActivity(intent)
@@ -199,7 +199,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private fun setEditText() {
         val watch = object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                //do whatever you want to do before text change in input edit text
+                // do whatever you want to do before text change in input edit text
             }
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -225,7 +225,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
             }
 
             override fun afterTextChanged(editable: Editable) {
-                //do whatever you want to do after text change in input edit text
+                // do whatever you want to do after text change in input edit text
             }
         }
 
@@ -322,7 +322,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
     }
 
-    //Take user's speech as input and send the message
+    // Take user's speech as input and send the message
     override fun promptSpeechInput() {
         if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
@@ -336,7 +336,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         fragmentTransaction.commit()
     }
 
-    //Replies user with Speech
+    // Replies user with Speech
     override fun voiceReply(reply: String, language: String) {
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
@@ -395,7 +395,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         snackbar.show()
     }
 
-    //Initiates hotword detection
+    // Initiates hotword detection
     override fun initHotword() {
         recordingThread = RecordingThread(object : Handler() {
             override fun handleMessage(msg: Message) {
@@ -447,7 +447,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun checkEnterKeyPref(isChecked: Boolean) {
         if (isChecked) {
             askSusiMessage.imeOptions = EditorInfo.IME_ACTION_SEND
-            askSusiMessage.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD //setting this programmatically works for all devices
+            askSusiMessage.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD // setting this programmatically works for all devices
         } else {
             askSusiMessage.imeOptions = EditorInfo.IME_FLAG_NO_ENTER_ACTION
         }

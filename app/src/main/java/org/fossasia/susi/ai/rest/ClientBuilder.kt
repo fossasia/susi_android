@@ -27,7 +27,7 @@ object ClientBuilder {
         logging.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
-        //Must maintain the order of interceptors here, logging needs to be last.
+        // Must maintain the order of interceptors here, logging needs to be last.
         httpClient.addInterceptor(TokenInterceptor())
         httpClient.addInterceptor(logging)
 
