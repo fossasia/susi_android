@@ -28,8 +28,8 @@ import timber.log.Timber
 /**
  * ViewHolder for drawing chat item layout.
  */
-class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int)
-    : MessageViewHolder(view, clickListener) {
+class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int) :
+    MessageViewHolder(view, clickListener) {
 
     private val chatTextView: TextView by bindView(R.id.text)
     private val receivedTick: ImageView? by bindOptionalView(R.id.received_tick)

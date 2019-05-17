@@ -42,8 +42,8 @@ class ParseSusiResponseHelper {
             Constant.ANSWER -> try {
                 answer = susiResponse.answers[0].actions[i].expression
 
-                //get the Urls stored in 'data' of the answer object
-                val text = susiResponse.answers[0].data[0].get("object") //requires api warning suppressed
+                // get the Urls stored in 'data' of the answer object
+                val text = susiResponse.answers[0].data[0].get("object") // requires api warning suppressed
                 if (text != null) {
                     val urlList = extractUrls(text)
                     isHavingLink = true

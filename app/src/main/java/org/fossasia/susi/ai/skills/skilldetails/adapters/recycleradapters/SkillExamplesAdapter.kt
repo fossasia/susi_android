@@ -18,8 +18,8 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.SkillExampl
 class SkillExamplesAdapter(
     val context: Context,
     val examples: List<String>
-)
-    : RecyclerView.Adapter<SkillExampleViewHolder>(),
+) :
+    RecyclerView.Adapter<SkillExampleViewHolder>(),
         SkillExampleViewHolder.ClickListener {
 
     private val clickListener: SkillExampleViewHolder.ClickListener = this

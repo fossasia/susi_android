@@ -14,8 +14,8 @@ import org.fossasia.susi.ai.R
 class SkillViewHolder(
     itemView: View,
     private val listener: ClickListener?
-)
-    : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val skillImage: ImageView by bindView(R.id.skill_image)
     val skillName: TextView by bindView(R.id.skill_name)
