@@ -201,7 +201,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             } else {
                 settingsPresenter.loginLogout()
                 val intent = Intent(context, LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
             true
@@ -220,7 +219,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         displayEmail.setOnPreferenceClickListener {
             settingsPresenter.loginLogout()
             val intent = Intent(context, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             true
         }

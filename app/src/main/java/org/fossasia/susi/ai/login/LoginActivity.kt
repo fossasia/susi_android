@@ -228,4 +228,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             loginPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, ChatActivity::class.java))
+    }
 }
