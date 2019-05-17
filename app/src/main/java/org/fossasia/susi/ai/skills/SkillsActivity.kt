@@ -184,14 +184,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         return super.onOptionsItemSelected(item)
     }
 
-    //Passes a voice intent, to detect the query that user asks via voice
+    // Passes a voice intent, to detect the query that user asks via voice
     private fun handleVoiceSearch() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
 
         if (intent.resolveActivity(packageManager) != null) {
-            startActivityForResult(intent, VOICE_SEARCH_REQUEST_CODE)//Sends the detected query to search
+            startActivityForResult(intent, VOICE_SEARCH_REQUEST_CODE) // Sends the detected query to search
         } else {
             Toast.makeText(this, R.string.error_voice_search, Toast.LENGTH_SHORT)
         }
