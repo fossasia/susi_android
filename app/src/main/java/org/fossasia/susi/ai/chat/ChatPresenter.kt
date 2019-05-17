@@ -38,8 +38,8 @@ import kotlin.collections.HashMap
  * The P in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatPresenter(context: Context)
-    : IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
+class ChatPresenter(context: Context) :
+    IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.OnDatabaseUpdateListener {
 
@@ -72,7 +72,7 @@ class ChatPresenter(context: Context)
 
     override fun setUp() {
 
-        //find total number of messages and find new message index
+        // find total number of messages and find new message index
         newMessageIndex = databaseRepository.getMessageCount() + 1
         PrefManager.putLong(Constant.MESSAGE_COUNT, newMessageIndex)
         micCheck = utilModel.checkMicInput()
@@ -100,7 +100,7 @@ class ChatPresenter(context: Context)
         check = boolean
     }
 
-    //initiates hotword detection
+    // initiates hotword detection
     override fun initiateHotwordDetection() {
         if (BuildConfig.FLAVOR == "fdroid")
             return
@@ -157,7 +157,7 @@ class ChatPresenter(context: Context)
         }
     }
 
-    //Retrieves old Messages
+    // Retrieves old Messages
     override fun retrieveOldMessages(firstRun: Boolean) {
         if (firstRun and NetworkUtils.isNetworkConnected()) {
             chatView?.showRetrieveOldMessageProgress()
@@ -274,7 +274,7 @@ class ChatPresenter(context: Context)
         chatView?.hideRetrieveOldMessageProgress()
     }
 
-    //Gets Location of user using his IP Address
+    // Gets Location of user using his IP Address
     override fun getLocationFromIP() {
         chatModel.getLocationFromIP(this)
     }
@@ -297,7 +297,7 @@ class ChatPresenter(context: Context)
         }
     }
 
-    //Gets Location of user using gps and network
+    // Gets Location of user using gps and network
     override fun getLocationFromLocationService() {
         locationHelper = LocationHelper(MainApplication.instance.applicationContext)
         getLocation()
@@ -312,7 +312,7 @@ class ChatPresenter(context: Context)
         }
     }
 
-    //get undelivered messages from database
+    // get undelivered messages from database
     override fun getUndeliveredMessages() {
         nonDeliveredMessages.clear()
 
@@ -321,7 +321,7 @@ class ChatPresenter(context: Context)
         nonDelivered.mapTo(nonDeliveredMessages) { Pair(it.content, it.id) }
     }
 
-    //sends message to susi
+    // sends message to susi
     override fun sendMessage(query: String, actual: String) {
         addToNonDeliveredList(query, actual)
         ComputeThread().start()
@@ -533,7 +533,7 @@ class ChatPresenter(context: Context)
         chatView?.databaseUpdated()
     }
 
-    //Asks for permissions from user
+    // Asks for permissions from user
     private fun getPermissions() {
         val permissionsRequired = utilModel.permissionsToGet()
 

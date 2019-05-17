@@ -15,8 +15,8 @@ import org.fossasia.susi.ai.rest.responses.susi.Datum
  * <h1>Adapter to display horizontal list of RSS results.</h1>
  */
 
-class SearchResultsAdapter(context: Context, private val datumList: List<Datum?>?)
-    : RecyclerView.Adapter<RssViewHolder>() {
+class SearchResultsAdapter(context: Context, private val datumList: List<Datum?>?) :
+    RecyclerView.Adapter<RssViewHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RssViewHolder {
