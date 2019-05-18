@@ -334,4 +334,5 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="settings_help_key">ayuda</string>
     <string name="settings_privacy">intimidad</string>
     <string name="settings_privacy_key">intimidad</string>
+    <string name="rate_chat">Gracias por responder</string>
 </resources>
