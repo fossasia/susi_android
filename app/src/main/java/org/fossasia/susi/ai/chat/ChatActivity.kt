@@ -114,6 +114,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
+        voiceSearchChat.visibility = View.GONE
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -365,6 +366,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun voiceReply(reply: String, language: String) {
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
+        voiceSearchChat.visibility = View.VISIBLE
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
