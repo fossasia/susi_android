@@ -16,28 +16,56 @@ class ChatCategory : AppCompatActivity() {
     private lateinit var textMessage: TextView
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            R.id.navigation_home -> {
-                textMessage.setText(R.string.category_chat)
+            R.id.navigation_chat -> {
+                loadChats()
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_dashboard -> {
-                textMessage.setText(R.string.category_media)
+            R.id.navigation_media -> {
+                loadMedia()
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.navigation_notifications -> {
-                textMessage.setText(R.string.category_map)
+            R.id.navigation_map -> {
+                loadMaps()
                 return@OnNavigationItemSelectedListener true
             }
         }
         false
     }
 
+    // Function that loads the chatCategoryFragment into the Category Fragment
+    fun loadChats() {
+        val chatCategoryFragment = ChatCategoryFragment()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.chat_category_parent_container, chatCategoryFragment)
+                .commit()
+    }
+
+    // Function that loads the mediaCategoryFragment into the Category Fragment
+    fun loadMedia() {
+        val mediaCategoryFragment = MediaCategoryFragment()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.chat_category_parent_container, mediaCategoryFragment)
+                .commit()
+    }
+
+    // Function that loads the mapCategoryFragment into the Category Fragment
+    fun loadMaps() {
+        val mapCategoryFragment = MapCategoryFragment()
+        supportFragmentManager.beginTransaction()
+                .replace(R.id.chat_category_parent_container, mapCategoryFragment)
+                .commit()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_category)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        textMessage = findViewById(R.id.message)
+        val chatCategoryFragment = ChatCategoryFragment()
+        supportFragmentManager.beginTransaction()
+                .add(R.id.chat_category_parent_container, chatCategoryFragment)
+                .commit()
+
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 }
