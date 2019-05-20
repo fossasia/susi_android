@@ -519,4 +519,8 @@
     <string name="settings_privacy">Privacy</string>
     <string name="settings_privacy_key">privacy</string>
     <string name="rate_chat">Thank you for responding</string>
+    <string name="title_activity_chat_category">ChatCategory</string>
+    <string name="category_chat">Chats</string>
+    <string name="category_map">Maps</string>
+    <string name="category_media">Media</string>
 </resources>

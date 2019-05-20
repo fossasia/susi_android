@@ -40,6 +40,7 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
+import org.fossasia.susi.ai.chat.categories.ChatCategory
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.chat.search.ChatSearchActivity
@@ -500,6 +501,12 @@ class ChatActivity : AppCompatActivity(), IChatView {
         val intent = Intent(this, SkillsActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    // Handles the chat category
+    fun openChatCategory(view: View) {
+        val intent = Intent(this, ChatCategory::class.java)
+        startActivity(intent)
     }
 
     override fun showRetrieveOldMessageProgress() {
