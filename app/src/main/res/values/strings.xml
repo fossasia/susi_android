@@ -524,4 +524,5 @@
     <string name="category_map">Maps</string>
     <string name="category_media">Media</string>
     <string name="empty_chat_category">No chats of this category to display</string>
+    <string name="empty_media_category">No medias found to display.</string>
 </resources>

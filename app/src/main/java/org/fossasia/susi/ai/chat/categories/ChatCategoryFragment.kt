@@ -49,7 +49,7 @@ class ChatCategoryFragment : Fragment() {
         results.forEach { result ->
             if (result.actionType == Constant.ANSWER) {
                 val content = result.content
-                if (!(content!!.endsWith(".jpg") || content!!.endsWith(".png") || content.startsWith("Playing"))) {
+                if (!((content?.endsWith(".jpg") as Boolean) || content.endsWith(".png") || content.startsWith("Playing"))) {
                     val chat = ChatCategoryFormat()
                     chat.content = result.content
                     chat.date = result.date
@@ -70,8 +70,8 @@ class ChatCategoryFragment : Fragment() {
     // It passes the list of the gathered chats to ChatCategoryAdapter
     fun viewChats() {
 
-        var mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        chatCategoryRecyclerView?.layoutManager = mLayoutManager
+        var chatLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        chatCategoryRecyclerView?.layoutManager = chatLayoutManager
         chatCategoryAdapter = ChatCategoryAdapter(chats)
         chatCategoryRecyclerView?.adapter = chatCategoryAdapter
     }

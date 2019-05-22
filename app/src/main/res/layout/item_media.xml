@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_very_small"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/background_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small"
+        android:padding="@dimen/padding_large"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_layout"
+        android:layout_marginStart="@dimen/margin_medium">
+
+        <ImageView
+            android:id="@+id/media_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|left"
+            android:maxWidth="@dimen/message_layout_max_width"
+            android:paddingBottom="@dimen/padding_small"
+            android:src="@drawable/ic_susi"
+            android:textColor="@color/message_text_color"
+            android:textColorLink="@color/link_text"
+            android:textSize="@dimen/text_size_medium" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|right|bottom"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/timestamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:text="@string/time_9am"
+                android:textColor="@color/timestamp_color"
+                android:textSize="@dimen/text_size_very_small" />
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
