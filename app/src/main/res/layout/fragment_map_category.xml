@@ -2,11 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.fossasia.susi.ai.chat.categories.MapCategoryFragment">
+    tools:context="org.fossasia.susi.ai.chat.categories.MediaCategoryFragment">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Map category fragment" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/map_category_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_small"/>
+
+        <TextView
+            android:id="@+id/map_not_found"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_centerInParent="true"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_very_large"
+            android:visibility="invisible" />
+    </RelativeLayout>
 
 </FrameLayout>
