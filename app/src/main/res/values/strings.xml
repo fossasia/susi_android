@@ -520,4 +520,5 @@
     <string name="settings_help_key">help</string>
     <string name="settings_privacy">Privacy</string>
     <string name="settings_privacy_key">privacy</string>
+    <string name="rate_chat">Thank you for responding</string>
 </resources>

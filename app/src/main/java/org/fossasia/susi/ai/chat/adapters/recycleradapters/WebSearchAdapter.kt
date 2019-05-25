@@ -19,8 +19,8 @@ import timber.log.Timber
 class WebSearchAdapter(
     private val context: Context,
     private val searchResults: List<WebSearchModel?>?
-)
-    : RecyclerView.Adapter<SearchResultHolder>() {
+) :
+    RecyclerView.Adapter<SearchResultHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -77,9 +77,9 @@ class WebSearchAdapter(
             holder.previewLayout.setOnClickListener {
                 if (linkurl != null) {
                     val webpage = Uri.parse(linkurl)
-                    val builder = CustomTabsIntent.Builder() //custom tabs intent builder
+                    val builder = CustomTabsIntent.Builder() // custom tabs intent builder
                     val customTabsIntent = builder.build()
-                    customTabsIntent.launchUrl(context, webpage) //launching through custom tabs
+                    customTabsIntent.launchUrl(context, webpage) // launching through custom tabs
                 }
             }
         }

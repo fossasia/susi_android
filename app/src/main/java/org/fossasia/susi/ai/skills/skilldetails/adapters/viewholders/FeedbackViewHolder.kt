@@ -15,8 +15,8 @@ import org.fossasia.susi.ai.R
 class FeedbackViewHolder(
     itemView: View,
     private val listener: FeedbackViewHolder.ClickListener?
-)
-    : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val itemFeedback: LinearLayout by bindView(R.id.itemFeedback)
     val avatar: ImageView by bindView(R.id.avatar)

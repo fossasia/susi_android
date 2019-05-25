@@ -28,8 +28,8 @@ import timber.log.Timber
 /**
  * ViewHolder for drawing chat item layout.
  */
-class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int)
-    : MessageViewHolder(view, clickListener) {
+class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int) :
+    MessageViewHolder(view, clickListener) {
 
     private val chatTextView: TextView by bindView(R.id.text)
     private val receivedTick: ImageView? by bindOptionalView(R.id.received_tick)
@@ -103,7 +103,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsUp?.setImageResource(R.drawable.thumbs_up_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, context) }
-                                setRating(true, true)
+                                setRating(true, true, context)
                             }
                         }
 
@@ -112,7 +112,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsDown?.setImageResource(R.drawable.thumbs_down_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, context) }
-                                setRating(true, false)
+                                setRating(true, false, context)
                             }
                         }
                     }
@@ -123,7 +123,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         }
     }
 
-    private fun setRating(what: Boolean, which: Boolean) {
+    private fun setRating(what: Boolean, which: Boolean, context: Context) {
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         if (which) {
@@ -131,6 +131,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         } else {
             model?.isNegativeRated = what
         }
+        Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
         realm.commitTransaction()
     }
 
@@ -145,11 +146,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                     when (polarity) {
                         Constant.POSITIVE -> if (thumbsUp != null) {
                             thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                            setRating(false, true)
+                            setRating(false, true, context)
                         }
                         Constant.NEGATIVE -> if (thumbsDown != null) {
                             thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                            setRating(false, false)
+                            setRating(false, false, context)
                         }
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
@@ -161,11 +162,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                 when (polarity) {
                     Constant.POSITIVE -> if (thumbsUp != null) {
                         thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                        setRating(false, true)
+                        setRating(false, true, context)
                     }
                     Constant.NEGATIVE -> if (thumbsDown != null) {
                         thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                        setRating(false, false)
+                        setRating(false, false, context)
                     }
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()

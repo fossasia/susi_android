@@ -32,6 +32,8 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
+import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
+import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.skills.help.HelpFragment
 import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 
@@ -47,6 +49,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private val TAG_HELP_FRAGMENT = "HelpFragment"
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private lateinit var settingsPresenter: ISettingsPresenter
+    private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
 
     private lateinit var rate: Preference
     lateinit var server: Preference
@@ -84,6 +87,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
         settingsPresenter = SettingsPresenter(activity as SkillsActivity)
         settingsPresenter.onAttach(this)
+        loginLogoutModulePresenter = LoginLogoutModulePresenter(requireContext())
 
         setHasOptionsMenu(true)
 
@@ -192,14 +196,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!settingsPresenter.getAnonymity()) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
-                    settingsPresenter.loginLogout()
+                    loginLogoutModulePresenter.logout()
                 }.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
 
                 val alert = builder.create()
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
-                settingsPresenter.loginLogout()
+                loginLogoutModulePresenter.logout()
             }
             true
         }
@@ -215,7 +219,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         displayEmail.setOnPreferenceClickListener {
-            settingsPresenter.loginLogout()
+            loginLogoutModulePresenter.logout()
             true
         }
 
@@ -304,9 +308,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 setLocalLanguage(PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
             }
         } catch (e: Exception) {
-            Timber.e(e) //Language not present in app
+            Timber.e(e) // Language not present in app
             PrefManager.putString(Constant.LANGUAGE, Constant.DEFAULT)
-            querylanguage.setValueIndex(0)//setting language to default - english
+            querylanguage.setValueIndex(0) // setting language to default - english
             querylanguage.summary = querylanguage.entries[0]
         }
     }
