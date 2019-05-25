@@ -34,6 +34,8 @@ import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.login.LoginActivity
+import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
+import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
@@ -45,6 +47,7 @@ import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     private lateinit var skillDetailsPresenter: ISkillDetailsPresenter
+    private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
 
     private lateinit var skillData: SkillData
     private lateinit var skillGroup: String
@@ -72,6 +75,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         skillDetailsPresenter = SkillDetailsPresenter(this)
+        loginLogoutModulePresenter = LoginLogoutModulePresenter(requireContext())
         skillDetailsPresenter.onAttach(this)
         skillData = arguments?.getParcelable(
                 SKILL_KEY) as SkillData
@@ -499,7 +503,9 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         } else {
             tvAnonymousPostFeedback.visibility = View.VISIBLE
             tvAnonymousPostFeedback.setOnClickListener {
+                loginLogoutModulePresenter.logout()
                 val intentToLogin = Intent(context, LoginActivity::class.java)
+                intentToLogin.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intentToLogin)
             }
         }
