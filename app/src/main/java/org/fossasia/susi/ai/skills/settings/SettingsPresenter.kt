@@ -59,14 +59,6 @@ class SettingsPresenter(skillsActivity: SkillsActivity) :
         }
     }
 
-    override fun loginLogout() {
-        utilModel.clearToken()
-        utilModel.clearPrefs()
-        utilModel.saveAnonymity(false)
-        databaseRepository.deleteAllMessages()
-        settingView?.startLoginActivity()
-    }
-
     override fun resetPassword(password: String, newPassword: String, conPassword: String) {
         if (password.isEmpty()) {
             settingView?.invalidCredentials(true, Constant.PASSWORD)
