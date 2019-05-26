@@ -22,7 +22,8 @@ import retrofit2.Response
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, ISettingModel.OnSettingFinishListener {
+class SettingsPresenter(skillsActivity: SkillsActivity) :
+    ISettingsPresenter, ISettingModel.OnSettingFinishListener {
 
     private var settingModel: SettingModel = SettingModel()
     private var settingView: ISettingsView? = null
@@ -56,14 +57,6 @@ class SettingsPresenter(skillsActivity: SkillsActivity) : ISettingsPresenter, IS
             utilModel.putBooleanPref(R.string.hotword_detection_key, false)
             false
         }
-    }
-
-    override fun loginLogout() {
-        utilModel.clearToken()
-        utilModel.clearPrefs()
-        utilModel.saveAnonymity(false)
-        databaseRepository.deleteAllMessages()
-        settingView?.startLoginActivity()
     }
 
     override fun resetPassword(password: String, newPassword: String, conPassword: String) {

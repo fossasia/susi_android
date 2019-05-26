@@ -15,7 +15,11 @@ import java.util.ArrayList
 *   A RecyclerAdapter to inflate the list of the table responses
 * */
 
-class TableAdapter(private val column: List<String?>, private val data: List<String?>) : RecyclerView.Adapter<TabViewHolder>() {
+class TableAdapter(
+    private val column: List<String?>,
+    private val data: List<String?>
+) :
+    RecyclerView.Adapter<TabViewHolder>() {
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabViewHolder {
@@ -26,8 +30,8 @@ class TableAdapter(private val column: List<String?>, private val data: List<Str
 
     override fun onBindViewHolder(holder: TabViewHolder, position: Int) {
         val smallData = ArrayList<String?>()
-        for (columnflag in column.indices) {
-            smallData.add(data[column.size * position + columnflag])
+        for (columnFlag in column.indices) {
+            smallData.add(data[column.size * position + columnFlag])
         }
 
         val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)

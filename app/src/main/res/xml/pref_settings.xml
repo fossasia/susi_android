@@ -6,7 +6,7 @@
     <PreferenceCategory android:title="Login email">
         <PreferenceScreen
             android:key="display_email"
-            android:selectable="false"
+            android:selectable="true"
             android:title="test email"/>
     </PreferenceCategory>
 
@@ -108,6 +108,21 @@
             android:key="login_logout"
             android:title="Login" />
 
+        <PreferenceScreen
+            android:key="@string/settings_about_us_key"
+            android:title="@string/settings_about_us" />
+
+        <PreferenceScreen
+            android:key="@string/settings_visit_website_key"
+            android:title="@string/settings_visit_website" />
+
+        <PreferenceScreen
+            android:key="@string/settings_help_key"
+            android:title="@string/settings_help" />
+
+        <PreferenceScreen
+            android:key="@string/settings_privacy_key"
+            android:title="@string/settings_privacy" />
     </PreferenceCategory>
 
 

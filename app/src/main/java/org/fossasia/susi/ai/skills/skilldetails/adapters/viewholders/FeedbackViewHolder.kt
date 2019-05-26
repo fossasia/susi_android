@@ -5,13 +5,18 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
-import org.fossasia.susi.ai.R
-
 import butterknife.ButterKnife
 import kotterknife.bindView
+import org.fossasia.susi.ai.R
 
-class FeedbackViewHolder(itemView: View, private val listener: FeedbackViewHolder.ClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+/**
+ * ViewHolder for drawing feed back item layout.
+ */
+class FeedbackViewHolder(
+    itemView: View,
+    private val listener: FeedbackViewHolder.ClickListener?
+) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val itemFeedback: LinearLayout by bindView(R.id.itemFeedback)
     val avatar: ImageView by bindView(R.id.avatar)

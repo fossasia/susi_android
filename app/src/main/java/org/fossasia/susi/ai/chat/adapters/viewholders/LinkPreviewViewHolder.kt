@@ -13,9 +13,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-
+import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
-
+import io.github.ponnamkarthik.richlinkpreview.MetaData
+import io.github.ponnamkarthik.richlinkpreview.ResponseListener
+import io.github.ponnamkarthik.richlinkpreview.RichPreview
+import io.realm.Realm
+import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
@@ -25,20 +29,19 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.ClientBuilder
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
-
-import butterknife.ButterKnife
-import io.github.ponnamkarthik.richlinkpreview.MetaData
-import io.github.ponnamkarthik.richlinkpreview.ResponseListener
-import io.github.ponnamkarthik.richlinkpreview.RichPreview
-import io.realm.Realm
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-import kotterknife.bindView
-
-class LinkPreviewViewHolder(itemView: View, listener: MessageViewHolder.ClickListener) : MessageViewHolder(itemView, listener) {
+/**
+ * ViewHolder for drawing link preview item layout.
+ */
+class LinkPreviewViewHolder(
+    itemView: View,
+    listener: MessageViewHolder.ClickListener
+) :
+    MessageViewHolder(itemView, listener) {
 
     val text: TextView by bindView(R.id.text)
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)
@@ -239,9 +242,9 @@ class LinkPreviewViewHolder(itemView: View, listener: MessageViewHolder.ClickLis
 
         previewLayout.setOnClickListener {
             val webpage = Uri.parse(url)
-            val builder = CustomTabsIntent.Builder() //custom tabs intent builder
+            val builder = CustomTabsIntent.Builder() // custom tabs intent builder
             val customTabsIntent = builder.build()
-            customTabsIntent.launchUrl(currContext, webpage) //launching through custom tabs
+            customTabsIntent.launchUrl(currContext, webpage) // launching through custom tabs
         }
     }
 

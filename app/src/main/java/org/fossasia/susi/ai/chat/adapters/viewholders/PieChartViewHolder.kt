@@ -22,7 +22,11 @@ import butterknife.ButterKnife
 import kotterknife.bindView
 import timber.log.Timber
 
-class PieChartViewHolder(view: View, listener: MessageViewHolder.ClickListener) : MessageViewHolder(view, listener) {
+class PieChartViewHolder(
+    view: View,
+    listener: MessageViewHolder.ClickListener
+) :
+    MessageViewHolder(view, listener) {
 
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)
     val chatTextView: TextView by bindView(R.id.text)

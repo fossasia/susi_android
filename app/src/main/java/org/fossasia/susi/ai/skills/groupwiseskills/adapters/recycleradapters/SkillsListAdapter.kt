@@ -17,36 +17,48 @@ import org.fossasia.susi.ai.skills.groupwiseskills.adapters.viewholders.SkillVie
  *
  * Created by arundhati24 on 16/07/2018.
  */
-class SkillsListAdapter(val context: Context, private val skillDetails: GroupWiseSkills, val skillCallback: SkillFragmentCallback) :
+class SkillsListAdapter(
+    val context: Context,
+    private val skillDetails: GroupWiseSkills,
+    private val skillCallback: SkillFragmentCallback
+) :
         RecyclerView.Adapter<SkillViewHolder>(), SkillViewHolder.ClickListener {
 
+    private val DEFAULT_AUTHOR = "<author_name>"
+    private val DEFAULT_EXAMPLE = "<The question that should be shown in public skill displays>"
     private val imageLink = "https://raw.githubusercontent.com/fossasia/susi_skill_data/master/models/general/"
     private val clickListener: SkillViewHolder.ClickListener = this
 
     @NonNull
     override fun onBindViewHolder(holder: SkillViewHolder, position: Int) {
-        if (skillDetails != null) {
-            val skillData = skillDetails.skillsList.get(position)
+        val skillData = skillDetails.skillsList.get(position)
 
-            if (skillData.skillName == null || skillData.skillName.isEmpty()) {
-                holder.skillName?.text = context.getString(R.string.no_skill_name)
+        if (skillData.skillName != null) {
+            if (skillData.skillName.isEmpty()) {
+                holder.skillName.text = context.getString(R.string.no_skill_name)
             } else {
-                holder.skillName?.text = skillData.skillName
+                holder.skillName.text = skillData.skillName
             }
+        }
 
-            if (skillData.author == null || skillData.author.isEmpty()) {
-                holder.skillAuthorName?.text = context.getString(R.string.no_skill_author)
+        if (skillData.author != null) {
+            if (skillData.author.isEmpty() || skillData.author.equals(DEFAULT_AUTHOR)) {
+                holder.skillAuthorName.text = context.getString(R.string.no_skill_author)
             } else {
-                holder.skillAuthorName?.text = skillData.author
+                holder.skillAuthorName.text = skillData.author
             }
+        }
 
-            if (skillData.examples == null || skillData.examples.isEmpty())
-                holder.skillExample?.text = ""
+        if (skillData.examples != null) {
+            if (skillData.examples.isEmpty() || skillData.examples.contains(DEFAULT_EXAMPLE))
+                holder.skillExample.text = ""
             else
-                holder.skillExample?.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
+                holder.skillExample.text = StringBuilder("\"").append(skillData.examples[0]).append("\"")
+        }
 
-            if (skillData.image == null || skillData.image.isEmpty()) {
-                holder.skillImage?.setImageResource(R.drawable.ic_susi)
+        if (skillData.image != null) {
+            if (skillData.image.isEmpty()) {
+                holder.skillImage.setImageResource(R.drawable.ic_susi)
             } else {
                 val imageUrl: String = skillDetails.skillsList.get(position).group.replace(" ", "%20") + "/en/" + skillData.image
                 Picasso.get().load(StringBuilder(imageLink)
@@ -56,11 +68,11 @@ class SkillsListAdapter(val context: Context, private val skillDetails: GroupWis
                         .transform(CircleTransform())
                         .into(holder.skillImage)
             }
-            val stars = skillData.skillRating?.stars
-            if (stars != null) {
-                holder.skillRating.rating = stars.averageStar
-                holder.skillTotalRatings.text = stars.totalStar.toString()
-            }
+        }
+        val stars = skillData.skillRating?.stars
+        if (stars != null) {
+            holder.skillRating.rating = stars.averageStar
+            holder.skillTotalRatings.text = stars.totalStar.toString()
         }
     }
 

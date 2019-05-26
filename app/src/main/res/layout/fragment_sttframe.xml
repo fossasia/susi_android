@@ -13,6 +13,12 @@
         android:textColor="@color/md_black_1000"
         android:textSize="@dimen/text_size_extra_extra_large" />
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/clickableCommands"
+        android:layout_width="match_parent"
+        android:layout_above="@id/txtChat"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"

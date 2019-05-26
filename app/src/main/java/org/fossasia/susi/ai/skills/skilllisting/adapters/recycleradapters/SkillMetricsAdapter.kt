@@ -34,8 +34,8 @@ class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetric
 
             skillAdapterSnapHelper = StartSnapHelper()
             holder.skillList.setHasFixedSize(true)
-            val mLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            holder.skillList.layoutManager = mLayoutManager
+            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            holder.skillList.layoutManager = layoutManager
             holder.skillList.adapter = SkillListAdapter(context, metrics.metricsList[position], skillCallback)
             holder.skillList.onFlingListener = null
             skillAdapterSnapHelper.attachToRecyclerView(holder.skillList)

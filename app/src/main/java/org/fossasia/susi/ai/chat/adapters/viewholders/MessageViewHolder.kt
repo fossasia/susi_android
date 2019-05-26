@@ -3,7 +3,8 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 import android.support.v7.widget.RecyclerView
 import android.view.View
 
-abstract class MessageViewHolder(itemView: View, private val listener: ClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
+abstract class MessageViewHolder(itemView: View, private val listener: ClickListener?) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
 
     init {
         itemView.setOnClickListener(this)

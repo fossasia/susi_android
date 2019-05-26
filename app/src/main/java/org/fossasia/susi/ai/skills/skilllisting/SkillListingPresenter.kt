@@ -45,12 +45,13 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun getMetrics(swipeToRefreshActive: Boolean) {
-        skillListingView?.visibilityProgressBar(!swipeToRefreshActive)
         val queryObject = SkillMetricsDataQuery("general", PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT))
         skillListingModel.fetchSkillMetrics(queryObject, this)
     }
 
     override fun onGroupFetchSuccess(response: Response<ListGroupsResponse>) {
+        if (skillListingView == null)
+            return
         val groupsResponse = response.body()
         if (response.isSuccessful && groupsResponse != null) {
             Timber.d("GROUPS FETCHED")
@@ -71,6 +72,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
+        if (skillListingView == null)
+            return
         val skillsResponse = response.body()
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && skillsResponse != null) {
@@ -98,6 +101,8 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
     }
 
     override fun onSkillMetricsFetchSuccess(response: Response<ListSkillMetricsResponse>) {
+        if (skillListingView == null)
+            return
         val skillsMetricsResponse = response.body()
         skillListingView?.visibilityProgressBar(false)
         if (response.isSuccessful && skillsMetricsResponse != null) {
@@ -107,7 +112,7 @@ class SkillListingPresenter(val skillListingFragment: SkillListingFragment) : IS
                 metrics.metricsList.clear()
                 metrics.metricsGroupTitles.clear()
                 if (metricsData?.staffPicks != null && metricsData?.staffPicks?.size != null) {
-                    //TODO : Make this comparison null safe
+                    // TODO : Make this comparison null safe
                     if (metricsData?.staffPicks?.size!! > 0) {
                         metrics.metricsGroupTitles.add(utilModel.getString(R.string.metric_staff_picks))
                         metrics.metricsList.add(metricsData?.staffPicks)

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * Created by mayank on 09-12-2016.
  */
 
-data class RelatedTopics (
+data class RelatedTopics(
     @SerializedName("FirstURL")
     var url: String? = null,
     @SerializedName("Text")

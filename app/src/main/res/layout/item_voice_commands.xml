@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_layout"
+        android:layout_margin="@dimen/margin_small_medium"
+        tools:text="Open WhatsApp"
+        android:id="@+id/voiceCommand"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="@dimen/padding_moderate"
+        android:textSize="@dimen/text_size_medium"/>
+
+</LinearLayout>

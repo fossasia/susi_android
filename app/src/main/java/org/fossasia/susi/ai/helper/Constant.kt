@@ -24,6 +24,7 @@ object Constant {
     const val LOGIN_LOGOUT = "login_logout"
     const val RESET_PASSWORD = "reset_password"
     const val CHANGE_PASSWORD = "Change Password"
+    const val VISIT_WEBSITE = "visit_website"
 
     const val SAVED_EMAIL = "saved_email"
     const val SAVE_EMAIL = "save_email"
@@ -44,7 +45,7 @@ object Constant {
     const val DEVICE_SETUP = "setup"
     const val VOICE_SETTINGS = "voice"
 
-    //action types
+    // action types
     const val ANSWER = "answer"
     const val MAP = "map"
     const val ANCHOR = "anchor"
@@ -65,9 +66,10 @@ object Constant {
     const val PASSWORD = "password"
     const val NEW_PASSWORD = "newpassword"
     const val CONFIRM_PASSWORD = "confirm_password"
+    const val ACCEPT_TERMS_AND_CONDITIONS = "accept_terms_and_conditions"
     const val INPUT_URL = "input_url"
 
-    //Strings to get results from Database
+    // Strings to get results from Database
     const val ID = "id"
     const val IS_DELIVERED = "isDelivered"
     const val CONTENT = "content"
@@ -80,6 +82,14 @@ object Constant {
     const val NEGATIVE = "negative"
     const val NOTIFY_USER = "notify_user"
 
-    //VIDEO ID
+    // VIDEO ID
     const val VIDEO_ID = "video_id"
+
+    // know more url
+    const val susi_know_more_url = "https://dev.susi.ai/"
+
+    const val SIGN_UP_TO_PRIVACY = "sign_up_to_privacy"
+
+    // Visit Website Url
+    const val SUSI_VISIT_WEBSITE = "https://chat.susi.ai/"
 }

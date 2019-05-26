@@ -16,8 +16,6 @@ interface ISettingsPresenter {
 
     fun onDetach()
 
-    fun loginLogout()
-
     fun resetPassword(password: String, newPassword: String, conPassword: String)
 
     fun checkForPassword(password: String, what: String)

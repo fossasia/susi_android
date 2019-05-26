@@ -7,6 +7,8 @@ import org.fossasia.susi.ai.data.SignUpModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
 import org.fossasia.susi.ai.data.contract.ISignUpModel
+import org.fossasia.susi.ai.data.db.DatabaseRepository
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.helper.NetworkUtils
@@ -14,6 +16,7 @@ import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
 import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import retrofit2.Response
 import java.net.UnknownHostException
 
@@ -29,14 +32,16 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
     private var signUpView: ISignUpView? = null
     private var signUpModel: SignUpModel = SignUpModel()
     private var utilModel: UtilModel = UtilModel(signUpActivity)
+    private var settingView: ISettingsView? = null
     lateinit var email: String
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
+    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
 
     override fun onAttach(signUpView: ISignUpView) {
         this.signUpView = signUpView
     }
 
-    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String) {
+    override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean) {
 
         if (email.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.EMAIL)
@@ -48,6 +53,10 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         }
         if (conpass.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.CONFIRM_PASSWORD)
+            return
+        }
+        if (isTermsAndConditionSelected == false) {
+            signUpView?.invalidCredentials(true, Constant.ACCEPT_TERMS_AND_CONDITIONS)
             return
         }
         if (!CredentialHelper.isEmailValid(email)) {
@@ -128,6 +137,13 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         signUpView = null
     }
 
+    override fun loginLogout() {
+        utilModel.clearToken()
+        utilModel.clearPrefs()
+        utilModel.saveAnonymity(false)
+        databaseRepository.deleteAllMessages()
+        settingView?.startLoginActivity()
+    }
     override fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean) {
         if (email.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.EMAIL)

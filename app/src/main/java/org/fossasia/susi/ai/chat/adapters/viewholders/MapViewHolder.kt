@@ -57,7 +57,7 @@ class MapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                     } else {
                         val builder = CustomTabsIntent.Builder()
                         val customTabsIntent = builder.build()
-                        customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.webLink)) //launching through custom tabs
+                        customTabsIntent.launchUrl(currContext, Uri.parse(mapHelper.webLink)) // launching through custom tabs
                     }
                 }
             } catch (e: Exception) {
