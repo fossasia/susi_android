@@ -134,6 +134,7 @@
     <string name="skill_unrated">Skill not rated yet</string>
     <string name="skill_not_found">No skill found yet</string>
     <string name="skill_empty">Skills to be fetched. Try again later</string>
+    <string name="error_voice_chat_search">Error occured while doing voice search.</string>
 
     <!--Material Dialog-->
     <string name="confirm_password">Confirm Password</string>
