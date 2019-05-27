@@ -11,6 +11,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.facebook.shimmer.ShimmerFrameLayout
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
 import org.fossasia.susi.ai.R
@@ -36,6 +37,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     private var skills = GroupWiseSkills("", ArrayList())
     private lateinit var skillsAdapter: SkillsListAdapter
     private lateinit var skillCallback: SkillFragmentCallback
+    private lateinit var shimmerContainer: ShimmerFrameLayout
     private var isSearching: Boolean = false
 
     companion object {
@@ -54,7 +56,11 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
         if (argument != null) {
             this.skills.group = argument.getString("group")
         }
-        return inflater.inflate(R.layout.fragment_group_wise_skill_listing, container, false)
+        val rootView: View = inflater.inflate(R.layout.fragment_group_wise_skill_listing, container, false)
+        shimmerContainer = rootView.findViewById(R.id.groupWiseSkillsShimmerContainer)
+        shimmerContainer.visibility = View.VISIBLE
+        shimmerContainer.startShimmer()
+        return rootView
     }
 
     @NonNull
@@ -86,7 +92,13 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        progressSkillWait.visibility = if (boolean) View.VISIBLE else View.GONE
+        if (boolean) {
+            shimmerContainer.visibility = View.VISIBLE
+            shimmerContainer.startShimmer()
+        } else {
+            shimmerContainer.stopShimmer()
+            shimmerContainer.visibility = View.GONE
+        }
     }
 
     fun handleSearchAction() {
