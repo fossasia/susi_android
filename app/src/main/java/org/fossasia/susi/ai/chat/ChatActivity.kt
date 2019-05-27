@@ -5,6 +5,7 @@ import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,6 +18,7 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
@@ -73,6 +75,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private var gestureDetectorCompat: GestureDetectorCompat? = null
     private var isConfigurationChanged = false
     private var isSearching: Boolean = false
+    private val voiceSearchCode = 10
     private val enterAsSend: Boolean by lazy {
         PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
@@ -111,6 +114,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
+        voiceSearchChat.visibility = View.GONE
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -164,6 +168,28 @@ class ChatActivity : AppCompatActivity(), IChatView {
         } else {
             chatSearchInput.setVisibility(View.VISIBLE)
             handleSearch()
+        }
+    }
+
+    fun openVoiceSearch(view: View) {
+        chatPresenter.stopHotwordDetection()
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivityForResult(intent, voiceSearchCode) // Sends the detected query to search
+        } else {
+            Toast.makeText(this, R.string.error_voice_chat_search, Toast.LENGTH_SHORT)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            voiceSearchCode -> if (resultCode == Activity.RESULT_OK && data != null) {
+                val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+                performSearch(result[0])
+            }
         }
     }
 
@@ -340,6 +366,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun voiceReply(reply: String, language: String) {
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
+        voiceSearchChat.visibility = View.VISIBLE
         val audioFocus = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val handler = Handler()
         handler.post {
@@ -370,6 +397,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
                 audioFocus.abandonAudioFocus(changeListener)
             }
         }
+        startActivity(getIntent())
     }
 
     fun enableVoiceInput() {
