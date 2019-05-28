@@ -228,4 +228,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             loginPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
     }
+
+    override fun onBackPressed() {
+        loginPresenter.skipLogin()
+        super.onBackPressed()
+    }
 }
