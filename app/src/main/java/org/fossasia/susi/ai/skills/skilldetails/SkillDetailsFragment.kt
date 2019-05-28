@@ -275,6 +275,11 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                         tv_unrated_skill.text = getString(R.string.skill_unrated)
                     } else {
                         tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
+                        tv_unrated_skill.setOnClickListener {
+                            loginLogoutModulePresenter.logout()
+                            val intent = Intent(requireContext(), LoginActivity::class.java)
+                            startActivity(intent)
+                        }
                     }
                 }
             }
