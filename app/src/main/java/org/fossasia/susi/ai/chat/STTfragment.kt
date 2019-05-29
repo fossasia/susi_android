@@ -23,16 +23,15 @@ import org.fossasia.susi.ai.chat.adapters.recycleradapters.VoiceCommandsAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
-import java.util.Locale
 
 /**
  * Created by meeera on 17/8/17.
  */
-class STTFragment : Fragment(), TextToSpeech.OnInitListener {
+class STTFragment : Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
     private val thisActivity = activity
-    lateinit var textToSpeech: TextToSpeech
+    private var textToSpeech: TextToSpeech? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -44,35 +43,30 @@ class STTFragment : Fragment(), TextToSpeech.OnInitListener {
         val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
         if (thisActivity is ChatActivity)
             thisActivity.fabsetting.hide()
-
-        textToSpeech = TextToSpeech(context, this)
-        val used_voice_state = PrefManager.getBoolean(R.string.used_voice, false)
-        if (used_voice_state == false) {
-            Handler().postDelayed({
-                speakOut()
-                PrefManager.putBoolean(R.string.used_voice, true)
-            }, 500)
-            Handler().postDelayed({
-                promptSpeechInput()
-            }, 1500)
-        } else {
-            promptSpeechInput()
-        }
         setupCommands(rootView)
         return rootView
     }
 
-    override fun onInit(status: Int) {
-        if (status == TextToSpeech.SUCCESS) {
-            textToSpeech.language = Locale.getDefault()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        Handler().post {
+            textToSpeech = TextToSpeech(requireContext(), TextToSpeech.OnInitListener { status ->
+                if (status != TextToSpeech.ERROR) {
+                    val locale = textToSpeech?.language
+                    textToSpeech?.language = locale
+                    if (!PrefManager.getBoolean(R.string.used_voice, false)) {
+                        textToSpeech?.speak(getString(R.string.voice_welcome), TextToSpeech.QUEUE_FLUSH, null)
+                        PrefManager.putBoolean(R.string.used_voice, true)
+                        Handler().postDelayed({
+                            promptSpeechInput()
+                        }, 1500) // Starting speech engine after welcome message is spoken
+                    } else {
+                        promptSpeechInput()
+                    }
+                }
+            })
         }
+        super.onViewCreated(view, savedInstanceState)
     }
-
-    private fun speakOut() {
-        var text: String = "Hi! How can I help you?"
-        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
-    }
-
     private fun setupCommands(rootView: View) {
         var voiceCommand = getResources().getStringArray(R.array.voiceCommands)
         var voiceCommandsList = voiceCommand.toCollection(ArrayList())
@@ -165,7 +159,7 @@ class STTFragment : Fragment(), TextToSpeech.OnInitListener {
             thisActivity.fabsetting.show()
         }
         if (textToSpeech != null) {
-            textToSpeech!!.stop()
+            textToSpeech?.stop()
         }
         recognizer.cancel()
         recognizer.destroy()
