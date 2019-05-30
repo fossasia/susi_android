@@ -114,7 +114,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
-        voiceSearchChat.visibility = View.GONE
+        voiceSearchChat.visibility = View.VISIBLE
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -356,6 +356,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         hideSoftKeyboard(this, window.decorView)
         searchChat.visibility = View.GONE
         fabsetting.visibility = View.GONE
+        voiceSearchChat.visibility = View.GONE
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.speechToTextFrame, STTFragment())
         fragmentTransaction.addToBackStack(null)
