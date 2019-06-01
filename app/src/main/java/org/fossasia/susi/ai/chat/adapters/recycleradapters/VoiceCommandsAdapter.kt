@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import kotlinx.android.synthetic.main.item_voice_commands.view.voiceCommand
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.chat.ChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 
@@ -22,6 +24,17 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder?.voiceCommand?.text = items.get(position)
+        holder.voiceCommand.setOnClickListener {
+            val chatMessage = items.get(position)
+            val splits = chatMessage.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
+            val message = splits.joinToString(" ")
+            if (!chatMessage.isEmpty()) {
+                chatPresenter.sendMessage(message, chatMessage)
+                val intent = Intent(context, ChatActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context?.startActivity(intent)
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -30,16 +43,5 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val voiceCommand: TextView = view.voiceCommand
-
-        init {
-            view.setOnClickListener {
-                val chatMessage = items[adapterPosition]
-                val splits = chatMessage.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
-                val message = splits.joinToString(" ")
-                if (!chatMessage.isEmpty()) {
-                    chatPresenter.sendMessage(message, items[adapterPosition])
-                }
-            }
-        }
     }
 }
