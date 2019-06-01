@@ -153,5 +153,7 @@ dependencies {
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
 
+    //Smart LOck authentication
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
 }
