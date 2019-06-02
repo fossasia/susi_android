@@ -203,13 +203,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 alert.setTitle(getString(R.string.logout))
                 alert.show()
             } else {
-                <<<<<<< HEAD
-                settingsPresenter.loginLogout()
+                loginLogoutModulePresenter.logout()
                 val intent = Intent(context, LoginActivity::class.java)
                 startActivity(intent)
-                ====== =
-                loginLogoutModulePresenter.logout()
-                >>>>>>> a9e6bb6489b37229750071b8e2b272154ddf0899
             }
             true
         }
