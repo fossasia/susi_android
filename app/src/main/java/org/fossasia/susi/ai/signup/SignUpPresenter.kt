@@ -144,7 +144,6 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
         databaseRepository.deleteAllMessages()
         settingView?.startLoginActivity()
     }
-
     override fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean) {
         if (email.isEmpty()) {
             signUpView?.invalidCredentials(true, Constant.EMAIL)

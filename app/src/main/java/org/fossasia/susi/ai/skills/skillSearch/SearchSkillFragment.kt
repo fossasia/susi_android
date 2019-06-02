@@ -79,11 +79,20 @@ class SearchSkillFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout
         groupWiseSkills.adapter = skillsAdapter
         groupWiseSkills.onFlingListener = null
         skillAdapterSnapHelper.attachToRecyclerView(groupWiseSkills)
-        progressSkillWait.visibility = View.GONE
+        if (groupWiseSkillsShimmerContainer.isShimmerStarted) {
+            groupWiseSkillsShimmerContainer.stopShimmer()
+            groupWiseSkillsShimmerContainer.visibility = View.GONE
+        }
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        progressSkillWait.visibility = if (boolean) View.VISIBLE else View.GONE
+        if (boolean) {
+            groupWiseSkillsShimmerContainer.visibility = View.VISIBLE
+            groupWiseSkillsShimmerContainer.startShimmer()
+        } else {
+            groupWiseSkillsShimmerContainer.visibility = View.GONE
+            groupWiseSkillsShimmerContainer.stopShimmer()
+        }
     }
 
     override fun showEmptySkillsListMessage() {
@@ -108,7 +117,10 @@ class SearchSkillFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout
             errorSkillFetch.visibility = View.GONE
         }
         groupWiseSkills.visibility = View.VISIBLE
-        progressSkillWait.visibility = View.GONE
+        if (groupWiseSkillsShimmerContainer.isShimmerStarted) {
+            groupWiseSkillsShimmerContainer.visibility = View.GONE
+            groupWiseSkillsShimmerContainer.stopShimmer()
+        }
 
         groupWiseSkills.addItemDecoration(SimpleDividerItemDecoration(requireContext(), this.skills.skillsList.size))
     }

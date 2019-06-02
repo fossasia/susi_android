@@ -48,12 +48,25 @@
             app:srcCompat="@drawable/ic_open_search" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabsetting"
+            android:id="@+id/voiceSearchChat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/searchChat"
+            android:layout_margin="@dimen/margin_moderate"
+            android:onClick="openVoiceSearch"
+            app:backgroundTint="@color/md_white_1000"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_mic_24dp" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabsetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/voiceSearchChat"
             android:layout_margin="@dimen/margin_moderate"
             android:onClick="openSettings"
             app:backgroundTint="@color/colorPrimaryDark"

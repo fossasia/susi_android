@@ -17,6 +17,8 @@ import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.LoginActivity
+import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
+import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.signup.SignUpActivity
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
@@ -50,6 +52,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private var text: String = ""
     private var group: String = ""
     private lateinit var settingsPresenter: ISettingsPresenter
+    private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +60,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         setContentView(R.layout.activity_skills)
 
         settingsPresenter = SettingsPresenter(this)
+        loginLogoutModulePresenter = LoginLogoutModulePresenter(this)
         val skillFragment = SkillListingFragment()
         val privacyFragment = PrivacyFragment()
         val bundle = intent.extras
@@ -145,7 +149,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 if (!settingsPresenter.getAnonymity()) {
                     val builder = AlertDialog.Builder(this)
                     builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
-                        settingsPresenter.loginLogout()
+                        loginLogoutModulePresenter.logout()
                         val intent = Intent(this, LoginActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(intent)
@@ -155,7 +159,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                     alert.setTitle(getString(R.string.logout))
                     alert.show()
                 } else {
-                    settingsPresenter.loginLogout()
+                    loginLogoutModulePresenter.logout()
                     val intent = Intent(this, LoginActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
