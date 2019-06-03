@@ -1,6 +1,13 @@
 package org.fossasia.susi.ai.login
 
+import android.content.Context
 import android.graphics.Color
+import com.google.android.gms.auth.api.credentials.Credentials
+import com.google.android.gms.auth.api.credentials.CredentialRequest
+import com.google.android.gms.auth.api.credentials.CredentialsClient
+import com.google.android.gms.auth.api.credentials.Credential
+import com.google.android.gms.auth.api.credentials.CredentialRequestResponse
+import com.google.android.gms.tasks.OnCompleteListener
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.ForgotPasswordModel
 import org.fossasia.susi.ai.data.contract.ILoginModel
@@ -29,9 +36,9 @@ import java.net.UnknownHostException
  * Created by chiragw15 on 4/7/17.
  */
 class LoginPresenter(loginActivity: LoginActivity) :
-    ILoginPresenter,
-    ILoginModel.OnLoginFinishedListener,
-    IForgotPasswordModel.OnFinishListener {
+        ILoginPresenter,
+        ILoginModel.OnLoginFinishedListener,
+        IForgotPasswordModel.OnFinishListener {
 
     private var loginModel: LoginModel = LoginModel()
     private var utilModel: UtilModel = UtilModel(loginActivity)
@@ -40,6 +47,9 @@ class LoginPresenter(loginActivity: LoginActivity) :
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
     lateinit var email: String
     lateinit var message: String
+    private lateinit var credential: Credential
+    private lateinit var credentialsClient: CredentialsClient
+    private lateinit var credentialRequest: CredentialRequest
 
     override fun onAttach(loginView: ILoginView) {
         this.loginView = loginView
@@ -239,5 +249,32 @@ class LoginPresenter(loginActivity: LoginActivity) :
 
     override fun cancelSignup() {
         forgotPasswordModel.cancelSignup()
+    }
+
+    override fun clientRequest(context: Context) {
+        credentialsClient = Credentials.getClient(context)
+        credentialRequest = CredentialRequest.Builder()
+                .setPasswordLoginSupported(true)
+                .build()
+
+        credentialsClient.request(credentialRequest).addOnCompleteListener(
+                OnCompleteListener<CredentialRequestResponse> { task ->
+                    if (task.isSuccessful) {
+                        loginView?.onCredentialRetrieved(task.result?.credential)
+                        return@OnCompleteListener
+                    }
+                })
+    }
+
+    override fun saveCredential(email: String, password: String) {
+        credential = Credential.Builder(email)
+                .setPassword(password)
+                .setName(Constant.SUSI_ACCOUNT)
+                .build()
+        credentialsClient.save(credential).addOnCompleteListener({
+            if (it.isComplete) {
+                Timber.d("Saved Credentials")
+            }
+        })
     }
 }

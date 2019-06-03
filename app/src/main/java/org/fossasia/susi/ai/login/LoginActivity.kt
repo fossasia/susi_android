@@ -11,10 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.google.android.gms.auth.api.credentials.CredentialsClient
 import com.google.android.gms.auth.api.credentials.Credential
-import com.google.android.gms.auth.api.credentials.CredentialRequest
-import com.google.android.gms.auth.api.credentials.Credentials
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -25,9 +22,6 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
-import com.google.android.gms.auth.api.credentials.CredentialRequestResponse
-import com.google.android.gms.tasks.OnCompleteListener
-import timber.log.Timber
 
 /**
  * <h1>The Login activity.</h1>
@@ -42,9 +36,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
-    private lateinit var credential: Credential
-    private lateinit var credentialsClient: CredentialsClient
-    private lateinit var credentialRequest: CredentialRequest
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,26 +74,10 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         if (string != null)
             email.editText?.setText(string)
 
-        clientRequest()
+        loginPresenter.clientRequest(this)
     }
 
-    private fun clientRequest() {
-        credentialsClient = Credentials.getClient(this)
-        credentialRequest = CredentialRequest.Builder()
-                .setPasswordLoginSupported(true)
-                .build()
-
-        credentialsClient.request(credentialRequest).addOnCompleteListener(
-                OnCompleteListener<CredentialRequestResponse> { task ->
-                    if (task.isSuccessful) {
-                        // See "Handle successful credential requests"
-                        onCredentialRetrieved(task.result!!.credential)
-                        return@OnCompleteListener
-                    }
-                })
-    }
-
-    private fun onCredentialRetrieved(credential: Credential?) {
+    override fun onCredentialRetrieved(credential: Credential?) {
 
         var accountName = credential?.name
         if (accountName == Constant.SUSI_ACCOUNT) {
@@ -111,23 +86,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         }
     }
 
-    fun saveCredential(email: String, password: String) {
-        credential = Credential.Builder(email)
-                .setPassword(password)
-                .setName(Constant.SUSI_ACCOUNT)
-                .build()
-        credentialsClient.save(credential).addOnCompleteListener({
-            if (it.isComplete) {
-                Timber.d("Saved Credentials")
-            }
-        })
-    }
-
     override fun onLoginSuccess(message: String?) {
         hideSoftKeyboard(this, window.decorView)
         Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
         if (rememberCredential.isChecked) {
-            saveCredential(email.editText?.text.toString(), password.editText?.text.toString())
+            loginPresenter.saveCredential(email.editText?.text.toString(), password.editText?.text.toString())
         }
 
         val intent = Intent(this@LoginActivity, ChatActivity::class.java)
