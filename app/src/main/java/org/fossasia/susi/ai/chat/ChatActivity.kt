@@ -30,6 +30,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.MotionEvent
@@ -101,10 +102,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
         setUpUI()
         initializationMethod(firstRun)
 
-        example = if (intent.getStringExtra("example") != null) {
-            intent.getStringExtra("example")
-        } else {
-            ""
+        if (intent.hasExtra("example")) {
+            example = intent.getStringExtra("example")
+            intent.removeExtra("example")
         }
 
         networkStateReceiver = object : BroadcastReceiver() {
@@ -551,6 +551,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.getUndeliveredMessages()
 
         if (!example.isEmpty()) {
+            Log.d("KHANKI", "example is not empty")
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
         }
