@@ -122,7 +122,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         setLanguage()
-        if (settingsPresenter.getAnonymity()) {
+        if (!utilModel.isLoggedIn()) {
             loginLogout.title = "Login"
         } else {
             loginLogout.title = "Logout"
@@ -193,7 +193,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         loginLogout.setOnPreferenceClickListener {
-            if (!settingsPresenter.getAnonymity()) {
+            if (utilModel.isLoggedIn()) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                     loginLogoutModulePresenter.logout()
@@ -204,6 +204,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 alert.show()
             } else {
                 loginLogoutModulePresenter.logout()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
             }
             true
         }
@@ -220,6 +223,9 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         displayEmail.setOnPreferenceClickListener {
             loginLogoutModulePresenter.logout()
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
             true
         }
 
