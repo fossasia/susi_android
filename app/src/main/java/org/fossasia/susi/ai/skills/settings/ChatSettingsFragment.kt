@@ -116,9 +116,11 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
             displayEmail.isEnabled = true
+            deviceName.isEnabled = false
         } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
             displayEmail.isEnabled = false
+            deviceName.isEnabled = true
         }
 
         setLanguage()
@@ -232,6 +234,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice.setOnPreferenceClickListener {
 
             val intent = Intent(activity, DeviceActivity::class.java)
+            intent.putExtra("connectTo", "DeviceConnectFragment")
+            startActivity(intent)
+            true
+        }
+
+        deviceName.setOnPreferenceClickListener {
+            val intent = Intent(activity, DeviceActivity::class.java)
+            intent.putExtra("connectTo", "ConnectedDeviceFragment")
             startActivity(intent)
             true
         }
