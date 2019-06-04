@@ -24,17 +24,6 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         holder?.voiceCommand?.text = items.get(position)
-        holder.voiceCommand.setOnClickListener {
-            val chatMessage = items.get(position)
-            val splits = chatMessage.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
-            val message = splits.joinToString(" ")
-            if (!chatMessage.isEmpty()) {
-                chatPresenter.sendMessage(message, chatMessage)
-                val intent = Intent(context, ChatActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                context?.startActivity(intent)
-            }
-        }
     }
 
     override fun getItemCount(): Int {
@@ -43,5 +32,15 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val voiceCommand: TextView = view.voiceCommand
+
+        init {
+            voiceCommand.setOnClickListener {
+                val message = items[adapterPosition]
+                val intent = Intent(context, ChatActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.putExtra("example", message)
+                context?.startActivity(intent)
+            }
+        }
     }
 }
