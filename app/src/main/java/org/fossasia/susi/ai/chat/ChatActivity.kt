@@ -30,7 +30,6 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.MotionEvent
@@ -551,7 +550,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.getUndeliveredMessages()
 
         if (!example.isEmpty()) {
-            Log.d("KHANKI", "example is not empty")
+            Timber.d("Message is not empty.")
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
         }
