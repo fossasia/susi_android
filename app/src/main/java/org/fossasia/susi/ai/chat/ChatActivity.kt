@@ -101,10 +101,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
         setUpUI()
         initializationMethod(firstRun)
 
-        example = if (intent.getStringExtra("example") != null) {
-            intent.getStringExtra("example")
-        } else {
-            ""
+        if (intent.hasExtra("example")) {
+            example = intent.getStringExtra("example")
+            intent.removeExtra("example")
         }
 
         networkStateReceiver = object : BroadcastReceiver() {
@@ -551,6 +550,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.getUndeliveredMessages()
 
         if (!example.isEmpty()) {
+            Timber.d("Message is not empty.")
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
         }
