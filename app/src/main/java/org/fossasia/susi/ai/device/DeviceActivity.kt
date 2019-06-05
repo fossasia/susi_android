@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.device.connecteddevices.ConnectedDeviceFragment
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 
 /*

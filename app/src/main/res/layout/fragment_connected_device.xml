@@ -1,12 +1,24 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="org.fossasia.susi.ai.device.ConnectedDeviceFragment">
+    tools:context="org.fossasia.susi.ai.device.connecteddevices.ConnectedDeviceFragment">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/connected_device_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/deviceStatus"
+        android:text="@string/connected_device_status" />
 
-</FrameLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/connectedDevices">
+    </android.support.v7.widget.RecyclerView>
+
+
+
+</LinearLayout>

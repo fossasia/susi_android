@@ -6,6 +6,7 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
+import io.realm.Realm
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.device.DeviceModel
@@ -13,6 +14,7 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
 import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
+import org.fossasia.susi.ai.data.model.ConnectedDevice
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
@@ -31,6 +33,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     private var isWifiEnabled = false
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(context)
+    lateinit var realm: Realm
 
     override fun onAttach(deviceConnectView: IDeviceConnectView) {
         this.deviceConnectView = deviceConnectView
@@ -200,6 +203,22 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
+        storeDeviceConnected()
         email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
+    }
+
+    override fun storeDeviceConnected() {
+        realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        // Get the id of the current device
+        var results = realm.where(ConnectedDevice::class.java).findAll()
+        var id = results.size
+        id++
+        Timber.d("Stored device data in database")
+        // Add data to the realm
+        var connectedDeviceModel = realm.createObject(ConnectedDevice::class.java)
+        connectedDeviceModel.id = id.toLong()
+        connectedDeviceModel.ssid = SSID
+        realm.commitTransaction()
     }
 }
