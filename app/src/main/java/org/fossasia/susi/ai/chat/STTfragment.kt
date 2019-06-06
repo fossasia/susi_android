@@ -105,6 +105,9 @@ class STTFragment : Fragment() {
                     chatPresenter.startHotwordDetection()
                 }
                 (activity as ChatActivity).fabsetting.show()
+                activity?.searchChat?.show()
+                activity?.voiceSearchChat?.show()
+                activity?.btnSpeak?.isEnabled = true
                 activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
@@ -118,6 +121,9 @@ class STTFragment : Fragment() {
                 speechProgress?.onResultOrOnError()
                 recognizer.destroy()
                 activity?.fabsetting?.show()
+                activity?.searchChat?.show()
+                activity?.voiceSearchChat?.show()
+                activity?.btnSpeak?.isEnabled = true
                 activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
