@@ -278,7 +278,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillDetailsFragment)
+                .replace(R.id.fragment_container, skillDetailsFragment)
                 .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }

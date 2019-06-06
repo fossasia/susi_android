@@ -231,8 +231,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(this, ChatActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
+        loginPresenter.skipLogin()
+        super.onBackPressed()
     }
 }
