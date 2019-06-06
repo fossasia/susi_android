@@ -1,12 +1,15 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_chat.searchChat
+import kotlinx.android.synthetic.main.activity_chat.voiceSearchChat
+import kotlinx.android.synthetic.main.activity_chat.fabsetting
+import kotlinx.android.synthetic.main.activity_chat.btnSpeak
 import kotlinx.android.synthetic.main.item_voice_commands.view.voiceCommand
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -36,10 +39,14 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
         init {
             voiceCommand.setOnClickListener {
                 val message = items[adapterPosition]
-                val intent = Intent(context, ChatActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                intent.putExtra("example", message)
-                context?.startActivity(intent)
+                val this_activity = context
+                (this_activity as ChatActivity).setText(message)
+                this_activity.searchChat.show()
+                this_activity.voiceSearchChat.show()
+                this_activity.fabsetting.show()
+                this_activity.btnSpeak.isEnabled = true
+                chatPresenter.startHotwordDetection()
+                this_activity.supportFragmentManager.popBackStackImmediate()
             }
         }
     }
