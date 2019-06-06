@@ -203,7 +203,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if ((requestCode == VOICE_SEARCH_REQUEST_CODE) && (resultCode == Activity.RESULT_OK) && data != null) {
+        if (requestCode == VOICE_SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             performSearch(result[0])
         }
