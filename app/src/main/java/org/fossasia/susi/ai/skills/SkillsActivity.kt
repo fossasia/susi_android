@@ -203,11 +203,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            VOICE_SEARCH_REQUEST_CODE -> if (resultCode == Activity.RESULT_OK && data != null) {
-                val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
-                performSearch(result[0])
-            }
+        if ((requestCode == VOICE_SEARCH_REQUEST_CODE) && (resultCode == Activity.RESULT_OK) && data != null) {
+            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            performSearch(result[0])
         }
     }
 
@@ -230,7 +228,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             edtSearch = action?.customView?.findViewById(R.id.edtSearch) // the text editor
             edtSearch?.setOnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP && edtSearch?.text.toString().isNotEmpty()) {
-                        performSearch(edtSearch?.text.toString())
+                    performSearch(edtSearch?.text.toString())
                 }
                 true
             }
