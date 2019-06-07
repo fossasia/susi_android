@@ -11,6 +11,7 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_connected_device.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.model.ConnectedDevice
+import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.connecteddevices.adapters.ConnectedDevicesAdapter
 
 class ConnectedDeviceFragment : Fragment() {
@@ -31,6 +32,8 @@ class ConnectedDeviceFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_connected_device, container, false)
+        val thisactivity = activity
+        (thisactivity as DeviceActivity).title = getString(R.string.connected_device_fragment)
         realm = Realm.getDefaultInstance()
         connectedDeviceRecyclerView = rootView.findViewById(R.id.connectedDevices)
         return rootView
@@ -50,6 +53,7 @@ class ConnectedDeviceFragment : Fragment() {
                 val connectedDevice = ConnectedDeviceFormat()
                 connectedDevice.id = result.id
                 connectedDevice.ssid = result.ssid
+                connectedDevice.dateTime = result.datetime
                 connectedDeviceList.add(connectedDevice)
             }
 
@@ -68,4 +72,5 @@ class ConnectedDeviceFragment : Fragment() {
 class ConnectedDeviceFormat {
     var id: Long ? = null
     var ssid: String? = null
+    var dateTime: String? = null
 }

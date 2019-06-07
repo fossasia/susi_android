@@ -521,4 +521,5 @@
     <string name="settings_privacy_key">privacy</string>
     <string name="rate_chat">Thank you for responding</string>
     <string name="connected_device_status">No devices have been connected yet.</string>
+    <string name="connected_device_fragment">Connected Devices</string>
 </resources>

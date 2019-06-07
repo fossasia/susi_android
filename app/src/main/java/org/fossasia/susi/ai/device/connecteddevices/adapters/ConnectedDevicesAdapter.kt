@@ -21,7 +21,7 @@ class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Connec
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
         holder.ssid_name.text = connectedDevicesList[p1].ssid
-        holder.setup_option.visibility = View.GONE
+        holder.setup_option.text = connectedDevicesList[p1].dateTime
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

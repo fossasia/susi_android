@@ -4,5 +4,6 @@ import io.realm.RealmObject
 
 open class ConnectedDevice(
     var id: Long = 0,
-    var ssid: String? = null
+    var ssid: String? = null,
+    var datetime: String? = null
 ) : RealmObject()

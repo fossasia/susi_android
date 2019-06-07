@@ -210,6 +210,8 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     override fun storeDeviceConnected() {
         realm = Realm.getDefaultInstance()
         realm.beginTransaction()
+        val dateTime = java.util.Calendar.getInstance()
+
         // Get the id of the current device
         var results = realm.where(ConnectedDevice::class.java).findAll()
         var id = results.size
@@ -219,6 +221,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         var connectedDeviceModel = realm.createObject(ConnectedDevice::class.java)
         connectedDeviceModel.id = id.toLong()
         connectedDeviceModel.ssid = SSID
+        connectedDeviceModel.datetime = dateTime.toString()
         realm.commitTransaction()
     }
 }
