@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -276,9 +277,22 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
                     } else {
                         tv_unrated_skill.text = getString(R.string.skill_unrated_for_anonymous_user)
                         tv_unrated_skill.setOnClickListener {
-                            loginLogoutModulePresenter.logout()
-                            val intent = Intent(requireContext(), LoginActivity::class.java)
-                            startActivity(intent)
+                            val alertBuilder = AlertDialog.Builder(requireContext())
+                            alertBuilder.setMessage(getString(R.string.skill_rate_login_alert))
+                                    .setCancelable(false)
+                                    .setNegativeButton("No", DialogInterface.OnClickListener { dialog, which ->
+                                        dialog.cancel()
+                                    })
+
+                                    .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, which ->
+                                        loginLogoutModulePresenter.logout()
+                                        val intent = Intent(requireContext(), LoginActivity::class.java)
+                                        startActivity(intent)
+                                    })
+
+                            val alertPrompt = alertBuilder.create()
+                            alertPrompt.setTitle("Rate Skills")
+                            alertPrompt.show()
                         }
                     }
                 }
