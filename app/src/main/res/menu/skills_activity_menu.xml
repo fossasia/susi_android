@@ -18,5 +18,10 @@
             android:icon="@drawable/ic_open_search"
             android:title="@string/search"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_voice_search"
+            android:icon="@drawable/ic_settings_voice_black_24dp"
+            android:title="@string/voice_search"
+            app:showAsAction="ifRoom" />
     </group>
 </menu>
