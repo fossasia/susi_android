@@ -525,4 +525,5 @@
     <string name="settings_privacy">Privacy</string>
     <string name="settings_privacy_key">privacy</string>
     <string name="rate_chat">Thank you for responding</string>
+    <string name="skill_rate_login_alert">You need to login to rate skills. Do you want to login now?</string>
 </resources>
