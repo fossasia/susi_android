@@ -154,7 +154,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                         }
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
-                }else{
+                } else {
                     Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
                 }
             }
