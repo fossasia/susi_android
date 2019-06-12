@@ -10,10 +10,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
+import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackViewHolder
+import timber.log.Timber
 
 /**
  *
@@ -26,6 +30,7 @@ class FeedbackAdapter(
         RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
     private val clickListener: FeedbackViewHolder.ClickListener = this
+    var arrangedFeedbackList: ArrayList<Feedback> = ArrayList()
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedbackViewHolder {
@@ -35,6 +40,7 @@ class FeedbackAdapter(
     }
 
     override fun getItemCount(): Int {
+        arrangeFeedbacks()
         if (feedbackResponse.feedbackList.isNotEmpty()) {
             if (feedbackResponse.feedbackList.size > 4) {
                 return 4
@@ -44,28 +50,57 @@ class FeedbackAdapter(
         return 0
     }
 
+    private fun arrangeFeedbacks() {
+            arrangedFeedbackList.clear()
+            feedbackResponse.feedbackList.forEach { item ->
+                if (item.email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                    var feedback = Feedback()
+                    feedback.email = item.email
+                    feedback.userName = item.userName
+                    feedback.avatar = item.avatar
+                    feedback.timestamp = item.timestamp
+                    feedback.feedback = item.feedback
+                    arrangedFeedbackList.add(feedback)
+                }
+            }
+
+            var reverseResponse = feedbackResponse.feedbackList.asReversed()
+            reverseResponse.forEach { item ->
+                if (item.email != PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                    var feedback = Feedback()
+                    feedback.email = item.email
+                    feedback.userName = item.userName
+                    feedback.avatar = item.avatar
+                    feedback.timestamp = item.timestamp
+                    feedback.feedback = item.feedback
+                    arrangedFeedbackList.add(feedback)
+                }
+            }
+        Timber.d("Arranged the feedbacks")
+    }
+
     @NonNull
     override fun onBindViewHolder(holder: FeedbackViewHolder, position: Int) {
-        if (feedbackResponse.feedbackList.isNotEmpty()) {
-            if (feedbackResponse.feedbackList[position] != null) {
+        if (arrangedFeedbackList.isNotEmpty()) {
+            if (arrangedFeedbackList[position] != null) {
                 if (position < 3) {
-                    if (feedbackResponse.feedbackList[position].email != null &&
-                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
-                        Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).avatar, holder.avatar)
-                        Utils.setUsername(feedbackResponse.feedbackList.get(position), holder.feedbackEmail)
+                    if (arrangedFeedbackList[position].email != null &&
+                            !TextUtils.isEmpty(arrangedFeedbackList[position].email)) {
+                        Utils.setAvatar(context, arrangedFeedbackList.get(position).avatar, holder.avatar)
+                        Utils.setUsername(arrangedFeedbackList.get(position), holder.feedbackEmail)
                     }
-                    if (feedbackResponse.feedbackList[position].timestamp != null &&
-                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
-                        val date: String? = getDate(feedbackResponse.feedbackList[position].timestamp)
+                    if (arrangedFeedbackList[position].timestamp != null &&
+                            !TextUtils.isEmpty(arrangedFeedbackList[position].timestamp)) {
+                        val date: String? = getDate(arrangedFeedbackList[position].timestamp)
                         if (date != null) {
                             holder.feedbackDate.text = date
                         } else {
                             holder.feedbackDate.text = ""
                         }
                     }
-                    if (feedbackResponse.feedbackList[position].feedback != null &&
-                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
-                        holder.feedback.text = feedbackResponse.feedbackList[position].feedback
+                    if (arrangedFeedbackList[position].feedback != null &&
+                            !TextUtils.isEmpty(arrangedFeedbackList[position].feedback)) {
+                        holder.feedback.text = arrangedFeedbackList[position].feedback
                     }
                 }
             }
@@ -92,6 +127,7 @@ class FeedbackAdapter(
         if (context is Activity) context.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, FeedbackActivity::class.java)
         intent.putExtra("feedbackResponse", feedbackResponse)
+        intent.putExtra("arrangedFeedbackList", arrangedFeedbackList)
         context.startActivity(intent)
     }
 }
