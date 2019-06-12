@@ -90,6 +90,8 @@ class STTFragment : Fragment() {
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 "com.domain.app")
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
 
         recognizer = SpeechRecognizer
                 .createSpeechRecognizer(activity?.applicationContext)
