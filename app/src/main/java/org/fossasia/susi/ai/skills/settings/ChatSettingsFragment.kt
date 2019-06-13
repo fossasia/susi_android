@@ -205,7 +205,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             } else {
                 loginLogoutModulePresenter.logout()
                 val intent = Intent(requireContext(), LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
                 startActivity(intent)
             }
             true
@@ -223,8 +222,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         displayEmail.setOnPreferenceClickListener {
             loginLogoutModulePresenter.logout()
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            val intent = Intent(context, LoginActivity::class.java)
             startActivity(intent)
             true
         }
@@ -328,6 +326,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         config.locale = locale
         this.resources.updateConfiguration(config, this.resources.displayMetrics)
     }
+
     private fun showAlert() {
         val builder = AlertDialog.Builder(requireContext())
         val promptsView = activity?.layoutInflater?.inflate(R.layout.alert_change_server, null)
