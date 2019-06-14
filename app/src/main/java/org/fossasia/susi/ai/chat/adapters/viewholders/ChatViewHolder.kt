@@ -14,6 +14,7 @@ import io.realm.Realm
 import kotterknife.bindOptionalView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
@@ -37,6 +38,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)
     val thumbsUp: ImageView? by bindOptionalView(R.id.thumbs_up)
     val thumbsDown: ImageView? by bindOptionalView(R.id.thumbs_down)
+    val resendMessage: ImageView? by bindView(R.id.resend_message)
 
     private var model: ChatMessage? = null
 
@@ -58,6 +60,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             receivedTick?.setImageResource(R.drawable.ic_check)
                         } else {
                             receivedTick?.setImageResource(R.drawable.ic_clock)
+                        }
+
+                        resendMessage?.setOnClickListener {
+                            val activity = context
+                            (activity as ChatActivity).setText(model.content)
                         }
 
                         chatTextView.tag = this
