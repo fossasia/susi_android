@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 import com.squareup.leakcanary.LeakCanary
 
@@ -25,6 +26,8 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AndroidThreeTen.init(this)
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.

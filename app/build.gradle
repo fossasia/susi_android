@@ -154,4 +154,5 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.4.0'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
+    implementation "com.jakewharton.threetenabp:threetenabp:${rootConfiguration.dateTimeVersion}"
 }
