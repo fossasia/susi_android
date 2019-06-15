@@ -279,6 +279,8 @@ class LinkPreviewViewHolder(
                         }
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
                 }
             }
 

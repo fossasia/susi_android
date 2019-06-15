@@ -103,7 +103,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsUp?.setImageResource(R.drawable.thumbs_up_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, context) }
-                                setRating(true, true, context)
+                                setRating(true, true)
                             }
                         }
 
@@ -112,7 +112,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             if (!model.isPositiveRated && !model.isNegativeRated) {
                                 thumbsDown?.setImageResource(R.drawable.thumbs_down_solid)
                                 model.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, context) }
-                                setRating(true, false, context)
+                                setRating(true, false)
                             }
                         }
                     }
@@ -123,7 +123,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         }
     }
 
-    private fun setRating(what: Boolean, which: Boolean, context: Context) {
+    private fun setRating(what: Boolean, which: Boolean) {
         val realm = Realm.getDefaultInstance()
         realm.beginTransaction()
         if (which) {
@@ -131,7 +131,7 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
         } else {
             model?.isNegativeRated = what
         }
-        Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
+
         realm.commitTransaction()
     }
 
@@ -146,14 +146,16 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                     when (polarity) {
                         Constant.POSITIVE -> if (thumbsUp != null) {
                             thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                            setRating(false, true, context)
+                            setRating(false, true)
                         }
                         Constant.NEGATIVE -> if (thumbsDown != null) {
                             thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                            setRating(false, false, context)
+                            setRating(false, false)
                         }
                     }
                     Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -162,11 +164,11 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                 when (polarity) {
                     Constant.POSITIVE -> if (thumbsUp != null) {
                         thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                        setRating(false, true, context)
+                        setRating(false, true)
                     }
                     Constant.NEGATIVE -> if (thumbsDown != null) {
                         thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                        setRating(false, false, context)
+                        setRating(false, false)
                     }
                 }
                 Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
