@@ -246,7 +246,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     }
 
     override fun onBackPressed() {
-        loginPresenter.skipLogin()
         super.onBackPressed()
+        loginPresenter.skipLogin()
     }
 }
