@@ -23,6 +23,7 @@ import org.fossasia.susi.ai.chat.adapters.recycleradapters.VoiceCommandsAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
+import java.util.Locale
 
 /**
  * Created by meeera on 17/8/17.
@@ -89,6 +90,7 @@ class STTFragment : Fragment() {
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 "com.domain.app")
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
         intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
         intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
