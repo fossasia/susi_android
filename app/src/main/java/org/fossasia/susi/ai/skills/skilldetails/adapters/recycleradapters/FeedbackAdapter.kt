@@ -76,7 +76,7 @@ class FeedbackAdapter(
                     arrangedFeedbackList.add(feedback)
                 }
             }
-        Timber.d("Arranged the feedbacks")
+        Timber.d("Arranged the feedback")
     }
 
     @NonNull
