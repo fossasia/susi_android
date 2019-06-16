@@ -35,6 +35,8 @@ class STTFragment : Fragment() {
     private var textToSpeech: TextToSpeech? = null
     private lateinit var runnable: Runnable
     private lateinit var delayRunnable: Runnable
+    var mainHandler: Handler = Handler()
+    var subHandler: Handler = Handler()
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -52,7 +54,7 @@ class STTFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         runnable = Runnable {
-            Handler().post {
+            mainHandler.post {
                 textToSpeech = TextToSpeech(requireContext(), TextToSpeech.OnInitListener { status ->
                     if (status != TextToSpeech.ERROR) {
                         val locale = textToSpeech?.language
@@ -61,7 +63,7 @@ class STTFragment : Fragment() {
                             textToSpeech?.speak(getString(R.string.voice_welcome), TextToSpeech.QUEUE_FLUSH, null)
                             PrefManager.putBoolean(R.string.used_voice, true)
                             delayRunnable = Runnable {
-                                Handler().postDelayed({
+                                subHandler.postDelayed({
                                     promptSpeechInput()
                                 }, 1500) // Starting speech engine after welcome message is spoken
                             }
@@ -187,7 +189,7 @@ class STTFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Handler().removeCallbacks(runnable)
-        Handler().removeCallbacks(delayRunnable)
+        mainHandler.removeCallbacks(runnable)
+        subHandler.removeCallbacks(delayRunnable)
     }
 }
