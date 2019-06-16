@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_device_connect.scanProgress
 import kotlinx.android.synthetic.main.fragment_device_connect.wifiList
 import kotlinx.android.synthetic.main.fragment_device_connect.scanHelp
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceList
+import kotlinx.android.synthetic.main.fragment_device_connect.room
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.device.DeviceActivity
