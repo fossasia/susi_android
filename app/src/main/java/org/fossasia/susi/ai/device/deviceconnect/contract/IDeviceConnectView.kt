@@ -25,4 +25,8 @@ interface IDeviceConnectView {
     fun setupWiFiAdapter(scanList: ArrayList<String>)
 
     fun showPopUpDialog()
+
+    fun addRooms()
+
+    fun addDeviceProcess()
 }

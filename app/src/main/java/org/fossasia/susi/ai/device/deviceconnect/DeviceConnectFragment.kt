@@ -69,12 +69,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         mainWifi = context?.getSystemService(Context.WIFI_SERVICE) as WifiManager
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
-        receiverWifi = WifiReceiver()
-        deviceConnectPresenter.searchDevices()
 
-        addDeviceButton.setOnClickListener {
-            deviceConnectPresenter.searchDevices()
-        }
+        addRooms()
     }
 
     override fun onResume() {
@@ -84,6 +80,22 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
         receiverWifi = WifiReceiver()
         context?.registerReceiver(receiverWifi, filter)
+    }
+
+    override fun addDeviceProcess() {
+        receiverWifi = WifiReceiver()
+        deviceConnectPresenter.searchDevices()
+
+        addDeviceButton.setOnClickListener {
+            deviceConnectPresenter.searchDevices()
+        }
+    }
+
+    override fun addRooms() {
+        room.visibility = View.VISIBLE
+        addDeviceButton.visibility = View.GONE
+        deviceList.visibility = View.GONE
+        wifiList.visibility = View.GONE
     }
 
     override fun askForPermissions() {
