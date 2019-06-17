@@ -16,10 +16,12 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_device_connect.noDeviceFound
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceTutorial
 import kotlinx.android.synthetic.main.fragment_device_connect.addDeviceButton
@@ -31,8 +33,10 @@ import kotlinx.android.synthetic.main.fragment_device_connect.deviceList
 import kotlinx.android.synthetic.main.fragment_device_connect.room
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.model.RoomsAvailable
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.DevicesAdapter
+import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import timber.log.Timber
@@ -55,6 +59,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private var checkDevice: Boolean = false
     private val REQUEST_LOCATION_ACCESS = 101
     private val REQUEST_WIFI_ACCESS = 102
+    lateinit var realm: Realm
+    val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
+    lateinit var availableRoomsRecyclerView: RecyclerView
+    private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,16 +70,20 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_device_connect, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_device_connect, container, false)
+        realm = Realm.getDefaultInstance()
+        availableRoomsRecyclerView = rootView.findViewById(R.id.rooms_available)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         mainWifi = context?.getSystemService(Context.WIFI_SERVICE) as WifiManager
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
 
-        addRooms()
+        rooms()
     }
 
     override fun onResume() {
@@ -92,11 +104,34 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
-    override fun addRooms() {
+    override fun rooms() {
         room.visibility = View.VISIBLE
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
+        showRooms()
+    }
+
+    override fun showRooms() {
+        realm.beginTransaction()
+        var results = realm.where(RoomsAvailable::class.java).findAll()
+        realm.commitTransaction()
+        if (results.size == 0) {
+
+            deviceConnectPresenter.addRoom("Home")
+        } else {
+            results.forEach { result ->
+                val roomsAvailable = AvailableRoomsFormat()
+                roomsAvailable.id = result.id
+                roomsAvailable.room = result.room
+
+                availableRoomsList.add(roomsAvailable)
+            }
+        }
+        var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        availableRoomsRecyclerView.layoutManager = layoutManager
+        availableRoomsAdapter = RoomsAdapter(availableRoomsList)
+        availableRoomsRecyclerView.adapter = availableRoomsAdapter
     }
 
     override fun askForPermissions() {
@@ -301,5 +336,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         alertDialog.setView(view)
         alertDialog.show()
+    }
+
+    class AvailableRoomsFormat {
+        var id: Long? = null
+        var room: String? = null
     }
 }

@@ -26,7 +26,9 @@ interface IDeviceConnectView {
 
     fun showPopUpDialog()
 
-    fun addRooms()
+    fun rooms()
+
+    fun showRooms()
 
     fun addDeviceProcess()
 }
