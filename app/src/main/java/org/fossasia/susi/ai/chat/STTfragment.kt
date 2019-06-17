@@ -33,10 +33,8 @@ class STTFragment : Fragment() {
     lateinit var chatPresenter: IChatPresenter
     private val thisActivity = activity
     private var textToSpeech: TextToSpeech? = null
-    private lateinit var runnable: Runnable
-    private lateinit var delayRunnable: Runnable
-    var mainHandler: Handler = Handler()
-    var subHandler: Handler = Handler()
+    private var mainHandler: Handler = Handler()
+    private var subHandler: Handler = Handler()
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -53,32 +51,39 @@ class STTFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        runnable = Runnable {
-            mainHandler.post {
-                textToSpeech = TextToSpeech(requireContext(), TextToSpeech.OnInitListener { status ->
-                    if (status != TextToSpeech.ERROR) {
-                        val locale = textToSpeech?.language
-                        textToSpeech?.language = locale
-                        if (!PrefManager.getBoolean(R.string.used_voice, false)) {
-                            textToSpeech?.speak(getString(R.string.voice_welcome), TextToSpeech.QUEUE_FLUSH, null)
-                            PrefManager.putBoolean(R.string.used_voice, true)
-                            delayRunnable = Runnable {
-                                subHandler.postDelayed({
-                                    promptSpeechInput()
-                                }, 1500) // Starting speech engine after welcome message is spoken
-                            }
-                            delayRunnable.run()
-                        } else {
-                            promptSpeechInput()
-                        }
-                    }
-                })
-            }
-        }
-        runnable.run()
 
+        recognizer = SpeechRecognizer
+                .createSpeechRecognizer(activity?.applicationContext)
+        runnable.run()
+        delayRunnable.run()
         super.onViewCreated(view, savedInstanceState)
     }
+
+    private val runnable: Runnable = Runnable {
+        mainHandler.post {
+            textToSpeech = TextToSpeech(requireContext(), TextToSpeech.OnInitListener { status ->
+                if (status != TextToSpeech.ERROR) {
+                    val locale = textToSpeech?.language
+                    textToSpeech?.language = locale
+                    if (!PrefManager.getBoolean(R.string.used_voice, false)) {
+                        textToSpeech?.speak(getString(R.string.voice_welcome), TextToSpeech.QUEUE_FLUSH, null)
+                        PrefManager.putBoolean(R.string.used_voice, true)
+                    } else {
+                        promptSpeechInput()
+                    }
+                }
+            })
+        }
+    }
+
+    private val delayRunnable: Runnable = Runnable {
+        if (!PrefManager.getBoolean(R.string.used_voice, true)) {
+            subHandler.postDelayed({
+                promptSpeechInput()
+            }, 1500) // Starting speech engine after welcome message is spoken
+        }
+    }
+
     private fun setupCommands(rootView: View) {
         var voiceCommand = getResources().getStringArray(R.array.voiceCommands)
         var voiceCommandsList = voiceCommand.toCollection(ArrayList())
@@ -97,8 +102,6 @@ class STTFragment : Fragment() {
         intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
         intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
 
-        recognizer = SpeechRecognizer
-                .createSpeechRecognizer(activity?.applicationContext)
         val listener = object : RecognitionListener {
             override fun onResults(results: Bundle) {
                 val voiceResults = results
