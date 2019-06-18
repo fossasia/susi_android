@@ -9,20 +9,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import io.realm.Realm
 import kotterknife.bindOptionalView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.rest.ClientBuilder
-import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import timber.log.Timber
 
 /**

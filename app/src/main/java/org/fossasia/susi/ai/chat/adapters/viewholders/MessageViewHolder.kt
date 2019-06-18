@@ -9,7 +9,6 @@ import io.realm.Realm
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
-import org.fossasia.susi.ai.data.ChatModel
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.rest.ClientBuilder
@@ -30,7 +29,6 @@ abstract class MessageViewHolder(itemView: View, private val listener: ClickList
     val thumbsUp: ImageView by bindView(R.id.thumbs_up)
     val thumbsDown: ImageView by bindView(R.id.thumbs_down)
     var model: ChatMessage? = null
-
 
     override fun onClick(view: View) {
         listener?.onItemClicked(adapterPosition)
