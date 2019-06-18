@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
-import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -28,28 +28,25 @@ import java.util.ArrayList
  * ViewHolder for drawing table item layout.
  */
 class TableViewHolder(
-    itemView: View,
-    clickListener: MessageViewHolder.ClickListener
+        itemView: View,
+        clickListener: MessageViewHolder.ClickListener
 ) :
-    MessageViewHolder(itemView, clickListener) {
+        MessageViewHolder(itemView, clickListener) {
 
     val recyclerView: RecyclerView by bindView(R.id.recyclerView)
     val timeStamp: TextView by bindView(R.id.timestamp)
-    val thumbsUp: ImageView? by bindOptionalView(R.id.thumbs_up)
-    val thumbsDown: ImageView? by bindOptionalView(R.id.thumbs_down)
-    private var model: ChatMessage? = null
 
     init {
         ButterKnife.bind(this, itemView)
     }
 
-    fun setView(model: ChatMessage?) {
-        this.model = model
+    fun setView(chatModel: ChatMessage?) {
+        model = chatModel
         // check if model is not null else there is no need to set view elements
-        if (model != null) {
+        if (chatModel != null) {
             // check if the size of the data list and the column list is not 0
-            val tableColumns = model.tableColumns
-            val tableData = model.tableData
+            val tableColumns = chatModel.tableColumns
+            val tableData = chatModel.tableData
             if ((tableColumns != null && tableColumns.isNotEmpty()) || (tableData != null && tableData.isNotEmpty())) {
                 val data = ArrayList<String?>()
                 val column = ArrayList<String?>()
@@ -83,97 +80,41 @@ class TableViewHolder(
             recyclerView.adapter = null
         }
 
-        val skillLocation = model?.skillLocation
-        if (model == null || (skillLocation != null && skillLocation.isEmpty())) {
-            thumbsUp?.visibility = View.GONE
-            thumbsDown?.visibility = View.GONE
+        if (chatModel == null || TextUtils.isEmpty(chatModel.skillLocation)) {
+            thumbsUp.visibility = View.GONE
+            thumbsDown.visibility = View.GONE
         } else {
-            thumbsUp?.visibility = View.VISIBLE
-            thumbsDown?.visibility = View.VISIBLE
+            thumbsUp.visibility = View.VISIBLE
+            thumbsDown.visibility = View.VISIBLE
         }
 
-        if (model != null && (model.isPositiveRated || model.isNegativeRated)) {
-            thumbsUp?.visibility = View.GONE
-            thumbsDown?.visibility = View.GONE
+        if (chatModel != null && (chatModel.isPositiveRated || chatModel.isNegativeRated)) {
+            thumbsUp.visibility = View.GONE
+            thumbsDown.visibility = View.GONE
         } else {
-            thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-            thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
+            thumbsUp.setImageResource(R.drawable.thumbs_up_outline)
+            thumbsDown.setImageResource(R.drawable.thumbs_down_outline)
         }
 
         timeStamp.text = model?.timeStamp
         timeStamp.tag = this
 
-        thumbsUp?.setOnClickListener {
-            Timber.d("%s %s", model?.isPositiveRated, model?.isNegativeRated)
-            if (model != null && !model.isPositiveRated && !model.isNegativeRated && skillLocation != null) {
-                thumbsUp?.setImageResource(R.drawable.thumbs_up_solid)
-                rateSusiSkill(Constant.POSITIVE, skillLocation, itemView.context)
+        thumbsUp.setOnClickListener {
+            Timber.d("%s %s", chatModel?.isPositiveRated, chatModel?.isNegativeRated)
+            if (chatModel != null && !chatModel.isPositiveRated && !chatModel.isNegativeRated) {
+                thumbsUp.setImageResource(R.drawable.thumbs_up_solid)
+                chatModel.skillLocation?.let { location -> rateSusiSkill(Constant.POSITIVE, location, itemView.context) }
                 setRating(true, true)
             }
         }
 
-        thumbsDown?.setOnClickListener {
-            Timber.d("%s %s", model?.isPositiveRated, model?.isNegativeRated)
-            if (model != null && !model.isPositiveRated && !model.isNegativeRated && skillLocation != null) {
-                thumbsDown?.setImageResource(R.drawable.thumbs_down_solid)
-                rateSusiSkill(Constant.NEGATIVE, skillLocation, itemView.context)
+        thumbsDown.setOnClickListener {
+            Timber.d("%s %s", chatModel?.isPositiveRated, chatModel?.isNegativeRated)
+            if (chatModel != null && !chatModel.isPositiveRated && !chatModel.isNegativeRated) {
+                thumbsDown.setImageResource(R.drawable.thumbs_down_solid)
+                chatModel.skillLocation?.let { location -> rateSusiSkill(Constant.NEGATIVE, location, itemView.context) }
                 setRating(true, false)
             }
         }
-    }
-
-    // a function to rate the susi skill
-    private fun rateSusiSkill(polarity: String, locationUrl: String, context: Context) {
-        val queryObject = ParseSusiResponseHelper.getSkillRatingQuery(locationUrl)?.copy(rating = polarity) ?: return
-
-        val call = ClientBuilder.rateSkillCall(queryObject)
-
-        call.enqueue(object : Callback<SkillRatingResponse> {
-            override fun onResponse(call: Call<SkillRatingResponse>, response: Response<SkillRatingResponse>) {
-                if (!response.isSuccessful || response.body() == null) {
-                    when (polarity) {
-                        Constant.POSITIVE -> {
-                            thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                            setRating(false, true)
-                        }
-                        Constant.NEGATIVE -> {
-                            thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                            setRating(false, false)
-                        }
-                    }
-                    Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
-                } else {
-                    Timber.d("Response successful")
-                    Toast.makeText(context, R.string.rate_chat, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<SkillRatingResponse>, t: Throwable) {
-                Timber.d(t)
-                when (polarity) {
-                    Constant.POSITIVE -> {
-                        thumbsUp?.setImageResource(R.drawable.thumbs_up_outline)
-                        setRating(false, true)
-                    }
-                    Constant.NEGATIVE -> {
-                        thumbsDown?.setImageResource(R.drawable.thumbs_down_outline)
-                        setRating(false, false)
-                    }
-                }
-                Toast.makeText(context, context.getString(R.string.error_rating), Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    // function to set the rating in the database
-    private fun setRating(rating: Boolean, thumbsUp: Boolean) {
-        val realm = Realm.getDefaultInstance()
-        realm.beginTransaction()
-        if (thumbsUp) {
-            model?.isPositiveRated = rating
-        } else {
-            model?.isNegativeRated = rating
-        }
-        realm.commitTransaction()
     }
 }

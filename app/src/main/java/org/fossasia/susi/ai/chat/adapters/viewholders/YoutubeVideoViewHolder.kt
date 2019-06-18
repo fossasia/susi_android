@@ -21,15 +21,15 @@ class YoutubeVideoViewHolder(
 
     private val playerView: ImageView by bindView(R.id.youtube_view)
     private val playButton: ImageView by bindView(R.id.play_video)
-    private var model: ChatMessage? = null
+  //  private var model: ChatMessage? = null
     private var videoId: String? = null
 
-    fun setPlayerView(model: ChatMessage?) {
-        this.model = model
+    fun setPlayerView(chatModel: ChatMessage?) {
+        model = chatModel
 
-        if (model != null) {
+        if (chatModel != null) {
             try {
-                videoId = model.identifier
+                videoId = chatModel.identifier
                 val imageUrl = "http://img.youtube.com/vi/$videoId/0.jpg"
 
                 ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)?.let {
