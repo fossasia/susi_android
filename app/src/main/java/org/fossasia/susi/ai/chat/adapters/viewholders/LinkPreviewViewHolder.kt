@@ -30,11 +30,7 @@ import timber.log.Timber
 /**
  * ViewHolder for drawing link preview item layout.
  */
-class LinkPreviewViewHolder(
-        itemView: View,
-        listener: ClickListener
-) :
-        MessageViewHolder(itemView, listener) {
+class LinkPreviewViewHolder(itemView: View, listener: ClickListener) : MessageViewHolder(itemView, listener) {
 
     val text: TextView by bindView(R.id.text)
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)

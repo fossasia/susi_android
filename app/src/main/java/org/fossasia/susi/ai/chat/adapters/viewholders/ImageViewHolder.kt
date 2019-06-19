@@ -17,11 +17,7 @@ import timber.log.Timber
 /**
  * ViewHolder for drawing image item layout.
  */
-class ImageViewHolder(
-        itemView: View,
-        clickListener: ClickListener
-) :
-        MessageViewHolder(itemView, clickListener) {
+class ImageViewHolder(itemView: View, clickListener: ClickListener) : MessageViewHolder(itemView, clickListener) {
 
     private val imageView: ImageView by bindView(R.id.image_response)
     val timeStamp: TextView by bindView(R.id.timestamp)
