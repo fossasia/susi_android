@@ -56,14 +56,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_large"
+            android:padding="@dimen/padding_medium"
             android:text="@string/create_new_room"
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/margin_large"
+            android:paddingTop="@dimen/padding_medium"
             app:errorEnabled="true">
 
             <LinearLayout
@@ -79,8 +79,7 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginRight="@dimen/margin_moderate"
                     android:layout_weight="7"
-                    android:hint="Enter the name of your room"
-                    android:inputType="textPassword" />
+                    android:hint="Enter the name of your room" />
 
                 <ImageView
                     android:id="@+id/add_room"

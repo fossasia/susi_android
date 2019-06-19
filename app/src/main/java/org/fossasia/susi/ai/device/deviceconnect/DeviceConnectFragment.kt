@@ -21,6 +21,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_device_connect.noDeviceFound
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceTutorial
@@ -31,6 +32,8 @@ import kotlinx.android.synthetic.main.fragment_device_connect.wifiList
 import kotlinx.android.synthetic.main.fragment_device_connect.scanHelp
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceList
 import kotlinx.android.synthetic.main.fragment_device_connect.room
+import kotlinx.android.synthetic.main.room_layout.edt_room
+import kotlinx.android.synthetic.main.room_layout.add_room
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.model.RoomsAvailable
@@ -39,6 +42,7 @@ import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.Devic
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
+import org.fossasia.susi.ai.helper.Utils
 import timber.log.Timber
 
 /**
@@ -96,6 +100,11 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun addDeviceProcess() {
+        room.visibility = View.GONE
+        addDeviceButton.visibility = View.VISIBLE
+        deviceList.visibility = View.VISIBLE
+        wifiList.visibility = View.VISIBLE
+
         receiverWifi = WifiReceiver()
         deviceConnectPresenter.searchDevices()
 
@@ -110,14 +119,24 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
         showRooms()
+
+        add_room.setOnClickListener {
+            val roomName = edt_room.text.toString()
+            if (roomName != null) {
+                deviceConnectPresenter.addRoom(roomName)
+                Toast.makeText(context, "Added " + roomName + " as a room", Toast.LENGTH_SHORT).show()
+                edt_room.text.clear()
+                view?.let { it1 -> Utils.hideSoftKeyboard(context, it1) }
+            }
+        }
     }
 
     override fun showRooms() {
+        availableRoomsList.clear()
         realm.beginTransaction()
         var results = realm.where(RoomsAvailable::class.java).findAll()
         realm.commitTransaction()
         if (results.size == 0) {
-
             deviceConnectPresenter.addRoom("Home")
         } else {
             results.forEach { result ->

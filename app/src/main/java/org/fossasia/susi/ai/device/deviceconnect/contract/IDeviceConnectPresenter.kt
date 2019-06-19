@@ -33,7 +33,6 @@ interface IDeviceConnectPresenter {
     fun makeAuthRequest(password: String)
 
     fun disconnectConnectedWifi()
-    
-    fun addRoom(room: String)
 
+    fun addRoom(room: String)
 }

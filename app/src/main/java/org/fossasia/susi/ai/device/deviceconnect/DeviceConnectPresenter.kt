@@ -91,6 +91,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         addedRoomModel.id = id.toLong()
         addedRoomModel.room = room
         realm.commitTransaction()
+        deviceConnectView?.showRooms()
     }
 
     override fun availableDevices(list: List<ScanResult>) {
