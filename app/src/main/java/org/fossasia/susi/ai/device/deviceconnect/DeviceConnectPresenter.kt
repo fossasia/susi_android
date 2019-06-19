@@ -128,9 +128,18 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         ConnectWifi().execute()
     }
 
+    override fun disconnectConnectedWifi() {
+        val wm = wifiManager
+        val networkID = wm.connectionInfo.networkId
+        wm.disconnect()
+        wm.removeNetwork(networkID)
+        wm.disableNetwork(networkID)
+    }
+
     inner class ConnectWifi : AsyncTask<Void, Void, Void>() {
 
         override fun doInBackground(vararg p0: Void?): Void? {
+            disconnectConnectedWifi()
             val wifiConfiguration = WifiConfiguration()
             wifiConfiguration.SSID = "\"" + SSID + "\""
             wifiConfiguration.preSharedKey = "\"" + "password" + "\""
