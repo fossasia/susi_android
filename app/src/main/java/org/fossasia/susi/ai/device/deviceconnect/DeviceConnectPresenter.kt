@@ -12,9 +12,11 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.device.DeviceModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
+import org.fossasia.susi.ai.data.device.RoomModel
 import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 import org.fossasia.susi.ai.data.model.RoomsAvailable
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
@@ -34,6 +36,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(context)
     lateinit var realm: Realm
+    private val roomModel: RoomModel = RoomModel()
 
     override fun onAttach(deviceConnectView: IDeviceConnectView) {
         this.deviceConnectView = deviceConnectView
@@ -92,6 +95,10 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         addedRoomModel.room = room
         realm.commitTransaction()
         deviceConnectView?.showRooms()
+    }
+
+    override fun addDevice(queryObject: AddDeviceQuery) {
+        roomModel.addDeviceToServer(queryObject)
     }
 
     override fun availableDevices(list: List<ScanResult>) {

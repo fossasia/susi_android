@@ -37,11 +37,14 @@ import kotlinx.android.synthetic.main.room_layout.add_room
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.model.RoomsAvailable
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.DevicesAdapter
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import timber.log.Timber
 
@@ -70,9 +73,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     lateinit var roomNameSelected: String
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_device_connect, container, false)
@@ -89,11 +92,13 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceConnectPresenter.onAttach(this)
 
         if (activity?.intent?.hasExtra("roomName") as Boolean) {
-            val roomName = activity?.intent?.getStringExtra("roomName")
-            Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
-            Timber.d("Selected " + roomName)
-            roomNameSelected = roomName.toString()
-            addDeviceProcess()
+            val roomName = activity?.intent?.getStringExtra("roomName").toString()
+//            Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
+//            Timber.d("Selected " + roomName)
+//            roomNameSelected = roomName.toString()
+//            addDeviceProcess()
+
+            addDevice(roomName, "SUSI", "f0:18:98:43:ed:9e", "12.1", "23.2")
         } else {
             rooms()
         }
@@ -160,6 +165,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         availableRoomsRecyclerView.layoutManager = layoutManager
         availableRoomsAdapter = RoomsAdapter(availableRoomsList, context)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
+    }
+
+    override fun addDevice(room: String, name: String, macid: String, latitude: String, longitude: String) {
+        val access_token = PrefManager.getString(Constant.ACCESS_TOKEN, "")
+        val query = AddDeviceQuery(access_token, macid, name, room, latitude, longitude)
+        deviceConnectPresenter.addDevice(query)
     }
 
     override fun askForPermissions() {

@@ -31,4 +31,6 @@ interface IDeviceConnectView {
     fun showRooms()
 
     fun addDeviceProcess()
+
+    fun addDevice(room: String, name: String, macid: String, latitude: String, longitude: String)
 }

@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.device.deviceconnect.contract
 
 import android.net.wifi.ScanResult
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 
 interface IDeviceConnectPresenter {
 
@@ -35,4 +36,6 @@ interface IDeviceConnectPresenter {
     fun disconnectConnectedWifi()
 
     fun addRoom(room: String)
+
+    fun addDevice(queryObject: AddDeviceQuery)
 }
