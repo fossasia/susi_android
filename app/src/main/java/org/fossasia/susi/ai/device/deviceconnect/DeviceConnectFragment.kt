@@ -67,6 +67,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
     lateinit var availableRoomsRecyclerView: RecyclerView
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
+    lateinit var roomNameSelected: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,7 +88,15 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
 
-        rooms()
+        if (activity?.intent?.hasExtra("roomName") as Boolean) {
+            val roomName = activity?.intent?.getStringExtra("roomName")
+            Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
+            Timber.d("Selected " + roomName)
+            roomNameSelected = roomName.toString()
+            addDeviceProcess()
+        } else {
+            rooms()
+        }
     }
 
     override fun onResume() {
@@ -149,7 +158,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
         var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         availableRoomsRecyclerView.layoutManager = layoutManager
-        availableRoomsAdapter = RoomsAdapter(availableRoomsList)
+        availableRoomsAdapter = RoomsAdapter(availableRoomsList, context)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
     }
 
