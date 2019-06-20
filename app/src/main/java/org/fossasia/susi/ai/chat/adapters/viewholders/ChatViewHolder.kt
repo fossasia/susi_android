@@ -30,7 +30,7 @@ import timber.log.Timber
  * ViewHolder for drawing chat item layout.
  */
 class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int) :
-    MessageViewHolder(view, clickListener) {
+        MessageViewHolder(view, clickListener) {
 
     private val chatTextView: TextView by bindView(R.id.text)
     private val receivedTick: ImageView? by bindOptionalView(R.id.received_tick)
@@ -64,7 +64,9 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
 
                         resendMessage?.setOnClickListener {
                             val activity = context
-                            (activity as ChatActivity).setText(model.content)
+                            if (activity is ChatActivity) {
+                                activity.setText(model.content)
+                            }
                         }
 
                         chatTextView.tag = this
@@ -143,7 +145,8 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
     }
 
     private fun rateSusiSkill(polarity: String, locationUrl: String, context: Context) {
-        val queryObject = ParseSusiResponseHelper.getSkillRatingQuery(locationUrl)?.copy(rating = polarity) ?: return
+        val queryObject = ParseSusiResponseHelper.getSkillRatingQuery(locationUrl)?.copy(rating = polarity)
+                ?: return
 
         val call = ClientBuilder.rateSkillCall(queryObject)
 
