@@ -206,6 +206,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
+        deviceConnectView?.addDevice("12.1", "23.2")
     }
 
     override fun onSetConfigFailure(localMessage: String) {

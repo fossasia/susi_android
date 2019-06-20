@@ -71,11 +71,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     lateinit var availableRoomsRecyclerView: RecyclerView
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
     lateinit var roomNameSelected: String
+    lateinit var macid: String
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val rootView = inflater.inflate(R.layout.fragment_device_connect, container, false)
@@ -93,12 +94,11 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         if (activity?.intent?.hasExtra("roomName") as Boolean) {
             val roomName = activity?.intent?.getStringExtra("roomName").toString()
-//            Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
-//            Timber.d("Selected " + roomName)
-//            roomNameSelected = roomName.toString()
-//            addDeviceProcess()
-
-            addDevice(roomName, "SUSI", "f0:18:98:43:ed:9e", "12.1", "23.2")
+            roomNameSelected = roomName
+            Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
+            Timber.d("Selected " + roomName)
+            roomNameSelected = roomName.toString()
+            addDeviceProcess()
         } else {
             rooms()
         }
@@ -167,9 +167,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
     }
 
-    override fun addDevice(room: String, name: String, macid: String, latitude: String, longitude: String) {
+    override fun addDevice(latitude: String, longitude: String) {
         val access_token = PrefManager.getString(Constant.ACCESS_TOKEN, "")
-        val query = AddDeviceQuery(access_token, macid, name, room, latitude, longitude)
+        val name = "SUSI.AI"
+        val query = AddDeviceQuery(access_token, macid, name, roomNameSelected, latitude, longitude)
         deviceConnectPresenter.addDevice(query)
     }
 
@@ -328,8 +329,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                         val wifiInfo = mainWifi.connectionInfo
                         if (wifiInfo != null) {
                             val ssid = wifiInfo.ssid
+                            macid = wifiInfo.macAddress
                             Timber.d(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
+                                macid = wifiInfo.macAddress
                                 Timber.d("Going to make connection")
                                 deviceConnectPresenter.makeConnectionRequest()
                             }

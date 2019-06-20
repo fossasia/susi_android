@@ -17,11 +17,11 @@ class RoomModel : IRoomModel {
 
         addDeviceResponseCall.enqueue(object : Callback<GetAddDeviceResponse> {
             override fun onFailure(call: Call<GetAddDeviceResponse>, t: Throwable) {
-                Timber.d("KHANKI Failed " + t)
+                Timber.d("Failed to add device to server " + t)
             }
 
             override fun onResponse(call: Call<GetAddDeviceResponse>, response: Response<GetAddDeviceResponse>) {
-                Timber.d("KHANKI Success " + response)
+                Timber.d("Successfully added device to server " + response)
             }
         })
     }
