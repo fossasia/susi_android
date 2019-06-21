@@ -85,8 +85,8 @@ object ClientBuilder {
 
     fun addDeviceCall(queryObject: AddDeviceQuery): Call<GetAddDeviceResponse> {
         val map = HashMap<String, String>()
-        map.put("access_token", queryObject.access_token)
-        map.put("macid", queryObject.macid)
+        map.put("access_token", queryObject.accessToken)
+        map.put("macid", queryObject.macId)
         map.put("name", queryObject.name)
         map.put("latitude", queryObject.latitude)
         map.put("longitude", queryObject.longitude)

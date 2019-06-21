@@ -35,7 +35,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     private var isWifiEnabled = false
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(context)
-    lateinit var realm: Realm
+    private lateinit var realm: Realm
     private val roomModel: RoomModel = RoomModel()
 
     override fun onAttach(deviceConnectView: IDeviceConnectView) {

@@ -66,12 +66,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private var checkDevice: Boolean = false
     private val REQUEST_LOCATION_ACCESS = 101
     private val REQUEST_WIFI_ACCESS = 102
-    lateinit var realm: Realm
-    val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
-    lateinit var availableRoomsRecyclerView: RecyclerView
+    private lateinit var realm: Realm
+    private val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
+    private lateinit var availableRoomsRecyclerView: RecyclerView
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
-    lateinit var roomNameSelected: String
-    lateinit var macid: String
+    private lateinit var roomNameSelected: String
+    private lateinit var macId: String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -95,6 +95,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         if (activity?.intent?.hasExtra("roomName") as Boolean) {
             val roomName = activity?.intent?.getStringExtra("roomName").toString()
             roomNameSelected = roomName
+            activity?.intent?.removeExtra("roomName")
             Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
             Timber.d("Selected " + roomName)
             roomNameSelected = roomName.toString()
@@ -168,9 +169,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun addDevice(latitude: String, longitude: String) {
-        val access_token = PrefManager.getString(Constant.ACCESS_TOKEN, "")
+        val accessToken = PrefManager.getString(Constant.ACCESS_TOKEN, "")
         val name = "SUSI.AI"
-        val query = AddDeviceQuery(access_token, macid, name, roomNameSelected, latitude, longitude)
+        val query = AddDeviceQuery(accessToken, macId, name, roomNameSelected, latitude, longitude)
         deviceConnectPresenter.addDevice(query)
     }
 
@@ -329,10 +330,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                         val wifiInfo = mainWifi.connectionInfo
                         if (wifiInfo != null) {
                             val ssid = wifiInfo.ssid
-                            macid = wifiInfo.macAddress
                             Timber.d(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
-                                macid = wifiInfo.macAddress
+                                macId = wifiInfo.macAddress
                                 Timber.d("Going to make connection")
                                 deviceConnectPresenter.makeConnectionRequest()
                             }
