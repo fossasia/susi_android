@@ -54,34 +54,32 @@ class STTFragment : Fragment() {
 
         recognizer = SpeechRecognizer
                 .createSpeechRecognizer(activity?.applicationContext)
-        runnable.run()
-        delayRunnable.run()
+
+        mainHandler.post(runnable)
+        if (!PrefManager.getBoolean(R.string.used_voice, true)) {
+            subHandler.postDelayed(delayRunnable, 1500)
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 
     private val runnable: Runnable = Runnable {
-        mainHandler.post {
-            textToSpeech = TextToSpeech(requireContext(), TextToSpeech.OnInitListener { status ->
-                if (status != TextToSpeech.ERROR) {
-                    val locale = textToSpeech?.language
-                    textToSpeech?.language = locale
-                    if (!PrefManager.getBoolean(R.string.used_voice, false)) {
-                        textToSpeech?.speak(getString(R.string.voice_welcome), TextToSpeech.QUEUE_FLUSH, null)
-                        PrefManager.putBoolean(R.string.used_voice, true)
-                    } else {
-                        promptSpeechInput()
-                    }
+        textToSpeech = TextToSpeech(requireContext(), TextToSpeech.OnInitListener { status ->
+            if (status != TextToSpeech.ERROR) {
+                val locale = textToSpeech?.language
+                textToSpeech?.language = locale
+                if (!PrefManager.getBoolean(R.string.used_voice, false)) {
+                    textToSpeech?.speak(getString(R.string.voice_welcome), TextToSpeech.QUEUE_FLUSH, null)
+                    PrefManager.putBoolean(R.string.used_voice, true)
+                } else {
+                    promptSpeechInput()
                 }
-            })
-        }
+            }
+        })
     }
 
     private val delayRunnable: Runnable = Runnable {
-        if (!PrefManager.getBoolean(R.string.used_voice, true)) {
-            subHandler.postDelayed({
-                promptSpeechInput()
-            }, 1500) // Starting speech engine after welcome message is spoken
-        }
+        promptSpeechInput()
     }
 
     private fun setupCommands(rootView: View) {
