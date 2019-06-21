@@ -128,6 +128,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
+    // Function to show available rooms
     override fun rooms() {
         room.visibility = View.VISIBLE
         addDeviceButton.visibility = View.GONE
