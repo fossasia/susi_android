@@ -95,7 +95,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         val bundle = activity?.intent?.extras
 
-        if (bundle?.getString("roomName")?.isEmpty() == false) {
+        if (bundle?.getString("roomName")?.isNullOrEmpty() == false) {
             val roomName = bundle?.getString("roomName").toString()
             roomNameSelected = roomName
             bundle?.remove("roomName")
