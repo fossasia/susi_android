@@ -95,6 +95,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         val bundle = activity?.intent?.extras
 
+        // Executed when a room is selected
         if (bundle?.getString("roomName")?.isNullOrEmpty() == false) {
             val roomName = bundle?.getString("roomName").toString()
             roomNameSelected = roomName
