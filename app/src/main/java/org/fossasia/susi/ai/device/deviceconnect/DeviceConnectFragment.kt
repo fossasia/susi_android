@@ -93,12 +93,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
 
-        val intent = activity?.intent
+        val bundle = activity?.intent?.extras
 
-        if (intent?.hasExtra("roomName") == true) {
-            val roomName = intent?.getStringExtra("roomName").toString()
+        if (bundle?.getString("roomName")?.isEmpty() == false) {
+            val roomName = bundle?.getString("roomName").toString()
             roomNameSelected = roomName
-            intent?.removeExtra("roomName")
+            bundle?.remove("roomName")
             Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
             Timber.d("Selected " + roomName)
             roomNameSelected = roomName
@@ -159,10 +159,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             deviceConnectPresenter.addRoom("Home")
         } else {
             results.forEach { result ->
-                val roomsAvailable = AvailableRoomsFormat()
-                roomsAvailable.id = result.id
-                roomsAvailable.room = result.room
-
+                val roomsAvailable = AvailableRoomsFormat(result.id, result.room)
                 availableRoomsList.add(roomsAvailable)
             }
         }
@@ -384,8 +381,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         alertDialog.show()
     }
 
-    class AvailableRoomsFormat {
-        var id: Long? = null
-        var room: String? = null
-    }
+    data class AvailableRoomsFormat(
+        val id: Long,
+        val room: String?
+    )
 }

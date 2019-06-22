@@ -11,7 +11,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 
-class RoomsAdapter(private val connectedDevicesList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context?) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
+class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context?) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.room_recycler_layout, viewGroup, false)
@@ -19,12 +19,11 @@ class RoomsAdapter(private val connectedDevicesList: ArrayList<DeviceConnectFrag
     }
 
     override fun getItemCount(): Int {
-        return connectedDevicesList.size
+        return availableRoomsList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
-        // holder.room.text = connectedDevicesList[p1].room
-        holder.itemView.room_text.text = connectedDevicesList[p1].room
+        holder.itemView.room_text.text = availableRoomsList[p1].room
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,7 +31,7 @@ class RoomsAdapter(private val connectedDevicesList: ArrayList<DeviceConnectFrag
         init {
             itemView.room_text.setOnClickListener {
                 // val this_activity = context
-                val roomNameClicked = connectedDevicesList[adapterPosition].room
+                val roomNameClicked = availableRoomsList[adapterPosition].room
                 var intent = Intent(context, DeviceActivity::class.java)
                 intent.putExtra("roomName", roomNameClicked)
                 context?.startActivity(intent)
