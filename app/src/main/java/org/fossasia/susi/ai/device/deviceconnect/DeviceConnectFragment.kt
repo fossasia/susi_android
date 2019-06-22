@@ -72,6 +72,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
     private lateinit var roomNameSelected: String
     private lateinit var macId: String
+    private lateinit var rootView: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,7 +80,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val rootView = inflater.inflate(R.layout.fragment_device_connect, container, false)
+        rootView = inflater.inflate(R.layout.fragment_device_connect, container, false)
         realm = Realm.getDefaultInstance()
         availableRoomsRecyclerView = rootView.findViewById(R.id.rooms_available)
         return rootView
@@ -92,13 +93,15 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
 
-        if (activity?.intent?.hasExtra("roomName") as Boolean) {
-            val roomName = activity?.intent?.getStringExtra("roomName").toString()
+        val intent = activity?.intent
+
+        if (intent?.hasExtra("roomName") == true) {
+            val roomName = intent?.getStringExtra("roomName").toString()
             roomNameSelected = roomName
-            activity?.intent?.removeExtra("roomName")
+            intent?.removeExtra("roomName")
             Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
             Timber.d("Selected " + roomName)
-            roomNameSelected = roomName.toString()
+            roomNameSelected = roomName
             addDeviceProcess()
         } else {
             rooms()
@@ -138,11 +141,11 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         add_room.setOnClickListener {
             val roomName = edt_room.text.toString()
-            if (roomName != null) {
+            if (!roomName.isEmpty()) {
                 deviceConnectPresenter.addRoom(roomName)
                 Toast.makeText(context, "Added " + roomName + " as a room", Toast.LENGTH_SHORT).show()
                 edt_room.text.clear()
-                view?.let { it1 -> Utils.hideSoftKeyboard(context, it1) }
+                Utils.hideSoftKeyboard(context, rootView)
             }
         }
     }

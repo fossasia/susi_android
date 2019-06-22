@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
@@ -24,14 +23,14 @@ class RoomsAdapter(private val connectedDevicesList: ArrayList<DeviceConnectFrag
     }
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
-        holder.room.text = connectedDevicesList[p1].room
+        // holder.room.text = connectedDevicesList[p1].room
+        holder.itemView.room_text.text = connectedDevicesList[p1].room
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val room: TextView = itemView.room_text
 
         init {
-            room.setOnClickListener {
+            itemView.room_text.setOnClickListener {
                 // val this_activity = context
                 val roomNameClicked = connectedDevicesList[adapterPosition].room
                 var intent = Intent(context, DeviceActivity::class.java)

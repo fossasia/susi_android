@@ -31,9 +31,9 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/height_minimum"
             android:layout_marginTop="@dimen/margin_large"
-            android:background="@color/md_grey_200"></View>
+            android:background="@color/md_grey_200" />
 
         <TextView
             android:layout_width="match_parent"
@@ -45,13 +45,13 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rooms_available"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
+            android:layout_height="@dimen/height_minimum"
             android:layout_marginTop="@dimen/margin_large"
-            android:background="@color/md_grey_200"></View>
+            android:background="@color/md_grey_200" />
 
         <TextView
             android:layout_width="match_parent"
