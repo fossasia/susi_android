@@ -126,10 +126,15 @@
     <!-- Avatar dimensions -->
 
     <dimen name="avatar_size">48dp</dimen>
-  
+
     <!-- Help dimensions -->
     <dimen name="card_radius_help">4dp</dimen>
-  
+
     <!-- Privacy dimensions -->
     <dimen name="card_radius_privacy">4dp</dimen>
+
+    <!-- Room dimensions -->
+    <dimen name="height_minimum">2dp</dimen>
+    <dimen name="height_room_recycler">20dp</dimen>
+    <dimen name="width_room_recycler">20dp</dimen>
 </resources>
