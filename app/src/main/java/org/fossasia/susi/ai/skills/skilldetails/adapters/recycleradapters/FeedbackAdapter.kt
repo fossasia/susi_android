@@ -54,29 +54,27 @@ class FeedbackAdapter(
             arrangedFeedbackList.clear()
             feedbackResponse.feedbackList.forEach { item ->
                 if (item.email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
-                    var feedback = Feedback()
-                    feedback.email = item.email
-                    feedback.userName = item.userName
-                    feedback.avatar = item.avatar
-                    feedback.timestamp = item.timestamp
-                    feedback.feedback = item.feedback
-                    arrangedFeedbackList.add(feedback)
+                    addFeedback(item)
                 }
             }
 
             var reverseResponse = feedbackResponse.feedbackList.asReversed()
             reverseResponse.forEach { item ->
                 if (item.email != PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
-                    var feedback = Feedback()
-                    feedback.email = item.email
-                    feedback.userName = item.userName
-                    feedback.avatar = item.avatar
-                    feedback.timestamp = item.timestamp
-                    feedback.feedback = item.feedback
-                    arrangedFeedbackList.add(feedback)
+                    addFeedback(item)
                 }
             }
         Timber.d("Arranged the feedback")
+    }
+
+    private fun addFeedback(item: Feedback) {
+        var feedback = Feedback()
+        feedback.email = item.email
+        feedback.userName = item.userName
+        feedback.avatar = item.avatar
+        feedback.timestamp = item.timestamp
+        feedback.feedback = item.feedback
+        arrangedFeedbackList.add(feedback)
     }
 
     @NonNull
