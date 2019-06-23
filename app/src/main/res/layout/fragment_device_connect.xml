@@ -86,4 +86,9 @@
         >
     </android.support.v7.widget.RecyclerView>
 
+    <include
+        android:id="@+id/room"
+        layout="@layout/room_layout"
+        android:visibility="gone" />
+
 </android.support.constraint.ConstraintLayout>

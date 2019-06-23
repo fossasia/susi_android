@@ -30,7 +30,7 @@ class DeviceActivity : AppCompatActivity() {
 
         val deviceConnectFragment = DeviceConnectFragment()
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, deviceConnectFragment, TAG_DEVICE_CONNECT_FRAGMENT)
+                .replace(R.id.fragment_container, deviceConnectFragment, TAG_DEVICE_CONNECT_FRAGMENT)
                 .commit()
     }
 
