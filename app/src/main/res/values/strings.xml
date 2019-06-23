@@ -248,7 +248,7 @@
     <string name="pref_share_summary">Share the SUSI app with your friends.</string>
     <string name="pref_share_title">Share SUSI</string>
 
-    <string name="pref_devices_not_connected">No connected device</string>
+    <string name="pref_devices_not_connected">Connected devices</string>
     <string name="settings_devices_setup">Click here to move to device setup screen</string>
     <string name="reset">Reset password</string>
     <string name="reset_pass_activity">Reset Password</string>
@@ -528,4 +528,5 @@
     <string name="device_room_exp">Choose a location for your SUSI smart speaker. This will help name and organize your devcies.</string>
     <string name="my_rooms">My Rooms</string>
     <string name="create_new_room">Create new</string>
+    <string name="connected_device_status">No devices have been connected yet.</string>
 </resources>
