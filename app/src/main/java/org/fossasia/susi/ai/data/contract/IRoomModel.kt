@@ -4,4 +4,5 @@ import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 
 interface IRoomModel {
     fun addDeviceToServer(query: AddDeviceQuery)
+    fun getConnectedDevices()
 }
