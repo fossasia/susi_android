@@ -16,10 +16,13 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_device_connect.noDeviceFound
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceTutorial
 import kotlinx.android.synthetic.main.fragment_device_connect.addDeviceButton
@@ -28,12 +31,21 @@ import kotlinx.android.synthetic.main.fragment_device_connect.scanProgress
 import kotlinx.android.synthetic.main.fragment_device_connect.wifiList
 import kotlinx.android.synthetic.main.fragment_device_connect.scanHelp
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceList
+import kotlinx.android.synthetic.main.fragment_device_connect.room
+import kotlinx.android.synthetic.main.room_layout.edt_room
+import kotlinx.android.synthetic.main.room_layout.add_room
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.model.RoomsAvailable
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.DevicesAdapter
+import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.helper.Utils
 import timber.log.Timber
 
 /**
@@ -54,6 +66,13 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private var checkDevice: Boolean = false
     private val REQUEST_LOCATION_ACCESS = 101
     private val REQUEST_WIFI_ACCESS = 102
+    private lateinit var realm: Realm
+    private val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
+    private lateinit var availableRoomsRecyclerView: RecyclerView
+    private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
+    private lateinit var roomNameSelected: String
+    private lateinit var macId: String
+    private lateinit var rootView: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,19 +80,32 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_device_connect, container, false)
+        rootView = inflater.inflate(R.layout.fragment_device_connect, container, false)
+        realm = Realm.getDefaultInstance()
+        availableRoomsRecyclerView = rootView.findViewById(R.id.rooms_available)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         mainWifi = context?.getSystemService(Context.WIFI_SERVICE) as WifiManager
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
-        receiverWifi = WifiReceiver()
-        deviceConnectPresenter.searchDevices()
 
-        addDeviceButton.setOnClickListener {
-            deviceConnectPresenter.searchDevices()
+        val bundle = activity?.intent?.extras
+
+        // Executed when a room is selected
+        if (bundle?.getString("roomName")?.isNullOrEmpty() == false) {
+            val roomName = bundle?.getString("roomName").toString()
+            roomNameSelected = roomName
+            bundle?.remove("roomName")
+            Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
+            Timber.d("Selected " + roomName)
+            roomNameSelected = roomName
+            addDeviceProcess()
+        } else {
+            rooms()
         }
     }
 
@@ -84,6 +116,65 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
         receiverWifi = WifiReceiver()
         context?.registerReceiver(receiverWifi, filter)
+    }
+
+    override fun addDeviceProcess() {
+        room.visibility = View.GONE
+        addDeviceButton.visibility = View.VISIBLE
+        deviceList.visibility = View.VISIBLE
+        wifiList.visibility = View.VISIBLE
+
+        receiverWifi = WifiReceiver()
+        deviceConnectPresenter.searchDevices()
+
+        addDeviceButton.setOnClickListener {
+            deviceConnectPresenter.searchDevices()
+        }
+    }
+
+    // Function to show available rooms
+    override fun rooms() {
+        room.visibility = View.VISIBLE
+        addDeviceButton.visibility = View.GONE
+        deviceList.visibility = View.GONE
+        wifiList.visibility = View.GONE
+        showRooms()
+
+        add_room.setOnClickListener {
+            val roomName = edt_room.text.toString()
+            if (!roomName.isEmpty()) {
+                deviceConnectPresenter.addRoom(roomName)
+                Toast.makeText(context, "Added " + roomName + " as a room", Toast.LENGTH_SHORT).show()
+                edt_room.text.clear()
+                Utils.hideSoftKeyboard(context, rootView)
+            }
+        }
+    }
+
+    override fun showRooms() {
+        availableRoomsList.clear()
+        realm.beginTransaction()
+        var results = realm.where(RoomsAvailable::class.java).findAll()
+        realm.commitTransaction()
+        if (results.size == 0) {
+            deviceConnectPresenter.addRoom("Home")
+        } else {
+            results.forEach { result ->
+                val roomsAvailable = AvailableRoomsFormat(result.id, result.room)
+                availableRoomsList.add(roomsAvailable)
+            }
+        }
+        var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        availableRoomsRecyclerView.layoutManager = layoutManager
+        availableRoomsAdapter = RoomsAdapter(availableRoomsList, context)
+        availableRoomsRecyclerView.adapter = availableRoomsAdapter
+    }
+
+    override fun addDevice(latitude: String, longitude: String) {
+        val accessToken = PrefManager.getString(Constant.ACCESS_TOKEN, "")
+        val name = "SUSI.AI"
+        val query = AddDeviceQuery(accessToken, macId, name, roomNameSelected, latitude, longitude)
+        deviceConnectPresenter.addDevice(query)
     }
 
     override fun askForPermissions() {
@@ -243,6 +334,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                             val ssid = wifiInfo.ssid
                             Timber.d(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
+                                macId = wifiInfo.macAddress
                                 Timber.d("Going to make connection")
                                 deviceConnectPresenter.makeConnectionRequest()
                             }
@@ -289,4 +381,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         alertDialog.setView(view)
         alertDialog.show()
     }
+
+    data class AvailableRoomsFormat(
+        val id: Long,
+        val room: String?
+    )
 }
