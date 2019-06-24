@@ -28,16 +28,16 @@ class RoomModel : IRoomModel {
         })
     }
 
-    override fun getConnectedDevices() {
+    override fun getConnectedDevices(listener: IRoomModel.onConnectedDeviceFetchingFinishedListener) {
         connectedDeviceResponseCall = ClientBuilder.susiApi.getConnectedDevices
 
         connectedDeviceResponseCall.enqueue(object : Callback<ConnectedDevicesResponse> {
             override fun onFailure(call: Call<ConnectedDevicesResponse>, t: Throwable) {
-                Timber.d(t)
+                listener.onError(t)
             }
 
             override fun onResponse(call: Call<ConnectedDevicesResponse>, response: Response<ConnectedDevicesResponse>) {
-                Timber.d("KHANKI  " + response)
+                listener.onRoomModelSuccess(response)
             }
         })
     }
