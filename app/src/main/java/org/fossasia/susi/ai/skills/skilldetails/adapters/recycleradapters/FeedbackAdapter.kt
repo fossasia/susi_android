@@ -51,19 +51,19 @@ class FeedbackAdapter(
     }
 
     private fun arrangeFeedbacks() {
-            arrangedFeedbackList.clear()
-            feedbackResponse.feedbackList.forEach { item ->
-                if (item.email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
-                    arrangedFeedbackList.add(item)
-                }
+        arrangedFeedbackList.clear()
+        feedbackResponse.feedbackList.forEach { item ->
+            if (item.email == PrefManager.getString(Constant.SAVED_EMAIL, "")) {
+                arrangedFeedbackList.add(item)
             }
+        }
 
-            var reverseResponse = feedbackResponse.feedbackList.asReversed()
-            reverseResponse.forEach { item ->
-                if (item.email != PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
-                    arrangedFeedbackList.add(item)
-                }
+        var reverseResponse = feedbackResponse.feedbackList.asReversed()
+        reverseResponse.forEach { item ->
+            if (item.email != PrefManager.getString(Constant.SAVED_EMAIL, "")) {
+                arrangedFeedbackList.add(item)
             }
+        }
         Timber.d("Arranged the feedback")
     }
 
