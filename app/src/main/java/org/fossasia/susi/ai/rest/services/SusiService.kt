@@ -17,6 +17,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
+import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -179,6 +180,9 @@ interface SusiService {
 
     @GET("/cms/getRatingByUser.json")
     fun getRatingByUser(@QueryMap query: Map<String, String>): Call<GetRatingByUserResponse>
+
+    @GET("/aaa/addNewDevice.json")
+    fun addSusiDevices(@QueryMap query: Map<String, String>): Call<GetAddDeviceResponse>
 
     /**
      * Get feedback list from the server

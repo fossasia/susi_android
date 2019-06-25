@@ -6,13 +6,17 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import android.os.AsyncTask
+import io.realm.Realm
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.device.DeviceModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
+import org.fossasia.susi.ai.data.device.RoomModel
 import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
+import org.fossasia.susi.ai.data.model.RoomsAvailable
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
@@ -31,6 +35,8 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     private var isWifiEnabled = false
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(context)
+    private lateinit var realm: Realm
+    private val roomModel: RoomModel = RoomModel()
 
     override fun onAttach(deviceConnectView: IDeviceConnectView) {
         this.deviceConnectView = deviceConnectView
@@ -76,6 +82,25 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         }
     }
 
+    override fun addRoom(room: String) {
+        realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        var results = realm.where(RoomsAvailable::class.java).findAll()
+        var id = results.size
+        id++
+        Timber.d("Added room")
+
+        var addedRoomModel = realm.createObject(RoomsAvailable::class.java)
+        addedRoomModel.id = id.toLong()
+        addedRoomModel.room = room
+        realm.commitTransaction()
+        deviceConnectView?.showRooms()
+    }
+
+    override fun addDevice(queryObject: AddDeviceQuery) {
+        roomModel.addDeviceToServer(queryObject)
+    }
+
     override fun availableDevices(list: List<ScanResult>) {
         Timber.d("size " + list.size)
         connections = ArrayList<String>()
@@ -111,9 +136,18 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         ConnectWifi().execute()
     }
 
+    override fun disconnectConnectedWifi() {
+        val wm = wifiManager
+        val networkID = wm.connectionInfo.networkId
+        wm.disconnect()
+        wm.removeNetwork(networkID)
+        wm.disableNetwork(networkID)
+    }
+
     inner class ConnectWifi : AsyncTask<Void, Void, Void>() {
 
         override fun doInBackground(vararg p0: Void?): Void? {
+            disconnectConnectedWifi()
             val wifiConfiguration = WifiConfiguration()
             wifiConfiguration.SSID = "\"" + SSID + "\""
             wifiConfiguration.preSharedKey = "\"" + "password" + "\""
@@ -172,6 +206,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
+        deviceConnectView?.addDevice("12.1", "23.2")
     }
 
     override fun onSetConfigFailure(localMessage: String) {
