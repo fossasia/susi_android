@@ -30,7 +30,7 @@ class FeedbackAdapter(
         RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
     private val clickListener: FeedbackViewHolder.ClickListener = this
-    var arrangedFeedbackList: ArrayList<Feedback> = ArrayList()
+    private val arrangedFeedbackList: ArrayList<Feedback> = ArrayList()
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedbackViewHolder {
@@ -53,14 +53,14 @@ class FeedbackAdapter(
     private fun arrangeFeedbacks() {
         arrangedFeedbackList.clear()
         feedbackResponse.feedbackList.forEach { item ->
-            if (item.email == PrefManager.getString(Constant.SAVED_EMAIL, "")) {
+            if (item.email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
                 arrangedFeedbackList.add(item)
             }
         }
 
         var reverseResponse = feedbackResponse.feedbackList.asReversed()
         reverseResponse.forEach { item ->
-            if (item.email != PrefManager.getString(Constant.SAVED_EMAIL, "")) {
+            if (item.email != PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
                 arrangedFeedbackList.add(item)
             }
         }
