@@ -43,8 +43,6 @@ import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.Devic
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import timber.log.Timber
 
@@ -171,9 +169,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun addDevice(latitude: String, longitude: String) {
-        val accessToken = PrefManager.getString(Constant.ACCESS_TOKEN, "")
         val name = "SUSI.AI"
-        val query = AddDeviceQuery(accessToken, macId, name, roomNameSelected, latitude, longitude)
+        val query = AddDeviceQuery(macId, name, roomNameSelected, latitude, longitude)
         deviceConnectPresenter.addDevice(query)
     }
 
