@@ -20,6 +20,7 @@ import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.LocationHelper
 import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
 
@@ -206,7 +207,19 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
-        deviceConnectView?.addDevice("12.1", "23.2")
+        getLocation()
+    }
+
+    override fun getLocation() {
+        val locationHelper: LocationHelper = LocationHelper(MainApplication.instance.applicationContext)
+        locationHelper.getLocation()
+        if (locationHelper.canGetLocation()) {
+            deviceConnectView?.addDevice(locationHelper.latitude.toString(), locationHelper.longitude.toString())
+            Timber.d("Got location. Latitude - " + locationHelper.toString())
+        } else {
+            deviceConnectView?.addDevice("12.1", "23.2")
+            Timber.d("Failed to get Location")
+        }
     }
 
     override fun onSetConfigFailure(localMessage: String) {
