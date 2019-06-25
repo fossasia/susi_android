@@ -33,8 +33,8 @@ class STTFragment : Fragment() {
     lateinit var chatPresenter: IChatPresenter
     private val thisActivity = activity
     private var textToSpeech: TextToSpeech? = null
-    private var mainHandler: Handler = Handler()
-    private var subHandler: Handler = Handler()
+    private val mainHandler: Handler = Handler()
+    private val subHandler: Handler = Handler()
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
