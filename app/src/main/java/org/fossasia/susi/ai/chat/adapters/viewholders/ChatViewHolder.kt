@@ -12,6 +12,7 @@ import android.widget.TextView
 import kotterknife.bindOptionalView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
@@ -46,6 +47,13 @@ class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener,
                             receivedTick?.setImageResource(R.drawable.ic_check)
                         } else {
                             receivedTick?.setImageResource(R.drawable.ic_clock)
+                        }
+
+                        resendMessage?.setOnClickListener {
+                            val activity = context
+                            if (activity is ChatActivity) {
+                                activity.setText(chatModel.content)
+                            }
                         }
 
                         chatTextView.tag = this

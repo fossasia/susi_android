@@ -4,7 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_very_small"
+    android:orientation="horizontal"
     android:gravity="end">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/resend_message"
+        android:src="@drawable/ic_resend"/>
 
     <LinearLayout
         android:id="@+id/background_layout"
