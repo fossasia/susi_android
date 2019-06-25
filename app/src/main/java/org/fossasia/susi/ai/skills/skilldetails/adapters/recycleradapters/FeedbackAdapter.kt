@@ -58,7 +58,7 @@ class FeedbackAdapter(
             }
         }
 
-        var reverseResponse = feedbackResponse.feedbackList.asReversed()
+        val reverseResponse = feedbackResponse.feedbackList.asReversed()
         reverseResponse.forEach { item ->
             if (item.email != PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
                 arrangedFeedbackList.add(item)
