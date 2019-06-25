@@ -526,4 +526,8 @@
     <string name="settings_privacy_key">privacy</string>
     <string name="rate_chat">Thank you for responding</string>
     <string name="skill_rate_login_alert">You need to login to rate skills. Do you want to login now?</string>
+    <string name="device_room">Where is this device?</string>
+    <string name="device_room_exp">Choose a location for your SUSI smart speaker. This will help name and organize your devcies.</string>
+    <string name="my_rooms">My Rooms</string>
+    <string name="create_new_room">Create new</string>
 </resources>
