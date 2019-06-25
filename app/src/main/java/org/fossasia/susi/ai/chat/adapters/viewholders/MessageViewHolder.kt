@@ -28,6 +28,7 @@ abstract class MessageViewHolder(itemView: View, private val listener: ClickList
 
     val thumbsUp: ImageView by bindView(R.id.thumbs_up)
     val thumbsDown: ImageView by bindView(R.id.thumbs_down)
+    val resendMessage: ImageView by bindView(R.id.resend_message)
     var model: ChatMessage? = null
 
     override fun onClick(view: View) {
