@@ -10,6 +10,8 @@
     <string name="action_settings">Settings</string>
     <string name="action_share">Share</string>
     <string name="action_wall_settings">Wallpaper</string>
+    <string name="used_voice" translatable="false">Used Voice before?</string>
+    <string name="voice_welcome">Hi! How can I help you?</string>
 
     <string name="background_no_wall">no_wall</string>
 
