@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
-        android:text="@string/connected_device_status" />
+        android:text="@string/connected_device_status"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/connectedDevices"

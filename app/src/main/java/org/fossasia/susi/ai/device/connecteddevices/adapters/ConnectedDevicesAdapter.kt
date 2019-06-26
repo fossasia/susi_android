@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.device.connecteddevices.ConnectedDeviceFormat
+import org.fossasia.susi.ai.rest.responses.susi.Device
 
-class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<ConnectedDeviceFormat>) : RecyclerView.Adapter<ConnectedDevicesAdapter.ViewHolder>() {
+class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Device>) : RecyclerView.Adapter<ConnectedDevicesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.device_layout, viewGroup, false)
@@ -20,8 +20,8 @@ class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Connec
     }
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
-        holder.ssid_name.text = connectedDevicesList[p1].ssid
-        holder.setup_option.visibility = View.GONE
+        holder.ssid_name.text = connectedDevicesList[p1].name
+        holder.setup_option.text = connectedDevicesList[p1].room
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
