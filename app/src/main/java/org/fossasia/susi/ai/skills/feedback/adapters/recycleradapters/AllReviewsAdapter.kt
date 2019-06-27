@@ -27,7 +27,6 @@ class AllReviewsAdapter(
 
     private val clickListener: AllReviewsViewHolder.ClickListener = this
 
-
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllReviewsViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -65,8 +64,8 @@ class AllReviewsAdapter(
                     holder.feedback.text = feedbackList[position].feedback
                 }
 
-                if (feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()){
-                    holder.deleteFeedback.visibility= View.VISIBLE
+                if (feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                    holder.deleteFeedback.visibility = View.VISIBLE
                 }
             }
         }
@@ -84,6 +83,6 @@ class AllReviewsAdapter(
         return date
     }
     override fun deleteClicked(position: Int) {
-        Log.d("KHANKI", "Clicked  all - "+position)
+        Log.d("KHANKI", "Clicked  all - " + position)
     }
 }

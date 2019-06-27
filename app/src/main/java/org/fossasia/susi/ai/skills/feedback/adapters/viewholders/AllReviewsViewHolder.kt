@@ -11,7 +11,7 @@ import org.fossasia.susi.ai.R
 
 import kotterknife.bindView
 
-class AllReviewsViewHolder(itemView: View,  private val listener: AllReviewsViewHolder.ClickListener?) : RecyclerView.ViewHolder(itemView) {
+class AllReviewsViewHolder(itemView: View, private val listener: AllReviewsViewHolder.ClickListener?) : RecyclerView.ViewHolder(itemView) {
 
     val itemFeedback: LinearLayout by bindView(R.id.itemFeedback)
     val avatar: ImageView by bindView(R.id.avatar)

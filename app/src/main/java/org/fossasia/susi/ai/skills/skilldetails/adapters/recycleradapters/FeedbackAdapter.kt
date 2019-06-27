@@ -71,8 +71,8 @@ class FeedbackAdapter(
                         holder.feedback.text = feedbackResponse.feedbackList[position].feedback
                     }
                 }
-                if (feedbackResponse.feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()){
-                    holder.deleteFeedback.visibility=View.VISIBLE
+                if (feedbackResponse.feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                    holder.deleteFeedback.visibility = View.VISIBLE
                 }
             }
             if (position == 3) {
@@ -102,6 +102,6 @@ class FeedbackAdapter(
     }
 
     override fun deleteClicked(position: Int) {
-        Log.d("KHANKI", "Clicked - "+position)
+        Log.d("KHANKI", "Clicked - " + position)
     }
 }
