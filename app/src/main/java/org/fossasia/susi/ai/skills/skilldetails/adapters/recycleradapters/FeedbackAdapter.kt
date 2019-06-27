@@ -6,6 +6,7 @@ import android.content.Intent
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,24 +17,27 @@ import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
+import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackViewHolder
+import timber.log.Timber
 
 /**
  *
  * Created by arundhati24 on 27/06/2018
  */
 class FeedbackAdapter(
-    val context: Context,
-    private val feedbackResponse: GetSkillFeedbackResponse,
-    val skillData: SkillData
+        val context: Context,
+        private val feedbackResponse: GetSkillFeedbackResponse,
+        val skillData: SkillData
 ) :
         RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
     private val clickListener: FeedbackViewHolder.ClickListener = this
     private val skillDetailsModel: ISkillDetailsModel = SkillDetailsModel()
+    private val arrangedFeedbackList: ArrayList<Feedback> = ArrayList()
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedbackViewHolder {
@@ -43,6 +47,7 @@ class FeedbackAdapter(
     }
 
     override fun getItemCount(): Int {
+        arrangeFeedbacks()
         if (feedbackResponse.feedbackList.isNotEmpty()) {
             if (feedbackResponse.feedbackList.size > 4) {
                 return 4
@@ -52,31 +57,48 @@ class FeedbackAdapter(
         return 0
     }
 
+    private fun arrangeFeedbacks() {
+        arrangedFeedbackList.clear()
+        feedbackResponse.feedbackList.forEach { item ->
+            if (item.email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                arrangedFeedbackList.add(item)
+            }
+        }
+
+        val reverseResponse = feedbackResponse.feedbackList.asReversed()
+        reverseResponse.forEach { item ->
+            if (item.email != PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                arrangedFeedbackList.add(item)
+            }
+        }
+        Timber.d("Arranged the feedback")
+    }
+
     @NonNull
     override fun onBindViewHolder(holder: FeedbackViewHolder, position: Int) {
-        if (feedbackResponse.feedbackList.isNotEmpty()) {
-            if (feedbackResponse.feedbackList[position] != null) {
+        if (arrangedFeedbackList.isNotEmpty()) {
+            if (arrangedFeedbackList[position] != null) {
                 if (position < 3) {
-                    if (feedbackResponse.feedbackList[position].email != null &&
-                            !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
-                        Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).avatar, holder.avatar)
-                        Utils.setUsername(feedbackResponse.feedbackList.get(position), holder.feedbackEmail)
+                    if (arrangedFeedbackList[position].email != null &&
+                            !TextUtils.isEmpty(arrangedFeedbackList[position].email)) {
+                        Utils.setAvatar(context, arrangedFeedbackList.get(position).avatar, holder.avatar)
+                        Utils.setUsername(arrangedFeedbackList.get(position), holder.feedbackEmail)
                     }
-                    if (feedbackResponse.feedbackList[position].timestamp != null &&
-                            !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
-                        val date: String? = getDate(feedbackResponse.feedbackList[position].timestamp)
+                    if (arrangedFeedbackList[position].timestamp != null &&
+                            !TextUtils.isEmpty(arrangedFeedbackList[position].timestamp)) {
+                        val date: String? = getDate(arrangedFeedbackList[position].timestamp)
                         if (date != null) {
                             holder.feedbackDate.text = date
                         } else {
                             holder.feedbackDate.text = ""
                         }
                     }
-                    if (feedbackResponse.feedbackList[position].feedback != null &&
-                            !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
-                        holder.feedback.text = feedbackResponse.feedbackList[position].feedback
+                    if (arrangedFeedbackList[position].feedback != null &&
+                            !TextUtils.isEmpty(arrangedFeedbackList[position].feedback)) {
+                        holder.feedback.text = arrangedFeedbackList[position].feedback
                     }
                 }
-                if (feedbackResponse.feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                if (arrangedFeedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
                     holder.deleteFeedback.visibility = View.VISIBLE
                 }
             }
@@ -106,15 +128,15 @@ class FeedbackAdapter(
         intent.putExtra("skillGroup", skillData.group)
         intent.putExtra("skillLanguage", skillData.language)
         intent.putExtra("feedbackResponse", feedbackResponse)
-
+        intent.putExtra("arrangedFeedbackList", arrangedFeedbackList)
         context.startActivity(intent)
     }
 
     override fun deleteClicked(position: Int) {
         val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillData.model, skillData.group, skillData.language, skillData.skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
         skillDetailsModel.deleteFeedback(query, context)
-        feedbackResponse.feedbackList.removeAt(position)
+        arrangedFeedbackList.removeAt(position)
         notifyItemChanged(position)
-        notifyItemRangeRemoved(position, 1)
+        notifyItemChanged(position, 1)
     }
 }

@@ -7,6 +7,7 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_feedback.rvAllFeedback
 
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.adapters.recycleradapters.AllReviewsAdapter
 /**
@@ -23,13 +24,15 @@ class FeedbackActivity : AppCompatActivity() {
         val skillLanguage = intent.getStringExtra("skillLanguage")
         val skillGroup = intent.getStringExtra("skillGroup")
         val skillModel = intent.getStringExtra("skillModel")
+        val arrangedFeedbackList: ArrayList<Feedback> = intent.extras.get("arrangedFeedbackList") as ArrayList<Feedback>
         if (feedbackResponse != null) {
             title = feedbackResponse.skillName.capitalize() + " " + getString(R.string.reviews)
-            if (!feedbackResponse.feedbackList.isNullOrEmpty()) {
+            if (!arrangedFeedbackList.isEmpty()) {
                 val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                 rvAllFeedback.setHasFixedSize(true)
                 rvAllFeedback.layoutManager = layoutManager
-                rvAllFeedback.adapter = AllReviewsAdapter(this, feedbackResponse.feedbackList, feedbackResponse.skillName, skillLanguage, skillGroup, skillModel)
+                rvAllFeedback.adapter = AllReviewsAdapter(this, arrangedFeedbackList, feedbackResponse.skillName, skillLanguage, skillGroup, skillModel)
+
             }
         }
     }
