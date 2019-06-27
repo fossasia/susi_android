@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data.contract
 
+import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
@@ -59,4 +60,6 @@ interface ISkillDetailsModel {
     fun cancelFetchFeedback()
 
     fun sendReport(query: ReportSkillQuery, listener: OnReportSendListener)
+
+    fun deleteFeedback(query: DeleteFeedbackQuery)
 }

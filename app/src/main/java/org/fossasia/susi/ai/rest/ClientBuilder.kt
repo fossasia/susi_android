@@ -7,6 +7,7 @@ import org.fossasia.susi.ai.dataclasses.SkillRatingQuery
 import org.fossasia.susi.ai.dataclasses.SkillsListQuery
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
+import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
@@ -14,6 +15,7 @@ import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
+import org.fossasia.susi.ai.rest.responses.susi.DeleteFeedbackResponse
 import org.fossasia.susi.ai.rest.services.SusiService
 
 import java.util.HashMap
@@ -91,5 +93,15 @@ object ClientBuilder {
         map.put("longitude", queryObject.longitude)
         map.put("room", queryObject.room)
         return susiApi.addSusiDevices(map)
+    }
+
+    fun deleteFeedbackCall(queryObject: DeleteFeedbackQuery): Call<DeleteFeedbackResponse> {
+        val queryMap = HashMap<String, String>()
+        queryMap["model"] = queryObject.model
+        queryMap["group"] = queryObject.group
+        queryMap["language"] = queryObject.language
+        queryMap["skill"] = queryObject.skill
+        queryMap["access_token"] = queryObject.access_token
+        return susiApi.deleteFeedback(queryMap)
     }
 }

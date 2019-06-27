@@ -4,11 +4,13 @@ import android.content.Context
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.SkillDetailsModel
+import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
@@ -21,11 +23,16 @@ import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewH
  */
 class AllReviewsAdapter(
     val context: Context,
-    private val feedbackList: List<Feedback>?
+    private val feedbackList: List<Feedback>?,
+    private val skillName: String,
+    private val skillLanguage: String,
+    private val skillGroup: String,
+    private val skillModel: String
 ) :
-    RecyclerView.Adapter<AllReviewsViewHolder>(), AllReviewsViewHolder.ClickListener {
+        RecyclerView.Adapter<AllReviewsViewHolder>(), AllReviewsViewHolder.ClickListener {
 
     private val clickListener: AllReviewsViewHolder.ClickListener = this
+    private val skillDetailsModel: ISkillDetailsModel = SkillDetailsModel()
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllReviewsViewHolder {
@@ -82,7 +89,9 @@ class AllReviewsAdapter(
         }
         return date
     }
+
     override fun deleteClicked(position: Int) {
-        Log.d("KHANKI", "Clicked  all - " + position)
+        val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillModel, skillGroup, skillLanguage, skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
+        skillDetailsModel.deleteFeedback(query)
     }
 }

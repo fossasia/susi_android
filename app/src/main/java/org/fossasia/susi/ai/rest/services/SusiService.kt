@@ -19,6 +19,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
 import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
 import org.fossasia.susi.ai.rest.responses.susi.ConnectedDevicesResponse
+import org.fossasia.susi.ai.rest.responses.susi.DeleteFeedbackResponse
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -204,6 +205,18 @@ interface SusiService {
      */
     @GET("/cms/getSkillFeedback.json")
     fun fetchFeedback(@QueryMap query: Map<String, String>): Call<GetSkillFeedbackResponse>
+
+    /**
+     * Delete Feedback posted by the user
+     * @param query A query map consisting of following key value pairs
+     * model       Model of the skill (e.g. general)
+     * group       Group of skill (e.g. Knowledge)
+     * language    Language directory in which the skill resides (e.g. en)
+     * skill       Skill Tag of object in which the skill data resides
+     * access_token Access token of the user
+     */
+    @GET("/cms/removeFeedback.json")
+    fun deleteFeedback(@QueryMap query: Map<String, String>): Call<DeleteFeedbackResponse>
 
     /**
      * Get skills based on different metrics from the server

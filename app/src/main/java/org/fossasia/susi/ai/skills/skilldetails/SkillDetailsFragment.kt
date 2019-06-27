@@ -555,7 +555,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rvFeedback.setHasFixedSize(true)
         rvFeedback.layoutManager = layoutManager
-        rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)
+        rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse, skillData)
     }
 
     private fun setDynamicContent() {

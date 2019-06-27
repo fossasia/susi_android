@@ -6,15 +6,18 @@ import android.content.Intent
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.SkillDetailsModel
+import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackViewHolder
 
@@ -24,11 +27,13 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackVie
  */
 class FeedbackAdapter(
     val context: Context,
-    private val feedbackResponse: GetSkillFeedbackResponse
+    private val feedbackResponse: GetSkillFeedbackResponse,
+    val skillData: SkillData
 ) :
         RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
     private val clickListener: FeedbackViewHolder.ClickListener = this
+    private val skillDetailsModel: ISkillDetailsModel = SkillDetailsModel()
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeedbackViewHolder {
@@ -53,12 +58,12 @@ class FeedbackAdapter(
             if (feedbackResponse.feedbackList[position] != null) {
                 if (position < 3) {
                     if (feedbackResponse.feedbackList[position].email != null &&
-                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
+                            !TextUtils.isEmpty(feedbackResponse.feedbackList[position].email)) {
                         Utils.setAvatar(context, feedbackResponse.feedbackList.get(position).avatar, holder.avatar)
                         Utils.setUsername(feedbackResponse.feedbackList.get(position), holder.feedbackEmail)
                     }
                     if (feedbackResponse.feedbackList[position].timestamp != null &&
-                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
+                            !TextUtils.isEmpty(feedbackResponse.feedbackList[position].timestamp)) {
                         val date: String? = getDate(feedbackResponse.feedbackList[position].timestamp)
                         if (date != null) {
                             holder.feedbackDate.text = date
@@ -67,7 +72,7 @@ class FeedbackAdapter(
                         }
                     }
                     if (feedbackResponse.feedbackList[position].feedback != null &&
-                        !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
+                            !TextUtils.isEmpty(feedbackResponse.feedbackList[position].feedback)) {
                         holder.feedback.text = feedbackResponse.feedbackList[position].feedback
                     }
                 }
@@ -97,11 +102,16 @@ class FeedbackAdapter(
     override fun onItemClicked(position: Int) {
         if (context is Activity) context.overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         val intent = Intent(context, FeedbackActivity::class.java)
+        intent.putExtra("skillModel", skillData.model)
+        intent.putExtra("skillGroup", skillData.group)
+        intent.putExtra("skillLanguage", skillData.language)
         intent.putExtra("feedbackResponse", feedbackResponse)
+
         context.startActivity(intent)
     }
 
     override fun deleteClicked(position: Int) {
-        Log.d("KHANKI", "Clicked - " + position)
+        val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillData.model, skillData.group, skillData.language, skillData.skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
+        skillDetailsModel.deleteFeedback(query)
     }
 }

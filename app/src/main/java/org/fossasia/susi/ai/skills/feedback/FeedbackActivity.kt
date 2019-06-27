@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_feedback.rvAllFeedback
-import kotlinx.android.synthetic.main.activity_feedback.*
 
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
@@ -21,13 +20,16 @@ class FeedbackActivity : AppCompatActivity() {
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         val feedbackResponse: GetSkillFeedbackResponse? = intent.extras.get("feedbackResponse") as GetSkillFeedbackResponse
+        val skillLanguage = intent.getStringExtra("skillLanguage")
+        val skillGroup = intent.getStringExtra("skillGroup")
+        val skillModel = intent.getStringExtra("skillModel")
         if (feedbackResponse != null) {
             title = feedbackResponse.skillName.capitalize() + " " + getString(R.string.reviews)
             if (!feedbackResponse.feedbackList.isNullOrEmpty()) {
                 val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                 rvAllFeedback.setHasFixedSize(true)
                 rvAllFeedback.layoutManager = layoutManager
-                rvAllFeedback.adapter = AllReviewsAdapter(this, feedbackResponse.feedbackList)
+                rvAllFeedback.adapter = AllReviewsAdapter(this, feedbackResponse.feedbackList, feedbackResponse.skillName, skillLanguage, skillGroup, skillModel)
             }
         }
     }

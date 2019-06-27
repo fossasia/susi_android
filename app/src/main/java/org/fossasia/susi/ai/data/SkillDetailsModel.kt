@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.data
 
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
+import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
@@ -10,6 +11,7 @@ import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
+import org.fossasia.susi.ai.rest.responses.susi.DeleteFeedbackResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,6 +34,7 @@ class SkillDetailsModel : ISkillDetailsModel {
     private lateinit var updateFeedbackResponseCall: Call<PostSkillFeedbackResponse>
     private lateinit var fetchFeedbackResponseCall: Call<GetSkillFeedbackResponse>
     private lateinit var reportSkillResponseCall: Call<ReportSkillResponse>
+    private lateinit var deleteFeedbackResponseCall: Call<DeleteFeedbackResponse>
 
     /**
      * Posts a request the fiveStarRateSkill.json API
@@ -126,6 +129,20 @@ class SkillDetailsModel : ISkillDetailsModel {
             override fun onFailure(call: Call<GetSkillFeedbackResponse>, t: Throwable) {
                 Timber.e(t)
                 listener.onFetchFeedbackError(t)
+            }
+        })
+    }
+
+    override fun deleteFeedback(query: DeleteFeedbackQuery) {
+        deleteFeedbackResponseCall = ClientBuilder.deleteFeedbackCall(query)
+
+        deleteFeedbackResponseCall.enqueue(object : Callback<DeleteFeedbackResponse> {
+            override fun onFailure(call: Call<DeleteFeedbackResponse>, t: Throwable) {
+                Timber.d("Failed to delete your feedbackr " + t)
+            }
+
+            override fun onResponse(call: Call<DeleteFeedbackResponse>, response: Response<DeleteFeedbackResponse>) {
+                Timber.d("Successfully removed feedback " + response)
             }
         })
     }
