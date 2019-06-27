@@ -433,6 +433,8 @@
     <string name="toast_feedback_updated">Skill feedback updated</string>
     <string name="api_key_not_set">API KEY not set.</string>
     <string name="copied_text">Copied Text</string>
+    <string name="delete_feedback_succesfull">Succesfully deleted your feedback</string>
+    <string name="delete_feedback_fail">Failed to delete your feedback</string>
 
     <!-- Metrics -->
 

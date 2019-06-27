@@ -1,5 +1,8 @@
 package org.fossasia.susi.ai.data
 
+import android.content.Context
+import android.widget.Toast
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
@@ -133,16 +136,18 @@ class SkillDetailsModel : ISkillDetailsModel {
         })
     }
 
-    override fun deleteFeedback(query: DeleteFeedbackQuery) {
+    override fun deleteFeedback(query: DeleteFeedbackQuery, context: Context) {
         deleteFeedbackResponseCall = ClientBuilder.deleteFeedbackCall(query)
 
         deleteFeedbackResponseCall.enqueue(object : Callback<DeleteFeedbackResponse> {
             override fun onFailure(call: Call<DeleteFeedbackResponse>, t: Throwable) {
                 Timber.d("Failed to delete your feedbackr " + t)
+                Toast.makeText(context, R.string.delete_feedback_fail, Toast.LENGTH_SHORT).show()
             }
 
             override fun onResponse(call: Call<DeleteFeedbackResponse>, response: Response<DeleteFeedbackResponse>) {
                 Timber.d("Successfully removed feedback " + response)
+                Toast.makeText(context, R.string.delete_feedback_succesfull, Toast.LENGTH_SHORT).show()
             }
         })
     }

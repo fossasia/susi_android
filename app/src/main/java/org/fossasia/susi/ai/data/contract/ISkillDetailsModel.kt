@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data.contract
 
+import android.content.Context
 import org.fossasia.susi.ai.dataclasses.DeleteFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
@@ -61,5 +62,5 @@ interface ISkillDetailsModel {
 
     fun sendReport(query: ReportSkillQuery, listener: OnReportSendListener)
 
-    fun deleteFeedback(query: DeleteFeedbackQuery)
+    fun deleteFeedback(query: DeleteFeedbackQuery, context: Context)
 }
