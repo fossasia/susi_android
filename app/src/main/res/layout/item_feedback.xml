@@ -69,6 +69,17 @@
                 android:textSize="@dimen/text_size_normal" />
 
         </LinearLayout>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_blue_24dp"
+            android:background="@color/md_white_1000"
+            android:layout_gravity="center"
+            android:padding="@dimen/padding_moderate"
+            android:visibility="gone"
+            android:id="@+id/delete_feedback" />
+
     </LinearLayout>
 
     <LinearLayout

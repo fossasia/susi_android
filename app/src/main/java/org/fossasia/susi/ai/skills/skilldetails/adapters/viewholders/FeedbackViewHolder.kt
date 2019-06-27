@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,9 +25,13 @@ class FeedbackViewHolder(
     val feedbackDate: TextView by bindView(R.id.tvDate)
     val feedback: TextView by bindView(R.id.tvFeedback)
     val seeAllReviews: LinearLayout by bindView(R.id.seeAllReviews)
+    val deleteFeedback: ImageButton by bindView(R.id.delete_feedback)
 
     init {
         ButterKnife.bind(this, itemView)
+        deleteFeedback.setOnClickListener {
+            listener?.deleteClicked(adapterPosition)
+        }
         itemView.setOnClickListener(this)
     }
 
@@ -41,5 +46,6 @@ class FeedbackViewHolder(
 
     interface ClickListener {
         fun onItemClicked(position: Int)
+        fun deleteClicked(position: Int)
     }
 }

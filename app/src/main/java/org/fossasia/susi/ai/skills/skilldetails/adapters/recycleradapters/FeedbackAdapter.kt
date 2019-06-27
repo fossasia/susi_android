@@ -6,10 +6,13 @@ import android.content.Intent
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
@@ -68,6 +71,9 @@ class FeedbackAdapter(
                         holder.feedback.text = feedbackResponse.feedbackList[position].feedback
                     }
                 }
+                if (feedbackResponse.feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()){
+                    holder.deleteFeedback.visibility=View.VISIBLE
+                }
             }
             if (position == 3) {
                 holder.itemFeedback.visibility = View.GONE
@@ -93,5 +99,9 @@ class FeedbackAdapter(
         val intent = Intent(context, FeedbackActivity::class.java)
         intent.putExtra("feedbackResponse", feedbackResponse)
         context.startActivity(intent)
+    }
+
+    override fun deleteClicked(position: Int) {
+        Log.d("KHANKI", "Clicked - "+position)
     }
 }

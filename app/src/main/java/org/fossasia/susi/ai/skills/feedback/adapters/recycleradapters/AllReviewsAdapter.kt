@@ -4,9 +4,13 @@ import android.content.Context
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewHolder
@@ -19,13 +23,16 @@ class AllReviewsAdapter(
     val context: Context,
     private val feedbackList: List<Feedback>?
 ) :
-    RecyclerView.Adapter<AllReviewsViewHolder>() {
+    RecyclerView.Adapter<AllReviewsViewHolder>(), AllReviewsViewHolder.ClickListener {
+
+    private val clickListener: AllReviewsViewHolder.ClickListener = this
+
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllReviewsViewHolder {
         val itemView = LayoutInflater.from(parent.context)
                 .inflate(R.layout.item_feedback, parent, false)
-        return AllReviewsViewHolder(itemView)
+        return AllReviewsViewHolder(itemView, clickListener)
     }
 
     override fun getItemCount(): Int {
@@ -57,6 +64,10 @@ class AllReviewsAdapter(
                         !TextUtils.isEmpty(feedbackList[position].feedback)) {
                     holder.feedback.text = feedbackList[position].feedback
                 }
+
+                if (feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()){
+                    holder.deleteFeedback.visibility= View.VISIBLE
+                }
             }
         }
     }
@@ -71,5 +82,8 @@ class AllReviewsAdapter(
                     ", " + timestamp.substring(0, 4)
         }
         return date
+    }
+    override fun deleteClicked(position: Int) {
+        Log.d("KHANKI", "Clicked  all - "+position)
     }
 }
