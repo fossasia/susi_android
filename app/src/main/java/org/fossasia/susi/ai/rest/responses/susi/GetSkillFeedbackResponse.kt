@@ -10,7 +10,7 @@ data class GetSkillFeedbackResponse(
     val accepted: Boolean = false,
     val message: String = "",
     @SerializedName("feedback")
-    var feedbackList: List<Feedback> = ArrayList(),
+    var feedbackList: ArrayList<Feedback> = ArrayList(),
     @SerializedName("skill_name")
     var skillName: String = ""
 ) : Parcelable

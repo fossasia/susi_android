@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.skills.feedback.adapters.recycleradapters
 
 import android.content.Context
-import android.content.Intent
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -16,7 +15,6 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
-import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewHolder
 
 /**
@@ -25,7 +23,7 @@ import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewH
  */
 class AllReviewsAdapter(
     val context: Context,
-    private val feedbackList: List<Feedback>?,
+    private val feedbackList: ArrayList<Feedback>?,
     private val skillName: String,
     private val skillLanguage: String,
     private val skillGroup: String,
@@ -95,7 +93,8 @@ class AllReviewsAdapter(
     override fun deleteClicked(position: Int) {
         val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillModel, skillGroup, skillLanguage, skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
         skillDetailsModel.deleteFeedback(query, context)
-        val intent = Intent(context, SkillsActivity::class.java)
-        context.startActivity(intent)
+        feedbackList?.removeAt(position)
+        notifyItemChanged(position)
+        notifyItemRangeRemoved(position, 1)
     }
 }

@@ -18,7 +18,6 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
-import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackViewHolder
 
@@ -114,8 +113,8 @@ class FeedbackAdapter(
     override fun deleteClicked(position: Int) {
         val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillData.model, skillData.group, skillData.language, skillData.skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
         skillDetailsModel.deleteFeedback(query, context)
-        if ((context is SkillsActivity)) {
-            context.loadDetailFragment(skillData, skillData.group, skillData.skillTag)
-        }
+        feedbackResponse.feedbackList.removeAt(position)
+        notifyItemChanged(position)
+        notifyItemRangeRemoved(position, 1)
     }
 }
