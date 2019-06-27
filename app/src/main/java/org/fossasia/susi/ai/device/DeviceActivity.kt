@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.device.connecteddevices.ConnectedDeviceFragment
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 
 /*
@@ -18,6 +19,7 @@ class DeviceActivity : AppCompatActivity() {
 
     private val TAG_DEVICE_CONNECT_FRAGMENT = "DeviceConnectFragment"
     private val TAG_DEVICE_DETAILS_FRAGMENT = "DeviceDetailsFragment"
+    private val TAG_CONNECTED_DEVICE_FRAGMNENT = "ConnectedDeviceFragment"
 
     lateinit var mainWifi: WifiManager
 
@@ -28,10 +30,17 @@ class DeviceActivity : AppCompatActivity() {
 
         mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-        val deviceConnectFragment = DeviceConnectFragment()
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, deviceConnectFragment, TAG_DEVICE_CONNECT_FRAGMENT)
-                .commit()
+        if (intent.getStringExtra("connectTo") == "DeviceConnectFragment") {
+            val deviceConnectFragment = DeviceConnectFragment()
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, deviceConnectFragment, TAG_DEVICE_CONNECT_FRAGMENT)
+                    .commit()
+        } else {
+            val connectedDeviceFragment = ConnectedDeviceFragment()
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, connectedDeviceFragment, TAG_CONNECTED_DEVICE_FRAGMNENT)
+                    .commit()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
