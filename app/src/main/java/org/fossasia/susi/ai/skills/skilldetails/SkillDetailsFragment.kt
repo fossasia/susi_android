@@ -578,4 +578,12 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         skillDetailsPresenter.onDetach()
         super.onDestroyView()
     }
+
+    override fun onResume() {
+        if (PrefManager.getBoolean(R.string.is_feedback_deleted, false)) {
+            PrefManager.putBoolean(R.string.is_feedback_deleted, false)
+            setFeedback()
+        }
+        super.onResume()
+    }
 }

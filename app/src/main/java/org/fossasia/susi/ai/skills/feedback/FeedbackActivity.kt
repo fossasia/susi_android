@@ -32,7 +32,6 @@ class FeedbackActivity : AppCompatActivity() {
                 rvAllFeedback.setHasFixedSize(true)
                 rvAllFeedback.layoutManager = layoutManager
                 rvAllFeedback.adapter = AllReviewsAdapter(this, arrangedFeedbackList, feedbackResponse.skillName, skillLanguage, skillGroup, skillModel)
-
             }
         }
     }

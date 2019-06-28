@@ -6,7 +6,6 @@ import android.content.Intent
 import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,9 +28,9 @@ import timber.log.Timber
  * Created by arundhati24 on 27/06/2018
  */
 class FeedbackAdapter(
-        val context: Context,
-        private val feedbackResponse: GetSkillFeedbackResponse,
-        val skillData: SkillData
+    val context: Context,
+    private val feedbackResponse: GetSkillFeedbackResponse,
+    val skillData: SkillData
 ) :
         RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
@@ -135,6 +134,9 @@ class FeedbackAdapter(
     override fun deleteClicked(position: Int) {
         val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillData.model, skillData.group, skillData.language, skillData.skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
         skillDetailsModel.deleteFeedback(query, context)
+        PrefManager.putBoolean(R.string.is_feedback_deleted, true)
+        val element = arrangedFeedbackList.get(position)
+        feedbackResponse.feedbackList.remove(element)
         arrangedFeedbackList.removeAt(position)
         notifyItemChanged(position)
         notifyItemChanged(position, 1)

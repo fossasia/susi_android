@@ -23,7 +23,7 @@ import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewH
  */
 class AllReviewsAdapter(
     val context: Context,
-    private val feedbackList: ArrayList<Feedback>?,
+    private val arrangedFeedbackList: ArrayList<Feedback>?,
     private val skillName: String,
     private val skillLanguage: String,
     private val skillGroup: String,
@@ -42,36 +42,36 @@ class AllReviewsAdapter(
     }
 
     override fun getItemCount(): Int {
-        if (feedbackList != null) {
-            return feedbackList.size
+        if (arrangedFeedbackList != null) {
+            return arrangedFeedbackList.size
         }
         return 0
     }
 
     @NonNull
     override fun onBindViewHolder(holder: AllReviewsViewHolder, position: Int) {
-        if (feedbackList != null) {
-            if (feedbackList[position] != null) {
-                if (feedbackList[position].email != null &&
-                        !TextUtils.isEmpty(feedbackList[position].email)) {
-                    Utils.setAvatar(context, feedbackList.get(position).avatar, holder.avatar)
-                    Utils.setUsername(feedbackList.get(position), holder.feedbackEmail)
+        if (arrangedFeedbackList != null) {
+            if (arrangedFeedbackList[position] != null) {
+                if (arrangedFeedbackList[position].email != null &&
+                        !TextUtils.isEmpty(arrangedFeedbackList[position].email)) {
+                    Utils.setAvatar(context, arrangedFeedbackList.get(position).avatar, holder.avatar)
+                    Utils.setUsername(arrangedFeedbackList.get(position), holder.feedbackEmail)
                 }
-                if (feedbackList[position].timestamp != null &&
-                        !TextUtils.isEmpty(feedbackList[position].timestamp)) {
-                    val date: String? = getDate(feedbackList[position].timestamp)
+                if (arrangedFeedbackList[position].timestamp != null &&
+                        !TextUtils.isEmpty(arrangedFeedbackList[position].timestamp)) {
+                    val date: String? = getDate(arrangedFeedbackList[position].timestamp)
                     if (date != null) {
                         holder.feedbackDate.text = date
                     } else {
                         holder.feedbackDate.text = ""
                     }
                 }
-                if (feedbackList[position].feedback != null &&
-                        !TextUtils.isEmpty(feedbackList[position].feedback)) {
-                    holder.feedback.text = feedbackList[position].feedback
+                if (arrangedFeedbackList[position].feedback != null &&
+                        !TextUtils.isEmpty(arrangedFeedbackList[position].feedback)) {
+                    holder.feedback.text = arrangedFeedbackList[position].feedback
                 }
 
-                if (feedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
+                if (arrangedFeedbackList[position].email == PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()) {
                     holder.deleteFeedback.visibility = View.VISIBLE
                 }
             }
@@ -93,7 +93,8 @@ class AllReviewsAdapter(
     override fun deleteClicked(position: Int) {
         val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillModel, skillGroup, skillLanguage, skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
         skillDetailsModel.deleteFeedback(query, context)
-        feedbackList?.removeAt(position)
+        PrefManager.putBoolean(R.string.is_feedback_deleted, true)
+        arrangedFeedbackList?.removeAt(position)
         notifyItemChanged(position)
         notifyItemRangeRemoved(position, 1)
     }
