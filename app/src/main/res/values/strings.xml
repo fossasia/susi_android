@@ -531,4 +531,7 @@
     <string name="my_rooms">My Rooms</string>
     <string name="create_new_room">Create new</string>
     <string name="connected_device_status">No devices have been connected yet.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

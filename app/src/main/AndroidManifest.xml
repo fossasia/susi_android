@@ -94,6 +94,14 @@
                 android:value="org.fossasia.susi.ai.login.LoginActivity" />
         </activity>
 
+        <activity android:name=".device.managedevices.ManageDeviceActivity"
+            android:label="Manage Devices"
+            android:theme="@style/PreferencesThemeLight">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.fossasia.susi.ai.skills.SkillsActivity" />
+        </activity>
+
         <activity
             android:name=".skills.feedback.FeedbackActivity"
             android:label="See All Reviews"
