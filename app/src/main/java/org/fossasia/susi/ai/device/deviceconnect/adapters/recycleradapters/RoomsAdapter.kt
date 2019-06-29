@@ -34,6 +34,7 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
                 val roomNameClicked = availableRoomsList[adapterPosition].room
                 var intent = Intent(context, DeviceActivity::class.java)
                 intent.putExtra("roomName", roomNameClicked)
+                intent.putExtra("connectTo","DeviceConnectFragment")
                 context?.startActivity(intent)
             }
         }
