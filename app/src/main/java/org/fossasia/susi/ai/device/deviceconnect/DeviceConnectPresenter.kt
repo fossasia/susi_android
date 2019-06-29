@@ -98,6 +98,15 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         deviceConnectView?.showRooms()
     }
 
+    override fun deleteRoom(room: String?) {
+        realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        val result = realm.where(RoomsAvailable::class.java).equalTo("room", room).findFirst()
+        result?.deleteFromRealm()
+        realm.commitTransaction()
+        deviceConnectView?.showRooms()
+    }
+
     override fun addDevice(queryObject: AddDeviceQuery) {
         roomModel.addDeviceToServer(queryObject)
     }

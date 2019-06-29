@@ -37,6 +37,8 @@ interface IDeviceConnectPresenter {
 
     fun addRoom(room: String)
 
+    fun deleteRoom(room: String?)
+
     fun addDevice(queryObject: AddDeviceQuery)
 
     fun getLocation()

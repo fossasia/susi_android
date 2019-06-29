@@ -17,6 +17,7 @@
 
     <!-- dimensions specifics -->
 
+    <dimen name="width_null">0dp</dimen>
     <dimen name="height_very_small">1dp</dimen>
     <dimen name="width_very_small">1dp</dimen>
     <dimen name="height_large">45dp</dimen>
@@ -137,4 +138,8 @@
     <dimen name="height_minimum">2dp</dimen>
     <dimen name="height_room_recycler">20dp</dimen>
     <dimen name="width_room_recycler">20dp</dimen>
+    <dimen name="room_image_weight">1</dimen>
+    <dimen name="room_name_weight">4</dimen>
+    <dimen name="room_delete_weight">1</dimen>
+
 </resources>
