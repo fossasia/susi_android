@@ -137,4 +137,7 @@
     <dimen name="height_minimum">2dp</dimen>
     <dimen name="height_room_recycler">20dp</dimen>
     <dimen name="width_room_recycler">20dp</dimen>
+
+    <!-- Manage Devices dimensions -->
+    <dimen name="height_width_spotify">40dp</dimen>
 </resources>
