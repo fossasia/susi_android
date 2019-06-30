@@ -17,9 +17,10 @@ import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 
 class DeviceActivity : AppCompatActivity() {
 
-    private val TAG_DEVICE_CONNECT_FRAGMENT = "DeviceConnectFragment"
+    val TAG_DEVICE_CONNECT_FRAGMENT = "DeviceConnectFragment"
     private val TAG_DEVICE_DETAILS_FRAGMENT = "DeviceDetailsFragment"
-    private val TAG_CONNECTED_DEVICE_FRAGMNENT = "ConnectedDeviceFragment"
+    val TAG_CONNECTED_DEVICE_FRAGMNENT = "ConnectedDeviceFragment"
+    val CONNECT_TO = "connect_to"
 
     lateinit var mainWifi: WifiManager
 
@@ -30,7 +31,7 @@ class DeviceActivity : AppCompatActivity() {
 
         mainWifi = application.getSystemService(Context.WIFI_SERVICE) as WifiManager
 
-        if (intent.getStringExtra("connectTo") == "DeviceConnectFragment") {
+        if (intent.getStringExtra(CONNECT_TO) == TAG_DEVICE_CONNECT_FRAGMENT) {
             val deviceConnectFragment = DeviceConnectFragment()
             supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, deviceConnectFragment, TAG_DEVICE_CONNECT_FRAGMENT)

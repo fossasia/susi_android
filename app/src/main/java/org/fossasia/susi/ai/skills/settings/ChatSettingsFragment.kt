@@ -232,14 +232,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice.setOnPreferenceClickListener {
 
             val intent = Intent(activity, DeviceActivity::class.java)
-            intent.putExtra("connectTo", "DeviceConnectFragment")
+            intent.putExtra(DeviceActivity().CONNECT_TO, DeviceActivity().TAG_DEVICE_CONNECT_FRAGMENT)
             startActivity(intent)
             true
         }
 
         deviceName.setOnPreferenceClickListener {
             val intent = Intent(activity, DeviceActivity::class.java)
-            intent.putExtra("connectTo", "ConnectedDeviceFragment")
+            intent.putExtra(DeviceActivity().CONNECT_TO, DeviceActivity().TAG_CONNECTED_DEVICE_FRAGMNENT)
             startActivity(intent)
             true
         }
