@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 
 class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context?) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
@@ -34,6 +36,7 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
                 val roomNameClicked = availableRoomsList[adapterPosition].room
                 var intent = Intent(context, DeviceActivity::class.java)
                 intent.putExtra("roomName", roomNameClicked)
+                intent.putExtra(CONNECT_TO, TAG_DEVICE_CONNECT_FRAGMENT)
                 context?.startActivity(intent)
             }
         }
