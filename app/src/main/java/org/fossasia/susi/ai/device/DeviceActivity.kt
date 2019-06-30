@@ -17,11 +17,7 @@ import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 
 class DeviceActivity : AppCompatActivity() {
 
-    val TAG_DEVICE_CONNECT_FRAGMENT = "DeviceConnectFragment"
     private val TAG_DEVICE_DETAILS_FRAGMENT = "DeviceDetailsFragment"
-    val TAG_CONNECTED_DEVICE_FRAGMNENT = "ConnectedDeviceFragment"
-    val CONNECT_TO = "connect_to"
-
     lateinit var mainWifi: WifiManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,5 +54,11 @@ class DeviceActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         finish()
         super.onBackPressed()
+    }
+
+    companion object {
+        const val TAG_DEVICE_CONNECT_FRAGMENT = "DeviceConnectFragment"
+        const val TAG_CONNECTED_DEVICE_FRAGMNENT = "ConnectedDeviceFragment"
+        const val CONNECT_TO = "connect_to"
     }
 }
