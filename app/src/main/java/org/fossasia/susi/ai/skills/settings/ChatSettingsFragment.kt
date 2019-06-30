@@ -33,6 +33,9 @@ import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
 import org.fossasia.susi.ai.device.managedevices.ManageDeviceActivity
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_CONNECTED_DEVICE_FRAGMNENT
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
 import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
 import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.skills.help.HelpFragment
@@ -238,14 +241,14 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice.setOnPreferenceClickListener {
 
             val intent = Intent(activity, DeviceActivity::class.java)
-            intent.putExtra("connectTo", "DeviceConnectFragment")
+            intent.putExtra(CONNECT_TO, TAG_DEVICE_CONNECT_FRAGMENT)
             startActivity(intent)
             true
         }
 
         deviceName.setOnPreferenceClickListener {
             val intent = Intent(activity, DeviceActivity::class.java)
-            intent.putExtra("connectTo", "ConnectedDeviceFragment")
+            intent.putExtra(CONNECT_TO, TAG_CONNECTED_DEVICE_FRAGMNENT)
             startActivity(intent)
             true
         }
