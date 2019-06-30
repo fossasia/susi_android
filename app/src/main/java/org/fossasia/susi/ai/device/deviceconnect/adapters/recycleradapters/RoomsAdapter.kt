@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
 import kotlinx.android.synthetic.main.room_recycler_layout.view.delete_room
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 
@@ -36,6 +38,7 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
                 val roomNameClicked = availableRoomsList[adapterPosition].room
                 var intent = Intent(context, DeviceActivity::class.java)
                 intent.putExtra("roomName", roomNameClicked)
+                intent.putExtra(CONNECT_TO, TAG_DEVICE_CONNECT_FRAGMENT)
                 context?.startActivity(intent)
             }
 
