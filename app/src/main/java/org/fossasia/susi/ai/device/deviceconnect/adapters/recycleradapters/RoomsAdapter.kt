@@ -7,13 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
+import kotlinx.android.synthetic.main.room_recycler_layout.view.delete_room
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
+import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 
-class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context?) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
+class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context?, private val deviceConnectPresenter: IDeviceConnectPresenter) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.room_recycler_layout, viewGroup, false)
@@ -38,6 +40,10 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
                 intent.putExtra("roomName", roomNameClicked)
                 intent.putExtra(CONNECT_TO, TAG_DEVICE_CONNECT_FRAGMENT)
                 context?.startActivity(intent)
+            }
+
+            itemView.delete_room.setOnClickListener {
+                deviceConnectPresenter.deleteRoom(availableRoomsList[adapterPosition].room)
             }
         }
     }
