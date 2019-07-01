@@ -164,7 +164,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
         var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         availableRoomsRecyclerView.layoutManager = layoutManager
-        availableRoomsAdapter = RoomsAdapter(availableRoomsList, context)
+        availableRoomsAdapter = RoomsAdapter(availableRoomsList, context, deviceConnectPresenter)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
     }
 
