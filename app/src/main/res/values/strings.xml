@@ -531,4 +531,7 @@
     <string name="my_rooms">My Rooms</string>
     <string name="create_new_room">Create new</string>
     <string name="connected_device_status">No devices have been connected yet.</string>
+
+    <!-- Manage Devices -->
+    <string name="music_services">Music Services</string>
 </resources>
