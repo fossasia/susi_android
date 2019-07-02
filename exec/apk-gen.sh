@@ -33,14 +33,14 @@ then
 		done
     	fi
 
-    # Remove app- fromt he name of the files
+    # Remove app- from the name of the files
     for file in *.apk;do
         if [[ "$file" == *"app-"* ]];then
             mv "${file}" "${file//app-/}"
         fi
     done
 
-    # Remove playStore- from he name of the files
+    # Remove playStore- from the name of the files
     for file in *.apk;do
         if [[ "$file" == *"playStore"* ]];then
             mv "${file}" "${file//playStore-/}"
