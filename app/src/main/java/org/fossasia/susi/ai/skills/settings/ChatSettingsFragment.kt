@@ -32,6 +32,7 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
+import org.fossasia.susi.ai.device.managedevices.ManageDeviceActivity
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_CONNECTED_DEVICE_FRAGMNENT
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
@@ -79,6 +80,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
     private lateinit var visitWebsite: Preference
+    private lateinit var manageDevices: Preference
     private var flag = true
     private val packageName = "ai.susi"
 
@@ -113,6 +115,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
         settingsVoice = preferenceManager.findPreference(Constant.VOICE_SETTINGS)
         visitWebsite = preferenceManager.findPreference(Constant.VISIT_WEBSITE)
+        manageDevices = preferenceManager.findPreference(Constant.MANAGE_DEVICES)
 
         // Display login email
         val utilModel = UtilModel(activity as SkillsActivity)
@@ -120,10 +123,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             displayEmail.title = "Not logged in"
             displayEmail.isEnabled = true
             deviceName.isEnabled = false
+            manageDevices.isEnabled = false
         } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
             displayEmail.isEnabled = false
             deviceName.isEnabled = true
+            manageDevices.isEnabled = true
         }
 
         setLanguage()
@@ -136,6 +141,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (PrefManager.token == null) {
             deviceName.isVisible = false
             setupDevice.isVisible = false
+            manageDevices.isVisible = false
             preferenceManager.findPreference(getString(R.string.settings_deviceSection_key)).isVisible = false
         }
 
@@ -243,6 +249,12 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         deviceName.setOnPreferenceClickListener {
             val intent = Intent(activity, DeviceActivity::class.java)
             intent.putExtra(CONNECT_TO, TAG_CONNECTED_DEVICE_FRAGMNENT)
+            startActivity(intent)
+            true
+        }
+
+        manageDevices.setOnPreferenceClickListener {
+            val intent = Intent(activity, ManageDeviceActivity::class.java)
             startActivity(intent)
             true
         }
