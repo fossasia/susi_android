@@ -33,20 +33,31 @@ then
 		done
     	fi
 
-    # Remove unwanted apk files
-    rm app-fdroid-release-unsigned.apk
-    rm app-playStore-release-unaligned.apk
-    rm susi-ai-master-app-playStore-release-unaligned.apk
+    # Remove app- fromt he name of the files
+    for file in *.apk;do
+        if [[ "$file" == *"app-"* ]];then
+            mv "${file}" "${file//app-/}"
+        fi
+    done
 
-    # Rename files accordingly
-    mv app-fdroid-debug.apk susiai-dev-debug-fdroid.apk
-    mv app-playStore-debug.apk susiai-dev-debug.apk
-    mv susiai-master-app-fdroid-debug.apk susiai-master-debug-fdroid.apk
-    mv susiai-master-app-playStore-debug.apk susiai-master-debug.apk
-    mv susiai-master-app-fdroid-release-unsigned.apk susiai-master-unsigned-fdroid.apk
-    mv susiai-master-app-playStore-release-unsigned.apk susiai-master-unsigned.apk
-    mv app-playStore-release-unsigned.apk susiai-dev-release-unsigned.apk
-    mv susiai-master-app-playStore-release.apk susiai-master-release.apk
+    # Remove playStore- from he name of the files
+    for file in *.apk;do
+        if [[ "$file" == *"playStore"* ]];then
+            mv "${file}" "${file//playStore-/}"
+        fi
+    done
+
+    # Append susiai-dev to the non master branch apk's
+    for file in *.apk;do
+        if [[ "$file" != *"master"* ]];then
+            mv $file susiai-dev-${file%%}
+        fi
+    done
+
+    # Remove unwanted apk files
+    rm susiai-dev-fdroid-release-unsigned.apk
+    rm susiai-dev-release-unaligned.apk
+    rm susiai-master-release-unaligned.apk
 
     # Create a new branch that will contain only latest apk
 	git checkout --orphan workaround
