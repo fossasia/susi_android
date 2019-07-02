@@ -18,10 +18,6 @@ then
 	fi
 	\cp -r ../app/build/outputs/apk/fdroid/*/**.apk .
 	\cp -r ../app/build/outputs/apk/playStore/*/**.apk .
-	\cp -r ../app/build/outputs/apk/fdroid/debug/output.json fdroidDebug-output.json
-	\cp -r ../app/build/outputs/apk/fdroid/release/output.json fdroidRelease-output.json
-	\cp -r ../app/build/outputs/apk/playStore/debug/output.json playStoreDebug-output.json
-	\cp -r ../app/build/outputs/apk/playStore/release/output.json playStoreRelease-output.json
 
 	# Signing App
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
@@ -33,32 +29,26 @@ then
 
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
 		for file in app*; do
-			cp $file susi-ai-master-${file%%}
+			cp $file susiai-master-${file%%}
 		done
     	fi
-    	# Create a new branch that will contain only latest apk
 
     # Remove unwanted apk files
     rm app-fdroid-release-unsigned.apk
     rm app-playStore-release-unaligned.apk
     rm susi-ai-master-app-playStore-release-unaligned.apk
 
-    # Remove the json files
-    rm fdroidDebug-output.json
-    rm fdroidRelease-output.json
-    rm playStoreDebug-output.json
-    rm playStoreRelease-output.json
-
     # Rename files accordingly
     mv app-fdroid-debug.apk susiai-dev-debug-fdroid.apk
     mv app-playStore-debug.apk susiai-dev-debug.apk
-    mv susi-ai-master-app-fdroid-debug.apk susiai-master-debug-fdroid.apk
-    mv susi-ai-master-app-playStore-debug.apk susiai-master-debug.apk
-    mv susi-ai-master-app-fdroid-release-unsigned.apk susiai-master-unsigned-fdroid.apk
-    mv susi-ai-master-app-playStore-release-unsigned.apk susiai-master-unsigned.apk
+    mv susiai-master-app-fdroid-debug.apk susiai-master-debug-fdroid.apk
+    mv susiai-master-app-playStore-debug.apk susiai-master-debug.apk
+    mv susiai-master-app-fdroid-release-unsigned.apk susiai-master-unsigned-fdroid.apk
+    mv susiai-master-app-playStore-release-unsigned.apk susiai-master-unsigned.apk
     mv app-playStore-release-unsigned.apk susiai-dev-release-unsigned.apk
-    mv susi-ai-master-app-playStore-release.apk susiai-master-release.apk
+    mv susiai-master-app-playStore-release.apk susiai-master-release.apk
 
+    # Create a new branch that will contain only latest apk
 	git checkout --orphan workaround
 
 	# Add generated APK
