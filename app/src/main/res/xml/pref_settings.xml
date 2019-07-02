@@ -82,6 +82,10 @@
             android:title="@string/pref_devices_not_connected" />
 
         <PreferenceScreen
+            android:key ="manage_devices"
+            android:summary="Manage your smart speaker" />
+
+        <PreferenceScreen
             android:key="setup"
             android:summary="@string/settings_devices_setup" />
 

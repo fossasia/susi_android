@@ -25,6 +25,7 @@ object Constant {
     const val RESET_PASSWORD = "reset_password"
     const val CHANGE_PASSWORD = "Change Password"
     const val VISIT_WEBSITE = "visit_website"
+    const val MANAGE_DEVICES = "manage_devices"
 
     const val SAVED_EMAIL = "saved_email"
     const val SAVE_EMAIL = "save_email"
