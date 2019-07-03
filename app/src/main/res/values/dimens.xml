@@ -141,5 +141,6 @@
 
     <!-- Manage Devices dimensions -->
     <dimen name="height_width_spotify">40dp</dimen>
+    <dimen name="height_room_card">250dp</dimen>
 
 </resources>
