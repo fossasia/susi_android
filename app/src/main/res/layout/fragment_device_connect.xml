@@ -64,6 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_moderate"
         android:id="@+id/addDeviceButton"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_black_24dp" />
@@ -71,6 +72,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_margin="@dimen/margin_small"
         android:id="@+id/deviceList"
         >
@@ -81,6 +83,7 @@
         android:layout_margin="@dimen/margin_small"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/scanHelp"
         android:id="@+id/wifiList"
         >
@@ -90,5 +93,10 @@
         android:id="@+id/room"
         layout="@layout/room_layout"
         android:visibility="gone" />
+
+    <include
+        android:id="@+id/connection_susiai_main_screen"
+        layout="@layout/connect_susiai_speaker"
+        android:visibility="gone"/>
 
 </android.support.constraint.ConstraintLayout>

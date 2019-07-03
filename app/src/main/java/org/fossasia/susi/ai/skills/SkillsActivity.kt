@@ -59,6 +59,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private lateinit var settingsPresenter: ISettingsPresenter
     private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
 
+    companion object {
+        val SETTINGS_FRAGMENT = "settingsFragment"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
@@ -74,6 +78,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
                     .addToBackStack(TAG_PRIVACY_FRAGMENT)
+                    .commit()
+        } else if (intent.hasExtra(SETTINGS_FRAGMENT)) {
+            val settingsFragment = ChatSettingsFragment()
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
+                    .addToBackStack(TAG_SETTINGS_FRAGMENT)
                     .commit()
         } else {
             // skills = skillFragment.skills

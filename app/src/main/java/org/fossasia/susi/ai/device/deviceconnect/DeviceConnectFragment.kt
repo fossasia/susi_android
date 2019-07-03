@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.device.deviceconnect
 import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
@@ -23,6 +24,9 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
 import io.realm.Realm
+import kotlinx.android.synthetic.main.connect_susiai_speaker.cancel_susiai_connection
+import kotlinx.android.synthetic.main.connect_susiai_speaker.connected_susiai
+import kotlinx.android.synthetic.main.connect_susiai_speaker.cannot_connect_susiai
 import kotlinx.android.synthetic.main.fragment_device_connect.noDeviceFound
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceTutorial
 import kotlinx.android.synthetic.main.fragment_device_connect.addDeviceButton
@@ -32,6 +36,7 @@ import kotlinx.android.synthetic.main.fragment_device_connect.wifiList
 import kotlinx.android.synthetic.main.fragment_device_connect.scanHelp
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceList
 import kotlinx.android.synthetic.main.fragment_device_connect.room
+import kotlinx.android.synthetic.main.fragment_device_connect.connection_susiai_main_screen
 import kotlinx.android.synthetic.main.room_layout.edt_room
 import kotlinx.android.synthetic.main.room_layout.add_room
 import org.fossasia.susi.ai.R
@@ -44,6 +49,8 @@ import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.Rooms
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Utils
+import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.SkillsActivity.Companion.SETTINGS_FRAGMENT
 import timber.log.Timber
 
 /**
@@ -71,6 +78,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private lateinit var roomNameSelected: String
     private lateinit var macId: String
     private lateinit var rootView: View
+    private var showWifiList: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -91,20 +99,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
 
-        val bundle = activity?.intent?.extras
-
-        // Executed when a room is selected
-        if (bundle?.getString("roomName")?.isNullOrEmpty() == false) {
-            val roomName = bundle?.getString("roomName").toString()
-            roomNameSelected = roomName
-            bundle?.remove("roomName")
-            Toast.makeText(context, "Selected " + roomName, Toast.LENGTH_SHORT).show()
-            Timber.d("Selected " + roomName)
-            roomNameSelected = roomName
-            addDeviceProcess()
-        } else {
-            rooms()
-        }
+        connectionMainScreen()
     }
 
     override fun onResume() {
@@ -114,6 +109,37 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         filter?.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)
         receiverWifi = WifiReceiver()
         context?.registerReceiver(receiverWifi, filter)
+    }
+
+    override fun connectionMainScreen() {
+        connection_susiai_main_screen.visibility = View.VISIBLE
+        addDeviceButton.visibility = View.GONE
+        deviceList.visibility = View.GONE
+        wifiList.visibility = View.GONE
+
+        // If user fails to connect to the susiai hotspot
+        cannot_connect_susiai.setOnClickListener {
+            val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
+            dialogBuilder?.setMessage(getString(R.string.cannot_connect_details))
+                    ?.setCancelable(false)
+                    ?.setPositiveButton("OK", DialogInterface.OnClickListener {
+                        dialog, id -> dialog.cancel()
+                    })
+            val alert = dialogBuilder?.create()
+            alert?.setTitle(getString(R.string.cannot_connect_button))
+            alert?.show()
+        }
+
+        connected_susiai.setOnClickListener {
+            // If user successfully connects to susiai hotspot
+        }
+
+        // If user wants to cancel the setup
+        cancel_susiai_connection.setOnClickListener {
+            val intent = Intent(context, SkillsActivity::class.java)
+            intent.putExtra(SETTINGS_FRAGMENT, SETTINGS_FRAGMENT)
+            startActivity(intent)
+        }
     }
 
     override fun addDeviceProcess() {
@@ -343,18 +369,20 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun setupWiFiAdapter(scanList: ArrayList<String>) {
-        Timber.d("Setup Wifi adapter")
-        scanDevice.setText(R.string.choose_wifi)
-        scanList.remove("SUSI.AI")
-        scanProgress.visibility = View.GONE
-        scanHelp.visibility = View.VISIBLE
-        deviceList.visibility = View.GONE
-        addDeviceButton.visibility = View.GONE
-        wifiList.visibility = View.VISIBLE
-        wifiList.layoutManager = LinearLayoutManager(context)
-        wifiList.setHasFixedSize(true)
-        recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
-        wifiList.adapter = recyclerAdapter
+        if (showWifiList) {
+            Timber.d("Setup Wifi adapter")
+            scanDevice.setText(R.string.choose_wifi)
+            scanList.remove("SUSI.AI")
+            scanProgress.visibility = View.GONE
+            scanHelp.visibility = View.VISIBLE
+            deviceList.visibility = View.GONE
+            addDeviceButton.visibility = View.GONE
+            wifiList.visibility = View.VISIBLE
+            wifiList.layoutManager = LinearLayoutManager(context)
+            wifiList.setHasFixedSize(true)
+            recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
+            wifiList.adapter = recyclerAdapter
+        }
     }
 
     override fun showPopUpDialog() {

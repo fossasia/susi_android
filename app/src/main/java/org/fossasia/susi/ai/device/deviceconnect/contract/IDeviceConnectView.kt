@@ -33,4 +33,6 @@ interface IDeviceConnectView {
     fun addDeviceProcess()
 
     fun addDevice(latitude: String, longitude: String)
+
+    fun connectionMainScreen()
 }
