@@ -40,6 +40,8 @@ import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.rest.responses.susi.Stars
+import org.fossasia.susi.ai.skills.feedback.FeedbackActivity.Companion.FEEDBACK_DELETED
+import org.fossasia.susi.ai.skills.feedback.FeedbackActivity.Companion.FEEDBACK_DELETION
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.FeedbackAdapter
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
@@ -579,11 +581,10 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
         super.onDestroyView()
     }
 
-    override fun onResume() {
-        if (PrefManager.getBoolean(R.string.is_feedback_deleted, false)) {
-            PrefManager.putBoolean(R.string.is_feedback_deleted, false)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == FEEDBACK_DELETION && resultCode == FEEDBACK_DELETED) {
             setFeedback()
         }
-        super.onResume()
     }
 }

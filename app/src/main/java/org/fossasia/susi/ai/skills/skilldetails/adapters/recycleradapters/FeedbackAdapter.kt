@@ -20,6 +20,7 @@ import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.feedback.FeedbackActivity
+import org.fossasia.susi.ai.skills.feedback.FeedbackActivity.Companion.FEEDBACK_DELETION
 import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.FeedbackViewHolder
 import timber.log.Timber
 
@@ -128,13 +129,14 @@ class FeedbackAdapter(
         intent.putExtra("skillLanguage", skillData.language)
         intent.putExtra("feedbackResponse", feedbackResponse)
         intent.putExtra("arrangedFeedbackList", arrangedFeedbackList)
-        context.startActivity(intent)
+        if (context is Activity) {
+            context.startActivityForResult(intent, FEEDBACK_DELETION)
+        }
     }
 
     override fun deleteClicked(position: Int) {
         val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillData.model, skillData.group, skillData.language, skillData.skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
         skillDetailsModel.deleteFeedback(query, context)
-        PrefManager.putBoolean(R.string.is_feedback_deleted, true)
         val element = arrangedFeedbackList.get(position)
         feedbackResponse.feedbackList.remove(element)
         arrangedFeedbackList.removeAt(position)

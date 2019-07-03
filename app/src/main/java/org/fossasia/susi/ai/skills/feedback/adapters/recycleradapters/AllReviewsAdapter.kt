@@ -15,6 +15,8 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
+import org.fossasia.susi.ai.skills.feedback.FeedbackActivity.Companion.FEEDBACK_DELETED
+import org.fossasia.susi.ai.skills.feedback.FeedbackActivity.Companion.FEEDBACK_DELETION_STATUS
 import org.fossasia.susi.ai.skills.feedback.adapters.viewholders.AllReviewsViewHolder
 
 /**
@@ -93,7 +95,7 @@ class AllReviewsAdapter(
     override fun deleteClicked(position: Int) {
         val query: DeleteFeedbackQuery = DeleteFeedbackQuery(skillModel, skillGroup, skillLanguage, skillName, PrefManager.getString(Constant.ACCESS_TOKEN, ""))
         skillDetailsModel.deleteFeedback(query, context)
-        PrefManager.putBoolean(R.string.is_feedback_deleted, true)
+        FEEDBACK_DELETION_STATUS = FEEDBACK_DELETED
         arrangedFeedbackList?.removeAt(position)
         notifyItemChanged(position)
         notifyItemRangeRemoved(position, 1)

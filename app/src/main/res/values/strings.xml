@@ -435,7 +435,6 @@
     <string name="copied_text">Copied Text</string>
     <string name="delete_feedback_succesfull">Succesfully deleted your feedback</string>
     <string name="delete_feedback_fail">Failed to delete your feedback</string>
-    <string name="is_feedback_deleted" translatable="false">is_feedback_deleted</string>
 
     <!-- Metrics -->
 

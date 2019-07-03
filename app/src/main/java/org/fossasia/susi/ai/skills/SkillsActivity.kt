@@ -23,6 +23,7 @@ import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
 import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.signup.SignUpActivity
+import org.fossasia.susi.ai.skills.feedback.FeedbackActivity.Companion.FEEDBACK_DELETION
 import org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment
 import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 import org.fossasia.susi.ai.skills.settings.ChatSettingsFragment
@@ -48,6 +49,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
+    private val TAG_SKILL_DETAILS_FRAGMENT = "SkillDetailsFragment"
     private val VOICE_SEARCH_REQUEST_CODE = 10
 
     private var searchAction: MenuItem? = null
@@ -206,6 +208,9 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         if (requestCode == VOICE_SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
             val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             performSearch(result[0])
+        } else if (requestCode == FEEDBACK_DELETION) {
+            val fragment = supportFragmentManager.findFragmentByTag(TAG_SKILL_DETAILS_FRAGMENT)
+            fragment?.onActivityResult(requestCode, resultCode, data)
         }
     }
 
@@ -307,7 +312,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, skillDetailsFragment)
+                .replace(R.id.fragment_container, skillDetailsFragment, TAG_SKILL_DETAILS_FRAGMENT)
                 .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }
