@@ -5,6 +5,65 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_moderate"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/connect"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_medium"
+            android:gravity="center"
+            android:id="@+id/connect_wizard"
+            android:background="@drawable/border_blue"
+            android:textColor="@color/md_white_1000"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/wifi"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_medium"
+            android:gravity="center"
+            android:id="@+id/wifi_wizard"
+            android:background="@drawable/border_normal"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/room"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_medium"
+            android:gravity="center"
+            android:id="@+id/room_wizard"
+            android:background="@drawable/border_normal"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/account"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_medium"
+            android:gravity="center"
+            android:id="@+id/account_wizard"
+            android:background="@drawable/border_normal"
+            android:layout_marginRight="@dimen/margin_moderate"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"/>
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/scanDevice"
         android:layout_width="match_parent"

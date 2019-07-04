@@ -303,8 +303,13 @@
     <string name="setup_tut">If you\'re setting up a new device, make sure it\'s \n nearby and plugged into a wall outlet</string>
     <string name="no_wifi_found">No WiFi-Networks found</string>
     <string name="setup_wifi">Make sure there are WiFi connections available \n near you.</string>
+    <string name="connect_new_device">Connect New Device</string>
     
     <!-- Device Setup Screen -->
+    <string name="connect">1. Connect</string>
+    <string name="wifi">2. Wifi</string>
+    <string name="room">3. Room</string>
+    <string name="account">4. Account</string>
     <string name="connect_to_susi">To start the configuration process, plug in your SUSI.AI smart device and wait for the \“Ping\” sound. The SUSI.AI device will automatically open a WiFi hotspot. Please connect your phone to the wireless network with the name \“SUSI.AI\”.</string>
     <string name="cannot_connect_button">I cannot connect</string>
     <string name="connected_to_susiai">Connected to SUSI.AI WiFi</string>

@@ -15,6 +15,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.provider.Settings
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -37,6 +38,8 @@ import kotlinx.android.synthetic.main.fragment_device_connect.scanHelp
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceList
 import kotlinx.android.synthetic.main.fragment_device_connect.room
 import kotlinx.android.synthetic.main.fragment_device_connect.connection_susiai_main_screen
+import kotlinx.android.synthetic.main.fragment_device_connect.wifi_wizard
+import kotlinx.android.synthetic.main.fragment_device_connect.connect_wizard
 import kotlinx.android.synthetic.main.room_layout.edt_room
 import kotlinx.android.synthetic.main.room_layout.add_room
 import org.fossasia.susi.ai.R
@@ -116,6 +119,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
+        connect_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
 
         // If user fails to connect to the susiai hotspot
         cannot_connect_susiai.setOnClickListener {
@@ -132,6 +136,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         connected_susiai.setOnClickListener {
             // If user successfully connects to susiai hotspot
+            wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
         }
 
         // If user wants to cancel the setup
