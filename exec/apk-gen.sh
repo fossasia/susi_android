@@ -16,8 +16,9 @@ then
 	else
 	    /bin/rm -f app-fdroid-debug.apk app-playStore-debug.apk app-playStore-release.apk app-fdroid-release.apk
 	fi
-	\cp -r ../app/build/outputs/apk/fdroid/*/**.apk .
-	\cp -r ../app/build/outputs/apk/playStore/*/**.apk .
+
+    find ../app/build/outputs -type f -name '*.apk' -exec cp -v {} . \;
+    find ../app/build/outputs -type f -name '*.aab' -exec cp -v {} . \;
 
 	# Signing App
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
@@ -80,6 +81,6 @@ then
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
 		echo "Publishing app to Play Store"
 		gem install fastlane
-		fastlane supply --apk app-playStore-release.apk --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
+		fastlane supply --aab susiai-master-release.aab --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
 	fi
 fi
