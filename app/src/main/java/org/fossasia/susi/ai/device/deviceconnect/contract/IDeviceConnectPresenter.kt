@@ -42,4 +42,6 @@ interface IDeviceConnectPresenter {
     fun addDevice(queryObject: AddDeviceQuery)
 
     fun getLocation()
+
+    fun getSUSIAIConnectionInfo(): Boolean
 }

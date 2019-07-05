@@ -123,20 +123,22 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         // If user fails to connect to the susiai hotspot
         cannot_connect_susiai.setOnClickListener {
-            val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
-            dialogBuilder?.setMessage(getString(R.string.cannot_connect_details))
-                    ?.setCancelable(false)
-                    ?.setPositiveButton("OK", DialogInterface.OnClickListener {
-                        dialog, id -> dialog.cancel()
-                    })
-            val alert = dialogBuilder?.create()
-            alert?.setTitle(getString(R.string.cannot_connect_button))
-            alert?.show()
+            showDialog(getString(R.string.cannot_connect_details), getString(R.string.cannot_connect_button))
         }
 
         connected_susiai.setOnClickListener {
             // If user successfully connects to susiai hotspot
-            wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+            if (deviceConnectPresenter.getSUSIAIConnectionInfo()) {
+                showWifiList = true
+                wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+                // wifi_wizard.setTextColor(context?.let { it1 -> ContextCompat.getColor(it1, R.color.md_white_1000) })
+                wifi_wizard.setTextColor(Color.WHITE)
+                connection_susiai_main_screen.visibility = View.GONE
+                deviceConnectPresenter.searchWiFi()
+            } else {
+                // Not connected to susi wifi
+                showDialog(getString(R.string.not_connected_susiai_details), getString(R.string.wifi_connection_error))
+            }
         }
 
         // If user wants to cancel the setup
@@ -145,6 +147,18 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             intent.putExtra(SETTINGS_FRAGMENT, SETTINGS_FRAGMENT)
             startActivity(intent)
         }
+    }
+
+    override fun showDialog(message: String, title: String) {
+        val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
+        dialogBuilder?.setMessage(message)
+                ?.setCancelable(false)
+                ?.setPositiveButton("OK", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+                })
+        val alert = dialogBuilder?.create()
+        alert?.setTitle(title)
+        alert?.show()
     }
 
     override fun addDeviceProcess() {
@@ -244,6 +258,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         dialogBuilder.setPositiveButton(R.string.next) { dialog, whichButton ->
             val wifiIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
             startActivityForResult(wifiIntent, REQUEST_WIFI_ACCESS)
+            startActivity(wifiIntent)
         }
         dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
             dialog.dismiss()

@@ -35,4 +35,6 @@ interface IDeviceConnectView {
     fun addDevice(latitude: String, longitude: String)
 
     fun connectionMainScreen()
+
+    fun showDialog(message: String, title: String)
 }

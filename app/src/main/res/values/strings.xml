@@ -314,6 +314,8 @@
     <string name="cannot_connect_button">I cannot connect</string>
     <string name="connected_to_susiai">Connected to SUSI.AI WiFi</string>
     <string name="cannot_connect_details">Please check that your SUSI.AI smart device is plugged in and the latest SUSI.AI software is installed. Ensure you are disconnected from other WiFi networks.</string>
+    <string name="not_connected_susiai_details">Your phone is not connected to SUSI.AI hotspot. Please check your wifi connections and try again.</string>
+    <string name="wifi_connection_error">Wifi Connection not available</string>
 
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>

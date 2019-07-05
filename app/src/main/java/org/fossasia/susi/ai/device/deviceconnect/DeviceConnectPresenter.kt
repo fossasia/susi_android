@@ -83,6 +83,28 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         }
     }
 
+    override fun getSUSIAIConnectionInfo(): Boolean {
+        deviceConnectView?.askForPermissions()
+        Timber.d(checkPermissions.toString() + "Check")
+
+        if (checkPermissions) {
+            checkWifiEnabled()
+            if (isWifiEnabled) {
+                // Find name of connected wifi
+                val wifiInfo = wifiManager.connectionInfo
+                if (wifiInfo != null) {
+                    if (wifiInfo.ssid.equals("\"SUSI.AI\"")) {
+                        return true
+                    }
+                }
+            }
+        } else {
+            deviceConnectView?.askForPermissions()
+            return false
+        }
+        return false
+    }
+
     override fun addRoom(room: String) {
         realm = Realm.getDefaultInstance()
         realm.beginTransaction()
