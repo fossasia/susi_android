@@ -218,7 +218,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     override fun onSendCredentialFailure(localMessage: String) {
         Timber.d("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
-        deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.wifi_error))
+        deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.wifi_error), localMessage)
     }
 
     override fun onSendAuthSuccess() {

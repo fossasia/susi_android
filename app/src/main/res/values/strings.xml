@@ -316,6 +316,7 @@
     <string name="cannot_connect_details">Please check that your SUSI.AI smart device is plugged in and the latest SUSI.AI software is installed. Ensure you are disconnected from other WiFi networks.</string>
     <string name="not_connected_susiai_details">Your phone is not connected to SUSI.AI hotspot. Please check your wifi connections and try again.</string>
     <string name="wifi_connection_error">Wifi Connection not available</string>
+    <string name="scan_available_wifi">Scanning for available wifi\'s</string>
 
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
@@ -418,8 +419,8 @@
     <string name="location_access">Provide Location Access</string>
     <string name="location_access_message">Please turn on device location as there is a need to locate nearby WiFi networks.</string>
     <string name="set_up">SET UP</string>
-    <string name="device_help">Choose the Wi-Fi network you would like to use with your smart speaker</string>
-    <string name="connecting_device">Connecting to your device...</string>
+    <string name="device_help">Choose your WiFi home network from the list below and enter the password of your network. Leave blank for networks without a password.</string>
+    <string name="connecting_device">Connecting to your wifi...</string>
     <string name="device_name" translatable="false">SUSI.AI</string>
     <string name="connection_success">Connected Successfully !</string>
     <string name="choose_wifi">Connect to Wi-Fi</string>

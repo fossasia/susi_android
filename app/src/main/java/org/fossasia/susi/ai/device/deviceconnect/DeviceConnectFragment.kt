@@ -40,6 +40,7 @@ import kotlinx.android.synthetic.main.fragment_device_connect.room
 import kotlinx.android.synthetic.main.fragment_device_connect.connection_susiai_main_screen
 import kotlinx.android.synthetic.main.fragment_device_connect.wifi_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.connect_wizard
+import kotlinx.android.synthetic.main.fragment_device_connect.showWifi
 import kotlinx.android.synthetic.main.room_layout.edt_room
 import kotlinx.android.synthetic.main.room_layout.add_room
 import org.fossasia.susi.ai.R
@@ -131,9 +132,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             if (deviceConnectPresenter.getSUSIAIConnectionInfo()) {
                 showWifiList = true
                 wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
-                // wifi_wizard.setTextColor(context?.let { it1 -> ContextCompat.getColor(it1, R.color.md_white_1000) })
                 wifi_wizard.setTextColor(Color.WHITE)
                 connection_susiai_main_screen.visibility = View.GONE
+                showProgress(getString(R.string.scan_available_wifi))
                 deviceConnectPresenter.searchWiFi()
             } else {
                 // Not connected to susi wifi
@@ -153,8 +154,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
         dialogBuilder?.setMessage(message)
                 ?.setCancelable(false)
-                ?.setPositiveButton("OK", DialogInterface.OnClickListener {
-                    dialog, id -> dialog.cancel()
+                ?.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
                 })
         val alert = dialogBuilder?.create()
         alert?.setTitle(title)
@@ -294,6 +295,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
         scanHelp.visibility = View.GONE
+        showWifi.visibility = View.GONE
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
@@ -366,8 +368,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                     Timber.d("Check %s", checkDevice)
                     if (checkDevice)
                         deviceConnectPresenter.availableDevices(wifiList)
-                    else
+                    else {
+                        stopProgress()
                         deviceConnectPresenter.availableWifi(wifiList)
+                    }
                 } else if (p1.action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
                     Timber.d("Wifi changes")
                     if (p1.getParcelableExtra<Parcelable>(WifiManager.EXTRA_NEW_STATE) == SupplicantState.COMPLETED) {
@@ -398,6 +402,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             deviceList.visibility = View.GONE
             addDeviceButton.visibility = View.GONE
             wifiList.visibility = View.VISIBLE
+            showWifi.visibility = View.VISIBLE
             wifiList.layoutManager = LinearLayoutManager(context)
             wifiList.setHasFixedSize(true)
             recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
@@ -416,7 +421,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         val password = view.findViewById<EditText>(R.id.edt_pass)
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, utilModel.getString(R.string.next)) { dialog, which ->
-            deviceConnectPresenter.makeAuthRequest(password.text.toString())
+            // deviceConnectPresenter.makeAuthRequest(password.text.toString())
         }
 
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, utilModel.getString(R.string.cancel)) { dialog, which ->
