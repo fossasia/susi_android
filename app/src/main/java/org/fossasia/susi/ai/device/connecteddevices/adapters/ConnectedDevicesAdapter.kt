@@ -11,7 +11,7 @@ import org.fossasia.susi.ai.rest.responses.susi.Device
 class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Device>) : RecyclerView.Adapter<ConnectedDevicesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.device_layout, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_speaker, viewGroup, false)
         return ViewHolder(view)
     }
 
@@ -20,17 +20,14 @@ class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Device
     }
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
-        holder.ssid_name.text = connectedDevicesList[p1].name
-        holder.setup_option.text = connectedDevicesList[p1].room
+        holder.speaker_room.text = connectedDevicesList[p1].room.toString().trim() + " Speaker"
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var ssid_name: TextView
-        internal var setup_option: TextView
+        internal var speaker_room: TextView
 
         init {
-            ssid_name = itemView.findViewById(R.id.speakerName)
-            setup_option = itemView.findViewById(R.id.speakerSetUp)
+            speaker_room = itemView.findViewById(R.id.speaker_room)
         }
     }
 }
