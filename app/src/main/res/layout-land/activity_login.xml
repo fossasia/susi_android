@@ -72,6 +72,13 @@
                 android:layout_marginBottom="5dp"
                 android:text="@string/custom_server" />
 
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/rememberCredential"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:text="@string/remember_me" />
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/inputUrl"
                 android:layout_width="match_parent"

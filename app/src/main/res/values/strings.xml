@@ -343,6 +343,7 @@
     <string name="content_type_static">Content Type: Static</string>
 
     <string name="custom_server">Custom Server</string>
+    <string name="remember_me">Remember Me</string>
 
     <string name="description">Description</string>
     <string name="description_long">Description long</string>
