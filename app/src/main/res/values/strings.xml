@@ -545,4 +545,6 @@
 
     <!-- Manage Devices -->
     <string name="music_services">Music Services</string>
+    <string name="say_hey_susi">Start with \"Hey Susi\"</string>
+
 </resources>

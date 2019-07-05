@@ -138,10 +138,12 @@
     <dimen name="height_minimum">2dp</dimen>
     <dimen name="height_room_recycler">20dp</dimen>
     <dimen name="width_room_recycler">20dp</dimen>
+    <dimen name="height_room_card">250dp</dimen>
 
     <!-- Manage Devices dimensions -->
     <dimen name="height_width_spotify">40dp</dimen>
     <dimen name="border_radius">4dp</dimen>
     <dimen name="border_width">2dp</dimen>
+ 
 
 </resources>
