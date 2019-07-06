@@ -295,7 +295,7 @@
     <string name="wifi_success">Wifi credentials sent successfully!</string>
     <string name="config_success">Device config successfully</string>
     <string name="connection_error">Connection failed</string>
-    <string name="wifi_error">Wifi credentials not sent.Please try again</string>
+    <string name="wifi_error">Failed to configure the wifi connection to your device. Please try again.</string>
     <string name="auth_error">Authentication credentials not sent.Please try again.</string>
     <string name="config_error">Configuration of the speaker failed.</string>
     <string name="device_title">Devices</string>
@@ -305,6 +305,7 @@
     <string name="no_wifi_found">No WiFi-Networks found</string>
     <string name="setup_wifi">Make sure there are WiFi connections available \n near you.</string>
     <string name="connect_new_device">Connect New Device</string>
+    <string name="wifi_connection_failed">Wifi connection failed</string>
     
     <!-- Device Setup Screen -->
     <string name="connect">1. Connect</string>

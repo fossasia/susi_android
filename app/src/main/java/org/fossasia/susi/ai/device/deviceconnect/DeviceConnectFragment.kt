@@ -83,7 +83,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
     private lateinit var availableRoomsRecyclerView: RecyclerView
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
-    private lateinit var roomNameSelected: String
+    private var roomNameSelected: String? = null
     private lateinit var rootView: View
     private var showWifiList: Boolean = false
 
@@ -121,6 +121,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun connectionMainScreen() {
         connection_susiai_main_screen.visibility = View.VISIBLE
         showWifi.visibility = View.GONE
+        scanHelp.visibility = View.GONE
         showWifiList = false
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
@@ -195,6 +196,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     // Function to show available rooms in the 3rd step
     override fun rooms() {
+        stopProgress()
         room.visibility = View.VISIBLE
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
@@ -202,6 +204,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         showWifiList = false
         connection_susiai_main_screen.visibility = View.GONE
         showWifi.visibility = View.GONE
+        room_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        room_wizard.setTextColor(Color.WHITE)
         showRooms()
 
         if (roomNameSelected.isNullOrEmpty()) {
@@ -223,10 +227,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         room_next.setOnClickListener {
             // To call the next screen when room name is selected
             // Store the details in database and try to make query
+            showToast("Testing room selection - " + roomNameSelected)
         }
 
         room_previous.setOnClickListener {
             // To call the wifi setup page
+            roomNameSelected = null
             wifiSetup()
         }
     }
@@ -251,15 +257,23 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun roomNameSelected(roomName: String?) {
-        roomNameSelected = roomName.toString()
-        context?.let { ContextCompat.getColor(it, R.color.colorPrimary) }?.let { room_next.setBackgroundColor(it) }
-        room_next.setTextColor(Color.WHITE)
-        room_next.isClickable = true
+
+        if (roomName.isNullOrEmpty()) {
+            roomNameSelected = null
+            context?.let { ContextCompat.getColor(it, R.color.default_bg) }?.let { room_next.setBackgroundColor(it) }
+            room_next.setTextColor(Color.BLACK)
+            room_next.isClickable = false
+        } else {
+            roomNameSelected = roomName.toString()
+            context?.let { ContextCompat.getColor(it, R.color.colorPrimary) }?.let { room_next.setBackgroundColor(it) }
+            room_next.setTextColor(Color.WHITE)
+            room_next.isClickable = true
+        }
     }
 
     override fun addDevice(latitude: String, longitude: String) {
         val name = "SUSI.AI"
-        val query = AddDeviceQuery(macId, name, roomNameSelected, latitude, longitude)
+        val query = AddDeviceQuery(macId, name, roomNameSelected.toString(), latitude, longitude)
         deviceConnectPresenter.addDevice(query)
     }
 
@@ -339,6 +353,10 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         wifiList.visibility = View.GONE
         scanHelp.visibility = View.GONE
         showWifi.visibility = View.GONE
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     override fun onDeviceConnectionError(title: String?, content: String?) {
@@ -453,6 +471,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
+    // To be called to send password
     override fun showPopUpDialog() {
         val utilModel = UtilModel(activity as DeviceActivity)
         val view = LayoutInflater.from(activity).inflate(R.layout.get_password, null)

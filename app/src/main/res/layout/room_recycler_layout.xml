@@ -9,9 +9,9 @@
         android:id="@+id/image_tick"
         android:layout_width="@dimen/width_null"
         android:layout_height="@dimen/height_room_recycler"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:layout_margin="@dimen/padding_large"
-        app:srcCompat="@drawable/ic_home_black_24dp" />
+        android:background="@drawable/ic_home_black_24dp" />
 
     <TextView
         android:id="@+id/room_text"
@@ -25,10 +25,9 @@
     <ImageButton
         android:layout_width="@dimen/width_null"
         android:layout_height="@dimen/height_room_recycler"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:id="@+id/delete_room"
         android:layout_margin="@dimen/padding_large"
-        android:background="@color/susi_message_link_preview_bg"
-        app:srcCompat="@drawable/ic_delete_black_24dp"/>
+        android:background="@drawable/ic_delete_black_24dp" />
 
 </LinearLayout>

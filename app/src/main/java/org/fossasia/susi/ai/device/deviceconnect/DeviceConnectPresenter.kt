@@ -222,14 +222,17 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
 
     override fun onSendCredentialSuccess() {
         Timber.d("WIFI - SUCCESSFUL")
-        deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.wifi_success))
-        deviceConnectView?.showPopUpDialog()
+        // deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.wifi_success))
+        deviceConnectView?.showToast(utilModel.getString(R.string.wifi_success))
+        deviceConnectView?.rooms()
     }
 
     override fun onSendCredentialFailure(localMessage: String) {
         Timber.d("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
-        deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.wifi_error), localMessage)
+        // deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.wifi_error), localMessage)
+        deviceConnectView?.wifiSetup()
+        deviceConnectView?.showDialog(utilModel.getString(R.string.wifi_error), utilModel.getString(R.string.wifi_connection_failed))
     }
 
     override fun onSendAuthSuccess() {

@@ -41,4 +41,6 @@ interface IDeviceConnectView {
     fun wifiSetup()
 
     fun roomNameSelected(roomName: String?)
+
+    fun showToast(message: String)
 }
