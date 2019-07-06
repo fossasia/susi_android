@@ -44,4 +44,6 @@ interface IDeviceConnectPresenter {
     fun getLocation()
 
     fun getSUSIAIConnectionInfo(): Boolean
+
+    fun initialSetup()
 }

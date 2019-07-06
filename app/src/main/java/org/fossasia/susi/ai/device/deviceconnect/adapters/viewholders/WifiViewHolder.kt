@@ -36,7 +36,10 @@ class WifiViewHolder(itemView: View, private var devicePresenter: DeviceConnectP
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, utilModel.getString(R.string.next)) { dialog, which -> devicePresenter.makeWifiRequest(wifiName.text.toString(), password.text.toString()) }
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, utilModel.getString(R.string.cancel)) { dialog, which -> alertDialog.dismiss() }
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, utilModel.getString(R.string.previous)) { dialog, which ->
+            alertDialog.dismiss()
+            devicePresenter.initialSetup()
+        }
 
         alertDialog.setView(view)
         alertDialog.show()

@@ -103,7 +103,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceConnectPresenter = DeviceConnectPresenter(requireContext(), mainWifi)
         deviceConnectPresenter.onAttach(this)
 
-        connectionMainScreen()
+        connectionMainScreen() // 1st step
     }
 
     override fun onResume() {
@@ -117,10 +117,14 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun connectionMainScreen() {
         connection_susiai_main_screen.visibility = View.VISIBLE
+        showWifi.visibility = View.GONE
+        showWifiList = false
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
         connect_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+        wifi_wizard.setTextColor(Color.BLACK)
 
         // If user fails to connect to the susiai hotspot
         cannot_connect_susiai.setOnClickListener {
@@ -130,14 +134,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         connected_susiai.setOnClickListener {
             // If user successfully connects to susiai hotspot
             if (deviceConnectPresenter.getSUSIAIConnectionInfo()) {
-                showWifiList = true
-                wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
-                wifi_wizard.setTextColor(Color.WHITE)
-                connection_susiai_main_screen.visibility = View.GONE
-                showProgress(getString(R.string.scan_available_wifi))
-                deviceConnectPresenter.searchWiFi()
+                wifiSetup()
             } else {
-                // Not connected to susi wifi
+                // Not connected to susiai wifi
                 showDialog(getString(R.string.not_connected_susiai_details), getString(R.string.wifi_connection_error))
             }
         }
@@ -148,6 +147,16 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             intent.putExtra(SETTINGS_FRAGMENT, SETTINGS_FRAGMENT)
             startActivity(intent)
         }
+    }
+
+    // 2nd step of setting up the wifi
+    override fun wifiSetup() {
+        showWifiList = true
+        wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        wifi_wizard.setTextColor(Color.WHITE)
+        connection_susiai_main_screen.visibility = View.GONE
+        showProgress(getString(R.string.scan_available_wifi))
+        deviceConnectPresenter.searchWiFi()
     }
 
     override fun showDialog(message: String, title: String) {
@@ -168,7 +177,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         deviceList.visibility = View.VISIBLE
         wifiList.visibility = View.VISIBLE
 
-        receiverWifi = WifiReceiver()
+        receiverWifi = WifiReceiver() // Probably needs to be added in onViewCreated
         deviceConnectPresenter.searchDevices()
 
         addDeviceButton.setOnClickListener {
@@ -176,12 +185,15 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
     }
 
-    // Function to show available rooms
+    // Function to show available rooms in the 3rd step
     override fun rooms() {
         room.visibility = View.VISIBLE
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
+        showWifiList = false
+        connection_susiai_main_screen.visibility = View.GONE
+        showWifi.visibility = View.GONE
         showRooms()
 
         add_room.setOnClickListener {
@@ -422,6 +434,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, utilModel.getString(R.string.next)) { dialog, which ->
             // deviceConnectPresenter.makeAuthRequest(password.text.toString())
+            rooms()
         }
 
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, utilModel.getString(R.string.cancel)) { dialog, which ->

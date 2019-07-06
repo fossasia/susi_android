@@ -37,4 +37,6 @@ interface IDeviceConnectView {
     fun connectionMainScreen()
 
     fun showDialog(message: String, title: String)
+
+    fun wifiSetup()
 }

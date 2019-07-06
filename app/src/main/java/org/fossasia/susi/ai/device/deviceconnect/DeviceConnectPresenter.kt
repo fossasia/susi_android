@@ -176,6 +176,10 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         wm.disableNetwork(networkID)
     }
 
+    override fun initialSetup() {
+        deviceConnectView?.connectionMainScreen()
+    }
+
     inner class ConnectWifi : AsyncTask<Void, Void, Void>() {
 
         override fun doInBackground(vararg p0: Void?): Void? {
