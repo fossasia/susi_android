@@ -27,8 +27,8 @@
             android:layout_marginTop="@dimen/margin_large"
             android:gravity="center"
             android:padding="@dimen/margin_large"
-            android:textSize="@dimen/text_size_medium"
-            android:text="@string/device_room_exp" />
+            android:text="@string/device_room_exp"
+            android:textSize="@dimen/text_size_medium" />
 
         <View
             android:layout_width="match_parent"
@@ -47,9 +47,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rooms_available"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:layout_height="wrap_content" />
+            android:layout_marginRight="@dimen/margin_medium" />
 
         <View
             android:layout_width="match_parent"
@@ -61,8 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_large"
-            android:textSize="@dimen/text_size_medium"
             android:text="@string/create_new_room"
+            android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
 
         <android.support.design.widget.TextInputLayout
@@ -95,6 +95,33 @@
                     android:src="@drawable/ic_add_24dp" />
             </LinearLayout>
         </android.support.design.widget.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/room_previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/previous"
+                android:textAllCaps="false"
+                android:textColor="@color/md_white_1000" />
+
+
+            <Button
+                android:id="@+id/room_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/md_white_1000" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

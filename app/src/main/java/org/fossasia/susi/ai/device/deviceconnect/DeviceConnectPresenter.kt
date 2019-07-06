@@ -133,6 +133,11 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         roomModel.addDeviceToServer(queryObject)
     }
 
+    override fun selectedRoom(roomName: String?) {
+        // Selected room callback
+        deviceConnectView?.roomNameSelected(roomName)
+    }
+
     override fun availableDevices(list: List<ScanResult>) {
         Timber.d("size " + list.size)
         connections = ArrayList<String>()

@@ -19,6 +19,7 @@
         android:layout_weight="4"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_large"
+        android:clickable="true"
         android:text="Living Room" />
 
     <ImageButton

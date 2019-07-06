@@ -1,22 +1,21 @@
 package org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters
 
 import android.content.Context
-import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
 import kotlinx.android.synthetic.main.room_recycler_layout.view.delete_room
+import kotlinx.android.synthetic.main.room_recycler_layout.view.image_tick
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.device.DeviceActivity
-import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
-import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 
 class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context?, private val deviceConnectPresenter: IDeviceConnectPresenter) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
 
+    private var selectedIndex: Int = -1
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.room_recycler_layout, viewGroup, false)
         return ViewHolder(view)
@@ -27,6 +26,11 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
     }
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
+        if (p1 == selectedIndex) {
+            holder.itemView.image_tick.background = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_home_blue_24dp) }
+        } else {
+            holder.itemView.image_tick.background = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_home_black_24dp) }
+        }
         holder.itemView.room_text.text = availableRoomsList[p1].room
     }
 
@@ -34,12 +38,14 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
 
         init {
             itemView.room_text.setOnClickListener {
-                // val this_activity = context
-                val roomNameClicked = availableRoomsList[adapterPosition].room
-                var intent = Intent(context, DeviceActivity::class.java)
-                intent.putExtra("roomName", roomNameClicked)
-                intent.putExtra(CONNECT_TO, TAG_DEVICE_CONNECT_FRAGMENT)
-                context?.startActivity(intent)
+                if (selectedIndex == adapterPosition) {
+                    selectedIndex = -1
+                } else {
+                    selectedIndex = adapterPosition
+                    val roomNameClicked = availableRoomsList[selectedIndex].room
+                    deviceConnectPresenter.selectedRoom(roomNameClicked)
+                }
+                notifyDataSetChanged()
             }
 
             itemView.delete_room.setOnClickListener {

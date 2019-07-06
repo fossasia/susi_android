@@ -46,4 +46,6 @@ interface IDeviceConnectPresenter {
     fun getSUSIAIConnectionInfo(): Boolean
 
     fun initialSetup()
+
+    fun selectedRoom(roomName: String?)
 }

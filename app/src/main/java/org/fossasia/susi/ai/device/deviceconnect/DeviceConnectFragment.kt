@@ -41,8 +41,11 @@ import kotlinx.android.synthetic.main.fragment_device_connect.connection_susiai_
 import kotlinx.android.synthetic.main.fragment_device_connect.wifi_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.connect_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.showWifi
+import kotlinx.android.synthetic.main.fragment_device_connect.room_wizard
 import kotlinx.android.synthetic.main.room_layout.edt_room
 import kotlinx.android.synthetic.main.room_layout.add_room
+import kotlinx.android.synthetic.main.room_layout.room_next
+import kotlinx.android.synthetic.main.room_layout.room_previous
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.model.RoomsAvailable
@@ -151,7 +154,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     // 2nd step of setting up the wifi
     override fun wifiSetup() {
+        room.visibility = View.GONE
         showWifiList = true
+        connection_susiai_main_screen.visibility = View.GONE
+        showWifi.visibility = View.VISIBLE
+        room_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+        room_wizard.setTextColor(Color.BLACK)
         wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
         wifi_wizard.setTextColor(Color.WHITE)
         connection_susiai_main_screen.visibility = View.GONE
@@ -196,6 +204,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         showWifi.visibility = View.GONE
         showRooms()
 
+        if (roomNameSelected.isNullOrEmpty()) {
+            context?.let { ContextCompat.getColor(it, R.color.default_bg) }?.let { room_next.setBackgroundColor(it) }
+            room_next.setTextColor(Color.BLACK)
+            room_next.isClickable = false
+        }
+
         add_room.setOnClickListener {
             val roomName = edt_room.text.toString()
             if (!roomName.isEmpty()) {
@@ -204,6 +218,15 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                 edt_room.text.clear()
                 Utils.hideSoftKeyboard(context, rootView)
             }
+        }
+
+        room_next.setOnClickListener {
+            // To call the next screen when room name is selected
+        }
+
+        room_previous.setOnClickListener {
+            // To call the wifi setup page
+            wifiSetup()
         }
     }
 
@@ -224,6 +247,13 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         availableRoomsRecyclerView.layoutManager = layoutManager
         availableRoomsAdapter = RoomsAdapter(availableRoomsList, context, deviceConnectPresenter)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
+    }
+
+    override fun roomNameSelected(roomName: String?) {
+        roomNameSelected = roomName.toString()
+        context?.let { ContextCompat.getColor(it, R.color.colorPrimary) }?.let { room_next.setBackgroundColor(it) }
+        room_next.setTextColor(Color.WHITE)
+        room_next.isClickable = true
     }
 
     override fun addDevice(latitude: String, longitude: String) {
