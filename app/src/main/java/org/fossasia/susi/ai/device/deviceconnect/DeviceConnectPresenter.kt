@@ -17,6 +17,7 @@ import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 import org.fossasia.susi.ai.data.model.RoomsAvailable
 import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.macId
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
@@ -94,6 +95,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
                 val wifiInfo = wifiManager.connectionInfo
                 if (wifiInfo != null) {
                     if (wifiInfo.ssid.equals("\"SUSI.AI\"")) {
+                        macId = wifiInfo.macAddress
                         return true
                     }
                 }

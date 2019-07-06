@@ -51,6 +51,7 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.model.RoomsAvailable
 import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.DeviceActivity
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.macId
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.DevicesAdapter
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
@@ -83,7 +84,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private lateinit var availableRoomsRecyclerView: RecyclerView
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
     private lateinit var roomNameSelected: String
-    private lateinit var macId: String
     private lateinit var rootView: View
     private var showWifiList: Boolean = false
 
@@ -222,6 +222,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         room_next.setOnClickListener {
             // To call the next screen when room name is selected
+            // Store the details in database and try to make query
         }
 
         room_previous.setOnClickListener {
