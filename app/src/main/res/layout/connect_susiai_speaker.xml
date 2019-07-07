@@ -11,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/margin_moderate"
-        android:gravity="center_horizontal"
         android:text="@string/connect_to_susi"
         android:textSize="@dimen/text_size_moderate"
         android:textAlignment="center" />

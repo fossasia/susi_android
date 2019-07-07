@@ -26,7 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:gravity="center"
             android:padding="@dimen/margin_large"
             android:text="@string/device_room_exp"
             android:textSize="@dimen/text_size_medium" />
@@ -82,7 +81,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_large"
                     android:layout_marginRight="@dimen/margin_moderate"
                     android:layout_weight="7"
                     android:hint="Enter the name of your room" />
@@ -91,7 +89,6 @@
                     android:id="@+id/add_room"
                     android:layout_width="@dimen/width_large"
                     android:layout_height="@dimen/height_large"
-                    android:layout_marginTop="@dimen/margin_large"
                     android:layout_weight="1"
                     android:src="@drawable/ic_add_24dp" />
             </LinearLayout>

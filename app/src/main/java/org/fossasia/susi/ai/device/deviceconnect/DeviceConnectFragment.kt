@@ -225,9 +225,11 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
 
         room_next.setOnClickListener {
-            // To call the next screen when room name is selected
-            // Store the details in database and try to make query
-            showToast("Testing room selection - " + roomNameSelected)
+            if (!roomNameSelected.isNullOrEmpty()) {
+                // To call the next screen when room name is selected
+                // Store the details in database and try to make query
+                showToast("Testing room selection - " + roomNameSelected)
+            }
         }
 
         room_previous.setOnClickListener {

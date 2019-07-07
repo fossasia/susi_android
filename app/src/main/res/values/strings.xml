@@ -319,6 +319,7 @@
     <string name="not_connected_susiai_details">Your phone is not connected to SUSI.AI hotspot. Please check your wifi connections and try again.</string>
     <string name="wifi_connection_error">Wifi Connection not available</string>
     <string name="scan_available_wifi">Scanning for available wifi\'s</string>
+    <string name="available_wifi">Available Wifi</string>
 
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>

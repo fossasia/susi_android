@@ -120,6 +120,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         addedRoomModel.room = room
         realm.commitTransaction()
         deviceConnectView?.showRooms()
+        deviceConnectView?.roomNameSelected(null)
     }
 
     override fun deleteRoom(room: String?) {
