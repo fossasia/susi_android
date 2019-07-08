@@ -43,4 +43,6 @@ interface IDeviceConnectView {
     fun roomNameSelected(roomName: String?)
 
     fun showToast(message: String)
+
+    fun passwordLayoutSetup()
 }

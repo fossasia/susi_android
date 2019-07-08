@@ -19,6 +19,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +44,12 @@ import kotlinx.android.synthetic.main.fragment_device_connect.wifi_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.connect_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.showWifi
 import kotlinx.android.synthetic.main.fragment_device_connect.room_wizard
+import kotlinx.android.synthetic.main.fragment_device_connect.password_layout
+import kotlinx.android.synthetic.main.fragment_device_connect.account_wizard
+import kotlinx.android.synthetic.main.password_layout.account_auth_password_input
+import kotlinx.android.synthetic.main.password_layout.password_finish
+import kotlinx.android.synthetic.main.password_layout.anonymous_mode
+import kotlinx.android.synthetic.main.password_layout.password_previous
 import kotlinx.android.synthetic.main.room_layout.edt_room
 import kotlinx.android.synthetic.main.room_layout.add_room
 import kotlinx.android.synthetic.main.room_layout.room_next
@@ -201,10 +209,13 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
+        password_layout.visibility = View.GONE
         showWifiList = false
         connection_susiai_main_screen.visibility = View.GONE
         showWifi.visibility = View.GONE
         room_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        account_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+        account_wizard.setTextColor(Color.BLACK)
         room_wizard.setTextColor(Color.WHITE)
         showRooms()
 
@@ -227,8 +238,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         room_next.setOnClickListener {
             if (!roomNameSelected.isNullOrEmpty()) {
                 // To call the next screen when room name is selected
-                // Store the details in database and try to make query
+                // Send the room name to the speaker by making another endpoint
                 showToast("Testing room selection - " + roomNameSelected)
+                passwordLayoutSetup() //  Temporarily calling the password input layout
             }
         }
 
@@ -236,6 +248,66 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             // To call the wifi setup page
             roomNameSelected = null
             wifiSetup()
+        }
+    }
+
+    // Final step of connectivity
+    override fun passwordLayoutSetup() {
+        password_layout.visibility = View.VISIBLE
+        room.visibility = View.GONE
+        room_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        account_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        account_wizard.setTextColor(Color.WHITE)
+
+        // If anonymous mode selected move to finish send the config request directly
+        anonymous_mode.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                Toast.makeText(context, "Checked", Toast.LENGTH_SHORT).show()
+                // Testing purpose
+                // Add prompt dialog box
+            } else {
+                Toast.makeText(context, "Not Checked", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Set on Text Change listener in the password field
+        val watch = object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                // To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, start: Int, before: Int, count: Int) {
+                // If password input is not empty then make the finish button enable else disable it and change the colour accordingly
+                if (charSequence.trim().length > 0) {
+                    password_finish.isEnabled = true
+                    password_finish.isClickable = true
+                    password_finish.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+                    password_finish.setTextColor(resources.getColor(R.color.md_white_1000))
+                } else {
+                    password_finish.isEnabled = false
+                    password_finish.isClickable = false
+                    password_finish.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+                    password_finish.setTextColor(resources.getColor(R.color.blue_grey_300))
+                }
+            }
+        }
+        account_auth_password_input.addTextChangedListener(watch)
+
+        // Action of previous button
+        password_previous.setOnClickListener {
+            rooms()
+        }
+
+        // Action of finish button
+        password_finish.setOnClickListener {
+            if (password_finish.isEnabled && password_finish.isClickable) {
+                // Send the password request
+                Toast.makeText(context, "Password enabled", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

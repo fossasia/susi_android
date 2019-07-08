@@ -306,6 +306,7 @@
     <string name="setup_wifi">Make sure there are WiFi connections available \n near you.</string>
     <string name="connect_new_device">Connect New Device</string>
     <string name="wifi_connection_failed">Wifi connection failed</string>
+    <string name="password_title">Please enter your account password or choose the anonymous mode</string>
     
     <!-- Device Setup Screen -->
     <string name="connect">1. Connect</string>
@@ -320,6 +321,8 @@
     <string name="wifi_connection_error">Wifi Connection not available</string>
     <string name="scan_available_wifi">Scanning for available wifi\'s</string>
     <string name="available_wifi">Available Wifi</string>
+    <string name="anonymous">Anonymous mode</string>
+    <string name="finish">Finish</string>
 
     <!--About Us String-->
     <string name="url_about_susi" translatable="false">https://chat.susi.ai/overview</string>
