@@ -392,7 +392,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                     Toast.makeText(context, "Make anonymous request", Toast.LENGTH_SHORT).show()
                     ANONYMOUS_MODE = true
                 })
-                ?.setNegativeButton(getString(R.string.enter_password), DialogInterface.OnClickListener { dialog, id ->
+                ?.setNegativeButton(getString(R.string.enter_password_button), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
                     anonymous_mode.isChecked = false
                     ANONYMOUS_MODE = false
