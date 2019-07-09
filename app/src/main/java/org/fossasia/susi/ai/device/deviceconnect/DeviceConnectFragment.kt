@@ -30,6 +30,8 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.connect_susiai_speaker.cancel_susiai_connection
 import kotlinx.android.synthetic.main.connect_susiai_speaker.connected_susiai
 import kotlinx.android.synthetic.main.connect_susiai_speaker.cannot_connect_susiai
+import kotlinx.android.synthetic.main.finish_setup_layout.success_setup
+import kotlinx.android.synthetic.main.finish_setup_layout.success_message
 import kotlinx.android.synthetic.main.fragment_device_connect.noDeviceFound
 import kotlinx.android.synthetic.main.fragment_device_connect.deviceTutorial
 import kotlinx.android.synthetic.main.fragment_device_connect.addDeviceButton
@@ -46,6 +48,7 @@ import kotlinx.android.synthetic.main.fragment_device_connect.showWifi
 import kotlinx.android.synthetic.main.fragment_device_connect.room_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.password_layout
 import kotlinx.android.synthetic.main.fragment_device_connect.account_wizard
+import kotlinx.android.synthetic.main.fragment_device_connect.success_setup_screen
 import kotlinx.android.synthetic.main.password_layout.account_auth_password_input
 import kotlinx.android.synthetic.main.password_layout.password_finish
 import kotlinx.android.synthetic.main.password_layout.anonymous_mode
@@ -59,6 +62,7 @@ import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.model.RoomsAvailable
 import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.DeviceActivity
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.ANONYMOUS_MODE
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.macId
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.DevicesAdapter
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
@@ -262,11 +266,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         // If anonymous mode selected move to finish send the config request directly
         anonymous_mode.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                Toast.makeText(context, "Checked", Toast.LENGTH_SHORT).show()
-                // Testing purpose
-                // Add prompt dialog box
-            } else {
-                Toast.makeText(context, "Not Checked", Toast.LENGTH_SHORT).show()
+                showAnonymousDialog()
             }
         }
 
@@ -306,8 +306,45 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         password_finish.setOnClickListener {
             if (password_finish.isEnabled && password_finish.isClickable) {
                 // Send the password request
-                Toast.makeText(context, "Password enabled", Toast.LENGTH_SHORT).show()
+                finishSetup()
             }
+        }
+    }
+
+    override fun finishSetup() {
+        // deviceConnectPresenter.makeAuthRequest(account_auth_password_input.text.toString())
+        val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
+        dialogBuilder?.setMessage(getString(R.string.finish_setup_details))
+                ?.setCancelable(false)
+                ?.setPositiveButton(getString(R.string.finish_setup_button), DialogInterface.OnClickListener { dialog, id ->
+                    // deviceConnectPresenter.makeAuthRequest(account_auth_password_input.text.toString())
+                    ANONYMOUS_MODE = false
+                    successSetup()
+                    dialog.cancel()
+                })
+                ?.setNegativeButton(getString(R.string.go_back), DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                })
+        val alert = dialogBuilder?.create()
+        alert?.setTitle(getString(R.string.finish_setup_title))
+        alert?.show()
+    }
+
+    override fun successSetup() {
+        password_layout.visibility = View.GONE
+        success_setup_screen.visibility = View.VISIBLE
+        if (ANONYMOUS_MODE) {
+            success_message.text = getString(R.string.success_setup_anonymous)
+        } else {
+            success_message.text = getString(R.string.succesfully_setup)
+        }
+        unregister()
+        context?.registerReceiver(receiverWifi, IntentFilter())
+
+        success_setup.setOnClickListener {
+            val intent = Intent(context, SkillsActivity::class.java)
+            intent.putExtra(SETTINGS_FRAGMENT, SETTINGS_FRAGMENT)
+            startActivity(intent)
         }
     }
 
@@ -343,6 +380,26 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             room_next.setTextColor(Color.WHITE)
             room_next.isClickable = true
         }
+    }
+
+    override fun showAnonymousDialog() {
+        val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
+        dialogBuilder?.setMessage(getString(R.string.anonymous_details))
+                ?.setCancelable(false)
+                ?.setPositiveButton(getString(R.string.know_what_to_do), DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                    // deviceConnectPresenter.makeConfigRequest()
+                    Toast.makeText(context, "Make anonymous request", Toast.LENGTH_SHORT).show()
+                    ANONYMOUS_MODE = true
+                })
+                ?.setNegativeButton(getString(R.string.enter_password), DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                    anonymous_mode.isChecked = false
+                    ANONYMOUS_MODE = false
+                })
+        val alert = dialogBuilder?.create()
+        alert?.setTitle(getString(R.string.anonymous))
+        alert?.show()
     }
 
     override fun addDevice(latitude: String, longitude: String) {

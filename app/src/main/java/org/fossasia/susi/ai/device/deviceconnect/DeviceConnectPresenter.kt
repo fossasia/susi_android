@@ -252,8 +252,9 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     override fun onSetConfigSuccess() {
         Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.stopProgress()
-        deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
-        getLocation()
+        // deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
+        // getLocation()
+        deviceConnectView?.successSetup()
     }
 
     override fun getLocation() {

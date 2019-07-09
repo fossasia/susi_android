@@ -173,4 +173,9 @@
         layout="@layout/password_layout"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/success_setup_screen"
+        layout="@layout/finish_setup_layout"
+        android:visibility="gone" />
+
 </android.support.constraint.ConstraintLayout>

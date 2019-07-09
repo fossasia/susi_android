@@ -45,4 +45,10 @@ interface IDeviceConnectView {
     fun showToast(message: String)
 
     fun passwordLayoutSetup()
+
+    fun showAnonymousDialog()
+
+    fun finishSetup()
+
+    fun successSetup()
 }

@@ -61,5 +61,6 @@ class DeviceActivity : AppCompatActivity() {
         const val TAG_CONNECTED_DEVICE_FRAGMNENT = "ConnectedDeviceFragment"
         const val CONNECT_TO = "connect_to"
         lateinit var macId: String
+        var ANONYMOUS_MODE: Boolean = false
     }
 }
