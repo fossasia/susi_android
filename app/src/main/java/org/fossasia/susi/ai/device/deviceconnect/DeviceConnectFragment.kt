@@ -233,7 +233,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             val roomName = edt_room.text.toString()
             if (!roomName.isEmpty()) {
                 deviceConnectPresenter.addRoom(roomName)
-                Toast.makeText(context, "Added " + roomName + " as a room", Toast.LENGTH_SHORT).show()
                 edt_room.text.clear()
                 Utils.hideSoftKeyboard(context, rootView)
             }
@@ -243,8 +242,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             if (!roomNameSelected.isNullOrEmpty()) {
                 // To call the next screen when room name is selected
                 // Send the room name to the speaker by making another endpoint
-                showToast("Testing room selection - " + roomNameSelected)
-                passwordLayoutSetup() //  Temporarily calling the password input layout
+                deviceConnectPresenter.makeAddRoomRequest(roomNameSelected.toString())
             }
         }
 
@@ -312,14 +310,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun finishSetup() {
-        // deviceConnectPresenter.makeAuthRequest(account_auth_password_input.text.toString())
         val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
         dialogBuilder?.setMessage(getString(R.string.finish_setup_details))
                 ?.setCancelable(false)
                 ?.setPositiveButton(getString(R.string.finish_setup_button), DialogInterface.OnClickListener { dialog, id ->
-                    // deviceConnectPresenter.makeAuthRequest(account_auth_password_input.text.toString())
+                    deviceConnectPresenter.makeAuthRequest(account_auth_password_input.text.toString())
                     ANONYMOUS_MODE = false
-                    successSetup()
                     dialog.cancel()
                 })
                 ?.setNegativeButton(getString(R.string.go_back), DialogInterface.OnClickListener { dialog, id ->
@@ -388,9 +384,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                 ?.setCancelable(false)
                 ?.setPositiveButton(getString(R.string.know_what_to_do), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
-                    // deviceConnectPresenter.makeConfigRequest()
-                    Toast.makeText(context, "Make anonymous request", Toast.LENGTH_SHORT).show()
                     ANONYMOUS_MODE = true
+                    deviceConnectPresenter.makeConfigRequest()
                 })
                 ?.setNegativeButton(getString(R.string.enter_password_button), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()

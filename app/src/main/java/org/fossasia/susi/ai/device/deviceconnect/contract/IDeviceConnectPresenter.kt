@@ -48,4 +48,6 @@ interface IDeviceConnectPresenter {
     fun initialSetup()
 
     fun selectedRoom(roomName: String?)
+
+    fun makeAddRoomRequest(room_name: String)
 }

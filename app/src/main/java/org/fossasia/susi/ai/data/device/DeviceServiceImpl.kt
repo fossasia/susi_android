@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.data.device
 
 import org.fossasia.susi.ai.data.contract.IDeviceModel
 import org.fossasia.susi.ai.rest.clients.DeviceClient
+import org.fossasia.susi.ai.rest.responses.others.AddRoomResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerAuthResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerConfigResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerWifiResponse
@@ -73,6 +74,25 @@ class DeviceServiceImpl : DeviceService {
 
             override fun onResponse(call: Call<SpeakerWifiResponse>, response: Response<SpeakerWifiResponse>) {
                 listener.onSendCredentialSuccess()
+            }
+        })
+    }
+
+    override fun submitRoomDetails(room_name: String, listener: IDeviceModel.onSendRoomDetails) {
+        deviceApi.roomDetails(room_name).enqueue(object : Callback<AddRoomResponse> {
+            override fun onFailure(call: Call<AddRoomResponse>, t: Throwable) {
+                if (t?.localizedMessage != null) {
+                    Timber.d(t.localizedMessage)
+                } else {
+                    Timber.d(t, "An error occurred")
+                }
+                Timber.d("Error in WiFi : " + call.toString())
+                if (t != null)
+                    listener.onSendRoomFailure(t.localizedMessage)
+            }
+
+            override fun onResponse(call: Call<AddRoomResponse>, response: Response<AddRoomResponse>) {
+                listener.onSendRoomSuccess(response)
             }
         })
     }

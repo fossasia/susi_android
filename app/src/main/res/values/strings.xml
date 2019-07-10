@@ -307,6 +307,9 @@
     <string name="connect_new_device">Connect New Device</string>
     <string name="wifi_connection_failed">Wifi connection failed</string>
     <string name="password_title">Please enter your account password or choose the anonymous mode</string>
+    <string name="adding_room">Adding Room...</string>
+    <string name="error_adding_room">Failed to add room to the device. Please try again</string>
+    <string name="error_adding_room_title">Adding Room Failed</string>
     
     <!-- Device Setup Screen -->
     <string name="connect">1. Connect</string>

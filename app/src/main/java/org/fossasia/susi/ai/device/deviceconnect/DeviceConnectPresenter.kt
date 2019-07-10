@@ -23,10 +23,12 @@ import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.LocationHelper
 import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.responses.others.AddRoomResponse
+import retrofit2.Response
 import timber.log.Timber
 
 class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceConnectPresenter, IDeviceModel.onSendWifiCredentialsListener,
-        IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener {
+        IDeviceModel.onSetConfigurationListener, IDeviceModel.onSendAuthCredentialsListener, IDeviceModel.onSendRoomDetails {
 
     private var wifiManager = manager
     private var deviceConnectView: IDeviceConnectView? = null
@@ -221,6 +223,18 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         searchWiFi()
     }
 
+    override fun onSendRoomFailure(localMessage: String) {
+        deviceConnectView?.stopProgress()
+        deviceConnectView?.showDialog(utilModel.getString(R.string.error_adding_room), utilModel.getString(R.string.error_adding_room_title))
+        Timber.d("Failed to add room")
+    }
+
+    override fun onSendRoomSuccess(roomResponse: Response<AddRoomResponse>) {
+        deviceConnectView?.stopProgress()
+        Timber.d("Added room succesfully")
+        deviceConnectView?.passwordLayoutSetup()
+    }
+
     override fun onSendCredentialSuccess() {
         Timber.d("WIFI - SUCCESSFUL")
         // deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.wifi_success))
@@ -252,8 +266,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     override fun onSetConfigSuccess() {
         Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.stopProgress()
-        // deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.connect_success))
-        // getLocation()
         deviceConnectView?.successSetup()
     }
 
@@ -296,5 +308,10 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
+    }
+
+    override fun makeAddRoomRequest(room_name: String) {
+        deviceConnectView?.showProgress(utilModel.getString(R.string.adding_room))
+        deviceModel.sendRoomDetails(room_name, this)
     }
 }
