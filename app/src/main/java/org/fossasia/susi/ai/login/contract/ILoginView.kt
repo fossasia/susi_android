@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.login.contract
 
+import com.google.android.gms.auth.api.credentials.Credential
+
 /**
  * The interface for Login view
  *
@@ -24,4 +26,6 @@ interface ILoginView {
     fun resetPasswordSuccess()
 
     fun resetPasswordFailure(title: String?, message: String?, button: String?, color: Int)
+
+    fun onCredentialRetrieved(credential: Credential?)
 }

@@ -330,6 +330,7 @@
     <string name="content_type_static">Content Type: Static</string>
 
     <string name="custom_server">Custom Server</string>
+    <string name="remember_me">Remember Me</string>
 
     <string name="description">Description</string>
     <string name="description_long">Description long</string>
@@ -534,4 +535,6 @@
 
     <!-- Manage Devices -->
     <string name="music_services">Music Services</string>
+    <string name="say_hey_susi">Start with \"Hey Susi\"</string>
+
 </resources>
