@@ -13,7 +13,6 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
@@ -24,7 +23,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import io.realm.Realm
 import kotlinx.android.synthetic.main.connect_susiai_speaker.cancel_susiai_connection
@@ -58,9 +56,7 @@ import kotlinx.android.synthetic.main.room_layout.add_room
 import kotlinx.android.synthetic.main.room_layout.room_next
 import kotlinx.android.synthetic.main.room_layout.room_previous
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.model.RoomsAvailable
-import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.ANONYMOUS_MODE
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.macId
@@ -190,20 +186,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         val alert = dialogBuilder?.create()
         alert?.setTitle(title)
         alert?.show()
-    }
-
-    override fun addDeviceProcess() {
-        room.visibility = View.GONE
-        addDeviceButton.visibility = View.VISIBLE
-        deviceList.visibility = View.VISIBLE
-        wifiList.visibility = View.VISIBLE
-
-        receiverWifi = WifiReceiver() // Probably needs to be added in onViewCreated
-        deviceConnectPresenter.searchDevices()
-
-        addDeviceButton.setOnClickListener {
-            deviceConnectPresenter.searchDevices()
-        }
     }
 
     // Function to show available rooms in the 3rd step
@@ -397,12 +379,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         alert?.show()
     }
 
-    override fun addDevice(latitude: String, longitude: String) {
-        val name = "SUSI.AI"
-        val query = AddDeviceQuery(macId, name, roomNameSelected.toString(), latitude, longitude)
-        deviceConnectPresenter.addDevice(query)
-    }
-
     override fun askForPermissions() {
         noDeviceFound.visibility = View.GONE
         deviceTutorial.visibility = View.GONE
@@ -413,42 +389,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             deviceConnectPresenter.isPermissionGranted(true)
             Timber.d("ASK PERMISSIONS ELSE")
         }
-    }
-
-    override fun showLocationIntentDialog() {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setView(R.layout.select_dialog_item_material)
-
-        dialogBuilder.setTitle(R.string.location_access)
-        dialogBuilder.setMessage(R.string.location_access_message)
-        dialogBuilder.setPositiveButton(R.string.next) { _, _ ->
-            val callGPSSettingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-            startActivityForResult(callGPSSettingIntent, REQUEST_LOCATION_ACCESS)
-        }
-        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
-            dialog.dismiss()
-        }?.show()
-    }
-
-    /**
-     * Shows dialog to turn on Wi-Fi
-     */
-    override fun showWifiIntentDialog() {
-        var dialogBuilder = AlertDialog.Builder(requireContext())
-        dialogBuilder.setView(R.layout.select_dialog_item_material)
-
-        dialogBuilder.setTitle(R.string.wifi_access)
-        dialogBuilder.setMessage(R.string.wifi_access_message)
-        dialogBuilder.setPositiveButton(R.string.next) { dialog, whichButton ->
-            val wifiIntent = Intent(Settings.ACTION_WIFI_SETTINGS)
-            startActivityForResult(wifiIntent, REQUEST_WIFI_ACCESS)
-            startActivity(wifiIntent)
-        }
-        dialogBuilder.setNegativeButton(R.string.cancel) { dialog, whichButton ->
-            dialog.dismiss()
-        }
-
-        dialogBuilder.create().show()
     }
 
     override fun startScan(isDevice: Boolean) {
@@ -501,15 +441,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun stopProgress() {
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_LOCATION_ACCESS || requestCode == REQUEST_WIFI_ACCESS) {
-            deviceConnectPresenter.searchDevices()
-
-            Timber.d("Onactivityresult")
-        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -595,30 +526,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
             wifiList.adapter = recyclerAdapter
         }
-    }
-
-    // To be called to send password
-    override fun showPopUpDialog() {
-        val utilModel = UtilModel(activity as DeviceActivity)
-        val view = LayoutInflater.from(activity).inflate(R.layout.get_password, null)
-        val alertDialog = AlertDialog.Builder(activity as DeviceActivity).create()
-        alertDialog.setTitle(utilModel.getString(R.string.thanks_wifi))
-        alertDialog.setMessage(utilModel.getString(R.string.enter_password_mail))
-        alertDialog.setCancelable(false)
-
-        val password = view.findViewById<EditText>(R.id.edt_pass)
-
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, utilModel.getString(R.string.next)) { dialog, which ->
-            // deviceConnectPresenter.makeAuthRequest(password.text.toString())
-            rooms()
-        }
-
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, utilModel.getString(R.string.cancel)) { dialog, which ->
-            alertDialog.dismiss()
-        }
-
-        alertDialog.setView(view)
-        alertDialog.show()
     }
 
     data class AvailableRoomsFormat(

@@ -16,12 +16,10 @@ import org.fossasia.susi.ai.data.device.RoomModel
 import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 import org.fossasia.susi.ai.data.model.RoomsAvailable
-import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.macId
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.LocationHelper
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.others.AddRoomResponse
 import retrofit2.Response
@@ -44,28 +42,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
 
     override fun onAttach(deviceConnectView: IDeviceConnectView) {
         this.deviceConnectView = deviceConnectView
-    }
-
-    override fun searchDevices() {
-        deviceConnectView?.askForPermissions()
-        Timber.d(checkPermissions.toString() + "Check")
-        if (checkPermissions) {
-            checkLocationEnabled()
-            checkWifiEnabled()
-            if (isLocationOn && isWifiEnabled) {
-                Timber.d("Location ON, WI-FI ON")
-                deviceConnectView?.showProgress(utilModel.getString(R.string.scan_devices))
-
-                deviceConnectView?.startScan(true)
-            } else {
-                if (!isWifiEnabled)
-                    deviceConnectView?.showWifiIntentDialog()
-                if (!isLocationOn)
-                    deviceConnectView?.showLocationIntentDialog()
-            }
-        } else {
-            deviceConnectView?.askForPermissions()
-        }
     }
 
     override fun onDetach() {
@@ -115,7 +91,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         var results = realm.where(RoomsAvailable::class.java).findAll()
         var id = results.size
         id++
-        Timber.d("Added room")
 
         var addedRoomModel = realm.createObject(RoomsAvailable::class.java)
         addedRoomModel.id = id.toLong()
@@ -132,10 +107,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         result?.deleteFromRealm()
         realm.commitTransaction()
         deviceConnectView?.showRooms()
-    }
-
-    override fun addDevice(queryObject: AddDeviceQuery) {
-        roomModel.addDeviceToServer(queryObject)
     }
 
     override fun selectedRoom(roomName: String?) {
@@ -215,11 +186,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
 
     override fun makeConnectionRequest() {
         Timber.d("make request")
-        //  deviceConnectView?.unregister()
-        //  test data only
-        //  deviceModel.sendAuthCredentials("y", "mohitkumar2k15@dtu.ac.in", "batbrain", this@DevicePresenter)
-        //  deviceModel.sendWifiCredentials("Neelam", "9560247000", this@DevicePresenter)
-        // deviceModel.setConfiguration("google", "google", "y", "n", this@DeviceConnectPresenter)
         searchWiFi()
     }
 
@@ -269,18 +235,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         deviceConnectView?.successSetup()
     }
 
-    override fun getLocation() {
-        val locationHelper: LocationHelper = LocationHelper(MainApplication.instance.applicationContext)
-        locationHelper.getLocation()
-        if (locationHelper.canGetLocation()) {
-            deviceConnectView?.addDevice(locationHelper.latitude.toString(), locationHelper.longitude.toString())
-            Timber.d("Got location. Latitude - " + locationHelper.toString())
-        } else {
-            deviceConnectView?.addDevice("12.1", "23.2")
-            Timber.d("Failed to get Location")
-        }
-    }
-
     override fun onSetConfigFailure(localMessage: String) {
         Timber.d("CONFIG - FAILURE")
         deviceConnectView?.stopProgress()
@@ -299,13 +253,13 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
 
     override fun makeConfigRequest() {
         Timber.d("In here : CONFIG REQUEST")
-        deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
+        deviceConnectView?.showProgress(utilModel.getString(R.string.device_setting_up))
         deviceModel.setConfiguration(SpeakerConfiguration("google", "google", "y", "n"), this@DeviceConnectPresenter)
     }
 
     override fun makeAuthRequest(password: String) {
         Timber.d("In here : AUTH REQUEST")
-        deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
+        deviceConnectView?.showProgress(utilModel.getString(R.string.device_setting_up))
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
     }
