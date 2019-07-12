@@ -175,15 +175,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun showDialog(message: String, title: String) {
-        val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
-        dialogBuilder?.setMessage(message)
-                ?.setCancelable(false)
-                ?.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
-                })
-        val alert = dialogBuilder?.create()
-        alert?.setTitle(title)
-        alert?.show()
+                }).setTitle(title).create().show()
     }
 
     // Function to show available rooms in the 3rd step
@@ -290,20 +287,19 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun finishSetup() {
-        val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
-        dialogBuilder?.setMessage(getString(R.string.finish_setup_details))
-                ?.setCancelable(false)
-                ?.setPositiveButton(getString(R.string.finish_setup_button), DialogInterface.OnClickListener { dialog, id ->
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setMessage(getString(R.string.finish_setup_details))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.finish_setup_button), DialogInterface.OnClickListener { dialog, id ->
                     deviceConnectPresenter.makeAuthRequest(account_auth_password_input.text.toString())
                     ANONYMOUS_MODE = false
                     dialog.cancel()
                 })
-                ?.setNegativeButton(getString(R.string.go_back), DialogInterface.OnClickListener { dialog, id ->
+                .setNegativeButton(getString(R.string.go_back), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
-                })
-        val alert = dialogBuilder?.create()
-        alert?.setTitle(getString(R.string.finish_setup_title))
-        alert?.show()
+                }).setTitle(getString(R.string.finish_setup_title))
+                .create()
+                .show()
     }
 
     override fun successSetup() {
@@ -359,22 +355,22 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun showAnonymousDialog() {
-        val dialogBuilder = context?.let { it1 -> AlertDialog.Builder(it1) }
-        dialogBuilder?.setMessage(getString(R.string.anonymous_details))
-                ?.setCancelable(false)
-                ?.setPositiveButton(getString(R.string.know_what_to_do), DialogInterface.OnClickListener { dialog, id ->
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setMessage(getString(R.string.anonymous_details))
+                .setCancelable(false)
+                .setPositiveButton(getString(R.string.know_what_to_do), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
                     ANONYMOUS_MODE = true
                     deviceConnectPresenter.makeConfigRequest()
                 })
-                ?.setNegativeButton(getString(R.string.enter_password_button), DialogInterface.OnClickListener { dialog, id ->
+                .setNegativeButton(getString(R.string.enter_password_button), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
                     anonymous_mode.isChecked = false
                     ANONYMOUS_MODE = false
                 })
-        val alert = dialogBuilder?.create()
-        alert?.setTitle(getString(R.string.anonymous))
-        alert?.show()
+                .setTitle(getString(R.string.anonymous))
+                .create()
+                .show()
     }
 
     override fun askForPermissions() {
