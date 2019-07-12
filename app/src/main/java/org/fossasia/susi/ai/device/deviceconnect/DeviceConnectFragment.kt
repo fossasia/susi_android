@@ -85,8 +85,6 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private val VIEW_AVAILABLE_DEVICES = 1
     private val VIEW_AVAILABLE_WIFI = 0
     private var checkDevice: Boolean = false
-    private val REQUEST_LOCATION_ACCESS = 101
-    private val REQUEST_WIFI_ACCESS = 102
     private lateinit var realm: Realm
     private val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
     private lateinit var availableRoomsRecyclerView: RecyclerView
@@ -134,8 +132,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
-        connect_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
-        wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+        connect_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
+        wifi_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_normal)
         wifi_wizard.setTextColor(Color.BLACK)
 
         // If user fails to connect to the susiai hotspot
@@ -167,9 +165,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         showWifiList = true
         connection_susiai_main_screen.visibility = View.GONE
         showWifi.visibility = View.VISIBLE
-        room_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+        room_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_normal)
         room_wizard.setTextColor(Color.BLACK)
-        wifi_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        wifi_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
         wifi_wizard.setTextColor(Color.WHITE)
         connection_susiai_main_screen.visibility = View.GONE
         showProgress(getString(R.string.scan_available_wifi))
@@ -199,14 +197,14 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         showWifiList = false
         connection_susiai_main_screen.visibility = View.GONE
         showWifi.visibility = View.GONE
-        room_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
-        account_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+        room_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
+        account_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_normal)
         account_wizard.setTextColor(Color.BLACK)
         room_wizard.setTextColor(Color.WHITE)
         showRooms()
 
         if (roomNameSelected.isNullOrEmpty()) {
-            context?.let { ContextCompat.getColor(it, R.color.default_bg) }?.let { room_next.setBackgroundColor(it) }
+            room_next.setBackgroundColor(resources.getColor(R.color.default_bg))
             room_next.setTextColor(Color.BLACK)
             room_next.isClickable = false
         }
@@ -239,8 +237,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     override fun passwordLayoutSetup() {
         password_layout.visibility = View.VISIBLE
         room.visibility = View.GONE
-        room_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
-        account_wizard.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+        room_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
+        account_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
         account_wizard.setTextColor(Color.WHITE)
 
         // If anonymous mode selected move to finish send the config request directly
@@ -265,12 +263,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                 if (charSequence.trim().length > 0) {
                     password_finish.isEnabled = true
                     password_finish.isClickable = true
-                    password_finish.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_blue) }
+                    password_finish.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
                     password_finish.setTextColor(resources.getColor(R.color.md_white_1000))
                 } else {
                     password_finish.isEnabled = false
                     password_finish.isClickable = false
-                    password_finish.background = context?.let { ContextCompat.getDrawable(it, R.drawable.border_normal) }
+                    password_finish.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_normal)
                     password_finish.setTextColor(resources.getColor(R.color.blue_grey_300))
                 }
             }
@@ -349,12 +347,12 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         if (roomName.isNullOrEmpty()) {
             roomNameSelected = null
-            context?.let { ContextCompat.getColor(it, R.color.default_bg) }?.let { room_next.setBackgroundColor(it) }
+            room_next.setBackgroundColor(resources.getColor(R.color.default_bg))
             room_next.setTextColor(Color.BLACK)
             room_next.isClickable = false
         } else {
             roomNameSelected = roomName.toString()
-            context?.let { ContextCompat.getColor(it, R.color.colorPrimary) }?.let { room_next.setBackgroundColor(it) }
+            room_next.setBackgroundColor(resources.getColor(R.color.colorPrimary))
             room_next.setTextColor(Color.WHITE)
             room_next.isClickable = true
         }
@@ -387,7 +385,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                     PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION)
         } else {
             deviceConnectPresenter.isPermissionGranted(true)
-            Timber.d("ASK PERMISSIONS ELSE")
+            Timber.e("ASK PERMISSIONS ELSE")
         }
     }
 
@@ -398,7 +396,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun setupDeviceAdapter(scanList: List<String>) {
-        Timber.d("Connected Successfully")
+        Timber.e("Connected Successfully")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         wifiList.visibility = View.GONE
@@ -479,11 +477,11 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     inner class WifiReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
-            Timber.d("Inside the app")
+            Timber.e("Inside the app")
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     val wifiList = mainWifi.getScanResults()
-                    Timber.d("Check %s", checkDevice)
+                    Timber.e("Check %s", checkDevice)
                     if (checkDevice)
                         deviceConnectPresenter.availableDevices(wifiList)
                     else {
@@ -493,14 +491,14 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                 } else if (p1.action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
                     Timber.d("Wifi changes")
                     if (p1.getParcelableExtra<Parcelable>(WifiManager.EXTRA_NEW_STATE) == SupplicantState.COMPLETED) {
-                        Timber.d("Wifi Changes #2")
+                        Timber.e("Wifi Changes #2")
                         val wifiInfo = mainWifi.connectionInfo
                         if (wifiInfo != null) {
                             val ssid = wifiInfo.ssid
-                            Timber.d(ssid)
+                            Timber.e(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
                                 macId = wifiInfo.macAddress
-                                Timber.d("Going to make connection")
+                                Timber.e("Going to make connection")
                                 deviceConnectPresenter.makeConnectionRequest()
                             }
                         }
@@ -512,7 +510,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun setupWiFiAdapter(scanList: ArrayList<String>) {
         if (showWifiList) {
-            Timber.d("Setup Wifi adapter")
+            Timber.e("Setup Wifi adapter")
             scanDevice.setText(R.string.choose_wifi)
             scanList.remove("SUSI.AI")
             scanProgress.visibility = View.GONE

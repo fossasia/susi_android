@@ -78,15 +78,15 @@ class DeviceServiceImpl : DeviceService {
         })
     }
 
-    override fun submitRoomDetails(room_name: String, listener: IDeviceModel.onSendRoomDetails) {
-        deviceApi.roomDetails(room_name).enqueue(object : Callback<AddRoomResponse> {
+    override fun submitRoomDetails(roomName: String, listener: IDeviceModel.onSendRoomDetails) {
+        deviceApi.roomDetails(roomName).enqueue(object : Callback<AddRoomResponse> {
             override fun onFailure(call: Call<AddRoomResponse>, t: Throwable) {
                 if (t?.localizedMessage != null) {
-                    Timber.d(t.localizedMessage)
+                    Timber.e(t.localizedMessage)
                 } else {
-                    Timber.d(t, "An error occurred")
+                    Timber.e(t, "An error occurred")
                 }
-                Timber.d("Error in WiFi : " + call.toString())
+                Timber.e("Error in WiFi : " + call.toString())
                 if (t != null)
                     listener.onSendRoomFailure(t.localizedMessage)
             }

@@ -12,7 +12,6 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.device.DeviceModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
-import org.fossasia.susi.ai.data.device.RoomModel
 import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 import org.fossasia.susi.ai.data.model.RoomsAvailable
@@ -38,7 +37,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     lateinit var connections: ArrayList<String>
     private var utilModel: UtilModel = UtilModel(context)
     private lateinit var realm: Realm
-    private val roomModel: RoomModel = RoomModel()
 
     override fun onAttach(deviceConnectView: IDeviceConnectView) {
         this.deviceConnectView = deviceConnectView
@@ -115,7 +113,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun availableDevices(list: List<ScanResult>) {
-        Timber.d("size " + list.size)
+        Timber.e("size " + list.size)
         connections = ArrayList<String>()
         for (i in list.indices) {
             if (list[i].SSID.equals(utilModel.getString(R.string.device_name)))
@@ -143,7 +141,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun connectToDevice(networkSSID: String) {
-        Timber.d("connectToWiFi() called with: ssid = [$networkSSID], key = password")
+        Timber.e("connectToWiFi() called with: ssid = [$networkSSID], key = password")
         SSID = networkSSID
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         ConnectWifi().execute()
@@ -180,36 +178,36 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         }
 
         override fun onPostExecute(result: Void?) {
-            Timber.d("Connected")
+            Timber.e("Connected")
         }
     }
 
     override fun makeConnectionRequest() {
-        Timber.d("make request")
+        Timber.e("make request")
         searchWiFi()
     }
 
     override fun onSendRoomFailure(localMessage: String) {
         deviceConnectView?.stopProgress()
         deviceConnectView?.showDialog(utilModel.getString(R.string.error_adding_room), utilModel.getString(R.string.error_adding_room_title))
-        Timber.d("Failed to add room")
+        Timber.e("Failed to add room")
     }
 
     override fun onSendRoomSuccess(roomResponse: Response<AddRoomResponse>) {
         deviceConnectView?.stopProgress()
-        Timber.d("Added room succesfully")
+        Timber.e("Added room succesfully")
         deviceConnectView?.passwordLayoutSetup()
     }
 
     override fun onSendCredentialSuccess() {
-        Timber.d("WIFI - SUCCESSFUL")
+        Timber.e("WIFI - SUCCESSFUL")
         // deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.wifi_success))
         deviceConnectView?.showToast(utilModel.getString(R.string.wifi_success))
         deviceConnectView?.rooms()
     }
 
     override fun onSendCredentialFailure(localMessage: String) {
-        Timber.d("WIFI - FAILURE")
+        Timber.e("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
         // deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.wifi_error), localMessage)
         deviceConnectView?.wifiSetup()
@@ -217,26 +215,26 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun onSendAuthSuccess() {
-        Timber.d("AUTH - SUCCESSFUL")
+        Timber.e("AUTH - SUCCESSFUL")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.auth_success))
         makeConfigRequest()
     }
 
     override fun onSendAuthFailure(localMessage: String) {
-        Timber.d("AUTH - FAILURE")
+        Timber.e("AUTH - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.auth_error))
     }
 
     override fun onSetConfigSuccess() {
-        Timber.d("CONFIG - SUCCESS")
+        Timber.e("CONFIG - SUCCESS")
         deviceConnectView?.stopProgress()
         deviceConnectView?.successSetup()
     }
 
     override fun onSetConfigFailure(localMessage: String) {
-        Timber.d("CONFIG - FAILURE")
+        Timber.e("CONFIG - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.config_error))
     }
@@ -246,19 +244,19 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun makeWifiRequest(ssid: String, password: String) {
-        Timber.d("In here : WIFI REQUEST")
+        Timber.e("In here : WIFI REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         deviceModel.sendWifiCredentials(ssid, password, this@DeviceConnectPresenter)
     }
 
     override fun makeConfigRequest() {
-        Timber.d("In here : CONFIG REQUEST")
+        Timber.e("In here : CONFIG REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.device_setting_up))
         deviceModel.setConfiguration(SpeakerConfiguration("google", "google", "y", "n"), this@DeviceConnectPresenter)
     }
 
     override fun makeAuthRequest(password: String) {
-        Timber.d("In here : AUTH REQUEST")
+        Timber.e("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.device_setting_up))
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
@@ -267,5 +265,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     override fun makeAddRoomRequest(room_name: String) {
         deviceConnectView?.showProgress(utilModel.getString(R.string.adding_room))
         deviceModel.sendRoomDetails(room_name, this)
+        Timber.e("In here : ROOM REQUEST")
     }
 }

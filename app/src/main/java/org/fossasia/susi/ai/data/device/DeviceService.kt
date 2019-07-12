@@ -10,5 +10,5 @@ interface DeviceService {
 
     fun submitAuthCredentials(speakerAuth: SpeakerAuth, listener: IDeviceModel.onSendAuthCredentialsListener)
 
-    fun submitRoomDetails(room_name: String, listener: IDeviceModel.onSendRoomDetails)
+    fun submitRoomDetails(roomName: String, listener: IDeviceModel.onSendRoomDetails)
 }
