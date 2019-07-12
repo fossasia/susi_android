@@ -153,9 +153,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         // If user wants to cancel the setup
         cancel_susiai_connection.setOnClickListener {
-            val intent = Intent(context, SkillsActivity::class.java)
-            intent.putExtra(SETTINGS_FRAGMENT, SETTINGS_FRAGMENT)
-            startActivity(intent)
+            activity?.onBackPressed()
         }
     }
 
