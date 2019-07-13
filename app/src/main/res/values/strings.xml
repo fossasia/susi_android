@@ -536,5 +536,7 @@
     <!-- Manage Devices -->
     <string name="music_services">Music Services</string>
     <string name="say_hey_susi">Start with \"Hey Susi\"</string>
+    <string name="spotify" translatable="false">Spotify</string>
+    <string name="susi_music_service">Susi Music Control</string>
 
 </resources>
