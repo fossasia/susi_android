@@ -113,7 +113,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun availableDevices(list: List<ScanResult>) {
-        Timber.e("size " + list.size)
+        Timber.d("size " + list.size)
         connections = ArrayList<String>()
         for (i in list.indices) {
             if (list[i].SSID.equals(utilModel.getString(R.string.device_name)))
@@ -141,7 +141,7 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun connectToDevice(networkSSID: String) {
-        Timber.e("connectToWiFi() called with: ssid = [$networkSSID], key = password")
+        Timber.d("connectToWiFi() called with: ssid = [$networkSSID], key = password")
         SSID = networkSSID
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         ConnectWifi().execute()
@@ -178,36 +178,36 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         }
 
         override fun onPostExecute(result: Void?) {
-            Timber.e("Connected")
+            Timber.d("Connected")
         }
     }
 
     override fun makeConnectionRequest() {
-        Timber.e("make request")
+        Timber.d("make request")
         searchWiFi()
     }
 
     override fun onSendRoomFailure(localMessage: String) {
         deviceConnectView?.stopProgress()
         deviceConnectView?.showDialog(utilModel.getString(R.string.error_adding_room), utilModel.getString(R.string.error_adding_room_title))
-        Timber.e("Failed to add room")
+        Timber.d("Failed to add room")
     }
 
     override fun onSendRoomSuccess(roomResponse: Response<AddRoomResponse>) {
         deviceConnectView?.stopProgress()
-        Timber.e("Added room succesfully")
+        Timber.d("Added room succesfully")
         deviceConnectView?.passwordLayoutSetup()
     }
 
     override fun onSendCredentialSuccess() {
-        Timber.e("WIFI - SUCCESSFUL")
+        Timber.d("WIFI - SUCCESSFUL")
         // deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.wifi_success))
         deviceConnectView?.showToast(utilModel.getString(R.string.wifi_success))
         deviceConnectView?.rooms()
     }
 
     override fun onSendCredentialFailure(localMessage: String) {
-        Timber.e("WIFI - FAILURE")
+        Timber.d("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
         // deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.wifi_error), localMessage)
         deviceConnectView?.wifiSetup()
@@ -215,26 +215,26 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun onSendAuthSuccess() {
-        Timber.e("AUTH - SUCCESSFUL")
+        Timber.d("AUTH - SUCCESSFUL")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionSuccess(utilModel.getString(R.string.auth_success))
         makeConfigRequest()
     }
 
     override fun onSendAuthFailure(localMessage: String) {
-        Timber.e("AUTH - FAILURE")
+        Timber.d("AUTH - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.auth_error))
     }
 
     override fun onSetConfigSuccess() {
-        Timber.e("CONFIG - SUCCESS")
+        Timber.d("CONFIG - SUCCESS")
         deviceConnectView?.stopProgress()
         deviceConnectView?.successSetup()
     }
 
     override fun onSetConfigFailure(localMessage: String) {
-        Timber.e("CONFIG - FAILURE")
+        Timber.d("CONFIG - FAILURE")
         deviceConnectView?.stopProgress()
         deviceConnectView?.onDeviceConnectionError(localMessage, utilModel.getString(R.string.config_error))
     }
@@ -244,19 +244,19 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     }
 
     override fun makeWifiRequest(ssid: String, password: String) {
-        Timber.e("In here : WIFI REQUEST")
+        Timber.d("In here : WIFI REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.connecting_device))
         deviceModel.sendWifiCredentials(ssid, password, this@DeviceConnectPresenter)
     }
 
     override fun makeConfigRequest() {
-        Timber.e("In here : CONFIG REQUEST")
+        Timber.d("In here : CONFIG REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.device_setting_up))
         deviceModel.setConfiguration(SpeakerConfiguration("google", "google", "y", "n"), this@DeviceConnectPresenter)
     }
 
     override fun makeAuthRequest(password: String) {
-        Timber.e("In here : AUTH REQUEST")
+        Timber.d("In here : AUTH REQUEST")
         deviceConnectView?.showProgress(utilModel.getString(R.string.device_setting_up))
         val email = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         email?.let { SpeakerAuth("y", it, password) }?.let { deviceModel.sendAuthCredentials(it, this@DeviceConnectPresenter) }
@@ -265,6 +265,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     override fun makeAddRoomRequest(room_name: String) {
         deviceConnectView?.showProgress(utilModel.getString(R.string.adding_room))
         deviceModel.sendRoomDetails(room_name, this)
-        Timber.e("In here : ROOM REQUEST")
+        Timber.d("In here : ROOM REQUEST")
     }
 }
