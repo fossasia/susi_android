@@ -13,7 +13,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 
-class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context?, private val deviceConnectPresenter: IDeviceConnectPresenter) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
+class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context, private val deviceConnectPresenter: IDeviceConnectPresenter) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
 
     private var selectedIndex: Int = -1
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -27,11 +27,11 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
         if (p1 == selectedIndex) {
-            holder.itemView.image_tick.background = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_home_blue_24dp) }
-            holder.itemView.delete_room.background = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_blue_24dp) }
+            holder.itemView.image_tick.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_home_blue_24dp) }
+            holder.itemView.delete_room.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_blue_24dp) }
         } else {
-            holder.itemView.image_tick.background = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_home_black_24dp) }
-            holder.itemView.delete_room.background = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_black_24dp) }
+            holder.itemView.image_tick.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_home_black_24dp) }
+            holder.itemView.delete_room.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_black_24dp) }
         }
         holder.itemView.room_text.text = availableRoomsList[p1].room
     }

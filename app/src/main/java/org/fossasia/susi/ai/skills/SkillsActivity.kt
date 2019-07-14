@@ -61,6 +61,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     companion object {
         val SETTINGS_FRAGMENT = "settingsFragment"
+        val REDIRECTED_FROM = "redirectedFrom"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +80,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                     .add(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
                     .addToBackStack(TAG_PRIVACY_FRAGMENT)
                     .commit()
-        } else if (intent.hasExtra(SETTINGS_FRAGMENT)) {
+        } else if (intent.hasExtra(REDIRECTED_FROM)) {
             val settingsFragment = ChatSettingsFragment()
             supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)

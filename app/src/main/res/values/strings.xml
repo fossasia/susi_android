@@ -311,6 +311,7 @@
     <string name="error_adding_room">Failed to add room to the device. Please try again</string>
     <string name="error_adding_room_title">Adding Room Failed</string>
     <string name="device_setting_up">Setting up your device</string>
+    <string name="susi_ai_hotspot" translatable="false">SUSI.AI</string>
     
     <!-- Device Setup Screen -->
     <string name="connect">1. Connect</string>

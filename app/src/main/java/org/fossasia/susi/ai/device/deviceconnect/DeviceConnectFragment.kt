@@ -66,6 +66,7 @@ import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresente
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.SkillsActivity.Companion.REDIRECTED_FROM
 import org.fossasia.susi.ai.skills.SkillsActivity.Companion.SETTINGS_FRAGMENT
 import timber.log.Timber
 
@@ -313,7 +314,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
         success_setup.setOnClickListener {
             val intent = Intent(context, SkillsActivity::class.java)
-            intent.putExtra(SETTINGS_FRAGMENT, SETTINGS_FRAGMENT)
+            intent.putExtra(REDIRECTED_FROM, SETTINGS_FRAGMENT)
             startActivity(intent)
         }
     }
@@ -333,7 +334,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         }
         var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         availableRoomsRecyclerView.layoutManager = layoutManager
-        availableRoomsAdapter = RoomsAdapter(availableRoomsList, context, deviceConnectPresenter)
+        availableRoomsAdapter = RoomsAdapter(availableRoomsList, requireContext(), deviceConnectPresenter)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
     }
 
@@ -379,7 +380,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                     PERMISSIONS_REQUEST_CODE_ACCESS_COARSE_LOCATION)
         } else {
             deviceConnectPresenter.isPermissionGranted(true)
-            Timber.e("ASK PERMISSIONS ELSE")
+            Timber.d("ASK PERMISSIONS ELSE")
         }
     }
 
@@ -390,7 +391,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     }
 
     override fun setupDeviceAdapter(scanList: List<String>) {
-        Timber.e("Connected Successfully")
+        Timber.d("Connected Successfully")
         scanDevice.visibility = View.GONE
         scanProgress.visibility = View.GONE
         wifiList.visibility = View.GONE
@@ -471,7 +472,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     inner class WifiReceiver : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
-            Timber.e("Inside the app")
+            Timber.d("Inside the app")
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     val wifiList = mainWifi.getScanResults()
@@ -485,14 +486,14 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                 } else if (p1.action.equals(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION)) {
                     Timber.d("Wifi changes")
                     if (p1.getParcelableExtra<Parcelable>(WifiManager.EXTRA_NEW_STATE) == SupplicantState.COMPLETED) {
-                        Timber.e("Wifi Changes #2")
+                        Timber.d("Wifi Changes #2")
                         val wifiInfo = mainWifi.connectionInfo
                         if (wifiInfo != null) {
                             val ssid = wifiInfo.ssid
                             Timber.e(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
                                 macId = wifiInfo.macAddress
-                                Timber.e("Going to make connection")
+                                Timber.d("Going to make connection")
                                 deviceConnectPresenter.makeConnectionRequest()
                             }
                         }
@@ -504,9 +505,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
 
     override fun setupWiFiAdapter(scanList: ArrayList<String>) {
         if (showWifiList) {
-            Timber.e("Setup Wifi adapter")
+            Timber.d("Setup Wifi adapter")
             scanDevice.setText(R.string.choose_wifi)
-            scanList.remove("SUSI.AI")
+            scanList.remove(getString(R.string.susi_ai_hotspot))
             scanProgress.visibility = View.GONE
             scanHelp.visibility = View.VISIBLE
             deviceList.visibility = View.GONE
