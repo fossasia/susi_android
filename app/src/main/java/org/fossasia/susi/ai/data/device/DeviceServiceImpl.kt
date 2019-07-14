@@ -25,11 +25,9 @@ class DeviceServiceImpl : DeviceService {
         deviceApi.ttSSettings(query).enqueue(object : Callback<SpeakerConfigResponse> {
             override fun onFailure(call: Call<SpeakerConfigResponse>, t: Throwable?) {
                 if (t?.localizedMessage != null) {
-                    Timber.d(t.cause)
-                } else {
-                    Timber.d(t, "An error occurred")
+                    Timber.e(t.cause)
                 }
-                Timber.d("Error in Configuration : " + call.toString())
+                Timber.e(t, "Error in Configuration : " + call.toString())
                 if (t != null)
                     listener.onSetConfigFailure(t.localizedMessage)
             }
@@ -44,11 +42,9 @@ class DeviceServiceImpl : DeviceService {
         deviceApi.authCredentials(speakerAuth.choice, speakerAuth.email, speakerAuth.password).enqueue(object : Callback<SpeakerAuthResponse> {
             override fun onFailure(call: Call<SpeakerAuthResponse>, t: Throwable?) {
                 if (t?.localizedMessage != null) {
-                    Timber.d(t.localizedMessage)
-                } else {
-                    Timber.d(t, "An error occurred")
+                    Timber.e(t.localizedMessage)
                 }
-                Timber.d("Error in Authentication : " + call.toString())
+                Timber.e(t, "Error in Authentication : " + call.toString())
                 if (t != null)
                     listener.onSendAuthFailure(t.localizedMessage)
             }
@@ -63,11 +59,9 @@ class DeviceServiceImpl : DeviceService {
         deviceApi.wifiCredentials(ssid, pass).enqueue(object : Callback<SpeakerWifiResponse> {
             override fun onFailure(call: Call<SpeakerWifiResponse>, t: Throwable?) {
                 if (t?.localizedMessage != null) {
-                    Timber.d(t.localizedMessage)
-                } else {
-                    Timber.d(t, "An error occurred")
+                    Timber.e(t.localizedMessage)
                 }
-                Timber.d("Error in WiFi : " + call.toString())
+                Timber.e(t, "Error in WiFi : " + call.toString())
                 if (t != null)
                     listener.onSendCredentialFailure(t.localizedMessage)
             }
@@ -83,8 +77,6 @@ class DeviceServiceImpl : DeviceService {
             override fun onFailure(call: Call<AddRoomResponse>, t: Throwable) {
                 if (t?.localizedMessage != null) {
                     Timber.e(t.localizedMessage)
-                } else {
-                    Timber.e(t, "An error occurred")
                 }
                 Timber.e(t, "Error in WiFi : " + call.toString())
                 if (t != null)
