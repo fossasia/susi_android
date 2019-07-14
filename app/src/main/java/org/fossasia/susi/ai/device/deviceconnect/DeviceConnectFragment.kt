@@ -476,7 +476,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             if (p1 != null) {
                 if (p1.action.equals(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION)) {
                     val wifiList = mainWifi.getScanResults()
-                    Timber.e("Check %s", checkDevice)
+                    Timber.d("Check %s", checkDevice)
                     if (checkDevice)
                         deviceConnectPresenter.availableDevices(wifiList)
                     else {
@@ -490,7 +490,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                         val wifiInfo = mainWifi.connectionInfo
                         if (wifiInfo != null) {
                             val ssid = wifiInfo.ssid
-                            Timber.e(ssid)
+                            Timber.d(ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
                                 macId = wifiInfo.macAddress
                                 Timber.d("Going to make connection")

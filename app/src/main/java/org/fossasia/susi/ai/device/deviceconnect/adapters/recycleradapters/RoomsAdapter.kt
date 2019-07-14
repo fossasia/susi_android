@@ -27,11 +27,11 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
 
     override fun onBindViewHolder(holder: ViewHolder, p1: Int) {
         if (p1 == selectedIndex) {
-            holder.itemView.image_tick.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_home_blue_24dp) }
-            holder.itemView.delete_room.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_blue_24dp) }
+            holder.itemView.image_tick.background = ContextCompat.getDrawable(context, R.drawable.ic_home_blue_24dp)
+            holder.itemView.delete_room.background = ContextCompat.getDrawable(context, R.drawable.ic_delete_blue_24dp)
         } else {
-            holder.itemView.image_tick.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_home_black_24dp) }
-            holder.itemView.delete_room.background = context.let { ContextCompat.getDrawable(it, R.drawable.ic_delete_black_24dp) }
+            holder.itemView.image_tick.background = ContextCompat.getDrawable(context, R.drawable.ic_home_black_24dp)
+            holder.itemView.delete_room.background = ContextCompat.getDrawable(context, R.drawable.ic_delete_black_24dp)
         }
         holder.itemView.room_text.text = availableRoomsList[p1].room
     }
