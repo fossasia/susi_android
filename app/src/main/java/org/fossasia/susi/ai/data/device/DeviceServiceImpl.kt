@@ -86,7 +86,8 @@ class DeviceServiceImpl : DeviceService {
                 } else {
                     Timber.e(t, "An error occurred")
                 }
-                Timber.e("Error in WiFi : " + call.toString())
+                Timber.e(t, "Error in WiFi : " + call.toString())
+
                 if (t != null)
                     listener.onSendRoomFailure(t.localizedMessage)
             }
