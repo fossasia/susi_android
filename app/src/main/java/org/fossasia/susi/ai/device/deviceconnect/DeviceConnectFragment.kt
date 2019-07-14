@@ -490,7 +490,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                         val wifiInfo = mainWifi.connectionInfo
                         if (wifiInfo != null) {
                             val ssid = wifiInfo.ssid
-                            Timber.d(ssid)
+                            Timber.d("WiFi ssid: " + ssid)
                             if (ssid.equals("\"SUSI.AI\"")) {
                                 macId = wifiInfo.macAddress
                                 Timber.d("Going to make connection")
