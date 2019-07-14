@@ -24,9 +24,6 @@ class DeviceServiceImpl : DeviceService {
 
         deviceApi.ttSSettings(query).enqueue(object : Callback<SpeakerConfigResponse> {
             override fun onFailure(call: Call<SpeakerConfigResponse>, t: Throwable?) {
-                if (t?.localizedMessage != null) {
-                    Timber.e(t.cause)
-                }
                 Timber.e(t, "Error in Configuration : " + call.toString())
                 if (t != null)
                     listener.onSetConfigFailure(t.localizedMessage)
@@ -41,9 +38,6 @@ class DeviceServiceImpl : DeviceService {
     override fun submitAuthCredentials(speakerAuth: SpeakerAuth, listener: IDeviceModel.onSendAuthCredentialsListener) {
         deviceApi.authCredentials(speakerAuth.choice, speakerAuth.email, speakerAuth.password).enqueue(object : Callback<SpeakerAuthResponse> {
             override fun onFailure(call: Call<SpeakerAuthResponse>, t: Throwable?) {
-                if (t?.localizedMessage != null) {
-                    Timber.e(t.localizedMessage)
-                }
                 Timber.e(t, "Error in Authentication : " + call.toString())
                 if (t != null)
                     listener.onSendAuthFailure(t.localizedMessage)
@@ -58,9 +52,6 @@ class DeviceServiceImpl : DeviceService {
     override fun submitWifiCredentials(ssid: String, pass: String, listener: IDeviceModel.onSendWifiCredentialsListener) {
         deviceApi.wifiCredentials(ssid, pass).enqueue(object : Callback<SpeakerWifiResponse> {
             override fun onFailure(call: Call<SpeakerWifiResponse>, t: Throwable?) {
-                if (t?.localizedMessage != null) {
-                    Timber.e(t.localizedMessage)
-                }
                 Timber.e(t, "Error in WiFi : " + call.toString())
                 if (t != null)
                     listener.onSendCredentialFailure(t.localizedMessage)
@@ -75,9 +66,6 @@ class DeviceServiceImpl : DeviceService {
     override fun submitRoomDetails(roomName: String, listener: IDeviceModel.onSendRoomDetails) {
         deviceApi.roomDetails(roomName).enqueue(object : Callback<AddRoomResponse> {
             override fun onFailure(call: Call<AddRoomResponse>, t: Throwable) {
-                if (t?.localizedMessage != null) {
-                    Timber.e(t.localizedMessage)
-                }
                 Timber.e(t, "Error in WiFi : " + call.toString())
                 if (t != null)
                     listener.onSendRoomFailure(t.localizedMessage)
