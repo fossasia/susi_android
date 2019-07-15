@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <!-- View background color -->
+    <solid
+        android:color="@color/md_grey_200" >
+    </solid>
+
+    <!-- View border color and width -->
+    <stroke
+        android:width="@dimen/border_width"
+        android:color="@color/cardview_shadow_start_color" >
+    </stroke>
+
+    <!-- The radius makes the corners rounded -->
+    <corners
+        android:radius="@dimen/border_radius"   >
+    </corners>
+
+</shape>

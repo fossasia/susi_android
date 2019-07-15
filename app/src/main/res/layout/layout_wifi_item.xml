@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/margin_moderate"
     android:id="@+id/layout_wifi"
     android:orientation="horizontal">
@@ -18,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            tools:text="Testing"
+            android:textSize="@dimen/text_size_moderate"
             android:layout_marginRight="@dimen/margin_small"
             android:padding="@dimen/margin_moderate"
             />
