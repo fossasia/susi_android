@@ -30,24 +30,24 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
 
 <table>
   <tr>
-    <td><img src="docs/_static/login.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/signup.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/voice_input.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/login.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/signup.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/voice_input.png" height = "480" width="270"></td>
   </tr>
   <tr>
-    <td><img src="docs/_static/chat.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/skills_list.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/skills.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/chat.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/skills_list.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/skills.png" height = "480" width="270"></td>
   </tr>
   <tr>
-    <td><img src="docs/_static/groupwise_skills.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/rating_and_feedback.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/settings1.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/groupwise_skills.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/rating_and_feedback.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/settings1.png" height = "480" width="270"></td>
   </tr>
   <tr>
-    <td><img src="docs/_static/settings2.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/help.png" height = "480" width="270"></td>
-    <td><img src="docs/_static/privacy.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/settings2.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/help.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/privacy.png" height = "480" width="270"></td>
   </tr>
 </table>
 
