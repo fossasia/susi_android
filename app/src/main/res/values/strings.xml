@@ -292,7 +292,7 @@
     <!-- Devices String-->
     <string name="connect_success">Device Connected successfully!</string>
     <string name="auth_success">Authentication credentials sent successfully!</string>
-    <string name="wifi_success">Wifi credentials sent successfully!</string>
+    <string name="wifi_success">Wi-Fi credentials sent successfully!</string>
     <string name="config_success">Device config successfully</string>
     <string name="connection_error">Connection failed</string>
     <string name="wifi_error">Failed to configure the wifi connection to your device. Please try again.</string>
@@ -302,37 +302,37 @@
     <string name="scan_devices">Scanning for devices...</string>
     <string name="no_device_found">No devices found</string>
     <string name="setup_tut">If you\'re setting up a new device, make sure it\'s \n nearby and plugged into a wall outlet</string>
-    <string name="no_wifi_found">No WiFi-Networks found</string>
-    <string name="setup_wifi">Make sure there are WiFi connections available \n near you.</string>
-    <string name="connect_new_device">Connect New Device</string>
-    <string name="wifi_connection_failed">Wifi connection failed</string>
+    <string name="no_wifi_found">No Wi-Fi-Networks found</string>
+    <string name="setup_wifi">Make sure there are Wi-Fi connections available \n near you.</string>
+    <string name="connect_new_device">Connect new device</string>
+    <string name="wifi_connection_failed">Wi-Fi connection failed</string>
     <string name="password_title">Please enter your account password or choose the anonymous mode</string>
     <string name="adding_room">Adding Room...</string>
     <string name="error_adding_room">Failed to add room to the device. Please try again</string>
     <string name="error_adding_room_title">Adding Room Failed</string>
     <string name="device_setting_up">Setting up your device</string>
     <string name="susi_ai_hotspot" translatable="false">SUSI.AI</string>
-    
+
     <!-- Device Setup Screen -->
     <string name="connect">1. Connect</string>
-    <string name="wifi">2. Wifi</string>
+    <string name="wifi">2. Wi-Fi</string>
     <string name="room">3. Room</string>
     <string name="account">4. Account</string>
-    <string name="connect_to_susi">To start the configuration process, plug in your SUSI.AI smart device and wait for the \“Ping\” sound. The SUSI.AI device will automatically open a WiFi hotspot. Please connect your phone to the wireless network with the name \“SUSI.AI\”.</string>
+    <string name="connect_to_susi">To start the configuration process, plug in your SUSI.AI smart device and wait for the \“Ping\” sound. The SUSI.AI device will automatically open a Wi-Fi hotspot. Please connect your phone to the wireless network with the name \“SUSI.AI\”.</string>
     <string name="cannot_connect_button">I cannot connect</string>
     <string name="connected_to_susiai">Connected to SUSI.AI WiFi</string>
-    <string name="cannot_connect_details">Please check that your SUSI.AI smart device is plugged in and the latest SUSI.AI software is installed. Ensure you are disconnected from other WiFi networks.</string>
-    <string name="not_connected_susiai_details">Your phone is not connected to SUSI.AI hotspot. Please check your wifi connections and try again.</string>
-    <string name="wifi_connection_error">Wifi Connection not available</string>
-    <string name="scan_available_wifi">Scanning for available wifi\'s</string>
-    <string name="available_wifi">Available Wifi</string>
+    <string name="cannot_connect_details">Please check that your SUSI.AI smart device is plugged in and the latest SUSI.AI software is installed. Ensure you are disconnected from other Wi-Fi networks.</string>
+    <string name="not_connected_susiai_details">Your phone is not connected to SUSI.AI hotspot. Please check your Wi-Fi connections and try again.</string>
+    <string name="wifi_connection_error">Wi-Fi Connection not available</string>
+    <string name="scan_available_wifi">Scanning for available Wi-Fi\'s</string>
+    <string name="available_wifi">Available Wi-Fi</string>
     <string name="anonymous">Anonymous Mode</string>
     <string name="finish">Finish</string>
     <string name="anonymous_details">If you do not link the SUSI.AI smart device with an online account, you will not be able to reconfigure your speaker with the mobile app afterwards and add personal skills of services like music providers. To change anything you will need a hard reset of the device.</string>
-    <string name="know_what_to_do">I know what to do</string>
+    <string name="know_what_to_do">Use anonymous mode</string>
     <string name="enter_password_button">I want to use all features and enter my password</string>
     <string name="finish_setup_button">Yes, Finish Setup</string>
-    <string name="finish_setup_details">The SUSI.AI smart device will now shut down the hotspot and connect with your WiFi home network and online account. If SUSI.AI is not able to connect to your home WiFi network after 3 times, it will restart the SUSI.AI hotspot again and you can start the setup process again. If SUSI.AI connects successfully with the Internet and your account, it will show up in your list of connected devices and you can continue to configure its settings.</string>
+    <string name="finish_setup_details">The SUSI.AI smart device will now shut down the hotspot and connect with your Wi-Fi home network and online account. If SUSI.AI is not able to connect to your home Wi-Fi network after 3 times, it will restart the SUSI.AI hotspot again and you can start the setup process again. If SUSI.AI connects successfully with the Internet and your account, it will show up in your list of connected devices and you can continue to configure its settings.</string>
     <string name="go_back">Go Back</string>
     <string name="finish_setup_title">Finish Setup</string>
     <string name="succesfully_setup">You have configured a SUSI.AI smart device. Please wait a moment to check if the process was successful and go to the list of \“Smart Devices\” in your settings to check and continue to configure your device settings. Please connect your phone with the Internet now.</string>
@@ -504,7 +504,7 @@
     <string name="help_susi_skills">What skills do SUSI have?</string>
     <string name="help_susi_skills_desc">To know about the skills that SUSI posses move to \'SUSI.AI Skills\' page. You can reach there just by clicking on the \'SUSI\' logo present at the top right corner of the Chat page.</string>
     <string name="help_susi_changevoice">How to change SUSI voice ?</string>
-    <string name ="help_susi_changevoice_desc">In order to change voice and pitch of Susi, go to \'Settings \' and scroll down until you find \'Click here to change SUSI voice\' and change voice according to your preference. </string> <!--Privacy -->
+    <string name="help_susi_changevoice_desc">In order to change voice and pitch of Susi, go to \'Settings \' and scroll down until you find \'Click here to change SUSI voice\' and change voice according to your preference. </string> <!--Privacy -->
     <string name="privacy_welcome">Welcome to SUSI.AI</string>
     <string name="privacy_welcome_details">Thanks for using our products and services (“Services”). The Services are provided by SUSI Inc. (“SUSI”), located at 93 Mau Than, Can Tho City, Vietnam. By using our Services, you are agreeing to these terms. Please read them carefully.</string>
     <string name="privacy_services">Using Our Services</string>
