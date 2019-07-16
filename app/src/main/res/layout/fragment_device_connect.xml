@@ -178,4 +178,9 @@
         layout="@layout/finish_setup_layout"
         android:visibility="gone" />
 
+    <include
+        android:id="@+id/wifi_password_layout"
+        layout="@layout/wifi_password_layout"
+        android:visibility="gone" />
+
 </android.support.constraint.ConstraintLayout>
