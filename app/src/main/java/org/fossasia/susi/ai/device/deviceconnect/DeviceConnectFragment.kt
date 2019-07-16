@@ -52,6 +52,7 @@ import kotlinx.android.synthetic.main.password_layout.account_auth_password_inpu
 import kotlinx.android.synthetic.main.password_layout.password_finish
 import kotlinx.android.synthetic.main.password_layout.anonymous_mode
 import kotlinx.android.synthetic.main.password_layout.password_previous
+import kotlinx.android.synthetic.main.password_layout.account_email
 import kotlinx.android.synthetic.main.room_layout.edt_room
 import kotlinx.android.synthetic.main.room_layout.add_room
 import kotlinx.android.synthetic.main.room_layout.room_next
@@ -69,6 +70,8 @@ import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.Devic
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.SkillsActivity.Companion.REDIRECTED_FROM
@@ -264,6 +267,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     // Final step of connectivity
     override fun passwordLayoutSetup() {
         password_layout.visibility = View.VISIBLE
+        account_email.text = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         room.visibility = View.GONE
         room_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
         account_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
