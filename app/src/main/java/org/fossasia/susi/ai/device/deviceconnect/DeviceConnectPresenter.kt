@@ -83,6 +83,10 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         return false
     }
 
+    override fun selectedWifi(wifiName: String) {
+        deviceConnectView?.selectedWifi(wifiName)
+    }
+
     override fun addRoom(room: String) {
         realm = Realm.getDefaultInstance()
         realm.beginTransaction()
@@ -155,10 +159,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
         wm.disableNetwork(networkID)
     }
 
-    override fun initialSetup() {
-        deviceConnectView?.connectionMainScreen()
-    }
-
     inner class ConnectWifi : AsyncTask<Void, Void, Void>() {
 
         override fun doInBackground(vararg p0: Void?): Void? {
@@ -209,7 +209,6 @@ class DeviceConnectPresenter(context: Context, manager: WifiManager) : IDeviceCo
     override fun onSendCredentialFailure(localMessage: String) {
         Timber.d("WIFI - FAILURE")
         deviceConnectView?.stopProgress()
-        // deviceConnectView?.onDeviceConnectionError(utilModel.getString(R.string.wifi_error), localMessage)
         deviceConnectView?.wifiSetup()
         deviceConnectView?.showDialog(utilModel.getString(R.string.wifi_error), utilModel.getString(R.string.wifi_connection_failed))
     }
