@@ -393,7 +393,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setMessage(getString(R.string.anonymous_details))
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.know_what_to_do), DialogInterface.OnClickListener { dialog, id ->
+                .setPositiveButton(getString(R.string.use_anonymous_mode), DialogInterface.OnClickListener { dialog, id ->
                     dialog.cancel()
                     ANONYMOUS_MODE = true
                     deviceConnectPresenter.makeConfigRequest()
