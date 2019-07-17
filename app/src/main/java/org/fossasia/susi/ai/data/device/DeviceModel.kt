@@ -16,4 +16,8 @@ class DeviceModel : IDeviceModel {
     override fun sendAuthCredentials(speakerAuth: SpeakerAuth, listener: IDeviceModel.onSendAuthCredentialsListener) {
         deviceService.submitAuthCredentials(speakerAuth, listener)
     }
+
+    override fun sendRoomDetails(room_name: String, listener: IDeviceModel.onSendRoomDetails) {
+        deviceService.submitRoomDetails(room_name, listener)
+    }
 }

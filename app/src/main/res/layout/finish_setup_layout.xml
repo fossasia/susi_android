@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/width_null"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="10"
+        android:gravity="center_vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_moderate"
+            android:id="@+id/success_message"
+            android:text="@string/succesfully_setup"
+            android:textSize="@dimen/text_size_large" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/success_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginRight="@dimen/margin_moderate"
+            android:background="@color/colorPrimary"
+            android:text="@string/ok"
+            android:textAllCaps="false"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/text_size_medium" />
+    </LinearLayout>
+
+</LinearLayout>
