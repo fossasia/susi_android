@@ -38,9 +38,9 @@ interface IDeviceConnectPresenter {
 
     fun getSUSIAIConnectionInfo(): Boolean
 
-    fun initialSetup()
-
     fun selectedRoom(roomName: String?)
 
     fun makeAddRoomRequest(room_name: String)
+
+    fun selectedWifi(wifiName: String)
 }
