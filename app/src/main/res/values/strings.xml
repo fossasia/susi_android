@@ -329,7 +329,7 @@
     <string name="anonymous">Anonymous Mode</string>
     <string name="finish">Finish</string>
     <string name="anonymous_details">If you do not link the SUSI.AI smart device with an online account, you will not be able to reconfigure your speaker with the mobile app afterwards and add personal skills of services like music providers. To change anything you will need a hard reset of the device.</string>
-    <string name="know_what_to_do">Use anonymous mode</string>
+    <string name="use_anonymous_mode">Yes, use anonymous mode</string>
     <string name="enter_password_button">I want to use all features and enter my password</string>
     <string name="finish_setup_button">Yes, Finish Setup</string>
     <string name="finish_setup_details">The SUSI.AI smart device will now shut down the hotspot and connect with your Wi-Fi home network and online account. If SUSI.AI is not able to connect to your home Wi-Fi network after 3 times, it will restart the SUSI.AI hotspot again and you can start the setup process again. If SUSI.AI connects successfully with the Internet and your account, it will show up in your list of connected devices and you can continue to configure its settings.</string>
