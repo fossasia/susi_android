@@ -41,4 +41,6 @@ interface IDeviceConnectView {
     fun finishSetup()
 
     fun successSetup()
+
+    fun selectedWifi(wifiName: String)
 }

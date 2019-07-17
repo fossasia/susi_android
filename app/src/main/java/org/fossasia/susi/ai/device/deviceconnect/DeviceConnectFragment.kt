@@ -47,14 +47,20 @@ import kotlinx.android.synthetic.main.fragment_device_connect.room_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.password_layout
 import kotlinx.android.synthetic.main.fragment_device_connect.account_wizard
 import kotlinx.android.synthetic.main.fragment_device_connect.success_setup_screen
+import kotlinx.android.synthetic.main.fragment_device_connect.wifi_password_layout
 import kotlinx.android.synthetic.main.password_layout.account_auth_password_input
 import kotlinx.android.synthetic.main.password_layout.password_finish
 import kotlinx.android.synthetic.main.password_layout.anonymous_mode
 import kotlinx.android.synthetic.main.password_layout.password_previous
+import kotlinx.android.synthetic.main.password_layout.account_email
 import kotlinx.android.synthetic.main.room_layout.edt_room
 import kotlinx.android.synthetic.main.room_layout.add_room
 import kotlinx.android.synthetic.main.room_layout.room_next
 import kotlinx.android.synthetic.main.room_layout.room_previous
+import kotlinx.android.synthetic.main.wifi_password_layout.wifi_next
+import kotlinx.android.synthetic.main.wifi_password_layout.wifi_previous
+import kotlinx.android.synthetic.main.wifi_password_layout.wifi_name_show
+import kotlinx.android.synthetic.main.wifi_password_layout.wifi_password_input
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.model.RoomsAvailable
 import org.fossasia.susi.ai.device.DeviceActivity
@@ -64,6 +70,8 @@ import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.Devic
 import org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters.RoomsAdapter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectView
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.SkillsActivity.Companion.REDIRECTED_FROM
@@ -131,7 +139,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         scanHelp.visibility = View.GONE
         showWifiList = false
         addDeviceButton.visibility = View.GONE
+        scanHelp.visibility = View.GONE
         deviceList.visibility = View.GONE
+        wifi_password_layout.visibility = View.GONE
         wifiList.visibility = View.GONE
         connect_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
         wifi_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_normal)
@@ -163,7 +173,9 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         room.visibility = View.GONE
         showWifiList = true
         connection_susiai_main_screen.visibility = View.GONE
+        wifi_password_layout.visibility = View.GONE
         showWifi.visibility = View.VISIBLE
+        scanHelp.visibility = View.VISIBLE
         room_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_normal)
         room_wizard.setTextColor(Color.BLACK)
         wifi_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
@@ -182,6 +194,28 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                 }).setTitle(title).create().show()
     }
 
+    // Prompt password for selected wifi
+    override fun selectedWifi(wifiName: String) {
+        addDeviceButton.visibility = View.GONE
+        deviceList.visibility = View.GONE
+        wifiList.visibility = View.GONE
+        password_layout.visibility = View.GONE
+        showWifiList = false
+        connection_susiai_main_screen.visibility = View.GONE
+        showWifi.visibility = View.GONE
+        scanHelp.visibility = View.GONE
+        wifi_password_layout.visibility = View.VISIBLE
+        wifi_name_show.text = wifiName
+
+        wifi_previous.setOnClickListener {
+            connectionMainScreen()
+        }
+
+        wifi_next.setOnClickListener {
+            deviceConnectPresenter.makeWifiRequest(wifiName, wifi_password_input.text.toString())
+        }
+    }
+
     // Function to show available rooms in the 3rd step
     override fun rooms() {
         stopProgress()
@@ -189,6 +223,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
         wifiList.visibility = View.GONE
+        wifi_password_layout.visibility = View.GONE
         password_layout.visibility = View.GONE
         showWifiList = false
         connection_susiai_main_screen.visibility = View.GONE
@@ -232,6 +267,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     // Final step of connectivity
     override fun passwordLayoutSetup() {
         password_layout.visibility = View.VISIBLE
+        account_email.text = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
         room.visibility = View.GONE
         room_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
         account_wizard.background = ContextCompat.getDrawable(requireContext(), R.drawable.border_blue)
