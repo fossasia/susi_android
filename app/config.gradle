@@ -24,4 +24,5 @@ ext {
     jUnitVersion = '4.12'
     mockitoCoreVersion = '1.10.19'
     playServiceAuthVersion='16.0.1'
+    shimmerVersion = "0.5.0"
 }
