@@ -62,6 +62,8 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     companion object {
         val SETTINGS_FRAGMENT = "settingsFragment"
         val REDIRECTED_FROM = "redirectedFrom"
+        var FILTER_NAME = Constant.DESCENDING
+        var FILTER_TYPE = "rating"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -195,6 +197,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             R.id.action_voice_search -> {
                 handleVoiceSearch()
             }
+            R.id.menu_ascending -> {
+                FILTER_NAME = Constant.ASCENDING
+            }
+            R.id.menu_descending -> {
+                FILTER_NAME = Constant.DESCENDING
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -291,7 +299,21 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         searchAction = menu?.findItem(R.id.action_search)
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         when (currentFragment) {
-            is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
+            is SkillListingFragment -> {
+                menu?.setGroupVisible(R.id.menu_items, true)
+                menu?.setGroupVisible(R.id.skill_group_menu_items, false)
+            }
+            is GroupWiseSkillsFragment -> {
+                menu?.setGroupVisible(R.id.skill_group_menu_items, true)
+                menu?.setGroupVisible(R.id.menu_items, false)
+                if (FILTER_NAME == Constant.DESCENDING) {
+                    menu?.findItem(R.id.menu_descending)?.setVisible(false)
+                    menu?.findItem(R.id.menu_ascending)?.setVisible(true)
+                } else if (FILTER_NAME == Constant.ASCENDING) {
+                    menu?.findItem(R.id.menu_descending)?.setVisible(true)
+                    menu?.findItem(R.id.menu_ascending)?.setVisible(false)
+                }
+            }
             else -> menu?.setGroupVisible(R.id.menu_items, false)
         }
         val signUpMenuItem = menu?.findItem(R.id.menu_signup)

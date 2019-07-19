@@ -95,4 +95,8 @@ object Constant {
 
     // Visit Website Url
     const val SUSI_VISIT_WEBSITE = "https://chat.susi.ai/"
+
+    // filter keys
+    const val ASCENDING = "ascending"
+    const val DESCENDING = "descending"
 }

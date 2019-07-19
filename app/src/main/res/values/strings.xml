@@ -48,6 +48,16 @@
     <string name="menu_item_settings">Settings</string>
     <string name="menu_item_help">Help</string>
     <string name="menu_item_privacy">Privacy</string>
+    <string name="menu_top_rated">Top Rated</string>
+    <string name="menu_a_to_z">Name(A-Z)</string>
+    <string name="menu_most_rated">Most Rated</string>
+    <string name="menu_newly_created">Newly Created</string>
+    <string name="menu_recently_updated">Recently Updated</string>
+    <string name="menu_feedback_count">Feedback Count</string>
+    <string name="menu_week_usage">This Week Usage</string>
+    <string name="menu_month_usage">This Month Usage</string>
+    <string name="menu_ascending">Ascending</string>
+    <string name="menu_descending">Descending</string>
 
     <string name="message_copied">Message copied</string>
 
