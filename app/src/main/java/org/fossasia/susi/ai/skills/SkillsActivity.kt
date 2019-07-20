@@ -58,6 +58,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private var group: String = ""
     private lateinit var settingsPresenter: ISettingsPresenter
     private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
+    private lateinit var groupWiseSkillsFragment: GroupWiseSkillsFragment
 
     companion object {
         val SETTINGS_FRAGMENT = "settingsFragment"
@@ -201,36 +202,46 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             R.id.menu_ascending -> {
                 FILTER_NAME = Constant.ASCENDING
                 invalidateOptionsMenu()
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_descending -> {
                 FILTER_NAME = Constant.DESCENDING
                 invalidateOptionsMenu()
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_a_to_z -> {
                 FILTER_TYPE = Constant.NEW_A_TO_Z
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_top_rated -> {
                 FILTER_TYPE = Constant.TOP_RATED
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_most_rated -> {
                 FILTER_TYPE = Constant.MOST_RATED
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_newly_created -> {
                 FILTER_TYPE = Constant.NEWLY_CREATED
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_recently_updated -> {
                 FILTER_TYPE = Constant.RECENTLY_UPDATED
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_feedback_count -> {
                 FILTER_TYPE = Constant.FEEDBACK_COUNT
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_week_usage -> {
                 FILTER_TYPE = Constant.USAGE
                 DURATION = 7
+                groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_month_usage -> {
                 FILTER_TYPE = Constant.USAGE
                 DURATION = 30
+                groupWiseSkillsFragment.onRefresh()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -376,7 +387,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
 
     override fun loadGroupWiseSkillsFragment(group: String) {
         handleOnLoadingFragment()
-        val groupWiseSkillsFragment = GroupWiseSkillsFragment.newInstance(group)
+        groupWiseSkillsFragment = GroupWiseSkillsFragment.newInstance(group)
         (this).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, groupWiseSkillsFragment)
                 .addToBackStack(GroupWiseSkillsFragment().toString())
