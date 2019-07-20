@@ -13,7 +13,7 @@ interface IGroupWiseSkillsModel {
         fun onSkillFetchFailure(t: Throwable)
     }
 
-    fun fetchSkills(group: String, language: String, listener: OnFetchSkillsFinishedListener)
+    fun fetchSkills(group: String, language: String, filter_name: String, filter_type: String, duration: Int, listener: OnFetchSkillsFinishedListener)
 
     fun cancelFetch()
 }
