@@ -58,6 +58,7 @@
     <string name="menu_month_usage">This Month Usage</string>
     <string name="menu_ascending">Ascending</string>
     <string name="menu_descending">Descending</string>
+    <string name="sort_by">Sort by..</string>
 
     <string name="message_copied">Message copied</string>
 

@@ -27,6 +27,11 @@
 
     <group android:id="@+id/skill_group_menu_items">
         <item
+            android:id="@+id/sort"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/sort_by"
+            android:enabled="false"/>
+        <item
             android:id="@+id/menu_a_to_z"
             android:icon="@drawable/ic_format_list_bulleted_black_24dp"
             android:title="@string/menu_a_to_z" />

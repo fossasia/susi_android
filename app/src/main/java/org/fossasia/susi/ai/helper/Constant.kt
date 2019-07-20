@@ -99,4 +99,11 @@ object Constant {
     // filter keys
     const val ASCENDING = "ascending"
     const val DESCENDING = "descending"
+    const val TOP_RATED = "top_rated"
+    const val NEW_A_TO_Z = "lexicographical"
+    const val MOST_RATED = "rating"
+    const val NEWLY_CREATED = "creation_date"
+    const val RECENTLY_UPDATED = "modified_date"
+    const val FEEDBACK_COUNT = "feedback"
+    const val USAGE = "usage"
 }

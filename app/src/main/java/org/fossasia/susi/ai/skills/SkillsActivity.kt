@@ -64,6 +64,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val REDIRECTED_FROM = "redirectedFrom"
         var FILTER_NAME = Constant.DESCENDING
         var FILTER_TYPE = "rating"
+        var DURATION = 7
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -199,9 +200,37 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             }
             R.id.menu_ascending -> {
                 FILTER_NAME = Constant.ASCENDING
+                invalidateOptionsMenu()
             }
             R.id.menu_descending -> {
                 FILTER_NAME = Constant.DESCENDING
+                invalidateOptionsMenu()
+            }
+            R.id.menu_a_to_z -> {
+                FILTER_TYPE = Constant.NEW_A_TO_Z
+            }
+            R.id.menu_top_rated -> {
+                FILTER_TYPE = Constant.TOP_RATED
+            }
+            R.id.menu_most_rated -> {
+                FILTER_TYPE = Constant.MOST_RATED
+            }
+            R.id.menu_newly_created -> {
+                FILTER_TYPE = Constant.NEWLY_CREATED
+            }
+            R.id.menu_recently_updated -> {
+                FILTER_TYPE = Constant.RECENTLY_UPDATED
+            }
+            R.id.menu_feedback_count -> {
+                FILTER_TYPE = Constant.FEEDBACK_COUNT
+            }
+            R.id.menu_week_usage -> {
+                FILTER_TYPE = Constant.USAGE
+                DURATION = 7
+            }
+            R.id.menu_month_usage -> {
+                FILTER_TYPE = Constant.USAGE
+                DURATION = 30
             }
         }
         return super.onOptionsItemSelected(item)
