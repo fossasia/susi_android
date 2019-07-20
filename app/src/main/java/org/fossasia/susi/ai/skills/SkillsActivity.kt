@@ -65,7 +65,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         val REDIRECTED_FROM = "redirectedFrom"
         var FILTER_NAME = Constant.DESCENDING
         var FILTER_TYPE = "rating"
-        var DURATION = 7
+        var DURATION = "7"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -235,12 +235,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             }
             R.id.menu_week_usage -> {
                 FILTER_TYPE = Constant.USAGE
-                DURATION = 7
+                DURATION = "7"
                 groupWiseSkillsFragment.onRefresh()
             }
             R.id.menu_month_usage -> {
                 FILTER_TYPE = Constant.USAGE
-                DURATION = 30
+                DURATION = "30"
                 groupWiseSkillsFragment.onRefresh()
             }
         }

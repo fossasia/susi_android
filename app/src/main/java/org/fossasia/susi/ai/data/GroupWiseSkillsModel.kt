@@ -17,8 +17,8 @@ class GroupWiseSkillsModel : IGroupWiseSkillsModel {
 
     private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
 
-    override fun fetchSkills(group: String, language: String, filter_name: String, filter_type: String, duration: Int, listener: IGroupWiseSkillsModel.OnFetchSkillsFinishedListener) {
-        val queryObject = SkillsListQuery(group, language, "true", filter_name, filter_type)
+    override fun fetchSkills(group: String, language: String, filter_name: String, filter_type: String, duration: String, listener: IGroupWiseSkillsModel.OnFetchSkillsFinishedListener) {
+        val queryObject = SkillsListQuery(group, language, "true", filter_name, filter_type, duration)
         authResponseCallSkills = ClientBuilder.fetchListSkillsCall(queryObject)
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {
