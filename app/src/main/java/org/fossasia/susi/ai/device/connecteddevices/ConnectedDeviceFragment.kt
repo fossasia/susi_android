@@ -20,6 +20,7 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     private lateinit var connectedDevicePresenter: IConnectedDevicePresenter
     private var connectedDevicesAdapter: RecyclerView.Adapter<*>? = null
     private val connectedDeviceList: ArrayList<Device> = ArrayList()
+    private val macIdList: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +48,7 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
 
         deviceResponseMap?.forEach { item ->
             connectedDeviceList.add(item.value)
+            macIdList.add(item.key)
         }
 
         if (connectedDeviceList.isNullOrEmpty()) {
