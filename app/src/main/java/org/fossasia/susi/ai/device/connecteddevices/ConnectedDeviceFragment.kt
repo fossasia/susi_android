@@ -20,7 +20,7 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     private lateinit var connectedDevicePresenter: IConnectedDevicePresenter
     private var connectedDevicesAdapter: RecyclerView.Adapter<*>? = null
     private val connectedDeviceList: ArrayList<Device> = ArrayList()
-    private val macIdList: ArrayList<String> = ArrayList()
+    private val macIdList = mutableList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
