@@ -354,7 +354,10 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                     menu?.findItem(R.id.menu_ascending)?.setVisible(false)
                 }
             }
-            else -> menu?.setGroupVisible(R.id.menu_items, false)
+            else -> {
+                menu?.setGroupVisible(R.id.menu_items, false)
+                menu?.setGroupVisible(R.id.skill_group_menu_items, false)
+            }
         }
         val signUpMenuItem = menu?.findItem(R.id.menu_signup)
         val loginMenuItem = menu?.findItem(R.id.menu_login)
