@@ -9,5 +9,6 @@ data class SkillsListQuery(
     val language: String = "",
     val applyFilter: String = "",
     val filterName: String = "",
-    val filterType: String = ""
+    val filterType: String = "",
+    val duration: String = ""
 )
