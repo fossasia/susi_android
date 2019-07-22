@@ -189,7 +189,7 @@ interface SusiService {
     @GET("/aaa/addNewDevice.json")
     fun addSusiDevices(@QueryMap query: Map<String, String>): Call<GetAddDeviceResponse>
 
-    @get:GET("/aaa/listUserSettings.json")
+    @get:GET("/aaa/listUserDevices.json")
     val getConnectedDevices: Call<ConnectedDevicesResponse>
 
     /**
