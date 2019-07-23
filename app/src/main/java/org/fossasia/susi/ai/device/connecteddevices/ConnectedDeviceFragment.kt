@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.device.connecteddevices
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_connected_device.deviceStatus
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.device.DeviceActivity
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_VIEW_DEVICE_FRAGMENT
 import org.fossasia.susi.ai.device.connecteddevices.adapters.ConnectedDevicesAdapter
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDevicePresenter
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDeviceView
@@ -20,7 +24,7 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     private lateinit var connectedDevicePresenter: IConnectedDevicePresenter
     private var connectedDevicesAdapter: RecyclerView.Adapter<*>? = null
     private val connectedDeviceList: ArrayList<Device> = ArrayList()
-    private val macIdList = mutableList<String>()
+    private val macIdList: MutableList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +67,15 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     fun showDevices() {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         connectedDeviceRecyclerView.layoutManager = layoutManager
-        connectedDevicesAdapter = ConnectedDevicesAdapter(connectedDeviceList)
+        connectedDevicesAdapter = ConnectedDevicesAdapter(connectedDeviceList, connectedDevicePresenter)
         connectedDeviceRecyclerView.adapter = connectedDevicesAdapter
+    }
+
+    override fun viewDevice(positiion: Int) {
+        val intent = Intent(activity, DeviceActivity::class.java)
+        intent.putExtra(CONNECT_TO, TAG_VIEW_DEVICE_FRAGMENT)
+        intent.putExtra("deviceDetails", connectedDeviceList[positiion])
+        intent.putExtra("macId", macIdList[positiion])
+        startActivity(intent)
     }
 }
