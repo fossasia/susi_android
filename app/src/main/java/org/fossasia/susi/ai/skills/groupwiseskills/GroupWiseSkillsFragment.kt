@@ -193,6 +193,9 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     }
 
     override fun onRefresh() {
+        skills.skillsList.clear()
+        skillsAdapter.notifyDataSetChanged()
+        messageNoSkillsFound.visibility = View.GONE
         setUPAdapter()
         groupWiseSkillsPresenter.getSkills(swipeRefreshLayout.isRefreshing, skills.group)
     }
