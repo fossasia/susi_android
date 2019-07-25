@@ -5,11 +5,12 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_view_device.spk_room
-import kotlinx.android.synthetic.main.fragment_view_device.spk_location
-import kotlinx.android.synthetic.main.fragment_view_device.spk_name
-import kotlinx.android.synthetic.main.fragment_view_device.spk_macid
-import kotlinx.android.synthetic.main.fragment_view_device.spk_email
+import kotlinx.android.synthetic.main.fragment_view_device.view_device
+import kotlinx.android.synthetic.main.view_device_layout.spk_location
+import kotlinx.android.synthetic.main.view_device_layout.spk_email
+import kotlinx.android.synthetic.main.view_device_layout.spk_macid
+import kotlinx.android.synthetic.main.view_device_layout.spk_room
+import kotlinx.android.synthetic.main.view_device_layout.spk_name
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.viewdevice.contract.IViewDeviceView
 import org.fossasia.susi.ai.helper.Constant
@@ -44,6 +45,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
 
     // Function to show the device information
     override fun viewDetails() {
+        view_device.visibility = View.VISIBLE
         spk_email.text = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next().toString()
         spk_macid.text = macId
         spk_room.text = device?.room
