@@ -1,6 +1,7 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="org.fossasia.susi.ai.device.viewdevice.ViewDeviceFragment">
 
@@ -8,4 +9,8 @@
         android:id="@+id/view_device"
         layout="@layout/view_device_layout" />
 
-</ScrollView>
+    <include
+        android:id="@+id/change_name"
+        layout="@layout/edit_name_layout" />
+
+</LinearLayout>
