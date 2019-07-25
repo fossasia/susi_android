@@ -582,5 +582,10 @@
     <!-- Manage Devices -->
     <string name="music_services">Music Services</string>
     <string name="say_hey_susi">Start with \"Hey Susi\"</string>
+    <string name="linked_account">Linked account</string>
+    <string name="name">Name</string>
+    <string name="room_heading">Room</string>
+    <string name="location">Location</string>
+    <string name="mac_address">Mac Address</string>
 
 </resources>

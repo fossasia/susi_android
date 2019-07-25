@@ -1,3 +1,6 @@
 package org.fossasia.susi.ai.device.viewdevice.contract
 
-interface IViewDeviceView
+interface IViewDeviceView {
+
+    fun viewDetails()
+}
