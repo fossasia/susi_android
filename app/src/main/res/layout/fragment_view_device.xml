@@ -11,6 +11,12 @@
 
     <include
         android:id="@+id/change_name"
-        layout="@layout/edit_name_layout" />
+        layout="@layout/edit_name_layout"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/change_room"
+        layout="@layout/edit_room_layout"
+        android:visibility="gone"/>
 
 </LinearLayout>

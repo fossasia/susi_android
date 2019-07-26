@@ -2,10 +2,14 @@ package org.fossasia.susi.ai.device.viewdevice
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.realm.Realm
 import kotlinx.android.synthetic.main.edit_name_layout.*
+import kotlinx.android.synthetic.main.edit_room_layout.*
 import kotlinx.android.synthetic.main.fragment_view_device.*
 import kotlinx.android.synthetic.main.view_device_layout.spk_location
 import kotlinx.android.synthetic.main.view_device_layout.spk_email
@@ -13,6 +17,8 @@ import kotlinx.android.synthetic.main.view_device_layout.spk_macid
 import kotlinx.android.synthetic.main.view_device_layout.spk_room
 import kotlinx.android.synthetic.main.view_device_layout.spk_name
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.model.RoomsAvailable
+import org.fossasia.susi.ai.device.viewdevice.adapters.ShowRoomsAdapter
 import org.fossasia.susi.ai.device.viewdevice.contract.IViewDeviceView
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -25,7 +31,11 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
     private lateinit var room: String
     private lateinit var latitude: String
     private lateinit var longitude: String
-
+    private lateinit var realm: Realm
+    private val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
+    private lateinit var availableRoomsRecyclerView: RecyclerView
+    private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
+    private var roomNameSelected: String? = null
     private lateinit var viewDevicePresenter: ViewDevicePresenter
 
     override fun onCreateView(
@@ -33,7 +43,9 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_view_device, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_view_device, container, false)
+        availableRoomsRecyclerView = rootView.findViewById(R.id.edit_rooms_available)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,6 +58,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         room = device?.room.toString()
         latitude = device?.geolocation?.latitude.toString()
         longitude = device?.geolocation?.longitude.toString()
+        realm = Realm.getDefaultInstance()
 
         viewDevicePresenter = ViewDevicePresenter()
         viewDevicePresenter.onAttach(this, macId, device)
@@ -59,12 +72,17 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         spk_name.setOnClickListener {
             changeSpeakerName()
         }
+
+        spk_room.setOnClickListener {
+            changeRoomName()
+        }
     }
 
     // Function to show the device information
     override fun viewDetails() {
         view_device.visibility = View.VISIBLE
         change_name.visibility = View.GONE
+        change_room.visibility = View.GONE
         spk_email.text = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next().toString()
         spk_macid.text = macId
         spk_room.text = room
@@ -75,6 +93,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
     override fun changeSpeakerName() {
         change_name.visibility = View.VISIBLE
         view_device.visibility = View.GONE
+        change_room.visibility = View.GONE
 
         name_cancel.setOnClickListener {
             viewDetails()
@@ -86,4 +105,43 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
             viewDetails()
         }
     }
+
+    override fun changeRoomName() {
+        change_name.visibility = View.GONE
+        view_device.visibility = View.GONE
+        change_room.visibility = View.VISIBLE
+        showRooms()
+
+        edit_room_previous.setOnClickListener {
+            viewDetails()
+        }
+
+        edit_room_save.setOnClickListener {
+            // Implement on click listener function
+        }
+    }
+
+    override fun showRooms() {
+        availableRoomsList.clear()
+        realm.beginTransaction()
+        var results = realm.where(RoomsAvailable::class.java).findAll()
+        realm.commitTransaction()
+        if (results.size == 0) {
+            viewDevicePresenter.addRoom("Home")
+        } else {
+            results.forEach { result ->
+                val roomsAvailable = AvailableRoomsFormat(result.id, result.room)
+                availableRoomsList.add(roomsAvailable)
+            }
+        }
+        var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        availableRoomsRecyclerView.layoutManager = layoutManager
+        availableRoomsAdapter = ShowRoomsAdapter(availableRoomsList, requireContext(), viewDevicePresenter)
+        availableRoomsRecyclerView.adapter = availableRoomsAdapter
+    }
+
+    data class AvailableRoomsFormat(
+        val id: Long,
+        val room: String?
+    )
 }

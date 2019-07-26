@@ -589,5 +589,6 @@
     <string name="mac_address">Mac Address</string>
     <string name="save">Save</string>
     <string name="change_spk_name">Enter the new name of your speaker and press \'Save\' button to use it.</string>
+    <string name="change_spk_room">Choose the new room of your speaker and press \'Save\' button to use it. You can also add new rooms to use them.</string>
 
 </resources>

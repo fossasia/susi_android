@@ -7,4 +7,8 @@ interface IViewDeviceView {
     fun initialSetUp()
 
     fun changeSpeakerName()
+
+    fun changeRoomName()
+
+    fun showRooms()
 }
