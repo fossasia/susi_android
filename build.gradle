@@ -27,4 +27,3 @@ allprojects {
         CIRCLE_BUILD = System.getenv("CIRCLECI") == "true" && KEYSTORE_FILE.exists()
     }
 }
-
