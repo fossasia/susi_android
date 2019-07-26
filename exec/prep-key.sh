@@ -8,7 +8,5 @@ if [ "$CIRCLE_PROJECT_USERNAME" != "fossasia" -o "$CIRCLE_BRANCH" != "$DEPLOY_BR
     exit 0
 fi
 
-export CIRCLE_SIGNING_ENABLED=true
-
 openssl aes-256-cbc -d -md sha256 -in ./exec/secrets.tar.enc -out ./exec/secrets.tar -k $ENCRYPT_KEY
 tar xvf ./exec/secrets.tar -C exec/
