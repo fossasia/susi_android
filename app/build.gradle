@@ -1,5 +1,6 @@
 plugins {
     id "com.diffplug.gradle.spotless" version "3.23.1"
+    id "com.github.b3er.local.properties" version "1.1"
 }
 
 def rootConfiguration = {}
@@ -14,6 +15,8 @@ apply plugin: 'realm-android'
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
 //noinspection SpellCheckingInspection
 def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
+
+def LOCAL_KEY_PRESENT = project.hasProperty('SIGNING_KEY_FILE') && rootProject.file(SIGNING_KEY_FILE).exists()
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
@@ -35,12 +38,34 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    signingConfigs {
+        if (CIRCLE_BUILD) {
+            release {
+                storeFile KEYSTORE_FILE
+                storePassword System.getenv("STORE_PASS")
+                keyAlias System.getenv("ALIAS")
+                keyPassword System.getenv("KEY_PASS")
+            }
+        } else if (LOCAL_KEY_PRESENT) {
+            release {
+                storeFile rootProject.file(SIGNING_KEY_FILE)
+                storePassword STORE_PASS
+                keyAlias ALIAS
+                keyPassword KEY_PASS
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'
             buildConfigField "String", "MAPBOX_API_KEY", MAPBOX_API_KEY
+
+            if (LOCAL_KEY_PRESENT || CIRCLE_BUILD)
+                signingConfig signingConfigs.release
         }
 
         debug {
