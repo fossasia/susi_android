@@ -3,9 +3,11 @@ package org.fossasia.susi.ai.chat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -19,7 +21,9 @@ import kotlinx.android.synthetic.main.fragment_sttframe.view.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.VoiceCommandsAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
+import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
+import java.util.Locale
 
 /**
  * Created by meeera on 17/8/17.
@@ -28,6 +32,9 @@ class STTFragment : Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
     private val thisActivity = activity
+    private var textToSpeech: TextToSpeech? = null
+    private val mainHandler: Handler = Handler()
+    private val subHandler: Handler = Handler()
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -39,9 +46,40 @@ class STTFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_sttframe, container, false)
         if (thisActivity is ChatActivity)
             thisActivity.fabsetting.hide()
-        promptSpeechInput()
         setupCommands(rootView)
         return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        recognizer = SpeechRecognizer
+                .createSpeechRecognizer(activity?.applicationContext)
+
+        mainHandler.post(runnable)
+        if (!PrefManager.getBoolean(R.string.used_voice, true)) {
+            subHandler.postDelayed(delayRunnable, 1500)
+        }
+
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private val runnable: Runnable = Runnable {
+        textToSpeech = TextToSpeech(requireContext(), TextToSpeech.OnInitListener { status ->
+            if (status != TextToSpeech.ERROR) {
+                val locale = textToSpeech?.language
+                textToSpeech?.language = locale
+                if (!PrefManager.getBoolean(R.string.used_voice, false)) {
+                    textToSpeech?.speak(getString(R.string.voice_welcome), TextToSpeech.QUEUE_FLUSH, null)
+                    PrefManager.putBoolean(R.string.used_voice, true)
+                } else {
+                    promptSpeechInput()
+                }
+            }
+        })
+    }
+
+    private val delayRunnable: Runnable = Runnable {
+        promptSpeechInput()
     }
 
     private fun setupCommands(rootView: View) {
@@ -50,16 +88,18 @@ class STTFragment : Fragment() {
         rootView.clickableCommands.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rootView.clickableCommands.adapter = VoiceCommandsAdapter(voiceCommandsList, activity)
     }
+
     private fun promptSpeechInput() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 "com.domain.app")
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
         intent.putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
+        intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000)
 
-        recognizer = SpeechRecognizer
-                .createSpeechRecognizer(activity?.applicationContext)
         val listener = object : RecognitionListener {
             override fun onResults(results: Bundle) {
                 val voiceResults = results
@@ -81,6 +121,9 @@ class STTFragment : Fragment() {
                     chatPresenter.startHotwordDetection()
                 }
                 (activity as ChatActivity).fabsetting.show()
+                activity?.searchChat?.show()
+                activity?.voiceSearchChat?.show()
+                activity?.btnSpeak?.isEnabled = true
                 activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
@@ -94,6 +137,10 @@ class STTFragment : Fragment() {
                 speechProgress?.onResultOrOnError()
                 recognizer.destroy()
                 activity?.fabsetting?.show()
+                activity?.searchChat?.show()
+                activity?.voiceSearchChat?.show()
+                activity?.btnSpeak?.isEnabled = true
+                chatPresenter.startHotwordDetection()
                 activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
@@ -134,7 +181,16 @@ class STTFragment : Fragment() {
             thisActivity.enableVoiceInput()
             thisActivity.fabsetting.show()
         }
+        if (textToSpeech != null) {
+            textToSpeech?.stop()
+        }
         recognizer.cancel()
         recognizer.destroy()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mainHandler.removeCallbacks(runnable)
+        subHandler.removeCallbacks(delayRunnable)
     }
 }

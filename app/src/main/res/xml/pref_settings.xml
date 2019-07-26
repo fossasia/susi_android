@@ -77,14 +77,18 @@
         android:key="device_section">
 
         <PreferenceScreen
+            android:key="setup"
+            android:title="@string/connect_new_device"
+            android:summary="@string/settings_devices_setup" />
+
+        <PreferenceScreen
             android:key="device"
-            android:selectable="false"
             android:summary="Your device will be shown here when it is connected"
             android:title="@string/pref_devices_not_connected" />
 
         <PreferenceScreen
-            android:key="setup"
-            android:summary="@string/settings_devices_setup" />
+            android:key ="manage_devices"
+            android:summary="Manage your smart speaker" />
 
     </PreferenceCategory>
 

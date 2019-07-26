@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:orientation="vertical"
+        android:layout_margin="@dimen/padding_large"
+        android:layout_weight="0.5">
+
+        <ImageView
+            android:id="@+id/image_tick"
+            android:layout_width="@dimen/home_dimens"
+            android:layout_height="@dimen/home_dimens"
+            android:background="@drawable/ic_home_black_24dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/room_text"
+        android:layout_width="@dimen/width_null"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_large"
+        android:layout_weight="4"
+        android:clickable="true"
+        android:text="Living Room" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_margin="@dimen/padding_large"
+        android:layout_weight="0.5">
+
+        <ImageButton
+            android:id="@+id/delete_room"
+            android:layout_width="@dimen/home_dimens"
+            android:layout_height="@dimen/home_dimens"
+            android:background="@drawable/ic_delete_black_24dp" />
+
+    </LinearLayout>
+</LinearLayout>

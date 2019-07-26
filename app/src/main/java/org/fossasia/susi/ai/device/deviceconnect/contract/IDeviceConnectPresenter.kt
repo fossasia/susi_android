@@ -6,8 +6,6 @@ interface IDeviceConnectPresenter {
 
     fun onAttach(deviceConnectView: IDeviceConnectView)
 
-    fun searchDevices()
-
     fun availableWifi(list: List<ScanResult>)
 
     fun onDetach()
@@ -31,4 +29,18 @@ interface IDeviceConnectPresenter {
     fun makeConfigRequest()
 
     fun makeAuthRequest(password: String)
+
+    fun disconnectConnectedWifi()
+
+    fun addRoom(room: String)
+
+    fun deleteRoom(room: String?)
+
+    fun getSUSIAIConnectionInfo(): Boolean
+
+    fun selectedRoom(roomName: String?)
+
+    fun makeAddRoomRequest(room_name: String)
+
+    fun selectedWifi(wifiName: String)
 }

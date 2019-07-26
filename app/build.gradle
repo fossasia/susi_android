@@ -1,5 +1,5 @@
 plugins {
-    id "com.diffplug.gradle.spotless" version "3.23.0"
+    id "com.diffplug.gradle.spotless" version "3.23.1"
 }
 
 def rootConfiguration = {}
@@ -22,8 +22,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 17
-        versionName "1.2.0"
+        versionCode 18
+        versionName "1.3.0"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -151,7 +151,9 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
 
     //Shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+    implementation "com.facebook.shimmer:shimmer:${rootConfiguration.shimmerVersion}"
 
+    //Smart LOck authentication
+    implementation "com.google.android.gms:play-services-auth:${rootConfiguration.playServiceAuthVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
 }

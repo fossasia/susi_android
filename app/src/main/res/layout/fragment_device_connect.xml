@@ -1,9 +1,67 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_moderate"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/connect_wizard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"
+            android:layout_weight="1"
+            android:background="@drawable/border_blue"
+            android:gravity="center"
+            android:text="@string/connect"
+            android:textColor="@color/md_white_1000"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/wifi_wizard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"
+            android:layout_weight="1"
+            android:background="@drawable/border_normal"
+            android:gravity="center"
+            android:text="@string/wifi"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/room_wizard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"
+            android:layout_weight="1"
+            android:background="@drawable/border_normal"
+            android:gravity="center"
+            android:text="@string/room"
+            android:textSize="@dimen/text_size_medium" />
+
+        <TextView
+            android:id="@+id/account_wizard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_moderate"
+            android:layout_marginTop="@dimen/margin_moderate"
+            android:layout_marginRight="@dimen/margin_moderate"
+            android:layout_weight="1"
+            android:background="@drawable/border_normal"
+            android:gravity="center"
+            android:text="@string/account"
+            android:textSize="@dimen/text_size_medium" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/scanDevice"
@@ -11,19 +69,33 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_extra_large"
         android:gravity="center"
-        android:visibility="gone"
         android:text="@string/scan_devices"
         android:textAppearance="?android:textAppearanceLarge"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/showWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_extra_large"
+        android:gravity="center"
+        android:text="@string/available_wifi"
+        android:textSize="@dimen/text_size_extra_large"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/scanDevice"
+        app:layout_goneMarginTop="@dimen/margin_extremely_large" />
 
     <TextView
         android:id="@+id/scanHelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_marginTop="@dimen/margin_moderate"
+        android:padding="@dimen/padding_medium"
         android:text="@string/device_help"
+        android:textSize="@dimen/text_size_large"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/scanDevice" />
+        app:layout_constraintTop_toBottomOf="@id/showWifi" />
 
     <ProgressBar
         android:id="@+id/scanProgress"
@@ -60,30 +132,55 @@
         app:layout_constraintTop_toBottomOf="@+id/noDeviceFound" />
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addDeviceButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_moderate"
-        android:id="@+id/addDeviceButton"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_black_24dp" />
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
         android:id="@+id/deviceList"
-        >
-    </android.support.v7.widget.RecyclerView>
-    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_small"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/wifiList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanHelp"
-        android:id="@+id/wifiList"
-        >
-    </android.support.v7.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/scanHelp" />
+
+    <include
+        android:id="@+id/room"
+        layout="@layout/room_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/connection_susiai_main_screen"
+        layout="@layout/connect_susiai_speaker"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/password_layout"
+        layout="@layout/password_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/success_setup_screen"
+        layout="@layout/finish_setup_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/wifi_password_layout"
+        layout="@layout/wifi_password_layout"
+        android:visibility="gone" />
 
 </android.support.constraint.ConstraintLayout>

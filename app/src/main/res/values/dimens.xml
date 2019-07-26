@@ -17,6 +17,7 @@
 
     <!-- dimensions specifics -->
 
+    <dimen name="width_null">0dp</dimen>
     <dimen name="height_very_small">1dp</dimen>
     <dimen name="width_very_small">1dp</dimen>
     <dimen name="height_large">45dp</dimen>
@@ -126,10 +127,24 @@
     <!-- Avatar dimensions -->
 
     <dimen name="avatar_size">48dp</dimen>
-  
+
     <!-- Help dimensions -->
     <dimen name="card_radius_help">4dp</dimen>
-  
+
     <!-- Privacy dimensions -->
     <dimen name="card_radius_privacy">4dp</dimen>
+
+    <!-- Room dimensions -->
+    <dimen name="height_minimum">2dp</dimen>
+    <dimen name="height_room_recycler">20dp</dimen>
+    <dimen name="width_room_recycler">20dp</dimen>
+    <dimen name="height_room_card">250dp</dimen>
+
+    <!-- Manage Devices dimensions -->
+    <dimen name="height_width_spotify">40dp</dimen>
+    <dimen name="border_radius">4dp</dimen>
+    <dimen name="border_width">2dp</dimen>
+    <dimen name="home_dimens">25dp</dimen>
+ 
+
 </resources>

@@ -38,9 +38,9 @@ class SkillListingModel : ISkillListingModel {
         })
     }
 
-    override fun fetchSkills(group: String, language: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
+    override fun fetchSkills(group: String, language: String, filter_name: String, filter_type: String, duration: String, listener: ISkillListingModel.OnFetchSkillsFinishedListener) {
 
-        val queryObject = SkillsListQuery(group, language, "true", "descending", "rating")
+        val queryObject = SkillsListQuery(group, language, "true", filter_name, filter_type, duration)
         authResponseCallSkills = ClientBuilder.fetchListSkillsCall(queryObject)
 
         authResponseCallSkills.enqueue(object : Callback<ListSkillsResponse> {

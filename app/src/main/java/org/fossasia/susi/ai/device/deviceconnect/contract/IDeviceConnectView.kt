@@ -10,10 +10,6 @@ interface IDeviceConnectView {
 
     fun stopProgress()
 
-    fun showLocationIntentDialog()
-
-    fun showWifiIntentDialog()
-
     fun askForPermissions()
 
     fun startScan(isDevice: Boolean)
@@ -24,5 +20,27 @@ interface IDeviceConnectView {
 
     fun setupWiFiAdapter(scanList: ArrayList<String>)
 
-    fun showPopUpDialog()
+    fun rooms()
+
+    fun showRooms()
+
+    fun connectionMainScreen()
+
+    fun showDialog(message: String, title: String)
+
+    fun wifiSetup()
+
+    fun roomNameSelected(roomName: String?)
+
+    fun showToast(message: String)
+
+    fun passwordLayoutSetup()
+
+    fun showAnonymousDialog()
+
+    fun finishSetup()
+
+    fun successSetup()
+
+    fun selectedWifi(wifiName: String)
 }

@@ -32,6 +32,10 @@ import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import timber.log.Timber
 import java.util.Locale
 import android.content.ActivityNotFoundException
+import org.fossasia.susi.ai.device.managedevices.ManageDeviceActivity
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_CONNECTED_DEVICE_FRAGMNENT
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
 import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
 import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
 import org.fossasia.susi.ai.skills.help.HelpFragment
@@ -76,6 +80,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private lateinit var setupDevice: Preference
     private lateinit var settingsVoice: Preference
     private lateinit var visitWebsite: Preference
+    private lateinit var manageDevices: Preference
     private var flag = true
     private val packageName = "ai.susi"
 
@@ -110,19 +115,24 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         setupDevice = preferenceManager.findPreference(Constant.DEVICE_SETUP)
         settingsVoice = preferenceManager.findPreference(Constant.VOICE_SETTINGS)
         visitWebsite = preferenceManager.findPreference(Constant.VISIT_WEBSITE)
+        manageDevices = preferenceManager.findPreference(Constant.MANAGE_DEVICES)
 
         // Display login email
         val utilModel = UtilModel(activity as SkillsActivity)
         if (!utilModel.isLoggedIn()) {
             displayEmail.title = "Not logged in"
             displayEmail.isEnabled = true
+            deviceName.isEnabled = false
+            manageDevices.isEnabled = false
         } else {
             displayEmail.title = PrefManager.getStringSet(Constant.SAVED_EMAIL)?.iterator()?.next()
             displayEmail.isEnabled = false
+            deviceName.isEnabled = true
+            manageDevices.isEnabled = true
         }
 
         setLanguage()
-        if (settingsPresenter.getAnonymity()) {
+        if (!utilModel.isLoggedIn()) {
             loginLogout.title = "Login"
         } else {
             loginLogout.title = "Logout"
@@ -131,6 +141,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         if (PrefManager.token == null) {
             deviceName.isVisible = false
             setupDevice.isVisible = false
+            manageDevices.isVisible = false
             preferenceManager.findPreference(getString(R.string.settings_deviceSection_key)).isVisible = false
         }
 
@@ -193,7 +204,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         }
 
         loginLogout.setOnPreferenceClickListener {
-            if (!settingsPresenter.getAnonymity()) {
+            if (utilModel.isLoggedIn()) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setMessage(R.string.logout_confirmation).setCancelable(false).setPositiveButton(R.string.action_log_out) { _, _ ->
                     loginLogoutModulePresenter.logout()
@@ -204,6 +215,8 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
                 alert.show()
             } else {
                 loginLogoutModulePresenter.logout()
+                val intent = Intent(requireContext(), LoginActivity::class.java)
+                startActivity(intent)
             }
             true
         }
@@ -220,12 +233,28 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         displayEmail.setOnPreferenceClickListener {
             loginLogoutModulePresenter.logout()
+            val intent = Intent(context, LoginActivity::class.java)
+            startActivity(intent)
             true
         }
 
         setupDevice.setOnPreferenceClickListener {
 
             val intent = Intent(activity, DeviceActivity::class.java)
+            intent.putExtra(CONNECT_TO, TAG_DEVICE_CONNECT_FRAGMENT)
+            startActivity(intent)
+            true
+        }
+
+        deviceName.setOnPreferenceClickListener {
+            val intent = Intent(activity, DeviceActivity::class.java)
+            intent.putExtra(CONNECT_TO, TAG_CONNECTED_DEVICE_FRAGMNENT)
+            startActivity(intent)
+            true
+        }
+
+        manageDevices.setOnPreferenceClickListener {
+            val intent = Intent(activity, ManageDeviceActivity::class.java)
             startActivity(intent)
             true
         }
@@ -322,6 +351,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
         config.locale = locale
         this.resources.updateConfiguration(config, this.resources.displayMetrics)
     }
+
     private fun showAlert() {
         val builder = AlertDialog.Builder(requireContext())
         val promptsView = activity?.layoutInflater?.inflate(R.layout.alert_change_server, null)

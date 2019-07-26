@@ -28,6 +28,7 @@
     <string name="hotword_success">Hotword erkannt</string>
     <string name="custom_server">Benutzerdefinierter Server</string>
     <string name="settings_visit_website">Besuche die Website</string>
+    <string name="voice_welcome">Hallo! Womit kann ich Ihnen behilflich sein?</string>
 
     <string name="signup">Vielen dank für deine Registrierung</string>
     <string name="signup_msg">Wir haben eine E-Mail an die angegebene Adresse gesendet. Bitte benutzen Sie die

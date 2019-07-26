@@ -9,4 +9,6 @@ interface DeviceService {
     fun submitConfigSettings(speakerConfig: SpeakerConfiguration, listener: IDeviceModel.onSetConfigurationListener)
 
     fun submitAuthCredentials(speakerAuth: SpeakerAuth, listener: IDeviceModel.onSendAuthCredentialsListener)
+
+    fun submitRoomDetails(roomName: String, listener: IDeviceModel.onSendRoomDetails)
 }

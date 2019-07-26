@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.google.android.gms.auth.api.credentials.Credential
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -72,11 +73,26 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         val string = bundle?.getString("email")
         if (string != null)
             email.editText?.setText(string)
+
+        loginPresenter.clientRequest(this)
+    }
+
+    override fun onCredentialRetrieved(credential: Credential?) {
+
+        var accountName = credential?.name
+        if (accountName == Constant.SUSI_ACCOUNT) {
+            email.editText?.setText(credential?.id.toString())
+            password.editText?.setText(credential?.password.toString())
+        }
     }
 
     override fun onLoginSuccess(message: String?) {
         hideSoftKeyboard(this, window.decorView)
         Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
+        if (rememberCredential.isChecked) {
+            loginPresenter.saveCredential(email.editText?.text.toString(), password.editText?.text.toString())
+        }
+
         val intent = Intent(this@LoginActivity, ChatActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra(Constant.FIRST_TIME, true)
@@ -227,5 +243,10 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             forgotPassword.isEnabled = false
             loginPresenter.requestPassword(email, url, isPersonalServerChecked)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        loginPresenter.skipLogin()
     }
 }

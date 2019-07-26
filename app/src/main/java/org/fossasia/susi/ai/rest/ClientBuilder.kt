@@ -6,12 +6,14 @@ import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.dataclasses.SkillRatingQuery
 import org.fossasia.susi.ai.dataclasses.SkillsListQuery
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
 import org.fossasia.susi.ai.rest.services.SusiService
 
 import java.util.HashMap
@@ -68,6 +70,7 @@ object ClientBuilder {
         queryMap["applyFilter"] = queryObject.applyFilter
         queryMap["filter_name"] = queryObject.filterName
         queryMap["filter_type"] = queryObject.filterType
+        queryMap["duration"] = queryObject.duration
         return susiApi.fetchListSkills(queryMap)
     }
 
@@ -79,5 +82,15 @@ object ClientBuilder {
         map.put("group", queryObject.group)
         map.put("model", queryObject.model)
         return susiApi.reportSkill(map)
+    }
+
+    fun addDeviceCall(queryObject: AddDeviceQuery): Call<GetAddDeviceResponse> {
+        val map = HashMap<String, String>()
+        map.put("macid", queryObject.macId)
+        map.put("name", queryObject.name)
+        map.put("latitude", queryObject.latitude)
+        map.put("longitude", queryObject.longitude)
+        map.put("room", queryObject.room)
+        return susiApi.addSusiDevices(map)
     }
 }

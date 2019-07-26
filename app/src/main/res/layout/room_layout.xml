@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/margin_extremely_large"
+    android:fillViewport="true"
+    android:background="@color/default_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_moderate"
+            android:gravity="center"
+            android:text="@string/device_room"
+            android:textColor="@color/md_black_1000"
+            android:textSize="@dimen/text_size_very_large" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:padding="@dimen/margin_large"
+            android:text="@string/device_room_exp"
+            android:textSize="@dimen/text_size_medium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_minimum"
+            android:layout_marginTop="@dimen/margin_large"
+            android:background="@color/md_grey_200" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_large"
+            android:text="@string/my_rooms"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rooms_available"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_minimum"
+            android:layout_marginTop="@dimen/margin_large"
+            android:background="@color/md_grey_200" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_large"
+            android:text="@string/create_new_room"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding_medium"
+            app:errorEnabled="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edt_room"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_large"
+                    android:layout_marginRight="@dimen/margin_moderate"
+                    android:layout_weight="7"
+                    android:hint="Enter the name of your room" />
+
+                <ImageView
+                    android:id="@+id/add_room"
+                    android:layout_width="@dimen/width_large"
+                    android:layout_height="@dimen/height_large"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_add_24dp" />
+            </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/room_previous"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="@dimen/margin_moderate"
+                android:layout_marginRight="@dimen/margin_extremely_large"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="@string/previous"
+                android:textAllCaps="false"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/text_size_medium" />
+
+            <Button
+                android:id="@+id/room_next"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginLeft="@dimen/margin_extremely_large"
+                android:layout_marginRight="@dimen/margin_moderate"
+                android:layout_weight="1"
+                android:background="@color/colorPrimary"
+                android:text="@string/next"
+                android:textAllCaps="false"
+                android:textColor="@color/md_white_1000"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

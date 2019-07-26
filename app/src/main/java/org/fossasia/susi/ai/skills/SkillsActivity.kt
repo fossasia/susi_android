@@ -1,8 +1,10 @@
 package org.fossasia.susi.ai.skills
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognizerIntent
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -30,6 +32,8 @@ import org.fossasia.susi.ai.skills.skillSearch.SearchSkillFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 import timber.log.Timber
+import java.util.Locale
+import kotlin.collections.ArrayList
 
 /**
  * <h1>The Skills activity.</h1>
@@ -44,6 +48,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private val TAG_SKILLS_FRAGMENT = "SkillsFragment"
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
     private val TAG_GROUP_WISE_SKILLS_FRAGMENT = "GroupWiseSkillsFragment"
+    private val VOICE_SEARCH_REQUEST_CODE = 10
 
     private var searchAction: MenuItem? = null
     private var isSearchOpened = false
@@ -53,6 +58,15 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
     private var group: String = ""
     private lateinit var settingsPresenter: ISettingsPresenter
     private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
+    private lateinit var groupWiseSkillsFragment: GroupWiseSkillsFragment
+
+    companion object {
+        val SETTINGS_FRAGMENT = "settingsFragment"
+        val REDIRECTED_FROM = "redirectedFrom"
+        var FILTER_NAME = Constant.DESCENDING
+        var FILTER_TYPE = "rating"
+        var DURATION = "7"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +83,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, privacyFragment, TAG_PRIVACY_FRAGMENT)
                     .addToBackStack(TAG_PRIVACY_FRAGMENT)
+                    .commit()
+        } else if (intent.hasExtra(REDIRECTED_FROM)) {
+            val settingsFragment = ChatSettingsFragment()
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, settingsFragment, TAG_SETTINGS_FRAGMENT)
+                    .addToBackStack(TAG_SETTINGS_FRAGMENT)
                     .commit()
         } else {
             // skills = skillFragment.skills
@@ -176,8 +196,76 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             R.id.action_search -> {
                 handleMenuSearch()
             }
+            R.id.action_voice_search -> {
+                handleVoiceSearch()
+            }
+            R.id.menu_ascending -> {
+                FILTER_NAME = Constant.ASCENDING
+                invalidateOptionsMenu()
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_descending -> {
+                FILTER_NAME = Constant.DESCENDING
+                invalidateOptionsMenu()
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_a_to_z -> {
+                FILTER_TYPE = Constant.NEW_A_TO_Z
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_top_rated -> {
+                FILTER_TYPE = Constant.TOP_RATED
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_most_rated -> {
+                FILTER_TYPE = Constant.MOST_RATED
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_newly_created -> {
+                FILTER_TYPE = Constant.NEWLY_CREATED
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_recently_updated -> {
+                FILTER_TYPE = Constant.RECENTLY_UPDATED
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_feedback_count -> {
+                FILTER_TYPE = Constant.FEEDBACK_COUNT
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_week_usage -> {
+                FILTER_TYPE = Constant.USAGE
+                DURATION = "7"
+                groupWiseSkillsFragment.onRefresh()
+            }
+            R.id.menu_month_usage -> {
+                FILTER_TYPE = Constant.USAGE
+                DURATION = "30"
+                groupWiseSkillsFragment.onRefresh()
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    // Passes a voice intent, to detect the query that user asks via voice
+    private fun handleVoiceSearch() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivityForResult(intent, VOICE_SEARCH_REQUEST_CODE) // Sends the detected query to search
+        } else {
+            Toast.makeText(this, R.string.error_voice_search, Toast.LENGTH_SHORT)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == VOICE_SEARCH_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
+            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            performSearch(result[0])
+        }
     }
 
     protected fun handleMenuSearch() {
@@ -199,7 +287,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             edtSearch = action?.customView?.findViewById(R.id.edtSearch) // the text editor
             edtSearch?.setOnKeyListener { v, keyCode, event ->
                 if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP && edtSearch?.text.toString().isNotEmpty()) {
-                        performSearch(edtSearch?.text.toString())
+                    performSearch(edtSearch?.text.toString())
                 }
                 true
             }
@@ -251,8 +339,25 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         searchAction = menu?.findItem(R.id.action_search)
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         when (currentFragment) {
-            is SkillListingFragment -> menu?.setGroupVisible(R.id.menu_items, true)
-            else -> menu?.setGroupVisible(R.id.menu_items, false)
+            is SkillListingFragment -> {
+                menu?.setGroupVisible(R.id.menu_items, true)
+                menu?.setGroupVisible(R.id.skill_group_menu_items, false)
+            }
+            is GroupWiseSkillsFragment -> {
+                menu?.setGroupVisible(R.id.skill_group_menu_items, true)
+                menu?.setGroupVisible(R.id.menu_items, false)
+                if (FILTER_NAME == Constant.DESCENDING) {
+                    menu?.findItem(R.id.menu_descending)?.setVisible(false)
+                    menu?.findItem(R.id.menu_ascending)?.setVisible(true)
+                } else if (FILTER_NAME == Constant.ASCENDING) {
+                    menu?.findItem(R.id.menu_descending)?.setVisible(true)
+                    menu?.findItem(R.id.menu_ascending)?.setVisible(false)
+                }
+            }
+            else -> {
+                menu?.setGroupVisible(R.id.menu_items, false)
+                menu?.setGroupVisible(R.id.skill_group_menu_items, false)
+            }
         }
         val signUpMenuItem = menu?.findItem(R.id.menu_signup)
         val loginMenuItem = menu?.findItem(R.id.menu_login)
@@ -278,14 +383,14 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         handleOnLoadingFragment()
         val skillDetailsFragment = SkillDetailsFragment.newInstance(skillData, skillGroup, skillTag)
         (this).supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, skillDetailsFragment)
+                .replace(R.id.fragment_container, skillDetailsFragment)
                 .addToBackStack(SkillDetailsFragment().toString())
                 .commit()
     }
 
     override fun loadGroupWiseSkillsFragment(group: String) {
         handleOnLoadingFragment()
-        val groupWiseSkillsFragment = GroupWiseSkillsFragment.newInstance(group)
+        groupWiseSkillsFragment = GroupWiseSkillsFragment.newInstance(group)
         (this).supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, groupWiseSkillsFragment)
                 .addToBackStack(GroupWiseSkillsFragment().toString())

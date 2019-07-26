@@ -25,9 +25,12 @@ object Constant {
     const val RESET_PASSWORD = "reset_password"
     const val CHANGE_PASSWORD = "Change Password"
     const val VISIT_WEBSITE = "visit_website"
+    const val MANAGE_DEVICES = "manage_devices"
 
     const val SAVED_EMAIL = "saved_email"
     const val SAVE_EMAIL = "save_email"
+
+    const val SUSI_ACCOUNT = "susi_account"
 
     const val SAVE_DIALOG_STATE = "save_state"
     const val SUSI_SERVER = "is_susi_server_selected"
@@ -92,4 +95,15 @@ object Constant {
 
     // Visit Website Url
     const val SUSI_VISIT_WEBSITE = "https://chat.susi.ai/"
+
+    // filter keys
+    const val ASCENDING = "ascending"
+    const val DESCENDING = "descending"
+    const val TOP_RATED = "top_rated"
+    const val NEW_A_TO_Z = "lexicographical"
+    const val MOST_RATED = "rating"
+    const val NEWLY_CREATED = "creation_date"
+    const val RECENTLY_UPDATED = "modified_date"
+    const val FEEDBACK_COUNT = "feedback"
+    const val USAGE = "usage"
 }

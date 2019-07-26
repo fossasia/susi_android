@@ -18,5 +18,60 @@
             android:icon="@drawable/ic_open_search"
             android:title="@string/search"
             app:showAsAction="ifRoom" />
+        <item
+            android:id="@+id/action_voice_search"
+            android:icon="@drawable/ic_settings_voice_black_24dp"
+            android:title="@string/voice_search"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group android:id="@+id/skill_group_menu_items">
+        <item
+            android:id="@+id/sort"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/sort_by"
+            android:enabled="false"/>
+        <item
+            android:id="@+id/menu_a_to_z"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_a_to_z" />
+        <item
+            android:id="@+id/menu_top_rated"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_top_rated" />
+        <item
+            android:id="@+id/menu_most_rated"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_most_rated" />
+        <item
+            android:id="@+id/menu_newly_created"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_newly_created" />
+        <item
+            android:id="@+id/menu_recently_updated"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_recently_updated" />
+        <item
+            android:id="@+id/menu_feedback_count"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_feedback_count" />
+        <item
+            android:id="@+id/menu_week_usage"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_week_usage" />
+        <item
+            android:id="@+id/menu_month_usage"
+            android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+            android:title="@string/menu_month_usage" />
+        <item
+            android:id="@+id/menu_ascending"
+            android:icon="@drawable/ic_arrow_upward_blue_24dp"
+            android:title="@string/menu_ascending"
+            app:showAsAction="ifRoom"/>
+        <item
+            android:id="@+id/menu_descending"
+            android:icon="@drawable/ic_arrow_downward_blue_24dp"
+            android:title="@string/menu_descending"
+            app:showAsAction="ifRoom"/>
     </group>
 </menu>

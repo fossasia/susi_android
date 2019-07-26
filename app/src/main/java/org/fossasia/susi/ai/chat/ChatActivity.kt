@@ -101,10 +101,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
         setUpUI()
         initializationMethod(firstRun)
 
-        example = if (intent.getStringExtra("example") != null) {
-            intent.getStringExtra("example")
-        } else {
-            ""
+        if (intent.hasExtra("example")) {
+            example = intent.getStringExtra("example")
+            intent.removeExtra("example")
         }
 
         networkStateReceiver = object : BroadcastReceiver() {
@@ -114,7 +113,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
-        voiceSearchChat.visibility = View.GONE
+        voiceSearchChat.visibility = View.VISIBLE
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
@@ -356,6 +355,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         hideSoftKeyboard(this, window.decorView)
         searchChat.visibility = View.GONE
         fabsetting.visibility = View.GONE
+        voiceSearchChat.visibility = View.GONE
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.speechToTextFrame, STTFragment())
         fragmentTransaction.addToBackStack(null)
@@ -550,6 +550,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.getUndeliveredMessages()
 
         if (!example.isEmpty()) {
+            Timber.d("Message is not empty.")
             chatPresenter.addToNonDeliveredList(example, example)
             example = ""
         }
