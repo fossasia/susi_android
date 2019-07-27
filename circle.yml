@@ -27,11 +27,11 @@ jobs:
           name: spotless check
           command: ./gradlew spotlessCheck
       - run:
-          name: Run Tests
-          command: ./gradlew build
-      - run:
           command:
             bash exec/prep-key.sh
+      - run:
+          name: Run Tests
+          command: ./gradlew build
       - run:
           command:
             bash exec/apk-gen.sh
