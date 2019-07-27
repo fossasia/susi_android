@@ -34,4 +34,18 @@ class ViewDevicePresenter : IViewDevicePresenter {
         viewDeviceView.showRooms()
         // deviceConnectView?.roomNameSelected(null)
     }
+
+    override fun deleteRoom(room: String?) {
+        realm = Realm.getDefaultInstance()
+        realm.beginTransaction()
+        val result = realm.where(RoomsAvailable::class.java).equalTo("room", room).findFirst()
+        result?.deleteFromRealm()
+        realm.commitTransaction()
+        viewDeviceView.showRooms()
+    }
+
+    override fun selectedRoom(roomName: String?) {
+        // Selected room callback
+        viewDeviceView.roomNameSelected(roomName)
+    }
 }

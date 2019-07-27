@@ -7,4 +7,8 @@ interface IViewDevicePresenter {
     fun onAttach(viewDeviceView: IViewDeviceView, macId: String?, device: Device?)
 
     fun addRoom(roomName: String)
+
+    fun deleteRoom(room: String?)
+
+    fun selectedRoom(roomName: String?)
 }

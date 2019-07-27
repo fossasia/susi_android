@@ -114,7 +114,7 @@
                 android:layout_marginLeft="@dimen/margin_extremely_large"
                 android:layout_marginRight="@dimen/margin_moderate"
                 android:layout_weight="1"
-                android:background="@color/colorPrimary"
+                android:background="@color/md_white_1000"
                 android:text="@string/save"
                 android:textAllCaps="false"
                 android:textColor="@color/md_white_1000"

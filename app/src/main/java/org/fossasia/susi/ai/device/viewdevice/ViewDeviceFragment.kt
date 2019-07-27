@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.device.viewdevice
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -7,10 +8,18 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import io.realm.Realm
-import kotlinx.android.synthetic.main.edit_name_layout.*
-import kotlinx.android.synthetic.main.edit_room_layout.*
-import kotlinx.android.synthetic.main.fragment_view_device.*
+import kotlinx.android.synthetic.main.edit_name_layout.name_save
+import kotlinx.android.synthetic.main.edit_name_layout.name_cancel
+import kotlinx.android.synthetic.main.edit_name_layout.name_new
+import kotlinx.android.synthetic.main.edit_room_layout.add_room
+import kotlinx.android.synthetic.main.edit_room_layout.edit_room_save
+import kotlinx.android.synthetic.main.edit_room_layout.edit_room
+import kotlinx.android.synthetic.main.edit_room_layout.edit_room_previous
+import kotlinx.android.synthetic.main.fragment_view_device.change_room
+import kotlinx.android.synthetic.main.fragment_view_device.view_device
+import kotlinx.android.synthetic.main.fragment_view_device.change_name
 import kotlinx.android.synthetic.main.view_device_layout.spk_location
 import kotlinx.android.synthetic.main.view_device_layout.spk_email
 import kotlinx.android.synthetic.main.view_device_layout.spk_macid
@@ -117,7 +126,18 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         }
 
         edit_room_save.setOnClickListener {
-            // Implement on click listener function
+            room = roomNameSelected.toString()
+            viewDetails()
+        }
+
+        add_room.setOnClickListener {
+            val room = edit_room.text.toString()
+            if (room.length > 0) {
+                viewDevicePresenter.addRoom(room)
+                edit_room.setText("")
+            } else {
+                Toast.makeText(context, getString(R.string.room_empty), Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -138,6 +158,21 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         availableRoomsRecyclerView.layoutManager = layoutManager
         availableRoomsAdapter = ShowRoomsAdapter(availableRoomsList, requireContext(), viewDevicePresenter)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
+    }
+
+    override fun roomNameSelected(roomName: String?) {
+
+        if (roomName.isNullOrEmpty()) {
+            roomNameSelected = null
+            edit_room_save.setBackgroundColor(resources.getColor(R.color.default_bg))
+            edit_room_save.setTextColor(Color.BLACK)
+            edit_room_save.isClickable = false
+        } else {
+            roomNameSelected = roomName.toString()
+            edit_room_save.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            edit_room_save.setTextColor(Color.WHITE)
+            edit_room_save.isClickable = true
+        }
     }
 
     data class AvailableRoomsFormat(

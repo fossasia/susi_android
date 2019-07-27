@@ -11,4 +11,6 @@ interface IViewDeviceView {
     fun changeRoomName()
 
     fun showRooms()
+
+    fun roomNameSelected(roomName: String?)
 }
