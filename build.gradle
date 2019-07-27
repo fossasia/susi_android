@@ -21,5 +21,9 @@ allprojects {
     repositories {
         google()
     }
-}
 
+    ext {
+        KEYSTORE_FILE = rootProject.file('scripts/key.jks')
+        CIRCLE_BUILD = System.getenv("CIRCLECI") == "true" && KEYSTORE_FILE.exists()
+    }
+}
