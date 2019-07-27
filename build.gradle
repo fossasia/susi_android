@@ -23,7 +23,7 @@ allprojects {
     }
 
     ext {
-        KEYSTORE_FILE = rootProject.file('scripts/key.jks')
+        KEYSTORE_FILE = rootProject.file('exec/key.jks')
         CIRCLE_BUILD = System.getenv("CIRCLECI") == "true" && KEYSTORE_FILE.exists()
     }
 }
