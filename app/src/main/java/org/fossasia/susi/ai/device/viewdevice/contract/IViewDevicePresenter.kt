@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.device.viewdevice.contract
 
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.rest.responses.susi.Device
 
 interface IViewDevicePresenter {
@@ -11,4 +12,6 @@ interface IViewDevicePresenter {
     fun deleteRoom(room: String?)
 
     fun selectedRoom(roomName: String?)
+
+    fun updateDevice(queryObject: AddDeviceQuery)
 }

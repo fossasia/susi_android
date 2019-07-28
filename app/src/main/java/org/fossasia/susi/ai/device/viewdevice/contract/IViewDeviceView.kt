@@ -13,4 +13,6 @@ interface IViewDeviceView {
     fun showRooms()
 
     fun roomNameSelected(roomName: String?)
+
+    fun addDevice()
 }

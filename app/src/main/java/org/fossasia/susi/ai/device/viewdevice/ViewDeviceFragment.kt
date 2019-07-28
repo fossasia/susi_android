@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.view_device_layout.spk_room
 import kotlinx.android.synthetic.main.view_device_layout.spk_name
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.model.RoomsAvailable
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.viewdevice.adapters.ShowRoomsAdapter
 import org.fossasia.susi.ai.device.viewdevice.contract.IViewDeviceView
 import org.fossasia.susi.ai.helper.Constant
@@ -35,7 +36,7 @@ import org.fossasia.susi.ai.rest.responses.susi.Device
 
 class ViewDeviceFragment : Fragment(), IViewDeviceView {
 
-    private var macId: String? = null
+    private lateinit var macId: String
     private lateinit var name: String
     private lateinit var room: String
     private lateinit var latitude: String
@@ -61,7 +62,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         super.onViewCreated(view, savedInstanceState)
 
         val extras = activity?.intent?.extras
-        macId = extras?.getString("macId")
+        macId = extras?.getString("macId").toString()
         val device = extras?.get("deviceDetails") as Device?
         name = device?.name.toString()
         room = device?.room.toString()
@@ -109,9 +110,8 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         }
 
         name_save.setOnClickListener {
-            // For testing purpose
             name = name_new.text.toString()
-            viewDetails()
+            addDevice()
         }
     }
 
@@ -127,7 +127,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
 
         edit_room_save.setOnClickListener {
             room = roomNameSelected.toString()
-            viewDetails()
+            addDevice()
         }
 
         add_room.setOnClickListener {
@@ -173,6 +173,11 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
             edit_room_save.setTextColor(Color.WHITE)
             edit_room_save.isClickable = true
         }
+    }
+
+    override fun addDevice() {
+        val query = AddDeviceQuery(macId, name, room, latitude, longitude)
+        viewDevicePresenter.updateDevice(query)
     }
 
     data class AvailableRoomsFormat(
