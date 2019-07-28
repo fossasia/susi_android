@@ -1,0 +1,18 @@
+Susi AI is an intelligent Open Source personal assistant. It is fully customizable and developed by a community of developers. It is capable of chat and voice interaction by using APIS to perform actions such as music playback, making to-do lists, setting alarms, streaming podcasts, playing audiobooks, and providing weather, traffic, and other real-time information. Additional functionalities can be added as console services using external APIs. Susi AI is able to answer questions and depending on the context will ask for additional information in order to perform the desired outcome. The core of the assistant is the Susi AI server that holds the "intelligence" and "personality" of Susi AI. The Android and web applications make use of the APIs to access information from a hosted server.
+
+Features:
+
+1. Login/Signup functionality to get fully customized settings.
+
+2. Interactive and appealing way to answer user queries using images, maps, RSS feed etc.
+
+3. Speech input and output to interact with the user without needing them to type everything.
+
+4. Hotword detection feature to interact with SUSI in hands-free mode. You just need to say "susi" to activate voice input and then you can ask SUSI anything.
+
+5. Feedback feature to improve SUSI responses. You can like or dislike SUSI response to rate them.
+
+Website: http://susi.ai/
+Want to contribute: https://github.com/fossasia/susi_android/
+
+Please write us your suggestions and feedback to make this app wonderful. We appreciate your suggestions & feedbacks and will surely consider them for the future updates.
