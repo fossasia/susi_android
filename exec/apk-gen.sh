@@ -62,7 +62,8 @@ then
 	# Publish App to Play Store
 	if [ "$CIRCLE_BRANCH" == "$PUBLISH_BRANCH" ]; then
 		echo "Publishing app to Play Store"
+		cd ..
 		gem install fastlane
-		fastlane supply --aab susiai-master-app.aab --skip_upload_apk true --track alpha --json_key ../exec/fastlane.json --package_name $PACKAGE_NAME
+		fastlane supply --aab ./apk/susiai-master-app.aab --skip_upload_apk true --track alpha --json_key ./exec/fastlane.json --package_name $PACKAGE_NAME
 	fi
 fi
