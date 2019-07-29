@@ -14,17 +14,17 @@ The main feature of the app is to provide a conversational interface to provide 
 ## Roadmap
 
 Planned features & enhancements are:
-- Hotword Detection training
-- Full-Screen Voice interaction
+- Hotword Detection training.
+- Full-Screen Voice interaction.
 - Feedback for skills.
-- Displaying SUSI skills
+- Displaying SUSI skills.
 
 
 ## Communication
 
-Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/susiai
+Please join our mailing list to discuss questions regarding the project: https://groups.google.com/forum/#!forum/susiai.
 
-Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
+Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android.
 
 ## Screenshots
 
