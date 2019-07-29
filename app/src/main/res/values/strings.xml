@@ -591,5 +591,8 @@
     <string name="change_spk_name">Enter the new name of your speaker and press \'Save\' button to use it.</string>
     <string name="change_spk_room">Choose the new room of your speaker and press \'Save\' button to use it. You can also add new rooms to use them.</string>
     <string name="room_empty">Room name cannot be empty. Please enter a room name.</string>
+    <string name="updating_device">Updating device details...</string>
+    <string name="failed_device_update">Failed to update device details. Please try again...</string>
+    <string name="succesfully_updated_device">Successfully updated the device information</string>
 
 </resources>

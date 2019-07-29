@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="org.fossasia.susi.ai.device.viewdevice.ViewDeviceFragment">
 
     <include
@@ -12,11 +12,11 @@
     <include
         android:id="@+id/change_name"
         layout="@layout/edit_name_layout"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <include
         android:id="@+id/change_room"
         layout="@layout/edit_room_layout"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>

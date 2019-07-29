@@ -1,6 +1,9 @@
 package org.fossasia.susi.ai.device.viewdevice
 
+import android.content.Context
 import io.realm.Realm
+import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IRoomModel
 import org.fossasia.susi.ai.data.device.RoomModel
 import org.fossasia.susi.ai.data.model.RoomsAvailable
@@ -19,12 +22,16 @@ class ViewDevicePresenter : IViewDevicePresenter, IRoomModel.onAddDeviceListener
     private var device: Device? = null
     private lateinit var realm: Realm
     private val roomModel: RoomModel = RoomModel()
+    private lateinit var context: Context
+    private lateinit var utilModel: UtilModel
 
-    override fun onAttach(viewDeviceView: IViewDeviceView, macId: String?, device: Device?) {
+    override fun onAttach(viewDeviceView: IViewDeviceView, macId: String?, device: Device?, context: Context) {
         this.viewDeviceView = viewDeviceView
         this.macId = macId
         this.device = device
+        this.context = context
         realm = Realm.getDefaultInstance()
+        utilModel = UtilModel(context)
     }
 
     override fun addRoom(roomName: String) {
@@ -64,9 +71,12 @@ class ViewDevicePresenter : IViewDevicePresenter, IRoomModel.onAddDeviceListener
     override fun onAddDeviceSuccess(response: Response<GetAddDeviceResponse>) {
         Timber.d("Successfully updated the device information")
         viewDeviceView.viewDetails()
+        viewDeviceView.stopProgressbar()
+        viewDeviceView.showToast(utilModel.getString(R.string.succesfully_updated_device))
     }
 
     override fun onError(throwable: Throwable) {
         Timber.d("SFailed to update the device information " + throwable)
+        viewDeviceView.showToast(utilModel.getString(R.string.failed_device_update))
     }
 }

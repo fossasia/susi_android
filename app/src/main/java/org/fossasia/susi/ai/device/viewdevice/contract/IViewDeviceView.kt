@@ -15,4 +15,10 @@ interface IViewDeviceView {
     fun roomNameSelected(roomName: String?)
 
     fun addDevice()
+
+    fun showProgressbar()
+
+    fun stopProgressbar()
+
+    fun showToast(message: String)
 }

@@ -60,7 +60,7 @@
             android:background="@color/colorPrimary"
             android:text="@string/save"
             android:textAllCaps="false"
-            android:textColor="@color/blue_grey_300"
+            android:textColor="@color/md_white_1000"
             android:textSize="@dimen/text_size_medium" />
     </LinearLayout>
 </LinearLayout>

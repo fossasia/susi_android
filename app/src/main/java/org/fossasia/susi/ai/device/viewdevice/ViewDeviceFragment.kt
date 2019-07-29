@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.device.viewdevice
 
+import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -47,6 +48,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
     private var roomNameSelected: String? = null
     private lateinit var viewDevicePresenter: ViewDevicePresenter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,9 +71,10 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         latitude = device?.geolocation?.latitude.toString()
         longitude = device?.geolocation?.longitude.toString()
         realm = Realm.getDefaultInstance()
+        progressDialog = ProgressDialog(context)
 
         viewDevicePresenter = ViewDevicePresenter()
-        viewDevicePresenter.onAttach(this, macId, device)
+        viewDevicePresenter.onAttach(this, macId, device, requireContext())
 
         initialSetUp()
     }
@@ -136,7 +139,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
                 viewDevicePresenter.addRoom(room)
                 edit_room.setText("")
             } else {
-                Toast.makeText(context, getString(R.string.room_empty), Toast.LENGTH_SHORT).show()
+                showToast(getString(R.string.room_empty))
             }
         }
     }
@@ -178,6 +181,20 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
     override fun addDevice() {
         val query = AddDeviceQuery(macId, name, room, latitude, longitude)
         viewDevicePresenter.updateDevice(query)
+        showProgressbar()
+    }
+
+    override fun showProgressbar() {
+        progressDialog.setMessage(getString(R.string.updating_device))
+        progressDialog.show()
+    }
+
+    override fun stopProgressbar() {
+        progressDialog.dismiss()
+    }
+
+    override fun showToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     data class AvailableRoomsFormat(
