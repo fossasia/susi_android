@@ -29,6 +29,8 @@ import kotlinx.android.synthetic.main.view_device_layout.spk_name
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.model.RoomsAvailable
 import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.DEVICE_DETAILS
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.MAC_ID
 import org.fossasia.susi.ai.device.viewdevice.adapters.ShowRoomsAdapter
 import org.fossasia.susi.ai.device.viewdevice.contract.IViewDeviceView
 import org.fossasia.susi.ai.helper.Constant
@@ -64,8 +66,8 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         super.onViewCreated(view, savedInstanceState)
 
         val extras = activity?.intent?.extras
-        macId = extras?.getString("macId").toString()
-        val device = extras?.get("deviceDetails") as Device?
+        macId = extras?.getString(MAC_ID).toString()
+        val device = extras?.get(DEVICE_DETAILS) as Device?
         name = device?.name.toString()
         room = device?.room.toString()
         latitude = device?.geolocation?.latitude.toString()

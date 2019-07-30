@@ -13,7 +13,12 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.viewdevice.ViewDeviceFragment
 import org.fossasia.susi.ai.device.viewdevice.contract.IViewDevicePresenter
 
-class ShowRoomsAdapter(private val availableRoomsList: ArrayList<ViewDeviceFragment.AvailableRoomsFormat>, val context: Context, private val viewDevicePresenter: IViewDevicePresenter) : RecyclerView.Adapter<ShowRoomsAdapter.ViewHolder>() {
+class ShowRoomsAdapter(
+    private val availableRoomsList: ArrayList<ViewDeviceFragment.AvailableRoomsFormat>,
+    val context: Context,
+    private val viewDevicePresenter: IViewDevicePresenter
+) :
+    RecyclerView.Adapter<ShowRoomsAdapter.ViewHolder>() {
 
     private var selectedIndex: Int = -1
 

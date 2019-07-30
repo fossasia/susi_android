@@ -12,6 +12,8 @@ import kotlinx.android.synthetic.main.fragment_connected_device.deviceStatus
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.DEVICE_DETAILS
+import org.fossasia.susi.ai.device.DeviceActivity.Companion.MAC_ID
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_VIEW_DEVICE_FRAGMENT
 import org.fossasia.susi.ai.device.connecteddevices.adapters.ConnectedDevicesAdapter
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDevicePresenter
@@ -74,8 +76,8 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     override fun viewDevice(positiion: Int) {
         val intent = Intent(activity, DeviceActivity::class.java)
         intent.putExtra(CONNECT_TO, TAG_VIEW_DEVICE_FRAGMENT)
-        intent.putExtra("deviceDetails", connectedDeviceList[positiion])
-        intent.putExtra("macId", macIdList[positiion])
+        intent.putExtra(DEVICE_DETAILS, connectedDeviceList[positiion])
+        intent.putExtra(MAC_ID, macIdList[positiion])
         startActivity(intent)
     }
 }
