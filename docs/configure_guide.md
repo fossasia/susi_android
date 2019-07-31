@@ -68,6 +68,6 @@ This guide is for setting up the smart speaker using the SUSI android app.
    
 * At the last press "OK" after the confirmation message of device setup appears.
   
-  <img src="images/android4.png" height="500px" width="270"><br>   
+  <img src="images/android14.png" height="500px" width="270"><br>   
 
 #### The speaker should now reboot. If everything is set-up correctly, you'll hear "SUSI has started" sound and the three LED lights on the Respeaker Pi-Hat will light up.
