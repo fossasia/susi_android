@@ -1,5 +1,5 @@
 plugins {
-    id "com.diffplug.gradle.spotless" version "3.23.1"
+    id "com.diffplug.gradle.spotless" version "3.24.0"
     id "com.github.b3er.local.properties" version "1.1"
 }
 
