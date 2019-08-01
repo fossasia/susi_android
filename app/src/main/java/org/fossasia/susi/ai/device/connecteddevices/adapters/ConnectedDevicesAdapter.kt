@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDevicePresenter
 import org.fossasia.susi.ai.rest.responses.susi.Device
 
-class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Device>) : RecyclerView.Adapter<ConnectedDevicesAdapter.ViewHolder>() {
+class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Device>, val connectedDevicePresenter: IConnectedDevicePresenter) : RecyclerView.Adapter<ConnectedDevicesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_speaker, viewGroup, false)
@@ -28,6 +29,9 @@ class ConnectedDevicesAdapter(private val connectedDevicesList: ArrayList<Device
 
         init {
             speaker_room = itemView.findViewById(R.id.speaker_room)
+            itemView.setOnClickListener {
+                connectedDevicePresenter.openViewDevice(adapterPosition)
+            }
         }
     }
 }

@@ -5,6 +5,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Location(
-    val latittude: String? = null,
+    val latitude: String? = null,
     val longitude: String? = null
 ) : Parcelable
