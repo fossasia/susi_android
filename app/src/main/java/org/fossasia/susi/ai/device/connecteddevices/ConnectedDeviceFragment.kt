@@ -87,7 +87,7 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
         connectedDevicesAdapter?.notifyDataSetChanged()
         getDeviceList()
     }
-}
+
     override fun viewDevice(positiion: Int) {
         val intent = Intent(activity, DeviceActivity::class.java)
         intent.putExtra(CONNECT_TO, TAG_VIEW_DEVICE_FRAGMENT)
