@@ -34,4 +34,8 @@ class ConnectedDevicePresenter(val connectedDeviceFragment: ConnectedDeviceFragm
         Timber.d("Failed to fetch data about list of available devices")
         Timber.d(throwable)
     }
+
+    override fun openViewDevice(position: Int) {
+        connectedDeviceView?.viewDevice(position)
+    }
 }

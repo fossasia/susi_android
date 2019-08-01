@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="org.fossasia.susi.ai.device.viewdevice.ViewDeviceFragment">
+
+    <include
+        android:id="@+id/view_device"
+        layout="@layout/view_device_layout" />
+
+    <include
+        android:id="@+id/change_name"
+        layout="@layout/edit_name_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/change_room"
+        layout="@layout/edit_room_layout"
+        android:visibility="gone" />
+
+</LinearLayout>

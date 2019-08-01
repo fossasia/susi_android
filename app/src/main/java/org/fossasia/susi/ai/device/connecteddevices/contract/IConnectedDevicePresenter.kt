@@ -5,4 +5,6 @@ interface IConnectedDevicePresenter {
     fun onAttach(connectedDeviceView: IConnectedDeviceView)
 
     fun getDevices()
+
+    fun openViewDevice(position: Int)
 }
