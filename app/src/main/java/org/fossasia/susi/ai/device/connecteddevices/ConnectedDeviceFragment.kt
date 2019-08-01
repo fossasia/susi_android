@@ -61,6 +61,7 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     }
 
     override fun getConnectedDeviceDetails(deviceResponseMap: Map<String, Device>?) {
+        refresh_device_layout.isRefreshing = false
 
         deviceResponseMap?.forEach { item ->
             connectedDeviceList.add(item.value)
@@ -84,6 +85,8 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     }
 
     override fun onRefresh() {
+        connectedDeviceList.clear()
+        refresh_device_layout.isRefreshing = true
         connectedDevicesAdapter?.notifyDataSetChanged()
         getDeviceList()
     }
