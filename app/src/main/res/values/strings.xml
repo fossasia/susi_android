@@ -48,6 +48,17 @@
     <string name="menu_item_settings">Settings</string>
     <string name="menu_item_help">Help</string>
     <string name="menu_item_privacy">Privacy</string>
+    <string name="menu_top_rated">Top Rated</string>
+    <string name="menu_a_to_z">Name(A-Z)</string>
+    <string name="menu_most_rated">Most Rated</string>
+    <string name="menu_newly_created">Newly Created</string>
+    <string name="menu_recently_updated">Recently Updated</string>
+    <string name="menu_feedback_count">Feedback Count</string>
+    <string name="menu_week_usage">This Week Usage</string>
+    <string name="menu_month_usage">This Month Usage</string>
+    <string name="menu_ascending">Ascending</string>
+    <string name="menu_descending">Descending</string>
+    <string name="sort_by">Sort by..</string>
 
     <string name="message_copied">Message copied</string>
 
@@ -573,5 +584,17 @@
     <string name="say_hey_susi">Start with \"Hey Susi\"</string>
     <string name="spotify" translatable="false">Spotify</string>
     <string name="susi_music_service">Susi Music Control</string>
+    <string name="linked_account">Linked account</string>
+    <string name="name">Name</string>
+    <string name="room_heading">Room</string>
+    <string name="location">Location</string>
+    <string name="mac_address">Mac Address</string>
+    <string name="save">Save</string>
+    <string name="change_spk_name">Enter the new name of your speaker and press \'Save\' button to use it.</string>
+    <string name="change_spk_room">Choose the new room of your speaker and press \'Save\' button to use it. You can also add new rooms to use them.</string>
+    <string name="room_empty">Room name cannot be empty. Please enter a room name.</string>
+    <string name="updating_device">Updating device details...</string>
+    <string name="failed_device_update">Failed to update device details. Please try again...</string>
+    <string name="succesfully_updated_device">Successfully updated the device information</string>
 
 </resources>

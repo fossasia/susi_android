@@ -70,6 +70,7 @@ object ClientBuilder {
         queryMap["applyFilter"] = queryObject.applyFilter
         queryMap["filter_name"] = queryObject.filterName
         queryMap["filter_type"] = queryObject.filterType
+        queryMap["duration"] = queryObject.duration
         return susiApi.fetchListSkills(queryMap)
     }
 

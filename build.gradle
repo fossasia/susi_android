@@ -9,7 +9,7 @@ buildscript {
         classpath "com.android.tools.build:gradle:3.4.2"
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
-        classpath "io.realm:realm-gradle-plugin:5.12.0"
+        classpath "io.realm:realm-gradle-plugin:5.13.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.41"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,5 +21,9 @@ allprojects {
     repositories {
         google()
     }
-}
 
+    ext {
+        KEYSTORE_FILE = rootProject.file('exec/key.jks')
+        CIRCLE_BUILD = System.getenv("CIRCLECI") == "true" && KEYSTORE_FILE.exists()
+    }
+}

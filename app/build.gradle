@@ -1,5 +1,6 @@
 plugins {
-    id "com.diffplug.gradle.spotless" version "3.23.1"
+    id "com.diffplug.gradle.spotless" version "3.24.0"
+    id "com.github.b3er.local.properties" version "1.1"
 }
 
 def rootConfiguration = {}
@@ -15,6 +16,8 @@ def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
 //noinspection SpellCheckingInspection
 def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
 
+def LOCAL_KEY_PRESENT = project.hasProperty('SIGNING_KEY_FILE') && rootProject.file(SIGNING_KEY_FILE).exists()
+
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
 
@@ -22,8 +25,8 @@ android {
         applicationId "ai.susi"
         minSdkVersion rootConfiguration.minSdkVersion
         targetSdkVersion rootConfiguration.targetSdkVersion
-        versionCode 17
-        versionName "1.2.0"
+        versionCode 18
+        versionName "1.3.0"
         vectorDrawables.useSupportLibrary = true
         // for unit test
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -35,12 +38,34 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    signingConfigs {
+        if (CIRCLE_BUILD) {
+            release {
+                storeFile KEYSTORE_FILE
+                storePassword System.getenv("STORE_PASS")
+                keyAlias System.getenv("ALIAS")
+                keyPassword System.getenv("KEY_PASS")
+            }
+        } else if (LOCAL_KEY_PRESENT) {
+            release {
+                storeFile rootProject.file(SIGNING_KEY_FILE)
+                storePassword STORE_PASS
+                keyAlias ALIAS
+                keyPassword KEY_PASS
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "SPEAKER_BASE_URL", '"http://10.0.0.1:5000"'
             buildConfigField "String", "MAPBOX_API_KEY", MAPBOX_API_KEY
+
+            if (LOCAL_KEY_PRESENT || CIRCLE_BUILD)
+                signingConfig signingConfigs.release
         }
 
         debug {
@@ -151,7 +176,7 @@ dependencies {
     implementation "com.jakewharton.timber:timber:${rootConfiguration.timberVersion}"
 
     //Shimmer
-    implementation 'com.facebook.shimmer:shimmer:0.4.0'
+    implementation "com.facebook.shimmer:shimmer:${rootConfiguration.shimmerVersion}"
 
     //Smart LOck authentication
     implementation "com.google.android.gms:play-services-auth:${rootConfiguration.playServiceAuthVersion}"
