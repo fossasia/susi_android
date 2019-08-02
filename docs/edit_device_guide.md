@@ -20,7 +20,7 @@ This guide is for updating details of the susi smart speakers you have configure
 
   <img src="images/edit_device3.png" height="500px" width="270"><br>
 
-* Scroll Down to the devices section. And click on `Connected devices`.
+* Scroll down to the devices section. And click on `Connected devices`.
 
   <img src="images/edit_device4.png" height="500px" width="270"><br>
   
@@ -32,7 +32,7 @@ This guide is for updating details of the susi smart speakers you have configure
 
   <img src="images/edit_device.png" height="500px" width="270"><br>  
   
-* To edit the name of the speaker click on the view that shows the name of your speaker. Now write the new name and press "Save" button. To cancel press "Cancel" button
+* To edit the name of the speaker click on the view that shows the name of your speaker. Now write the new name and press "Save" button. To cancel press "Cancel" button.
 
     <table>
       <tr>
@@ -41,7 +41,7 @@ This guide is for updating details of the susi smart speakers you have configure
       </tr>
     </table> 
     
-* To chnage the room, click on the view that shows the room name. Now, in the layout that appears, you can add new room or select from the already present list. 
+* To change the room, click on the view that shows the room name. Now, in the layout that appears, you can add new room or select from the already present list. 
 Once selected, press the "Save" button to update it or "Cancel" button to cancel the selection of room.
 
     <table>
