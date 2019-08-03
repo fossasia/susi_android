@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_connected_device.deviceStatus
+import kotlinx.android.synthetic.main.fragment_connected_device.refresh_device_layout
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.DeviceActivity
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
@@ -46,11 +47,21 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         connectedDevicePresenter = ConnectedDevicePresenter(this)
         connectedDevicePresenter.onAttach(this)
-        connectedDevicePresenter.getDevices()
+        getDeviceList()
+
+        refresh_device_layout.setOnRefreshListener {
+            onRefresh()
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 
+    override fun getDeviceList() {
+        connectedDevicePresenter.getDevices()
+    }
+
     override fun getConnectedDeviceDetails(deviceResponseMap: Map<String, Device>?) {
+        refresh_device_layout.isRefreshing = false
 
         deviceResponseMap?.forEach { item ->
             connectedDeviceList.add(item.value)
@@ -71,6 +82,13 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
         connectedDeviceRecyclerView.layoutManager = layoutManager
         connectedDevicesAdapter = ConnectedDevicesAdapter(connectedDeviceList, connectedDevicePresenter)
         connectedDeviceRecyclerView.adapter = connectedDevicesAdapter
+    }
+
+    override fun onRefresh() {
+        connectedDeviceList.clear()
+        refresh_device_layout.isRefreshing = true
+        connectedDevicesAdapter?.notifyDataSetChanged()
+        getDeviceList()
     }
 
     override fun viewDevice(positiion: Int) {
