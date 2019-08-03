@@ -16,6 +16,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import timber.log.Timber
 import java.io.IOException
+import org.junit.Assert.assertEquals
 
 /**
  * Created by collinx on 22-10-2017.
@@ -62,5 +63,13 @@ class SignUpActivityTest {
         // checks if sign up button is present
         onView(withId(R.id.signUp)).perform(scrollTo())
         onView(withId(R.id.signUp)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun `testSignupPassword`() {
+        Timber.d("running password test..")
+        val password = "123345602"
+        val result = mActivityRule.activity.passwordTest(password)
+        assertEquals("Pattern did not match", false, result)
     }
 }
