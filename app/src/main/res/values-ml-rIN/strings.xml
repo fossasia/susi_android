@@ -76,7 +76,7 @@
     <string name="field_cannot_be_empty">ഈ ഫീൽഡ് ശൂന്യമാക്കിയിടാൻ കഴിയില്ല</string>
     <string name="log_in">ലോഗിൻ</string>
     <string name="new_password">പുതിയ പാസ്വേഡ്</string>
-    <string name="pass_validation_text">കുറഞ്ഞത് ആറു പ്രതീകങ്ങളുടെ ഒരു കോമ്പിനേഷൻ നൽകുക</string>
+    <string name="pass_validation_text">പാസ്‌വേഡ് കുറഞ്ഞത് എട്ട് പ്രതീക ദൈർഘ്യമുള്ളതായിരിക്കണം, കുറഞ്ഞത് ഒരു പ്രത്യേക പ്രതീകം, ഒരു നമ്പർ, ഒരു അക്ഷരമാല എന്നിവ അടങ്ങിയിരിക്കണം</string>
     <string name="password">പാസ്സ്വേർഡ്</string>
     <string name="password_cannot_be_empty">പാസ്വേഡ് ശൂന്യമായിരിക്കരുത്</string>
     <string name="sample_website_description">ഒരു വെബ്സൈറ്റിൽ നിന്നും സാമ്പിൾ പാഠം വേർതിരിച്ചെടുത്തു</string>
