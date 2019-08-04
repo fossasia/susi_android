@@ -249,10 +249,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         signUp.isEnabled = true
     }
 
-    fun passwordTest(password: String): Boolean {
-        return CredentialHelper.isPasswordValid(password)
-    }
-
     private fun signUp() {
 
         signUp.setOnClickListener {

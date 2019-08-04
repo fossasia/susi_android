@@ -10,6 +10,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.CredentialHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -66,10 +67,10 @@ class SignUpActivityTest {
     }
 
     @Test
-    fun `testSignupPassword`() {
+    fun testSignupPassword() {
         Timber.d("running password test..")
         val password = "123345602"
-        val result = mActivityRule.activity.passwordTest(password)
+        val result = CredentialHelper.isPasswordValid(password)
         assertEquals("Pattern did not match", false, result)
     }
 }
