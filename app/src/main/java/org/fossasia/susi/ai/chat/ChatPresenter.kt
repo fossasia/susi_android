@@ -39,7 +39,7 @@ import kotlin.collections.HashMap
  * Created by chiragw15 on 9/7/17.
  */
 class ChatPresenter(context: Context) :
-    IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
+        IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.OnDatabaseUpdateListener {
 
@@ -469,8 +469,8 @@ class ChatPresenter(context: Context) :
                         tableItem = parseSusiHelper.tableData
                     } else if (parseSusiHelper.actionType == Constant.VIDEOPLAY || parseSusiHelper.actionType == Constant.AUDIOPLAY) {
                         // Play youtube video
-                        identifier = parseSusiHelper.identifier
-                        chatView?.playVideo(identifier)
+                        // Determine if its a planned action or not
+                        determinePlanAction(susiResponse, parseSusiHelper)
                     } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = parseSusiHelper.answer
 
@@ -527,6 +527,16 @@ class ChatPresenter(context: Context) :
             chatView?.hideWaitingDots()
         }
         computeOtherMessage()
+    }
+
+    override fun determinePlanAction(response: SusiResponse?, parseSusiHelper: ParseSusiResponseHelper) {
+        val query = response?.query.toString()
+        if (query.contains("alarm", false)) {
+            // Perform the task thats need to be done after one minute
+        } else {
+            identifier = parseSusiHelper.identifier
+            chatView?.playVideo(identifier)
+        }
     }
 
     override fun onDatabaseUpdateSuccess() {
