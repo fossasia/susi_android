@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.chat
 
 import android.content.Context
 import android.os.Handler
+import android.widget.Toast
 import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
@@ -62,6 +63,8 @@ class ChatPresenter(context: Context) :
     var id: Long = 0
     var identifier: String = ""
     var tableItem: TableItem? = null
+    private val planHandler: Handler = Handler()
+    private var delayIdentifier: String = " "
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -531,12 +534,19 @@ class ChatPresenter(context: Context) :
 
     override fun determinePlanAction(response: SusiResponse?, parseSusiHelper: ParseSusiResponseHelper) {
         val query = response?.query.toString()
+        identifier = parseSusiHelper.identifier
         if (query.contains("alarm", false)) {
             // Perform the task thats need to be done after one minute
+            delayIdentifier = identifier
+            planHandler.postDelayed(delayRunnable, 30000) // Time value will change
         } else {
-            identifier = parseSusiHelper.identifier
             chatView?.playVideo(identifier)
         }
+    }
+
+    private val delayRunnable: Runnable = Runnable {
+        Toast.makeText(context, "Executed after 30 seconds", Toast.LENGTH_SHORT).show()
+        chatView?.playVideo(delayIdentifier)
     }
 
     override fun onDatabaseUpdateSuccess() {
