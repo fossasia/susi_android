@@ -69,6 +69,7 @@ class ChatPresenter(context: Context) :
     private val planHandler: Handler = Handler()
     private var delayIdentifier: String = " "
     lateinit var youtubeVid: IYoutubeVid
+    private var isPlanAction = false
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -465,6 +466,7 @@ class ChatPresenter(context: Context) :
 
             for (i in 0 until actionSize) {
                 val delay = susiResponse.answers[0].actions[i].delay
+                isPlanAction = false
                 val handler = Handler()
                 handler.postDelayed({
                     val parseSusiHelper = ParseSusiResponseHelper()
@@ -494,26 +496,37 @@ class ChatPresenter(context: Context) :
                         Log.d("KHANKI", "Called")
                         determineAnswerPlanAction(susiResponse, parseSusiHelper, i)
                     }
-                    try {
+                    if (!isPlanAction) {
+                        try {
+                            databaseRepository.updateDatabase(ChatArgs(
+                                    prevId = id,
+                                    message = setMessage,
+                                    date = DateTimeHelper.getDate(date),
+                                    timeStamp = DateTimeHelper.getTime(date),
+                                    actionType = parseSusiHelper.actionType,
+                                    mapData = parseSusiHelper.mapData,
+                                    isHavingLink = parseSusiHelper.isHavingLink,
+                                    datumList = parseSusiHelper.datumList,
+                                    webSearch = parseSusiHelper.webSearch,
+                                    tableItem = tableItem,
+                                    identifier = identifier,
+                                    skillLocation = susiResponse.answers[0].skills[0]
+                            ), this)
+                        } catch (e: Exception) {
+                            Timber.e(e)
+                            databaseRepository.updateDatabase(ChatArgs(
+                                    prevId = id,
+                                    message = utilModel.getString(R.string.error_internet_connectivity),
+                                    date = DateTimeHelper.date,
+                                    timeStamp = DateTimeHelper.currentTime,
+                                    actionType = Constant.ANSWER
+                            ), this)
+                        }
+                    } else {
+                        Log.d("KHANKI", "Message - " + setMessage)
                         databaseRepository.updateDatabase(ChatArgs(
                                 prevId = id,
-                                message = setMessage,
-                                date = DateTimeHelper.getDate(date),
-                                timeStamp = DateTimeHelper.getTime(date),
-                                actionType = parseSusiHelper.actionType,
-                                mapData = parseSusiHelper.mapData,
-                                isHavingLink = parseSusiHelper.isHavingLink,
-                                datumList = parseSusiHelper.datumList,
-                                webSearch = parseSusiHelper.webSearch,
-                                tableItem = tableItem,
-                                identifier = identifier,
-                                skillLocation = susiResponse.answers[0].skills[0]
-                        ), this)
-                    } catch (e: Exception) {
-                        Timber.e(e)
-                        databaseRepository.updateDatabase(ChatArgs(
-                                prevId = id,
-                                message = utilModel.getString(R.string.error_internet_connectivity),
+                                message = "Set alarm action",
                                 date = DateTimeHelper.date,
                                 timeStamp = DateTimeHelper.currentTime,
                                 actionType = Constant.ANSWER
@@ -545,10 +558,12 @@ class ChatPresenter(context: Context) :
         identifier = parseSusiHelper.identifier
         Log.d("KHANKI", "Plan")
         if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
+            isPlanAction = true
 //            // Perform the task thats need to be done after one minute
 //            delayIdentifier = identifier
 //            planHandler.postDelayed(delayRunnable, 60000) // Time value will change
         } else {
+            isPlanAction = false
             if (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()) {
                 var setMessage = parseSusiHelper.answer
                 var speechReply = setMessage
@@ -564,10 +579,12 @@ class ChatPresenter(context: Context) :
         val query = response?.query.toString()
         identifier = parseSusiHelper.identifier
         if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
+            isPlanAction = true
             // Perform the task thats need to be done after one minute
             delayIdentifier = identifier
             planHandler.postDelayed(delayRunnable, 60000) // Time value will change
         } else {
+            isPlanAction = false
             chatView?.playVideo(identifier)
         }
     }
