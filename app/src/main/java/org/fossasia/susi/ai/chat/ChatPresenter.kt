@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.chat
 
 import android.content.Context
 import android.os.Handler
+import android.util.Log
 import android.widget.Toast
 import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.MainApplication
@@ -475,9 +476,11 @@ class ChatPresenter(context: Context) :
                     } else if (parseSusiHelper.actionType == Constant.VIDEOPLAY || parseSusiHelper.actionType == Constant.AUDIOPLAY) {
                         // Play youtube video
                         // Determine if its a planned action or not
-                        determinePlanAction(susiResponse, parseSusiHelper)
+                        determineVideoPlanAction(susiResponse, parseSusiHelper)
                     } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = parseSusiHelper.answer
+                        Log.d("KHANKI", "Called - 2")
+                        determineAnswerPlanAction(susiResponse, parseSusiHelper, i)
 
                         var speechReply = setMessage
                         if (parseSusiHelper.isHavingLink) {
@@ -487,6 +490,9 @@ class ChatPresenter(context: Context) :
                     } else if (parseSusiHelper.actionType == Constant.STOP) {
                         setMessage = parseSusiHelper.stop
                         chatView?.stopMic()
+                    } else {
+                        Log.d("KHANKI", "Called")
+                        determineAnswerPlanAction(susiResponse, parseSusiHelper, i)
                     }
                     try {
                         databaseRepository.updateDatabase(ChatArgs(
@@ -534,7 +540,27 @@ class ChatPresenter(context: Context) :
         computeOtherMessage()
     }
 
-    override fun determinePlanAction(response: SusiResponse?, parseSusiHelper: ParseSusiResponseHelper) {
+    override fun determineAnswerPlanAction(susiResponse: SusiResponse, parseSusiHelper: ParseSusiResponseHelper, i: Int) {
+        val query = susiResponse.query.toString()
+        identifier = parseSusiHelper.identifier
+        Log.d("KHANKI", "Plan")
+        if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
+//            // Perform the task thats need to be done after one minute
+//            delayIdentifier = identifier
+//            planHandler.postDelayed(delayRunnable, 60000) // Time value will change
+        } else {
+            if (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()) {
+                var setMessage = parseSusiHelper.answer
+                var speechReply = setMessage
+                if (parseSusiHelper.isHavingLink) {
+                    speechReply = setMessage.substring(0, setMessage.indexOf("http"))
+                }
+                chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
+            }
+        }
+    }
+
+    override fun determineVideoPlanAction(response: SusiResponse?, parseSusiHelper: ParseSusiResponseHelper) {
         val query = response?.query.toString()
         identifier = parseSusiHelper.identifier
         if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
