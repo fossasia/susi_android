@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.chat
 
 import android.content.Context
 import android.os.Handler
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
 import org.fossasia.susi.ai.BuildConfig
@@ -71,6 +72,7 @@ class ChatPresenter(context: Context) :
     lateinit var youtubeVid: IYoutubeVid
     private var isPlanAction = false
     private var planQueryAnswer: String = " "
+    private var textToSpeech: TextToSpeech? = null
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -482,14 +484,7 @@ class ChatPresenter(context: Context) :
                         determineVideoPlanAction(susiResponse, parseSusiHelper)
                     } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                         setMessage = parseSusiHelper.answer
-                        Log.d("KHANKI", "Called - 2")
                         determineAnswerPlanAction(susiResponse, parseSusiHelper, i)
-
-                        var speechReply = setMessage
-                        if (parseSusiHelper.isHavingLink) {
-                            speechReply = setMessage.substring(0, setMessage.indexOf("http"))
-                        }
-                        chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
                     } else if (parseSusiHelper.actionType == Constant.STOP) {
                         setMessage = parseSusiHelper.stop
                         chatView?.stopMic()
@@ -523,7 +518,7 @@ class ChatPresenter(context: Context) :
                                     actionType = Constant.ANSWER
                             ), this)
                         }
-                    } else {
+                    } else if (isPlanAction && (i == 0)) {
                         databaseRepository.updateDatabase(ChatArgs(
                                 prevId = id,
                                 message = "Set alarm/planned action",
@@ -585,6 +580,23 @@ class ChatPresenter(context: Context) :
             ), this)
         } catch (e: Exception) {
             Timber.e(e)
+        }
+        if (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()) {
+            try {
+                var speechReply = planQueryAnswer
+                Handler().post {
+                    textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+                        if (status != TextToSpeech.ERROR) {
+                            val locale = textToSpeech?.language
+                            textToSpeech?.language = locale
+                            textToSpeech?.speak(speechReply, TextToSpeech.QUEUE_FLUSH, null)
+                            PrefManager.putBoolean(R.string.used_voice, true)
+                        }
+                    })
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
         }
     }
 
