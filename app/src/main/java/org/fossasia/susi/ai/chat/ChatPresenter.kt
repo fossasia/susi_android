@@ -3,7 +3,6 @@ package org.fossasia.susi.ai.chat
 import android.content.Context
 import android.os.Handler
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import android.widget.Toast
 import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.MainApplication
@@ -489,7 +488,6 @@ class ChatPresenter(context: Context) :
                         setMessage = parseSusiHelper.stop
                         chatView?.stopMic()
                     } else {
-                        Log.d("KHANKI", "Called")
                         determineAnswerPlanAction(susiResponse, parseSusiHelper, i)
                     }
                     if (!isPlanAction) {
@@ -605,7 +603,6 @@ class ChatPresenter(context: Context) :
         identifier = parseSusiHelper.identifier
         if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
             isPlanAction = true
-            // Perform the task thats need to be done after one minute
             delayIdentifier = identifier
             planHandler.postDelayed(delayVideoRunnable, 10000) // Time value will change
         } else {
@@ -617,7 +614,7 @@ class ChatPresenter(context: Context) :
     private val delayVideoRunnable: Runnable = Runnable {
         youtubeVid = YoutubeVid(context)
         Toast.makeText(context, utilModel.getString(R.string.alarm_executed), Toast.LENGTH_SHORT).show()
-        youtubeVid.playYoutubeVid(identifier)
+        youtubeVid.playYoutubeVid(delayIdentifier)
     }
 
     override fun onDatabaseUpdateSuccess() {
