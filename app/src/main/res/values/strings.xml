@@ -595,5 +595,6 @@
     <string name="failed_device_update">Failed to update device details. Please try again...</string>
     <string name="succesfully_updated_device">Successfully updated the device information</string>
     <string name="alarm_executed">Executed after one minute</string>
+    <string name="alarm_query_executed">Executed planned task</string>
 
 </resources>

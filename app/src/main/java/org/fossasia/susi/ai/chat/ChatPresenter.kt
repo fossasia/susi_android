@@ -70,6 +70,7 @@ class ChatPresenter(context: Context) :
     private var delayIdentifier: String = " "
     lateinit var youtubeVid: IYoutubeVid
     private var isPlanAction = false
+    private var planQueryAnswer: String = " "
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -523,10 +524,9 @@ class ChatPresenter(context: Context) :
                             ), this)
                         }
                     } else {
-                        Log.d("KHANKI", "Message - " + setMessage)
                         databaseRepository.updateDatabase(ChatArgs(
                                 prevId = id,
-                                message = "Set alarm action",
+                                message = "Set alarm/planned action",
                                 date = DateTimeHelper.date,
                                 timeStamp = DateTimeHelper.currentTime,
                                 actionType = Constant.ANSWER
@@ -554,14 +554,12 @@ class ChatPresenter(context: Context) :
     }
 
     override fun determineAnswerPlanAction(susiResponse: SusiResponse, parseSusiHelper: ParseSusiResponseHelper, i: Int) {
-        val query = susiResponse.query.toString()
+        val query = susiResponse.query
         identifier = parseSusiHelper.identifier
-        Log.d("KHANKI", "Plan")
         if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
             isPlanAction = true
-//            // Perform the task thats need to be done after one minute
-//            delayIdentifier = identifier
-//            planHandler.postDelayed(delayRunnable, 60000) // Time value will change
+            planQueryAnswer = parseSusiHelper.answer
+            planHandler.postDelayed(delayQueryRunnable, 5000) // Time value will change
         } else {
             isPlanAction = false
             if (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()) {
@@ -575,6 +573,21 @@ class ChatPresenter(context: Context) :
         }
     }
 
+    private val delayQueryRunnable: Runnable = Runnable {
+        Toast.makeText(context, utilModel.getString(R.string.alarm_query_executed), Toast.LENGTH_SHORT).show()
+        try {
+            databaseRepository.updateDatabase(ChatArgs(
+                    prevId = id,
+                    message = planQueryAnswer,
+                    date = DateTimeHelper.date,
+                    timeStamp = DateTimeHelper.currentTime,
+                    actionType = Constant.ANSWER
+            ), this)
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+    }
+
     override fun determineVideoPlanAction(response: SusiResponse?, parseSusiHelper: ParseSusiResponseHelper) {
         val query = response?.query.toString()
         identifier = parseSusiHelper.identifier
@@ -582,14 +595,14 @@ class ChatPresenter(context: Context) :
             isPlanAction = true
             // Perform the task thats need to be done after one minute
             delayIdentifier = identifier
-            planHandler.postDelayed(delayRunnable, 60000) // Time value will change
+            planHandler.postDelayed(delayVideoRunnable, 10000) // Time value will change
         } else {
             isPlanAction = false
             chatView?.playVideo(identifier)
         }
     }
 
-    private val delayRunnable: Runnable = Runnable {
+    private val delayVideoRunnable: Runnable = Runnable {
         youtubeVid = YoutubeVid(context)
         Toast.makeText(context, utilModel.getString(R.string.alarm_executed), Toast.LENGTH_SHORT).show()
         youtubeVid.playYoutubeVid(identifier)
