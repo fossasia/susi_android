@@ -72,6 +72,7 @@ class ChatPresenter(context: Context) :
     private var isPlanAction = false
     private var planQueryAnswer: String = " "
     private var textToSpeech: TextToSpeech? = null
+    private var isVideo = false
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -447,6 +448,7 @@ class ChatPresenter(context: Context) :
             return
 
         id = nonDeliveredMessages.first.second
+        isVideo = false
         val query = nonDeliveredMessages.first.first
         nonDeliveredMessages.pop()
         val susiResponse = response?.body()
@@ -465,6 +467,17 @@ class ChatPresenter(context: Context) :
 
             val actionSize = susiResponse.answers[0].actions.size
             val date = susiResponse.answerDate
+
+            for (j in 0 until actionSize) {
+                Handler().post {
+                    val parseSusiHelper = ParseSusiResponseHelper()
+                    parseSusiHelper.parseSusiResponse(susiResponse, j, utilModel.getString(R.string.error_occurred_try_again))
+
+                    if (parseSusiHelper.actionType == Constant.VIDEOPLAY) {
+                        isVideo = true
+                    }
+                }
+            }
 
             for (i in 0 until actionSize) {
                 val delay = susiResponse.answers[0].actions[i].delay
@@ -549,7 +562,7 @@ class ChatPresenter(context: Context) :
     override fun determineAnswerPlanAction(susiResponse: SusiResponse, parseSusiHelper: ParseSusiResponseHelper, i: Int) {
         val query = susiResponse.query
         identifier = parseSusiHelper.identifier
-        if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
+        if ((query.contains(ALARM, false) || query.contains(PLAN, false)) && (i == 0) && (!isVideo)) {
             isPlanAction = true
             planQueryAnswer = parseSusiHelper.answer
             planHandler.postDelayed(delayQueryRunnable, 5000) // Time value will change
