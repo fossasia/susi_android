@@ -596,5 +596,6 @@
     <string name="succesfully_updated_device">Successfully updated the device information</string>
     <string name="alarm_executed">Executed after one minute</string>
     <string name="alarm_query_executed">Executed planned task</string>
+    <string name="set_plan_action">Plan action has been set</string>
 
 </resources>

@@ -532,7 +532,7 @@ class ChatPresenter(context: Context) :
                     } else if (isPlanAction && (i == 0)) {
                         databaseRepository.updateDatabase(ChatArgs(
                                 prevId = id,
-                                message = "Set alarm/planned action",
+                                message = utilModel.getString(R.string.set_plan_action),
                                 date = DateTimeHelper.date,
                                 timeStamp = DateTimeHelper.currentTime,
                                 actionType = Constant.ANSWER
@@ -565,7 +565,7 @@ class ChatPresenter(context: Context) :
         if ((query.contains(ALARM, false) || query.contains(PLAN, false)) && (i == 0) && (!isVideo)) {
             isPlanAction = true
             planQueryAnswer = parseSusiHelper.answer
-            planHandler.postDelayed(delayQueryRunnable, 5000) // Time value will change
+            planHandler.postDelayed(delayQueryRunnable, 60000) // Time value will change
         } else {
             isPlanAction = false
             if (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()) {
@@ -611,13 +611,24 @@ class ChatPresenter(context: Context) :
         }
     }
 
-    override fun determineVideoPlanAction(response: SusiResponse?, parseSusiHelper: ParseSusiResponseHelper) {
-        val query = response?.query.toString()
+    override fun determineVideoPlanAction(susiResponse: SusiResponse, parseSusiHelper: ParseSusiResponseHelper) {
+        val query = susiResponse?.query.toString()
         identifier = parseSusiHelper.identifier
         if (query.contains(ALARM, false) || query.contains(PLAN, false)) {
+            val actionSize = susiResponse.answers[0].actions.size
+            var j = 0
+            var plan_delay = 0L
+            while (j <actionSize) {
+                if (susiResponse.answers[0].actions[j].plan_delay != 0L) {
+                    plan_delay = susiResponse.answers[0].actions[j].plan_delay
+                    break
+                }
+                j++
+            }
+            Timber.d("Planned action to be executed after " + plan_delay + " millis")
             isPlanAction = true
             delayIdentifier = identifier
-            planHandler.postDelayed(delayVideoRunnable, 10000) // Time value will change
+            planHandler.postDelayed(delayVideoRunnable, plan_delay) // Time value will change
         } else {
             isPlanAction = false
             chatView?.playVideo(identifier)
