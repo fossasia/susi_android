@@ -53,7 +53,7 @@ interface IChatPresenter {
     // Planned actions
     fun determineVideoPlanAction(response: SusiResponse, actionSize: Int)
 
-    fun preVideoAlarm(susiResponse: SusiResponse)
+    fun handleVideoAlarm(susiResponse: SusiResponse, i: Int)
 
     fun determineAnswerPlanAction(response: SusiResponse, parseSusiHelper: ParseSusiResponseHelper, i: Int)
 }
