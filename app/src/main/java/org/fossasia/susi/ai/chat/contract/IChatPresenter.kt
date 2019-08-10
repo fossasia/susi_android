@@ -51,7 +51,9 @@ interface IChatPresenter {
     fun onDetach()
 
     // Planned actions
-    fun determineVideoPlanAction(response: SusiResponse, parseSusiHelper: ParseSusiResponseHelper)
+    fun determineVideoPlanAction(response: SusiResponse, actionSize: Int)
+
+    fun preVideoAlarm(susiResponse: SusiResponse)
 
     fun determineAnswerPlanAction(response: SusiResponse, parseSusiHelper: ParseSusiResponseHelper, i: Int)
 }
