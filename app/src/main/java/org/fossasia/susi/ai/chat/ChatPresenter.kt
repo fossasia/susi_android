@@ -630,7 +630,7 @@ class ChatPresenter(context: Context) :
             }
         }
 
-        planHandler.postDelayed(delayVideoRunnable, 5000)
+        planHandler.postDelayed(delayVideoRunnable, plan_delay)
     }
 
     override fun handleVideoAlarm(susiResponse: SusiResponse, i: Int) {
