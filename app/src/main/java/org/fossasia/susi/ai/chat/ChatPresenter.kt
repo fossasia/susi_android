@@ -3,7 +3,6 @@ package org.fossasia.susi.ai.chat
 import android.content.Context
 import android.os.Handler
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import android.widget.Toast
 import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.MainApplication
@@ -260,7 +259,7 @@ class ChatPresenter(context: Context) :
                                     skillLocation = allMessages[i].answers[0].skills[0]),
                                     this)
                         } catch (e: Exception) {
-                            Timber.e(e)
+                            Timber.e("Error occured while updating the database - " + e)
                             databaseRepository.updateDatabase(ChatArgs(
                                     prevId = chat,
                                     message = utilModel.getString(R.string.error_internet_connectivity),
@@ -475,7 +474,6 @@ class ChatPresenter(context: Context) :
 
                 if (parseSusiHelper.actionType == Constant.VIDEOPLAY) {
                     isVideo = true
-                    Log.d("KHANKI", "Is Video")
                 }
             }
             val askedQuery = susiResponse.query
@@ -526,7 +524,7 @@ class ChatPresenter(context: Context) :
                                         skillLocation = susiResponse.answers[0].skills[0]
                                 ), this)
                             } catch (e: Exception) {
-                                Timber.e(e)
+                                Timber.e("Error occured while updating the database - " + e)
                                 databaseRepository.updateDatabase(ChatArgs(
                                         prevId = id,
                                         message = utilModel.getString(R.string.error_internet_connectivity),
@@ -598,7 +596,7 @@ class ChatPresenter(context: Context) :
                     actionType = Constant.ANSWER
             ), this)
         } catch (e: Exception) {
-            Timber.e(e)
+            Timber.e("Error occured while updating the database - " + e)
         }
         if (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref()) {
             try {
@@ -614,7 +612,7 @@ class ChatPresenter(context: Context) :
                     })
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                Timber.e("Error occured while trying to start text to speech engine - " + e)
             }
         }
     }
@@ -624,17 +622,15 @@ class ChatPresenter(context: Context) :
         handler.post { handleVideoAlarm(susiResponse, 0) }
 
         planVideoSusiResponse = susiResponse
-        var j = 1
         var plan_delay = 0L
-        while (j < actionSize) {
+        for (j in 1 until actionSize) {
             if (susiResponse.answers[0].actions[j].plan_delay != 0L) {
                 plan_delay = susiResponse.answers[0].actions[j].plan_delay
                 break
             }
-            j++
         }
 
-        planHandler.postDelayed(delayVideoRunnable, plan_delay)
+        planHandler.postDelayed(delayVideoRunnable, 5000)
     }
 
     override fun handleVideoAlarm(susiResponse: SusiResponse, i: Int) {
@@ -675,7 +671,7 @@ class ChatPresenter(context: Context) :
                     skillLocation = susiResponse.answers[0].skills[0]
             ), this)
         } catch (e: Exception) {
-            Timber.e(e)
+            Timber.e("Error occured while updating the database - " + e)
             databaseRepository.updateDatabase(ChatArgs(
                     prevId = id,
                     message = utilModel.getString(R.string.error_internet_connectivity),
