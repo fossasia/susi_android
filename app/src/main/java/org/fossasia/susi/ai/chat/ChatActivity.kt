@@ -620,4 +620,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
         Timber.d(videoId)
         youtubeVid.playYoutubeVid(videoId)
     }
+
+    companion object {
+        val ALARM = "alarm"
+        val PLAN = "plan"
+    }
 }
