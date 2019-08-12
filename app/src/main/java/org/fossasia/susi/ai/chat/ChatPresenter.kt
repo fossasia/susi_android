@@ -63,13 +63,9 @@ class ChatPresenter(context: Context) :
     var id: Long = 0
     var identifier: String = ""
     var tableItem: TableItem? = null
-    private val planHandler: Handler = Handler()
-    lateinit var youtubeVid: IYoutubeVid
-    private var isPlanAction = false
-    private var planQueryAnswer: String = " "
+    private val youtubeVid: IYoutubeVid = YoutubeVid(context)
     private var textToSpeech: TextToSpeech? = null
-    private var isVideo = false
-    private lateinit var planVideoSusiResponse: SusiResponse
+    private val context: Context = context
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -505,10 +501,24 @@ class ChatPresenter(context: Context) :
             } else if (parseSusiHelper.actionType == Constant.VIDEOPLAY || parseSusiHelper.actionType == Constant.AUDIOPLAY) {
                 // Play youtube video
                 identifier = parseSusiHelper.identifier
-                chatView?.playVideo(identifier)
+                youtubeVid.playYoutubeVid(identifier)
             } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                 setMessage = parseSusiHelper.answer
-                // determineAnswerPlanAction(susiResponse, parseSusiHelper, i)
+                try {
+                    var speechReply = setMessage
+                    Handler().post {
+                        textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+                            if (status != TextToSpeech.ERROR) {
+                                val locale = textToSpeech?.language
+                                textToSpeech?.language = locale
+                                textToSpeech?.speak(speechReply, TextToSpeech.QUEUE_FLUSH, null)
+                                PrefManager.putBoolean(R.string.used_voice, true)
+                            }
+                        })
+                    }
+                } catch (e: Exception) {
+                    Timber.e("Error occured while trying to start text to speech engine - " + e)
+                }
             } else if (parseSusiHelper.actionType == Constant.STOP) {
                 setMessage = parseSusiHelper.stop
                 chatView?.stopMic()
