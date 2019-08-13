@@ -50,4 +50,6 @@ interface IChatPresenter {
     fun onDetach()
 
     fun executeTask(planDelay: Long, susiResponse: SusiResponse, i: Int, date: String)
+
+    fun removeCallBacks()
 }
