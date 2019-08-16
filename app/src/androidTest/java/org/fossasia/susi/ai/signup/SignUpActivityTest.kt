@@ -10,14 +10,12 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.WindowManager
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.helper.CredentialHelper
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import timber.log.Timber
 import java.io.IOException
-import org.junit.Assert.assertEquals
 
 /**
  * Created by collinx on 22-10-2017.
@@ -64,13 +62,5 @@ class SignUpActivityTest {
         // checks if sign up button is present
         onView(withId(R.id.signUp)).perform(scrollTo())
         onView(withId(R.id.signUp)).check(matches(isDisplayed()))
-    }
-
-    @Test
-    fun testSignupPassword() {
-        Timber.d("running password test..")
-        val password = "123345602"
-        val result = CredentialHelper.isPasswordValid(password)
-        assertEquals("Pattern did not match", false, result)
     }
 }

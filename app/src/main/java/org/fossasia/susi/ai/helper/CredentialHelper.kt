@@ -16,7 +16,7 @@ import java.util.regex.Pattern
  */
 object CredentialHelper {
 
-    private val PASSWORD_PATTERN = Pattern.compile("^((?=.*\\d)(?=.*[a-z])(?=.*[@#\$%])(?=.*\\W).{8,64})$")
+    private val PASSWORD_PATTERN = Pattern.compile("^((?=.*\\d)(?=.*[A-Z])(?=.*[@#\$%])(?=.*\\W).{8,64})$")
 
     /**
      * Is email valid boolean.
