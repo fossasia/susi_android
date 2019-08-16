@@ -86,7 +86,7 @@
     <string name="new_password">Neues Kennwort</string>
     <string name="current_password">Aktuelles Passwort</string>
     <string name="sign_up">Anmelden</string>
-    <string name="pass_validation_text">Gebe eine Kombination von mindestens 6 Zeichen ein</string>
+    <string name="pass_validation_text">Das Passwort muss mindestens acht Zeichen lang sein und mindestens ein Sonderzeichen, eine Ziffer und einen Großbuchstaben enthalten</string>
     <string name="log_in">Einloggen</string>
     <string name="field_cannot_be_empty">Dieses Feld kann nicht leer sein</string>
     <string name="email_cannot_be_empty">E-Mail kann nicht leer sein</string>
