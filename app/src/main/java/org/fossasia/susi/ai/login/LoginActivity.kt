@@ -166,7 +166,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     private fun logIn() {
         logIn.setOnClickListener {
-            startLogin()
+            if (PrefManager.getBoolean(R.string.login_failed, false)) {
+                Toast.makeText(this, "Recaptcha should appear", Toast.LENGTH_SHORT).show()
+            } else {
+                startLogin()
+            }
         }
     }
 

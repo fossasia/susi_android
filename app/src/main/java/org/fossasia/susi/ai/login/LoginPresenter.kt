@@ -147,9 +147,11 @@ class LoginPresenter(loginActivity: LoginActivity) :
             utilModel.saveEmail(email)
             utilModel.saveAnonymity(false)
             loginModel.getUserSetting(this)
+            PrefManager.putBoolean(R.string.login_failed, false)
 
             message = response.body()?.message.toString()
         } else if (response.code() == 422) {
+            PrefManager.putBoolean(R.string.login_failed, true)
             loginView?.showProgress(false)
             loginView?.onLoginError(utilModel.getString(R.string.invalid_credentials_title),
                     utilModel.getString(R.string.invalid_credentials))
