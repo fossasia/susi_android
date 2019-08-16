@@ -52,4 +52,6 @@ interface IChatPresenter {
     fun executeTask(planDelay: Long, susiResponse: SusiResponse, i: Int, date: String)
 
     fun removeCallBacks()
+
+    fun playRingTone()
 }

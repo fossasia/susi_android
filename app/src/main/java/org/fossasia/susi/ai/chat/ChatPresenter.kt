@@ -34,6 +34,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.HashMap
 import android.media.RingtoneManager
 import org.fossasia.susi.ai.chat.ChatActivity.Companion.ALARM
+import android.content.Context.ALARM_SERVICE
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Intent
 
 /**
  * Presentation Layer for Chat View.
@@ -589,7 +593,7 @@ class ChatPresenter(context: Context) :
         }
     }
 
-    fun playRingTone() {
+    override fun playRingTone() {
         try {
             val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
             val r = RingtoneManager.getRingtone(context, notification)
@@ -601,6 +605,14 @@ class ChatPresenter(context: Context) :
 
     override fun removeCallBacks() {
         handler.removeCallbacksAndMessages(null)
+        try {
+            val intent = Intent(context, ChatActivity::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 123, intent, 0)
+            val alarmManager = context.getSystemService(ALARM_SERVICE) as? AlarmManager
+            alarmManager?.cancel(pendingIntent)
+        } catch (e: Exception) {
+            Timber.e("Failed to stop alarm - " + e)
+        }
     }
 
     override fun onDetach() {
