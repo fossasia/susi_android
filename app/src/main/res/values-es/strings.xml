@@ -88,7 +88,7 @@ Enlace de confirmación para activar su cuenta e iniciar sesión en susi.</strin
     <string name="new_password">Nueva Contraseña</string>
     <string name="current_password">Contraseña Actual</string>
     <string name="sign_up">Regístrate</string>
-    <string name="pass_validation_text">Introduzca una combinación de al menos seis caracteres</string>
+    <string name="pass_validation_text">La contraseña debe tener al menos ocho caracteres que contengan al menos un carácter especial, un número y una letra mayúscula</string>
     <string name="log_in">Iniciar sesión</string>
     <string name="field_cannot_be_empty">Este campo no puede estar vacío</string>
     <string name="email_cannot_be_empty">El correo electrónico no puede estar vacío</string>
