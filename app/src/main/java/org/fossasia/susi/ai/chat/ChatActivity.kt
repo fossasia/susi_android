@@ -622,7 +622,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     companion object {
-        val ALARM = "alarm"
-        val PLAN = "plan"
+        val ALARM = "ALARM"
     }
 }

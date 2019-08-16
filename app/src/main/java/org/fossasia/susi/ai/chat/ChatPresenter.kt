@@ -32,6 +32,8 @@ import java.util.TimeZone
 import java.util.Date
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.HashMap
+import android.media.RingtoneManager
+import org.fossasia.susi.ai.chat.ChatActivity.Companion.ALARM
 
 /**
  * Presentation Layer for Chat View.
@@ -524,6 +526,11 @@ class ChatPresenter(context: Context) :
                     removeCallBacks()
                     chatView?.stopMic()
                 }
+
+                if (parseSusiHelper.answer == ALARM) {
+                    playRingTone()
+                }
+
                 try {
                     databaseRepository.updateDatabase(ChatArgs(
                             prevId = id,
@@ -579,6 +586,16 @@ class ChatPresenter(context: Context) :
 
         if (!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(R.string.setting_mic_key, utilModel.checkMicInput())
+        }
+    }
+
+    fun playRingTone() {
+        try {
+            val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+            val r = RingtoneManager.getRingtone(context, notification)
+            r.play()
+        } catch (e: Exception) {
+            Timber.e("Error playing alarm tone - " + e)
         }
     }
 
