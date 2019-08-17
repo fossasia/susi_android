@@ -94,7 +94,7 @@
     <string name="new_password">नया पासवर्ड</string>
     <string name="current_password">वर्तमान पासवर्ड</string>
     <string name="sign_up">साइन अप करें</string>
-    <string name="pass_validation_text">कम से कम छह वर्णों का संयोजन दर्ज करें</string>
+    <string name="pass_validation_text">पासवर्ड कम से कम आठ वर्णों का होना चाहिए जिसमें कम से कम एक विशेष वर्ण, एक संख्या और एक बड़े अक्षर हों</string>
     <string name="log_in">लॉग इन करें</string>
     <string name="field_cannot_be_empty">यह स्थान खाली नहीं रह सकता</string>
     <string name="email_cannot_be_empty">ईमेल खाली नहीं हो सकता</string>

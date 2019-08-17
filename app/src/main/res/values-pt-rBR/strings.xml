@@ -82,7 +82,7 @@
     <string name="password">Senha</string>
     <string name="confirm_password">Confirmar Senha</string>
     <string name="sign_up">Regristar-se</string>
-    <string name="pass_validation_text">Insira uma combinação de no mínimo seis caracteres</string>
+    <string name="pass_validation_text">A senha deve ter pelo menos oito caracteres e conter pelo menos um caractere especial, um número e uma letra maiúscula.</string>
     <string name="log_in">Entrar</string>
     <string name="field_cannot_be_empty">Este campo não pode ser vazio</string>
     <string name="email_cannot_be_empty">Email não pode ser vazio</string>
