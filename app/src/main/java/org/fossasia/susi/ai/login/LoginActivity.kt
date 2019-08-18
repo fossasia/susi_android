@@ -13,8 +13,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.android.gms.auth.api.credentials.Credential
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.safetynet.SafetyNet
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -28,6 +26,7 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
+import timber.log.Timber
 
 /**
  * <h1>The Login activity.</h1>
@@ -42,7 +41,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
-    private val RECAPTCHA_KEY = "6LcKhbMUAAAAAFy4FiBSTwHnEb2ISvhj9zOCaJVM"
+    private val RECAPTCHA_KEY = "6LcKhbMUAAAAAGFbYZeNFzqol-7EjOHUK5MvEeOE"
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -174,7 +173,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     private fun logIn() {
         logIn.setOnClickListener {
             if (PrefManager.getBoolean(R.string.login_failed, false)) {
-                Toast.makeText(this, "Recaptcha should appear", Toast.LENGTH_SHORT).show()
                 verifyRecaptcha()
             } else {
                 startLogin()
@@ -188,18 +186,12 @@ class LoginActivity : AppCompatActivity(), ILoginView {
                     val userResponseToken = response.tokenResult
                     Log.d("KHANKI", "Started recaptcha verification")
                     if (response.tokenResult?.isNotEmpty() == true) {
-                        // Validate the user response token using the
-                        // reCAPTCHA siteverify API.
                         Toast.makeText(this, "Recaptcha verified", Toast.LENGTH_SHORT).show()
+                        startLogin()
                     }
                 })
                 .addOnFailureListener(this, OnFailureListener { e ->
-                    if (e is ApiException) {
-                        Log.d("KHANKI", "Error: ${CommonStatusCodes.getStatusCodeString(e.statusCode)}")
-                    } else {
-                        // A different, unknown type of error occurred.
-                        Log.d("KHANKI", "Error: ${e.message}")
-                    }
+                    Timber.e("Error: " + e)
                 })
     }
 
