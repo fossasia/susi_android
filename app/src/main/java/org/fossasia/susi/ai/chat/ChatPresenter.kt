@@ -72,7 +72,7 @@ class ChatPresenter(context: Context) :
     private val youtubeVid: IYoutubeVid = YoutubeVid(context)
     private var textToSpeech: TextToSpeech? = null
     private val context: Context = context
-    private val handler: Handler = Handler()
+    private lateinit var handler: Handler
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -496,6 +496,7 @@ class ChatPresenter(context: Context) :
     }
 
     override fun executeTask(planDelay: Long, susiResponse: SusiResponse, i: Int, date: String) {
+        handler = Handler()
         try {
             handler.postDelayed({
                 val parseSusiHelper = ParseSusiResponseHelper()
