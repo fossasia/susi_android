@@ -175,7 +175,7 @@
 
     <string name="new_password">New Password</string>
 
-    <string name="pass_validation_text">Enter a combination of at least six characters</string>
+    <string name="pass_validation_text">Password must be of atleast eight character length containing atleast one special character, one number and one capital letter</string>
 
     <string name="password">Password</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
