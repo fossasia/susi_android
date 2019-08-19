@@ -73,7 +73,7 @@ class LoginPresenter(loginActivity: LoginActivity) :
         loginView?.skipLogin()
     }
 
-    override fun login(email: String, password: String, isSusiServerSelected: Boolean, url: String) {
+    override fun login(email: String, password: String, recaptcha_response: String, isSusiServerSelected: Boolean, url: String) {
         if (email.isEmpty()) {
             loginView?.invalidCredentials(true, Constant.EMAIL)
             return
@@ -114,7 +114,7 @@ class LoginPresenter(loginActivity: LoginActivity) :
         this.email = email
         PrefManager.putString(Constant.EMAIL, this.email)
         loginView?.showProgress(true)
-        loginModel.login(email.trim { it <= ' ' }.toLowerCase(), password, this)
+        loginModel.login(email.trim { it <= ' ' }.toLowerCase(), password, recaptcha_response, this)
     }
 
     override fun cancelLogin() {

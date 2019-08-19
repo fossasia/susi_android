@@ -7,7 +7,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
@@ -42,6 +41,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
     private val RECAPTCHA_KEY = "6LcKhbMUAAAAAGFbYZeNFzqol-7EjOHUK5MvEeOE"
+    private var recaptcha_response = ""
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -176,6 +176,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
                 verifyRecaptcha()
             } else {
                 startLogin()
+                recaptcha_response = ""
             }
         }
     }
@@ -184,9 +185,9 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         SafetyNet.getClient(this).verifyWithRecaptcha(RECAPTCHA_KEY)
                 .addOnSuccessListener(this, OnSuccessListener { response ->
                     val userResponseToken = response.tokenResult
-                    Log.d("KHANKI", "Started recaptcha verification")
                     if (response.tokenResult?.isNotEmpty() == true) {
-                        Toast.makeText(this, "Recaptcha verified", Toast.LENGTH_SHORT).show()
+                        Timber.d("User Response Token - " + userResponseToken)
+                        recaptcha_response = userResponseToken
                         startLogin()
                     }
                 })
@@ -205,7 +206,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         password.error = null
         inputUrl.error = null
 
-        loginPresenter.login(stringEmail, stringPassword, !customServer.isChecked, stringURL)
+        loginPresenter.login(stringEmail, stringPassword, recaptcha_response, !customServer.isChecked, stringURL)
     }
 
     private fun cancelLogin() {
