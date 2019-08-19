@@ -414,7 +414,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     override fun databaseUpdated() {
-        // rv_chat_feed.smoothScrollToPosition(recyclerAdapter.itemCount)
         recyclerAdapter.notifyDataSetChanged()
     }
 
