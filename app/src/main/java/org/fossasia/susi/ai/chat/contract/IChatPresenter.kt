@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.chat.contract
 
-import org.fossasia.susi.ai.chat.ParseSusiResponseHelper
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 
 /**
@@ -50,10 +49,9 @@ interface IChatPresenter {
     // Detach
     fun onDetach()
 
-    // Planned actions
-    fun determineVideoPlanAction(response: SusiResponse, actionSize: Int)
+    fun executeTask(planDelay: Long, susiResponse: SusiResponse, i: Int, date: String)
 
-    fun handleVideoAlarm(susiResponse: SusiResponse, i: Int)
+    fun removeCallBacks()
 
-    fun determineAnswerPlanAction(response: SusiResponse, parseSusiHelper: ParseSusiResponseHelper, i: Int)
+    fun playRingTone()
 }
