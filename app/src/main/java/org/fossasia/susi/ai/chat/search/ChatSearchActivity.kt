@@ -29,6 +29,8 @@ class ChatSearchActivity : AppCompatActivity() {
         var bundle: Bundle ? = intent.extras
         query = bundle?.getString("query") as String
 
+        this.title = getString(R.string.search_results) + " - " + query
+
         setContentView(R.layout.activity_chat_search)
         loadQueryList(realm, query)
     }
