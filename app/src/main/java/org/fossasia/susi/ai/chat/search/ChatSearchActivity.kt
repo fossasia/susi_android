@@ -11,7 +11,6 @@ import org.fossasia.susi.ai.data.db.DatabaseRepository
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_chat_search.chatSearchToolbar
 import kotlinx.android.synthetic.main.activity_chat_search.search_not_found
 import org.fossasia.susi.ai.chat.ChatActivity
 
@@ -29,7 +28,6 @@ class ChatSearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         var bundle: Bundle ? = intent.extras
         query = bundle?.getString("query") as String
-        setSupportActionBar(chatSearchToolbar)
 
         setContentView(R.layout.activity_chat_search)
         loadQueryList(realm, query)
