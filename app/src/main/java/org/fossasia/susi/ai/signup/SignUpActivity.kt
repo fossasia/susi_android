@@ -42,7 +42,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private lateinit var forgotPasswordProgressDialog: Dialog
     private lateinit var builder: AlertDialog.Builder
     private var checkDialog: Boolean = false
-    private val RECAPTCHA_KEY = "6LcKhbMUAAAAAGFbYZeNFzqol-7EjOHUK5MvEeOE"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
