@@ -40,7 +40,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
-    private val RECAPTCHA_KEY = "6LcKhbMUAAAAAGFbYZeNFzqol-7EjOHUK5MvEeOE"
     private var recaptcha_response = ""
 
     @SuppressLint("InflateParams")
