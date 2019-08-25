@@ -1,15 +1,23 @@
 # SUSI.AI Android App
 
-Dev [![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)
-Master [![CircleCI](https://circleci.com/gh/fossasia/susi_android/tree/master.svg?style=svg)](https://circleci.com/gh/fossasia/susi_android/tree/master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/6ec0032213274fa0a07574919928c6a6)](https://www.codacy.com/app/harshithdwivedi/susi_android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=fossasia/susi_android&amp;utm_campaign=Badge_Grade)
 [![Preview the app](https://img.shields.io/badge/Preview-Appetize.io-orange.svg)](https://appetize.io/app/mbpprq4xj92c119j7nxdhttjm0)
 [![Gitter](https://badges.gitter.im/fossasia/susi_android.svg)](https://gitter.im/fossasia/susi_android?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Mailing List](https://img.shields.io/badge/Mailing%20List-FOSSASIA-blue.svg)](mailto:susiai@googlegroups.com)
+[![Translation](https://hosted.weblate.org/widgets/susi-ai/-/svg-badge.svg)](https://hosted.weblate.org/engage/susi-ai/)
 [![Twitter Follow](https://img.shields.io/twitter/follow/susiai_.svg?style=social&label=Follow&maxAge=2592000?style=flat-square)](https://twitter.com/susiai_)
 
+Dev [![CircleCI](https://circleci.com/gh/fossasia/susi_android.svg?style=svg&branch=development)](https://circleci.com/gh/fossasia/susi_android)
+Master [![CircleCI](https://circleci.com/gh/fossasia/susi_android/tree/master.svg?style=svg)](https://circleci.com/gh/fossasia/susi_android/tree/master)
 
 The main feature of the app is to provide a conversational interface to provide intelligent answers using the loklak/AskSusi infrastructure. The app also offers login functionalities to connect to other services and store personal data. Additionally, the application uses data provided by the user's phone to improve Susi answers. Geolocation information, for example, helps to offer better answers related to questions about "things nearby".
+
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
+     alt="Get it on Google Play"
+     height="80">](https://play.google.com/store/apps/details?id=ai.susi)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
+     alt="Get it on F-Droid"
+     height="80">](https://f-droid.org/packages/ai.susi/)
 
 ## Roadmap
 
