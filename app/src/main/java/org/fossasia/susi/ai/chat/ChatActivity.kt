@@ -414,7 +414,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     override fun databaseUpdated() {
-        rv_chat_feed.smoothScrollToPosition(recyclerAdapter.itemCount)
         recyclerAdapter.notifyDataSetChanged()
     }
 
@@ -622,7 +621,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     companion object {
-        val ALARM = "alarm"
-        val PLAN = "plan"
+        val ALARM = "ALARM"
     }
 }
