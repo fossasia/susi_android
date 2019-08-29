@@ -414,7 +414,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     override fun databaseUpdated() {
-        rv_chat_feed.smoothScrollToPosition(recyclerAdapter.itemCount)
         recyclerAdapter.notifyDataSetChanged()
     }
 
@@ -619,5 +618,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
     override fun playVideo(videoId: String) {
         Timber.d(videoId)
         youtubeVid.playYoutubeVid(videoId)
+    }
+
+    companion object {
+        val ALARM = "ALARM"
     }
 }

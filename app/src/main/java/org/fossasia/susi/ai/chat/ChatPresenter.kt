@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.chat
 
 import android.content.Context
 import android.os.Handler
+import android.speech.tts.TextToSpeech
 import org.fossasia.susi.ai.BuildConfig
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
@@ -31,6 +32,12 @@ import java.util.TimeZone
 import java.util.Date
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.HashMap
+import android.media.RingtoneManager
+import org.fossasia.susi.ai.chat.ChatActivity.Companion.ALARM
+import android.content.Context.ALARM_SERVICE
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Intent
 
 /**
  * Presentation Layer for Chat View.
@@ -39,7 +46,7 @@ import kotlin.collections.HashMap
  * Created by chiragw15 on 9/7/17.
  */
 class ChatPresenter(context: Context) :
-    IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
+        IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.OnDatabaseUpdateListener {
 
@@ -62,6 +69,10 @@ class ChatPresenter(context: Context) :
     var id: Long = 0
     var identifier: String = ""
     var tableItem: TableItem? = null
+    private val youtubeVid: IYoutubeVid = YoutubeVid(context)
+    private var textToSpeech: TextToSpeech? = null
+    private val context: Context = context
+    private lateinit var handler: Handler
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
@@ -78,7 +89,6 @@ class ChatPresenter(context: Context) :
         micCheck = utilModel.checkMicInput()
 
         chatView?.setupAdapter(databaseRepository.getAllMessages())
-
         getPermissions()
     }
 
@@ -249,7 +259,7 @@ class ChatPresenter(context: Context) :
                                     skillLocation = allMessages[i].answers[0].skills[0]),
                                     this)
                         } catch (e: Exception) {
-                            Timber.e(e)
+                            Timber.e("Error occured while updating the database - " + e)
                             databaseRepository.updateDatabase(ChatArgs(
                                     prevId = chat,
                                     message = utilModel.getString(R.string.error_internet_connectivity),
@@ -433,7 +443,6 @@ class ChatPresenter(context: Context) :
     }
 
     override fun onSusiMessageReceivedSuccess(response: Response<SusiResponse>?) {
-
         if (nonDeliveredMessages.isEmpty())
             return
 
@@ -456,61 +465,18 @@ class ChatPresenter(context: Context) :
 
             val actionSize = susiResponse.answers[0].actions.size
             val date = susiResponse.answerDate
+            var planDelay = 0L
 
             for (i in 0 until actionSize) {
-                val delay = susiResponse.answers[0].actions[i].delay
-                val handler = Handler()
-                handler.postDelayed({
-                    val parseSusiHelper = ParseSusiResponseHelper()
-                    parseSusiHelper.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
 
-                    var setMessage = parseSusiHelper.answer
-                    if (parseSusiHelper.actionType == Constant.TABLE) {
-                        tableItem = parseSusiHelper.tableData
-                    } else if (parseSusiHelper.actionType == Constant.VIDEOPLAY || parseSusiHelper.actionType == Constant.AUDIOPLAY) {
-                        // Play youtube video
-                        identifier = parseSusiHelper.identifier
-                        chatView?.playVideo(identifier)
-                    } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
-                        setMessage = parseSusiHelper.answer
-
-                        var speechReply = setMessage
-                        if (parseSusiHelper.isHavingLink) {
-                            speechReply = setMessage.substring(0, setMessage.indexOf("http"))
-                        }
-                        chatView?.voiceReply(speechReply, susiResponse.answers[0].actions[i].language)
-                    } else if (parseSusiHelper.actionType == Constant.STOP) {
-                        setMessage = parseSusiHelper.stop
-                        chatView?.stopMic()
-                    }
-                    try {
-                        databaseRepository.updateDatabase(ChatArgs(
-                                prevId = id,
-                                message = setMessage,
-                                date = DateTimeHelper.getDate(date),
-                                timeStamp = DateTimeHelper.getTime(date),
-                                actionType = parseSusiHelper.actionType,
-                                mapData = parseSusiHelper.mapData,
-                                isHavingLink = parseSusiHelper.isHavingLink,
-                                datumList = parseSusiHelper.datumList,
-                                webSearch = parseSusiHelper.webSearch,
-                                tableItem = tableItem,
-                                identifier = identifier,
-                                skillLocation = susiResponse.answers[0].skills[0]
-                        ), this)
-                    } catch (e: Exception) {
-                        Timber.e(e)
-                        databaseRepository.updateDatabase(ChatArgs(
-                                prevId = id,
-                                message = utilModel.getString(R.string.error_internet_connectivity),
-                                date = DateTimeHelper.date,
-                                timeStamp = DateTimeHelper.currentTime,
-                                actionType = Constant.ANSWER
-                        ), this)
-                    }
-                }, delay)
+                if (susiResponse.answers[0].actions[i].plan_delay.toString().isNullOrEmpty()) {
+                    planDelay = 0L
+                } else {
+                    planDelay = susiResponse.answers[0].actions[i].plan_delay
+                }
+                executeTask(planDelay, susiResponse, i, date)
+                chatView?.hideWaitingDots()
             }
-            chatView?.hideWaitingDots()
         } else {
             if (!NetworkUtils.isNetworkConnected()) {
                 nonDeliveredMessages.addFirst(Pair(query, id))
@@ -527,6 +493,78 @@ class ChatPresenter(context: Context) :
             chatView?.hideWaitingDots()
         }
         computeOtherMessage()
+    }
+
+    override fun executeTask(planDelay: Long, susiResponse: SusiResponse, i: Int, date: String) {
+        handler = Handler()
+        try {
+            handler.postDelayed({
+                val parseSusiHelper = ParseSusiResponseHelper()
+                parseSusiHelper.parseSusiResponse(susiResponse, i, utilModel.getString(R.string.error_occurred_try_again))
+                var setMessage = parseSusiHelper.answer
+
+                if (parseSusiHelper.actionType == Constant.TABLE) {
+                    tableItem = parseSusiHelper.tableData
+                } else if (parseSusiHelper.actionType == Constant.VIDEOPLAY || parseSusiHelper.actionType == Constant.AUDIOPLAY) {
+                    // Play youtube video
+                    identifier = parseSusiHelper.identifier
+                    youtubeVid.playYoutubeVid(identifier)
+                } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
+                    setMessage = parseSusiHelper.answer
+                    try {
+                        var speechReply = setMessage
+                        Handler().post {
+                            textToSpeech = TextToSpeech(context, TextToSpeech.OnInitListener { status ->
+                                if (status != TextToSpeech.ERROR) {
+                                    val locale = textToSpeech?.language
+                                    textToSpeech?.language = locale
+                                    textToSpeech?.speak(speechReply, TextToSpeech.QUEUE_FLUSH, null)
+                                    PrefManager.putBoolean(R.string.used_voice, true)
+                                }
+                            })
+                        }
+                    } catch (e: Exception) {
+                        Timber.e("Error occured while trying to start text to speech engine - " + e)
+                    }
+                } else if (parseSusiHelper.actionType == Constant.STOP) {
+                    setMessage = parseSusiHelper.stop
+                    removeCallBacks()
+                    chatView?.stopMic()
+                }
+
+                if (parseSusiHelper.answer == ALARM) {
+                    playRingTone()
+                }
+
+                try {
+                    databaseRepository.updateDatabase(ChatArgs(
+                            prevId = id,
+                            message = setMessage,
+                            date = DateTimeHelper.getDate(date),
+                            timeStamp = DateTimeHelper.getTime(date),
+                            actionType = parseSusiHelper.actionType,
+                            mapData = parseSusiHelper.mapData,
+                            isHavingLink = parseSusiHelper.isHavingLink,
+                            datumList = parseSusiHelper.datumList,
+                            webSearch = parseSusiHelper.webSearch,
+                            tableItem = tableItem,
+                            identifier = identifier,
+                            skillLocation = susiResponse.answers[0].skills[0]
+                    ), this)
+                } catch (e: Exception) {
+                    Timber.e("Error occured while updating the database - " + e)
+                    databaseRepository.updateDatabase(ChatArgs(
+                            prevId = id,
+                            message = utilModel.getString(R.string.error_internet_connectivity),
+                            date = DateTimeHelper.date,
+                            timeStamp = DateTimeHelper.currentTime,
+                            actionType = Constant.ANSWER
+                    ), this)
+                }
+            }, planDelay)
+        } catch (e: java.lang.Exception) {
+            Timber.e("Error while showing data - " + e)
+        }
     }
 
     override fun onDatabaseUpdateSuccess() {
@@ -553,6 +591,28 @@ class ChatPresenter(context: Context) :
 
         if (!(chatView?.checkPermission(permissionsRequired[1]) as Boolean)) {
             PrefManager.putBoolean(R.string.setting_mic_key, utilModel.checkMicInput())
+        }
+    }
+
+    override fun playRingTone() {
+        try {
+            val notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
+            val r = RingtoneManager.getRingtone(context, notification)
+            r.play()
+        } catch (e: Exception) {
+            Timber.e("Error playing alarm tone - " + e)
+        }
+    }
+
+    override fun removeCallBacks() {
+        handler.removeCallbacksAndMessages(null)
+        try {
+            val intent = Intent(context, ChatActivity::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 123, intent, 0)
+            val alarmManager = context.getSystemService(ALARM_SERVICE) as? AlarmManager
+            alarmManager?.cancel(pendingIntent)
+        } catch (e: Exception) {
+            Timber.e("Failed to stop alarm - " + e)
         }
     }
 

@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.chat.contract
 
+import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
+
 /**
  * The interface for Chat Presenter
  *
@@ -46,4 +48,10 @@ interface IChatPresenter {
 
     // Detach
     fun onDetach()
+
+    fun executeTask(planDelay: Long, susiResponse: SusiResponse, i: Int, date: String)
+
+    fun removeCallBacks()
+
+    fun playRingTone()
 }

@@ -17,5 +17,6 @@ data class Action(
     val count: Int = 0,
     val language: String = "en",
     var columns: Map<String, Any>? = null,
-    var identifier: String = ""
+    var identifier: String = "",
+    var plan_delay: Long = 0
 )
