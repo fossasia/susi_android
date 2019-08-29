@@ -22,7 +22,12 @@
         android:theme="@style/AppTheme"
         android:networkSecurityConfig="@xml/network_security_config"
         android:vmSafeMode="true">
-        <activity android:name=".chat.search.ChatSearchActivity"></activity>
+        <activity android:name=".chat.search.ChatSearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/PreferencesThemeLight">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.fossasia.susi.ai.chat.search.ChatSearchActivity" /></activity>
         <activity
             android:name=".login.WelcomeActivity"
             android:theme="@style/PreferenceFixTheme.DayNight.NoActionBar">
