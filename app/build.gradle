@@ -181,4 +181,5 @@ dependencies {
     //Smart LOck authentication
     implementation "com.google.android.gms:play-services-auth:${rootConfiguration.playServiceAuthVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
+    implementation "com.google.android.gms:play-services-safetynet:${rootConfiguration.safetynetVersion}"
 }

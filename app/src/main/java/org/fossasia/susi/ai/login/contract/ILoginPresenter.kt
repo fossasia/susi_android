@@ -11,7 +11,7 @@ interface ILoginPresenter {
 
     fun onAttach(loginView: ILoginView)
 
-    fun login(email: String, password: String, isSusiServerSelected: Boolean, url: String)
+    fun login(email: String, password: String, recaptcha_response: String, isSusiServerSelected: Boolean, url: String)
 
     fun skipLogin()
 

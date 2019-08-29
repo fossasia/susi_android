@@ -18,7 +18,7 @@ interface ILoginModel {
         fun onErrorSetting()
     }
 
-    fun login(email: String, password: String, listener: OnLoginFinishedListener)
+    fun login(email: String, password: String, recaptcha_response: String, listener: OnLoginFinishedListener)
 
     fun cancelLogin()
 

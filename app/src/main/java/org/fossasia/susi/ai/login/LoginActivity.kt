@@ -12,6 +12,9 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.google.android.gms.auth.api.credentials.Credential
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import kotlinx.android.synthetic.main.activity_login.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -22,6 +25,7 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
+import timber.log.Timber
 
 /**
  * <h1>The Login activity.</h1>
@@ -36,6 +40,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     lateinit var builder: AlertDialog.Builder
     private lateinit var loginPresenter: ILoginPresenter
     private lateinit var progressDialog: ProgressDialog
+    private var recaptcha_response = ""
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -166,8 +171,28 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     private fun logIn() {
         logIn.setOnClickListener {
-            startLogin()
+            if (PrefManager.getBoolean(R.string.login_failed, false)) {
+                verifyRecaptcha()
+            } else {
+                startLogin()
+                recaptcha_response = ""
+            }
         }
+    }
+
+    fun verifyRecaptcha() {
+        SafetyNet.getClient(this).verifyWithRecaptcha(RECAPTCHA_KEY)
+                .addOnSuccessListener(this, OnSuccessListener { response ->
+                    val userResponseToken = response.tokenResult
+                    if (response.tokenResult?.isNotEmpty() == true) {
+                        Timber.d("User Response Token - " + userResponseToken)
+                        recaptcha_response = userResponseToken
+                        startLogin()
+                    }
+                })
+                .addOnFailureListener(this, OnFailureListener { e ->
+                    Timber.e("Error: " + e)
+                })
     }
 
     private fun startLogin() {
@@ -180,7 +205,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         password.error = null
         inputUrl.error = null
 
-        loginPresenter.login(stringEmail, stringPassword, !customServer.isChecked, stringURL)
+        loginPresenter.login(stringEmail, stringPassword, recaptcha_response, !customServer.isChecked, stringURL)
     }
 
     private fun cancelLogin() {

@@ -22,10 +22,10 @@ class LoginModel : ILoginModel {
     private lateinit var authResponseCall: Call<LoginResponse>
     private lateinit var userSettingResponseCall: Call<UserSetting>
 
-    override fun login(email: String, password: String, listener: ILoginModel.OnLoginFinishedListener) {
+    override fun login(email: String, password: String, recaptcha_response: String, listener: ILoginModel.OnLoginFinishedListener) {
 
         authResponseCall = ClientBuilder.susiApi
-                .login(email, password)
+                .login(email, password, recaptcha_response)
 
         authResponseCall.enqueue(object : Callback<LoginResponse> {
             override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {

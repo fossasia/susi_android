@@ -12,6 +12,7 @@
     <string name="action_wall_settings">Wallpaper</string>
     <string name="used_voice" translatable="false">Used Voice before?</string>
     <string name="voice_welcome">Hi! How can I help you?</string>
+    <string name="login_failed" translatable="false">login_failed</string>
 
     <string name="background_no_wall">no_wall</string>
 
