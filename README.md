@@ -18,6 +18,7 @@ Planned features & enhancements are:
 - Full-Screen Voice interaction
 - Feedback for skills.
 - Displaying SUSI skills
+- Susi Smart Speaker Configuration and Control
 
 
 ## Communication
@@ -36,16 +37,21 @@ Our chat channel is on gitter here: https://gitter.im/fossasia/susi_android
   </tr>
   <tr>
     <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/chat.png" height = "480" width="270"></td>
-    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/skills_list.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/skills_menu.png" height = "480" width="270"></td>
     <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/skills.png" height = "480" width="270"></td>
   </tr>
   <tr>
     <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/groupwise_skills.png" height = "480" width="270"></td>
     <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/rating_and_feedback.png" height = "480" width="270"></td>
-    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/settings1.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/devices.png" height = "480" width="270"></td>
   </tr>
   <tr>
-    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/settings2.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/connect_to_device.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/set_up_wifi.png" height = "480" width="270"></td>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/room.png" height = "480" width="270"></td>
+  </tr>
+  <tr>
+    <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/settings.png" height = "480" width="270"></td>
     <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/help.png" height = "480" width="270"></td>
     <td><img src="./fastlane/metadata/android/en-US/images/phoneScreenshots/privacy.png" height = "480" width="270"></td>
   </tr>
@@ -74,6 +80,7 @@ Please find info about the set up of the Android app in your development environ
 - zagum/SpeechRecognitionView [Docs](https://github.com/zagum/SpeechRecognitionView)
 - MPAndroidChart [Docs](https://github.com/PhilJay/MPAndroidChart)
 - Timber [Docs](https://github.com/JakeWharton/timber)
+- Play services authentication [Docs](https://developers.google.com/identity/smartlock-passwords/android/store-credentials)
 
 ### Project Conventions
 
@@ -134,8 +141,6 @@ Please help us follow the best practice to make it easy for the reviewer as well
  * Follow uniform design practices. The design language must be consistent throughout the app.
  * The pull request will not get merged until and unless the commits are squashed. In case there are multiple commits on the PR, the commit author needs to squash them and not the maintainers cherrypicking and merging squashes.
  * If the PR is related to any front end change, please attach relevant screenshots in the pull request description.
-
-### Join the development
 
 * Before you join development, please set up the project on your local machine, run it and go through the application completely. Press on any button you can find and see where it leads to. Explore. (Don't worry ... Nothing will happen to the app or to you due to the exploring :wink: Only thing that will happen is, you'll be more familiar with what is where and might even get some cool ideas on how to improve various aspects of the app.)
 * If you would like to work on an issue, drop in a comment at the issue. If it is already assigned to someone, but there is no sign of any work being done, please free to drop in a comment so that the issue can be assigned to you if the previous assignee has dropped it entirely.
