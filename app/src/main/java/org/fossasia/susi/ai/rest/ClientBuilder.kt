@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.rest
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
@@ -32,7 +33,8 @@ object ClientBuilder {
         // Must maintain the order of interceptors here, logging needs to be last.
         httpClient.addInterceptor(TokenInterceptor())
         httpClient.addInterceptor(logging)
-
+        // Stetho for network monitoring
+        httpClient.addNetworkInterceptor(StethoInterceptor())
         Retrofit.Builder()
                 .baseUrl(PrefManager.susiRunningBaseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
