@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
+import com.facebook.stetho.Stetho
 
 import com.squareup.leakcanary.LeakCanary
 
@@ -50,6 +51,8 @@ class MainApplication : Application() {
             // Release mode
             Timber.plant(ReleaseLogTree())
         }
+
+        Stetho.initializeWithDefaults(this)
     }
 
     private class ReleaseLogTree : Timber.Tree() {
