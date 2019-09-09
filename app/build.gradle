@@ -188,5 +188,5 @@ dependencies {
     //Stetho network helper
     debugImplementation "com.facebook.stetho:stetho-okhttp3:${rootConfiguration.stethoVersion}"
 
-    releaseImplementation "com.github.iamareebjamal:stetho-noop:1.1"
+    releaseImplementation "com.github.iamareebjamal:stetho-noop:1.2.1"
 }
