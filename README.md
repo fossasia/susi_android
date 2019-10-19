@@ -114,7 +114,7 @@ Lastly, each class should only perform one task, do it well, and be unit tested 
 
 ### For first time Contributor
 
-First time contributors can read [ContributionHelp.md](docs/ContributionHelp.md) file for help regarding creating issues and sending pull requests.
+First time contributors can read [CONTRIBUTING.md](docs/CONTRIBUTING.md) file for help regarding creating issues and sending pull requests.
 
 ### Branch Policy
 
