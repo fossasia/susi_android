@@ -105,9 +105,8 @@
 
     <!-- Login Screen-->
     <string name="activity_login_log_in">Login</string>
-    <string name="activity_login_sign_up">Registrieren</string>
     <string name="activity_login_forgot_pass">Passwort vergessen?</string>
-    <string name="activity_login_sign_up">Melden Sie sich für SUSI an</string>
+    <string name="activity_login_sign_up">Melden Sie sich bei SUSI an</string>
     <string name="activity_login_skip">Überspringen</string>
     <string name="unknown_answer">Ich weiß es nicht.</string>
     <string name="settings_mic">Mic-Einstellungen</string>
