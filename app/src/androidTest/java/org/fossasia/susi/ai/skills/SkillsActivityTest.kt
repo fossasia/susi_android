@@ -8,13 +8,13 @@ import android.support.test.filters.LargeTest
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.WindowManager
+import java.io.IOException
 import org.fossasia.susi.ai.R
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import timber.log.Timber
-import java.io.IOException
 
 /**
  * Created by collinx on 16-10-2017.

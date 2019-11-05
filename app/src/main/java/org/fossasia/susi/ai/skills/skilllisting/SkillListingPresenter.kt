@@ -8,10 +8,10 @@ import org.fossasia.susi.ai.dataclasses.SkillMetricsDataQuery
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.rest.responses.susi.Metrics
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillMetricsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
+import org.fossasia.susi.ai.rest.responses.susi.Metrics
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillsActivity.Companion.DURATION
 import org.fossasia.susi.ai.skills.SkillsActivity.Companion.FILTER_NAME

@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.data
 
+import kotlin.collections.HashMap
 import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
@@ -14,7 +15,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
-import kotlin.collections.HashMap
 
 /**
  * Model of SkillDetails

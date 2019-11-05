@@ -1,23 +1,23 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
+import java.net.UnknownHostException
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.data.SkillDetailsModel
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.contract.ISkillDetailsModel
 import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.PostFeedback
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.helper.NetworkUtils
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
-import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
-import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
-import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.PostSkillFeedbackResponse
+import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 import retrofit2.Response
 import timber.log.Timber
-import java.net.UnknownHostException
 
 /**
  * Presenter for SkillDetails

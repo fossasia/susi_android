@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.helper
 
 import android.text.format.DateFormat
-import timber.log.Timber
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.TimeZone
-import java.util.Calendar
+import timber.log.Timber
 
 /**
  * <h1>Helper class to get current date and time. Also to parse date and time from server.</h1>

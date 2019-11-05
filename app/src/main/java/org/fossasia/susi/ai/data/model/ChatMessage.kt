@@ -1,10 +1,9 @@
 package org.fossasia.susi.ai.data.model
 
-import org.fossasia.susi.ai.rest.responses.susi.Datum
-
 import io.realm.RealmList
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
+import org.fossasia.susi.ai.rest.responses.susi.Datum
 
 open class ChatMessage(
     @PrimaryKey

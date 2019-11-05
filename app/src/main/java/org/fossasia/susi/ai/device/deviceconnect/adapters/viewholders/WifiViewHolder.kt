@@ -4,10 +4,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter
-
-import kotterknife.bindView
 
 class WifiViewHolder(itemView: View, private var devicePresenter: DeviceConnectPresenter) : RecyclerView.ViewHolder(itemView) {
 

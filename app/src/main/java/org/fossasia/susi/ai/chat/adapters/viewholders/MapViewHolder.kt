@@ -7,16 +7,13 @@ import android.support.customtabs.CustomTabsIntent
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
-
 import com.squareup.picasso.Picasso
-
+import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.data.model.MapData
 import org.fossasia.susi.ai.helper.AndroidHelper
 import org.fossasia.susi.ai.helper.MapHelper
-
-import kotterknife.bindView
 import timber.log.Timber
 
 class MapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -14,6 +14,8 @@ import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import java.util.Locale
+import kotlin.collections.ArrayList
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.Constant
@@ -32,8 +34,6 @@ import org.fossasia.susi.ai.skills.skillSearch.SearchSkillFragment
 import org.fossasia.susi.ai.skills.skilldetails.SkillDetailsFragment
 import org.fossasia.susi.ai.skills.skilllisting.SkillListingFragment
 import timber.log.Timber
-import java.util.Locale
-import kotlin.collections.ArrayList
 
 /**
  * <h1>The Skills activity.</h1>

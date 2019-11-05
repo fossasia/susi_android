@@ -5,10 +5,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
-import org.fossasia.susi.ai.R
-
 import kotterknife.bindView
+import org.fossasia.susi.ai.R
 
 class SearchResultHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

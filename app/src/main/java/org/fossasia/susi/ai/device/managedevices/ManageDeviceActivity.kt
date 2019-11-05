@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.device.managedevices
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import org.fossasia.susi.ai.R
 

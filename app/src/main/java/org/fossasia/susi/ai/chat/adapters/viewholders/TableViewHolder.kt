@@ -6,13 +6,13 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import butterknife.ButterKnife
+import java.util.ArrayList
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.TableAdapter
 import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import timber.log.Timber
-import java.util.ArrayList
 
 /**
  * ViewHolder for drawing table item layout.

@@ -6,7 +6,6 @@ import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.RssViewHolder
 import org.fossasia.susi.ai.rest.responses.susi.Datum

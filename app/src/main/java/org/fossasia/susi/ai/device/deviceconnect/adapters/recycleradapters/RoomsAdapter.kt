@@ -6,9 +6,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
 import kotlinx.android.synthetic.main.room_recycler_layout.view.delete_room
 import kotlinx.android.synthetic.main.room_recycler_layout.view.image_tick
+import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter

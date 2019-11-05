@@ -30,15 +30,16 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
-import android.view.KeyEvent
-import android.view.View
-import android.view.MotionEvent
-import android.view.WindowManager
 import android.view.GestureDetector
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import io.realm.RealmResults
+import java.util.Locale
 import kotlinx.android.synthetic.main.activity_chat.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
@@ -51,7 +52,6 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.skills.SkillsActivity
 import timber.log.Timber
-import java.util.Locale
 
 /**
  * The Chat Activity. Does all the main processes including
