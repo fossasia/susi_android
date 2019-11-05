@@ -2,6 +2,7 @@ package org.fossasia.susi.ai.skills.settings
 
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -19,27 +20,26 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
+import java.util.Locale
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.device.DeviceActivity
-import org.fossasia.susi.ai.helper.Constant
-import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.login.LoginActivity
-import org.fossasia.susi.ai.skills.SkillsActivity
-import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
-import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
-import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
-import timber.log.Timber
-import java.util.Locale
-import android.content.ActivityNotFoundException
-import org.fossasia.susi.ai.device.managedevices.ManageDeviceActivity
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.CONNECT_TO
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_CONNECTED_DEVICE_FRAGMNENT
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.TAG_DEVICE_CONNECT_FRAGMENT
+import org.fossasia.susi.ai.device.managedevices.ManageDeviceActivity
+import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.login.LoginLogoutModulePresenter
 import org.fossasia.susi.ai.login.contract.ILoginLogoutModulePresenter
+import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.skills.aboutus.AboutUsFragment
 import org.fossasia.susi.ai.skills.help.HelpFragment
 import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
+import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import timber.log.Timber
 
 /**
  * The Fragment for Settings Activity

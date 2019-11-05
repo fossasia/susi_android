@@ -2,18 +2,19 @@ package org.fossasia.susi.ai.login
 
 import android.content.Context
 import android.graphics.Color
-import com.google.android.gms.auth.api.credentials.Credentials
-import com.google.android.gms.auth.api.credentials.CredentialRequest
-import com.google.android.gms.auth.api.credentials.CredentialsClient
 import com.google.android.gms.auth.api.credentials.Credential
+import com.google.android.gms.auth.api.credentials.CredentialRequest
 import com.google.android.gms.auth.api.credentials.CredentialRequestResponse
+import com.google.android.gms.auth.api.credentials.Credentials
+import com.google.android.gms.auth.api.credentials.CredentialsClient
 import com.google.android.gms.tasks.OnCompleteListener
+import java.net.UnknownHostException
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.ForgotPasswordModel
-import org.fossasia.susi.ai.data.contract.ILoginModel
-import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
 import org.fossasia.susi.ai.data.LoginModel
 import org.fossasia.susi.ai.data.UtilModel
+import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
+import org.fossasia.susi.ai.data.contract.ILoginModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
@@ -28,7 +29,6 @@ import org.fossasia.susi.ai.rest.responses.susi.Settings
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
 import retrofit2.Response
 import timber.log.Timber
-import java.net.UnknownHostException
 
 /**
  * Presenter for Login

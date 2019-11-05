@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
-
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.PrefManager
 

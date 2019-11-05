@@ -2,9 +2,7 @@ package org.fossasia.susi.ai.helper
 
 import android.content.Context
 import android.preference.PreferenceManager
-
 import com.google.gson.Gson
-
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl

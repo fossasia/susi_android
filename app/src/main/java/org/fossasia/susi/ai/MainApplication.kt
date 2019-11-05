@@ -5,9 +5,7 @@ import android.app.Application
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
 import com.facebook.stetho.Stetho
-
 import com.squareup.leakcanary.LeakCanary
-
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import timber.log.Timber

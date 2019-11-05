@@ -11,19 +11,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.facebook.shimmer.ShimmerFrameLayout
-import kotlinx.android.synthetic.main.fragment_skill_listing.shimmer_view_container
-import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
-import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
 import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch
+import kotlinx.android.synthetic.main.fragment_skill_listing.shimmer_view_container
+import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
+import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
+import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters.SkillMetricsAdapter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingPresenter
 import org.fossasia.susi.ai.skills.skilllisting.contract.ISkillListingView
-import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import timber.log.Timber
 
 /**

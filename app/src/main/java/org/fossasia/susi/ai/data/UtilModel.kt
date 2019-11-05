@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.data
 
-import android.Manifest
 import ai.kitt.snowboy.AppResCopy
+import android.Manifest
 import android.content.Context
 import android.os.Build
 import org.fossasia.susi.ai.R

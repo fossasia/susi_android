@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.login
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import org.fossasia.susi.ai.R
 
 class ForgotPass : AppCompatActivity() {

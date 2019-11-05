@@ -4,10 +4,10 @@ import android.content.Context
 import android.support.design.widget.TextInputLayout
 import android.text.TextUtils
 import android.util.Patterns
-import org.fossasia.susi.ai.R
-import timber.log.Timber
 import java.net.URL
 import java.util.regex.Pattern
+import org.fossasia.susi.ai.R
+import timber.log.Timber
 
 /**
  * <h1>Helper class to verify credentials of user during login and sign up.</h1>

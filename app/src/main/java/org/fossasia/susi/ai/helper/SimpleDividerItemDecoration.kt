@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-
 import org.fossasia.susi.ai.R
 
 class SimpleDividerItemDecoration(context: Context, private val drawDividerFromIndex: Int) : RecyclerView.ItemDecoration() {

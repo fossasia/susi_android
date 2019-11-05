@@ -6,12 +6,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
+import java.security.MessageDigest
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import timber.log.Timber
-import java.security.MessageDigest
 
 object Utils {
 

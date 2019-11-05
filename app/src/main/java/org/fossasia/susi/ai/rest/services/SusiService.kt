@@ -1,8 +1,10 @@
 package org.fossasia.susi.ai.rest.services
 
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
+import org.fossasia.susi.ai.rest.responses.susi.ConnectedDevicesResponse
 import org.fossasia.susi.ai.rest.responses.susi.FiveStarSkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetRatingByUserResponse
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListGroupsResponse
@@ -17,9 +19,6 @@ import org.fossasia.susi.ai.rest.responses.susi.SignUpResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
 import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
-import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
-import org.fossasia.susi.ai.rest.responses.susi.ConnectedDevicesResponse
-
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.POST
