@@ -5,11 +5,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
+import java.util.ArrayList
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.TabViewHolder
-
-import java.util.ArrayList
 
 /*
 *   A RecyclerAdapter to inflate the list of the table responses

@@ -9,9 +9,9 @@ import android.os.AsyncTask
 import io.realm.Realm
 import org.fossasia.susi.ai.MainApplication
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.device.DeviceModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IDeviceModel
+import org.fossasia.susi.ai.data.device.DeviceModel
 import org.fossasia.susi.ai.data.device.SpeakerAuth
 import org.fossasia.susi.ai.data.device.SpeakerConfiguration
 import org.fossasia.susi.ai.data.model.RoomsAvailable

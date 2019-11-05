@@ -1,18 +1,18 @@
 package org.fossasia.susi.ai.chat.search
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import io.realm.Realm
-import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.search.adapters.ChatSearchAdapter
-import org.fossasia.susi.ai.data.db.DatabaseRepository
-import android.content.Intent
 import android.view.View
 import android.widget.Toast
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_chat_search.search_not_found
+import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
+import org.fossasia.susi.ai.chat.search.adapters.ChatSearchAdapter
+import org.fossasia.susi.ai.data.db.DatabaseRepository
 
 class ChatSearchActivity : AppCompatActivity() {
 

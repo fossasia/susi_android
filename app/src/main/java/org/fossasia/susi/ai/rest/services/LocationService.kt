@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.rest.services
 
 import org.fossasia.susi.ai.rest.responses.others.LocationResponse
-
 import retrofit2.Call
 import retrofit2.http.GET
 

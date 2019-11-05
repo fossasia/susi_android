@@ -13,7 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
-
+import io.realm.OrderedRealmCollection
+import io.realm.Realm
+import io.realm.RealmChangeListener
+import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
+import java.util.ArrayList
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.ChatViewHolder
 import org.fossasia.susi.ai.chat.adapters.viewholders.DateViewHolder
@@ -27,17 +32,9 @@ import org.fossasia.susi.ai.chat.adapters.viewholders.TableViewHolder
 import org.fossasia.susi.ai.chat.adapters.viewholders.TypingDotsHolder
 import org.fossasia.susi.ai.chat.adapters.viewholders.YoutubeVideoViewHolder
 import org.fossasia.susi.ai.chat.adapters.viewholders.ZeroHeightHolder
+import org.fossasia.susi.ai.data.model.ChatMessage
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.ConstraintsHelper
-import org.fossasia.susi.ai.data.model.ChatMessage
-
-import java.util.ArrayList
-
-import io.realm.OrderedRealmCollection
-import io.realm.Realm
-import io.realm.RealmChangeListener
-import io.realm.RealmRecyclerViewAdapter
-import io.realm.RealmResults
 
 /**
  * <h1>Adapter to display horizontal list of chat feed.</h1>

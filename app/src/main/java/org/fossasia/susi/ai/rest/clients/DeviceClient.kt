@@ -1,7 +1,6 @@
 package org.fossasia.susi.ai.rest.clients
 
 import org.fossasia.susi.ai.BuildConfig
-
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

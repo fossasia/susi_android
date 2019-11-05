@@ -1,24 +1,22 @@
 package org.fossasia.susi.ai.rest
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import java.util.HashMap
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
+import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
 import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
 import org.fossasia.susi.ai.dataclasses.SkillRatingQuery
 import org.fossasia.susi.ai.dataclasses.SkillsListQuery
-import org.fossasia.susi.ai.dataclasses.FetchFeedbackQuery
-import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor
+import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
+import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
 import org.fossasia.susi.ai.rest.responses.susi.ListSkillsResponse
 import org.fossasia.susi.ai.rest.responses.susi.ReportSkillResponse
 import org.fossasia.susi.ai.rest.responses.susi.SkillRatingResponse
-import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse
-import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
 import org.fossasia.susi.ai.rest.services.SusiService
-
-import java.util.HashMap
-
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

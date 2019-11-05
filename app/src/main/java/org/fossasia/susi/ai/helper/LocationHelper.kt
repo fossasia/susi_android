@@ -11,9 +11,8 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.ActivityCompat
-import timber.log.Timber
-
 import java.lang.ref.WeakReference
+import timber.log.Timber
 
 /**
  * <h1>Helper class to get location of using network and GPS.</h1>

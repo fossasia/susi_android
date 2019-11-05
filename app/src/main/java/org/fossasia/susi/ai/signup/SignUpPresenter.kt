@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.signup
 
 import android.graphics.Color
+import java.net.UnknownHostException
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.ForgotPasswordModel
 import org.fossasia.susi.ai.data.SignUpModel
@@ -18,7 +19,6 @@ import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
 import retrofit2.Response
-import java.net.UnknownHostException
 
 /**
  * Presenter for Login

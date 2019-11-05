@@ -15,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import java.util.Locale
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
 import kotlinx.android.synthetic.main.fragment_sttframe.view.*
@@ -23,7 +24,6 @@ import org.fossasia.susi.ai.chat.adapters.recycleradapters.VoiceCommandsAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
-import java.util.Locale
 
 /**
  * Created by meeera on 17/8/17.

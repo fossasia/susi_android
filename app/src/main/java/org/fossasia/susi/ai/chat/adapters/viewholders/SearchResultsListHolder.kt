@@ -5,7 +5,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
-
+import io.realm.Realm
+import io.realm.RealmList
+import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.SearchResultsAdapter
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.WebSearchAdapter
@@ -14,10 +16,6 @@ import org.fossasia.susi.ai.data.model.WebSearchModel
 import org.fossasia.susi.ai.rest.clients.WebSearchClient
 import org.fossasia.susi.ai.rest.responses.others.WebSearch
 import org.fossasia.susi.ai.rest.services.WebSearchService
-
-import io.realm.Realm
-import io.realm.RealmList
-import kotterknife.bindView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
