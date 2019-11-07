@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_feedback.rvAllFeedback
-
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
 import org.fossasia.susi.ai.rest.responses.susi.GetSkillFeedbackResponse

@@ -1,10 +1,9 @@
 package org.fossasia.susi.ai.rest
 
-import org.fossasia.susi.ai.helper.PrefManager
-import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor
-
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.fossasia.susi.ai.helper.PrefManager
+import org.fossasia.susi.ai.rest.interceptors.TokenInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

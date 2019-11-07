@@ -1,10 +1,8 @@
 package org.fossasia.susi.ai.rest.clients
 
-import org.fossasia.susi.ai.helper.PrefManager
-
 import java.net.ConnectException
 import java.net.SocketTimeoutException
-
+import org.fossasia.susi.ai.helper.PrefManager
 import timber.log.Timber
 
 /**

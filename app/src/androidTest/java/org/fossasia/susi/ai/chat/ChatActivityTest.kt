@@ -10,6 +10,7 @@ import android.support.test.rule.ActivityTestRule
 import android.support.test.rule.GrantPermissionRule
 import android.support.test.runner.AndroidJUnit4
 import android.view.WindowManager
+import java.io.IOException
 import org.fossasia.susi.ai.R
 import org.junit.Before
 import org.junit.FixMethodOrder
@@ -19,7 +20,6 @@ import org.junit.rules.TestRule
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import timber.log.Timber
-import java.io.IOException
 
 /**
  * Created by collinx on 22-10-2017.

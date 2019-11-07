@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.android.synthetic.main.activity_chat.btnSpeak
+import kotlinx.android.synthetic.main.activity_chat.fabsetting
 import kotlinx.android.synthetic.main.activity_chat.searchChat
 import kotlinx.android.synthetic.main.activity_chat.voiceSearchChat
-import kotlinx.android.synthetic.main.activity_chat.fabsetting
-import kotlinx.android.synthetic.main.activity_chat.btnSpeak
 import kotlinx.android.synthetic.main.item_voice_commands.view.voiceCommand
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity

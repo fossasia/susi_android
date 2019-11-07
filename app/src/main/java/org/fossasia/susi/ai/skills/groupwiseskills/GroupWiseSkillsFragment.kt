@@ -11,8 +11,9 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.facebook.shimmer.ShimmerFrameLayout
 import android.widget.Toast
+import com.facebook.shimmer.ShimmerFrameLayout
+import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
@@ -25,7 +26,6 @@ import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsPres
 import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsView
 import org.fossasia.susi.ai.skills.skillSearch.SearchSkillFragment
 import timber.log.Timber
-import kotlin.collections.ArrayList
 
 /**
  *

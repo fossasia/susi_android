@@ -4,7 +4,6 @@ import org.fossasia.susi.ai.rest.responses.others.AddRoomResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerAuthResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerConfigResponse
 import org.fossasia.susi.ai.rest.responses.others.SpeakerWifiResponse
-
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

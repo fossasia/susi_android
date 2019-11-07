@@ -7,9 +7,9 @@ import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.speech.RecognizerIntent
 import android.support.v4.app.ActivityCompat
-import timber.log.Timber
 import java.io.File
 import java.io.IOException
+import timber.log.Timber
 
 /**
  * <h1>Helper class to check if STT and TTS is possible for phone.</h1>

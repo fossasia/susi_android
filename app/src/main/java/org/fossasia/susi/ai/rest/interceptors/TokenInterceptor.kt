@@ -1,11 +1,9 @@
 package org.fossasia.susi.ai.rest.interceptors
 
-import org.fossasia.susi.ai.helper.PrefManager
-
 import java.io.IOException
-
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.fossasia.susi.ai.helper.PrefManager
 
 /**
  * <h1>The type Token interceptor.</h1>
