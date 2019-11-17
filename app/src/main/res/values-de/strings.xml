@@ -5,7 +5,7 @@
     <string name="send_msg_hint">Frage Susi etwas..</string>
     <string name="action_settings">Einstellungen</string>
     <string name="action_wall_settings">Hintergrundbild</string>
-    <string name="action_share">Aktie</string>
+    <string name="action_share">Teilen</string>
     <string name="action_log_out">Ausloggen</string>
     <string name="action_login">Login</string>
     <string name="settings_title">Chat Einstellungen</string>
@@ -31,11 +31,11 @@
     <string name="voice_welcome">Hallo! Womit kann ich Ihnen behilflich sein?</string>
 
     <string name="signup">Vielen dank für deine Registrierung</string>
-    <string name="signup_msg">Wir haben eine E-Mail an die angegebene Adresse gesendet. Bitte benutzen Sie die
+    <string name="signup_msg">Wir haben eine E-Mail an die angegebene Adresse gesendet. Bitte benutzen Sie den
         Bestätigungslink zur Aktivierung Ihres Kontos und Anmeldung bei susi.</string>
     <string name="email_invalid">Die eingegebene E-Mail-Adresse gehört nicht zu einem Konto.
         Bitte überprüfen Sie Ihre E-Mail und versuchen Sie es erneut.</string>
-    <string name="password_invalid">Das angegebene Passwort ist nicht korrek. Bitte versuche es erneut.</string>
+    <string name="password_invalid">Das angegebene Passwort ist nicht korrekt. Bitte versuche es erneut.</string>
     <string name="forgot_password_mail_sent">E-Mail gesendet</string>
 
     <string name="activity_executed_key" translatable="false">activity_executed</string>
@@ -45,7 +45,7 @@
 
     <string name="websearchnull">Keine Ergebnisse gefunden</string>
     <string name="error_email">Diese E-Mail Adresse ist bereits vergeben</string>
-    <string name="error_msg">Bitte verwenden Sie die vergessen Passwort, wenn Sie sich nicht an Ihr Passwort erinnern</string>
+    <string name="error_msg">Bitte verwenden Sie die \"Passwort vergessen?\" Funktion, wenn Sie sich nicht an Ihr Passwort erinnern</string>
     <string name="password_invalid_title">Ungültiges Passwort</string>
     <string name="exit">Zum Verlassen erneut drücken</string>
     <string name="message_copied">Nachricht kopiert</string>
@@ -71,15 +71,15 @@
     <string name="know_more">Mehr wissen</string>
 
     <!--Error Messages-->
-    <string name="error_crop_not_supported">Entschuldigen Sie Ihr Gerät nicht unterstützt Bild Ernte Aktion!</string>
+    <string name="error_crop_not_supported">Entschuldigen Sie Ihr Gerät nicht unterstützt Bild zuschneiden Aktion!</string>
     <string name="error_occurred_try_again">Ein Fehler ist aufgetreten. bitte versuche es erneut!</string>
     <string name="error_invalid_token">Ungültiger Access Token!</string>
     <string name="error_internet_connectivity">Internetverbindungsproblem!</string>
     <string name="error_hotword">Entschuldige, dein Telefon unterstützt keine Hotword-Erkennung.</string>
-    <string name="error_rating">Kann nicht rate Skill. Einige Fehler aufgetreten..</string>
+    <string name="error_rating">Kann Fähigkeiten nicht bewerten. Einige Fehler aufgetreten..</string>
 
     <!--Material Dialog-->
-    <string name="dialog_action_complete">verwendung zu komplette aktion </string>
+    <string name="dialog_action_complete">Verwende zum durchführen der Aktion</string>
     <string name="email">E-Mail-Addresse</string>
     <string name="password">Passwort</string>
     <string name="confirm_password">Bestätige das Passwort</string>
@@ -95,19 +95,18 @@
     <string name="accept_terms_and_conditions">Sie sollten die Nutzungsbedingungen akzeptieren, um sich anzumelden</string>
     <string name="accept_terms_conditions">Ich akzeptiere die allgemeinen Geschäftsbedingungen</string>
     <string name="copy_items">Kopieren</string>
-    <string name="sample_website_description">Beispieltext Aus einer Website extrahiert</string>
+    <string name="sample_website_description">Beispieltext aus einer Website extrahiert</string>
     <string name="sample_website_headline">Website-Stichprobe</string>
     <string name="sample_website_link">Website Link</string>
     <string-array name="dialog_complete_action_items">
         <item>1. Galerie</item>
-        <item>2. Keine Tapete</item>
+        <item>2. Kein Hintergrund</item>
     </string-array>
 
     <!-- Login Screen-->
     <string name="activity_login_log_in">Login</string>
-    <string name="activity_login_sing_up">Anmelden</string>
     <string name="activity_login_forgot_pass">Passwort vergessen?</string>
-    <string name="activity_login_sign_up">Melden Sie sich für SUSI an</string>
+    <string name="activity_login_sign_up">Melden Sie sich bei SUSI an</string>
     <string name="activity_login_skip">Überspringen</string>
     <string name="unknown_answer">Ich weiß es nicht.</string>
     <string name="settings_mic">Mic-Einstellungen</string>
@@ -128,7 +127,7 @@
     <string name="email_invalid_title">Falsche Email</string>
 
     <!-- Settings Activity-->
-    <string name="server_change_prompt">Bitte logge dich ein um den Susi Server zu ändern</string>
+    <string name="server_change_prompt">Bitte logge dich ein, um den Susi Server zu ändern</string>
     <string name="loading">Laden...</string>
     <string name="Continue">Fortsetzen</string>
     <string name="retry">Wiederholen</string>
@@ -146,15 +145,15 @@
     <string name="email_pass_not_exists">E-Mail existiert nicht. Bitte stellen Sie sicher, dass Sie Ihre E-Mail korrekt eingegeben haben.</string>
     <string name="email_token_string_message">Bitte geben Sie das gültige Zugriffstoken ein, das an Ihre E-Mail-ID gesendet wurde.</string>
     <string name="pref_rate_title">Bewerte Susi</string>
-    <string name="pref_rate_summary">Bewerte SUSI App auf Play Store</string>
+    <string name="pref_rate_summary">Bewerte SUSI App im Play Store</string>
     <string name="pref_share_title">SUSI teilen</string>
     <string name="pref_share_summary">SUSI App mit deinen Freunden teilen.</string>
-    <string name="email_not_registered">Die von Ihnen eingegebene E-Mail ist nicht bei uns registriert. Bitte versuche es erneut.</string>
+    <string name="email_not_registered">Die von Ihnen eingegebene E-Mail ist nicht bei uns registriert. Bitte versuchen sie es erneut.</string>
     <string name="email_not_registered_title">E-Mail Registrierung</string>
 
     <!--Share App strings-->
     <string name="promo_msg_template">Hey, versuch es! -%s. Du wirst es lieben!</string>
-    <string name="error_msg_retry">Bitte wiederholen Sie erneut</string>
+    <string name="error_msg_retry">Bitte versuchen Sie es erneut</string>
     <string name="logout">Ausloggen</string>
     <string name="action_about_us">Über uns</string>
     <string name="dialog_cancel_sign_up">Anmeldung abbrechen?</string>
@@ -165,29 +164,29 @@
     <string name="no_skill_name">Name nicht verfügbar</string>
     <string name="no_skill_description">Keine Beschreibung verfügbar</string>
     <string name="skill_unrated">Fähigkeit noch nicht bewertet</string>
-    <string name="skill_not_found">Noch keine Fertigkeit gefunden</string>
+    <string name="skill_not_found">Noch keine Fähigkeit gefunden</string>
     <string name="action_select_query_language">Wählen Sie eine Abfragesprache aus</string>
     <string name="action_select_tts_language">Wählen Sie einen Text für das Sprachmodul aus</string>
     <string name="query_language">Abfragesprache</string>
     <string name="settings_devices">Geräte</string>
     <string name="cancel">Stornieren</string>
     <string name="check_email">Überprüfe deinen Posteingang!</string>
-    <string name="reset_password_text">Wir haben Ihnen gerade eine E-Mail mit einem Link zum Zurücksetzen gesendet Ihr Passwort.</string>
+    <string name="reset_password_text">Wir haben Ihnen gerade eine E-Mail mit einem Link zum Zurücksetzen Ihres Passworts gesendet.</string>
     <string name="invalid_credentials_title">Ungültige Anmeldeinformationen</string>
-    <string name="invalid_credentials">Ungültige Anmeldeinformationen Bitte versuche es erneut</string>
+    <string name="invalid_credentials">Ungültige Anmeldeinformationen Bitte versuchen sie es erneut</string>
     <string name="error_custom_server">Stellen Sie sicher, dass Sie die richtige benutzerdefinierte Server-URL eingeben. Die eingegebene URL ist falsch</string>
     <string name="logout_confirmation">Möchten Sie sich wirklich abmelden?</string>
     <string name="pref_devices_not_connected">Kein angeschlossenes Gerät</string>
     <string name="settings_devices_setup">Klicken Sie hier, um zum Bildschirm für die Geräteeinrichtung zu gelangen</string>
     <string name="voice_settings">SUSI Spracheinstellungen</string>
     <string name="change_voice">Klicken Sie hier, um die Stimme von SUSI zu ändern</string>
-    <string name="change_voice_summary">Ändern Sie den Text in die Spracheinstellungen, um die Stimme zu ändern.</string>
-    <string name="error_skill_listing">Fertigkeiten können nicht abgerufen werden. Bitte überprüfen Sie die Internetverbindung oder versuchen Sie es später erneut.</string>
+    <string name="change_voice_summary">Ändern Sie die Text-zu-Sprache Einstellungen, um die Stimme zu ändern.</string>
+    <string name="error_skill_listing">Fähigkeiten können nicht abgerufen werden. Bitte überprüfen Sie die Internetverbindung oder versuchen Sie es später erneut.</string>
     <string name="no_skill_author">Skill Author nicht gefunden</string>
     <string name="reset_password_message">Passwort zurücksetzen…</string>
     <string name="share_message">Nachricht teilen</string>
-    <string name="share_skill">Fertigkeit teilen</string>
-    <string name="skill_title">Titel der Fertigkeit</string>
+    <string name="share_skill">Fähigkeit teilen</string>
+    <string name="skill_title">Titel der Fähigkeit</string>
     <string name="skills">Fähigkeiten</string>
     <string name="skills_activity">SUSI.AI Fähigkeiten</string>
     <string name="connect_success">Gerät erfolgreich verbunden!</string>
@@ -201,7 +200,7 @@
     <string name="device_title">Gerät</string>
     <string name="scan_devices">Scannen nach Geräten ...</string>
     <string name="no_device_found">Keine Geräte gefunden</string>
-    <string name="setup_tut">Wenn Sie ein neues Gerät einrichten, stellen Sie sicher, dass es ist  in der Nähe und an eine Steckdose angeschlossen</string>
+    <string name="setup_tut">Wenn Sie ein neues Gerät einrichten, stellen Sie sicher, dass es ist  in der Nähe und an eine Steckdose angeschlossen</string>
     <string name="no_wifi_found">Keine WiFi-Netzwerke gefunden</string>
     <string name="terms_condition">Geschäftsbedingungen</string>
 
@@ -210,51 +209,51 @@
     <string name="privacy_welcome_details">Vielen Dank, dass Sie unsere Produkte und Dienstleistungen nutzen ("Dienste"). Die Dienstleistungen werden von SUSI Inc. ("SUSI") in 93 Mau Than, Can Tho City, Vietnam, bereitgestellt. Durch die Nutzung unserer Dienste stimmen Sie diesen Bedingungen zu. Bitte lesen Sie sie sorgfältig durch.</string>
     <string name="privacy_services">Nutzung unserer Dienstleistungen</string>
     <string name="privacy_services_details"> Sie müssen alle Richtlinien einhalten, die Ihnen innerhalb der Dienste zur Verfügung gestellt werden.
-        \nDer Service darf nicht missbraucht werden. Beeinflussen Sie beispielsweise nicht unsere Services oder versuchen Sie, mit einer anderen Methode als der Benutzeroberfläche und den von uns bereitgestellten Anweisungen auf sie zuzugreifen. Sie dürfen unsere Dienste nur im gesetzlich zulässigen Umfang nutzen, einschließlich der geltenden Gesetze und Bestimmungen zur Kontrolle der Ausfuhr- und Wiederausfuhrkontrollen. Wir können die Bereitstellung unserer Dienste für Sie einstellen oder einstellen, wenn Sie unsere Bedingungen oder Richtlinien nicht einhalten oder mutmaßliches Fehlverhalten untersuchen.
-        \nBei Verwendung unserer Dienste erhalten Sie kein Eigentum an geistigen Eigentumsrechten an unseren Diensten oder den Inhalten, auf die Sie zugreifen. Sie dürfen Inhalte aus unseren Diensten nicht verwenden, es sei denn, Sie erhalten die Erlaubnis des Eigentümers oder sind anderweitig gesetzlich zulässig. Diese Bedingungen gewähren Ihnen nicht das Recht, Marken oder Logos zu verwenden, die in unseren Services verwendet werden. Entfernen, verdecken oder verändern Sie keine rechtlichen Hinweise, die in unseren Services oder zusammen mit unseren Services angezeigt werden.
-        \nUnsere Services zeigen Inhalte an, die nicht von SUSI sind. Für diesen Inhalt ist ausschließlich das Unternehmen verantwortlich, das es zur Verfügung stellt. Wir können Inhalte überprüfen, um festzustellen, ob sie rechtswidrig sind oder gegen unsere Richtlinien verstoßen, und wir können Inhalte entfernen oder ablehnen, von denen wir vernünftigerweise annehmen, dass sie gegen unsere Richtlinien oder Gesetze verstoßen. Dies bedeutet jedoch nicht zwangsläufig, dass wir Inhalte überprüfen. Nehmen Sie also nicht an, dass wir dies tun.
-        \nIn Verbindung mit Ihrer Nutzung der Dienste senden wir Ihnen möglicherweise Dienstankündigungen, Verwaltungsmeldungen und andere Informationen. Einige dieser Mitteilungen können Sie abwählen.
-        \nEinige unserer Services sind auf mobilen Geräten verfügbar. Verwenden Sie solche Dienste nicht auf eine Weise, die Sie ablenkt und verhindert, dass Sie die Verkehrs- oder Sicherheitsvorschriften einhalten.
+        \nDer Service darf nicht missbraucht werden. Beeinflussen Sie beispielsweise nicht unsere Services oder versuchen Sie, mit einer anderen Methode als der Benutzeroberfläche und den von uns bereitgestellten Anweisungen auf sie zuzugreifen. Sie dürfen unsere Dienste nur im gesetzlich zulässigen Umfang nutzen, einschließlich der geltenden Gesetze und Bestimmungen zur Kontrolle der Ausfuhr- und Wiederausfuhrkontrollen. Wir können die Bereitstellung unserer Dienste für Sie einstellen oder einstellen, wenn Sie unsere Bedingungen oder Richtlinien nicht einhalten oder mutmaßliches Fehlverhalten untersuchen.
+        \nBei Verwendung unserer Dienste erhalten Sie kein Eigentum an geistigen Eigentumsrechten an unseren Diensten oder den Inhalten, auf die Sie zugreifen. Sie dürfen Inhalte aus unseren Diensten nicht verwenden, es sei denn, Sie erhalten die Erlaubnis des Eigentümers oder sind anderweitig gesetzlich zulässig. Diese Bedingungen gewähren Ihnen nicht das Recht, Marken oder Logos zu verwenden, die in unseren Services verwendet werden. Entfernen, verdecken oder verändern Sie keine rechtlichen Hinweise, die in unseren Services oder zusammen mit unseren Services angezeigt werden.
+        \nUnsere Services zeigen Inhalte an, die nicht von SUSI sind. Für diesen Inhalt ist ausschließlich das Unternehmen verantwortlich, das es zur Verfügung stellt. Wir können Inhalte überprüfen, um festzustellen, ob sie rechtswidrig sind oder gegen unsere Richtlinien verstoßen, und wir können Inhalte entfernen oder ablehnen, von denen wir vernünftigerweise annehmen, dass sie gegen unsere Richtlinien oder Gesetze verstoßen. Dies bedeutet jedoch nicht zwangsläufig, dass wir Inhalte überprüfen. Nehmen Sie also nicht an, dass wir dies tun.
+        \nIn Verbindung mit Ihrer Nutzung der Dienste senden wir Ihnen möglicherweise Dienstankündigungen, Verwaltungsmeldungen und andere Informationen. Einige dieser Mitteilungen können Sie abwählen.
+        \nEinige unserer Services sind auf mobilen Geräten verfügbar. Verwenden Sie solche Dienste nicht auf eine Weise, die Sie ablenkt und verhindert, dass Sie die Verkehrs- oder Sicherheitsvorschriften einhalten.
 </string>
     <string name="privacy_susi_account">Ihr SUSI-Konto</string>
     <string name="privacy_susi_account_details">Möglicherweise benötigen Sie ein SUSI-Konto, um einige unserer Dienste nutzen zu können. Sie können Ihr eigenes SUSI-Konto erstellen oder Ihr SUSI-Konto kann Ihnen von einem Administrator wie Ihrem Arbeitgeber oder Ihrer Bildungseinrichtung zugewiesen werden. Wenn Sie ein SUSI-Konto verwenden, das Ihnen von einem Administrator zugewiesen wurde, gelten möglicherweise andere oder zusätzliche Bestimmungen, und Ihr Administrator kann auf Ihr Konto zugreifen oder es deaktivieren.
-        \nUm Ihr SUSI-Konto zu schützen, halten Sie Ihr Kennwort geheim. Sie sind für die Aktivitäten verantwortlich, die auf oder über Ihr SUSI-Konto stattfinden. Versuchen Sie, Ihr SUSI-Kontokennwort nicht in Anwendungen von Drittanbietern zu verwenden. Wenn Sie von einer unbefugten Verwendung Ihres Passworts oder SUSI-Kontos erfahren, ändern Sie Ihr Passwort und ergreifen Sie Maßnahmen, um Ihr Konto zu sichern. </string>
+        \nUm Ihr SUSI-Konto zu schützen, halten Sie Ihr Kennwort geheim. Sie sind für die Aktivitäten verantwortlich, die auf oder über Ihr SUSI-Konto stattfinden. Versuchen Sie, Ihr SUSI-Kontokennwort nicht in Anwendungen von Drittanbietern zu verwenden. Wenn Sie von einer unbefugten Verwendung Ihres Passworts oder SUSI-Kontos erfahren, ändern Sie Ihr Passwort und ergreifen Sie Maßnahmen, um Ihr Konto zu sichern. </string>
     <string name="privacy_copyright">Datenschutz und Copyright-Schutz</string>
     <string name="privacy_copyright_details">Die Datenschutzrichtlinien von SUSI gewährleisten, dass Ihre persönlichen Daten sicher und geschützt sind. Durch die Nutzung unserer Dienste erklären Sie sich damit einverstanden, dass SUSI diese Daten in Übereinstimmung mit unseren Datenschutzrichtlinien verwenden kann.
-        \nWir reagieren auf Hinweise auf mutmaßliche Urheberrechtsverletzungen und kündigen Konten wiederholter Rechtsverletzer. Wenn Sie der Meinung sind, dass jemand gegen Ihre Urheberrechte verstößt und Sie uns benachrichtigen möchten, finden Sie Informationen zum Senden von Benachrichtigungen und die SUSI-Richtlinien zum Antworten auf Hinweise auf unserer Website.</string>
+        \nWir reagieren auf Hinweise auf mutmaßliche Urheberrechtsverletzungen und kündigen Konten wiederholter Rechtsverletzer. Wenn Sie der Meinung sind, dass jemand gegen Ihre Urheberrechte verstößt und Sie uns benachrichtigen möchten, finden Sie Informationen zum Senden von Benachrichtigungen und die SUSI-Richtlinien zum Antworten auf Hinweise auf unserer Website.</string>
     <string name="privacy_content">Ihre Inhalte in unseren Services</string>
     <string name="privacy_content_details">SMit einigen unserer Dienste können Sie Inhalte hochladen, übermitteln, speichern, senden und empfangen. Sie behalten das Eigentum an allen geistigen Eigentumsrechten, die Sie an diesen Inhalten besitzen. Kurz gesagt, was Ihnen gehört, bleibt Ihnen.
-        \nWenn Sie Inhalte in unsere Dienste hochladen oder einreichen, speichern, senden oder empfangen, erteilen Sie SUSI (und denjenigen, mit denen wir zusammenarbeiten) eine weltweite Lizenz zur Verwendung, zum Hosting, Speichern, Reproduzieren, Ändern und Erstellen abgeleiteter Werke (wie z. B. solche) aufgrund von Übersetzungen, Anpassungen oder anderen Änderungen, die wir vornehmen, damit Ihre Inhalte besser mit unseren Services funktionieren), kommunizieren, veröffentlichen, öffentlich durchführen, öffentlich anzeigen und verteilen. Die Rechte, die Sie in der Lizenz einräumen, dienen dem eingeschränkten Zweck, unsere Dienste zu betreiben, zu fördern, zu verbessern und neue zu entwickeln. Diese Lizenz bleibt auch dann erhalten, wenn Sie unsere Dienste nicht mehr nutzen (z. B. für einen Brancheneintrag, den Sie SUSI Maps hinzugefügt haben). Einige Dienste bieten Ihnen möglicherweise die Möglichkeit, auf Inhalte zuzugreifen und diese zu entfernen, die für diesen Dienst bereitgestellt wurden. In einigen unserer Services gibt es auch Bedingungen oder Einstellungen, die den Umfang unserer Nutzung der Inhalte, die in diesen Services eingereicht werden, einschränken. Stellen Sie sicher, dass Sie über die erforderlichen Rechte für eine Grant-Lizenz für alle Inhalte verfügen, die Sie an unsere Services übermitteln.
-        \nWenn Sie über ein SUSI-Konto verfügen, zeigen wir möglicherweise Ihren Profilnamen, Ihr Profilfoto und die Aktionen an, die Sie bei SUSI oder bei Anwendungen von Drittanbietern, die mit Ihrem SUSI-Konto verbunden sind, in unseren Services anzeigen können, einschließlich Anzeigen in Anzeigen und anderen geschäftlichen Kontexten. Wir werden die von Ihnen getroffenen Entscheidungen zur Beschränkung der Freigabe- oder Sichtbarkeitseinstellungen in Ihrem SUSI-Konto respektieren.
+        \nWenn Sie Inhalte in unsere Dienste hochladen oder einreichen, speichern, senden oder empfangen, erteilen Sie SUSI (und denjenigen, mit denen wir zusammenarbeiten) eine weltweite Lizenz zur Verwendung, zum Hosting, Speichern, Reproduzieren, Ändern und Erstellen abgeleiteter Werke (wie z. B. solche) aufgrund von Übersetzungen, Anpassungen oder anderen Änderungen, die wir vornehmen, damit Ihre Inhalte besser mit unseren Services funktionieren), kommunizieren, veröffentlichen, öffentlich durchführen, öffentlich anzeigen und verteilen. Die Rechte, die Sie in der Lizenz einräumen, dienen dem eingeschränkten Zweck, unsere Dienste zu betreiben, zu fördern, zu verbessern und neue zu entwickeln. Diese Lizenz bleibt auch dann erhalten, wenn Sie unsere Dienste nicht mehr nutzen (z. B. für einen Brancheneintrag, den Sie SUSI Maps hinzugefügt haben). Einige Dienste bieten Ihnen möglicherweise die Möglichkeit, auf Inhalte zuzugreifen und diese zu entfernen, die für diesen Dienst bereitgestellt wurden. In einigen unserer Services gibt es auch Bedingungen oder Einstellungen, die den Umfang unserer Nutzung der Inhalte, die in diesen Services eingereicht werden, einschränken. Stellen Sie sicher, dass Sie über die erforderlichen Rechte für eine Grant-Lizenz für alle Inhalte verfügen, die Sie an unsere Services übermitteln.
+        \nWenn Sie über ein SUSI-Konto verfügen, zeigen wir möglicherweise Ihren Profilnamen, Ihr Profilfoto und die Aktionen an, die Sie bei SUSI oder bei Anwendungen von Drittanbietern, die mit Ihrem SUSI-Konto verbunden sind, in unseren Services anzeigen können, einschließlich Anzeigen in Anzeigen und anderen geschäftlichen Kontexten. Wir werden die von Ihnen getroffenen Entscheidungen zur Beschränkung der Freigabe- oder Sichtbarkeitseinstellungen in Ihrem SUSI-Konto respektieren.
 </string>
     <string name="privacy_software">Über Software in unseren Dienstleistungen</string>
     <string name="privacy_software_details">Wenn ein Dienst herunterladbare Software erfordert oder enthält, wird die Software möglicherweise automatisch auf Ihrem Gerät aktualisiert, sobald eine neue Version oder Funktion verfügbar ist. Bei einigen Diensten können Sie Ihre Einstellungen für die automatische Aktualisierung anpassen.
-        \nSUSI gibt Ihnen eine persönliche, weltweite, gebührenfreie, nicht übertragbare und nicht ausschließliche Lizenz zur Nutzung der von SUSI im Rahmen der Dienste bereitgestellten Software. Diese Lizenz dient ausschließlich dazu, Ihnen zu ermöglichen, die von SUSI bereitgestellten Dienste in der von diesen Bedingungen vorgesehenen Weise zu nutzen und zu nutzen.
-        \nDie meisten unserer Dienste werden über Freie Software und / oder Open Source-Software angeboten. Sie dürfen diese Anwendungen kopieren, modifizieren, verteilen, verkaufen oder leasen und den Quellcode dieser Software freigeben, wie in der mit der Software bereitgestellten Lizenzvereinbarung angegeben.
+        \nSUSI gibt Ihnen eine persönliche, weltweite, gebührenfreie, nicht übertragbare und nicht ausschließliche Lizenz zur Nutzung der von SUSI im Rahmen der Dienste bereitgestellten Software. Diese Lizenz dient ausschließlich dazu, Ihnen zu ermöglichen, die von SUSI bereitgestellten Dienste in der von diesen Bedingungen vorgesehenen Weise zu nutzen und zu nutzen.
+        \nDie meisten unserer Dienste werden über Freie Software und / oder Open Source-Software angeboten. Sie dürfen diese Anwendungen kopieren, modifizieren, verteilen, verkaufen oder leasen und den Quellcode dieser Software freigeben, wie in der mit der Software bereitgestellten Lizenzvereinbarung angegeben.
 </string>
     <string name="privacy_modify">Änderung und Beendigung unserer Dienste</string>
     <string name="privacy_modify_details">Wir verändern und verbessern ständig unsere Dienstleistungen. Wir können Funktionen oder Funktionen hinzufügen oder entfernen und einen Dienst insgesamt aussetzen oder beenden.
-        \nSie können unsere Dienste jederzeit beenden. SUSI kann auch aufhören, Ihnen Dienste anzubieten, oder Sie können unseren Diensten jederzeit neue Beschränkungen hinzufügen oder hinzufügen.
-        \nWir glauben, dass Sie Ihre Daten besitzen und dass der Zugriff auf diese Daten erhalten bleibt. Wenn wir einen Dienst einstellen, sofern dies vernünftigerweise möglich ist, werden wir Sie rechtzeitig darüber informieren und die Möglichkeit haben, Informationen aus diesem Dienst herauszuholen.</string>
+        \nSie können unsere Dienste jederzeit beenden. SUSI kann auch aufhören, Ihnen Dienste anzubieten, oder Sie können unseren Diensten jederzeit neue Beschränkungen hinzufügen oder hinzufügen.
+        \nWir glauben, dass Sie Ihre Daten besitzen und dass der Zugriff auf diese Daten erhalten bleibt. Wenn wir einen Dienst einstellen, sofern dies vernünftigerweise möglich ist, werden wir Sie rechtzeitig darüber informieren und die Möglichkeit haben, Informationen aus diesem Dienst herauszuholen.</string>
     <string name="privacy_warranty">Unsere Garantien und Haftungsausschlüsse</string>
     <string name="privacy_warranty_details">Wir bieten unsere Dienstleistungen mit einem angemessenen Maß an Können und Sorgfalt an und wir hoffen, dass Sie es genießen werden. Es gibt jedoch bestimmte Dinge, die wir bezüglich unserer Services nicht versprechen.
-        \nWie nicht ausdrücklich in diesen Bedingungen oder zusätzlichen Bestimmungen dargelegt, geben weder SUSI noch seine Lieferanten oder Händler bestimmte Versprechen bezüglich der Services ab. Zum Beispiel geben wir keine Verpflichtungen bezüglich des Inhalts der Services, der spezifischen Funktionen der Services oder ihrer Zuverlässigkeit, Verfügbarkeit oder Fähigkeit, Ihre Bedürfnisse zu erfüllen. Wir bieten die Dienstleistungen "wie sie sind" an.
-        \nIn einigen Gerichtsbarkeiten sind bestimmte Garantien vorgesehen, wie z. B. die implizite Gewährleistung der Handelsfähigkeit, die Eignung für einen bestimmten Zweck und die Nichtverletzung. Soweit gesetzlich zulässig, schließen wir jegliche Gewährleistung aus.
+        \nWie nicht ausdrücklich in diesen Bedingungen oder zusätzlichen Bestimmungen dargelegt, geben weder SUSI noch seine Lieferanten oder Händler bestimmte Versprechen bezüglich der Services ab. Zum Beispiel geben wir keine Verpflichtungen bezüglich des Inhalts der Services, der spezifischen Funktionen der Services oder ihrer Zuverlässigkeit, Verfügbarkeit oder Fähigkeit, Ihre Bedürfnisse zu erfüllen. Wir bieten die Dienstleistungen "wie sie sind" an.
+        \nIn einigen Gerichtsbarkeiten sind bestimmte Garantien vorgesehen, wie z. B. die implizite Gewährleistung der Handelsfähigkeit, die Eignung für einen bestimmten Zweck und die Nichtverletzung. Soweit gesetzlich zulässig, schließen wir jegliche Gewährleistung aus.
 </string>
     <string name="privacy_liability">Haftung für unsere Dienstleistungen</string>
     <string name="privacy_liability_details">Soweit dies gesetzlich zulässig ist, übernehmen SUSI sowie die Lieferanten und Vertriebshändler von SUSI keine Haftung für entgangenen Gewinn, Einnahmen oder Daten, finanzielle Verluste oder indirekte Schäden, Folgeschäden, Folgeschäden, Musterschäden oder Strafschadenersatz.
-        Soweit gesetzlich zulässig, ist die Gesamthaftung von SUSI sowie ihrer Lieferanten und Vertriebshändler für Ansprüche unter diesen Bedingungen, einschließlich etwaiger implizierter Garantien, auf den Betrag begrenzt, den Sie uns für die Nutzung der Services bezahlt haben (oder, wenn wir dies tun) wählen Sie, um Ihnen die Dienste erneut bereitzustellen).
-        In allen Fällen haften SUSI, seine Lieferanten und Händler nicht für Verluste oder Schäden, die nicht vernünftigerweise vorhersehbar sind.
-        \nWir erkennen an, dass Sie in einigen Ländern möglicherweise rechtliche Rechte als Verbraucher haben. Wenn Sie die Dienste für einen persönlichen Zweck nutzen, schränkt nichts in diesen Bedingungen oder zusätzlichen Bedingungen die gesetzlichen Rechte des Verbrauchers ein, auf die nicht vertraglich verzichtet werden kann.</string>
+        Soweit gesetzlich zulässig, ist die Gesamthaftung von SUSI sowie ihrer Lieferanten und Vertriebshändler für Ansprüche unter diesen Bedingungen, einschließlich etwaiger implizierter Garantien, auf den Betrag begrenzt, den Sie uns für die Nutzung der Services bezahlt haben (oder, wenn wir dies tun) wählen Sie, um Ihnen die Dienste erneut bereitzustellen).
+        In allen Fällen haften SUSI, seine Lieferanten und Händler nicht für Verluste oder Schäden, die nicht vernünftigerweise vorhersehbar sind.
+        \nWir erkennen an, dass Sie in einigen Ländern möglicherweise rechtliche Rechte als Verbraucher haben. Wenn Sie die Dienste für einen persönlichen Zweck nutzen, schränkt nichts in diesen Bedingungen oder zusätzlichen Bedingungen die gesetzlichen Rechte des Verbrauchers ein, auf die nicht vertraglich verzichtet werden kann.</string>
     <string name="privacy_business">Geschäftsanwendungen unserer Dienstleistungen</string>
     <string name="privacy_business_details">Wenn Sie unsere Dienstleistungen für ein Unternehmen nutzen, akzeptiert dieses Unternehmen diese Bedingungen. Sie wird SUSI und ihre verbundenen Unternehmen, leitenden Angestellten, Vertreter und Angestellten von jeglichen Ansprüchen, Klagen oder Handlungen freistellen, die sich aus oder im Zusammenhang mit der Nutzung der Dienste oder einem Verstoß gegen diese Bedingungen ergeben, einschließlich jeglicher Haftung oder Kosten, die sich aus Ansprüchen und Verlusten ergeben , Schadensersatz, Verfahren, Urteile, Prozesskosten und Anwaltskosten.</string>
     <string name="privacy_about">Über diese Bedingungen</string>
     <string name="privacy_about_details">Wir können diese Bedingungen oder zusätzliche Bedingungen, die für einen Dienst gelten, ändern, um beispielsweise Gesetzesänderungen oder Änderungen an unseren Diensten widerzuspiegeln. Sie sollten sich die Bedingungen regelmäßig ansehen. Änderungen an diesen Bedingungen werden auf der Seite bekannt gegeben. Wir werden die geänderten zusätzlichen Bedingungen in dem entsprechenden Service bekannt geben. Änderungen gelten nicht rückwirkend und werden frühestens vierzehn Tage nach Veröffentlichung wirksam. Änderungen, die neue Funktionen für einen Dienst betreffen, oder Änderungen, die aus rechtlichen Gründen vorgenommen wurden, werden jedoch sofort wirksam. Wenn Sie den geänderten Bedingungen für einen Dienst nicht zustimmen, sollten Sie die Verwendung dieses Dienstes einstellen.
-        \nWenn zwischen diesen Bedingungen und den zusätzlichen Bedingungen ein Konflikt besteht, werden die zusätzlichen Bedingungen für diesen Konflikt maßgeblich sein. Diese Bedingungen steuern die Beziehung zwischen SUSI und Ihnen. Sie begründen keine Rechte Dritter.
-        \nWenn Sie sich nicht an diese Bedingungen halten und wir nicht sofort tätig werden, bedeutet dies nicht, dass wir jegliche Rechte aufgeben, die wir möglicherweise haben (z. B. zukünftiges Handeln).
-        \nWenn sich herausstellt, dass ein bestimmter Begriff nicht durchsetzbar ist, werden keine anderen Bestimmungen berührt.
-        \nSie stimmen zu, dass die Gesetze von Can Tho, Vietnam für alle Streitigkeiten gelten, die sich aus diesen Bedingungen oder den Dienstleistungen ergeben oder sich auf diese beziehen. Alle Ansprüche, die sich aus oder in Bezug auf diese Bedingungen oder die Dienstleistungen ergeben, werden ausschließlich vor den Gerichten von Can Tho City, Vietnam, geführt. Sie und SUSI erklären sich mit der persönlichen Zuständigkeit dieser Gerichte einverstanden.
-        \nFür Informationen zur Kontaktaufnahme mit SUSI besuchen Sie bitte unsere Kontaktseite.</string>
+        \nWenn zwischen diesen Bedingungen und den zusätzlichen Bedingungen ein Konflikt besteht, werden die zusätzlichen Bedingungen für diesen Konflikt maßgeblich sein. Diese Bedingungen steuern die Beziehung zwischen SUSI und Ihnen. Sie begründen keine Rechte Dritter.
+        \nWenn Sie sich nicht an diese Bedingungen halten und wir nicht sofort tätig werden, bedeutet dies nicht, dass wir jegliche Rechte aufgeben, die wir möglicherweise haben (z. B. zukünftiges Handeln).
+        \nWenn sich herausstellt, dass ein bestimmter Begriff nicht durchsetzbar ist, werden keine anderen Bestimmungen berührt.
+        \nSie stimmen zu, dass die Gesetze von Can Tho, Vietnam für alle Streitigkeiten gelten, die sich aus diesen Bedingungen oder den Dienstleistungen ergeben oder sich auf diese beziehen. Alle Ansprüche, die sich aus oder in Bezug auf diese Bedingungen oder die Dienstleistungen ergeben, werden ausschließlich vor den Gerichten von Can Tho City, Vietnam, geführt. Sie und SUSI erklären sich mit der persönlichen Zuständigkeit dieser Gerichte einverstanden.
+        \nFür Informationen zur Kontaktaufnahme mit SUSI besuchen Sie bitte unsere Kontaktseite.</string>
     <string name="menu_item_privacy">Privatsphäre</string>
     <string name="api_key_not_set">API KEY nicht gesetzt.</string>
     <string name="author_name">Autorenname</string>
@@ -268,9 +267,9 @@
     <string name="copied_text">Kopierter Text</string>
     <string name="desc_post_feedback">Schreiben Sie hier Ihr unschätzbares Feedback</string>
     <string name="description">Beschreibung</string>
-    <string name="description_long">beschreibung lang</string>
+    <string name="description_long">Beschreibung ausführlich</string>
     <string name="developer_privacy_policy">Entwickler-Datenschutzrichtlinie</string>
-    <string name="enter_password">Geben Sie das Passwort für ein</string>
+    <string name="enter_password">Geben Sie das Passwort ein</string>
     <string name="example_feedback">Beispiel Feedback</string>
     <string name="examples">Beispiele</string>
     <string name="existing_user_login">Existierender Benutzer ?</string>
@@ -280,15 +279,15 @@
     <string name="link_unavailable">Link nicht verfügbar</string>
     <string name="location_access">Standortzugang ermöglichen</string>
     <string name="metric_feedback">SUSI, was sind die Fähigkeiten mit den meisten Rückmeldungen?</string>
-    <string name="metric_latest">susi, was sind die kürzlich aktualisierten Fähigkeiten?</string>
-    <string name="metric_newest">Susi, was sind die neuesten Fähigkeiten?</string>
+    <string name="metric_latest">SUSI, was sind die kürzlich aktualisierten Fähigkeiten?</string>
+    <string name="metric_newest">SUSI, was sind die neuesten Fähigkeiten?</string>
     <string name="wifi_access_message">Aktivieren Sie WLAN, um nach verfügbaren Netzwerken zu suchen</string>
-    <string name="wifi_access">Bieten Sie WLAN-Zugang an</string>
+    <string name="wifi_access">Ermöglichen Sie WLAN-Zugang</string>
     <string name="url_input">URL eingeben</string>
     <string name="try_it">Versuch es</string>
     <string name="total_rating">Top-Bewertungen</string>
     <string name="toast_thank_for_rating">Vielen Dank für die Bewertung dieser Fähigkeit</string>
-    <string name="toast_feedback_updated">Fertigkeitsfeedback aktualisiert</string>
+    <string name="toast_feedback_updated">Fähigkeitsfeedback aktualisiert</string>
     <string name="toast_empty_feedback">Bitte gib ein Feedback ein, um es zu posten</string>
     <string name="time_9am">9.00 AM</string>
     <string name="thanks_wifi">Vielen Dank, dass Sie die WLAN-Anmeldeinformationen eingegeben haben</string>
@@ -302,40 +301,40 @@
     <string name="slide_4_desc">Personalisieren Sie Ihre Chat-Einstellungen für ein besseres Erlebnis.</string>
     <string name="slide_3_title">Liste der Fähigkeiten</string>
     <string name="slide_3_desc">Stöbern und testen Sie Ihre bevorzugte SUSI.AI-Fähigkeit</string>
-    <string name="slide_2_desc">Interagieren Sie mit SUSI.AI, indem Sie Fragen stellen. Verwenden Sie die Mikrofontaste für die Sprachinteraktion0.</string>
+    <string name="slide_2_desc">Interagieren Sie mit SUSI.AI, indem Sie Fragen stellen. Verwenden Sie die Mikrofontaste für die Sprachinteraktion.</string>
     <string name="slide_1_desc">Melden Sie sich mit einem SUSI.AI-Konto bei der App an, registrieren Sie sich, um ein neues Konto zu erstellen, oder überspringen Sie einfach die gesamte Anmeldung.</string>
     <string name="slide_2_title">Chat-Schnittstelle</string>
     <string name="slide_1_title">Anmeldung</string>
     <string name="skip">Überspringen</string>
-    <string name="skill_unrated_for_anonymous_user">Fähigkeit noch nicht bewertet. Bitte melden Sie sich an, um die Fertigkeit zu bewerten.</string>
+    <string name="skill_unrated_for_anonymous_user">Fähigkeit noch nicht bewertet. Bitte melden Sie sich an, um die Fähigkeit zu bewerten.</string>
     <string name="skill_name">Name der Fähigkeit</string>
-    <string name="setup_wifi">Stellen Sie sicher, dass WLAN-Verbindungen verfügbar sind  nahe bei dir.</string>
-    <string name="share_items">Aktie</string>
+    <string name="setup_wifi">Stellen Sie sicher, dass in ihrer Nähe WLAN-Verbindungen verfügbar sind.</string>
+    <string name="share_items">Teilen</string>
     <string name="settings_about_us_key">Über uns</string>
     <string name="settings_about_us">Über uns</string>
     <string name="see_all_reviews">Alle Bewertungen anzeigen</string>
-    <string name="search_skill">Suchfähigkeit</string>
+    <string name="search_skill">Suche Fähigkeit</string>
     <string name="sample_group">Mustergruppe</string>
     <string name="reviews">Bewertungen</string>
-    <string name="reported_already">Fertigkeit bereits berichtet</string>
+    <string name="reported_already">Fähigkeit bereits gemeldet</string>
     <string name="report_skill">Als unangemessen melden</string>
-    <string name="report_send_success">Fertigkeit erfolgreich gemeldet</string>
+    <string name="report_send_success">Fähigkeit erfolgreich gemeldet</string>
     <string name="report_send">Bericht senden</string>
     <string name="report_error">Fehler bei der Berichterstellung. Bitte versuchen Sie es später erneut</string>
     <string name="rating">Bewertung</string>
     <string name="rate_skill">Bewerten Sie diese Fähigkeit</string>
-    <string name="rate_improvement">brauche eine Verbesserung</string>
+    <string name="rate_improvement">braucht eine Verbesserung</string>
     <string name="rate_hate">fand ich furchtbar</string>
     <string name="rate_great">großartig</string>
     <string name="rate_good">gut</string>
-    <string name="rate_awesome">Awsome! ich liebe es</string>
+    <string name="rate_awesome">Sehr gut! Ich liebe sie</string>
     <string name="option">Möglichkeit</string>
     <string name="next">Nächster</string>
     <string name="enter_password_mail">Dies ist der letzte Schritt. Bitte geben Sie das Passwort Ihres SUSI.AI-Kontos ein, um die Verbindung herzustellen</string>
     <string name="metric_rating">SUSI, was sind deine am besten bewerteten Fähigkeiten?</string>
     <string name="metric_staff_picks">Mitarbeiter-Favoriten</string>
-    <string name="metric_usage">susi, was machst du am meisten eingesetzt?</string>
-    <string name="metrics_top_games">susi, was sind deine besten spiele?</string>
+    <string name="metric_usage">SUSI, was machst du am meisten eingesetzt?</string>
+    <string name="metrics_top_games">SUSI, was sind deine besten spiele?</string>
     <string name="post_feedback_for_anonymous_user">Bitte melden Sie sich an, um ein Feedback zu geben</string>
     <string name="set_up">KONFIGURATION</string>
     <string name="susi_contributors">Mitwirkende</string>
