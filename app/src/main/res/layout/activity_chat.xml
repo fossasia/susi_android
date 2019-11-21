@@ -32,7 +32,9 @@
             android:visibility="invisible"
             android:paddingLeft="@dimen/padding_moderate"
             android:background="@color/colorPrimaryDark"
-            android:textSize="@dimen/text_size_normal"/>
+            android:textSize="@dimen/text_size_normal"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/searchChat"
