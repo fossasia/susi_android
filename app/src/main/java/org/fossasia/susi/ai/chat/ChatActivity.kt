@@ -197,7 +197,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP && chatSearchInput?.text.toString().isNotEmpty()) {
                 performSearch(chatSearchInput?.text.toString())
             }
-            true
+            false
         }
         chatSearchInput?.requestFocus()
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
