@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters
 
 import android.content.Context
-import android.support.annotation.NonNull
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,7 +12,7 @@ import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillViewHolder
 
-class SkillListAdapter(val context: Context, private val skillDetails: List<SkillData>?, val skillCallback: SkillFragmentCallback) : RecyclerView.Adapter<SkillViewHolder>(),
+class SkillListAdapter(val context: Context, private val skillDetails: List<SkillData>?, val skillCallback: SkillFragmentCallback) : androidx.recyclerview.widget.RecyclerView.Adapter<SkillViewHolder>(),
         SkillViewHolder.ClickListener {
 
     private val clickListener: SkillViewHolder.ClickListener = this

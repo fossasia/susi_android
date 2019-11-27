@@ -29,7 +29,7 @@ android {
         versionName "1.3.0"
         vectorDrawables.useSupportLibrary = true
         // for unit test
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         manifestPlaceholders = [
                 YOUTUBE_API_KEY: YOUTUBE_API_KEY
         ]
@@ -119,14 +119,14 @@ androidExtensions {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    implementation "com.android.support:appcompat-v7:${rootConfiguration.supportLibraryVersion}"
-    implementation "com.android.support:exifinterface:${rootConfiguration.supportLibraryVersion}"
-    implementation "com.android.support:recyclerview-v7:${rootConfiguration.supportLibraryVersion}"
-    implementation "com.android.support:design:${rootConfiguration.supportLibraryVersion}"
-    implementation "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
-    implementation "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
-    implementation "com.android.support:customtabs:${rootConfiguration.supportLibraryVersion}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.exifinterface:exifinterface:1.1.0"
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    implementation "androidx.browser:browser:1.0.0"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
     //piechart
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
@@ -158,10 +158,10 @@ dependencies {
     //Unit Test
     testImplementation "junit:junit:${rootConfiguration.jUnitVersion}"
     testImplementation "org.mockito:mockito-core:${rootConfiguration.mockitoCoreVersion}"
-    androidTestImplementation "com.android.support:support-annotations:${rootConfiguration.supportLibraryVersion}"
-    androidTestImplementation "com.android.support.test:runner:${rootConfiguration.testVersion}"
-    androidTestImplementation "com.android.support.test:rules:${rootConfiguration.testVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${rootConfiguration.espressoVersion}"
+    androidTestImplementation "androidx.annotation:annotation:1.1.0"
+    androidTestImplementation "androidx.test:runner:1.2.0"
+    androidTestImplementation "androidx.test:rules:1.2.0"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
 
     //realm adapter
     implementation "io.realm:android-adapters:${rootConfiguration.realmVersion}"

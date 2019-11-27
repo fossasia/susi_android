@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.skills.feedback.adapters.recycleradapters
 
 import android.content.Context
-import android.support.annotation.NonNull
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,7 +19,7 @@ class AllReviewsAdapter(
     val context: Context,
     private val feedbackList: List<Feedback>?
 ) :
-    RecyclerView.Adapter<AllReviewsViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<AllReviewsViewHolder>() {
 
     @NonNull
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AllReviewsViewHolder {

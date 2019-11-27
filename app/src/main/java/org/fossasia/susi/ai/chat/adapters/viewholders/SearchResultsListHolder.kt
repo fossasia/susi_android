@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
 import io.realm.Realm
@@ -21,9 +21,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class SearchResultsListHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-    val recyclerView: RecyclerView by bindView(R.id.recycler_view)
+    val recyclerView: androidx.recyclerview.widget.RecyclerView by bindView(R.id.recycler_view)
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)
     private var webquery: String? = null
     private val realm: Realm = Realm.getDefaultInstance()
@@ -89,8 +89,8 @@ class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                                     webSearch.url = null
                                     searchResults.add(webSearch)
                                 }
-                                val layoutManager = LinearLayoutManager(currContext,
-                                        LinearLayoutManager.HORIZONTAL, false)
+                                val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(currContext,
+                                        androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
                                 recyclerView.layoutManager = layoutManager
                                 val resultsAdapter = WebSearchAdapter(currContext, searchResults)
                                 recyclerView.adapter = resultsAdapter
@@ -108,8 +108,8 @@ class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView
                         }
                     })
                 } else {
-                    val layoutManager = LinearLayoutManager(currContext,
-                            LinearLayoutManager.HORIZONTAL, false)
+                    val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(currContext,
+                            androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
                     recyclerView.layoutManager = layoutManager
                     val resultsAdapter = WebSearchAdapter(currContext, webSearchList)
                     recyclerView.adapter = resultsAdapter
@@ -120,8 +120,8 @@ class SearchResultsListHolder(itemView: View) : RecyclerView.ViewHolder(itemView
             }
         } else {
             if (model != null) {
-                val layoutManager = LinearLayoutManager(currContext,
-                        LinearLayoutManager.HORIZONTAL, false)
+                val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(currContext,
+                        androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
                 recyclerView.layoutManager = layoutManager
                 val resultsAdapter = SearchResultsAdapter(currContext, model.datumRealmList)
                 recyclerView.adapter = resultsAdapter

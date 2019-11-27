@@ -2,9 +2,9 @@ package org.fossasia.susi.ai.device.connecteddevices
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,11 +21,11 @@ import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDevicePre
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDeviceView
 import org.fossasia.susi.ai.rest.responses.susi.Device
 
-class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
+class ConnectedDeviceFragment : androidx.fragment.app.Fragment(), IConnectedDeviceView {
 
-    private lateinit var connectedDeviceRecyclerView: RecyclerView
+    private lateinit var connectedDeviceRecyclerView: androidx.recyclerview.widget.RecyclerView
     private lateinit var connectedDevicePresenter: IConnectedDevicePresenter
-    private var connectedDevicesAdapter: RecyclerView.Adapter<*>? = null
+    private var connectedDevicesAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>? = null
     private val connectedDeviceList: ArrayList<Device> = ArrayList()
     private val macIdList: MutableList<String> = ArrayList()
 
@@ -78,7 +78,7 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     }
 
     fun showDevices() {
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         connectedDeviceRecyclerView.layoutManager = layoutManager
         connectedDevicesAdapter = ConnectedDevicesAdapter(connectedDeviceList, connectedDevicePresenter)
         connectedDeviceRecyclerView.adapter = connectedDevicesAdapter

@@ -2,11 +2,11 @@ package org.fossasia.susi.ai.skills.skillSearch
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SnapHelper
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,11 +26,11 @@ import timber.log.Timber
  *
  * Created by naman653 on 28/03/2019.
  */
-class SearchSkillFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout.OnRefreshListener {
+class SearchSkillFragment : androidx.fragment.app.Fragment(), IGroupWiseSkillsView, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var query: String
     private lateinit var skillSet: List<SkillData>
-    private lateinit var skillAdapterSnapHelper: SnapHelper
+    private lateinit var skillAdapterSnapHelper: androidx.recyclerview.widget.SnapHelper
     private lateinit var searchSkillPresenter: IGroupWiseSkillsPresenter
     private lateinit var skills: GroupWiseSkills
     private lateinit var skillsAdapter: SkillsListAdapter
@@ -71,8 +71,8 @@ class SearchSkillFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout
 
     private fun setUPAdapter() {
         skillAdapterSnapHelper = StartSnapHelper()
-        val layoutManager = LinearLayoutManager(activity)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        layoutManager.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
         groupWiseSkills.layoutManager = layoutManager
         skillsAdapter = SkillsListAdapter(requireContext(), skills, skillCallback)
         Timber.d(skills.toString())
