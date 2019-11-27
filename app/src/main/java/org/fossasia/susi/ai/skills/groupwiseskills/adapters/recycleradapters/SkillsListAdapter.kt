@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.skills.groupwiseskills.adapters.recycleradapters
 
 import android.content.Context
-import android.support.annotation.NonNull
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
@@ -22,7 +22,7 @@ class SkillsListAdapter(
     private val skillDetails: GroupWiseSkills,
     private val skillCallback: SkillFragmentCallback
 ) :
-        RecyclerView.Adapter<SkillViewHolder>(), SkillViewHolder.ClickListener {
+        androidx.recyclerview.widget.RecyclerView.Adapter<SkillViewHolder>(), SkillViewHolder.ClickListener {
 
     private val DEFAULT_AUTHOR = "<author_name>"
     private val DEFAULT_EXAMPLE = "<The question that should be shown in public skill displays>"

@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.support.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsIntent
 import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils

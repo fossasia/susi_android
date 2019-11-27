@@ -2,11 +2,11 @@ package org.fossasia.susi.ai.skills.skilllisting
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SnapHelper
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +30,9 @@ import timber.log.Timber
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
+class SkillListingFragment : androidx.fragment.app.Fragment(), ISkillListingView, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
 
-    private lateinit var skillAdapterSnapHelper: SnapHelper
+    private lateinit var skillAdapterSnapHelper: androidx.recyclerview.widget.SnapHelper
     private lateinit var skillListingPresenter: ISkillListingPresenter
     var skills: ArrayList<Pair<String, List<SkillData>>> = ArrayList()
     private var metrics = SkillsBasedOnMetrics(ArrayList(), ArrayList(), ArrayList())
@@ -60,8 +60,8 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     private fun setUPAdapter() {
         skillAdapterSnapHelper = StartSnapHelper()
-        val layoutManager = LinearLayoutManager(activity)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        layoutManager.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
         skillMetrics.layoutManager = layoutManager
         skillMetricsAdapter = SkillMetricsAdapter(requireContext(), metrics, skillCallback)
         skillMetrics.adapter = skillMetricsAdapter

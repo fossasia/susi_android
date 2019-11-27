@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayout
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +18,12 @@ import org.fossasia.susi.ai.helper.PrefManager
 
 class WelcomeActivity : AppCompatActivity() {
 
-    private var imageViewPager: ViewPager? = null
+    private var imageViewPager: androidx.viewpager.widget.ViewPager? = null
     private var layouts: IntArray? = null
     private var skip: Button? = null
     private var next: Button? = null
 
-    private val viewPagerPageChangeListener = object : ViewPager.OnPageChangeListener {
+    private val viewPagerPageChangeListener = object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
 
         override fun onPageSelected(position: Int) {
             if (position == layouts?.size?.minus(1)) {
@@ -61,7 +61,7 @@ class WelcomeActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_welcome)
 
-        imageViewPager = findViewById<View>(R.id.pager) as ViewPager
+        imageViewPager = findViewById<View>(R.id.pager) as androidx.viewpager.widget.ViewPager
         val tabLayout = findViewById<View>(R.id.tabDots) as TabLayout
         tabLayout.setupWithViewPager(imageViewPager, true)
         skip = findViewById(R.id.btn_skip)
@@ -98,7 +98,7 @@ class WelcomeActivity : AppCompatActivity() {
         finish()
     }
 
-    inner class MyViewPagerAdapter : PagerAdapter() {
+    inner class MyViewPagerAdapter : androidx.viewpager.widget.PagerAdapter() {
         private var layoutInflater: LayoutInflater? = null
 
         override fun instantiateItem(container: ViewGroup, position: Int): Any {

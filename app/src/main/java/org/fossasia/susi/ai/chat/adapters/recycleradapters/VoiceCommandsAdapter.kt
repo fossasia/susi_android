@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +16,7 @@ import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.chat.ChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 
-class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) : RecyclerView.Adapter<VoiceCommandsAdapter.ViewHolder>() {
+class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) : androidx.recyclerview.widget.RecyclerView.Adapter<VoiceCommandsAdapter.ViewHolder>() {
     lateinit var chatPresenter: IChatPresenter
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
@@ -33,7 +33,7 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
         return items.size
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
         val voiceCommand: TextView = view.voiceCommand
 
         init {

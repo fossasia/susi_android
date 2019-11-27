@@ -3,8 +3,8 @@ package org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.annotation.NonNull
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
@@ -19,7 +19,7 @@ class SkillExamplesAdapter(
     val context: Context,
     val examples: List<String>
 ) :
-    RecyclerView.Adapter<SkillExampleViewHolder>(),
+    androidx.recyclerview.widget.RecyclerView.Adapter<SkillExampleViewHolder>(),
         SkillExampleViewHolder.ClickListener {
 
     private val clickListener: SkillExampleViewHolder.ClickListener = this

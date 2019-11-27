@@ -12,7 +12,7 @@
         android:layout_marginBottom="@dimen/margin_medium"
         android:background="@color/shimmer_background" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -93,5 +93,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

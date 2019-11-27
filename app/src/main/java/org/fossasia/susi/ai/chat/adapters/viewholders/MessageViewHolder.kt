@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -19,7 +19,7 @@ import retrofit2.Response
 import timber.log.Timber
 
 abstract class MessageViewHolder(itemView: View, private val listener: ClickListener?) :
-        RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener {
 
     init {
         itemView.setOnClickListener(this)
