@@ -86,7 +86,7 @@ Please find info about the set up of the Android app in your development environ
 
 There are certain conventions we follow in the project, we recommend that you become familiar with these so that the development process is uniform for everyone:
 
-#### MVP
+####MVP
 
 The project follows Model-View-Presenter design pattern and requires schematic interfaces for each component to be written first as contracts and then implemented.   
 All the interactions are done using interfaces only. This means any model, view or presenter will only be referenced by its interface. We do so it is easy to mock and test them and there is no discrepancy in the callable methods of the concrete class and the interface.  
