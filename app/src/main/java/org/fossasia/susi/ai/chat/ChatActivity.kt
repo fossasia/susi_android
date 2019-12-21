@@ -116,7 +116,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         voiceSearchChat.visibility = View.VISIBLE
     }
 
-    override fun onTouchEvent(event: MotionEvent): Boolean {
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
         this.gestureDetectorCompat?.onTouchEvent(event)
         return super.onTouchEvent(event)
     }
@@ -125,11 +125,13 @@ class ChatActivity : AppCompatActivity(), IChatView {
     internal inner class CustomGestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
-            event1: MotionEvent,
-            event2: MotionEvent,
+            event1: MotionEvent?,
+            event2: MotionEvent?,
             velocityX: Float,
             velocityY: Float
         ): Boolean {
+            if (event1 == null || event2 == null)
+                return false
             val X = event1.getX() - event2.getX()
             // Swipe from right to left
             if (X >= 100 && X <= 1000) {
