@@ -24,6 +24,7 @@ import android.speech.tts.UtteranceProgressListener
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.view.GestureDetectorCompat
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -35,6 +36,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -163,10 +165,23 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     fun openChatSearch(view: View) {
+        val interpolator = OvershootInterpolator()
         if (isSearching == false || chatSearchInput.getVisibility() == View.VISIBLE) {
-            chatSearchInput.setVisibility(View.INVISIBLE)
+            ViewCompat.animate(view)
+                    .rotation(0f)
+                    .withLayer()
+                    .setDuration(300)
+                    .setInterpolator(interpolator)
+                    .start()
+            chatSearchInput.setVisibility(View.GONE)
             hideSoftKeyboard(this, window.decorView)
         } else {
+            ViewCompat.animate(view)
+                    .rotation(90f)
+                    .withLayer()
+                    .setDuration(300)
+                    .setInterpolator(interpolator)
+                    .start()
             chatSearchInput.setVisibility(View.VISIBLE)
             handleSearch()
         }
