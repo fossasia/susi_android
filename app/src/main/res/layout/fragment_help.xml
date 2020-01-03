@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,132 +21,218 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_open_setting"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/help_open_setting"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/answer1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_open_setting_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_signup"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/help_signup"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/answer2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_small"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_signup_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
+
+
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_change_password"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/help_change_password"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/answer3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_change_password_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
+
                 </LinearLayout>
+
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_report_issue"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/help_report_issue"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/answer4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_report_issue_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
+
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -153,109 +240,174 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_login"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_toStartOf="@id/img5"
+
+                            android:text="@string/help_login"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/answer5"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_login_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_susi_voice"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/help_susi_voice"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                    </RelativeLayout>
+
 
                     <TextView
+                        android:id="@+id/answer6"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_susi_voice_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_susi_skills"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/help_susi_skills"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/answer7"
+
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_susi_skills_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_moderate"
-                card_view:cardCornerRadius="@dimen/card_radius_help">
+                android:layout_margin="@dimen/margin_small"
+                app:cardCornerRadius="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -263,29 +415,48 @@
                     android:orientation="vertical">
 
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_moderate"
-                        android:paddingLeft="@dimen/padding_moderate"
-                        android:paddingRight="@dimen/padding_moderate"
-                        android:text="@string/help_susi_changevoice"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_large"
-                        android:textStyle="bold" />
+                        android:paddingLeft="@dimen/padding_moderate">
+
+                        <TextView
+                            android:id="@+id/question8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/help_susi_changevoice"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_moderate" />
+
+                        <ImageView
+                            android:id="@+id/img8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_drop_down_black_24dp" />
+
+                    </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/answer8"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/padding_moderate"
                         android:paddingRight="@dimen/padding_moderate"
                         android:paddingBottom="@dimen/padding_small_medium"
                         android:text="@string/help_susi_changevoice_desc"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:textColor="@color/md_black_1000"
+                        android:textSize="@dimen/text_size_medium"
+                        android:visibility="gone" />
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_moderate" />
                 </LinearLayout>
             </android.support.v7.widget.CardView>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
