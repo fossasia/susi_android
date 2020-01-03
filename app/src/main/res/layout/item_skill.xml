@@ -16,6 +16,7 @@
         android:foreground="?attr/selectableItemBackground"
         app:cardBackgroundColor="@color/susi_message_bg"
         app:cardCornerRadius="@dimen/radius_skill_card_corner"
+        app:cardElevation="@dimen/skill_card_elevation"
         app:cardUseCompatPadding="true">
 
         <LinearLayout

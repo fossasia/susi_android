@@ -3,22 +3,22 @@
     android:id="@+id/group_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/md_white_1000"
     android:orientation="horizontal"
     android:padding="@dimen/padding_small">
 
     <TextView
         android:id="@+id/group"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/skill_list_height"
+        android:layout_marginStart="@dimen/margin_small_medium"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:padding="@dimen/padding_small"
         android:text="@string/sample_group"
-        android:textColor="@color/md_grey_700"
-        android:textSize="@dimen/text_size_moderate"
-        android:textStyle="bold"
-        android:typeface="serif"
-        android:fontFamily="sans-serif"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/md_black_1000"
+        android:textSize="@dimen/text_size_moderate" />
 
     <ImageView
         android:id="@+id/ic_arrow"

@@ -6,26 +6,36 @@
     android:background="@color/default_bg"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/groupName"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:paddingTop="@dimen/margin_small"
-        android:paddingLeft="@dimen/margin_small"
-        android:paddingStart="@dimen/margin_small"
-        android:paddingEnd="@dimen/margin_small"
-        android:paddingRight="@dimen/margin_small"
-        android:text="@string/sample_group"
-        android:textColor="@color/md_grey_700"
-        android:textSize="@dimen/text_size_moderate"
-        android:textStyle="bold"
-        android:typeface="serif"
-        app:fontFamily="sans-serif" />
+        app:cardElevation="@dimen/cardview_default_elevation">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/skill_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/groupName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:paddingLeft="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_small"
+                android:text="@string/sample_group"
+                android:textColor="@color/md_black_1000"
+                android:textSize="@dimen/text_size_moderate"
+                app:fontFamily="sans-serif" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/skill_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>
