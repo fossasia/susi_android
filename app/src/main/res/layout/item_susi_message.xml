@@ -28,7 +28,9 @@
             android:text="@string/hello_world"
             android:textColor="@color/message_text_color"
             android:textColorLink="@color/link_text"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:autoLink="web"
+            android:linksClickable="true"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
