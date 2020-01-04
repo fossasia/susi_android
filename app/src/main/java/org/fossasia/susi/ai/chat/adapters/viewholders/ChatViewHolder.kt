@@ -24,7 +24,7 @@ import timber.log.Timber
 class ChatViewHolder(view: View, clickListener: MessageViewHolder.ClickListener, myMessage: Int) :
         MessageViewHolder(view, clickListener) {
 
-    private val chatTextView: TextView by bindView(R.id.text)
+    val chatTextView: TextView by bindView(R.id.text)
     private val receivedTick: ImageView? by bindOptionalView(R.id.received_tick)
     val timeStamp: TextView by bindView(R.id.timestamp)
     val backgroundLayout: LinearLayout by bindView(R.id.background_layout)

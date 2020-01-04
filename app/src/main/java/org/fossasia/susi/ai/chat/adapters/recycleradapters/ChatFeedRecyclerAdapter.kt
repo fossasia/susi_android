@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
+import android.text.method.LinkMovementMethod
 import android.util.Pair
 import android.util.Patterns
 import android.view.Gravity
@@ -245,6 +246,7 @@ class ChatFeedRecyclerAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ChatViewHolder) {
             holder.setView(data?.get(position), getItemViewType(position), currContext)
+            holder.chatTextView.movementMethod = LinkMovementMethod()
         } else if (holder is MapViewHolder) {
             holder.setView(data?.get(position), currContext)
         } else if (holder is YoutubeVideoViewHolder) {
