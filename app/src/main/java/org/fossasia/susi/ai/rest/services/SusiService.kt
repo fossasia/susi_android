@@ -71,7 +71,8 @@ interface SusiService {
     @POST("/aaa/signup.json")
     fun signUp(
         @Query("signup") email: String,
-        @Query("password") password: String
+        @Query("password") password: String,
+        @Query("g-recaptcha-response") recaptchaResponse: String
     ): Call<SignUpResponse>
 
     /**
