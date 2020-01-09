@@ -11,6 +11,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.safetynet.SafetyNet
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
@@ -22,6 +25,7 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 import org.fossasia.susi.ai.skills.SkillsActivity
+import timber.log.Timber
 
 /**
  * <h1>The SignUp activity.</h1>
@@ -37,7 +41,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     private lateinit var forgotPasswordProgressDialog: Dialog
     private lateinit var builder: AlertDialog.Builder
     private var checkDialog: Boolean = false
-
+    private val RECAPTCHA_KEY = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -100,8 +104,7 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
                     startActivity(intent)
                     finish()
                 })
-                setNegativeButton(android.R.string.no, DialogInterface.OnClickListener {
-                    dialog, id -> dialog.cancel()
+                setNegativeButton(android.R.string.no, DialogInterface.OnClickListener { dialog, id -> dialog.cancel()
                 })
                 show()
             }
@@ -250,21 +253,34 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
     }
 
     private fun signUp() {
-
         signUp.setOnClickListener {
-
-            email.error = null
-            password.error = null
-            confirmPassword.error = null
-            inputUrlSignUp.error = null
-
-            val stringEmail = email.editText?.text.toString()
-            val stringPassword = password.editText?.text.toString()
-            val stringConfirmPassword = confirmPassword.editText?.text.toString()
-            val stringURL = inputUrlSignUp.editText?.text.toString()
-
-            signUpPresenter.signUp(stringEmail, stringPassword, stringConfirmPassword, !customServerSignUp.isChecked, stringURL, acceptTermsAndConditions.isChecked)
+            verifyRecaptcha()
         }
+    }
+
+    fun verifyRecaptcha() {
+        if (RECAPTCHA_KEY != "") {
+            SafetyNet.getClient(this).verifyWithRecaptcha(RECAPTCHA_KEY)
+                    .addOnSuccessListener(this, OnSuccessListener { response ->
+                        val userResponseToken = response.tokenResult
+                        Timber.d("Great", "Captcha verification started")
+                        if (response.tokenResult?.isNotEmpty() == true) {
+                            email.error = null
+                            password.error = null
+                            confirmPassword.error = null
+                            inputUrlSignUp.error = null
+
+                            val stringEmail = email.editText?.text.toString()
+                            val stringPassword = password.editText?.text.toString()
+                            val stringConfirmPassword = confirmPassword.editText?.text.toString()
+                            val stringURL = inputUrlSignUp.editText?.text.toString()
+                            signUpPresenter.signUp(stringEmail, stringPassword, stringConfirmPassword, !customServerSignUp.isChecked, stringURL, acceptTermsAndConditions.isChecked, userResponseToken)
+                        }
+                    })
+                    .addOnFailureListener(this, OnFailureListener { e ->
+                        Timber.e("Error: " + e)
+                    })
+        } else { Toast.makeText(this, "NO ReCaptcha key available", Toast.LENGTH_LONG).show() }
     }
 
     override fun onDestroy() {

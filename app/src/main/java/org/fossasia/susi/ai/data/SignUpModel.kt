@@ -20,10 +20,10 @@ class SignUpModel : ISignUpModel {
 
     private lateinit var authResponseCall: Call<SignUpResponse>
 
-    override fun signUp(email: String, password: String, listener: ISignUpModel.OnSignUpFinishedListener) {
+    override fun signUp(email: String, password: String, recaptchaResponse: String, listener: ISignUpModel.OnSignUpFinishedListener) {
 
         authResponseCall = ClientBuilder.susiApi
-                .signUp(email, password)
+                .signUp(email, password, recaptchaResponse)
 
         authResponseCall.enqueue(object : Callback<SignUpResponse> {
             override fun onResponse(call: Call<SignUpResponse>, response: Response<SignUpResponse>) {

@@ -26,4 +26,5 @@ ext {
     playServiceAuthVersion='16.0.1'
     shimmerVersion = "0.5.0"
     stethoVersion = "1.5.1"
+    safetynetVersion = "16.0.0"
 }
