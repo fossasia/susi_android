@@ -3,20 +3,16 @@ package org.fossasia.susi.ai.skills.skilllisting
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SnapHelper
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch
-import kotlinx.android.synthetic.main.fragment_skill_listing.shimmer_view_container
 import kotlinx.android.synthetic.main.fragment_skill_listing.skillMetrics
 import kotlinx.android.synthetic.main.fragment_skill_listing.swipe_refresh_layout
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
+import org.fossasia.susi.ai.helper.BaseFragment
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -30,7 +26,13 @@ import timber.log.Timber
  *
  * Created by chiragw15 on 15/8/17.
  */
-class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
+class SkillListingFragment : BaseFragment(), ISkillListingView, SwipeRefreshLayout.OnRefreshListener {
+    override fun getTitle(): String {
+        return getString(R.string.skills_activity)
+    }
+
+    override val rootLayout: Int
+        get() = R.layout.fragment_skill_listing // To change initializer of created properties use File | Settings | File Templates.
 
     private lateinit var skillAdapterSnapHelper: SnapHelper
     private lateinit var skillListingPresenter: ISkillListingPresenter
@@ -39,22 +41,16 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     private lateinit var skillMetricsAdapter: SkillMetricsAdapter
     private lateinit var skillCallback: SkillFragmentCallback
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val rootView: View = inflater.inflate(R.layout.fragment_skill_listing, container, false)
-
-        val container: ShimmerFrameLayout = rootView.findViewById(R.id.shimmer_view_container)
-        container.startShimmer()
-        return rootView
-    }
-
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.title = getString(R.string.skills_activity)
+        initShimmerLayout(R.id.shimmer_view_container)
+        startShimmer()
         skillListingPresenter = SkillListingPresenter(this)
         skillListingPresenter.onAttach(this)
-        swipe_refresh_layout.setOnRefreshListener(this)
+        initRefreshScreen(swipe_refresh_layout.id, this)
         setUPAdapter()
-        skillListingPresenter.getMetrics(swipe_refresh_layout.isRefreshing)
+        skillListingPresenter.getMetrics(isRefreshing())
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -70,25 +66,19 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        if (boolean) {
-            shimmer_view_container.visibility = View.VISIBLE
-            shimmer_view_container.startShimmer()
-        } else {
-            shimmer_view_container.stopShimmer()
-            shimmer_view_container.visibility = View.GONE
-        }
+        setVisibilityProgressBar(boolean)
     }
 
     override fun displayError() {
         if (activity != null) {
-            swipe_refresh_layout.isRefreshing = false
+            stopRefreshing()
             skillMetrics.visibility = View.GONE
             errorSkillFetch.visibility = View.VISIBLE
         }
     }
 
     override fun updateAdapter(metrics: SkillsBasedOnMetrics) {
-        swipe_refresh_layout.isRefreshing = false
+        stopRefreshing()
         if (errorSkillFetch.visibility == View.VISIBLE) {
             errorSkillFetch.visibility = View.GONE
         }
@@ -106,7 +96,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     }
 
     override fun updateSkillsAdapter(skills: ArrayList<Pair<String, List<SkillData>>>) {
-        swipe_refresh_layout.isRefreshing = false
+        stopRefreshing()
         if (errorSkillFetch.visibility == View.VISIBLE) {
             errorSkillFetch.visibility = View.GONE
         }
@@ -116,8 +106,7 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
 
     override fun onRefresh() {
         setUPAdapter()
-        shimmer_view_container.startShimmer()
-        skillListingPresenter.getMetrics(swipe_refresh_layout.isRefreshing)
+        skillListingPresenter.getMetrics(isRefreshing())
     }
 
     override fun onAttach(context: Context) {

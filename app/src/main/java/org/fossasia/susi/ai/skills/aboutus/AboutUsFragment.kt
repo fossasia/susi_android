@@ -3,31 +3,15 @@ package org.fossasia.susi.ai.skills.aboutus
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
 import android.text.Html
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_about_us.*
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.skills.SkillsActivity
+import org.fossasia.susi.ai.helper.BaseFragment
 
-class AboutUsFragment : Fragment() {
-
-    @NonNull
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val thisActivity = activity
-        if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_about_us)
-        val rootView = inflater.inflate(R.layout.fragment_about_us, container, false)
-        setHasOptionsMenu(true)
-        return rootView
-    }
+class AboutUsFragment : BaseFragment() {
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,4 +38,11 @@ class AboutUsFragment : Fragment() {
             else -> @Suppress("DEPRECATION") Html.fromHtml(getString(resourceId))
         }
     }
+
+    override fun getTitle(): String {
+        return getString(R.string.action_about_us)
+    }
+
+    override val rootLayout: Int
+        get() = R.layout.fragment_about_us // To change initializer of created properties use File | Settings | File Templates.
 }

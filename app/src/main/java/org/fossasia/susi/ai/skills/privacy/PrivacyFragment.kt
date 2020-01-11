@@ -1,27 +1,13 @@
 package org.fossasia.susi.ai.skills.privacy
 
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.helper.BaseFragment
 
-class PrivacyFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+class PrivacyFragment : BaseFragment() {
+    override fun getTitle(): String {
+        return getString(R.string.settings_privacy) // To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val thisActivity = activity
-        thisActivity?.title = getString(R.string.settings_privacy)
-        val rootView = inflater.inflate(R.layout.fragment_privacy, container, false)
-        setHasOptionsMenu(true)
-        return rootView
-    }
+    override val rootLayout: Int
+        get() = R.layout.fragment_privacy // To change initializer of created properties use File | Settings | File Templates.
 }
