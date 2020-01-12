@@ -145,6 +145,16 @@
     <dimen name="border_radius">4dp</dimen>
     <dimen name="border_width">2dp</dimen>
     <dimen name="home_dimens">25dp</dimen>
- 
+
+    <!-- About Us dimensions -->
+    <dimen name="card_spacing">6dp</dimen>
+    <dimen name="card_corner_radius">5dp</dimen>
+    <dimen name="about_card_elevation">5dp</dimen>
+    <dimen name="margin_left_right">8dp</dimen>
+    <dimen name="license_icon_size">28dp</dimen>
+    <dimen name="about_icon_padding">8dp</dimen>
+    <dimen name="about_icon_size">34dp</dimen>
+    <dimen name="about_group_text_padding">16dp</dimen>
+    <dimen name="about_group_item_text_size">18sp</dimen>
 
 </resources>
