@@ -1,0 +1,61 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SurfaceView
+        android:id="@+id/surface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/shade"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shade"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/pause"
+        android:src="@drawable/ic_pause_64dp"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/fast_rewind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/toggle"
+        android:layout_toStartOf="@id/toggle"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/fast_rewind"
+        android:src="@drawable/ic_fast_rewind_64dp"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/fast_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/toggle"
+        android:layout_toEndOf="@id/toggle"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/fast_forward"
+        android:src="@drawable/ic_fast_forward_64dp"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/minimize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/minimize"
+        android:padding="16dp"
+        android:src="@drawable/ic_minimize_24dp"
+        android:visibility="invisible" />
+
+</merge>

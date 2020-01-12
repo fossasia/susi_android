@@ -17,7 +17,7 @@ class YoutubeVideoViewHolder(
     view: View,
     clickListener: MessageViewHolder.ClickListener
 ) :
-    MessageViewHolder(view, clickListener) {
+        MessageViewHolder(view, clickListener) {
 
     private val playerView: ImageView by bindView(R.id.youtube_view)
     private val playButton: ImageView by bindView(R.id.play_video)
