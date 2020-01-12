@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.chat
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.media.MediaPlayer
@@ -7,7 +8,6 @@ import android.os.Handler
 import android.os.Message
 import android.transition.TransitionManager
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -17,6 +17,7 @@ import android.widget.ImageButton
 import android.widget.RelativeLayout
 import androidx.annotation.RawRes
 import org.fossasia.susi.ai.R
+import timber.log.Timber
 import java.io.IOException
 import java.lang.ref.WeakReference
 
@@ -337,6 +338,7 @@ class MovieView @JvmOverloads constructor(
     /**
      * Restarts playback of the video.
      */
+    @SuppressLint("TimberArgCount")
     fun startVideo() {
         mMediaPlayer?.let { player ->
             player.reset()
@@ -362,7 +364,7 @@ class MovieView @JvmOverloads constructor(
                     player.prepare()
                 }
             } catch (e: IOException) {
-                Log.e(TAG, "Failed to open video", e)
+                Timber.e("Error:", "Failed to open video", e)
             }
         }
     }
@@ -388,10 +390,10 @@ class MovieView @JvmOverloads constructor(
         mMediaPlayer?.let {
             if (it.isPlaying) {
                 mToggle.contentDescription = resources.getString(R.string.pause)
-                mToggle.setImageResource(R.drawable.ic_pause_64dp)
+                mToggle.setImageResource(R.drawable.ic_pause_white_24dp)
             } else {
                 mToggle.contentDescription = resources.getString(R.string.play)
-                mToggle.setImageResource(R.drawable.ic_play_arrow_64dp)
+                mToggle.setImageResource(R.drawable.ic_play_arrow_white_24dp)
             }
         }
     }

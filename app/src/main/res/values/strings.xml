@@ -599,5 +599,9 @@
     <string name="alarm_query_executed">Executed planned task</string>
     <string name="set_plan_action">Plan action has been set</string>
     <string name="play">play</string>
+    <string name="pause">pause</string>
+    <string name="fast_rewind">fast_rewind</string>
+    <string name="fast_forward">fast_forward</string>
+    <string name="minimize">minimize</string>
 
 </resources>
