@@ -21,7 +21,7 @@ class YoutubeVideoViewHolder(
 
     private val playerView: ImageView by bindView(R.id.youtube_view)
     private val playButton: ImageView by bindView(R.id.play_video)
-    private var videoId: String? = null
+    public var videoId: String? = null
 
     fun setPlayerView(chatModel: ChatMessage?) {
         model = chatModel

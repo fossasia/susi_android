@@ -16,10 +16,10 @@ import android.view.View.OnClickListener
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import androidx.annotation.RawRes
-import org.fossasia.susi.ai.R
-import timber.log.Timber
 import java.io.IOException
 import java.lang.ref.WeakReference
+import org.fossasia.susi.ai.R
+import timber.log.Timber
 
 /**
  * Provides video playback. There is nothing directly related to Picture-in-Picture here.
@@ -29,9 +29,9 @@ import java.lang.ref.WeakReference
  * (play/pause, fast forward, and fast rewind).
  */
 class MovieView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) :
         RelativeLayout(context, attrs, defStyleAttr) {
 
@@ -145,10 +145,10 @@ class MovieView @JvmOverloads constructor(
             }
 
             override fun surfaceChanged(
-                    holder: SurfaceHolder,
-                    format: Int,
-                    width: Int,
-                    height: Int
+                holder: SurfaceHolder,
+                format: Int,
+                width: Int,
+                height: Int
             ) {
                 // Do nothing
             }

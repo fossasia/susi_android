@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="org.fossasia.susi.ai.helper.SnackbarBehavior"
-        tools:context=".chat.ChatActivity">
+        tools:context=".chat.ChatActivity"
+        tools:targetApi="O">
 
         <EditText
             android:id="@+id/chatSearchInput"

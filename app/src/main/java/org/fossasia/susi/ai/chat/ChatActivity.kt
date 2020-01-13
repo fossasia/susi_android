@@ -5,16 +5,19 @@ import ai.kitt.snowboy.audio.AudioDataSaver
 import ai.kitt.snowboy.audio.RecordingThread
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.ProgressDialog
+import android.annotation.TargetApi
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.drawable.Icon
 import android.media.AudioManager
 import android.net.ConnectivityManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -39,10 +42,15 @@ import android.view.WindowManager
 import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.ScrollView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import io.realm.RealmResults
 import java.util.Locale
 import kotlinx.android.synthetic.main.activity_chat.*
+import kotlinx.android.synthetic.main.view_movie.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.recycleradapters.ChatFeedRecyclerAdapter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
@@ -54,6 +62,7 @@ import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.skills.SkillsActivity
 import timber.log.Timber
+import java.util.ArrayList
 
 /**
  * The Chat Activity. Does all the main processes including
@@ -81,7 +90,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
     private val enterAsSend: Boolean by lazy {
         PrefManager.getBoolean(R.string.settings_enterPreference_key, false)
     }
-
+    private lateinit var mMovieView: MovieView
+    private lateinit var mScrollView: ScrollView
     private val changeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT || focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             textToSpeech?.stop()
@@ -103,6 +113,13 @@ class ChatActivity : AppCompatActivity(), IChatView {
         setUpUI()
         initializationMethod(firstRun)
 
+        // View references
+        mMovieView = findViewById(R.id.movie)
+        mScrollView = findViewById(R.id.scroll)
+
+        // Set up the video; it automatically starts. This is the important portion here fun begins, so take care
+        mMovieView.setMovieListener(mMovieListener)
+        findViewById<Button>(R.id.play_video).setOnClickListener { minimize() }
         if (intent.hasExtra("example")) {
             example = intent.getStringExtra("example")
             intent.removeExtra("example")
@@ -127,10 +144,10 @@ class ChatActivity : AppCompatActivity(), IChatView {
     internal inner class CustomGestureListener : GestureDetector.SimpleOnGestureListener() {
 
         override fun onFling(
-            event1: MotionEvent?,
-            event2: MotionEvent?,
-            velocityX: Float,
-            velocityY: Float
+                event1: MotionEvent?,
+                event2: MotionEvent?,
+                velocityX: Float,
+                velocityY: Float
         ): Boolean {
             if (event1 == null || event2 == null)
                 return false
@@ -195,7 +212,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         if (intent.resolveActivity(packageManager) != null) {
             startActivityForResult(intent, voiceSearchCode) // Sends the detected query to search
         } else {
-            Toast.makeText(this, R.string.error_voice_chat_search, Toast.LENGTH_SHORT)
+            Toast.makeText(this, R.string.error_voice_chat_search, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -612,6 +629,66 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.onDetach()
     }
 
+    /** The arguments to be used for Picture-in-Picture mode.  */
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val mPictureInPictureParamsBuilder = PictureInPictureParams.Builder()
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
+    internal fun updatePictureInPictureActions(@DrawableRes iconId: Int, title: String,
+                                               controlType: Int, requestCode: Int) {
+        val actions = ArrayList<RemoteAction>()
+// This is the PendingIntent that is invoked when a user clicks on the action item.
+        // You need to use distinct request codes for play and pause, or the PendingIntent won't
+        // be properly updated.
+        val intent = PendingIntent.getBroadcast(this@ChatActivity,
+                requestCode, Intent(YoutubeVid.ACTION_MEDIA_CONTROL)
+                .putExtra(YoutubeVid.EXTRA_CONTROL_TYPE, controlType), 0)
+        val icon = Icon.createWithResource(this@ChatActivity, iconId)
+        actions.add(RemoteAction(icon, title, title, intent))
+
+        // Another action item. This is a fixed action.
+        actions.add(RemoteAction(
+                Icon.createWithResource(this@ChatActivity, R.drawable.ic_info_24dp),
+                PrefManager.getString(R.string.info), PrefManager.getString(R.string.info_description),
+                PendingIntent.getActivity(this@ChatActivity, YoutubeVid.REQUEST_INFO,
+                        Intent(Intent.ACTION_VIEW, Uri.parse(PrefManager.getString(R.string.image)),
+                        0)))
+
+        mPictureInPictureParamsBuilder.setActions(actions)
+        setPictureInPictureParams(mPictureInPictureParamsBuilder.build())
+    }
+    private val labelPlay: String by lazy { PrefManager.getString(R.string.play) }
+    private val labelPause: String by lazy { PrefManager.getString(R.string.pause) }
+
+    /**
+     * Callbacks from the [MovieView] showing the video playback.
+     */
+    private val mMovieListener = object : MovieView.MovieListener() {
+
+        @TargetApi(Build.VERSION_CODES.O)
+        @RequiresApi(Build.VERSION_CODES.O)
+        override fun onMovieStarted() {
+            // We are playing the video now. In PiP mode, we want to show an action item to pause
+            // the video.
+            updatePictureInPictureActions(R.drawable.ic_pause_white_24dp, labelPause,
+                    YoutubeVid.CONTROL_TYPE_PAUSE, YoutubeVid.REQUEST_PAUSE)
+        }
+        @TargetApi(Build.VERSION_CODES.O)
+        @RequiresApi(Build.VERSION_CODES.O)
+        override fun onMovieStopped() {
+            // The video stopped or reached its end. In PiP mode, we want to show an action item
+            // to play the video.
+            updatePictureInPictureActions(R.drawable.ic_play_arrow_white_24dp, labelPlay,
+                    YoutubeVid.CONTROL_TYPE_PLAY, YoutubeVid.REQUEST_PLAY)
+        }
+
+        @TargetApi(Build.VERSION_CODES.O)
+        @RequiresApi(Build.VERSION_CODES.O)
+        override fun onMovieMinimized() {
+            minimize()
+        }
+    }
     override fun stopMic() {
         onPause()
         registerReceiver(networkStateReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))

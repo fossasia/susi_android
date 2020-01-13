@@ -23,7 +23,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:vmSafeMode="true">
         <activity android:name=".chat.search.ChatSearchActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:supportsPictureInPicture="true"
             android:theme="@style/PreferencesThemeLight">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -112,7 +113,8 @@
             android:label="See All Reviews"
             android:theme="@style/PreferencesThemeLight" />
         <activity
-            android:name=".chat.YouTubeActivity"
+            android:name=".chat.YoutubeVid"
+            android:supportsPictureInPicture="true"
             android:theme="@style/Theme.AppCompat.Dialog" />
 
         <meta-data

@@ -2,34 +2,29 @@ package org.fossasia.susi.ai.chat
 
 import android.annotation.TargetApi
 import android.app.PictureInPictureParams
-import android.app.RemoteAction
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Build.VERSION_CODES
-import android.os.Bundle
 import android.util.Rational
-import android.widget.Button
 import android.widget.ScrollView
-import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.PrefManager.getString
-import java.util.*
 
 // implement pip here
 class YoutubeVid(val context: Context) : IYoutubeVid {
 
     companion object {
-        private const val ACTION_MEDIA_CONTROL = "media_control"
-        private const val EXTRA_CONTROL_TYPE = "control_type"
-        private const val REQUEST_PLAY = 1
-        private const val REQUEST_PAUSE = 2
-        private const val REQUEST_INFO = 3
-        private const val CONTROL_TYPE_PLAY = 1
-        private const val CONTROL_TYPE_PAUSE = 2
+        public const val ACTION_MEDIA_CONTROL = "media_control"
+        public const val EXTRA_CONTROL_TYPE = "control_type"
+        public const val REQUEST_PLAY = 1
+        public const val REQUEST_PAUSE = 2
+        public const val REQUEST_INFO = 3
+        public const val CONTROL_TYPE_PLAY = 1
+        public const val CONTROL_TYPE_PAUSE = 2
     }
 
     /** The arguments to be used for Picture-in-Picture mode.  */
@@ -82,48 +77,6 @@ class YoutubeVid(val context: Context) : IYoutubeVid {
         }
     }
 
-    internal fun updatePictureInPictureActions(@DrawableRes iconId: Int, title: String,
-                                               controlType: Int, requestCode: Int) {
-        val actions = ArrayList<RemoteAction>()
-
-
-        mPictureInPictureParamsBuilder.setActions(actions)
-
-        setPictureInPictureParams(mPictureInPictureParamsBuilder.build())
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // View references
-        mMovieView = findViewById(R.id.movie)
-        mScrollView = findViewById(R.id.scroll)
-
-        val switchExampleButton = findViewById<Button>(R.id.switch_example)
-        switchExampleButton.text = getString(R.string.switch_media_session)
-        switchExampleButton.setOnClickListener(SwitchActivityOnClick())
-
-        // Set up the video; it automatically starts. This is the important portion here fun begins, so take care
-        mMovieView.setMovieListener(mMovieListener)
-        findViewById<Button>(R.id.pip).setOnClickListener { minimize() }
-    }
-
-    override fun onStop() {
-        // On entering Picture-in-Picture mode, onPause is called, but not onStop.
-        // For this reason, this is the place where we should pause the video playback.
-        mMovieView.pause()
-        super.onStop()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        // Show the video controls so the video can be easily resumed.
-        if (!isInPictureInPictureMode) {
-            mMovieView.showControls()
-        }
-    }
-
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         adjustFullScreen(newConfig)
@@ -136,8 +89,7 @@ class YoutubeVid(val context: Context) : IYoutubeVid {
         }
     }
 
-    override fun onPictureInPictureModeChanged(
-            isInPictureInPictureMode: Boolean, newConfig: Configuration) {
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
         if (isInPictureInPictureMode) {
             // Starts receiving events from action items in PiP mode.
@@ -162,7 +114,13 @@ class YoutubeVid(val context: Context) : IYoutubeVid {
         mPictureInPictureParamsBuilder.setAspectRatio(Rational(mMovieView.width, mMovieView.height))
         enterPictureInPictureMode(mPictureInPictureParamsBuilder.build())
     }
+
     override fun playYoutubeVid(videoId: String) {
         // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    enterPip()
+    }
+
+    private fun enterPip() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
