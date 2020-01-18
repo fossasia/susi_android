@@ -141,6 +141,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         } else {
             val action = supportActionBar
+            hideSoftKeyboard(this, window.decorView)
             action?.setDisplayShowCustomEnabled(false)
             action?.setDisplayShowTitleEnabled(true)
             searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
