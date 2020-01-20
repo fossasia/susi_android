@@ -119,7 +119,7 @@
                 android:textSize="@dimen/text_size_large"
                 app:fontFamily="sans-serif" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/skillDetailExamples"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -427,7 +427,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etFeedback"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -459,7 +459,7 @@
                 android:textSize="@dimen/text_size_normal"
                 android:visibility="gone" />
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvFeedback"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

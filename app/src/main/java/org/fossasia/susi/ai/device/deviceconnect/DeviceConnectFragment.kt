@@ -13,11 +13,11 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -83,7 +83,7 @@ import timber.log.Timber
  * Created on 11/07/18
  * Fragment that displays the UI to connect to the device
  */
-class DeviceConnectFragment : Fragment(), IDeviceConnectView {
+class DeviceConnectFragment : androidx.fragment.app.Fragment(), IDeviceConnectView {
 
     lateinit var deviceConnectPresenter: IDeviceConnectPresenter
     lateinit var mainWifi: WifiManager
@@ -96,8 +96,8 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
     private var checkDevice: Boolean = false
     private lateinit var realm: Realm
     private val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
-    private lateinit var availableRoomsRecyclerView: RecyclerView
-    private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
+    private lateinit var availableRoomsRecyclerView: androidx.recyclerview.widget.RecyclerView
+    private var availableRoomsAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>? = null
     private var roomNameSelected: String? = null
     private lateinit var rootView: View
     private var showWifiList: Boolean = false
@@ -368,7 +368,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
                 availableRoomsList.add(roomsAvailable)
             }
         }
-        var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        var layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         availableRoomsRecyclerView.layoutManager = layoutManager
         availableRoomsAdapter = RoomsAdapter(availableRoomsList, requireContext(), deviceConnectPresenter)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter
@@ -433,7 +433,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
         wifiList.visibility = View.GONE
         scanHelp.visibility = View.GONE
         deviceList.visibility = View.VISIBLE
-        deviceList.layoutManager = LinearLayoutManager(context)
+        deviceList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         deviceList.setHasFixedSize(true)
         recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_DEVICES)
         deviceList.adapter = recyclerAdapter
@@ -550,7 +550,7 @@ class DeviceConnectFragment : Fragment(), IDeviceConnectView {
             addDeviceButton.visibility = View.GONE
             wifiList.visibility = View.VISIBLE
             showWifi.visibility = View.VISIBLE
-            wifiList.layoutManager = LinearLayoutManager(context)
+            wifiList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
             wifiList.setHasFixedSize(true)
             recyclerAdapter = DevicesAdapter(scanList, deviceConnectPresenter, VIEW_AVAILABLE_WIFI)
             wifiList.adapter = recyclerAdapter

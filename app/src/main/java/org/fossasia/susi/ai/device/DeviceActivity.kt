@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.device
 import android.content.Context
 import android.net.wifi.WifiManager
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.connecteddevices.ConnectedDeviceFragment

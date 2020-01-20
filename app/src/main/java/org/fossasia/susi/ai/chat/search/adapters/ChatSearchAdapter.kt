@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.chat.search.adapters
 
 import android.graphics.Color
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +9,7 @@ import android.widget.TextView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.search.SearchDataFormat
 
-class ChatSearchAdapter(private val searchDataList: ArrayList<SearchDataFormat>) : RecyclerView.Adapter<ChatSearchAdapter.ViewHolder>() {
+class ChatSearchAdapter(private val searchDataList: ArrayList<SearchDataFormat>) : androidx.recyclerview.widget.RecyclerView.Adapter<ChatSearchAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_chat_search, viewGroup, false)
@@ -32,7 +32,7 @@ class ChatSearchAdapter(private val searchDataList: ArrayList<SearchDataFormat>)
         holder.user_message_date.text = searchDataList[p1].date
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         internal var user_message: TextView
         internal var user_message_date: TextView
 

@@ -7,12 +7,12 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.customtabs.CustomTabsIntent
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.NonNull
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -45,7 +45,7 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillE
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
 
-class SkillDetailsFragment : Fragment(), ISkillDetailsView {
+class SkillDetailsFragment : androidx.fragment.app.Fragment(), ISkillDetailsView {
 
     private lateinit var skillDetailsPresenter: ISkillDetailsPresenter
     private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
@@ -228,7 +228,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     private fun setExamples() {
         if (skillData.examples.isNotEmpty() && skillData.examples.isNotEmpty()) {
             skillDetailExamples.setHasFixedSize(true)
-            val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
             skillDetailExamples.layoutManager = layoutManager
             skillDetailExamples.adapter = SkillExamplesAdapter(requireContext(), skillData.examples)
         } else {
@@ -552,7 +552,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
      * @param feedbackResponse : Contains the list of Feedback objects received from the getSkillFeedback.json API
      */
     override fun updateFeedbackList(feedbackResponse: GetSkillFeedbackResponse) {
-        val layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         rvFeedback.setHasFixedSize(true)
         rvFeedback.layoutManager = layoutManager
         rvFeedback.adapter = FeedbackAdapter(requireContext(), feedbackResponse)

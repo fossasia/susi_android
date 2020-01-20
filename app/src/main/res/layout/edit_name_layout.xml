@@ -19,7 +19,7 @@
             android:text="@string/change_spk_name"
             android:textSize="@dimen/text_size_medium" />
 
-        <android.support.v7.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/name_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

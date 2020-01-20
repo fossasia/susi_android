@@ -4,7 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.text.method.LinkMovementMethod
 import android.util.Pair
 import android.util.Patterns
@@ -44,11 +44,11 @@ class ChatFeedRecyclerAdapter(
     private val currContext: Context,
     data: OrderedRealmCollection<ChatMessage>?,
     autoUpdate: Boolean
-) : RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder>(data, autoUpdate),
+) : RealmRecyclerViewAdapter<ChatMessage, androidx.recyclerview.widget.RecyclerView.ViewHolder>(data, autoUpdate),
     MessageViewHolder.ClickListener {
     private var realm: Realm? = null
     private var lastMsgCount: Int = 0
-    private var recyclerView: RecyclerView? = null
+    private var recyclerView: androidx.recyclerview.widget.RecyclerView? = null
     private val clickListener: MessageViewHolder.ClickListener
     // For typing dots from Susi
     private val dotsHolder: TypingDotsHolder
@@ -87,21 +87,21 @@ class ChatFeedRecyclerAdapter(
         isSusiTyping = false
     }
 
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+    override fun onAttachedToRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
 
         this.recyclerView = recyclerView
         realm = Realm.getDefaultInstance()
     }
 
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+    override fun onDetachedFromRecyclerView(recyclerView: androidx.recyclerview.widget.RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
 
         this.recyclerView = null
         realm?.close()
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
 
         val inflater = LayoutInflater.from(viewGroup.context)
         val view: View
@@ -243,7 +243,7 @@ class ChatFeedRecyclerAdapter(
         } else null
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         if (holder is ChatViewHolder) {
             holder.setView(data?.get(position), getItemViewType(position), currContext)
             holder.chatTextView.movementMethod = LinkMovementMethod()
@@ -319,7 +319,7 @@ class ChatFeedRecyclerAdapter(
     }
 
     @Suppress("DEPRECATION")
-    private fun setBackGroundColor(holder: RecyclerView.ViewHolder, isSelected: Boolean, isUserMessage: Boolean) {
+    private fun setBackGroundColor(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, isSelected: Boolean, isUserMessage: Boolean) {
         if (holder is ChatViewHolder) {
             if (isUserMessage)
                 holder.backgroundLayout.setBackgroundDrawable(if (isSelected)

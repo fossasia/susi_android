@@ -2,7 +2,7 @@ package org.fossasia.susi.ai.helper
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 
 /**
  * <h1>Helper class to display alert dialog boxes</h1>

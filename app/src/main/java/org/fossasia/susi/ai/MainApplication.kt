@@ -2,7 +2,7 @@ package org.fossasia.susi.ai
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.support.v7.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
@@ -24,7 +24,6 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -34,7 +33,7 @@ class MainApplication : Application() {
 
         instance = this
         // The Realm file will be located in Context.getFilesDir() with name "default.realm"
-        Realm.init(this)
+        Realm.init(applicationContext)
         val config = RealmConfiguration.Builder().deleteRealmIfMigrationNeeded().build()
         Realm.setDefaultConfiguration(config)
 

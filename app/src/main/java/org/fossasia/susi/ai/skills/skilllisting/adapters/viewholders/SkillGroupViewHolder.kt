@@ -1,6 +1,6 @@
 package org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -16,7 +16,7 @@ class SkillGroupViewHolder(
     private val adapterOffset: Int,
     private val listener: ClickListener?
 ) :
-    RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val groupParent: LinearLayout by bindView(R.id.group_parent)
     val groupName: TextView by bindView(R.id.group)

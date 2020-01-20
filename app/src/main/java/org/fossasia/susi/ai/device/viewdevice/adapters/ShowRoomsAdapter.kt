@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.device.viewdevice.adapters
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +18,7 @@ class ShowRoomsAdapter(
     val context: Context,
     private val viewDevicePresenter: IViewDevicePresenter
 ) :
-    RecyclerView.Adapter<ShowRoomsAdapter.ViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<ShowRoomsAdapter.ViewHolder>() {
 
     private var selectedIndex: Int = -1
 
@@ -42,7 +42,7 @@ class ShowRoomsAdapter(
         return availableRoomsList.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         init {
             itemView.delete_room.setOnClickListener {

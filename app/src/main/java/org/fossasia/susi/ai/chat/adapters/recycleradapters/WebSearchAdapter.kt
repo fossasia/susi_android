@@ -2,8 +2,8 @@ package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
-import android.support.v7.widget.RecyclerView
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +20,7 @@ class WebSearchAdapter(
     private val context: Context,
     private val searchResults: List<WebSearchModel?>?
 ) :
-    RecyclerView.Adapter<SearchResultHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<SearchResultHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 

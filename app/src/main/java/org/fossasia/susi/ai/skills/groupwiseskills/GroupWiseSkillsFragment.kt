@@ -2,11 +2,11 @@ package org.fossasia.susi.ai.skills.groupwiseskills
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SnapHelper
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SnapHelper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +31,8 @@ import timber.log.Timber
  *
  * Created by arundhati24 on 16/07/2018.
  */
-class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout.OnRefreshListener {
-    private lateinit var skillAdapterSnapHelper: SnapHelper
+class GroupWiseSkillsFragment : androidx.fragment.app.Fragment(), IGroupWiseSkillsView, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
+    private lateinit var skillAdapterSnapHelper: androidx.recyclerview.widget.SnapHelper
     private lateinit var groupWiseSkillsPresenter: IGroupWiseSkillsPresenter
     private var skills = GroupWiseSkills("", ArrayList())
     private lateinit var skillsAdapter: SkillsListAdapter
@@ -82,8 +82,8 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
 
     private fun setUPAdapter() {
         skillAdapterSnapHelper = StartSnapHelper()
-        val layoutManager = LinearLayoutManager(activity)
-        layoutManager.orientation = LinearLayoutManager.VERTICAL
+        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
+        layoutManager.orientation = androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
         groupWiseSkills.layoutManager = layoutManager
         skillsAdapter = SkillsListAdapter(requireContext(), skills, skillCallback)
         groupWiseSkills.adapter = skillsAdapter
