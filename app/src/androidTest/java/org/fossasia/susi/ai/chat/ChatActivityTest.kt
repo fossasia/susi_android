@@ -8,7 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.runner.AndroidJUnit4
 import android.view.WindowManager
 import java.io.IOException
 import org.fossasia.susi.ai.R
@@ -25,6 +25,7 @@ import timber.log.Timber
  * Created by collinx on 22-10-2017.
  */
 
+@Suppress("DEPRECATION")
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)

@@ -182,6 +182,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:${rootConfiguration.playServiceAuthVersion}"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootConfiguration.kotlinVersion}"
 
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.1.0"
+
     //Stetho
     debugImplementation "com.facebook.stetho:stetho:${rootConfiguration.stethoVersion}"
 

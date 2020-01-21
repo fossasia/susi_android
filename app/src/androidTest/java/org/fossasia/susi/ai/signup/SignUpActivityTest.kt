@@ -21,6 +21,7 @@ import timber.log.Timber
  * Created by collinx on 22-10-2017.
  */
 
+@Suppress("DEPRECATION")
 @RunWith(AndroidJUnit4::class)
 @MediumTest
 class SignUpActivityTest {
