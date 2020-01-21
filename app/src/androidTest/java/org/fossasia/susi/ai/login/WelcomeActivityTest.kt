@@ -6,8 +6,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.MediumTest
 import androidx.test.rule.ActivityTestRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import android.view.WindowManager
+import androidx.test.runner.AndroidJUnit4
 import java.io.IOException
 import org.fossasia.susi.ai.R
 import org.junit.Before
