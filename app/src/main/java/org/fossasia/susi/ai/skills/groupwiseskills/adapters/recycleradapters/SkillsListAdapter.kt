@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.skills.groupwiseskills.adapters.recycleradapters
 
 import android.content.Context
-import androidx.annotation.NonNull
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills

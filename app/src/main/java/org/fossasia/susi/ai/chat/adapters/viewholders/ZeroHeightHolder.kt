@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.recyclerview.widget.RecyclerView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 

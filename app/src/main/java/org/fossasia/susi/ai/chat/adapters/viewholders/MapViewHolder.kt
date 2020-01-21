@@ -3,10 +3,10 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotterknife.bindView
 import org.fossasia.susi.ai.R

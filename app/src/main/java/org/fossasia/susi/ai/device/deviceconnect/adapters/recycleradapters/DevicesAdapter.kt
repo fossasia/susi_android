@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectPresenter
 import org.fossasia.susi.ai.device.deviceconnect.adapters.viewholders.DeviceViewHolder

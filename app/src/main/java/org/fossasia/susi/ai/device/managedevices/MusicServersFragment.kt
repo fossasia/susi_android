@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.device.managedevices
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import org.fossasia.susi.ai.R
 
 class MusicServersFragment : androidx.fragment.app.Fragment() {

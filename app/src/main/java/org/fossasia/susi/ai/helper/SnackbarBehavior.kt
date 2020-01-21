@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.helper
 
 import android.content.Context
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.snackbar.Snackbar
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * <h1>Helper class for snackbar behaviour.</h1>

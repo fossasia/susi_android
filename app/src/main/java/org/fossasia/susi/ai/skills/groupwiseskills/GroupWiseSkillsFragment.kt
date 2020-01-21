@@ -1,17 +1,18 @@
 package org.fossasia.susi.ai.skills.groupwiseskills
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import androidx.annotation.NonNull
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.SnapHelper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SnapHelper
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
@@ -63,6 +64,7 @@ class GroupWiseSkillsFragment : androidx.fragment.app.Fragment(), IGroupWiseSkil
         return rootView
     }
 
+    @SuppressLint("RestrictedApi")
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.title = this.skills.group

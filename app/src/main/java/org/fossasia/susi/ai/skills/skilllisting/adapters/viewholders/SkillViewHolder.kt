@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 

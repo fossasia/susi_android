@@ -2,14 +2,14 @@ package org.fossasia.susi.ai.skills.skilllisting
 
 import android.content.Context
 import android.os.Bundle
-import androidx.annotation.NonNull
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SnapHelper
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.facebook.shimmer.ShimmerFrameLayout
 import kotlinx.android.synthetic.main.fragment_skill_listing.errorSkillFetch
 import kotlinx.android.synthetic.main.fragment_skill_listing.shimmer_view_container
@@ -30,6 +30,7 @@ import timber.log.Timber
  *
  * Created by chiragw15 on 15/8/17.
  */
+@Suppress("NAME_SHADOWING")
 class SkillListingFragment : androidx.fragment.app.Fragment(), ISkillListingView, androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var skillAdapterSnapHelper: androidx.recyclerview.widget.SnapHelper

@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.device.deviceconnect
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.DialogInterface
@@ -13,17 +14,17 @@ import android.net.wifi.WifiManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.fragment.app.Fragment
-import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AlertDialog
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.connect_susiai_speaker.cancel_susiai_connection
 import kotlinx.android.synthetic.main.connect_susiai_speaker.cannot_connect_susiai
@@ -133,6 +134,7 @@ class DeviceConnectFragment : androidx.fragment.app.Fragment(), IDeviceConnectVi
         context?.registerReceiver(receiverWifi, filter)
     }
 
+    @SuppressLint("RestrictedApi")
     override fun connectionMainScreen() {
         connection_susiai_main_screen.visibility = View.VISIBLE
         showWifi.visibility = View.GONE
@@ -195,6 +197,7 @@ class DeviceConnectFragment : androidx.fragment.app.Fragment(), IDeviceConnectVi
     }
 
     // Prompt password for selected wifi
+    @SuppressLint("RestrictedApi")
     override fun selectedWifi(wifiName: String) {
         addDeviceButton.visibility = View.GONE
         deviceList.visibility = View.GONE
@@ -217,6 +220,7 @@ class DeviceConnectFragment : androidx.fragment.app.Fragment(), IDeviceConnectVi
     }
 
     // Function to show available rooms in the 3rd step
+    @SuppressLint("RestrictedApi")
     override fun rooms() {
         stopProgress()
         room.visibility = View.VISIBLE
@@ -539,6 +543,7 @@ class DeviceConnectFragment : androidx.fragment.app.Fragment(), IDeviceConnectVi
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun setupWiFiAdapter(scanList: ArrayList<String>) {
         if (showWifiList) {
             Timber.d("Setup Wifi adapter")

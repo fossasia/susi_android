@@ -2,8 +2,8 @@ package org.fossasia.susi.ai
 
 import android.annotation.SuppressLint
 import android.app.Application
-import androidx.appcompat.app.AppCompatDelegate
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm

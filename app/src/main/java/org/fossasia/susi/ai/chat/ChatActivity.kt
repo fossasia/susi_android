@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_ANONYMOUS_PARAMETER")
+
 package org.fossasia.susi.ai.chat
 
 import ai.kitt.snowboy.MsgEnum
@@ -21,13 +23,6 @@ import android.os.Message
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.app.ActivityCompat
-import androidx.core.view.GestureDetectorCompat
-import androidx.core.view.ViewCompat
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -40,6 +35,11 @@ import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.ViewCompat
+import com.google.android.material.snackbar.Snackbar
 import io.realm.RealmResults
 import java.util.Locale
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -88,6 +88,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -365,6 +366,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     // Take user's speech as input and send the message
+    @SuppressLint("RestrictedApi")
     override fun promptSpeechInput() {
         if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
@@ -380,6 +382,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     // Replies user with Speech
+    @SuppressLint("RestrictedApi")
     override fun voiceReply(reply: String, language: String) {
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE

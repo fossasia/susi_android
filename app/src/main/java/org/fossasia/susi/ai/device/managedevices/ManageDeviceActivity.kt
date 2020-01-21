@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.device.managedevices
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import org.fossasia.susi.ai.R
 
 class ManageDeviceActivity : AppCompatActivity() {

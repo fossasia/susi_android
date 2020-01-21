@@ -2,12 +2,12 @@ package org.fossasia.susi.ai.device.connecteddevices
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_connected_device.deviceStatus
 import kotlinx.android.synthetic.main.fragment_connected_device.refresh_device_layout
 import org.fossasia.susi.ai.R

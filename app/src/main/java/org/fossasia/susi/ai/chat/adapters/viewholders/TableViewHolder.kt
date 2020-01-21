@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
 import java.util.ArrayList
 import kotterknife.bindView

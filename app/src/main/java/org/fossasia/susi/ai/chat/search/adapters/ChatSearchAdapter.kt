@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.chat.search.adapters
 
 import android.graphics.Color
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.search.SearchDataFormat
 

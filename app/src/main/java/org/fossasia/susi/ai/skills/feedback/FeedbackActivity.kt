@@ -1,9 +1,9 @@
 package org.fossasia.susi.ai.skills.feedback
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_feedback.rvAllFeedback
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.responses.susi.Feedback

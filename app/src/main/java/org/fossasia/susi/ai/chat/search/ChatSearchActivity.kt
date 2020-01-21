@@ -2,11 +2,11 @@ package org.fossasia.susi.ai.chat.search
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
-import android.widget.Toast
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_chat_search.search_not_found
 import org.fossasia.susi.ai.R

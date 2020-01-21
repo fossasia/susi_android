@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters
 
 import android.content.Context
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.room_recycler_layout.view.delete_room
 import kotlinx.android.synthetic.main.room_recycler_layout.view.image_tick
 import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text

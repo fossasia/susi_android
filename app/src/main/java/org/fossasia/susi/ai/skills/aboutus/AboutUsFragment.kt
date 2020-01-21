@@ -2,14 +2,14 @@ package org.fossasia.susi.ai.skills.aboutus
 
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.NonNull
-import androidx.fragment.app.Fragment
 import android.text.Html
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_about_us.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.skills.SkillsActivity

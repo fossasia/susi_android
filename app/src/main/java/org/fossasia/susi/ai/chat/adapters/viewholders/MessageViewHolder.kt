@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
 import android.content.Context
-import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
 import kotterknife.bindView
 import org.fossasia.susi.ai.R

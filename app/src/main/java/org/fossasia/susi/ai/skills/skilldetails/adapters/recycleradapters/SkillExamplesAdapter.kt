@@ -3,10 +3,10 @@ package org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.annotation.NonNull
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders.SkillExampleViewHolder

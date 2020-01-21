@@ -1,9 +1,9 @@
 package org.fossasia.susi.ai.helper
 
 import android.content.Context
-import com.google.android.material.textfield.TextInputLayout
 import android.text.TextUtils
 import android.util.Patterns
+import com.google.android.material.textfield.TextInputLayout
 import java.net.URL
 import java.util.regex.Pattern
 import org.fossasia.susi.ai.R

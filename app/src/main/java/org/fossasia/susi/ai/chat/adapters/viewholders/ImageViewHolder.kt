@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
 import android.net.Uri
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
 import kotterknife.bindView

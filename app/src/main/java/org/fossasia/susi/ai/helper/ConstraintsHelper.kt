@@ -2,9 +2,9 @@ package org.fossasia.susi.ai.helper
 
 import android.content.Context
 import android.graphics.Rect
-import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Created by mayanktripathi on 22/06/17.

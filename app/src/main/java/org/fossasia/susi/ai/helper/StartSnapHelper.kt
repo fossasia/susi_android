@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.helper
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
-import android.view.View
 
 /**
  * Created by robinkamboj on 04/01/18.
@@ -21,8 +21,8 @@ class StartSnapHelper : androidx.recyclerview.widget.LinearSnapHelper() {
     }
 
     override fun calculateDistanceToFinalSnap(
-            layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager,
-            targetView: View
+        layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager,
+        targetView: View
     ): IntArray? {
         val out = IntArray(2)
 
@@ -57,8 +57,8 @@ class StartSnapHelper : androidx.recyclerview.widget.LinearSnapHelper() {
     }
 
     private fun getStartView(
-            layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager,
-            helper: androidx.recyclerview.widget.OrientationHelper
+        layoutManager: androidx.recyclerview.widget.RecyclerView.LayoutManager,
+        helper: androidx.recyclerview.widget.OrientationHelper
     ): View? {
 
         if (layoutManager is androidx.recyclerview.widget.LinearLayoutManager) {
