@@ -6,10 +6,10 @@ import android.app.Activity
 import android.app.Dialog
 import android.app.DialogFragment
 import android.app.Fragment
+import android.view.View
 import androidx.fragment.app.DialogFragment as SupportDialogFragment
 import androidx.fragment.app.Fragment as SupportFragment
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import android.view.View
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 

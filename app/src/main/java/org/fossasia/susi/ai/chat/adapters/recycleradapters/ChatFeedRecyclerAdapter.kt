@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import androidx.recyclerview.widget.RecyclerView
 import android.text.method.LinkMovementMethod
 import android.util.Pair
 import android.util.Patterns
@@ -14,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import io.realm.OrderedRealmCollection
 import io.realm.Realm
 import io.realm.RealmChangeListener

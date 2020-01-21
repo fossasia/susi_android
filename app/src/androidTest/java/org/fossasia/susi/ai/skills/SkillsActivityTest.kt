@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills
 
+import android.view.WindowManager
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -7,7 +8,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
-import android.view.WindowManager
 import java.io.IOException
 import org.fossasia.susi.ai.R
 import org.junit.Before

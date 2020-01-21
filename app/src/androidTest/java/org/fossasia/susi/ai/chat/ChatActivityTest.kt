@@ -1,6 +1,7 @@
 package org.fossasia.susi.ai.chat
 
 import android.Manifest
+import android.view.WindowManager
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -9,7 +10,6 @@ import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.runner.AndroidJUnit4
-import android.view.WindowManager
 import java.io.IOException
 import org.fossasia.susi.ai.R
 import org.junit.Before

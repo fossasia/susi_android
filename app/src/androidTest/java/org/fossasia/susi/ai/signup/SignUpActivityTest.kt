@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.signup
 
+import android.view.WindowManager
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -7,7 +8,6 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.MediumTest
 import androidx.test.rule.ActivityTestRule
-import android.view.WindowManager
 import androidx.test.runner.AndroidJUnit4
 import java.io.IOException
 import org.fossasia.susi.ai.R
