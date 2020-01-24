@@ -8,9 +8,9 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.MediumTest
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.rule.ActivityTestRule
 import androidx.test.rule.GrantPermissionRule
-import androidx.test.runner.AndroidJUnit4
 import java.io.IOException
 import org.fossasia.susi.ai.R
 import org.junit.Before
@@ -24,8 +24,7 @@ import timber.log.Timber
  * Created by collinx on 22-10-2017.
  */
 
-@Suppress("DEPRECATION")
-@RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4ClassRunner::class)
 @MediumTest
 class LoginActivityTest {
 
