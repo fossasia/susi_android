@@ -6,13 +6,18 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import com.google.android.gms.auth.api.credentials.Credential
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.password
+import kotlinx.android.synthetic.main.alert_reset_password.*
+import kotlinx.android.synthetic.main.item_susi_message.view.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
@@ -54,6 +59,11 @@ class LoginActivity : AppCompatActivity(), ILoginView {
             }
         }
 
+        //text watcher for all input
+        emailInput.addTextChangedListener(LoginTextWatcher)
+        passwordInput.addTextChangedListener(LoginTextWatcher)
+
+
         progressDialog = ProgressDialog(this)
         progressDialog.setCancelable(false)
         progressDialog.setMessage(getString(R.string.login))
@@ -77,8 +87,23 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         loginPresenter.clientRequest(this)
     }
 
-    override fun onCredentialRetrieved(credential: Credential?) {
 
+    //text watcher object
+    var LoginTextWatcher = object : TextWatcher{
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            val stringEmail = emailInput.text.toString()
+            val stringPassword = passwordInput.text.toString()
+            logIn.setEnabled(stringEmail.isNotEmpty()&&stringPassword.isNotEmpty())
+        }
+    }
+
+
+    override fun onCredentialRetrieved(credential: Credential?) {
         var accountName = credential?.name
         if (accountName == Constant.SUSI_ACCOUNT) {
             email.editText?.setText(credential?.id.toString())

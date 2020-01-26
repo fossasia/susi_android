@@ -89,11 +89,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            android:background="@drawable/rounded_button"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@drawable/rounded_button_blue"
             android:padding="@dimen/cmv_padding"
-            android:text="@string/activity_login_log_in" />
+            android:text="@string/activity_login_log_in"
+            android:enabled="false"/>
 
         <TextView
             android:id="@+id/forgotPassword"
