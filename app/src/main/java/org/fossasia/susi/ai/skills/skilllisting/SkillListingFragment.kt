@@ -137,5 +137,8 @@ class SkillListingFragment : Fragment(), ISkillListingView, SwipeRefreshLayout.O
     override fun onResume() {
         super.onResume()
         activity?.title = getString(R.string.skills_activity)
+        if (skills.isNotEmpty()) {
+            shimmer_view_container.visibility = View.GONE
+        }
     }
 }
