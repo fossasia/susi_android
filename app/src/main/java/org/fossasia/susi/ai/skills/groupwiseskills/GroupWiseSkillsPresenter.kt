@@ -1,5 +1,7 @@
 package org.fossasia.susi.ai.skills.groupwiseskills
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import org.fossasia.susi.ai.data.GroupWiseSkillsModel
 import org.fossasia.susi.ai.data.contract.IGroupWiseSkillsModel
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
@@ -24,18 +26,25 @@ class GroupWiseSkillsPresenter(val groupWiseSkillsFragment: GroupWiseSkillsFragm
     private var groupWiseSkillsModel: IGroupWiseSkillsModel = GroupWiseSkillsModel()
     private var groupWiseSkillsView: IGroupWiseSkillsView? = null
     private var skills = GroupWiseSkills("", ArrayList())
+    private val _swipeRefreshController = MutableLiveData<Boolean>()
+    val swipeRefreshController: LiveData<Boolean>
+        get() = _swipeRefreshController
+    private val _shimmerController = MutableLiveData<Boolean>()
+    val shimmerController: MutableLiveData<Boolean>
+        get() = _shimmerController
 
     override fun onAttach(groupWiseSkillsView: IGroupWiseSkillsView) {
         this.groupWiseSkillsView = groupWiseSkillsView
     }
 
     override fun getSkills(swipeToRefreshActive: Boolean, group: String) {
-        groupWiseSkillsView?.visibilityProgressBar(!swipeToRefreshActive)
+        _swipeRefreshController.value = swipeToRefreshActive
         groupWiseSkillsModel.fetchSkills(group, PrefManager.getString(Constant.LANGUAGE, Constant.DEFAULT), FILTER_NAME, FILTER_TYPE, DURATION, this)
     }
 
     override fun onSkillFetchSuccess(response: Response<ListSkillsResponse>, group: String) {
-        groupWiseSkillsView?.visibilityProgressBar(false)
+        _shimmerController.value = false
+        _swipeRefreshController.value = false
         if (response.isSuccessful && response.body() != null) {
             Timber.d("GROUP WISE SKILLS FETCHED")
             val responseSkillList = response.body()?.filteredSkillsData
@@ -48,13 +57,15 @@ class GroupWiseSkillsPresenter(val groupWiseSkillsFragment: GroupWiseSkillsFragm
             }
         } else {
             Timber.d("GROUP WISE SKILLS NOT FETCHED")
-            groupWiseSkillsView?.visibilityProgressBar(false)
+            _shimmerController.value = false
+            _swipeRefreshController.value = false
             groupWiseSkillsView?.displayError()
         }
     }
 
     override fun onSkillFetchFailure(t: Throwable) {
-        groupWiseSkillsView?.visibilityProgressBar(false)
+        _shimmerController.value = false
+        _swipeRefreshController.value = false
         groupWiseSkillsView?.displayError()
     }
 

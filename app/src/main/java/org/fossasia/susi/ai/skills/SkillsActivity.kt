@@ -203,12 +203,12 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             R.id.menu_ascending -> {
                 FILTER_NAME = Constant.ASCENDING
                 invalidateOptionsMenu()
-                groupWiseSkillsFragment.onRefresh()
+                groupWiseSkillsFragment.revertSkillList()
             }
             R.id.menu_descending -> {
                 FILTER_NAME = Constant.DESCENDING
                 invalidateOptionsMenu()
-                groupWiseSkillsFragment.onRefresh()
+                groupWiseSkillsFragment.revertSkillList()
             }
             R.id.menu_a_to_z -> {
                 FILTER_TYPE = Constant.NEW_A_TO_Z

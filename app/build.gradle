@@ -14,12 +14,16 @@ apply plugin: 'realm-android'
 
 def YOUTUBE_API_KEY = System.getenv('YOUTUBE_API_KEY') ?: "YOUR_API_KEY"
 //noinspection SpellCheckingInspection
-def MAPBOX_API_KEY = '"'+System.getenv('MAPBOX_API_KEY')+'"' ?: '"DEFAULT"'
+def MAPBOX_API_KEY = '"' + System.getenv('MAPBOX_API_KEY') + '"' ?: '"DEFAULT"'
 
 def LOCAL_KEY_PRESENT = project.hasProperty('SIGNING_KEY_FILE') && rootProject.file(SIGNING_KEY_FILE).exists()
 
 android {
     compileSdkVersion rootConfiguration.compileSdkVersion
+
+    dataBinding {
+        enabled true
+    }
 
     defaultConfig {
         applicationId "ai.susi"

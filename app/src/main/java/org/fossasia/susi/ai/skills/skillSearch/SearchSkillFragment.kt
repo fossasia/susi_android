@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.skills.skillSearch
 import android.content.Context
 import android.os.Bundle
 import android.support.annotation.NonNull
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +11,7 @@ import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
@@ -51,7 +53,12 @@ class SearchSkillFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_group_wise_skill_listing, container, false)
+        var v = inflater.inflate(R.layout.fragment_group_wise_skill_listing, container, false)
+        var searchEditText = v.findViewById<EditText>(R.id.skillWiseSearchEdit)
+        searchEditText.visibility = View.GONE
+        var searchFab = v.findViewById<FloatingActionButton>(R.id.searchSkillGroupWise)
+        searchFab.visibility = View.GONE
+        return v
     }
 
     @NonNull

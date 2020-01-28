@@ -1,98 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/swipeRefreshLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <data>
+
+        <variable
+            name="presenter"
+            type="org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsPresenter" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="fragment"
+            type="org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment" />
+
+    </data>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/default_bg">
+        android:layout_height="wrap_content"
+        app:refreshing="@{presenter.swipeRefreshController}"
+        tools:context="org.fossasia.susi.ai.skills.groupwiseskills.GroupWiseSkillsFragment">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/groupWiseSkills"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
+            android:background="@color/default_bg">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/groupWiseSkillsShimmerContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/groupWiseSkills"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
 
-            <LinearLayout
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/groupWiseSkillsShimmerContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="@{presenter.shimmerController?View.VISIBLE:View.GONE}">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!-- & rows of shimmer added-->
+                    <include layout="@layout/groupwise_skill_listing_placeholder" />
+
+                    <include layout="@layout/groupwise_skill_listing_placeholder" />
+
+                    <include layout="@layout/groupwise_skill_listing_placeholder" />
+
+                    <include layout="@layout/groupwise_skill_listing_placeholder" />
+
+                    <include layout="@layout/groupwise_skill_listing_placeholder" />
+
+                    <include layout="@layout/groupwise_skill_listing_placeholder" />
+
+                    <include layout="@layout/groupwise_skill_listing_placeholder" />
+
+                </LinearLayout>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/searchSkillGroupWise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_open_search"
+                android:layout_gravity="right"
+                android:layout_margin="@dimen/margin_moderate"
+                app:backgroundTint="@color/md_white_1000"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_open_search" />
+
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <!-- & rows of shimmer added-->
-                <include layout="@layout/groupwise_skill_listing_placeholder" />
+                android:layout_marginRight="@dimen/margin_extremely_large"
+                android:layout_gravity="left"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:padding="@dimen/padding_moderate"
+                android:imeOptions="actionSearch"
+                android:background="@color/browser_actions_bg_grey"
+                android:singleLine="true"
+                android:visibility="@{fragment.isSearching()?View.VISIBLE:View.GONE}"
+                android:id="@+id/skillWiseSearchEdit" />
 
-                <include layout="@layout/groupwise_skill_listing_placeholder" />
+            <TextView
+                android:id="@+id/errorSkillFetch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/padding_large"
+                android:text="@string/error_skill_listing"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_large"
+                android:visibility="gone" />
 
-                <include layout="@layout/groupwise_skill_listing_placeholder" />
-
-                <include layout="@layout/groupwise_skill_listing_placeholder" />
-
-                <include layout="@layout/groupwise_skill_listing_placeholder" />
-
-                <include layout="@layout/groupwise_skill_listing_placeholder" />
-
-                <include layout="@layout/groupwise_skill_listing_placeholder" />
-
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
-      
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/searchSkillGroupWise"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_open_search"
-            android:layout_gravity="right"
-            android:layout_margin="@dimen/margin_moderate"
-            android:visibility="gone"
-            app:backgroundTint="@color/md_white_1000"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/ic_open_search" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_extremely_large"
-            android:layout_gravity="left"
-            android:layout_marginTop="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:padding="@dimen/padding_moderate"
-            android:background="@color/browser_actions_bg_grey"
-            android:visibility="gone"
-            android:id="@+id/skillWiseSearchEdit" />
-
-        <TextView
-            android:id="@+id/errorSkillFetch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/padding_large"
-            android:text="@string/error_skill_listing"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_large"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/messageNoSkillsFound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/padding_large"
-            android:text="@string/message_no_skills_found"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/text_size_large"
-            android:visibility="gone" />
-    </FrameLayout>
-</android.support.v4.widget.SwipeRefreshLayout>
+            <TextView
+                android:id="@+id/messageNoSkillsFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/padding_large"
+                android:text="@string/message_no_skills_found"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/text_size_large"
+                android:visibility="gone" />
+        </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+</layout>

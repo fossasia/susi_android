@@ -1,6 +1,10 @@
 package org.fossasia.susi.ai.skills.groupwiseskills
 
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.content.Context
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.support.v4.app.Fragment
@@ -16,7 +20,9 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.databinding.FragmentGroupWiseSkillListingBinding
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
+import org.fossasia.susi.ai.helper.ListHelper
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import org.fossasia.susi.ai.helper.StartSnapHelper
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
@@ -38,7 +44,9 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     private lateinit var skillsAdapter: SkillsListAdapter
     private lateinit var skillCallback: SkillFragmentCallback
     private lateinit var shimmerContainer: ShimmerFrameLayout
-    private var isSearching: Boolean = false
+    private var _isSearching = MutableLiveData<Boolean>()
+    val isSearching: LiveData<Boolean>
+        get() = _isSearching
 
     companion object {
         private const val SKILL_GROUP = "group"
@@ -53,30 +61,37 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val argument = arguments
+        groupWiseSkillsPresenter = GroupWiseSkillsPresenter(this)
+        _isSearching = MutableLiveData()
         if (argument != null) {
             this.skills.group = argument.getString("group")
         }
-        val rootView: View = inflater.inflate(R.layout.fragment_group_wise_skill_listing, container, false)
-        shimmerContainer = rootView.findViewById(R.id.groupWiseSkillsShimmerContainer)
-        shimmerContainer.visibility = View.VISIBLE
-        shimmerContainer.startShimmer()
-        return rootView
+        val binding: FragmentGroupWiseSkillListingBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_group_wise_skill_listing, container, false)
+        binding.lifecycleOwner = this // use Fragment.viewLifecycleOwner for fragments
+        binding.presenter = groupWiseSkillsPresenter as GroupWiseSkillsPresenter
+        binding.fragment = this
+        return binding.root
     }
 
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.title = this.skills.group
-        groupWiseSkillsPresenter = GroupWiseSkillsPresenter(this)
+        (groupWiseSkillsPresenter as GroupWiseSkillsPresenter).shimmerController.value = true
         groupWiseSkillsPresenter.onAttach(this)
+        (groupWiseSkillsPresenter as GroupWiseSkillsPresenter).shimmerController.postValue(true)
         swipeRefreshLayout.setOnRefreshListener(this)
         setUPAdapter()
         groupWiseSkillsPresenter.getSkills(swipeRefreshLayout.isRefreshing, skills.group)
-        isSearching = true
-        skillWiseSearchEdit.visibility = View.GONE
-        searchSkillGroupWise.visibility = View.VISIBLE
+        _isSearching.value = false
         searchSkillGroupWise.setOnClickListener {
             handleSearchAction()
         }
+
+        (groupWiseSkillsPresenter as GroupWiseSkillsPresenter).swipeRefreshController.observe(this, Observer { })
+        (groupWiseSkillsPresenter as GroupWiseSkillsPresenter).shimmerController.observe(this, Observer<Boolean> { t ->
+        }
+        )
+        _isSearching.observe(this, Observer { })
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -92,20 +107,13 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     }
 
     override fun visibilityProgressBar(boolean: Boolean) {
-        if (boolean) {
-            shimmerContainer.visibility = View.VISIBLE
-            shimmerContainer.startShimmer()
-        } else {
-            shimmerContainer.stopShimmer()
-            shimmerContainer.visibility = View.GONE
-        }
     }
 
     fun handleSearchAction() {
-        if (isSearching == false || skillWiseSearchEdit.getVisibility() == View.VISIBLE) {
-            skillWiseSearchEdit.setVisibility(View.GONE)
+        if (_isSearching.value!!) {
+            _isSearching.value = false
         } else {
-            skillWiseSearchEdit.setVisibility(View.VISIBLE)
+            _isSearching.value = true
             handleSearch()
         }
     }
@@ -118,7 +126,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
             true
         }
         skillWiseSearchEdit?.requestFocus()
-        isSearching = true
+        _isSearching.value = true
     }
 
     fun performSearch(query: String): Boolean {
@@ -142,6 +150,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
             Toast.makeText(context, R.string.skill_not_found, Toast.LENGTH_SHORT).show()
             return false
         }
+        _isSearching.value = false
 
         loadSearchSkillsFragment(searchedSkillsList, query)
         return true
@@ -157,7 +166,6 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
 
     override fun showEmptySkillsListMessage() {
         if (activity != null) {
-            swipeRefreshLayout.isRefreshing = false
             groupWiseSkills.visibility = View.GONE
             messageNoSkillsFound.visibility = View.VISIBLE
         }
@@ -165,14 +173,12 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
 
     override fun displayError() {
         if (activity != null) {
-            swipeRefreshLayout.isRefreshing = false
             groupWiseSkills.visibility = View.GONE
             errorSkillFetch.visibility = View.VISIBLE
         }
     }
 
     override fun updateAdapter(skills: GroupWiseSkills) {
-        swipeRefreshLayout.isRefreshing = false
         if (errorSkillFetch.visibility == View.VISIBLE) {
             errorSkillFetch.visibility = View.GONE
         }
@@ -203,6 +209,13 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     override fun onDestroyView() {
         groupWiseSkillsPresenter.onDetach()
         super.onDestroyView()
+    }
+
+    fun revertSkillList() {
+        val revertedList = ListHelper.revertList(skills.skillsList)
+        skills.skillsList.clear()
+        skills.skillsList.addAll(revertedList)
+        skillsAdapter.notifyDataSetChanged()
     }
 
     override fun onResume() {
