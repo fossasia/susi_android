@@ -294,6 +294,13 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             }
             edtSearch?.requestFocus()
 
+            edtSearch?.setOnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    onBackPressed()
+                }
+                true
+            }
+
             // open the keyboard focused in the edtSearch
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.showSoftInput(edtSearch, InputMethodManager.SHOW_IMPLICIT)
