@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.RssViewHolder
 import org.fossasia.susi.ai.rest.responses.susi.Datum
@@ -15,7 +15,7 @@ import org.fossasia.susi.ai.rest.responses.susi.Datum
  */
 
 class SearchResultsAdapter(context: Context, private val datumList: List<Datum?>?) :
-    RecyclerView.Adapter<RssViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<RssViewHolder>() {
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RssViewHolder {

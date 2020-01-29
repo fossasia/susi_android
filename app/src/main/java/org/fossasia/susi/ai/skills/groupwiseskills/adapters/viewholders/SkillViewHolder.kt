@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.skills.groupwiseskills.adapters.viewholders
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 
@@ -15,7 +15,7 @@ class SkillViewHolder(
     itemView: View,
     private val listener: ClickListener?
 ) :
-    RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val skillImage: ImageView by bindView(R.id.skill_image)
     val skillName: TextView by bindView(R.id.skill_name)

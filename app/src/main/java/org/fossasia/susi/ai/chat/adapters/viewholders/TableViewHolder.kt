@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
 import java.util.ArrayList
 import kotterknife.bindView
@@ -19,7 +19,7 @@ import timber.log.Timber
  */
 class TableViewHolder(itemView: View, clickListener: ClickListener) : MessageViewHolder(itemView, clickListener) {
 
-    val recyclerView: RecyclerView by bindView(R.id.recyclerView)
+    val recyclerView: androidx.recyclerview.widget.RecyclerView by bindView(R.id.recyclerView)
     val timeStamp: TextView by bindView(R.id.timestamp)
 
     init {
@@ -52,7 +52,7 @@ class TableViewHolder(itemView: View, clickListener: ClickListener) : MessageVie
                 }
 
                 // Set the layout manager for the recyclerview and and call the TableAdapter to attach the recyclerview elements
-                val layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL,
+                val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(itemView.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL,
                         false)
                 recyclerView.layoutManager = layoutManager
                 val tableAdapter = TableAdapter(column, data)

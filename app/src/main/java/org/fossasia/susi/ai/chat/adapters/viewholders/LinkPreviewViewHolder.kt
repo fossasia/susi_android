@@ -3,7 +3,6 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 import android.content.Context
 import android.net.Uri
 import android.os.Build
-import android.support.customtabs.CustomTabsIntent
 import android.text.Html
 import android.text.Spanned
 import android.text.TextUtils
@@ -12,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.browser.customtabs.CustomTabsIntent
 import butterknife.ButterKnife
 import com.squareup.picasso.Picasso
 import io.github.ponnamkarthik.richlinkpreview.MetaData

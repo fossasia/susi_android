@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 
-class TabViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class TabViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
-    val view: RecyclerView by bindView(R.id.parentLayout)
+    val view: androidx.recyclerview.widget.RecyclerView by bindView(R.id.parentLayout)
 }

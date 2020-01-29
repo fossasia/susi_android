@@ -3,12 +3,12 @@ package org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.annotation.NonNull
-import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.recyclerview.widget.RecyclerView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
@@ -27,7 +27,7 @@ class FeedbackAdapter(
     val context: Context,
     private val feedbackResponse: GetSkillFeedbackResponse
 ) :
-        RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
+        androidx.recyclerview.widget.RecyclerView.Adapter<FeedbackViewHolder>(), FeedbackViewHolder.ClickListener {
 
     private val clickListener: FeedbackViewHolder.ClickListener = this
     private val arrangedFeedbackList: ArrayList<Feedback> = ArrayList()

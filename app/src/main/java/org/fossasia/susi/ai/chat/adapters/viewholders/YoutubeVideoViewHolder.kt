@@ -1,8 +1,8 @@
 package org.fossasia.susi.ai.chat.adapters.viewholders
 
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import com.squareup.picasso.Picasso
 import kotterknife.bindView
 import org.fossasia.susi.ai.R

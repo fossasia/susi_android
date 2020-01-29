@@ -2,11 +2,11 @@ package org.fossasia.susi.ai.chat.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_chat_search.search_not_found
 import org.fossasia.susi.ai.R
@@ -21,8 +21,8 @@ class ChatSearchActivity : AppCompatActivity() {
     private var query: String = ""
 
     val searchChat: ArrayList<SearchDataFormat> = ArrayList()
-    private var chatSearchRecyclerView: RecyclerView? = null
-    private var chatSearchAdapter: RecyclerView.Adapter<*>? = null
+    private var chatSearchRecyclerView: androidx.recyclerview.widget.RecyclerView? = null
+    private var chatSearchAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,7 @@ class ChatSearchActivity : AppCompatActivity() {
     // Initialise the recylerview and sends the array list to it.
     fun viewQueryString() {
         chatSearchRecyclerView = findViewById(R.id.search_chat_feed)
-        var mLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        var mLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         chatSearchRecyclerView?.layoutManager = mLayoutManager
         chatSearchAdapter = ChatSearchAdapter(searchChat)
         chatSearchRecyclerView?.adapter = chatSearchAdapter

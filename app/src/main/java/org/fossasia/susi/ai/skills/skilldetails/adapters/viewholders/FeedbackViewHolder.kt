@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.skills.skilldetails.adapters.viewholders
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 import butterknife.ButterKnife
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
@@ -16,7 +16,7 @@ class FeedbackViewHolder(
     itemView: View,
     private val listener: FeedbackViewHolder.ClickListener?
 ) :
-    RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val itemFeedback: LinearLayout by bindView(R.id.itemFeedback)
     val avatar: ImageView by bindView(R.id.avatar)

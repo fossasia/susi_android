@@ -3,13 +3,13 @@ package org.fossasia.susi.ai.device.viewdevice
 import android.app.ProgressDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
 import kotlinx.android.synthetic.main.edit_name_layout.name_cancel
 import kotlinx.android.synthetic.main.edit_name_layout.name_new
@@ -37,7 +37,7 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.Device
 
-class ViewDeviceFragment : Fragment(), IViewDeviceView {
+class ViewDeviceFragment : androidx.fragment.app.Fragment(), IViewDeviceView {
 
     private lateinit var macId: String
     private lateinit var name: String
@@ -46,8 +46,8 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
     private lateinit var longitude: String
     private lateinit var realm: Realm
     private val availableRoomsList: ArrayList<AvailableRoomsFormat> = ArrayList()
-    private lateinit var availableRoomsRecyclerView: RecyclerView
-    private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
+    private lateinit var availableRoomsRecyclerView: androidx.recyclerview.widget.RecyclerView
+    private var availableRoomsAdapter: androidx.recyclerview.widget.RecyclerView.Adapter<*>? = null
     private var roomNameSelected: String? = null
     private lateinit var viewDevicePresenter: ViewDevicePresenter
     private lateinit var progressDialog: ProgressDialog
@@ -159,7 +159,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
                 availableRoomsList.add(roomsAvailable)
             }
         }
-        var layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        var layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         availableRoomsRecyclerView.layoutManager = layoutManager
         availableRoomsAdapter = ShowRoomsAdapter(availableRoomsList, requireContext(), viewDevicePresenter)
         availableRoomsRecyclerView.adapter = availableRoomsAdapter

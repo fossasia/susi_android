@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.device.deviceconnect.adapters.recycleradapters
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.room_recycler_layout.view.delete_room
 import kotlinx.android.synthetic.main.room_recycler_layout.view.image_tick
 import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
@@ -13,7 +13,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.device.deviceconnect.DeviceConnectFragment
 import org.fossasia.susi.ai.device.deviceconnect.contract.IDeviceConnectPresenter
 
-class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context, private val deviceConnectPresenter: IDeviceConnectPresenter) : RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
+class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragment.AvailableRoomsFormat>, val context: Context, private val deviceConnectPresenter: IDeviceConnectPresenter) : androidx.recyclerview.widget.RecyclerView.Adapter<RoomsAdapter.ViewHolder>() {
 
     private var selectedIndex: Int = -1
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
@@ -36,7 +36,7 @@ class RoomsAdapter(private val availableRoomsList: ArrayList<DeviceConnectFragme
         holder.itemView.room_text.text = availableRoomsList[p1].room
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         init {
             var roomNameClicked: String? = null

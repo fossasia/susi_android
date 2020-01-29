@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_ANONYMOUS_PARAMETER")
+
 package org.fossasia.susi.ai.chat
 
 import ai.kitt.snowboy.MsgEnum
@@ -21,13 +23,6 @@ import android.os.Message
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.view.GestureDetectorCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -40,6 +35,11 @@ import android.view.animation.OvershootInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.view.GestureDetectorCompat
+import androidx.core.view.ViewCompat
+import com.google.android.material.snackbar.Snackbar
 import io.realm.RealmResults
 import java.util.Locale
 import kotlinx.android.synthetic.main.activity_chat.*
@@ -88,6 +88,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -312,7 +313,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     override fun setupAdapter(chatMessageDatabaseList: RealmResults<ChatMessage>) {
-        val linearLayoutManager = LinearLayoutManager(this)
+        val linearLayoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
         linearLayoutManager.stackFromEnd = true
 
         rv_chat_feed.layoutManager = linearLayoutManager
@@ -337,9 +338,9 @@ class ChatActivity : AppCompatActivity(), IChatView {
             }
         }
 
-        rv_chat_feed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        rv_chat_feed.addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
             @SuppressLint("RestrictedApi")
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 if (linearLayoutManager.findLastCompletelyVisibleItemPosition() < rv_chat_feed.adapter?.itemCount!!.minus(5)) {
@@ -365,6 +366,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     // Take user's speech as input and send the message
+    @SuppressLint("RestrictedApi")
     override fun promptSpeechInput() {
         if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
@@ -380,6 +382,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     // Replies user with Speech
+    @SuppressLint("RestrictedApi")
     override fun voiceReply(reply: String, language: String) {
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE

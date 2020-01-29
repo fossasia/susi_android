@@ -1,10 +1,10 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import java.util.ArrayList
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.TabViewHolder
@@ -17,7 +17,7 @@ class TableAdapter(
     private val column: List<String?>,
     private val data: List<String?>
 ) :
-    RecyclerView.Adapter<TabViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<TabViewHolder>() {
     private lateinit var context: Context
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TabViewHolder {
@@ -32,7 +32,7 @@ class TableAdapter(
             smallData.add(data[column.size * position + columnFlag])
         }
 
-        val manager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        val manager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.VERTICAL, false)
         holder.view.layoutManager = manager
         val verticalRecyclerAdapter = VerticalRecyclerAdapter(context, column, smallData)
         holder.view.adapter = verticalRecyclerAdapter

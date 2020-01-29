@@ -3,10 +3,10 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
@@ -16,7 +16,7 @@ import org.fossasia.susi.ai.helper.AndroidHelper
 import org.fossasia.susi.ai.helper.MapHelper
 import timber.log.Timber
 
-class MapViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class MapViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
     val mapImage: ImageView by bindView(R.id.map_image)
 

@@ -1,14 +1,14 @@
 package org.fossasia.susi.ai.skills.skilllisting.adapters.recycleradapters
 
 import android.content.Context
-import android.support.annotation.NonNull
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.SkillsBasedOnMetrics
 import org.fossasia.susi.ai.helper.StartSnapHelper
@@ -17,16 +17,16 @@ import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.GroupViewHo
 import org.fossasia.susi.ai.skills.skilllisting.adapters.viewholders.SkillGroupViewHolder
 
 class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetrics, val skillCallback: SkillFragmentCallback) :
-        RecyclerView.Adapter<RecyclerView.ViewHolder>(), SkillGroupViewHolder.ClickListener {
+        androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>(), SkillGroupViewHolder.ClickListener {
 
     private val VIEW_TYPE_METRIC = 0
     private val VIEW_TYPE_GROUP = 1
-    private lateinit var skillAdapterSnapHelper: SnapHelper
+    private lateinit var skillAdapterSnapHelper: androidx.recyclerview.widget.SnapHelper
 
     private val clickListener: SkillGroupViewHolder.ClickListener = this
 
     @NonNull
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         if (holder is GroupViewHolder) {
             if (metrics.metricsList[position] != null) {
                 holder.groupName.text = metrics.metricsGroupTitles[position]
@@ -34,7 +34,7 @@ class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetric
 
             skillAdapterSnapHelper = StartSnapHelper()
             holder.skillList.setHasFixedSize(true)
-            val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
             holder.skillList.layoutManager = layoutManager
             holder.skillList.adapter = SkillListAdapter(context, metrics.metricsList[position], skillCallback)
             holder.skillList.onFlingListener = null
@@ -72,7 +72,7 @@ class SkillMetricsAdapter(val context: Context, val metrics: SkillsBasedOnMetric
     }
 
     @NonNull
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_METRIC) {
             val itemView = LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_skill_group, parent, false)

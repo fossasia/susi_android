@@ -1,11 +1,11 @@
 package org.fossasia.susi.ai.device.viewdevice.adapters
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.room_recycler_layout.view.delete_room
 import kotlinx.android.synthetic.main.room_recycler_layout.view.image_tick
 import kotlinx.android.synthetic.main.room_recycler_layout.view.room_text
@@ -18,7 +18,7 @@ class ShowRoomsAdapter(
     val context: Context,
     private val viewDevicePresenter: IViewDevicePresenter
 ) :
-    RecyclerView.Adapter<ShowRoomsAdapter.ViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<ShowRoomsAdapter.ViewHolder>() {
 
     private var selectedIndex: Int = -1
 
@@ -42,7 +42,7 @@ class ShowRoomsAdapter(
         return availableRoomsList.size
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         init {
             itemView.delete_room.setOnClickListener {

@@ -2,13 +2,13 @@ package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
 import android.net.Uri
-import android.support.customtabs.CustomTabsIntent
-import android.support.v7.widget.RecyclerView
 import android.text.Html
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.recyclerview.widget.RecyclerView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.VerticalCellViewHolder
 import timber.log.Timber
@@ -21,7 +21,7 @@ class VerticalRecyclerAdapter(
     private val cols: List<String?>,
     private val data: List<String?>
 ) :
-    RecyclerView.Adapter<VerticalCellViewHolder>() {
+    androidx.recyclerview.widget.RecyclerView.Adapter<VerticalCellViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VerticalCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.table_recylcer_item, parent, false)

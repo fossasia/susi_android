@@ -8,13 +8,13 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
-import android.support.annotation.NonNull
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.NonNull
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import java.util.Locale
 import kotlinx.android.synthetic.main.activity_chat.*
 import kotlinx.android.synthetic.main.fragment_sttframe.*
@@ -28,7 +28,7 @@ import timber.log.Timber
 /**
  * Created by meeera on 17/8/17.
  */
-class STTFragment : Fragment() {
+class STTFragment : androidx.fragment.app.Fragment() {
     lateinit var recognizer: SpeechRecognizer
     lateinit var chatPresenter: IChatPresenter
     private val thisActivity = activity
@@ -85,7 +85,7 @@ class STTFragment : Fragment() {
     private fun setupCommands(rootView: View) {
         var voiceCommand = getResources().getStringArray(R.array.voiceCommands)
         var voiceCommandsList = voiceCommand.toCollection(ArrayList())
-        rootView.clickableCommands.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rootView.clickableCommands.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
         rootView.clickableCommands.adapter = VoiceCommandsAdapter(voiceCommandsList, activity)
     }
 
