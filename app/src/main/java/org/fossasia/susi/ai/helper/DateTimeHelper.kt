@@ -39,6 +39,11 @@ object DateTimeHelper {
             return sdf.format(Date())
         }
 
+    val today: Date
+        get() {
+            return Calendar.getInstance().time
+        }
+
     /**
      * Method to format date from server
 
@@ -46,7 +51,7 @@ object DateTimeHelper {
      * *
      * @return Date
      */
-    private fun formatDate(date: String): Date? {
+    private fun formatDate(date: String): Date {
         val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         sdf.timeZone = TimeZone.getTimeZone("UTC")
         var dateIn: Date?
@@ -54,7 +59,7 @@ object DateTimeHelper {
             sdf.parse(date)
         } catch (e: Exception) {
             Timber.e(e)
-            null
+            today
         }
 
         return dateIn
@@ -85,6 +90,25 @@ object DateTimeHelper {
         val sdf = SimpleDateFormat("hh:mm aaa")
         val tz = TimeZone.getDefault()
         sdf.timeZone = tz
-        return sdf.format(formatDate(date))
+        return if (date.isEmpty()) {
+            throw IllegalArgumentException("date argument is empty")
+        } else {
+            sdf.format(formatDate(date))
+        }
+    }
+
+    fun formatDate(timestamp: String, months: Array<String>): String {
+        return if (timestamp.length > 10 && months.size == 12) {
+            var date: String? = ""
+            timestamp.trim()
+            val month = timestamp.substring(5, 7).toInt()
+            date = timestamp.substring(8, 10) + " " +
+                    months[month - 1].toString() +
+                    ", " + timestamp.substring(0, 4)
+
+            date
+        } else {
+            throw IllegalArgumentException("Timestamp or Months format not correct")
+        }
     }
 }
