@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Constant
+import org.fossasia.susi.ai.helper.DateTimeHelper
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.Feedback
@@ -79,7 +80,7 @@ class FeedbackAdapter(
                     }
                     if (arrangedFeedbackList[position].timestamp != null &&
                             !TextUtils.isEmpty(arrangedFeedbackList[position].timestamp)) {
-                        val date: String? = getDate(arrangedFeedbackList[position].timestamp)
+                        val date: String? = DateTimeHelper.formatDate(arrangedFeedbackList[position].timestamp as String, context.resources.getStringArray(R.array.months))
                         if (date != null) {
                             holder.feedbackDate.text = date
                         } else {
@@ -97,18 +98,6 @@ class FeedbackAdapter(
                 holder.seeAllReviews.visibility = View.VISIBLE
             }
         }
-    }
-
-    private fun getDate(timestamp: String?): String? {
-        var date: String? = ""
-        timestamp?.trim()
-        val month = timestamp?.substring(5, 7)?.toInt()
-        if (month != null) {
-            date = timestamp.substring(8, 10) + " " +
-                    context.resources.getStringArray(R.array.months)[month - 1].toString() +
-                    ", " + timestamp.substring(0, 4)
-        }
-        return date
     }
 
     override fun onItemClicked(position: Int) {
