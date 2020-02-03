@@ -69,6 +69,8 @@
             android:padding="@dimen/padding_moderate"
             android:background="@color/browser_actions_bg_grey"
             android:visibility="gone"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
             android:id="@+id/skillWiseSearchEdit" />
 
         <TextView
