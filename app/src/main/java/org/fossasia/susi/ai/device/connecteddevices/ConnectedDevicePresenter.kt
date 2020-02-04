@@ -8,15 +8,13 @@ import org.fossasia.susi.ai.rest.responses.susi.ConnectedDevicesResponse
 import retrofit2.Response
 import timber.log.Timber
 
-class ConnectedDevicePresenter(val connectedDeviceFragment: ConnectedDeviceFragment) :
+class ConnectedDevicePresenter(private val connectedDeviceView: IConnectedDeviceView) :
         IConnectedDevicePresenter,
         IRoomModel.onConnectedDeviceFetchingFinishedListener {
 
     private val roomModel: RoomModel = RoomModel()
-    private var connectedDeviceView: IConnectedDeviceView? = null
 
     override fun onAttach(connectedDeviceView: IConnectedDeviceView) {
-        this.connectedDeviceView = connectedDeviceView
     }
 
     override fun getDevices() {
