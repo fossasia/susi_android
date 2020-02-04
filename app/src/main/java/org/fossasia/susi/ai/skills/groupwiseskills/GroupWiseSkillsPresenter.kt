@@ -19,14 +19,12 @@ import timber.log.Timber
  *
  * Created by arundhati24 on 16/07/2018.
  */
-class GroupWiseSkillsPresenter(val groupWiseSkillsFragment: GroupWiseSkillsFragment) : IGroupWiseSkillsPresenter,
+class GroupWiseSkillsPresenter(private val groupWiseSkillsView: IGroupWiseSkillsView) : IGroupWiseSkillsPresenter,
         IGroupWiseSkillsModel.OnFetchSkillsFinishedListener {
     private var groupWiseSkillsModel: IGroupWiseSkillsModel = GroupWiseSkillsModel()
-    private var groupWiseSkillsView: IGroupWiseSkillsView? = null
     private var skills = GroupWiseSkills("", ArrayList())
 
     override fun onAttach(groupWiseSkillsView: IGroupWiseSkillsView) {
-        this.groupWiseSkillsView = groupWiseSkillsView
     }
 
     override fun getSkills(swipeToRefreshActive: Boolean, group: String) {
@@ -60,6 +58,5 @@ class GroupWiseSkillsPresenter(val groupWiseSkillsFragment: GroupWiseSkillsFragm
 
     override fun onDetach() {
         groupWiseSkillsModel.cancelFetch()
-        groupWiseSkillsView = null
     }
 }

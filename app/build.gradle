@@ -140,6 +140,11 @@ dependencies {
     implementation "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"
     kapt "com.jakewharton:butterknife-compiler:${rootConfiguration.butterKnifeVersion}"
 
+    //koin
+    implementation "org.koin:koin-android-scope:${rootConfiguration.koinVersion}"
+    implementation "org.koin:koin-android:${rootConfiguration.koinVersion}"
+    testImplementation "org.koin:koin-test:${rootConfiguration.koinVersion}"
+
     //For Picasso
     implementation "com.squareup.picasso:picasso:${rootConfiguration.picassoVersion}"
 

@@ -32,10 +32,13 @@ import org.fossasia.susi.ai.dataclasses.AddDeviceQuery
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.DEVICE_DETAILS
 import org.fossasia.susi.ai.device.DeviceActivity.Companion.MAC_ID
 import org.fossasia.susi.ai.device.viewdevice.adapters.ShowRoomsAdapter
+import org.fossasia.susi.ai.device.viewdevice.contract.IViewDevicePresenter
 import org.fossasia.susi.ai.device.viewdevice.contract.IViewDeviceView
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.rest.responses.susi.Device
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class ViewDeviceFragment : Fragment(), IViewDeviceView {
 
@@ -49,7 +52,7 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
     private lateinit var availableRoomsRecyclerView: RecyclerView
     private var availableRoomsAdapter: RecyclerView.Adapter<*>? = null
     private var roomNameSelected: String? = null
-    private lateinit var viewDevicePresenter: ViewDevicePresenter
+    private val viewDevicePresenter: IViewDevicePresenter by inject { parametersOf(this) }
     private lateinit var progressDialog: ProgressDialog
 
     override fun onCreateView(
@@ -75,7 +78,6 @@ class ViewDeviceFragment : Fragment(), IViewDeviceView {
         realm = Realm.getDefaultInstance()
         progressDialog = ProgressDialog(context)
 
-        viewDevicePresenter = ViewDevicePresenter()
         viewDevicePresenter.onAttach(this, macId, device, requireContext())
 
         initialSetUp()

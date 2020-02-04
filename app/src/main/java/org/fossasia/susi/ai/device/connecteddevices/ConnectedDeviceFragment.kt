@@ -20,11 +20,13 @@ import org.fossasia.susi.ai.device.connecteddevices.adapters.ConnectedDevicesAda
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDevicePresenter
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDeviceView
 import org.fossasia.susi.ai.rest.responses.susi.Device
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
 
     private lateinit var connectedDeviceRecyclerView: RecyclerView
-    private lateinit var connectedDevicePresenter: IConnectedDevicePresenter
+    private val connectedDevicePresenter: IConnectedDevicePresenter by inject { parametersOf(this) }
     private var connectedDevicesAdapter: RecyclerView.Adapter<*>? = null
     private val connectedDeviceList: ArrayList<Device> = ArrayList()
     private val macIdList: MutableList<String> = ArrayList()
@@ -45,8 +47,6 @@ class ConnectedDeviceFragment : Fragment(), IConnectedDeviceView {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        connectedDevicePresenter = ConnectedDevicePresenter(this)
-        connectedDevicePresenter.onAttach(this)
         getDeviceList()
 
         refresh_device_layout.setOnRefreshListener {

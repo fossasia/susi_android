@@ -8,6 +8,9 @@ import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import org.fossasia.susi.ai.di.modules
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 import timber.log.Timber
 
 class MainApplication : Application() {
@@ -24,6 +27,10 @@ class MainApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        startKoin {
+            androidContext(this@MainApplication)
+            modules(listOf(modules))
+        }
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
