@@ -116,14 +116,7 @@ class STTFragment : Fragment() {
                     speechProgress.onResultOrOnError()
                 val thisActivity = activity
                 if (thisActivity is ChatActivity) thisActivity.setText(voiceResults[0])
-                recognizer.destroy()
-                if ((activity as ChatActivity).recordingThread != null) {
-                    chatPresenter.startHotwordDetection()
-                }
-                (activity as ChatActivity).fabsetting.show()
-                activity?.searchChat?.show()
-                activity?.voiceSearchChat?.show()
-                activity?.btnSpeak?.isEnabled = true
+                restoreActivityState()
                 activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
@@ -175,6 +168,18 @@ class STTFragment : Fragment() {
         recognizer.startListening(intent)
     }
 
+    private fun restoreActivityState() {
+        if ((activity as ChatActivity).recordingThread != null) {
+            chatPresenter.startHotwordDetection()
+        }
+        (activity as ChatActivity).fabsetting.show()
+        activity?.searchChat?.show()
+        activity?.voiceSearchChat?.show()
+        activity?.btnSpeak?.isEnabled = true
+        activity?.chatSearchInput?.visibility = View.GONE
+        recognizer?.destroy()
+    }
+
     override fun onPause() {
         super.onPause()
         if (thisActivity is ChatActivity) {
@@ -190,6 +195,8 @@ class STTFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        restoreActivityState()
+        activity?.supportFragmentManager?.popBackStack()
         mainHandler.removeCallbacks(runnable)
         subHandler.removeCallbacks(delayRunnable)
     }
