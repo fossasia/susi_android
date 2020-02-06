@@ -73,7 +73,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
 
-        settingsPresenter = SettingsPresenter(this)
+        settingsPresenter = SettingsPresenter(this, null)
         loginLogoutModulePresenter = LoginLogoutModulePresenter(this)
         val skillFragment = SkillListingFragment()
         val privacyFragment = PrivacyFragment()

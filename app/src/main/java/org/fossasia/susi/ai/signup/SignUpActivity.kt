@@ -22,6 +22,8 @@ import org.fossasia.susi.ai.login.LoginActivity
 import org.fossasia.susi.ai.signup.contract.ISignUpPresenter
 import org.fossasia.susi.ai.signup.contract.ISignUpView
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * <h1>The SignUp activity.</h1>
@@ -32,7 +34,7 @@ import org.fossasia.susi.ai.skills.SkillsActivity
 
 class SignUpActivity : AppCompatActivity(), ISignUpView {
 
-    private lateinit var signUpPresenter: ISignUpPresenter
+    private val signUpPresenter: ISignUpPresenter by inject { parametersOf(this) }
     private lateinit var progressDialog: ProgressDialog
     private lateinit var forgotPasswordProgressDialog: Dialog
     private lateinit var builder: AlertDialog.Builder
@@ -75,9 +77,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
         addListeners()
 
         cancelRequestPassword()
-
-        signUpPresenter = SignUpPresenter(this)
-        signUpPresenter.onAttach(this)
     }
 
     private fun addListeners() {
@@ -265,11 +264,6 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
             signUpPresenter.signUp(stringEmail, stringPassword, stringConfirmPassword, !customServerSignUp.isChecked, stringURL, acceptTermsAndConditions.isChecked)
         }
-    }
-
-    override fun onDestroy() {
-        signUpPresenter.onDetach()
-        super.onDestroy()
     }
 
     override fun showForgotPasswordProgress(boolean: Boolean) {

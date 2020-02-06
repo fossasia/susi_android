@@ -53,6 +53,8 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.PrefManager
 import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.skills.SkillsActivity
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
 /**
@@ -65,7 +67,7 @@ import timber.log.Timber
 @Suppress("UNUSED_PARAMETER", "DEPRECATION")
 class ChatActivity : AppCompatActivity(), IChatView {
 
-    lateinit var chatPresenter: IChatPresenter
+    private val chatPresenter: IChatPresenter by inject { parametersOf(this) }
     lateinit var youtubeVid: IYoutubeVid
     private val PERM_REQ_CODE = 1
     private lateinit var recyclerAdapter: ChatFeedRecyclerAdapter
@@ -95,9 +97,6 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         val firstRun = intent.getBooleanExtra(Constant.FIRST_TIME, false)
         gestureDetectorCompat = GestureDetectorCompat(this, CustomGestureListener())
-
-        chatPresenter = ChatPresenter(this)
-        chatPresenter.onAttach(this)
 
         youtubeVid = YoutubeVid(this)
         setUpUI()

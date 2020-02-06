@@ -14,9 +14,6 @@ class ConnectedDevicePresenter(private val connectedDeviceView: IConnectedDevice
 
     private val roomModel: RoomModel = RoomModel()
 
-    override fun onAttach(connectedDeviceView: IConnectedDeviceView) {
-    }
-
     override fun getDevices() {
         roomModel.getConnectedDevices(this)
     }

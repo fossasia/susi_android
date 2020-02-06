@@ -8,11 +8,7 @@ package org.fossasia.susi.ai.signup.contract
 
 interface ISignUpPresenter {
 
-    fun onAttach(signUpView: ISignUpView)
-
     fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean)
-
-    fun onDetach()
 
     fun cancelSignUp()
 

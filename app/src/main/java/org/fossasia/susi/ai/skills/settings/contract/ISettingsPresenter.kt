@@ -12,10 +12,6 @@ interface ISettingsPresenter {
 
     fun enableHotword(): Boolean
 
-    fun onAttach(settingView: ISettingsView)
-
-    fun onDetach()
-
     fun resetPassword(password: String, newPassword: String, conPassword: String)
 
     fun checkForPassword(password: String, what: String)
