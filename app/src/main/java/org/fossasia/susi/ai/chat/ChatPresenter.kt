@@ -45,12 +45,11 @@ import timber.log.Timber
  * The P in MVP
  * Created by chiragw15 on 9/7/17.
  */
-class ChatPresenter(context: Context) :
+class ChatPresenter(context: Context, private val chatView: IChatView?) :
         IChatPresenter, IChatModel.OnRetrievingMessagesFinishedListener,
         IChatModel.OnLocationFromIPReceivedListener, IChatModel.OnMessageFromSusiReceivedListener,
         IDatabaseRepository.OnDatabaseUpdateListener {
 
-    private var chatView: IChatView? = null
     var chatModel: IChatModel = ChatModel()
     private var utilModel: UtilModel = UtilModel(context)
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
@@ -76,10 +75,6 @@ class ChatPresenter(context: Context) :
 
     @Volatile
     var queueExecuting = AtomicBoolean(false)
-
-    override fun onAttach(chatView: IChatView) {
-        this.chatView = chatView
-    }
 
     override fun setUp() {
 
@@ -619,6 +614,5 @@ class ChatPresenter(context: Context) :
     override fun onDetach() {
         locationHelper.removeListener()
         databaseRepository.closeDatabase()
-        chatView = null
     }
 }

@@ -22,6 +22,8 @@ import org.fossasia.susi.ai.helper.Utils.hideSoftKeyboard
 import org.fossasia.susi.ai.login.contract.ILoginPresenter
 import org.fossasia.susi.ai.login.contract.ILoginView
 import org.fossasia.susi.ai.signup.SignUpActivity
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 /**
  * <h1>The Login activity.</h1>
@@ -34,7 +36,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
 
     lateinit var forgotPasswordProgressDialog: AlertDialog
     lateinit var builder: AlertDialog.Builder
-    private lateinit var loginPresenter: ILoginPresenter
+    private val loginPresenter: ILoginPresenter by inject { parametersOf(this) }
     private lateinit var progressDialog: ProgressDialog
 
     @SuppressLint("InflateParams")
@@ -67,8 +69,8 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         cancelRequestPassword()
         requestPassword()
 
-        loginPresenter = LoginPresenter(this)
         loginPresenter.onAttach(this)
+
         val bundle = intent.extras
         val string = bundle?.getString("email")
         if (string != null)
@@ -206,11 +208,6 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         val values = arrayOf<CharSequence>(email.editText?.text.toString(), password.editText?.text.toString())
         outState.putCharSequenceArray(Constant.SAVED_STATES, values)
         outState.putBoolean(Constant.SERVER, customServer.isChecked)
-    }
-
-    override fun onDestroy() {
-        loginPresenter.onDetach()
-        super.onDestroy()
     }
 
     override fun resetPasswordSuccess() {

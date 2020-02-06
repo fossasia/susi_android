@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.signup
 
+import android.content.Context
 import android.graphics.Color
 import java.net.UnknownHostException
 import org.fossasia.susi.ai.R
@@ -27,19 +28,14 @@ import retrofit2.Response
  * Created by mayanktripathi on 05/07/17.
  */
 
-class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
+class SignUpPresenter(context: Context, private val signUpView: ISignUpView) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
 
-    private var signUpView: ISignUpView? = null
     private var signUpModel: SignUpModel = SignUpModel()
-    private var utilModel: UtilModel = UtilModel(signUpActivity)
+    private var utilModel: UtilModel = UtilModel(context)
     private var settingView: ISettingsView? = null
     lateinit var email: String
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
-
-    override fun onAttach(signUpView: ISignUpView) {
-        this.signUpView = signUpView
-    }
 
     override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean) {
 
@@ -131,10 +127,6 @@ class SignUpPresenter(signUpActivity: SignUpActivity) : ISignUpPresenter, ISignU
 
     override fun cancelSignUp() {
         signUpModel.cancelSignUp()
-    }
-
-    override fun onDetach() {
-        signUpView = null
     }
 
     override fun loginLogout() {

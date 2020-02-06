@@ -39,6 +39,8 @@ import org.fossasia.susi.ai.skills.help.HelpFragment
 import org.fossasia.susi.ai.skills.privacy.PrivacyFragment
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
 /**
@@ -52,7 +54,7 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
     private val TAG_ABOUT_FRAGMENT = "AboutUsFragment"
     private val TAG_HELP_FRAGMENT = "HelpFragment"
     private val TAG_PRIVACY_FRAGMENT = "PrivacyFragment"
-    private lateinit var settingsPresenter: ISettingsPresenter
+    private val settingsPresenter: ISettingsPresenter by inject { parametersOf(this) }
     private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
 
     private lateinit var rate: Preference
@@ -90,8 +92,6 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
 
         val thisActivity = activity
         if (thisActivity is SkillsActivity) thisActivity.title = getString(R.string.action_settings)
-        settingsPresenter = SettingsPresenter(activity as SkillsActivity)
-        settingsPresenter.onAttach(this)
         loginLogoutModulePresenter = LoginLogoutModulePresenter(requireContext())
 
         setHasOptionsMenu(true)
@@ -490,10 +490,5 @@ class ChatSettingsFragment : PreferenceFragmentCompat(), ISettingsView {
             if (!hasFocus)
                 settingsPresenter.checkForPassword(conPassword.editText?.text.toString(), Constant.CONFIRM_PASSWORD)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        settingsPresenter.onDetach()
     }
 }

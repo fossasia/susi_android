@@ -35,15 +35,14 @@ import timber.log.Timber
  * The P in MVP
  * Created by chiragw15 on 4/7/17.
  */
-class LoginPresenter(loginActivity: LoginActivity) :
+class LoginPresenter(context: Context, private val loginView: ILoginView) :
         ILoginPresenter,
         ILoginModel.OnLoginFinishedListener,
         IForgotPasswordModel.OnFinishListener {
 
     private var loginModel: LoginModel = LoginModel()
-    private var utilModel: UtilModel = UtilModel(loginActivity)
+    private var utilModel: UtilModel = UtilModel(context)
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
-    private var loginView: ILoginView? = null
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
     lateinit var email: String
     lateinit var message: String
@@ -52,7 +51,6 @@ class LoginPresenter(loginActivity: LoginActivity) :
     private lateinit var credentialRequest: CredentialRequest
 
     override fun onAttach(loginView: ILoginView) {
-        this.loginView = loginView
 
         if (utilModel.getAnonymity()) {
             loginView.skipLogin()
@@ -193,10 +191,6 @@ class LoginPresenter(loginActivity: LoginActivity) :
     override fun onErrorSetting() {
         loginView?.showProgress(false)
         loginView?.onLoginSuccess(message)
-    }
-
-    override fun onDetach() {
-        loginView = null
     }
 
     override fun requestPassword(email: String, url: String, isPersonalServerChecked: Boolean) {
