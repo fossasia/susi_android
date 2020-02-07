@@ -9,9 +9,6 @@ import org.fossasia.susi.ai.rest.responses.susi.SusiResponse
  */
 interface IChatPresenter {
 
-    // At the start of Activity
-    fun onAttach(chatView: IChatView)
-
     fun retrieveOldMessages(firstRun: Boolean)
     fun getUndeliveredMessages()
     fun setUp()

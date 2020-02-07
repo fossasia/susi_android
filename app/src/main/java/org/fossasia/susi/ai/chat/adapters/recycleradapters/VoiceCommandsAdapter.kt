@@ -20,7 +20,7 @@ class VoiceCommandsAdapter(val items: ArrayList<String>, val context: Context?) 
     lateinit var chatPresenter: IChatPresenter
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        chatPresenter = ChatPresenter(context as Context)
+        chatPresenter = ChatPresenter(context as Context, null)
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_voice_commands, parent, false))
     }
 

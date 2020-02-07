@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.facebook.shimmer.ShimmerFrameLayout
-import kotlin.collections.ArrayList
 import kotlinx.android.synthetic.main.fragment_group_wise_skill_listing.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
@@ -25,6 +24,8 @@ import org.fossasia.susi.ai.skills.groupwiseskills.adapters.recycleradapters.Ski
 import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsPresenter
 import org.fossasia.susi.ai.skills.groupwiseskills.contract.IGroupWiseSkillsView
 import org.fossasia.susi.ai.skills.skillSearch.SearchSkillFragment
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
 /**
@@ -33,7 +34,7 @@ import timber.log.Timber
  */
 class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLayout.OnRefreshListener {
     private lateinit var skillAdapterSnapHelper: SnapHelper
-    private lateinit var groupWiseSkillsPresenter: IGroupWiseSkillsPresenter
+    private val groupWiseSkillsPresenter: IGroupWiseSkillsPresenter by inject { parametersOf(this) }
     private var skills = GroupWiseSkills("", ArrayList())
     private lateinit var skillsAdapter: SkillsListAdapter
     private lateinit var skillCallback: SkillFragmentCallback
@@ -66,8 +67,6 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     @NonNull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         activity?.title = this.skills.group
-        groupWiseSkillsPresenter = GroupWiseSkillsPresenter(this)
-        groupWiseSkillsPresenter.onAttach(this)
         swipeRefreshLayout.setOnRefreshListener(this)
         setUPAdapter()
         groupWiseSkillsPresenter.getSkills(swipeRefreshLayout.isRefreshing, skills.group)
