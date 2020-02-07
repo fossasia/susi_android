@@ -170,7 +170,6 @@ class STTFragment : Fragment() {
         recognizer.startListening(intent)
     }
     private fun restoreActivityState() {
-
         if ((activity as ChatActivity).recordingThread != null) {
             chatPresenter.startHotwordDetection()
         }
