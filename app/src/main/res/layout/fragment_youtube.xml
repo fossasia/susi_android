@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="org.fossasia.susi.ai.chat.YoutubeFragment">
+    <Button
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="@string/close"
+        android:textColor="@color/md_black_1000"
+        android:layout_alignParentRight="true"
+        android:background="@color/translucent_black"
+        android:id="@+id/youtube_stop_btn"
+        android:layout_below="@id/youtube_fragment"/>
+    <FrameLayout
+        android:name="com.google.android.youtube.player.YouTubePlayerSupportFragment"
+        android:layout_width="match_parent"
+        android:id="@+id/youtube_fragment"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>
