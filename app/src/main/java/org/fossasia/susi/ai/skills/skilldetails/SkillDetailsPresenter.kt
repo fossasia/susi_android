@@ -1,5 +1,6 @@
 package org.fossasia.susi.ai.skills.skilldetails
 
+import android.content.Context
 import java.net.UnknownHostException
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.SkillDetailsModel
@@ -25,18 +26,13 @@ import timber.log.Timber
  *
  * @author arundhati24
  */
-class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkillDetailsPresenter,
+class SkillDetailsPresenter(context: Context, private val skillDetailsView: ISkillDetailsView?) : ISkillDetailsPresenter,
         ISkillDetailsModel.OnUpdateRatingsFinishedListener, ISkillDetailsModel.OnUpdateUserRatingFinishedListener,
         ISkillDetailsModel.OnUpdateFeedbackFinishedListener, ISkillDetailsModel.OnFetchFeedbackFinishedListener,
         ISkillDetailsModel.OnReportSendListener {
 
     private var skillDetailsModel: SkillDetailsModel = SkillDetailsModel()
-    private var skillDetailsView: ISkillDetailsView? = null
-    private val utilModel: UtilModel = UtilModel(skillDetailsFragment.requireContext())
-
-    override fun onAttach(skillDetailsView: ISkillDetailsView) {
-        this.skillDetailsView = skillDetailsView
-    }
+    private val utilModel: UtilModel = UtilModel(context)
 
     override fun updateRatings(map: Map<String, String>) {
         skillDetailsModel.fiveStarRateSkill(map, this)
@@ -163,9 +159,5 @@ class SkillDetailsPresenter(skillDetailsFragment: SkillDetailsFragment) : ISkill
         } else {
             skillDetailsView?.updateSkillReportStatus(utilModel.getString(R.string.report_send_success))
         }
-    }
-
-    override fun onDetach() {
-        skillDetailsView = null
     }
 }
