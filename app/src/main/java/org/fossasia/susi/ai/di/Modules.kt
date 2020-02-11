@@ -6,9 +6,13 @@ import org.fossasia.susi.ai.chat.contract.IChatView
 import org.fossasia.susi.ai.data.GroupWiseSkillsModel
 import org.fossasia.susi.ai.data.LoginModel
 import org.fossasia.susi.ai.data.SettingModel
+import org.fossasia.susi.ai.data.SignUpModel
+import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IGroupWiseSkillsModel
 import org.fossasia.susi.ai.data.contract.ILoginModel
 import org.fossasia.susi.ai.data.contract.ISettingModel
+import org.fossasia.susi.ai.data.db.DatabaseRepository
+import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.device.connecteddevices.ConnectedDevicePresenter
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDevicePresenter
 import org.fossasia.susi.ai.device.connecteddevices.contract.IConnectedDeviceView
@@ -46,7 +50,15 @@ val modules: Module = module(override = true) {
 
     factory<ILoginPresenter> { (view: ILoginView) -> LoginPresenter(androidContext(), view) }
 
-    factory<ISignUpPresenter> { (view: ISignUpView) -> SignUpPresenter(androidContext(), view) }
+    factory<ISignUpPresenter> { (view: ISignUpView) -> SignUpPresenter(get(), UtilModel(androidContext()), get(), view) }
+
+    single {
+        DatabaseRepository() as IDatabaseRepository
+    }
+
+    single {
+        SignUpModel()
+    }
 
     factory<ISettingsPresenter> { (view: ISettingsView) -> SettingsPresenter(androidContext(), view) }
 
