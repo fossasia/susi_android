@@ -11,7 +11,6 @@ import com.google.android.gms.tasks.OnCompleteListener
 import java.net.UnknownHostException
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.ForgotPasswordModel
-import org.fossasia.susi.ai.data.LoginModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
 import org.fossasia.susi.ai.data.contract.ILoginModel
@@ -27,6 +26,9 @@ import org.fossasia.susi.ai.rest.responses.susi.ForgotPasswordResponse
 import org.fossasia.susi.ai.rest.responses.susi.LoginResponse
 import org.fossasia.susi.ai.rest.responses.susi.Settings
 import org.fossasia.susi.ai.rest.responses.susi.UserSetting
+import org.koin.core.KoinComponent
+import org.koin.core.inject
+import org.koin.core.parameter.parametersOf
 import retrofit2.Response
 import timber.log.Timber
 
@@ -38,9 +40,9 @@ import timber.log.Timber
 class LoginPresenter(context: Context, private val loginView: ILoginView) :
         ILoginPresenter,
         ILoginModel.OnLoginFinishedListener,
-        IForgotPasswordModel.OnFinishListener {
+        IForgotPasswordModel.OnFinishListener, KoinComponent {
 
-    private var loginModel: LoginModel = LoginModel()
+    private val loginModel: ILoginModel by inject { parametersOf(this) }
     private var utilModel: UtilModel = UtilModel(context)
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
@@ -112,7 +114,7 @@ class LoginPresenter(context: Context, private val loginView: ILoginView) :
         this.email = email
         PrefManager.putString(Constant.EMAIL, this.email)
         loginView?.showProgress(true)
-        loginModel.login(email.trim { it <= ' ' }.toLowerCase(), password, this)
+        loginModel.login(email.trim { it <= ' ' }.toLowerCase(), password)
     }
 
     override fun cancelLogin() {

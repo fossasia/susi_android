@@ -13,11 +13,11 @@ import retrofit2.Response
 /**
  * Created by meeera on 14/7/17.
  */
-class SettingModel : ISettingModel {
+class SettingModel(val listener: ISettingModel.OnSettingFinishListener) : ISettingModel {
 
     private lateinit var settingResponseCall: Call<ChangeSettingResponse>
     private lateinit var resetPasswordResponseCall: Call<ResetPasswordResponse>
-    override fun sendSetting(key: String, value: String, count: Int, listener: ISettingModel.OnSettingFinishListener) {
+    override fun sendSetting(key: String, value: String, count: Int) {
         settingResponseCall = ClientBuilder.susiApi
                 .changeSettingResponse(key, value, count)
         settingResponseCall.enqueue(object : Callback<ChangeSettingResponse> {
@@ -31,7 +31,7 @@ class SettingModel : ISettingModel {
         })
     }
 
-    override fun resetPassword(password: String, newPassword: String, listener: ISettingModel.OnSettingFinishListener) {
+    override fun resetPassword(password: String, newPassword: String) {
         val email = PrefManager.getString(Constant.SAVE_EMAIL, null)
         resetPasswordResponseCall = ClientBuilder.susiApi
                 .resetPasswordResponse(email, password, newPassword)

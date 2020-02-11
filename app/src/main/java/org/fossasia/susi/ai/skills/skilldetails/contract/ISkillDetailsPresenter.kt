@@ -11,8 +11,6 @@ import org.fossasia.susi.ai.dataclasses.ReportSkillQuery
  */
 interface ISkillDetailsPresenter {
 
-    fun onAttach(skillDetailsView: ISkillDetailsView)
-
     fun updateRatings(map: Map<String, String>)
 
     fun cancelUpdateRatings()
@@ -30,6 +28,4 @@ interface ISkillDetailsPresenter {
     fun fetchFeedback(query: FetchFeedbackQuery)
 
     fun cancelFetchFeedback()
-
-    fun onDetach()
 }
