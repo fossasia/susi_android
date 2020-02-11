@@ -1,6 +1,5 @@
 package org.fossasia.susi.ai.signup
 
-import android.content.Context
 import android.graphics.Color
 import java.net.UnknownHostException
 import org.fossasia.susi.ai.R
@@ -9,7 +8,6 @@ import org.fossasia.susi.ai.data.SignUpModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.IForgotPasswordModel
 import org.fossasia.susi.ai.data.contract.ISignUpModel
-import org.fossasia.susi.ai.data.db.DatabaseRepository
 import org.fossasia.susi.ai.data.db.contract.IDatabaseRepository
 import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
@@ -28,14 +26,11 @@ import retrofit2.Response
  * Created by mayanktripathi on 05/07/17.
  */
 
-class SignUpPresenter(context: Context, private val signUpView: ISignUpView) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
+class SignUpPresenter(private val signUpModel: SignUpModel, private val utilModel: UtilModel, private val databaseRepository: IDatabaseRepository, private val signUpView: ISignUpView) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
 
-    private var signUpModel: SignUpModel = SignUpModel()
-    private var utilModel: UtilModel = UtilModel(context)
     private var settingView: ISettingsView? = null
     lateinit var email: String
     var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
-    private var databaseRepository: IDatabaseRepository = DatabaseRepository()
 
     override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean) {
 
