@@ -3,6 +3,7 @@ package org.fossasia.susi.ai.di
 import org.fossasia.susi.ai.chat.ChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatPresenter
 import org.fossasia.susi.ai.chat.contract.IChatView
+import org.fossasia.susi.ai.data.ForgotPasswordModel
 import org.fossasia.susi.ai.data.GroupWiseSkillsModel
 import org.fossasia.susi.ai.data.LoginModel
 import org.fossasia.susi.ai.data.SettingModel
@@ -50,7 +51,7 @@ val modules: Module = module(override = true) {
 
     factory<ILoginPresenter> { (view: ILoginView) -> LoginPresenter(androidContext(), view) }
 
-    factory<ISignUpPresenter> { (view: ISignUpView) -> SignUpPresenter(get(), UtilModel(androidContext()), get(), view) }
+    factory<ISignUpPresenter> { (view: ISignUpView) -> SignUpPresenter(get(), get(), UtilModel(androidContext()), get(), view) }
 
     single {
         DatabaseRepository() as IDatabaseRepository
@@ -58,6 +59,10 @@ val modules: Module = module(override = true) {
 
     single {
         SignUpModel()
+    }
+
+    single {
+        ForgotPasswordModel()
     }
 
     factory<ISettingsPresenter> { (view: ISettingsView) -> SettingsPresenter(androidContext(), view) }
