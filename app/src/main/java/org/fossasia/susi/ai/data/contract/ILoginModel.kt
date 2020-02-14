@@ -18,7 +18,7 @@ interface ILoginModel {
         fun onErrorSetting()
     }
 
-    fun login(email: String, password: String, listener: OnLoginFinishedListener)
+    fun login(email: String, password: String)
 
     fun cancelLogin()
 

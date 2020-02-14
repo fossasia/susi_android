@@ -17,12 +17,12 @@ import timber.log.Timber
  * Created by chiragw15 on 4/7/17.
  */
 
-class LoginModel : ILoginModel {
+class LoginModel(val listener: ILoginModel.OnLoginFinishedListener) : ILoginModel {
 
     private lateinit var authResponseCall: Call<LoginResponse>
     private lateinit var userSettingResponseCall: Call<UserSetting>
 
-    override fun login(email: String, password: String, listener: ILoginModel.OnLoginFinishedListener) {
+    override fun login(email: String, password: String) {
 
         authResponseCall = ClientBuilder.susiApi
                 .login(email, password)
