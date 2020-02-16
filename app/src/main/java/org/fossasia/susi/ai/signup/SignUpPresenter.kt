@@ -26,11 +26,10 @@ import retrofit2.Response
  * Created by mayanktripathi on 05/07/17.
  */
 
-class SignUpPresenter(private val signUpModel: SignUpModel, private val utilModel: UtilModel, private val databaseRepository: IDatabaseRepository, private val signUpView: ISignUpView) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
+class SignUpPresenter(private val forgotPasswordModel: ForgotPasswordModel, private val signUpModel: SignUpModel, private val utilModel: UtilModel, private val databaseRepository: IDatabaseRepository, private val signUpView: ISignUpView) : ISignUpPresenter, ISignUpModel.OnSignUpFinishedListener, IForgotPasswordModel.OnFinishListener {
 
     private var settingView: ISettingsView? = null
     lateinit var email: String
-    var forgotPasswordModel: ForgotPasswordModel = ForgotPasswordModel()
 
     override fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean) {
 
