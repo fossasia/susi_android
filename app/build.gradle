@@ -1,5 +1,5 @@
 plugins {
-    id "com.diffplug.gradle.spotless" version "3.27.0"
+    id "com.diffplug.gradle.spotless" version "4.5.1"
     id "com.github.b3er.local.properties" version "1.1"
 }
 
@@ -109,7 +109,7 @@ spotless {
 
 repositories {
     maven { url "https://jitpack.io" }
-    mavenCentral()
+    jcenter()
 }
 
 androidExtensions {
@@ -139,6 +139,11 @@ dependencies {
     //butterknife
     implementation "com.jakewharton:butterknife:${rootConfiguration.butterKnifeVersion}"
     kapt "com.jakewharton:butterknife-compiler:${rootConfiguration.butterKnifeVersion}"
+
+    //koin
+    implementation "org.koin:koin-android-scope:${rootConfiguration.koinVersion}"
+    implementation "org.koin:koin-android:${rootConfiguration.koinVersion}"
+    testImplementation "org.koin:koin-test:${rootConfiguration.koinVersion}"
 
     //For Picasso
     implementation "com.squareup.picasso:picasso:${rootConfiguration.picassoVersion}"

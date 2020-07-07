@@ -12,8 +12,6 @@ interface ISignUpPresenter {
 
     fun signUp(email: String, password: String, conpass: String, isSusiServerSelected: Boolean, url: String, isTermsAndConditionSelected: Boolean, recaptchaResponse: String)
 
-    fun onDetach()
-
     fun cancelSignUp()
 
     fun loginLogout()

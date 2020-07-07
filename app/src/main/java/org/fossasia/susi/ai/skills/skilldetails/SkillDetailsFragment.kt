@@ -44,10 +44,12 @@ import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.Feedba
 import org.fossasia.susi.ai.skills.skilldetails.adapters.recycleradapters.SkillExamplesAdapter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsPresenter
 import org.fossasia.susi.ai.skills.skilldetails.contract.ISkillDetailsView
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
-    private lateinit var skillDetailsPresenter: ISkillDetailsPresenter
+    private val skillDetailsPresenter: ISkillDetailsPresenter by inject { parametersOf(this) }
     private lateinit var loginLogoutModulePresenter: ILoginLogoutModulePresenter
 
     private lateinit var skillData: SkillData
@@ -75,9 +77,7 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        skillDetailsPresenter = SkillDetailsPresenter(this)
         loginLogoutModulePresenter = LoginLogoutModulePresenter(requireContext())
-        skillDetailsPresenter.onAttach(this)
         skillData = arguments?.getParcelable(
                 SKILL_KEY) as SkillData
         skillGroup = arguments?.getString(SKILL_GROUP).toString()
@@ -572,10 +572,5 @@ class SkillDetailsFragment : Fragment(), ISkillDetailsView {
 
     override fun updateSkillReportStatus(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onDestroyView() {
-        skillDetailsPresenter.onDetach()
-        super.onDestroyView()
     }
 }

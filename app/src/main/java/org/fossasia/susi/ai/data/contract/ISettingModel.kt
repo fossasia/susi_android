@@ -15,7 +15,7 @@ interface ISettingModel {
         fun onFailure(throwable: Throwable)
     }
 
-    fun sendSetting(key: String, value: String, count: Int, listener: OnSettingFinishListener)
+    fun sendSetting(key: String, value: String, count: Int)
 
-    fun resetPassword(password: String, newPassword: String, listener: OnSettingFinishListener)
+    fun resetPassword(password: String, newPassword: String)
 }

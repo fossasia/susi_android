@@ -1,7 +1,7 @@
 package org.fossasia.susi.ai.skills.settings
 
+import android.content.Context
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.data.SettingModel
 import org.fossasia.susi.ai.data.UtilModel
 import org.fossasia.susi.ai.data.contract.ISettingModel
 import org.fossasia.susi.ai.data.db.DatabaseRepository
@@ -10,9 +10,11 @@ import org.fossasia.susi.ai.helper.Constant
 import org.fossasia.susi.ai.helper.CredentialHelper
 import org.fossasia.susi.ai.rest.responses.susi.ChangeSettingResponse
 import org.fossasia.susi.ai.rest.responses.susi.ResetPasswordResponse
-import org.fossasia.susi.ai.skills.SkillsActivity
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsPresenter
 import org.fossasia.susi.ai.skills.settings.contract.ISettingsView
+import org.koin.core.KoinComponent
+import org.koin.core.inject
+import org.koin.core.parameter.parametersOf
 import retrofit2.Response
 
 /**
@@ -22,17 +24,12 @@ import retrofit2.Response
  * Created by mayanktripathi on 07/07/17.
  */
 
-class SettingsPresenter(skillsActivity: SkillsActivity) :
-    ISettingsPresenter, ISettingModel.OnSettingFinishListener {
+class SettingsPresenter(context: Context, private val settingView: ISettingsView?) :
+    ISettingsPresenter, ISettingModel.OnSettingFinishListener, KoinComponent {
 
-    private var settingModel: SettingModel = SettingModel()
-    private var settingView: ISettingsView? = null
-    private var utilModel: UtilModel = UtilModel(skillsActivity)
+    private val settingModel: ISettingModel by inject { parametersOf(this) }
+    private var utilModel: UtilModel = UtilModel(context)
     private var databaseRepository: IDatabaseRepository = DatabaseRepository()
-
-    override fun onAttach(settingsView: ISettingsView) {
-        this.settingView = settingsView
-    }
 
     override fun enableMic(): Boolean {
         return if ((settingView?.micPermission()) as Boolean) {
@@ -82,7 +79,7 @@ class SettingsPresenter(skillsActivity: SkillsActivity) :
             settingView?.invalidCredentials(false, Constant.NEW_PASSWORD)
             return
         }
-        settingModel.resetPassword(password, newPassword, this)
+        settingModel.resetPassword(password, newPassword)
     }
 
     override fun onSuccess(response: Response<ChangeSettingResponse>) {
@@ -97,12 +94,8 @@ class SettingsPresenter(skillsActivity: SkillsActivity) :
         settingView?.onResetPasswordResponse(response?.body()?.message.toString())
     }
 
-    override fun onDetach() {
-        settingView = null
-    }
-
     override fun sendSetting(key: String, value: String, count: Int) {
-        settingModel.sendSetting(key, value, count, this)
+        settingModel.sendSetting(key, value, count)
     }
 
     override fun checkForPassword(password: String, what: String) {

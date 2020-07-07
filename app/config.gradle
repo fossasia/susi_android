@@ -27,4 +27,5 @@ ext {
     shimmerVersion = "0.5.0"
     stethoVersion = "1.5.1"
     safetynetVersion = "16.0.0"
+    koinVersion = "2.0.1"
 }

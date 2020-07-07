@@ -13,11 +13,11 @@ import timber.log.Timber
  *
  * Created by arundhati24 on 16/07/2018.
  */
-class GroupWiseSkillsModel : IGroupWiseSkillsModel {
+class GroupWiseSkillsModel(val listener: IGroupWiseSkillsModel.OnFetchSkillsFinishedListener) : IGroupWiseSkillsModel {
 
     private lateinit var authResponseCallSkills: Call<ListSkillsResponse>
 
-    override fun fetchSkills(group: String, language: String, filter_name: String, filter_type: String, duration: String, listener: IGroupWiseSkillsModel.OnFetchSkillsFinishedListener) {
+    override fun fetchSkills(group: String, language: String, filter_name: String, filter_type: String, duration: String) {
         val queryObject = SkillsListQuery(group, language, "true", filter_name, filter_type, duration)
         authResponseCallSkills = ClientBuilder.fetchListSkillsCall(queryObject)
 

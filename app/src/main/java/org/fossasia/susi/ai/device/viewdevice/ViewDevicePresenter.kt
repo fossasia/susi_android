@@ -15,9 +15,8 @@ import org.fossasia.susi.ai.rest.responses.susi.GetAddDeviceResponse
 import retrofit2.Response
 import timber.log.Timber
 
-class ViewDevicePresenter : IViewDevicePresenter, IRoomModel.onAddDeviceListener {
+class ViewDevicePresenter(private val viewDeviceView: IViewDeviceView) : IViewDevicePresenter, IRoomModel.onAddDeviceListener {
 
-    private lateinit var viewDeviceView: IViewDeviceView
     private var macId: String? = null
     private var device: Device? = null
     private lateinit var realm: Realm
@@ -26,7 +25,6 @@ class ViewDevicePresenter : IViewDevicePresenter, IRoomModel.onAddDeviceListener
     private lateinit var utilModel: UtilModel
 
     override fun onAttach(viewDeviceView: IViewDeviceView, macId: String?, device: Device?, context: Context) {
-        this.viewDeviceView = viewDeviceView
         this.macId = macId
         this.device = device
         this.context = context

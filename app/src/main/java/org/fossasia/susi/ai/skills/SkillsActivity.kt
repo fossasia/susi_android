@@ -73,7 +73,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
         overridePendingTransition(R.anim.trans_left_in, R.anim.trans_left_out)
         setContentView(R.layout.activity_skills)
 
-        settingsPresenter = SettingsPresenter(this)
+        settingsPresenter = SettingsPresenter(this, null)
         loginLogoutModulePresenter = LoginLogoutModulePresenter(this)
         val skillFragment = SkillListingFragment()
         val privacyFragment = PrivacyFragment()
@@ -141,6 +141,7 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
             overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
         } else {
             val action = supportActionBar
+            hideSoftKeyboard(this, window.decorView)
             action?.setDisplayShowCustomEnabled(false)
             action?.setDisplayShowTitleEnabled(true)
             searchAction?.icon = resources.getDrawable(R.drawable.ic_open_search)
@@ -292,6 +293,13 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 true
             }
             edtSearch?.requestFocus()
+
+            edtSearch?.setOnKeyListener { v, keyCode, event ->
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    onBackPressed()
+                }
+                true
+            }
 
             // open the keyboard focused in the edtSearch
             val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
