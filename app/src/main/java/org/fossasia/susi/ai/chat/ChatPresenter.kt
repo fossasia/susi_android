@@ -68,7 +68,6 @@ class ChatPresenter(context: Context, private val chatView: IChatView?) :
     var id: Long = 0
     var identifier: String = ""
     var tableItem: TableItem? = null
-    private val youtubeVid: IYoutubeVid = YoutubeVid(context)
     private var textToSpeech: TextToSpeech? = null
     private val context: Context = context
     private lateinit var handler: Handler
@@ -503,7 +502,7 @@ class ChatPresenter(context: Context, private val chatView: IChatView?) :
                 } else if (parseSusiHelper.actionType == Constant.VIDEOPLAY || parseSusiHelper.actionType == Constant.AUDIOPLAY) {
                     // Play youtube video
                     identifier = parseSusiHelper.identifier
-                    youtubeVid.playYoutubeVid(identifier)
+                    chatView?.playVideo(identifier)
                 } else if (parseSusiHelper.actionType == Constant.ANSWER && (PrefManager.checkSpeechOutputPref() && check || PrefManager.checkSpeechAlwaysPref())) {
                     setMessage = parseSusiHelper.answer
                     try {

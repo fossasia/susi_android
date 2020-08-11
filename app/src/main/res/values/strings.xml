@@ -324,7 +324,7 @@
     <string name="device_setting_up">Setting up your device</string>
     <string name="susi_ai_hotspot" translatable="false">SUSI.AI</string>
     <string name="enter_wifi_password">Enter Wi-Fi password</string>
-   
+
     <!-- Device Setup Screen -->
     <string name="connect">1. Connect</string>
     <string name="wifi">2. Wi-Fi</string>
@@ -598,5 +598,9 @@
     <string name="alarm_executed">Executed after one minute</string>
     <string name="alarm_query_executed">Executed planned task</string>
     <string name="set_plan_action">Plan action has been set</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="close">X</string>
 
 </resources>

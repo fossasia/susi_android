@@ -21,6 +21,7 @@ import io.realm.RealmRecyclerViewAdapter
 import io.realm.RealmResults
 import java.util.ArrayList
 import org.fossasia.susi.ai.R
+import org.fossasia.susi.ai.chat.ChatCallback
 import org.fossasia.susi.ai.chat.adapters.viewholders.ChatViewHolder
 import org.fossasia.susi.ai.chat.adapters.viewholders.DateViewHolder
 import org.fossasia.susi.ai.chat.adapters.viewholders.ImageViewHolder
@@ -43,7 +44,8 @@ import org.fossasia.susi.ai.helper.ConstraintsHelper
 class ChatFeedRecyclerAdapter(
     private val currContext: Context,
     data: OrderedRealmCollection<ChatMessage>?,
-    autoUpdate: Boolean
+    autoUpdate: Boolean,
+    private val chatCallback: ChatCallback
 ) : RealmRecyclerViewAdapter<ChatMessage, RecyclerView.ViewHolder>(data, autoUpdate),
     MessageViewHolder.ClickListener {
     private var realm: Realm? = null
@@ -163,11 +165,11 @@ class ChatFeedRecyclerAdapter(
             STOP -> return nullHolder
             AUDIOPLAY -> {
                 view = inflater.inflate(R.layout.youtube_video, viewGroup, false)
-                return YoutubeVideoViewHolder(view, clickListener)
+                return YoutubeVideoViewHolder(view, clickListener, chatCallback)
             }
             VIDEOPLAY -> {
                 view = inflater.inflate(R.layout.youtube_video, viewGroup, false)
-                return YoutubeVideoViewHolder(view, clickListener)
+                return YoutubeVideoViewHolder(view, clickListener, chatCallback)
             }
             IMAGE -> {
                 view = inflater.inflate(R.layout.image_holder, viewGroup, false)

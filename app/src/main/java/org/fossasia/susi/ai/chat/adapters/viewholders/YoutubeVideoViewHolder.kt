@@ -6,7 +6,7 @@ import android.widget.ImageView
 import com.squareup.picasso.Picasso
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
-import org.fossasia.susi.ai.chat.YoutubeVid
+import org.fossasia.susi.ai.chat.ChatCallback
 import org.fossasia.susi.ai.data.model.ChatMessage
 import timber.log.Timber
 
@@ -15,7 +15,8 @@ import timber.log.Timber
  */
 class YoutubeVideoViewHolder(
     view: View,
-    clickListener: MessageViewHolder.ClickListener
+    clickListener: MessageViewHolder.ClickListener,
+    private val callback: ChatCallback
 ) :
     MessageViewHolder(view, clickListener) {
 
@@ -41,8 +42,8 @@ class YoutubeVideoViewHolder(
                 Timber.e(e)
             }
         }
-
-        val youtubeVid = YoutubeVid(itemView.context)
-        playButton.setOnClickListener { videoId?.let { id -> youtubeVid.playYoutubeVid(id) } }
+        playButton.setOnClickListener {
+            callback.onYoutubeClicked(videoId)
+        }
     }
 }
