@@ -72,7 +72,7 @@ Please find info about the set up of the Android app in your development environ
 - ButterKnife [Docs](http://jakewharton.github.io/butterknife/javadoc/)
 - Espresso [Docs](https://developer.android.com/training/testing/espresso)
 - Tajchert Waiting Dots [Docs](https://github.com/tajchert/WaitingDots)
-- Picasso [Docs](http://square.github.io/picasso/)
+- Glide [Docs](https://bumptech.github.io/glide/)
 - LeakCanary [Docs](https://github.com/square/leakcanary)
 - LeonardoCardoso/Android-Link-Preview [Docs](https://github.com/LeonardoCardoso/Android-Link-Preview)
 - Gericop/Android-Support-Preference-V7-Fix [Docs](https://github.com/Gericop/Android-Support-Preference-V7-Fix)

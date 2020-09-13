@@ -3,7 +3,7 @@ package org.fossasia.susi.ai.chat.adapters.viewholders
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.YoutubeVid
@@ -32,7 +32,7 @@ class YoutubeVideoViewHolder(
                 val imageUrl = "http://img.youtube.com/vi/$videoId/0.jpg"
 
                 ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)?.let {
-                    Picasso.get()
+                    Glide.with(itemView)
                             .load(imageUrl)
                             .placeholder(it)
                             .into(playerView)

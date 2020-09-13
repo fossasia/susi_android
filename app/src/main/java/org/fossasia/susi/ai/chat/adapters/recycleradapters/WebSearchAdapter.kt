@@ -1,13 +1,18 @@
 package org.fossasia.susi.ai.chat.adapters.recycleradapters
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.support.customtabs.CustomTabsIntent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.adapters.viewholders.SearchResultHolder
 import org.fossasia.susi.ai.data.model.WebSearchModel
@@ -56,17 +61,20 @@ class WebSearchAdapter(
             if (iconUrl != null && !iconUrl.isEmpty()) {
                 holder.previewImageView.visibility = View.VISIBLE
                 Timber.v(iconUrl)
-                Picasso.get()
+                Glide.with(context)
                         .load(iconUrl)
-                        .into(holder.previewImageView, object : com.squareup.picasso.Callback {
-                            override fun onSuccess() {
-                                Timber.d("image loaded successfully")
+                        .listener(object : RequestListener<Drawable>{
+                            override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                                holder.previewImageView.visibility = View.GONE
+                                return true
                             }
 
-                            override fun onError(exception: Exception) {
-                                holder.previewImageView.visibility = View.GONE
+                            override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                                Timber.d("image loaded successfully")
+                                return true
                             }
                         })
+                        .into(holder.previewImageView)
             } else {
                 holder.previewImageView.visibility = View.GONE
             }

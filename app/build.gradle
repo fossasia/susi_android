@@ -148,6 +148,10 @@ dependencies {
     //For Picasso
     implementation "com.squareup.picasso:picasso:${rootConfiguration.picassoVersion}"
 
+    //for glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:${rootConfiguration.retrofitVersion}"
     implementation "com.squareup.retrofit2:converter-gson:${rootConfiguration.retrofitVersion}"

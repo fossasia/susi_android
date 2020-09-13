@@ -5,7 +5,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import java.security.MessageDigest
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.rest.clients.BaseUrl
@@ -18,12 +18,10 @@ object Utils {
     private val GRAVATAR_URL = "https://www.gravatar.com/avatar/"
 
     fun setSkillsImage(skillData: SkillData, imageView: ImageView) {
-        Picasso.get()
+        Glide.with(imageView)
                 .load(getImageLink(skillData))
                 .error(R.drawable.ic_susi)
-                .transform(CircleTransform())
-                .fit()
-                .centerCrop()
+                .fitCenter().centerCrop().circleCrop()
                 .into(imageView)
     }
 
@@ -35,11 +33,10 @@ object Utils {
     }
 
     fun setAvatar(context: Context, avatarUrl: String?, imageView: ImageView) {
-        Picasso.get()
+        Glide.with(imageView)
                 .load(avatarUrl)
-                .fit().centerCrop()
+                .fitCenter().centerCrop().circleCrop()
                 .error(R.drawable.ic_susi)
-                .transform(CircleTransform())
                 .into(imageView)
     }
 

@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.ButterKnife
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import io.github.ponnamkarthik.richlinkpreview.MetaData
 import io.github.ponnamkarthik.richlinkpreview.ResponseListener
 import io.github.ponnamkarthik.richlinkpreview.RichPreview
@@ -78,12 +78,12 @@ class LinkPreviewViewHolder(itemView: View, listener: ClickListener) : MessageVi
                             link.imageURL = ""
                         } else {
                             previewImageView.visibility = View.VISIBLE
-                            Picasso.get()
+                            Glide.with(previewImageView)
                                     .load(imageLink)
-                                    .fit()
+                                    .fitCenter()
                                     .centerCrop()
                                     .into(previewImageView)
-                            link.imageURL = imageLink
+                                    link.imageURL = imageLink
                         }
                     }
 
@@ -209,9 +209,9 @@ class LinkPreviewViewHolder(itemView: View, listener: ClickListener) : MessageVi
 
             Timber.i(webLinkData.imageURL)
             if (!webLinkData.imageURL.isNullOrEmpty()) {
-                Picasso.get()
+                Glide.with(currContext)
                         .load(webLinkData.imageURL)
-                        .fit().centerCrop()
+                        .fitCenter().centerCrop()
                         .into(previewImageView)
             } else {
                 previewImageView.visibility = View.GONE
