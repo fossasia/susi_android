@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import butterknife.ButterKnife
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import kotterknife.bindView
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.data.model.ChatMessage
@@ -34,7 +34,7 @@ class ImageViewHolder(itemView: View, clickListener: ClickListener) : MessageVie
             imageURL = model?.content
             try {
                 ContextCompat.getDrawable(itemView.context, R.drawable.ic_susi)?.let {
-                    Picasso.get()
+                    Glide.with(imageView)
                             .load(imageURL)
                             .placeholder(it)
                             .into(imageView)

@@ -5,10 +5,9 @@ import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
-import org.fossasia.susi.ai.helper.CircleTransform
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.groupwiseskills.adapters.viewholders.SkillViewHolder
@@ -61,11 +60,12 @@ class SkillsListAdapter(
                 holder.skillImage.setImageResource(R.drawable.ic_susi)
             } else {
                 val imageUrl: String = skillDetails.skillsList.get(position).group.replace(" ", "%20") + "/en/" + skillData.image
-                Picasso.get().load(StringBuilder(imageLink)
-                        .append(imageUrl).toString())
-                        .fit().centerCrop()
+                Glide.with(context)
+                        .load(StringBuilder(imageLink).append(imageUrl).toString())
+                        .fitCenter()
+                        .centerCrop()
+                        .circleCrop()
                         .error(R.drawable.ic_susi)
-                        .transform(CircleTransform())
                         .into(holder.skillImage)
             }
         }

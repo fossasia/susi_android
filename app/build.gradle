@@ -147,6 +147,8 @@ dependencies {
 
     //For Picasso
     implementation "com.squareup.picasso:picasso:${rootConfiguration.picassoVersion}"
+    //For Glide (image loading library)
+    compile "com.github.bumptech.glide:glide:${rootConfiguration.glideVersion}"
 
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:${rootConfiguration.retrofitVersion}"
