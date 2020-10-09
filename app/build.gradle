@@ -126,7 +126,7 @@ dependencies {
     implementation "com.android.support:cardview-v7:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:support-v4:${rootConfiguration.supportLibraryVersion}"
     implementation "com.android.support:customtabs:${rootConfiguration.supportLibraryVersion}"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.2'
 
     //piechart
     implementation "com.github.PhilJay:MPAndroidChart:${rootConfiguration.mpAndroidChartVersion}"
