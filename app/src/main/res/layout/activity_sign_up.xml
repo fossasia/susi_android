@@ -35,6 +35,7 @@
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/signUpEmailInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
@@ -52,6 +53,7 @@
             app:passwordToggleEnabled="true">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/signUpPasswordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -69,6 +71,7 @@
             app:passwordToggleEnabled="true">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/signUpConfirmPasswordInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/confirm_password"
@@ -110,8 +113,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
-            android:background="@drawable/rounded_button"
-            android:text="@string/sign_up" />
+            android:background="@drawable/rounded_button_blue"
+            android:text="@string/sign_up"
+            android:enabled="false"/>
 
         <TextView
             android:id="@+id/signUpToLogin"

@@ -8,10 +8,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.activity_sign_up.email
+import kotlinx.android.synthetic.main.activity_sign_up.password
+import kotlinx.android.synthetic.main.activity_sign_up.signUp
+import kotlinx.android.synthetic.main.alert_reset_password.*
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.chat.ChatActivity
 import org.fossasia.susi.ai.helper.AlertboxHelper
@@ -61,6 +68,12 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
             }
         }
 
+        //ext watcher for all input
+        signUpEmailInput.addTextChangedListener(SignUpTextWatcher)
+        signUpPasswordInput.addTextChangedListener(SignUpTextWatcher)
+        signUpConfirmPasswordInput.addTextChangedListener(SignUpTextWatcher)
+
+
         val bundle = intent.extras
         val string = bundle?.getString("email")
         if (string != null)
@@ -78,6 +91,21 @@ class SignUpActivity : AppCompatActivity(), ISignUpView {
 
         cancelRequestPassword()
     }
+
+    //text watcher object
+    var SignUpTextWatcher = object: TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            val stringEmail = signUpEmailInput.text.toString()
+            val stringPassword = signUpPasswordInput.text.toString()
+            var stringConfirmPassword = signUpConfirmPasswordInput.text.toString()
+            signUp.setEnabled(stringEmail.isNotEmpty()&&stringPassword.isNotEmpty()&&stringConfirmPassword.isNotEmpty())
+        }
+    }
+
 
     private fun addListeners() {
         showURL()

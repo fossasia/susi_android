@@ -98,8 +98,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@drawable/rounded_button"
-                android:text="@string/activity_login_log_in" />
+                android:background="@drawable/rounded_button_blue"
+                android:text="@string/activity_login_log_in"
+                android:enabled="false"/>
 
             <TextView
                 android:id="@+id/forgotPassword"
