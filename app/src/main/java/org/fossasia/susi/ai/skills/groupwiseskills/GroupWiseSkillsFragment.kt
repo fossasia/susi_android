@@ -18,6 +18,7 @@ import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.dataclasses.GroupWiseSkills
 import org.fossasia.susi.ai.helper.SimpleDividerItemDecoration
 import org.fossasia.susi.ai.helper.StartSnapHelper
+import org.fossasia.susi.ai.helper.Utils
 import org.fossasia.susi.ai.rest.responses.susi.SkillData
 import org.fossasia.susi.ai.skills.SkillFragmentCallback
 import org.fossasia.susi.ai.skills.groupwiseskills.adapters.recycleradapters.SkillsListAdapter
@@ -147,6 +148,7 @@ class GroupWiseSkillsFragment : Fragment(), IGroupWiseSkillsView, SwipeRefreshLa
     }
 
     private fun loadSearchSkillsFragment(searchedSkills: ArrayList<SkillData>, searchQuery: String) {
+        Utils.hideSoftKeyboard(context, activity!!.window.decorView)
         val skillSearchFragment = SearchSkillFragment.newInstance(searchedSkills, searchQuery)
         fragmentManager?.beginTransaction()
                 ?.add(R.id.fragment_container, skillSearchFragment)
