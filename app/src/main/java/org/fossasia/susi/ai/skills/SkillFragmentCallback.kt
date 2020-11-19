@@ -7,4 +7,6 @@ interface SkillFragmentCallback {
     fun loadDetailFragment(skillData: SkillData?, skillGroup: String?, skillTag: String)
 
     fun loadGroupWiseSkillsFragment(group: String)
+
+    fun tryButtonClicked(position: Int, data: SkillData)
 }

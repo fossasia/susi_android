@@ -100,6 +100,17 @@
                     android:text="@string/digit_zero"
                     android:textColor="@color/colorPrimary" />
 
+                <Button
+                    android:id="@+id/skillItemTryButton"
+                    android:layout_width="@dimen/button_width_skill_details"
+                    android:layout_height="@dimen/button_height_skill_details"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:text="@string/try_it"
+                    android:textColor="@color/md_white_1000" />
+
             </LinearLayout>
         </LinearLayout>
 

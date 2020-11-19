@@ -405,6 +405,18 @@ class SkillsActivity : AppCompatActivity(), SkillFragmentCallback {
                 .commit()
     }
 
+    override fun tryButtonClicked(position: Int, data: SkillData) {
+        overridePendingTransition(R.anim.trans_right_in, R.anim.trans_right_out)
+        val intent = Intent(this@SkillsActivity, ChatActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        if (data.examples.isNotEmpty())
+            intent.putExtra("example", data.examples[0])
+        else
+            intent.putExtra("example", "")
+        startActivity(intent)
+        finish()
+    }
+
     fun handleOnLoadingFragment() {
         hideSoftKeyboard(this, window.decorView)
         if (isSearchOpened) {

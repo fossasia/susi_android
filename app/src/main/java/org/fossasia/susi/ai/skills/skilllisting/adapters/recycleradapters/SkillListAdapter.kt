@@ -5,6 +5,7 @@ import android.support.annotation.NonNull
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import org.fossasia.susi.ai.R
 import org.fossasia.susi.ai.helper.Utils
@@ -45,6 +46,15 @@ class SkillListAdapter(val context: Context, private val skillDetails: List<Skil
                 holder.skillRatingBar.rating = stars.averageStar
                 holder.totalRatings.text = stars.totalStar.toString()
             }
+
+            // if skill data is empty, button visibility gone
+            if (skillData.examples.isEmpty()) {
+                holder.skillItemTryButton.visibility = View.GONE
+            }
+            // sent skill data on try button clicked
+            holder.skillItemTryButton.setOnClickListener({
+                skillCallback.tryButtonClicked(position, skillDetails?.get(position))
+            })
         }
     }
 
