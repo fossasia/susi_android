@@ -2,7 +2,7 @@
 <resources>
     <string-array name="languagentries">
         <item>English</item>
-        <item>Deutsche</item>
+        <item>Deutsch</item>
         <item>Español</item>
         <item>français</item>
         <item>italiano</item>
