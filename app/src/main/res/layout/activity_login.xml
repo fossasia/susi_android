@@ -103,6 +103,7 @@
             android:layout_marginTop="15dp"
             android:background="?selectableItemBackground"
             android:text="@string/activity_login_forgot_pass"
+            android:textColor="@color/md_blue_500"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:typeface="monospace" />
@@ -114,7 +115,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
             android:background="?selectableItemBackground"
-            android:text="@string/activity_login_skip"
+            android:text="skip >>"
+            android:textColor="@color/md_green_500"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold"
             android:typeface="monospace" />
@@ -125,7 +127,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/md_blue_500"
             android:background="?selectableItemBackground"
             android:gravity="center"
             android:text="@string/activity_login_sign_up"
