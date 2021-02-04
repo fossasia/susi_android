@@ -170,6 +170,17 @@ class STTFragment : Fragment() {
         recognizer.startListening(intent)
     }
 
+   private fun restoreActivityState() {
+
+    if ((activity as ChatActivity).recordingThread != null) {
+        chatPresenter.startHotwordDetection()
+    }
+    (activity as ChatActivity).fabsetting.show()
+    activity?.searchChat?.show()
+    activity?.voiceSearchChat?.show()
+    activity?.btnSpeak?.isEnabled = true
+    activity?.chatSearchInput?.visibility = View.GONE
+}
     override fun onPause() {
         super.onPause()
         if (thisActivity is ChatActivity) {
