@@ -14,6 +14,7 @@
     <string name="error_cancelling_signUp_process_text">ഇത് സൈൻ അപ്പ് പ്രക്രിയ റദ്ദാക്കും.</string>
     <string name="error_email">ഇ-മെയിൽ വിലാസം ഇതിനകം നിലവിലുണ്ട്</string>
     <string name="error_msg">പിശക് സന്ദേശം</string>
+    <string name="foundation_detail">SUSI.AI application has been made by Fossasia organization. Fossasia is a famous organization of Singapore, It has developed this app, this organization has developed many famous applications like pslab, neurolab etc.</string>
     <string name="exit">പുറത്തുകടക്കുന്നതിന് വീണ്ടും അമർത്തുക</string>
     <string name="forgot_password_mail_sent">ഇമെയിൽ അയച്ചു</string>
     <string name="hint_voice_input">എന്തെങ്കിലും പറയൂ…</string>

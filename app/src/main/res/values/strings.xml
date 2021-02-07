@@ -175,7 +175,8 @@
     <string name="new_password">New Password</string>
 
     <string name="pass_validation_text">Password must be of atleast eight character length containing atleast one special character, one number and one capital letter</string>
-
+    <string name="about_fundation">Organization Of SUSI.AI </string>
+    <string name="foundation_detail">SUSI.AI application has been made by Fossasia organization. Fossasia is a famous organization of Singapore, It has developed this app, this organization has developed many famous applications like pslab, neurolab etc.</string>
     <string name="password">Password</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
 
