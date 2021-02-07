@@ -175,7 +175,8 @@
     <string name="new_password">New Password</string>
 
     <string name="pass_validation_text">Password must be of atleast eight character length containing atleast one special character, one number and one capital letter</string>
-
+    <string name="about_fundation">Organization Of SUSI.AI </string>
+    <string name="foundation_detail">SUSI.AI application has been made by Fossasia organization. Fossasia is a famous organization of Singapore, It has developed this app, this organization has developed many famous applications like pslab, neurolab etc.</string>
     <string name="password">Password</string>
     <string name="password_cannot_be_empty">Password cannot be empty</string>
 
@@ -185,7 +186,7 @@
 
     <string name="share_items">Share</string>
 
-    <string name="sign_up">Sign Up</string>
+    <string name="sign_up">SIGN UP</string>
     <string name="existing_user_login">Existing User?\n Click here to Login</string>
     <string name="terms_condition">Terms and Conditions</string>
 
@@ -200,7 +201,7 @@
 
     <string name="activity_login_forgot_pass">Forgot Password?</string>
     <string name="activity_login_imageview_description" translatable="false">SUSI Logo</string>
-    <string name="activity_login_log_in">Log in</string>
+    <string name="activity_login_log_in">LOGIN</string>
     <string name="activity_login_sign_up">Sign up for SUSI</string>
     <string name="activity_login_skip">Skip</string>
 

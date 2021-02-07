@@ -15,6 +15,7 @@
     <string name="select_background">Seleccionar fondo</string>
     <string name="background_no_wall">no_wall</string>
     <string name="id">id</string>
+    <string name="foundation_detail">SUSI.AI application has been made by Fossasia organization. Fossasia is a famous organization of Singapore, It has developed this app, this organization has developed many famous applications like pslab, neurolab etc.</string>
     <string name="no_internet_connection">Conexión a Internet No Disponible!!</string>
     <string name="updated_successfully">actualizado exitosamente!</string>
     <string name="content" translatable="false">contenido</string>

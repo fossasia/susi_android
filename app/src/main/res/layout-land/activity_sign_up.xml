@@ -22,6 +22,7 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/email"
             android:layout_width="@dimen/activity_landscape_width"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_height="wrap_content"
             app:errorEnabled="true">
 
@@ -39,6 +40,7 @@
             android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
@@ -46,6 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
+
                 android:inputType="textPassword"
                 android:maxLines="1"
                 app:theme="@style/Login_Theme" />
@@ -56,6 +59,7 @@
             android:layout_width="@dimen/activity_landscape_width"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:errorEnabled="true"
             app:passwordToggleEnabled="true">
 
@@ -96,14 +100,21 @@
                 android:inputType="textUri" />
         </android.support.design.widget.TextInputLayout>
 
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/signUp"
-            android:layout_width="@dimen/activity_landscape_width"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            android:background="@drawable/rounded_button"
-            android:text="@string/sign_up" />
-
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@drawable/rounded_corner"
+            android:padding="@dimen/cmv_padding"
+            android:text="@string/sign_up"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/signUpToLogin"
             android:layout_width="wrap_content"

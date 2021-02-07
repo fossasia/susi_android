@@ -14,6 +14,7 @@
     <string name="query_language">வினவல் மொழி</string>
     <string name="settings_devices">அமைப்புகளை சாதனங்கள்</string>
     <string name="cancel">ரத்து</string>
+    <string name="foundation_detail">SUSI.AI application has been made by Fossasia organization. Fossasia is a famous organization of Singapore, It has developed this app, this organization has developed many famous applications like pslab, neurolab etc.</string>
     <string name="check_email">மின்னஞ்சலை பார்க்கவும்</string>
     <string name="reset_password_text">கடவுச்சொல்லை உரையை மீட்டமைக்கவும்</string>
     <string name="invalid_credentials_title">தவறான சான்றுகளை தலைப்பு</string>

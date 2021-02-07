@@ -32,6 +32,7 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:errorEnabled="true">
 
             <android.support.design.widget.TextInputEditText
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
 
             <android.support.design.widget.TextInputEditText
@@ -66,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             app:errorEnabled="true"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
 
             <android.support.design.widget.TextInputEditText
@@ -105,13 +108,20 @@
             android:layout_marginBottom="@dimen/margin_small_medium"
             android:text="@string/accept_terms_conditions" />
 
-        <Button
+        <android.support.v7.widget.AppCompatButton
             android:id="@+id/signUp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            android:background="@drawable/rounded_button"
-            android:text="@string/sign_up" />
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@drawable/rounded_corner"
+            android:padding="@dimen/cmv_padding"
+            android:text="@string/sign_up"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/signUpToLogin"
