@@ -113,13 +113,7 @@ class STTFragment : Fragment() {
                 val thisActivity = activity
                 if (thisActivity is ChatActivity) thisActivity.setText(voiceResults[0])
                 recognizer.destroy()
-                if ((activity as ChatActivity).recordingThread != null) {
-                    chatPresenter.startHotwordDetection()
-                }
-                (activity as ChatActivity).fabsetting.show()
-                activity?.searchChat?.show()
-                activity?.voiceSearchChat?.show()
-                activity?.btnSpeak?.isEnabled = true
+                restoreActivityState()
                 activity?.supportFragmentManager?.popBackStackImmediate()
             }
 
@@ -128,15 +122,14 @@ class STTFragment : Fragment() {
             }
 
             override fun onError(error: Int) {
-                Timber.d("Error listening for speech: %s", error)
-                Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
-                speechProgress?.onResultOrOnError()
-                recognizer.destroy()
-                activity?.fabsetting?.show()
-                activity?.searchChat?.show()
-                activity?.voiceSearchChat?.show()
-                activity?.btnSpeak?.isEnabled = true
-                activity?.supportFragmentManager?.popBackStackImmediate()
+                if (activity != null) {
+                    Timber.d("Error listening for speech: %s", error)
+                    Toast.makeText(activity?.applicationContext, "Could not recognize speech, try again.", Toast.LENGTH_SHORT).show()
+                    speechProgress?.onResultOrOnError()
+                    recognizer.destroy()
+                    restoreActivityState()
+                    activity?.supportFragmentManager?.popBackStackImmediate()
+                }
             }
 
             override fun onBeginningOfSpeech() {
@@ -170,6 +163,18 @@ class STTFragment : Fragment() {
         recognizer.startListening(intent)
     }
 
+    private fun restoreActivityState() {
+        if ((activity as ChatActivity).recordingThread != null) {
+            chatPresenter.startHotwordDetection()
+        }
+        (activity as ChatActivity).fabsetting.show()
+        activity?.searchChat?.show()
+        activity?.voiceSearchChat?.show()
+        activity?.btnSpeak?.isEnabled = true
+        (activity as ChatActivity)?.setChatSearchInputGone()
+        recognizer?.destroy()
+    }
+
     override fun onPause() {
         super.onPause()
         if (thisActivity is ChatActivity) {
@@ -185,6 +190,8 @@ class STTFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        restoreActivityState()
+        activity?.supportFragmentManager?.popBackStack()
         mainHandler.removeCallbacks(runnable)
         subHandler.removeCallbacks(delayRunnable)
     }

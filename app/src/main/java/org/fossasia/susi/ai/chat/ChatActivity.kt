@@ -639,4 +639,8 @@ class ChatActivity : AppCompatActivity(), IChatView {
     companion object {
         val ALARM = "ALARM"
     }
+
+    fun setChatSearchInputGone() {
+        chatSearchInput.visibility = View.GONE
+    }
 }
