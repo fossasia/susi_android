@@ -1,0 +1,28 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "21:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: com.diffplug.gradle.spotless
+    versions:
+    - 5.10.0
+    - 5.10.1
+    - 5.10.2
+    - 5.11.0
+    - 5.11.1
+    - 5.12.0
+    - 5.12.1
+    - 5.9.0
+  - dependency-name: org.jetbrains.kotlin:kotlin-gradle-plugin
+    versions:
+    - 1.4.21-2
+    - 1.4.30
+    - 1.4.31
+    - 1.4.32
+  - dependency-name: com.android.tools.build:gradle
+    versions:
+    - 4.1.2
