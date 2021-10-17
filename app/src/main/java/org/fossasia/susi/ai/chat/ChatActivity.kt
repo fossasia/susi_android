@@ -65,7 +65,7 @@ import timber.log.Timber
  * Created by chiragw15 on 9/7/17.
  */
 @Suppress("UNUSED_PARAMETER", "DEPRECATION")
-class ChatActivity : AppCompatActivity(), IChatView {
+class ChatActivity : AppCompatActivity(), IChatView, ChatCallback {
 
     private val chatPresenter: IChatPresenter by inject { parametersOf(this) }
     lateinit var youtubeVid: IYoutubeVid
@@ -90,6 +90,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
         }
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
@@ -316,7 +317,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
 
         rv_chat_feed.layoutManager = linearLayoutManager
         rv_chat_feed.setHasFixedSize(false)
-        recyclerAdapter = ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true)
+        recyclerAdapter = ChatFeedRecyclerAdapter(this, chatMessageDatabaseList, true, this)
         rv_chat_feed.adapter = recyclerAdapter
 
         rv_chat_feed.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
@@ -364,6 +365,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     // Take user's speech as input and send the message
+    @SuppressLint("RestrictedApi")
     override fun promptSpeechInput() {
         if (recordingThread != null) {
             chatPresenter.stopHotwordDetection()
@@ -379,6 +381,7 @@ class ChatActivity : AppCompatActivity(), IChatView {
     }
 
     // Replies user with Speech
+    @SuppressLint("RestrictedApi")
     override fun voiceReply(reply: String, language: String) {
         searchChat.visibility = View.VISIBLE
         fabsetting.visibility = View.VISIBLE
@@ -631,12 +634,20 @@ class ChatActivity : AppCompatActivity(), IChatView {
         chatPresenter.checkPreferences()
     }
 
-    override fun playVideo(videoId: String) {
+    override fun playVideo(videoId: String?) {
         Timber.d(videoId)
-        youtubeVid.playYoutubeVid(videoId)
+        var bundle = Bundle()
+        bundle.putString("video", videoId)
+        var youtubeFragment = YoutubeFragment.newInstance()
+        youtubeFragment.arguments = bundle
+        supportFragmentManager.beginTransaction().add(R.id.coordinator_layout, youtubeFragment, "youtube").commit()
     }
 
     companion object {
         val ALARM = "ALARM"
+    }
+
+    override fun onYoutubeClicked(videoId: String?) {
+        playVideo(videoId)
     }
 }

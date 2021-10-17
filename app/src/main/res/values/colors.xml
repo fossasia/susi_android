@@ -330,4 +330,5 @@
 
     <!-- Shimmer background-->
     <color name="shimmer_background">#dddddd</color>
+    <color name="translucent_black">#80000000</color>
 </resources>
