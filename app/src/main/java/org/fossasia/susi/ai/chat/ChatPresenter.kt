@@ -254,7 +254,7 @@ class ChatPresenter(context: Context, private val chatView: IChatView?) :
                                     skillLocation = allMessages[i].answers[0].skills[0]),
                                     this)
                         } catch (e: Exception) {
-                            Timber.e("Error occured while updating the database - " + e)
+                            Timber.e("Error occurred while updating the database - " + e)
                             databaseRepository.updateDatabase(ChatArgs(
                                     prevId = chat,
                                     message = utilModel.getString(R.string.error_internet_connectivity),
@@ -519,7 +519,7 @@ class ChatPresenter(context: Context, private val chatView: IChatView?) :
                             })
                         }
                     } catch (e: Exception) {
-                        Timber.e("Error occured while trying to start text to speech engine - " + e)
+                        Timber.e("Error occurred while trying to start text to speech engine - " + e)
                     }
                 } else if (parseSusiHelper.actionType == Constant.STOP) {
                     setMessage = parseSusiHelper.stop
@@ -547,7 +547,7 @@ class ChatPresenter(context: Context, private val chatView: IChatView?) :
                             skillLocation = susiResponse.answers[0].skills[0]
                     ), this)
                 } catch (e: Exception) {
-                    Timber.e("Error occured while updating the database - " + e)
+                    Timber.e("Error occurred while updating the database - " + e)
                     databaseRepository.updateDatabase(ChatArgs(
                             prevId = id,
                             message = utilModel.getString(R.string.error_internet_connectivity),
